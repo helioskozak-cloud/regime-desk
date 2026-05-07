@@ -52,6 +52,34 @@ tr:hover td{background:#1c2128}
 .score-fill{height:6px;border-radius:3px;position:absolute;left:0;top:0}
 footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
 @media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+html.light body{background:#ffffff;color:#1f2328}
+html.light #topbar,html.light #regime-banner{background:#f6f8fa;border-color:#d0d7de}
+html.light #topbar nav a{color:#57606a}
+html.light #topbar nav a:hover,html.light #topbar nav a.active{background:#eaeef2;color:#1f2328}
+html.light .card{background:#f6f8fa;border-color:#d0d7de}
+html.light .tile{background:#f6f8fa;border-color:#d0d7de}
+html.light .tile:hover{border-color:#0969da}
+html.light td{border-color:#eaeef2}
+html.light tr:hover td{background:#eaeef2}
+html.light .bar-wrap,.light .dist-bar,.light .score-bar{background:#eaeef2}
+html.light .pill.bull{background:#d1fae5;color:#166534}
+html.light .pill.bear{background:#fee2e2;color:#991b1b}
+html.light .pill.neut{background:#dbeafe;color:#1d4ed8}
+html.light .pill.elev{background:#fef3c7;color:#92400e}
+html.light .pill.mod{background:#dbeafe;color:#1d4ed8}
+html.light .pill.low{background:#d1fae5;color:#166534}
+html.light footer{color:#57606a;border-color:#d0d7de}
+@media print{
+  #topbar nav,#topbar button,#topbar .ts{display:none!important}
+  #topbar{position:static;background:#fff!important;border-color:#ccc!important}
+  #regime-banner{background:#fff!important;border-color:#ccc!important}
+  body{background:#fff!important;color:#000!important}
+  .card{background:#fff!important;border-color:#ccc!important;break-inside:avoid}
+  .card h2,.regime-label,.stat .val,strong{color:#000!important}
+  .stat .key,footer,td{color:#333!important}
+  footer{border-color:#ccc!important}
+  .tile{background:#fff!important;border-color:#ccc!important}
+}
 </style>
 </head>
 <body>
@@ -79,77 +107,1916 @@ footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1p
 window.SNAPSHOT = {
   "generated": "2026-05-07",
   "spy": {
-    "ret_5d": 0.012, "ret_20d": -0.034, "vol_20d": 0.018, "drawdown_60d": -0.087,
-    "regime": "Recovery", "breadth": 0.52, "persistence": 0.61, "reversal_risk": 0.28
+    "ret_5d": 0.03127,
+    "ret_20d": 0.08553,
+    "vol_20d": 0.00641,
+    "drawdown_60d": 0.0,
+    "regime": "Bull Trend",
+    "breadth": 1.0,
+    "persistence": 0.5,
+    "reversal_risk": 0.25
   },
   "sectors": [
-    {"name":"Technology","edge":0.091,"breadth":0.68,"horizon":"20d","stocks":42,"signal":"bullish"},
-    {"name":"Semiconductors","edge":0.084,"breadth":0.65,"horizon":"20d","stocks":18,"signal":"bullish"},
-    {"name":"Industrials","edge":0.071,"breadth":0.58,"horizon":"20d","stocks":36,"signal":"bullish"},
-    {"name":"Financials","edge":0.063,"breadth":0.54,"horizon":"20d","stocks":29,"signal":"bullish"},
-    {"name":"Healthcare","edge":0.041,"breadth":0.47,"horizon":"20d","stocks":31,"signal":"neutral"},
-    {"name":"Energy","edge":0.028,"breadth":0.41,"horizon":"20d","stocks":22,"signal":"neutral"},
-    {"name":"Consumer Disc","edge":0.015,"breadth":0.38,"horizon":"20d","stocks":27,"signal":"neutral"},
-    {"name":"Materials","edge":-0.012,"breadth":0.34,"horizon":"20d","stocks":19,"signal":"bearish"},
-    {"name":"Utilities","edge":-0.023,"breadth":0.31,"horizon":"20d","stocks":15,"signal":"bearish"},
-    {"name":"Real Estate","edge":-0.031,"breadth":0.28,"horizon":"20d","stocks":18,"signal":"bearish"},
-    {"name":"Staples","edge":-0.044,"breadth":0.24,"horizon":"20d","stocks":21,"signal":"bearish"}
+    {
+      "name": "Biotech",
+      "edge": 0.5973,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 9,
+      "signal": "bullish"
+    },
+    {
+      "name": "Unknown",
+      "edge": 0.569,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 9,
+      "signal": "bullish"
+    },
+    {
+      "name": "Communication Services",
+      "edge": 0.3635,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 4,
+      "signal": "bullish"
+    },
+    {
+      "name": "Crypto",
+      "edge": 0.3509,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 2,
+      "signal": "bullish"
+    },
+    {
+      "name": "Technology",
+      "edge": 0.3389,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 11,
+      "signal": "bullish"
+    },
+    {
+      "name": "Consumer Staples",
+      "edge": 0.3187,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 3,
+      "signal": "bullish"
+    },
+    {
+      "name": "Consumer Discretionary",
+      "edge": 0.314,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 19,
+      "signal": "bullish"
+    },
+    {
+      "name": "Semiconductors",
+      "edge": 0.2924,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 2,
+      "signal": "bullish"
+    },
+    {
+      "name": "Utilities",
+      "edge": 0.2833,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 1,
+      "signal": "bullish"
+    },
+    {
+      "name": "Industrials",
+      "edge": 0.2734,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 10,
+      "signal": "bullish"
+    },
+    {
+      "name": "Materials",
+      "edge": 0.2724,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 7,
+      "signal": "bullish"
+    },
+    {
+      "name": "Healthcare",
+      "edge": 0.2723,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 13,
+      "signal": "bullish"
+    },
+    {
+      "name": "Financials",
+      "edge": 0.2678,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 5,
+      "signal": "bullish"
+    },
+    {
+      "name": "Energy",
+      "edge": 0.258,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 3,
+      "signal": "bullish"
+    },
+    {
+      "name": "Real Estate",
+      "edge": 0.2112,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 1,
+      "signal": "bullish"
+    },
+    {
+      "name": "Energy Transition",
+      "edge": 0.2106,
+      "breadth": 1.0,
+      "horizon": "20d",
+      "stocks": 1,
+      "signal": "bullish"
+    }
   ],
   "stocks": [
-    {"ticker":"NVDA","name":"NVIDIA","sector":"Semiconductors","edge":0.143,"horizon":"20d","p10":-0.05,"p25":0.04,"p50":0.12,"p75":0.21,"p90":0.30,"hit_rate":0.73,"n_obs":22},
-    {"ticker":"MSFT","name":"Microsoft","sector":"Technology","edge":0.112,"horizon":"20d","p10":-0.03,"p25":0.02,"p50":0.09,"p75":0.17,"p90":0.24,"hit_rate":0.68,"n_obs":27},
-    {"ticker":"AAPL","name":"Apple","sector":"Technology","edge":0.098,"horizon":"20d","p10":-0.04,"p25":0.01,"p50":0.08,"p75":0.15,"p90":0.22,"hit_rate":0.64,"n_obs":29},
-    {"ticker":"JPM","name":"JPMorgan","sector":"Financials","edge":0.087,"horizon":"20d","p10":-0.06,"p25":0.01,"p50":0.07,"p75":0.14,"p90":0.20,"hit_rate":0.62,"n_obs":25},
-    {"ticker":"CAT","name":"Caterpillar","sector":"Industrials","edge":0.079,"horizon":"20d","p10":-0.05,"p25":0.02,"p50":0.08,"p75":0.14,"p90":0.19,"hit_rate":0.61,"n_obs":23},
-    {"ticker":"AMAT","name":"Applied Materials","sector":"Semiconductors","edge":0.077,"horizon":"20d","p10":-0.07,"p25":0.01,"p50":0.08,"p75":0.16,"p90":0.25,"hit_rate":0.60,"n_obs":20},
-    {"ticker":"GS","name":"Goldman Sachs","sector":"Financials","edge":0.071,"horizon":"20d","p10":-0.06,"p25":0.01,"p50":0.07,"p75":0.14,"p90":0.21,"hit_rate":0.59,"n_obs":24},
-    {"ticker":"META","name":"Meta Platforms","sector":"Technology","edge":0.069,"horizon":"20d","p10":-0.08,"p25":0.00,"p50":0.07,"p75":0.15,"p90":0.23,"hit_rate":0.57,"n_obs":21},
-    {"ticker":"DE","name":"Deere & Co","sector":"Industrials","edge":0.064,"horizon":"20d","p10":-0.05,"p25":0.01,"p50":0.06,"p75":0.12,"p90":0.18,"hit_rate":0.58,"n_obs":22},
-    {"ticker":"LRCX","name":"Lam Research","sector":"Semiconductors","edge":0.058,"horizon":"20d","p10":-0.09,"p25":0.00,"p50":0.06,"p75":0.14,"p90":0.22,"hit_rate":0.55,"n_obs":19}
+    {
+      "ticker": "ALMS",
+      "name": "Alumis Inc.",
+      "sector": "Biotech",
+      "edge": 2.5418,
+      "horizon": "120d",
+      "p10": 0.6354,
+      "p25": 2.3676,
+      "p50": 2.4545,
+      "p75": 2.5033,
+      "p90": 2.6133,
+      "hit_rate": 0.8,
+      "n_obs": 5,
+      "vol": 0.0705
+    },
+    {
+      "ticker": "NVDX",
+      "name": "T-Rex 2X Long NVIDIA Daily Target ETF",
+      "sector": "Unknown",
+      "edge": 1.1424,
+      "horizon": "120d",
+      "p10": 0.042,
+      "p25": 0.4555,
+      "p50": 1.3078,
+      "p75": 2.6125,
+      "p90": 4.3238,
+      "hit_rate": 0.917,
+      "n_obs": 24,
+      "vol": 0.12
+    },
+    {
+      "ticker": "ANF",
+      "name": "Abercrombie & Fitch Co.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.7754,
+      "horizon": "120d",
+      "p10": -0.0032,
+      "p25": 0.3622,
+      "p50": 0.872,
+      "p75": 1.1105,
+      "p90": 1.1863,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0424
+    },
+    {
+      "ticker": "ETH",
+      "name": "Grayscale Ethereum Staking Mini ETF Shares",
+      "sector": "Unknown",
+      "edge": 0.7558,
+      "horizon": "60d",
+      "p10": 0.0224,
+      "p25": 0.6286,
+      "p50": 0.6518,
+      "p75": 0.6969,
+      "p90": 0.7107,
+      "hit_rate": 0.8,
+      "n_obs": 5,
+      "vol": 0.0347
+    },
+    {
+      "ticker": "ETHA",
+      "name": "iShares Ethereum Trust ETF",
+      "sector": "Unknown",
+      "edge": 0.7549,
+      "horizon": "60d",
+      "p10": 0.0215,
+      "p25": 0.6275,
+      "p50": 0.6497,
+      "p75": 0.695,
+      "p90": 0.7095,
+      "hit_rate": 0.8,
+      "n_obs": 5,
+      "vol": 0.0347
+    },
+    {
+      "ticker": "FETH",
+      "name": "Fidelity Ethereum Fund Fidelity Ethereum Fund",
+      "sector": "Unknown",
+      "edge": 0.7544,
+      "horizon": "60d",
+      "p10": 0.0209,
+      "p25": 0.6267,
+      "p50": 0.65,
+      "p75": 0.6954,
+      "p90": 0.7091,
+      "hit_rate": 0.8,
+      "n_obs": 5,
+      "vol": 0.0347
+    },
+    {
+      "ticker": "MSTR",
+      "name": "Strategy Inc",
+      "sector": "Technology",
+      "edge": 0.6573,
+      "horizon": "120d",
+      "p10": -0.5681,
+      "p25": 0.6833,
+      "p50": 1.0442,
+      "p75": 1.7356,
+      "p90": 2.0364,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0929
+    },
+    {
+      "ticker": "ZETA",
+      "name": "Zeta Global Holdings Corp.",
+      "sector": "Technology",
+      "edge": 0.6475,
+      "horizon": "120d",
+      "p10": -0.0974,
+      "p25": 0.1032,
+      "p50": 0.8634,
+      "p75": 0.9611,
+      "p90": 1.0604,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0413
+    },
+    {
+      "ticker": "VERA",
+      "name": "Vera Therapeutics, Inc.",
+      "sector": "Biotech",
+      "edge": 0.6013,
+      "horizon": "120d",
+      "p10": -0.0545,
+      "p25": 0.1039,
+      "p50": 0.781,
+      "p75": 1.5759,
+      "p90": 2.0416,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0747
+    },
+    {
+      "ticker": "CAVA",
+      "name": "CAVA Group, Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.5998,
+      "horizon": "120d",
+      "p10": -0.3203,
+      "p25": 0.4429,
+      "p50": 0.8294,
+      "p75": 1.2355,
+      "p90": 1.3134,
+      "hit_rate": 0.792,
+      "n_obs": 24,
+      "vol": 0.0583
+    },
+    {
+      "ticker": "NVDL",
+      "name": "GraniteShares 2x Long NVDA Daily ETF",
+      "sector": "Unknown",
+      "edge": 0.5976,
+      "horizon": "120d",
+      "p10": 0.0529,
+      "p25": 0.1064,
+      "p50": 0.9092,
+      "p75": 1.8159,
+      "p90": 3.7829,
+      "hit_rate": 0.933,
+      "n_obs": 30,
+      "vol": 0.12
+    },
+    {
+      "ticker": "INSM",
+      "name": "Insmed Incorporated",
+      "sector": "Healthcare",
+      "edge": 0.5558,
+      "horizon": "120d",
+      "p10": 0.0334,
+      "p25": 0.325,
+      "p50": 0.888,
+      "p75": 1.1518,
+      "p90": 1.7897,
+      "hit_rate": 0.933,
+      "n_obs": 30,
+      "vol": 0.0626
+    },
+    {
+      "ticker": "DJT",
+      "name": "Trump Media & Technology Group Corp.",
+      "sector": "Communication Services",
+      "edge": 0.5477,
+      "horizon": "120d",
+      "p10": -0.3979,
+      "p25": -0.3006,
+      "p50": 0.3423,
+      "p75": 1.4422,
+      "p90": 2.0569,
+      "hit_rate": 0.6,
+      "n_obs": 30,
+      "vol": 0.0875
+    },
+    {
+      "ticker": "QXO",
+      "name": "QXO, Inc.",
+      "sector": "Industrials",
+      "edge": 0.546,
+      "horizon": "120d",
+      "p10": -0.8541,
+      "p25": -0.1468,
+      "p50": 0.6596,
+      "p75": 2.3575,
+      "p90": 3.2392,
+      "hit_rate": 0.6,
+      "n_obs": 30,
+      "vol": 0.12
+    },
+    {
+      "ticker": "LIF",
+      "name": "Life360, Inc.",
+      "sector": "Technology",
+      "edge": 0.5291,
+      "horizon": "60d",
+      "p10": 0.0443,
+      "p25": 0.26,
+      "p50": 0.5683,
+      "p75": 0.6286,
+      "p90": 0.6519,
+      "hit_rate": 0.833,
+      "n_obs": 6,
+      "vol": 0.0306
+    },
+    {
+      "ticker": "CVNA",
+      "name": "Carvana Co.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.4868,
+      "horizon": "120d",
+      "p10": 0.3961,
+      "p25": 0.6196,
+      "p50": 1.0404,
+      "p75": 1.5685,
+      "p90": 2.6499,
+      "hit_rate": 1.0,
+      "n_obs": 30,
+      "vol": 0.0804
+    },
+    {
+      "ticker": "APGE",
+      "name": "Apogee Therapeutics, Inc.",
+      "sector": "Biotech",
+      "edge": 0.4827,
+      "horizon": "120d",
+      "p10": 0.0938,
+      "p25": 0.1629,
+      "p50": 0.7237,
+      "p75": 0.9451,
+      "p90": 1.9752,
+      "hit_rate": 0.958,
+      "n_obs": 24,
+      "vol": 0.0671
+    },
+    {
+      "ticker": "COIN",
+      "name": "Coinbase Global, Inc.",
+      "sector": "Financials",
+      "edge": 0.4733,
+      "horizon": "60d",
+      "p10": -0.125,
+      "p25": -0.06,
+      "p50": 0.4829,
+      "p75": 0.6082,
+      "p90": 0.6997,
+      "hit_rate": 0.633,
+      "n_obs": 30,
+      "vol": 0.0416
+    },
+    {
+      "ticker": "MMYT",
+      "name": "MakeMyTrip Limited",
+      "sector": "Consumer Discretionary",
+      "edge": 0.4641,
+      "horizon": "120d",
+      "p10": -0.1209,
+      "p25": 0.2205,
+      "p50": 0.5891,
+      "p75": 0.7251,
+      "p90": 0.7759,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.032
+    },
+    {
+      "ticker": "GBTC",
+      "name": "Grayscale Bitcoin Trust (BTC)",
+      "sector": "Crypto",
+      "edge": 0.4336,
+      "horizon": "120d",
+      "p10": -0.1929,
+      "p25": 0.1253,
+      "p50": 0.7249,
+      "p75": 0.903,
+      "p90": 1.4332,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.058
+    },
+    {
+      "ticker": "ELF",
+      "name": "e.l.f. Beauty, Inc.",
+      "sector": "Consumer Staples",
+      "edge": 0.4001,
+      "horizon": "120d",
+      "p10": -0.3699,
+      "p25": -0.2858,
+      "p50": 0.2066,
+      "p75": 0.2941,
+      "p90": 0.427,
+      "hit_rate": 0.667,
+      "n_obs": 30,
+      "vol": 0.0284
+    },
+    {
+      "ticker": "NVO",
+      "name": "Novo Nordisk A/S",
+      "sector": "Healthcare",
+      "edge": 0.3862,
+      "horizon": "120d",
+      "p10": -0.2956,
+      "p25": -0.188,
+      "p50": 0.2324,
+      "p75": 0.2991,
+      "p90": 0.4438,
+      "hit_rate": 0.667,
+      "n_obs": 30,
+      "vol": 0.0264
+    },
+    {
+      "ticker": "ACMR",
+      "name": "ACM Research, Inc.",
+      "sector": "Semiconductors",
+      "edge": 0.3706,
+      "horizon": "60d",
+      "p10": -0.1767,
+      "p25": 0.1098,
+      "p50": 0.4833,
+      "p75": 0.5679,
+      "p90": 0.6616,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0423
+    },
+    {
+      "ticker": "KRYS",
+      "name": "Krystal Biotech, Inc.",
+      "sector": "Biotech",
+      "edge": 0.3569,
+      "horizon": "120d",
+      "p10": -0.1802,
+      "p25": -0.0113,
+      "p50": 0.4659,
+      "p75": 0.5898,
+      "p90": 0.7052,
+      "hit_rate": 0.733,
+      "n_obs": 30,
+      "vol": 0.0316
+    },
+    {
+      "ticker": "APP",
+      "name": "AppLovin Corporation",
+      "sector": "Communication Services",
+      "edge": 0.3545,
+      "horizon": "60d",
+      "p10": 0.0075,
+      "p25": 0.4718,
+      "p50": 0.5733,
+      "p75": 0.7835,
+      "p90": 0.8858,
+      "hit_rate": 0.9,
+      "n_obs": 30,
+      "vol": 0.0443
+    },
+    {
+      "ticker": "CGON",
+      "name": "CG Oncology, Inc.",
+      "sector": "Biotech",
+      "edge": 0.348,
+      "horizon": "120d",
+      "p10": -0.1448,
+      "p25": 0.2627,
+      "p50": 0.3309,
+      "p75": 0.4489,
+      "p90": 0.4643,
+      "hit_rate": 0.8,
+      "n_obs": 10,
+      "vol": 0.0217
+    },
+    {
+      "ticker": "VRT",
+      "name": "Vertiv Holdings Co",
+      "sector": "Industrials",
+      "edge": 0.3463,
+      "horizon": "120d",
+      "p10": 0.1717,
+      "p25": 0.2572,
+      "p50": 0.8441,
+      "p75": 1.0026,
+      "p90": 1.2192,
+      "hit_rate": 0.967,
+      "n_obs": 30,
+      "vol": 0.0374
+    },
+    {
+      "ticker": "SVIX",
+      "name": "-1x Short VIX Futures ETF",
+      "sector": "Unknown",
+      "edge": 0.3446,
+      "horizon": "120d",
+      "p10": -0.4598,
+      "p25": 0.0797,
+      "p50": 0.3089,
+      "p75": 0.3879,
+      "p90": 0.4047,
+      "hit_rate": 0.767,
+      "n_obs": 30,
+      "vol": 0.0308
+    },
+    {
+      "ticker": "SM",
+      "name": "SM Energy Company",
+      "sector": "Energy",
+      "edge": 0.3438,
+      "horizon": "120d",
+      "p10": -0.233,
+      "p25": -0.1138,
+      "p50": 0.2543,
+      "p75": 0.2977,
+      "p90": 0.3418,
+      "hit_rate": 0.667,
+      "n_obs": 30,
+      "vol": 0.0205
+    },
+    {
+      "ticker": "TTD",
+      "name": "The Trade Desk, Inc.",
+      "sector": "Communication Services",
+      "edge": 0.3376,
+      "horizon": "120d",
+      "p10": -0.4616,
+      "p25": -0.1078,
+      "p50": 0.2464,
+      "p75": 0.3195,
+      "p90": 0.3682,
+      "hit_rate": 0.633,
+      "n_obs": 30,
+      "vol": 0.0296
+    },
+    {
+      "ticker": "WSM",
+      "name": "Williams-Sonoma, Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.3269,
+      "horizon": "120d",
+      "p10": -0.1302,
+      "p25": 0.1575,
+      "p50": 0.5153,
+      "p75": 0.5857,
+      "p90": 0.7416,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0311
+    },
+    {
+      "ticker": "CVLT",
+      "name": "Commvault Systems, Inc.",
+      "sector": "Technology",
+      "edge": 0.3112,
+      "horizon": "120d",
+      "p10": -0.2741,
+      "p25": 0.0631,
+      "p50": 0.4354,
+      "p75": 0.54,
+      "p90": 0.5653,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0299
+    },
+    {
+      "ticker": "DECK",
+      "name": "Deckers Outdoor Corporation",
+      "sector": "Consumer Discretionary",
+      "edge": 0.311,
+      "horizon": "120d",
+      "p10": -0.0181,
+      "p25": 0.0918,
+      "p50": 0.3584,
+      "p75": 0.4015,
+      "p90": 0.4755,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0176
+    },
+    {
+      "ticker": "HBM",
+      "name": "Hudbay Minerals Inc.",
+      "sector": "Materials",
+      "edge": 0.309,
+      "horizon": "120d",
+      "p10": -0.0843,
+      "p25": -0.05,
+      "p50": 0.5752,
+      "p75": 0.8305,
+      "p90": 1.0547,
+      "hit_rate": 0.7,
+      "n_obs": 30,
+      "vol": 0.0406
+    },
+    {
+      "ticker": "ETHE",
+      "name": "Grayscale Ethereum Staking ETF Shares",
+      "sector": "Unknown",
+      "edge": 0.3017,
+      "horizon": "60d",
+      "p10": -0.0234,
+      "p25": 0.1168,
+      "p50": 0.4474,
+      "p75": 0.6134,
+      "p90": 0.7039,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0367
+    },
+    {
+      "ticker": "AMR",
+      "name": "Alpha Metallurgical Resources, Inc.",
+      "sector": "Materials",
+      "edge": 0.2981,
+      "horizon": "60d",
+      "p10": -0.2001,
+      "p25": -0.117,
+      "p50": 0.2868,
+      "p75": 0.4551,
+      "p90": 0.5023,
+      "hit_rate": 0.6,
+      "n_obs": 30,
+      "vol": 0.0354
+    },
+    {
+      "ticker": "OCUL",
+      "name": "Ocular Therapeutix, Inc.",
+      "sector": "Healthcare",
+      "edge": 0.296,
+      "horizon": "60d",
+      "p10": -0.2878,
+      "p25": -0.0692,
+      "p50": 0.2987,
+      "p75": 1.4872,
+      "p90": 2.1177,
+      "hit_rate": 0.7,
+      "n_obs": 30,
+      "vol": 0.12
+    },
+    {
+      "ticker": "EXK",
+      "name": "Endeavour Silver Corp.",
+      "sector": "Materials",
+      "edge": 0.2904,
+      "horizon": "120d",
+      "p10": -0.3231,
+      "p25": -0.0605,
+      "p50": 0.6069,
+      "p75": 0.8892,
+      "p90": 0.9595,
+      "hit_rate": 0.733,
+      "n_obs": 30,
+      "vol": 0.0457
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "sector": "Technology",
+      "edge": 0.29,
+      "horizon": "120d",
+      "p10": 0.0816,
+      "p25": 0.1165,
+      "p50": 0.5506,
+      "p75": 0.9104,
+      "p90": 1.5171,
+      "hit_rate": 0.967,
+      "n_obs": 30,
+      "vol": 0.0512
+    },
+    {
+      "ticker": "JDST",
+      "name": "Direxion Daily Junior Gold Miners Index Bear 2X Shares",
+      "sector": "Materials",
+      "edge": 0.287,
+      "horizon": "60d",
+      "p10": -0.4961,
+      "p25": -0.1477,
+      "p50": 0.015,
+      "p75": 0.1018,
+      "p90": 0.1389,
+      "hit_rate": 0.533,
+      "n_obs": 30,
+      "vol": 0.032
+    },
+    {
+      "ticker": "SFM",
+      "name": "Sprouts Farmers Market, Inc.",
+      "sector": "Consumer Staples",
+      "edge": 0.2839,
+      "horizon": "120d",
+      "p10": -0.5013,
+      "p25": 0.3034,
+      "p50": 0.6094,
+      "p75": 0.8208,
+      "p90": 0.8553,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0484
+    },
+    {
+      "ticker": "TLN",
+      "name": "Talen Energy Corporation",
+      "sector": "Utilities",
+      "edge": 0.2833,
+      "horizon": "120d",
+      "p10": 0.2828,
+      "p25": 0.6632,
+      "p50": 0.8784,
+      "p75": 0.9203,
+      "p90": 0.9426,
+      "hit_rate": 1.0,
+      "n_obs": 24,
+      "vol": 0.0235
+    },
+    {
+      "ticker": "FTAI",
+      "name": "FTAI Aviation Ltd.",
+      "sector": "Industrials",
+      "edge": 0.2794,
+      "horizon": "120d",
+      "p10": 0.3871,
+      "p25": 0.4485,
+      "p50": 0.842,
+      "p75": 0.8985,
+      "p90": 0.9709,
+      "hit_rate": 0.967,
+      "n_obs": 30,
+      "vol": 0.0208
+    },
+    {
+      "ticker": "SAIA",
+      "name": "Saia, Inc.",
+      "sector": "Industrials",
+      "edge": 0.276,
+      "horizon": "60d",
+      "p10": -0.254,
+      "p25": -0.0313,
+      "p50": 0.291,
+      "p75": 0.3565,
+      "p90": 0.4343,
+      "hit_rate": 0.667,
+      "n_obs": 30,
+      "vol": 0.0347
+    },
+    {
+      "ticker": "VKTX",
+      "name": "Viking Therapeutics, Inc.",
+      "sector": "Biotech",
+      "edge": 0.275,
+      "horizon": "120d",
+      "p10": -0.3177,
+      "p25": -0.1197,
+      "p50": 0.2925,
+      "p75": 1.829,
+      "p90": 4.9926,
+      "hit_rate": 0.7,
+      "n_obs": 30,
+      "vol": 0.12
+    },
+    {
+      "ticker": "ONON",
+      "name": "On Holding AG",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2745,
+      "horizon": "120d",
+      "p10": -0.0842,
+      "p25": -0.0166,
+      "p50": 0.2869,
+      "p75": 0.3903,
+      "p90": 0.4554,
+      "hit_rate": 0.7,
+      "n_obs": 30,
+      "vol": 0.0192
+    },
+    {
+      "ticker": "MEDP",
+      "name": "Medpace Holdings, Inc.",
+      "sector": "Healthcare",
+      "edge": 0.273,
+      "horizon": "60d",
+      "p10": -0.0332,
+      "p25": 0.2062,
+      "p50": 0.2881,
+      "p75": 0.4081,
+      "p90": 0.5603,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0299
+    },
+    {
+      "ticker": "CELH",
+      "name": "Celsius Holdings, Inc.",
+      "sector": "Consumer Staples",
+      "edge": 0.272,
+      "horizon": "60d",
+      "p10": -0.5678,
+      "p25": 0.1195,
+      "p50": 0.2594,
+      "p75": 0.3929,
+      "p90": 0.7552,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0667
+    },
+    {
+      "ticker": "TLRY",
+      "name": "Tilray Brands, Inc.",
+      "sector": "Healthcare",
+      "edge": 0.2702,
+      "horizon": "120d",
+      "p10": -0.2585,
+      "p25": -0.1397,
+      "p50": 0.0808,
+      "p75": 0.1754,
+      "p90": 1.056,
+      "hit_rate": 0.533,
+      "n_obs": 30,
+      "vol": 0.0469
+    },
+    {
+      "ticker": "PPTA",
+      "name": "Perpetua Resources Corp.",
+      "sector": "Materials",
+      "edge": 0.2683,
+      "horizon": "120d",
+      "p10": -0.2473,
+      "p25": 0.5971,
+      "p50": 0.8471,
+      "p75": 1.1095,
+      "p90": 1.2306,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0527
+    },
+    {
+      "ticker": "SRPT",
+      "name": "Sarepta Therapeutics, Inc.",
+      "sector": "Biotech",
+      "edge": 0.2682,
+      "horizon": "120d",
+      "p10": -0.3361,
+      "p25": -0.1619,
+      "p50": 0.1894,
+      "p75": 0.3022,
+      "p90": 0.5857,
+      "hit_rate": 0.6,
+      "n_obs": 30,
+      "vol": 0.0329
+    },
+    {
+      "ticker": "BITO",
+      "name": "ProShares Bitcoin ETF",
+      "sector": "Crypto",
+      "edge": 0.2682,
+      "horizon": "120d",
+      "p10": -0.2066,
+      "p25": 0.0956,
+      "p50": 0.5226,
+      "p75": 0.5853,
+      "p90": 0.6412,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0302
+    },
+    {
+      "ticker": "CART",
+      "name": "Maplebear Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2641,
+      "horizon": "120d",
+      "p10": 0.0151,
+      "p25": 0.2307,
+      "p50": 0.3282,
+      "p75": 0.3791,
+      "p90": 0.412,
+      "hit_rate": 0.917,
+      "n_obs": 24,
+      "vol": 0.0142
+    },
+    {
+      "ticker": "EAT",
+      "name": "Brinker International, Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.262,
+      "horizon": "120d",
+      "p10": -0.167,
+      "p25": 0.0807,
+      "p50": 0.6222,
+      "p75": 0.7527,
+      "p90": 0.7734,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0335
+    },
+    {
+      "ticker": "BAH",
+      "name": "Booz Allen Hamilton Holding Corporation",
+      "sector": "Industrials",
+      "edge": 0.259,
+      "horizon": "120d",
+      "p10": -0.165,
+      "p25": -0.0028,
+      "p50": 0.1893,
+      "p75": 0.2109,
+      "p90": 0.2272,
+      "hit_rate": 0.733,
+      "n_obs": 30,
+      "vol": 0.014
+    },
+    {
+      "ticker": "CRNX",
+      "name": "Crinetics Pharmaceuticals, Inc.",
+      "sector": "Biotech",
+      "edge": 0.2576,
+      "horizon": "120d",
+      "p10": 0.1444,
+      "p25": 0.2766,
+      "p50": 0.5069,
+      "p75": 0.6173,
+      "p90": 0.6517,
+      "hit_rate": 0.933,
+      "n_obs": 30,
+      "vol": 0.0181
+    },
+    {
+      "ticker": "SN",
+      "name": "SharkNinja, Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2563,
+      "horizon": "120d",
+      "p10": 0.1574,
+      "p25": 0.281,
+      "p50": 0.5037,
+      "p75": 0.5704,
+      "p90": 0.5953,
+      "hit_rate": 0.958,
+      "n_obs": 24,
+      "vol": 0.0156
+    },
+    {
+      "ticker": "DUST",
+      "name": "Direxion Daily Gold Miners Index Bear 2X Shares",
+      "sector": "Materials",
+      "edge": 0.2559,
+      "horizon": "60d",
+      "p10": -0.5023,
+      "p25": -0.1494,
+      "p50": 0.0066,
+      "p75": 0.1185,
+      "p90": 0.1684,
+      "hit_rate": 0.533,
+      "n_obs": 30,
+      "vol": 0.0338
+    },
+    {
+      "ticker": "TSLS",
+      "name": "Direxion Daily TSLA Bear 1X Shares",
+      "sector": "Unknown",
+      "edge": 0.2547,
+      "horizon": "120d",
+      "p10": -0.4904,
+      "p25": -0.3716,
+      "p50": -0.0155,
+      "p75": 0.2222,
+      "p90": 0.2687,
+      "hit_rate": 0.4,
+      "n_obs": 30,
+      "vol": 0.0271
+    },
+    {
+      "ticker": "QS",
+      "name": "QuantumScape Corporation",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2528,
+      "horizon": "20d",
+      "p10": -0.1332,
+      "p25": -0.1049,
+      "p50": 0.2048,
+      "p75": 0.3127,
+      "p90": 0.5483,
+      "hit_rate": 0.633,
+      "n_obs": 30,
+      "vol": 0.0595
+    },
+    {
+      "ticker": "LQDA",
+      "name": "Liquidia Corporation",
+      "sector": "Healthcare",
+      "edge": 0.25,
+      "horizon": "60d",
+      "p10": -0.1723,
+      "p25": -0.1178,
+      "p50": 0.33,
+      "p75": 0.9679,
+      "p90": 1.1401,
+      "hit_rate": 0.633,
+      "n_obs": 30,
+      "vol": 0.0662
+    },
+    {
+      "ticker": "RXRX",
+      "name": "Recursion Pharmaceuticals, Inc.",
+      "sector": "Biotech",
+      "edge": 0.2446,
+      "horizon": "20d",
+      "p10": -0.041,
+      "p25": -0.0004,
+      "p50": 0.2141,
+      "p75": 0.4162,
+      "p90": 0.5051,
+      "hit_rate": 0.733,
+      "n_obs": 30,
+      "vol": 0.0477
+    },
+    {
+      "ticker": "S",
+      "name": "SentinelOne, Inc.",
+      "sector": "Technology",
+      "edge": 0.2434,
+      "horizon": "120d",
+      "p10": -0.3355,
+      "p25": -0.2614,
+      "p50": 0.1389,
+      "p75": 0.2548,
+      "p90": 0.2937,
+      "hit_rate": 0.533,
+      "n_obs": 30,
+      "vol": 0.0224
+    },
+    {
+      "ticker": "XPO",
+      "name": "XPO, Inc.",
+      "sector": "Industrials",
+      "edge": 0.2399,
+      "horizon": "60d",
+      "p10": -0.0344,
+      "p25": 0.0406,
+      "p50": 0.3524,
+      "p75": 0.4021,
+      "p90": 0.4473,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0243
+    },
+    {
+      "ticker": "KNSL",
+      "name": "Kinsale Capital Group, Inc.",
+      "sector": "Financials",
+      "edge": 0.2398,
+      "horizon": "60d",
+      "p10": -0.1106,
+      "p25": -0.0152,
+      "p50": 0.2117,
+      "p75": 0.3761,
+      "p90": 0.5227,
+      "hit_rate": 0.733,
+      "n_obs": 30,
+      "vol": 0.0319
+    },
+    {
+      "ticker": "PRAX",
+      "name": "Praxis Precision Medicines, Inc.",
+      "sector": "Healthcare",
+      "edge": 0.2384,
+      "horizon": "60d",
+      "p10": 0.1272,
+      "p25": 0.1679,
+      "p50": 0.4367,
+      "p75": 1.6038,
+      "p90": 2.2143,
+      "hit_rate": 0.967,
+      "n_obs": 30,
+      "vol": 0.1053
+    },
+    {
+      "ticker": "PBF",
+      "name": "PBF Energy Inc.",
+      "sector": "Energy",
+      "edge": 0.2382,
+      "horizon": "60d",
+      "p10": -0.2577,
+      "p25": 0.0045,
+      "p50": 0.2156,
+      "p75": 0.3037,
+      "p90": 0.3688,
+      "hit_rate": 0.733,
+      "n_obs": 30,
+      "vol": 0.0316
+    },
+    {
+      "ticker": "RVMD",
+      "name": "Revolution Medicines, Inc.",
+      "sector": "Healthcare",
+      "edge": 0.235,
+      "horizon": "120d",
+      "p10": -0.0472,
+      "p25": 0.0878,
+      "p50": 0.5148,
+      "p75": 0.737,
+      "p90": 1.0652,
+      "hit_rate": 0.767,
+      "n_obs": 30,
+      "vol": 0.0397
+    },
+    {
+      "ticker": "MRNA",
+      "name": "Moderna, Inc.",
+      "sector": "Healthcare",
+      "edge": 0.2298,
+      "horizon": "120d",
+      "p10": -0.6107,
+      "p25": -0.3788,
+      "p50": 0.1036,
+      "p75": 0.6393,
+      "p90": 0.7393,
+      "hit_rate": 0.567,
+      "n_obs": 30,
+      "vol": 0.0481
+    },
+    {
+      "ticker": "MOD",
+      "name": "Modine Manufacturing Company",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2283,
+      "horizon": "60d",
+      "p10": 0.0248,
+      "p25": 0.3402,
+      "p50": 0.4327,
+      "p75": 0.5317,
+      "p90": 0.5717,
+      "hit_rate": 0.933,
+      "n_obs": 30,
+      "vol": 0.0276
+    },
+    {
+      "ticker": "CLS",
+      "name": "Celestica Inc.",
+      "sector": "Technology",
+      "edge": 0.2276,
+      "horizon": "60d",
+      "p10": 0.0097,
+      "p25": 0.2644,
+      "p50": 0.5306,
+      "p75": 0.6015,
+      "p90": 0.7245,
+      "hit_rate": 0.9,
+      "n_obs": 30,
+      "vol": 0.036
+    },
+    {
+      "ticker": "IBP",
+      "name": "Installed Building Products, Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2259,
+      "horizon": "60d",
+      "p10": -0.0243,
+      "p25": 0.0783,
+      "p50": 0.2578,
+      "p75": 0.413,
+      "p90": 0.463,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0246
+    },
+    {
+      "ticker": "CRBG",
+      "name": "Corebridge Financial, Inc.",
+      "sector": "Financials",
+      "edge": 0.2226,
+      "horizon": "120d",
+      "p10": -0.0833,
+      "p25": 0.0242,
+      "p50": 0.3217,
+      "p75": 0.3802,
+      "p90": 0.54,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0222
+    },
+    {
+      "ticker": "WVE",
+      "name": "Wave Life Sciences Ltd.",
+      "sector": "Healthcare",
+      "edge": 0.2194,
+      "horizon": "120d",
+      "p10": 0.0371,
+      "p25": 0.2193,
+      "p50": 0.3939,
+      "p75": 1.3077,
+      "p90": 1.4111,
+      "hit_rate": 0.967,
+      "n_obs": 30,
+      "vol": 0.049
+    },
+    {
+      "ticker": "TER",
+      "name": "Teradyne, Inc.",
+      "sector": "Technology",
+      "edge": 0.2182,
+      "horizon": "120d",
+      "p10": -0.1997,
+      "p25": -0.1637,
+      "p50": 0.3433,
+      "p75": 0.4216,
+      "p90": 1.0597,
+      "hit_rate": 0.6,
+      "n_obs": 30,
+      "vol": 0.0449
+    },
+    {
+      "ticker": "MHK",
+      "name": "Mohawk Industries, Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2148,
+      "horizon": "60d",
+      "p10": -0.0868,
+      "p25": 0.0209,
+      "p50": 0.1816,
+      "p75": 0.2425,
+      "p90": 0.3607,
+      "hit_rate": 0.767,
+      "n_obs": 30,
+      "vol": 0.0226
+    },
+    {
+      "ticker": "NAIL",
+      "name": "Direxion Daily Homebuilders & Supplies Bull 3X Shares",
+      "sector": "Unknown",
+      "edge": 0.2146,
+      "horizon": "20d",
+      "p10": -0.1476,
+      "p25": 0.0166,
+      "p50": 0.2101,
+      "p75": 0.2881,
+      "p90": 0.5405,
+      "hit_rate": 0.767,
+      "n_obs": 30,
+      "vol": 0.0601
+    },
+    {
+      "ticker": "RDDT",
+      "name": "Reddit, Inc.",
+      "sector": "Communication Services",
+      "edge": 0.2142,
+      "horizon": "120d",
+      "p10": 0.3686,
+      "p25": 0.5413,
+      "p50": 0.8226,
+      "p75": 1.1403,
+      "p90": 1.2202,
+      "hit_rate": 0.9,
+      "n_obs": 10,
+      "vol": 0.0304
+    },
+    {
+      "ticker": "CAMT",
+      "name": "Camtek Ltd.",
+      "sector": "Semiconductors",
+      "edge": 0.2142,
+      "horizon": "120d",
+      "p10": -0.1916,
+      "p25": 0.2073,
+      "p50": 0.5361,
+      "p75": 0.7772,
+      "p90": 0.8596,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0375
+    },
+    {
+      "ticker": "WING",
+      "name": "Wingstop Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.212,
+      "horizon": "120d",
+      "p10": -0.243,
+      "p25": -0.133,
+      "p50": 0.2774,
+      "p75": 0.6033,
+      "p90": 0.6428,
+      "hit_rate": 0.7,
+      "n_obs": 30,
+      "vol": 0.0316
+    },
+    {
+      "ticker": "POWL",
+      "name": "Powell Industries, Inc.",
+      "sector": "Industrials",
+      "edge": 0.2117,
+      "horizon": "60d",
+      "p10": -0.0077,
+      "p25": 0.2373,
+      "p50": 0.4189,
+      "p75": 0.7512,
+      "p90": 0.8436,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0429
+    },
+    {
+      "ticker": "AHR",
+      "name": "American Healthcare REIT, Inc.",
+      "sector": "Real Estate",
+      "edge": 0.2112,
+      "horizon": "120d",
+      "p10": 0.2941,
+      "p25": 0.3176,
+      "p50": 0.5702,
+      "p75": 0.8382,
+      "p90": 0.8583,
+      "hit_rate": 1.0,
+      "n_obs": 10,
+      "vol": 0.0201
+    },
+    {
+      "ticker": "FSLR",
+      "name": "First Solar, Inc.",
+      "sector": "Energy Transition",
+      "edge": 0.2106,
+      "horizon": "120d",
+      "p10": -0.2187,
+      "p25": -0.1036,
+      "p50": 0.2296,
+      "p75": 0.5944,
+      "p90": 0.745,
+      "hit_rate": 0.633,
+      "n_obs": 30,
+      "vol": 0.0344
+    },
+    {
+      "ticker": "DELL",
+      "name": "Dell Technologies Inc.",
+      "sector": "Technology",
+      "edge": 0.2087,
+      "horizon": "120d",
+      "p10": -0.074,
+      "p25": 0.0301,
+      "p50": 0.383,
+      "p75": 0.8094,
+      "p90": 0.9375,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0361
+    },
+    {
+      "ticker": "GME",
+      "name": "GameStop Corp.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.208,
+      "horizon": "120d",
+      "p10": -0.3736,
+      "p25": -0.1473,
+      "p50": 0.2436,
+      "p75": 0.6331,
+      "p90": 1.26,
+      "hit_rate": 0.6,
+      "n_obs": 30,
+      "vol": 0.0583
+    },
+    {
+      "ticker": "STLA",
+      "name": "Stellantis N.V.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.2074,
+      "horizon": "120d",
+      "p10": -0.3816,
+      "p25": -0.1708,
+      "p50": 0.0585,
+      "p75": 0.206,
+      "p90": 0.3048,
+      "hit_rate": 0.567,
+      "n_obs": 30,
+      "vol": 0.0245
+    },
+    {
+      "ticker": "PI",
+      "name": "Impinj, Inc.",
+      "sector": "Technology",
+      "edge": 0.2063,
+      "horizon": "120d",
+      "p10": -0.2024,
+      "p25": -0.0122,
+      "p50": 0.4859,
+      "p75": 0.6911,
+      "p90": 1.0378,
+      "hit_rate": 0.733,
+      "n_obs": 30,
+      "vol": 0.0442
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood Markets, Inc.",
+      "sector": "Financials",
+      "edge": 0.2026,
+      "horizon": "20d",
+      "p10": -0.1092,
+      "p25": 0.027,
+      "p50": 0.252,
+      "p75": 0.3477,
+      "p90": 0.5268,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0556
+    },
+    {
+      "ticker": "OWL",
+      "name": "Blue Owl Capital Inc.",
+      "sector": "Financials",
+      "edge": 0.2006,
+      "horizon": "120d",
+      "p10": -0.1734,
+      "p25": 0.1611,
+      "p50": 0.2147,
+      "p75": 0.292,
+      "p90": 0.3834,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0199
+    },
+    {
+      "ticker": "DPZ",
+      "name": "Domino's Pizza, Inc.",
+      "sector": "Consumer Discretionary",
+      "edge": 0.1997,
+      "horizon": "120d",
+      "p10": -0.1143,
+      "p25": -0.0288,
+      "p50": 0.2133,
+      "p75": 0.3136,
+      "p90": 0.393,
+      "hit_rate": 0.667,
+      "n_obs": 30,
+      "vol": 0.0181
+    },
+    {
+      "ticker": "VLTO",
+      "name": "Veralto Corporation",
+      "sector": "Industrials",
+      "edge": 0.1987,
+      "horizon": "120d",
+      "p10": -0.0092,
+      "p25": 0.0491,
+      "p50": 0.2192,
+      "p75": 0.3204,
+      "p90": 0.361,
+      "hit_rate": 0.792,
+      "n_obs": 24,
+      "vol": 0.0132
+    },
+    {
+      "ticker": "CDE",
+      "name": "Coeur Mining, Inc.",
+      "sector": "Materials",
+      "edge": 0.1984,
+      "horizon": "120d",
+      "p10": -0.0354,
+      "p25": 0.1209,
+      "p50": 0.6616,
+      "p75": 0.9745,
+      "p90": 1.0972,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0404
+    },
+    {
+      "ticker": "BFAM",
+      "name": "BFAM",
+      "sector": "Consumer Discretionary",
+      "edge": 0.197,
+      "horizon": "60d",
+      "p10": -0.0955,
+      "p25": -0.0155,
+      "p50": 0.1637,
+      "p75": 0.2415,
+      "p90": 0.2667,
+      "hit_rate": 0.7,
+      "n_obs": 30,
+      "vol": 0.0183
+    },
+    {
+      "ticker": "HIMS",
+      "name": "Hims & Hers Health, Inc.",
+      "sector": "Healthcare",
+      "edge": 0.1967,
+      "horizon": "120d",
+      "p10": -0.2107,
+      "p25": 0.0089,
+      "p50": 0.6386,
+      "p75": 1.1357,
+      "p90": 1.4916,
+      "hit_rate": 0.767,
+      "n_obs": 30,
+      "vol": 0.0607
+    },
+    {
+      "ticker": "ICLR",
+      "name": "ICON Public Limited Company",
+      "sector": "Healthcare",
+      "edge": 0.1961,
+      "horizon": "120d",
+      "p10": -0.3177,
+      "p25": 0.1167,
+      "p50": 0.1514,
+      "p75": 0.1793,
+      "p90": 0.2298,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0195
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly and Company",
+      "sector": "Healthcare",
+      "edge": 0.193,
+      "horizon": "60d",
+      "p10": -0.0465,
+      "p25": 0.1327,
+      "p50": 0.2568,
+      "p75": 0.309,
+      "p90": 0.3243,
+      "hit_rate": 0.833,
+      "n_obs": 30,
+      "vol": 0.0187
+    },
+    {
+      "ticker": "SOC",
+      "name": "Sable Offshore Corp.",
+      "sector": "Energy",
+      "edge": 0.192,
+      "horizon": "120d",
+      "p10": -0.5614,
+      "p25": 0.0415,
+      "p50": 0.3069,
+      "p75": 0.3606,
+      "p90": 0.6927,
+      "hit_rate": 0.867,
+      "n_obs": 30,
+      "vol": 0.0447
+    },
+    {
+      "ticker": "ZIM",
+      "name": "ZIM",
+      "sector": "Industrials",
+      "edge": 0.1906,
+      "horizon": "120d",
+      "p10": -0.4258,
+      "p25": 0.1866,
+      "p50": 0.3906,
+      "p75": 1.3215,
+      "p90": 1.7125,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0762
+    },
+    {
+      "ticker": "LYFT",
+      "name": "Lyft, Inc.",
+      "sector": "Technology",
+      "edge": 0.1883,
+      "horizon": "60d",
+      "p10": -0.3339,
+      "p25": 0.033,
+      "p50": 0.2027,
+      "p75": 0.416,
+      "p90": 0.5684,
+      "hit_rate": 0.8,
+      "n_obs": 30,
+      "vol": 0.0455
+    },
+    {
+      "ticker": "KBR",
+      "name": "KBR, Inc.",
+      "sector": "Industrials",
+      "edge": 0.1867,
+      "horizon": "120d",
+      "p10": -0.178,
+      "p25": -0.1309,
+      "p50": 0.086,
+      "p75": 0.1915,
+      "p90": 0.2645,
+      "hit_rate": 0.6,
+      "n_obs": 30,
+      "vol": 0.0158
+    }
   ],
   "themes": [
-    {"name":"AI Infrastructure","sectors":["Semiconductors","Technology"],"edge":0.112,"stocks":24,"signal":"bullish","note":"Analog days show semis outperforming 73% of the time in recovery regimes"},
-    {"name":"Capital Markets","sectors":["Financials"],"edge":0.079,"stocks":12,"signal":"bullish","note":"Broker-dealers historically recover faster in early-cycle analogs"},
-    {"name":"Defense & Aerospace","sectors":["Industrials"],"edge":0.071,"stocks":9,"signal":"bullish","note":"Government spending provides stable backdrop"},
-    {"name":"Energy Transition","sectors":["Energy","Industrials"],"edge":0.041,"stocks":14,"signal":"neutral","note":"Mixed signals; watch oil price for confirmation"},
-    {"name":"Biotech","sectors":["Healthcare"],"edge":0.028,"stocks":18,"signal":"neutral","note":"Binary event risk offsets analog edge"},
-    {"name":"Rate Sensitives","sectors":["Real Estate","Utilities"],"edge":-0.029,"stocks":22,"signal":"bearish","note":"Rising-rate analog suppresses these sectors"},
-    {"name":"Defensive Consumer","sectors":["Staples"],"edge":-0.041,"stocks":16,"signal":"bearish","note":"Underperforms when risk appetite recovering"}
+    {
+      "name": "Biotech",
+      "sectors": [
+        "Biotech"
+      ],
+      "edge": 0.6414,
+      "stocks": 8,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Unknown",
+      "sectors": [
+        "Unknown"
+      ],
+      "edge": 0.4816,
+      "stocks": 7,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Unknown",
+      "sectors": [
+        "Unknown"
+      ],
+      "edge": 0.4088,
+      "stocks": 9,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Semiconductors",
+      "sectors": [
+        "Semiconductors"
+      ],
+      "edge": 0.3706,
+      "stocks": 1,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Crypto",
+      "sectors": [
+        "Crypto"
+      ],
+      "edge": 0.3509,
+      "stocks": 2,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Consumer Discretionary",
+      "sectors": [
+        "Consumer Discretionary"
+      ],
+      "edge": 0.3463,
+      "stocks": 14,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Crypto",
+      "sectors": [
+        "Crypto"
+      ],
+      "edge": 0.3422,
+      "stocks": 1,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Consumer Staples",
+      "sectors": [
+        "Consumer Staples"
+      ],
+      "edge": 0.342,
+      "stocks": 2,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Unknown",
+      "sectors": [
+        "Unknown"
+      ],
+      "edge": 0.3417,
+      "stocks": 7,
+      "signal": "bullish",
+      "note": ""
+    },
+    {
+      "name": "Communication Services",
+      "sectors": [
+        "Communication Services"
+      ],
+      "edge": 0.3397,
+      "stocks": 4,
+      "signal": "bullish",
+      "note": ""
+    }
   ],
   "signals": [
-    {"name":"SPY 5-Day Return","asset":"SPY","value":"+1.2%","signal":"bullish","context":"Short-term price momentum positive"},
-    {"name":"SPY 20-Day Return","asset":"SPY","value":"-3.4%","signal":"bearish","context":"Medium-term trend still negative"},
-    {"name":"10Y+ Treasuries","asset":"TLT","value":"-1.8% (20d)","signal":"bearish","context":"Bond sell-off = rates rising; duration under pressure"},
-    {"name":"High-Yield Credit","asset":"HYG","value":"+0.4% (20d)","signal":"bullish","context":"Credit broadly constructive; no systemic signal"},
-    {"name":"Gold","asset":"GLD","value":"+2.3% (20d)","signal":"bearish","context":"Safe-haven bid / real rates falling"},
-    {"name":"USD Index","asset":"UUP","value":"-0.8% (20d)","signal":"bullish","context":"Dollar weakness = risk-on environment"},
-    {"name":"Crude Oil","asset":"USO","value":"+1.1% (20d)","signal":"bullish","context":"Stable oil; energy broadly neutral"},
-    {"name":"VIX Level","asset":"VIX","value":"18.4","signal":"moderate","context":"Moderate fear; 18–25 = caution zone"},
-    {"name":"Semiconductors","asset":"SMH","value":"+3.2% (20d)","signal":"bullish","context":"Semis leading; AI demand intact"},
-    {"name":"Russell 2000","asset":"IWM","value":"-2.1% (20d)","signal":"bearish","context":"Small caps lagging; mixed breadth"},
-    {"name":"Copper","asset":"CPER","value":"-1.4% (20d)","signal":"bearish","context":"Copper weak = growth concerns"},
-    {"name":"TIPS / Breakevens","asset":"TIP","value":"+0.6% (20d)","signal":"neutral","context":"Inflation expectations modestly elevated"}
+    {
+      "name": "SPY 5-Day Return",
+      "asset": "SPY",
+      "value": "+3.1%",
+      "signal": "bullish",
+      "context": "Short-term price momentum"
+    },
+    {
+      "name": "SPY 20-Day Return",
+      "asset": "SPY",
+      "value": "+8.6%",
+      "signal": "bullish",
+      "context": "Medium-term trend strength"
+    },
+    {
+      "name": "10Y+ Treasuries",
+      "asset": "TLT",
+      "value": "-0.6% (20d)",
+      "signal": "neutral",
+      "context": "20d ret -0.6% \u2014 range-bound rates"
+    },
+    {
+      "name": "High-Yield Credit",
+      "asset": "HYG",
+      "value": "+0.5% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +0.5% \u2014 stable credit"
+    },
+    {
+      "name": "Gold",
+      "asset": "GLD",
+      "value": "-0.8% (20d)",
+      "signal": "neutral",
+      "context": "20d ret -0.8% \u2014 no safe-haven premium"
+    },
+    {
+      "name": "USD Index",
+      "asset": "UUP",
+      "value": "-0.7% (20d)",
+      "signal": "neutral",
+      "context": "20d ret -0.7% \u2014 dollar neutral"
+    },
+    {
+      "name": "Crude Oil",
+      "asset": "USO",
+      "value": "+7.5% (20d)",
+      "signal": "bullish",
+      "context": "20d ret +7.5% \u2014 energy bid; watch inflation pass-through"
+    },
+    {
+      "name": "VIX Level",
+      "asset": "VIX",
+      "value": "17.5",
+      "signal": "bullish",
+      "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
+    },
+    {
+      "name": "Semiconductors",
+      "asset": "SMH",
+      "value": "+30.0% (20d)",
+      "signal": "bullish",
+      "context": "20d ret +30.0% \u2014 semis leading; AI demand intact"
+    },
+    {
+      "name": "Russell 2000",
+      "asset": "IWM",
+      "value": "+10.1% (20d)",
+      "signal": "bullish",
+      "context": "20d ret +10.1% \u2014 small-cap breadth expanding"
+    },
+    {
+      "name": "Copper",
+      "asset": "CPER",
+      "value": "+6.5% (20d)",
+      "signal": "bullish",
+      "context": "20d ret +6.5% \u2014 copper bid = growth optimism"
+    },
+    {
+      "name": "TIPS / Breakevens",
+      "asset": "TIP",
+      "value": "+0.7% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +0.7% \u2014 inflation expectations contained"
+    },
+    {
+      "name": "Nasdaq 100",
+      "asset": "QQQ",
+      "value": "+14.8% (20d)",
+      "signal": "bullish",
+      "context": "20d ret +14.8% \u2014 growth leadership intact"
+    },
+    {
+      "name": "Financials",
+      "asset": "XLF",
+      "value": "+1.2% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.2% \u2014 financials lagging"
+    }
   ],
   "risks": [
-    {"name":"Volatility Regime","level":"moderate","score":0.42,"description":"VIX at 18.4. Moderate regime; slightly elevated uncertainty.","invalidation":"VIX falls below 16 and holds for 5 sessions"},
-    {"name":"Credit Stress","level":"low","score":0.28,"description":"HYG 20d +0.4%. Credit broadly constructive; no systemic signal.","invalidation":"HYG drops 2%+ over 5 days"},
-    {"name":"Rate Re-pricing","level":"elevated","score":0.67,"description":"TLT 20d -1.8%. Bond sell-off = rates rising; duration assets under pressure.","invalidation":"TLT recovers to 20d positive return"},
-    {"name":"Growth Slowdown","level":"moderate","score":0.48,"description":"Copper and small caps both lagging — growth leadership not yet confirmed.","invalidation":"IWM and CPER both turn positive 20d"},
-    {"name":"Inflation Re-pricing","level":"moderate","score":0.44,"description":"Breakevens modestly elevated. Not alarming but watch CPI prints.","invalidation":"TIP 20d return falls below zero"},
-    {"name":"Dollar Headwind","level":"low","score":0.31,"description":"UUP 20d -0.8%. Dollar weakness is constructive for EM and commodities.","invalidation":"UUP turns +1.5% 20d"},
-    {"name":"Complacency","level":"low","score":0.22,"description":"SPY still below 20d breakeven. No complacency signal yet.","invalidation":"SPY +5%+ over 20d with VIX below 14"}
+    {
+      "name": "Volatility Regime",
+      "level": "low",
+      "score": 0.19,
+      "description": "VIX at 17.5. Calm regime; vol suppression in force.",
+      "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
+    },
+    {
+      "name": "Credit Stress",
+      "level": "moderate",
+      "score": 0.45,
+      "description": "HYG 20d +0.5%. Credit broadly constructive; no systemic signal.",
+      "invalidation": "HYG recovers to 20d positive return"
+    },
+    {
+      "name": "Rate Re-pricing",
+      "level": "moderate",
+      "score": 0.55,
+      "description": "TLT 20d -0.6%. Bond sell-off = rates rising; duration assets under pressure.",
+      "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
+    },
+    {
+      "name": "Growth Slowdown",
+      "level": "low",
+      "score": 0.0,
+      "description": "Copper 20d +6.5%, IWM +10.1%. Cyclicals constructive; growth fears not confirmed.",
+      "invalidation": "Copper and IWM both sustain positive 20d momentum"
+    },
+    {
+      "name": "Inflation Re-pricing",
+      "level": "low",
+      "score": 0.36,
+      "description": "TIPS 20d +0.7%. Inflation expectations contained; Fed credibility intact.",
+      "invalidation": "TIPS underperform nominal treasuries; breakevens fall"
+    },
+    {
+      "name": "Dollar Headwind",
+      "level": "low",
+      "score": 0.35,
+      "description": "UUP 20d -0.7%. Dollar neutral to weak; no FX drag on multinationals.",
+      "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
+    },
+    {
+      "name": "Complacency Risk",
+      "level": "moderate",
+      "score": 0.51,
+      "description": "SPY +8.6% / 20d with vol 0.64%/day. Extended rally with suppressed vol \u2014 historically precedes sharp corrections.",
+      "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
+    }
   ],
   "analog": {
-    "n_days":30,"exclude_recent":30,
-    "spy_p10":-0.03,"spy_p25":0.01,"spy_p50":0.06,"spy_p75":0.12,"spy_p90":0.19,
-    "top_dates":["2022-03-15","2020-04-07","2018-12-28","2023-10-25","2022-05-20"],
-    "regime_context":"Current SPY state (ret5=+1.2%, ret20=-3.4%, vol=1.8%, dd=-8.7%) most resembles early-recovery phases following drawdowns of 8–12%."
+    "n_days": 30,
+    "exclude_recent": 30,
+    "spy_p10": 0.2543,
+    "spy_p25": 0.4659,
+    "spy_p50": 0.6518,
+    "spy_p75": 0.8634,
+    "spy_p90": 1.0442,
+    "top_dates": [],
+    "regime_context": "Current SPY state (ret5=+3.1%, ret20=+8.6%, vol=0.6%, dd=0.0%) matched to 30 analog days. Regime classified as: Bull Trend."
   },
   "narrative": {
-    "headline":"Early recovery analog — growth sectors historically lead",
-    "constructive":"Historical analogs to the current SPY state show technology and industrials outperforming the broad market over the next 20 days in roughly 60–70% of cases. Semiconductors stand out with the strongest conditional edge.",
-    "risk":"The primary risk is rate re-pricing. Bonds are selling off, which can cap equity multiples even in recovery regimes. Small caps are lagging, suggesting the rally is narrow so far.",
-    "plain_english":"The market looks similar to other periods where stocks had just sold off 8–10% and started recovering. In most of those cases, tech and industrial stocks did well over the next month. The main thing that could go wrong is if interest rates keep rising — that tends to hurt stock valuations, especially in tech."
+    "headline": "Bull Trend regime \u2014 Biotech, Unknown leading",
+    "constructive": "Analog matching finds bull trend conditions historically favor Biotech, Unknown, Communication Services with positive conditional edge.",
+    "risk": "No strongly negative sector signals. Reversal risk estimated at 25%.",
+    "plain_english": "The market is in a bull trend phase. Historical analogs suggest Biotech, Unknown tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   }
 };
 </script>
@@ -160,24 +2027,75 @@ const S = window.SNAPSHOT;
 const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","narrative","analog","methodology"];
 const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Narrative","Analog","Methodology"];
 
+// Theme persistence
+const _savedTheme = localStorage.getItem('rd-theme')||'dark';
+if(_savedTheme==='light') document.documentElement.classList.add('light');
+
 function pct(v){return (v>=0?"+":"")+((v||0)*100).toFixed(1)+"%"}
-function fmt(v){return typeof v==="number"?((v>=0?"+":"")+v.toFixed(3)):v}
 function pillClass(s){return s==="bullish"?"bull":s==="bearish"?"bear":s==="elevated"||s==="elev"?"elev":s==="moderate"||s==="mod"?"mod":"neut"}
 function pill(s,label){return`<span class="pill ${pillClass(s)}">${label||s}</span>`}
 
-// Topbar
+// Topbar nav
 const nav=document.getElementById("nav");
 VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textContent=LABELS[i];a.id="nav-"+v;nav.appendChild(a);});
-document.getElementById("ts").textContent="Generated: "+S.generated;
 
-// Banner
+// Dark/light toggle button
+const themeBtn=document.createElement('button');
+themeBtn.id='theme-btn';
+themeBtn.textContent=_savedTheme==='light'?'🌙':'☀';
+themeBtn.style.cssText='background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:12px;margin-left:4px';
+themeBtn.onclick=()=>{const isLight=document.documentElement.classList.toggle('light');localStorage.setItem('rd-theme',isLight?'light':'dark');themeBtn.textContent=isLight?'🌙':'☀';};
+nav.after(themeBtn);
+
+// Stale warning in topbar
+const genDate=new Date(S.generated);
+const stale=(Date.now()-genDate)/86400000>2;
+document.getElementById("ts").innerHTML=`Generated: ${S.generated}${stale?' <span style="color:#e3b341;font-weight:600">● stale</span>':''}`;
+
+// Sparkline helper
+function sparkline(history,key,w=40,h=14){
+  if(!history||history.length<2) return '';
+  const vals=history.map(d=>d[key]||0);
+  const mn=Math.min(...vals),mx=Math.max(...vals),range=mx-mn||0.001;
+  const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-(v-mn)/range*h).toFixed(1)}`).join(' ');
+  const col=vals[vals.length-1]>=0?'#3fb950':'#f85149';
+  return`<svg width="${w}" height="${h}" style="vertical-align:middle;margin-left:4px;opacity:.8"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
+}
+
+// Keyboard shortcuts modal
+const modal=document.createElement('div');
+modal.id='kbd-modal';
+modal.style.cssText='display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);align-items:center;justify-content:center';
+modal.innerHTML=`<div style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:24px;min-width:280px">
+  <h3 style="margin-bottom:14px;color:#f0f6fc">Keyboard Shortcuts</h3>
+  <table style="width:100%">
+  ${VIEWS.map((v,i)=>`<tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">${i===9?0:i+1}</kbd></td><td style="padding:3px 8px;color:#8b949e">${LABELS[i]}</td></tr>`).join('')}
+  <tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">d</kbd></td><td style="padding:3px 8px;color:#8b949e">Toggle dark/light mode</td></tr>
+  <tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">Esc</kbd></td><td style="padding:3px 8px;color:#8b949e">Close this modal</td></tr>
+  </table>
+  <button onclick="document.getElementById('kbd-modal').style.display='none'" style="margin-top:16px;background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:6px 14px;border-radius:6px;cursor:pointer;width:100%">Close</button>
+</div>`;
+document.body.appendChild(modal);
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+  if(e.key==='?'){modal.style.display='flex';return;}
+  if(e.key==='Escape'){modal.style.display='none';return;}
+  if(e.key==='d'){themeBtn.click();return;}
+  const i=parseInt(e.key);
+  if(i===0) location.hash='#'+VIEWS[9];
+  else if(i>=1&&i<=9) location.hash='#'+VIEWS[i-1];
+});
+
+// Banner with sparklines
 const spy=S.spy;
+const hist=spy.history||[];
+const streak=spy.regime_streak;
 document.getElementById("regime-banner").innerHTML=`
-  <span class="regime-label">${spy.regime||"Unknown"}</span>
-  <div class="stat"><span class="val">${pct(spy.ret_5d)}</span><span class="key">SPY 5d</span></div>
-  <div class="stat"><span class="val">${pct(spy.ret_20d)}</span><span class="key">SPY 20d</span></div>
-  <div class="stat"><span class="val">${((spy.vol_20d||0)*100).toFixed(1)}%</span><span class="key">Vol 20d</span></div>
-  <div class="stat"><span class="val">${pct(spy.drawdown_60d)}</span><span class="key">Drawdown 60d</span></div>
+  <span class="regime-label">${spy.regime||"Unknown"}${streak>1?` <span style="color:#8b949e;font-size:11px">(${streak}d streak)</span>`:''}</span>
+  <div class="stat"><span class="val">${pct(spy.ret_5d)}${sparkline(hist,'ret_5d')}</span><span class="key">SPY 5d</span></div>
+  <div class="stat"><span class="val">${pct(spy.ret_20d)}${sparkline(hist,'ret_20d')}</span><span class="key">SPY 20d</span></div>
+  <div class="stat"><span class="val">${((spy.vol_20d||0)*100).toFixed(1)}%${sparkline(hist,'vol_20d')}</span><span class="key">Vol 20d</span></div>
+  <div class="stat"><span class="val">${pct(spy.drawdown_60d)}${sparkline(hist,'drawdown_60d')}</span><span class="key">Drawdown 60d</span></div>
   <div class="stat"><span class="val">${((spy.breadth||0)*100).toFixed(0)}%</span><span class="key">Breadth</span></div>
   <div class="stat"><span class="val">${((spy.persistence||0)*100).toFixed(0)}%</span><span class="key">Persistence</span></div>
   <div class="stat">${pill(spy.reversal_risk>0.5?"elevated":spy.reversal_risk>0.3?"moderate":"low","Rev. Risk: "+(((spy.reversal_risk||0)*100).toFixed(0))+"%")}</div>`;
@@ -225,6 +2143,7 @@ function renderRegime(){
   return`<div class="card"><h2>Regime Analysis</h2>
   <table><tr><th>Metric</th><th>Value</th><th>Note</th></tr>
   <tr><td>Regime Label</td><td><strong>${spy.regime||"—"}</strong></td><td>Classified from SPY state vector</td></tr>
+  <tr><td>Regime Streak</td><td>${spy.regime_streak||"—"}${spy.regime_streak?" trading days":""}</td><td>Consecutive days in current regime</td></tr>
   <tr><td>5d Return</td><td>${pct(spy.ret_5d)}</td><td>Short-term momentum</td></tr>
   <tr><td>20d Return</td><td>${pct(spy.ret_20d)}</td><td>Medium-term trend</td></tr>
   <tr><td>20d Volatility</td><td>${((spy.vol_20d||0)*100).toFixed(2)}%</td><td>Daily realized vol (annualizes ~${((spy.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}%)</td></tr>
@@ -237,30 +2156,47 @@ function renderRegime(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// SECTORS
+// SECTORS — winner/loser badges
 function renderSectors(){
+  const n=S.sectors.length;
   return`<div class="card"><h2>Sector Expectations (${S.sectors[0]&&S.sectors[0].horizon||"20d"} horizon)</h2>
   <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge — the excess return analog days showed versus the unconditional baseline.</p>
   <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
-  ${S.sectors.map(s=>`<tr><td>${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
+  ${S.sectors.map((s,i)=>{
+    const badge=i<3?'<span title="Top sector" style="margin-right:4px">🏆</span>':(i>=n-3?'<span title="Lagging sector" style="margin-right:4px">⚠️</span>':'');
+    return`<tr><td>${badge}${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
   <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?"#238636":"#b91c1c"}"></div></div></td>
-  <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`).join("")}
+  <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`;
+  }).join("")}
   </table></div>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// STOCKS
+// STOCKS — sortable columns + copy-to-clipboard
+let _sortCol='edge',_sortDir=-1;
 function renderStocks(){
+  const sorted=[...S.stocks].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
+  function th(col,label){const active=_sortCol===col;return`<th onclick="window._rdSort('${col}')" style="cursor:pointer;user-select:none">${label}${active?(_sortDir>0?' ↑':' ↓'):''}</th>`;}
   return`<div class="card"><h2>Individual Stock Signals</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Stocks within leading sectors with the highest conditional edge. Distribution shows analog returns at each percentile.</p>
-  <table><tr><th>Ticker</th><th>Name</th><th>Sector</th><th>Edge</th><th>Distribution (p10→p90)</th><th>Hit Rate</th><th>n</th></tr>
-  ${S.stocks.map(st=>`<tr><td><strong>${st.ticker}</strong></td><td>${st.name||"—"}</td><td>${st.sector}</td>
-  <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)}</td>
-  <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
-  <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td></tr>`).join("")}
+  <p style="margin-bottom:12px;color:#8b949e">Click column headers to sort. Click 📋 to copy.</p>
+  <table><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10→p90)</th>${th('hit_rate','Hit Rate')}${th('n_obs','n')}<th></th></tr>
+  ${sorted.map(st=>`<tr>
+    <td><strong>${st.ticker}</strong></td><td>${st.name||"—"}</td><td>${st.sector}</td>
+    <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)}</td>
+    <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
+    <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
+    <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">📋</button></td>
+  </tr>`).join("")}
   </table></div>
   <footer>Tendencies only — not investment advice. Hit rate = fraction of analog returns that were positive.</footer>`;
 }
+window._rdSort=function(col){
+  if(_sortCol===col)_sortDir*=-1;else{_sortCol=col;_sortDir=col==='ticker'||col==='name'||col==='sector'?1:-1;}
+  const el=document.getElementById('v-stocks');
+  delete el.dataset.rendered;
+  el.innerHTML=renderStocks();
+  el.dataset.rendered='1';
+};
 
 // THEMES
 function renderThemes(){
@@ -292,7 +2228,25 @@ function renderSignals(){
 function renderRisks(){
   function scoreBar(v){const pct=Math.max(0,Math.min(100,(v||0)*100));const col=pct>=65?"#f85149":pct>=45?"#e3b341":"#3fb950";
     return`<span class="score-bar"><span class="score-fill" style="width:${pct}%;background:${col}"></span></span> ${(pct).toFixed(0)}%`;}
-  return`<div class="card"><h2>Risk Axes & Invalidation Levels</h2>
+  const scores=S.risks.map(r=>r.score||0);
+  const composite=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:0;
+  const cPct=(composite*100).toFixed(0);
+  const cLevel=composite>=0.65?"elevated":composite>=0.45?"moderate":"low";
+  const cCol=composite>=0.65?"#f85149":composite>=0.45?"#e3b341":"#3fb950";
+  const maxRisk=S.risks.reduce((a,b)=>(b.score||0)>(a.score||0)?b:a,S.risks[0]||{});
+  return`<div class="card" style="border-left:4px solid ${cCol}"><h2>Aggregate Risk Score</h2>
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="font-size:42px;font-weight:700;color:${cCol};line-height:1">${cPct}<span style="font-size:20px;color:#8b949e">/100</span></div>
+    <div style="flex:1;min-width:200px">
+      <div style="margin-bottom:6px">${pill(cLevel)} composite across ${S.risks.length} axes</div>
+      <div style="background:#21262d;border-radius:4px;height:10px;position:relative;overflow:hidden">
+        <div style="position:absolute;left:0;top:0;height:10px;width:${cPct}%;background:${cCol};border-radius:4px"></div>
+      </div>
+      <div style="color:#6e7681;font-size:12px;margin-top:6px">Top driver: <strong style="color:#c9d1d9">${maxRisk.name||"—"}</strong> (${((maxRisk.score||0)*100).toFixed(0)}%)</div>
+    </div>
+  </div>
+  </div>
+  <div class="card"><h2>Risk Axes & Invalidation Levels</h2>
   <p style="margin-bottom:12px;color:#8b949e">Each risk axis has an associated invalidation condition — the signal that would indicate the risk has materialized.</p>
   ${S.risks.map(r=>`<div style="border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:10px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
@@ -328,36 +2282,63 @@ function renderNarrative(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// ANALOG
+// ANALOG — with stats panel
 function renderAnalog(){
   const a=S.analog||{};
+  const dates=a.top_dates||[];
+  const dateRange=dates.length>=2?`${dates[dates.length-1]} – ${dates[0]}`:(dates[0]||'—');
   return`<div class="card"><h2>Analog Matching</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Found ${a.n_days||30} historical days most similar to today's SPY state (excluding last ${a.exclude_recent||30} days).</p>
+  <div class="grid2" style="margin-bottom:16px">
+    <div style="background:#21262d;border-radius:6px;padding:12px">
+      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>
+      <div style="font-size:28px;font-weight:700;color:#f0f6fc">${a.n_days||30}</div>
+      <div style="color:#6e7681;font-size:11px">excluding last ${a.exclude_recent||30} days</div>
+    </div>
+    <div style="background:#21262d;border-radius:6px;padding:12px">
+      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Historical Range</div>
+      <div style="font-size:13px;font-weight:600;color:#f0f6fc;margin-top:4px">${dateRange}</div>
+      <div style="color:#6e7681;font-size:11px">${dates.length} top matches shown</div>
+    </div>
+  </div>
   <div style="margin-bottom:16px">
     <div style="color:#8b949e;font-size:12px;margin-bottom:6px">SPY Forward 20d Return Distribution across analog days</div>
     ${distBar(a.spy_p10||0,a.spy_p25||0,a.spy_p50||0,a.spy_p75||0,a.spy_p90||0)}
   </div>
-  ${a.top_dates&&a.top_dates.length?`<div class="card" style="margin:0"><h2>Top Analog Dates</h2>
+  ${dates.length?`<div class="card" style="margin:0"><h2>Top Analog Dates</h2>
   <table><tr><th>#</th><th>Date</th></tr>
-  ${a.top_dates.slice(0,10).map((d,i)=>`<tr><td>${i+1}</td><td>${d}</td></tr>`).join("")}
+  ${dates.slice(0,10).map((d,i)=>`<tr><td>${i+1}</td><td>${d}</td></tr>`).join("")}
   </table></div>`:""}
   <div style="margin-top:12px;color:#8b949e;font-size:13px">${a.regime_context||""}</div>
   </div>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// METHODOLOGY
+// METHODOLOGY — with jargon glossary
 function renderMethodology(){
+  const terms=[
+    ["Edge","The conditional median forward return minus the unconditional baseline. Measures how much better (or worse) a stock historically performed in analog conditions versus any random day."],
+    ["Analog","A historical trading day whose SPY state vector is closest to today's, measured by Euclidean distance after z-score normalization across all four dimensions."],
+    ["Hit Rate","Fraction of analog forward returns that were positive. A hit rate of 0.65 means 65% of similar historical setups produced a positive return over the horizon."],
+    ["Breadth","The fraction of stocks within a sector that have a positive conditional edge. High breadth = widespread sector participation, not just a few outliers."],
+    ["Persistence","The fraction of historical analogs where the current regime label continued for at least 20 more trading days before flipping to a different regime."],
+    ["Reversal Risk","Estimated probability the current regime label changes within 20 trading days, based on how frequently analogs transitioned quickly."],
+    ["Distribution (p10–p90)","The range of forward returns observed across all analog days. p10 = adverse 10th percentile; p90 = favorable 90th percentile. p50 (the median) is the central tendency."],
+  ];
   return`<div class="card"><h2>How This Works</h2>
   <div style="line-height:1.8">
   <p style="margin-bottom:12px"><strong>Step 1 — State Vector:</strong> We compute today's SPY state as a 4-dimensional vector: 5-day return, 20-day return, 20-day realized volatility, and 60-day drawdown.</p>
   <p style="margin-bottom:12px"><strong>Step 2 — Analog Matching:</strong> We normalize each dimension by its historical mean and standard deviation, then find the 30 historical trading days with the smallest Euclidean distance to today's state. Recent days (last 30) are excluded to avoid look-ahead.</p>
   <p style="margin-bottom:12px"><strong>Step 3 — Conditional Returns:</strong> For each stock, we measure the forward return (5d, 20d, 60d, 120d) following each analog date. The result is a distribution — not a point estimate.</p>
   <p style="margin-bottom:12px"><strong>Step 4 — Edge Calculation:</strong> <code>edge = conditional median return − unconditional baseline return</code>. Only signals with edge &gt; 5% and at least 5 analog observations are included.</p>
-  <p style="margin-bottom:12px"><strong>Volatility Filter:</strong> Stocks with 20-day realized vol above 5%/day are excluded (too unstable for reliable analog matching).</p>
-  <p><strong>What This Is Not:</strong> This is not a forecast. It is a tendencies report — a summary of what historically happened in similar conditions. Markets are non-stationary; past analogs do not guarantee future outcomes.</p>
-  </div>
-  </div>
+  <p style="margin-bottom:12px"><strong>Volatility Filter:</strong> Stocks with 20-day realized vol above 5%/day are excluded.</p>
+  <p style="margin-bottom:16px"><strong>What This Is Not:</strong> This is a tendencies report — a summary of what historically happened in similar conditions. Markets are non-stationary; past analogs do not guarantee future outcomes.</p>
+  </div></div>
+  <details style="margin-bottom:16px">
+    <summary style="cursor:pointer;padding:12px 16px;background:#161b22;border:1px solid #30363d;border-radius:8px;font-weight:700;color:#f0f6fc;list-style:none">&#9654; Jargon Glossary</summary>
+    <div style="border:1px solid #30363d;border-top:none;border-radius:0 0 8px 8px;padding:16px;background:#161b22">
+    ${terms.map(([t,d])=>`<div style="margin-bottom:12px"><strong style="color:#f0f6fc">${t}</strong><div style="color:#8b949e;margin-top:2px">${d}</div></div>`).join('')}
+    </div>
+  </details>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
@@ -380,4 +2361,5 @@ route();
 })();
 </script>
 </body>
+<!-- evolved: 2026-05-07 | add aggregate risk score composite display in #risks view -->
 </html>
