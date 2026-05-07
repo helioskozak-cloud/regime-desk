@@ -2450,23 +2450,44 @@ function _horizonBtn(h){
 }
 function _horizonBar(){return`<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:12px"><span style="color:#8b949e;font-size:12px;margin-right:4px">Horizon:</span>${['all','5d','20d','60d','120d'].map(_horizonBtn).join('')}</div>`;}
 function renderStocks(){
-  const pool=_horizon==='all'?S.stocks:S.stocks.filter(s=>s.horizon===_horizon);
+  const wlTickers=_watchlist.split(',').map(t=>t.trim().toUpperCase()).filter(Boolean);
+  const isWl=wlTickers.length>0;
+  // Watchlist filter first, then horizon filter
+  let pool=isWl?S.stocks.filter(s=>wlTickers.includes(s.ticker)):S.stocks;
+  if(_horizon!=='all') pool=pool.filter(s=>s.horizon===_horizon);
   const sorted=[...pool].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
   function th(col,label){const active=_sortCol===col;return`<th onclick="window._rdSort('${col}')" style="cursor:pointer;user-select:none">${label}${active?(_sortDir>0?' ↑':' ↓'):''}</th>`;}
+  function stRow(st){
+    const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
+    const ann=(st.edge||0)*(252/hd);
+    const rowBg=isWl?(st.edge>=0?'background:rgba(35,134,54,.08)':'background:rgba(248,81,73,.08)'):'';
+    return`<tr style="${rowBg}">
+      <td><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></td>
+      <td>${st.name||'—'}</td><td>${st.sector}</td>
+      <td style="color:${st.edge>=0?'#3fb950':'#f85149'}">${pct(st.edge)} <span style="color:#6e7681;font-size:11px">(${pct(ann)} ann)</span></td>
+      <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
+      <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
+      <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">📋</button></td>
+    </tr>`;
+  }
+  // In watchlist mode, iterate requested tickers in order; show "no data" for missing ones
+  const rows=isWl
+    ?wlTickers.map(tk=>{const st=pool.find(s=>s.ticker===tk);return st?stRow(st):`<tr><td><strong>${tk}</strong></td><td colspan="7" style="color:#6e7681;font-size:12px;font-style:italic">No signal data available</td></tr>`;})
+    :sorted.map(stRow);
+  const wlBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <span style="color:#8b949e;font-size:12px">Watchlist:</span>
+    <input type="text" value="${_watchlist}" placeholder="AAPL,MSFT,NVDA…"
+      style="background:#21262d;border:1px solid ${isWl?'#58a6ff':'#30363d'};color:#f0f6fc;padding:4px 10px;border-radius:6px;font-size:12px;width:220px"
+      oninput="window._rdWl(this.value)"/>
+    ${isWl?`<span style="font-size:11px;color:#58a6ff">${pool.length}/${wlTickers.length} matched</span><button onclick="window._rdWl('')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:'<span style="color:#6e7681;font-size:11px">paste tickers to filter to client holdings</span>'}
+  </div>`;
   return`<div class="card"><h2>Individual Stock Signals</h2>
-  ${_horizonBar()}
-  <p style="margin-bottom:12px;color:#8b949e">${sorted.length} signal${sorted.length!==1?'s':''} shown${_horizon!=='all'?' for '+_horizon+' horizon':''}. Click column headers to sort. Click 📋 to copy.</p>
-  ${sorted.length===0?`<div style="color:#8b949e;padding:20px;text-align:center">No stocks with best edge at ${_horizon} horizon.</div>`:`<table><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10→p90)</th>${th('hit_rate','Hit Rate')}${th('n_obs','n')}<th></th></tr>
-  ${sorted.map(st=>{const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;const ann=(st.edge||0)*(252/hd);return`<tr>
-    <td><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></td><td>${st.name||"—"}</td><td>${st.sector}</td>
-    <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)} <span style="color:#6e7681;font-size:11px" title="Annualized: edge × 252/${hd}d horizon">(${pct(ann)} ann)</span></td>
-    <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
-    <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
-    <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">📋</button></td>
-  </tr>`).join("")}
-  </table>`}
-  </div>
-  <footer>Tendencies only — not investment advice. Hit rate = fraction of analog returns that were positive.</footer>`;
+  ${_horizonBar()}${wlBar}
+  <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
+  <table><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10→p90)</th>${th('hit_rate','Hit Rate')}${th('n_obs','n')}<th></th></tr>
+  ${rows.join('')}
+  </table></div>
+  <footer>Tendencies only — not investment advice. Green/red row tint = positive/negative edge in watchlist mode.</footer>`;
 }
 window._rdSort=function(col){
   if(_sortCol===col)_sortDir*=-1;else{_sortCol=col;_sortDir=col==='ticker'||col==='name'||col==='sector'?1:-1;}
@@ -2831,8 +2852,10 @@ function renderAdvisor(){
 }
 window._rdWl=function(val){
   _watchlist=val;localStorage.setItem('rd-watchlist',val);
-  const el=document.getElementById('v-advisor');
-  delete el.dataset.rendered;el.innerHTML=renderAdvisor();el.dataset.rendered='1';
+  [{id:'v-advisor',fn:renderAdvisor},{id:'v-stocks',fn:renderStocks}].forEach(({id,fn})=>{
+    const el=document.getElementById(id);
+    if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=fn();el.dataset.rendered='1';}
+  });
 };
 
 const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,narrative:renderNarrative,analog:renderAnalog,methodology:renderMethodology,advisor:renderAdvisor,meeting:renderMeeting};
