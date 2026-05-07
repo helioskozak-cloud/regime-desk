@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Regime Desk</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d1117;color:#c9d1d9;font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5}
+a{color:#58a6ff;text-decoration:none}
+#topbar{position:sticky;top:0;z-index:100;background:#161b22;border-bottom:1px solid #30363d;display:flex;align-items:center;gap:16px;padding:0 20px;height:48px}
+#topbar h1{font-size:15px;font-weight:700;color:#f0f6fc;white-space:nowrap}
+#topbar nav{display:flex;gap:4px;flex-wrap:wrap}
+#topbar nav a{padding:4px 10px;border-radius:6px;color:#8b949e;font-size:12px;transition:background .15s}
+#topbar nav a:hover,#topbar nav a.active{background:#21262d;color:#f0f6fc}
+#topbar .ts{margin-left:auto;color:#6e7681;font-size:11px;white-space:nowrap}
+#regime-banner{background:#161b22;border-bottom:1px solid #30363d;padding:8px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.regime-label{font-size:13px;font-weight:700;color:#f0f6fc}
+.stat{display:flex;flex-direction:column;align-items:center;gap:2px}
+.stat .val{font-size:14px;font-weight:600;color:#f0f6fc}
+.stat .key{font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.5px}
+.pill{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.pill.bull{background:#1a3a2a;color:#3fb950}
+.pill.bear{background:#3a1a1a;color:#f85149}
+.pill.neut{background:#1e2733;color:#58a6ff}
+.pill.elev{background:#3a2a1a;color:#e3b341}
+.pill.mod{background:#1e2733;color:#58a6ff}
+.pill.low{background:#1a2a1a;color:#3fb950}
+#main{padding:20px;max-width:1200px;margin:0 auto}
+.view{display:none}
+.view.active{display:block}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:16px}
+.card h2{font-size:14px;font-weight:700;color:#f0f6fc;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #30363d}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tile{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;cursor:pointer;transition:border-color .15s}
+.tile:hover{border-color:#58a6ff}
+.tile h3{font-size:13px;font-weight:700;color:#f0f6fc;margin-bottom:8px}
+.tile .sub{font-size:11px;color:#8b949e}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:6px 8px;color:#8b949e;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #30363d}
+td{padding:7px 8px;border-bottom:1px solid #21262d}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#1c2128}
+.bar-wrap{background:#21262d;border-radius:3px;height:6px;position:relative;width:80px}
+.bar-fill{height:6px;border-radius:3px;background:#238636;position:absolute;left:0;top:0}
+.dist-wrap{display:flex;align-items:center;gap:4px;font-size:11px;white-space:nowrap}
+.dist-bar{background:#21262d;border-radius:2px;height:8px;position:relative;width:120px}
+.dist-range{position:absolute;height:8px;border-radius:2px}
+.dist-med{position:absolute;width:2px;height:8px;background:#f0f6fc}
+.score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:3px;vertical-align:middle;position:relative}
+.score-fill{height:6px;border-radius:3px;position:absolute;left:0;top:0}
+footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
+@media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <h1>&#9642; Regime Desk</h1>
+  <nav id="nav"></nav>
+  <span class="ts" id="ts"></span>
+</div>
+<div id="regime-banner" id="banner"></div>
+<div id="main">
+  <div class="view" id="v-home"></div>
+  <div class="view" id="v-regime"></div>
+  <div class="view" id="v-sectors"></div>
+  <div class="view" id="v-stocks"></div>
+  <div class="view" id="v-themes"></div>
+  <div class="view" id="v-signals"></div>
+  <div class="view" id="v-risks"></div>
+  <div class="view" id="v-narrative"></div>
+  <div class="view" id="v-analog"></div>
+  <div class="view" id="v-methodology"></div>
+</div>
+
+<script>
+window.SNAPSHOT = {
+  "generated": "2026-05-07",
+  "spy": {
+    "ret_5d": 0.012, "ret_20d": -0.034, "vol_20d": 0.018, "drawdown_60d": -0.087,
+    "regime": "Recovery", "breadth": 0.52, "persistence": 0.61, "reversal_risk": 0.28
+  },
+  "sectors": [
+    {"name":"Technology","edge":0.091,"breadth":0.68,"horizon":"20d","stocks":42,"signal":"bullish"},
+    {"name":"Semiconductors","edge":0.084,"breadth":0.65,"horizon":"20d","stocks":18,"signal":"bullish"},
+    {"name":"Industrials","edge":0.071,"breadth":0.58,"horizon":"20d","stocks":36,"signal":"bullish"},
+    {"name":"Financials","edge":0.063,"breadth":0.54,"horizon":"20d","stocks":29,"signal":"bullish"},
+    {"name":"Healthcare","edge":0.041,"breadth":0.47,"horizon":"20d","stocks":31,"signal":"neutral"},
+    {"name":"Energy","edge":0.028,"breadth":0.41,"horizon":"20d","stocks":22,"signal":"neutral"},
+    {"name":"Consumer Disc","edge":0.015,"breadth":0.38,"horizon":"20d","stocks":27,"signal":"neutral"},
+    {"name":"Materials","edge":-0.012,"breadth":0.34,"horizon":"20d","stocks":19,"signal":"bearish"},
+    {"name":"Utilities","edge":-0.023,"breadth":0.31,"horizon":"20d","stocks":15,"signal":"bearish"},
+    {"name":"Real Estate","edge":-0.031,"breadth":0.28,"horizon":"20d","stocks":18,"signal":"bearish"},
+    {"name":"Staples","edge":-0.044,"breadth":0.24,"horizon":"20d","stocks":21,"signal":"bearish"}
+  ],
+  "stocks": [
+    {"ticker":"NVDA","name":"NVIDIA","sector":"Semiconductors","edge":0.143,"horizon":"20d","p10":-0.05,"p25":0.04,"p50":0.12,"p75":0.21,"p90":0.30,"hit_rate":0.73,"n_obs":22},
+    {"ticker":"MSFT","name":"Microsoft","sector":"Technology","edge":0.112,"horizon":"20d","p10":-0.03,"p25":0.02,"p50":0.09,"p75":0.17,"p90":0.24,"hit_rate":0.68,"n_obs":27},
+    {"ticker":"AAPL","name":"Apple","sector":"Technology","edge":0.098,"horizon":"20d","p10":-0.04,"p25":0.01,"p50":0.08,"p75":0.15,"p90":0.22,"hit_rate":0.64,"n_obs":29},
+    {"ticker":"JPM","name":"JPMorgan","sector":"Financials","edge":0.087,"horizon":"20d","p10":-0.06,"p25":0.01,"p50":0.07,"p75":0.14,"p90":0.20,"hit_rate":0.62,"n_obs":25},
+    {"ticker":"CAT","name":"Caterpillar","sector":"Industrials","edge":0.079,"horizon":"20d","p10":-0.05,"p25":0.02,"p50":0.08,"p75":0.14,"p90":0.19,"hit_rate":0.61,"n_obs":23},
+    {"ticker":"AMAT","name":"Applied Materials","sector":"Semiconductors","edge":0.077,"horizon":"20d","p10":-0.07,"p25":0.01,"p50":0.08,"p75":0.16,"p90":0.25,"hit_rate":0.60,"n_obs":20},
+    {"ticker":"GS","name":"Goldman Sachs","sector":"Financials","edge":0.071,"horizon":"20d","p10":-0.06,"p25":0.01,"p50":0.07,"p75":0.14,"p90":0.21,"hit_rate":0.59,"n_obs":24},
+    {"ticker":"META","name":"Meta Platforms","sector":"Technology","edge":0.069,"horizon":"20d","p10":-0.08,"p25":0.00,"p50":0.07,"p75":0.15,"p90":0.23,"hit_rate":0.57,"n_obs":21},
+    {"ticker":"DE","name":"Deere & Co","sector":"Industrials","edge":0.064,"horizon":"20d","p10":-0.05,"p25":0.01,"p50":0.06,"p75":0.12,"p90":0.18,"hit_rate":0.58,"n_obs":22},
+    {"ticker":"LRCX","name":"Lam Research","sector":"Semiconductors","edge":0.058,"horizon":"20d","p10":-0.09,"p25":0.00,"p50":0.06,"p75":0.14,"p90":0.22,"hit_rate":0.55,"n_obs":19}
+  ],
+  "themes": [
+    {"name":"AI Infrastructure","sectors":["Semiconductors","Technology"],"edge":0.112,"stocks":24,"signal":"bullish","note":"Analog days show semis outperforming 73% of the time in recovery regimes"},
+    {"name":"Capital Markets","sectors":["Financials"],"edge":0.079,"stocks":12,"signal":"bullish","note":"Broker-dealers historically recover faster in early-cycle analogs"},
+    {"name":"Defense & Aerospace","sectors":["Industrials"],"edge":0.071,"stocks":9,"signal":"bullish","note":"Government spending provides stable backdrop"},
+    {"name":"Energy Transition","sectors":["Energy","Industrials"],"edge":0.041,"stocks":14,"signal":"neutral","note":"Mixed signals; watch oil price for confirmation"},
+    {"name":"Biotech","sectors":["Healthcare"],"edge":0.028,"stocks":18,"signal":"neutral","note":"Binary event risk offsets analog edge"},
+    {"name":"Rate Sensitives","sectors":["Real Estate","Utilities"],"edge":-0.029,"stocks":22,"signal":"bearish","note":"Rising-rate analog suppresses these sectors"},
+    {"name":"Defensive Consumer","sectors":["Staples"],"edge":-0.041,"stocks":16,"signal":"bearish","note":"Underperforms when risk appetite recovering"}
+  ],
+  "signals": [
+    {"name":"SPY 5-Day Return","asset":"SPY","value":"+1.2%","signal":"bullish","context":"Short-term price momentum positive"},
+    {"name":"SPY 20-Day Return","asset":"SPY","value":"-3.4%","signal":"bearish","context":"Medium-term trend still negative"},
+    {"name":"10Y+ Treasuries","asset":"TLT","value":"-1.8% (20d)","signal":"bearish","context":"Bond sell-off = rates rising; duration under pressure"},
+    {"name":"High-Yield Credit","asset":"HYG","value":"+0.4% (20d)","signal":"bullish","context":"Credit broadly constructive; no systemic signal"},
+    {"name":"Gold","asset":"GLD","value":"+2.3% (20d)","signal":"bearish","context":"Safe-haven bid / real rates falling"},
+    {"name":"USD Index","asset":"UUP","value":"-0.8% (20d)","signal":"bullish","context":"Dollar weakness = risk-on environment"},
+    {"name":"Crude Oil","asset":"USO","value":"+1.1% (20d)","signal":"bullish","context":"Stable oil; energy broadly neutral"},
+    {"name":"VIX Level","asset":"VIX","value":"18.4","signal":"moderate","context":"Moderate fear; 18–25 = caution zone"},
+    {"name":"Semiconductors","asset":"SMH","value":"+3.2% (20d)","signal":"bullish","context":"Semis leading; AI demand intact"},
+    {"name":"Russell 2000","asset":"IWM","value":"-2.1% (20d)","signal":"bearish","context":"Small caps lagging; mixed breadth"},
+    {"name":"Copper","asset":"CPER","value":"-1.4% (20d)","signal":"bearish","context":"Copper weak = growth concerns"},
+    {"name":"TIPS / Breakevens","asset":"TIP","value":"+0.6% (20d)","signal":"neutral","context":"Inflation expectations modestly elevated"}
+  ],
+  "risks": [
+    {"name":"Volatility Regime","level":"moderate","score":0.42,"description":"VIX at 18.4. Moderate regime; slightly elevated uncertainty.","invalidation":"VIX falls below 16 and holds for 5 sessions"},
+    {"name":"Credit Stress","level":"low","score":0.28,"description":"HYG 20d +0.4%. Credit broadly constructive; no systemic signal.","invalidation":"HYG drops 2%+ over 5 days"},
+    {"name":"Rate Re-pricing","level":"elevated","score":0.67,"description":"TLT 20d -1.8%. Bond sell-off = rates rising; duration assets under pressure.","invalidation":"TLT recovers to 20d positive return"},
+    {"name":"Growth Slowdown","level":"moderate","score":0.48,"description":"Copper and small caps both lagging — growth leadership not yet confirmed.","invalidation":"IWM and CPER both turn positive 20d"},
+    {"name":"Inflation Re-pricing","level":"moderate","score":0.44,"description":"Breakevens modestly elevated. Not alarming but watch CPI prints.","invalidation":"TIP 20d return falls below zero"},
+    {"name":"Dollar Headwind","level":"low","score":0.31,"description":"UUP 20d -0.8%. Dollar weakness is constructive for EM and commodities.","invalidation":"UUP turns +1.5% 20d"},
+    {"name":"Complacency","level":"low","score":0.22,"description":"SPY still below 20d breakeven. No complacency signal yet.","invalidation":"SPY +5%+ over 20d with VIX below 14"}
+  ],
+  "analog": {
+    "n_days":30,"exclude_recent":30,
+    "spy_p10":-0.03,"spy_p25":0.01,"spy_p50":0.06,"spy_p75":0.12,"spy_p90":0.19,
+    "top_dates":["2022-03-15","2020-04-07","2018-12-28","2023-10-25","2022-05-20"],
+    "regime_context":"Current SPY state (ret5=+1.2%, ret20=-3.4%, vol=1.8%, dd=-8.7%) most resembles early-recovery phases following drawdowns of 8–12%."
+  },
+  "narrative": {
+    "headline":"Early recovery analog — growth sectors historically lead",
+    "constructive":"Historical analogs to the current SPY state show technology and industrials outperforming the broad market over the next 20 days in roughly 60–70% of cases. Semiconductors stand out with the strongest conditional edge.",
+    "risk":"The primary risk is rate re-pricing. Bonds are selling off, which can cap equity multiples even in recovery regimes. Small caps are lagging, suggesting the rally is narrow so far.",
+    "plain_english":"The market looks similar to other periods where stocks had just sold off 8–10% and started recovering. In most of those cases, tech and industrial stocks did well over the next month. The main thing that could go wrong is if interest rates keep rising — that tends to hurt stock valuations, especially in tech."
+  }
+};
+</script>
+
+<script>
+(function(){
+const S = window.SNAPSHOT;
+const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","narrative","analog","methodology"];
+const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Narrative","Analog","Methodology"];
+
+function pct(v){return (v>=0?"+":"")+((v||0)*100).toFixed(1)+"%"}
+function fmt(v){return typeof v==="number"?((v>=0?"+":"")+v.toFixed(3)):v}
+function pillClass(s){return s==="bullish"?"bull":s==="bearish"?"bear":s==="elevated"||s==="elev"?"elev":s==="moderate"||s==="mod"?"mod":"neut"}
+function pill(s,label){return`<span class="pill ${pillClass(s)}">${label||s}</span>`}
+
+// Topbar
+const nav=document.getElementById("nav");
+VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textContent=LABELS[i];a.id="nav-"+v;nav.appendChild(a);});
+document.getElementById("ts").textContent="Generated: "+S.generated;
+
+// Banner
+const spy=S.spy;
+document.getElementById("regime-banner").innerHTML=`
+  <span class="regime-label">${spy.regime||"Unknown"}</span>
+  <div class="stat"><span class="val">${pct(spy.ret_5d)}</span><span class="key">SPY 5d</span></div>
+  <div class="stat"><span class="val">${pct(spy.ret_20d)}</span><span class="key">SPY 20d</span></div>
+  <div class="stat"><span class="val">${((spy.vol_20d||0)*100).toFixed(1)}%</span><span class="key">Vol 20d</span></div>
+  <div class="stat"><span class="val">${pct(spy.drawdown_60d)}</span><span class="key">Drawdown 60d</span></div>
+  <div class="stat"><span class="val">${((spy.breadth||0)*100).toFixed(0)}%</span><span class="key">Breadth</span></div>
+  <div class="stat"><span class="val">${((spy.persistence||0)*100).toFixed(0)}%</span><span class="key">Persistence</span></div>
+  <div class="stat">${pill(spy.reversal_risk>0.5?"elevated":spy.reversal_risk>0.3?"moderate":"low","Rev. Risk: "+(((spy.reversal_risk||0)*100).toFixed(0))+"%")}</div>`;
+
+// Distribution visualizer
+function distBar(p10,p25,p50,p75,p90){
+  const lo=-0.20,hi=0.30,range=hi-lo;
+  function pos(v){return Math.max(0,Math.min(100,((v-lo)/range)*100)).toFixed(1)+"%"}
+  const left=pos(p25),width=(((p75-p25)/range)*100).toFixed(1)+"%",med=pos(p50);
+  return`<div class="dist-wrap">
+    <span style="color:#6e7681;width:36px;text-align:right">${(p10*100).toFixed(0)}%</span>
+    <div class="dist-bar">
+      <div class="dist-range" style="left:${pos(p10)};width:${(((p90-p10)/range)*100).toFixed(1)}%;background:#1a3a2a;border-radius:2px"></div>
+      <div class="dist-range" style="left:${left};width:${width};background:#238636;border-radius:2px"></div>
+      <div class="dist-med" style="left:${med}"></div>
+    </div>
+    <span style="color:#f0f6fc;width:36px">${(p90*100).toFixed(0)}%</span>
+    <span style="color:#8b949e;margin-left:4px">p50: ${pct(p50)}</span>
+  </div>`;
+}
+
+// HOME
+function renderHome(){
+  const top=S.sectors.slice(0,3);
+  const tiles=VIEWS.slice(1).map((v,i)=>{
+    const sec=S.sectors[0]||{};
+    const descs=["SPY state & regime context","Sector expectations","Leading stocks","Thematic reads","Cross-asset backdrop","Risk axes & invalidations","Plain-English summary","Analog matches","System methodology"];
+    return`<div class="tile" onclick="location.hash='#${v}'"><h3>${LABELS[i+1]}</h3><div class="sub">${descs[i]}</div></div>`;
+  });
+  return`<div class="card"><h2>Market Overview — ${S.generated}</h2>
+    <p style="margin-bottom:12px;color:#8b949e">${S.narrative&&S.narrative.headline||""}</p>
+    <div class="grid3">${tiles.join("")}</div>
+  </div>
+  <div class="card"><h2>Top Sectors</h2><table>
+    <tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
+    ${S.sectors.slice(0,6).map(s=>`<tr><td>${s.name}</td><td>${pct(s.edge)}</td>
+    <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%"></div></div></td>
+    <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`).join("")}
+  </table></div>
+  <footer>Tendencies only — not investment advice. Analog matching finds historically similar days; it does not guarantee future outcomes.</footer>`;
+}
+
+// REGIME
+function renderRegime(){
+  return`<div class="card"><h2>Regime Analysis</h2>
+  <table><tr><th>Metric</th><th>Value</th><th>Note</th></tr>
+  <tr><td>Regime Label</td><td><strong>${spy.regime||"—"}</strong></td><td>Classified from SPY state vector</td></tr>
+  <tr><td>5d Return</td><td>${pct(spy.ret_5d)}</td><td>Short-term momentum</td></tr>
+  <tr><td>20d Return</td><td>${pct(spy.ret_20d)}</td><td>Medium-term trend</td></tr>
+  <tr><td>20d Volatility</td><td>${((spy.vol_20d||0)*100).toFixed(2)}%</td><td>Daily realized vol (annualizes ~${((spy.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}%)</td></tr>
+  <tr><td>60d Drawdown</td><td>${pct(spy.drawdown_60d)}</td><td>From 60-day rolling peak</td></tr>
+  <tr><td>Breadth</td><td>${((spy.breadth||0)*100).toFixed(0)}%</td><td>Fraction of sectors with positive conditional edge</td></tr>
+  <tr><td>Persistence</td><td>${((spy.persistence||0)*100).toFixed(0)}%</td><td>Fraction of analog regimes that continued for 20d+</td></tr>
+  <tr><td>Reversal Risk</td><td>${((spy.reversal_risk||0)*100).toFixed(0)}%</td><td>Estimated probability of regime flip within 20d</td></tr>
+  </table></div>
+  <div class="card"><h2>Analog Context</h2><p style="color:#8b949e">${S.analog&&S.analog.regime_context||"—"}</p></div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+// SECTORS
+function renderSectors(){
+  return`<div class="card"><h2>Sector Expectations (${S.sectors[0]&&S.sectors[0].horizon||"20d"} horizon)</h2>
+  <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge — the excess return analog days showed versus the unconditional baseline.</p>
+  <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
+  ${S.sectors.map(s=>`<tr><td>${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
+  <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?"#238636":"#b91c1c"}"></div></div></td>
+  <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`).join("")}
+  </table></div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+// STOCKS
+function renderStocks(){
+  return`<div class="card"><h2>Individual Stock Signals</h2>
+  <p style="margin-bottom:12px;color:#8b949e">Stocks within leading sectors with the highest conditional edge. Distribution shows analog returns at each percentile.</p>
+  <table><tr><th>Ticker</th><th>Name</th><th>Sector</th><th>Edge</th><th>Distribution (p10→p90)</th><th>Hit Rate</th><th>n</th></tr>
+  ${S.stocks.map(st=>`<tr><td><strong>${st.ticker}</strong></td><td>${st.name||"—"}</td><td>${st.sector}</td>
+  <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)}</td>
+  <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
+  <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td></tr>`).join("")}
+  </table></div>
+  <footer>Tendencies only — not investment advice. Hit rate = fraction of analog returns that were positive.</footer>`;
+}
+
+// THEMES
+function renderThemes(){
+  return`<div class="card"><h2>Thematic Reads</h2>
+  <p style="margin-bottom:12px;color:#8b949e">Cross-sector themes aggregated from sector and stock signals.</p>
+  ${S.themes.map(t=>`<div style="border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <strong>${t.name}</strong>${pill(t.signal)}
+      <span style="color:#8b949e;font-size:12px">${t.stocks} stocks · Edge ${pct(t.edge)}</span>
+    </div>
+    <div style="color:#8b949e;font-size:12px;margin-bottom:4px">Sectors: ${(t.sectors||[]).join(", ")}</div>
+    <div style="color:#c9d1d9;font-size:13px">${t.note||""}</div>
+  </div>`).join("")}
+  </div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+// SIGNALS
+function renderSignals(){
+  return`<div class="card"><h2>Cross-Asset Signals</h2>
+  <table><tr><th>Asset</th><th>Ticker</th><th>Value</th><th>Signal</th><th>Context</th></tr>
+  ${S.signals.map(s=>`<tr><td>${s.name}</td><td style="font-family:monospace">${s.asset}</td>
+  <td>${s.value}</td><td>${pill(s.signal)}</td><td style="color:#8b949e">${s.context}</td></tr>`).join("")}
+  </table></div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+// RISKS
+function renderRisks(){
+  function scoreBar(v){const pct=Math.max(0,Math.min(100,(v||0)*100));const col=pct>=65?"#f85149":pct>=45?"#e3b341":"#3fb950";
+    return`<span class="score-bar"><span class="score-fill" style="width:${pct}%;background:${col}"></span></span> ${(pct).toFixed(0)}%`;}
+  return`<div class="card"><h2>Risk Axes & Invalidation Levels</h2>
+  <p style="margin-bottom:12px;color:#8b949e">Each risk axis has an associated invalidation condition — the signal that would indicate the risk has materialized.</p>
+  ${S.risks.map(r=>`<div style="border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <strong>${r.name}</strong>${pill(r.level)} ${scoreBar(r.score)}
+    </div>
+    <div style="margin-bottom:4px">${r.description}</div>
+    <div style="color:#6e7681;font-size:12px">Invalidation: ${r.invalidation}</div>
+  </div>`).join("")}
+  </div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+// NARRATIVE
+function renderNarrative(){
+  const n=S.narrative||{};
+  return`<div class="card"><h2>Plain-English Summary</h2>
+  <div style="font-size:16px;font-weight:700;color:#f0f6fc;margin-bottom:12px">${n.headline||""}</div>
+  <div class="grid2">
+    <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:14px">
+      <div style="color:#3fb950;font-weight:700;margin-bottom:8px">Constructive Read</div>
+      <div>${n.constructive||"—"}</div>
+    </div>
+    <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:6px;padding:14px">
+      <div style="color:#f85149;font-weight:700;margin-bottom:8px">Risk / Reversal</div>
+      <div>${n.risk||"—"}</div>
+    </div>
+  </div>
+  <div style="margin-top:16px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px">
+    <div style="color:#8b949e;font-weight:700;margin-bottom:8px">In Plain English</div>
+    <div>${n.plain_english||"—"}</div>
+  </div>
+  </div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+// ANALOG
+function renderAnalog(){
+  const a=S.analog||{};
+  return`<div class="card"><h2>Analog Matching</h2>
+  <p style="margin-bottom:12px;color:#8b949e">Found ${a.n_days||30} historical days most similar to today's SPY state (excluding last ${a.exclude_recent||30} days).</p>
+  <div style="margin-bottom:16px">
+    <div style="color:#8b949e;font-size:12px;margin-bottom:6px">SPY Forward 20d Return Distribution across analog days</div>
+    ${distBar(a.spy_p10||0,a.spy_p25||0,a.spy_p50||0,a.spy_p75||0,a.spy_p90||0)}
+  </div>
+  ${a.top_dates&&a.top_dates.length?`<div class="card" style="margin:0"><h2>Top Analog Dates</h2>
+  <table><tr><th>#</th><th>Date</th></tr>
+  ${a.top_dates.slice(0,10).map((d,i)=>`<tr><td>${i+1}</td><td>${d}</td></tr>`).join("")}
+  </table></div>`:""}
+  <div style="margin-top:12px;color:#8b949e;font-size:13px">${a.regime_context||""}</div>
+  </div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+// METHODOLOGY
+function renderMethodology(){
+  return`<div class="card"><h2>How This Works</h2>
+  <div style="line-height:1.8">
+  <p style="margin-bottom:12px"><strong>Step 1 — State Vector:</strong> We compute today's SPY state as a 4-dimensional vector: 5-day return, 20-day return, 20-day realized volatility, and 60-day drawdown.</p>
+  <p style="margin-bottom:12px"><strong>Step 2 — Analog Matching:</strong> We normalize each dimension by its historical mean and standard deviation, then find the 30 historical trading days with the smallest Euclidean distance to today's state. Recent days (last 30) are excluded to avoid look-ahead.</p>
+  <p style="margin-bottom:12px"><strong>Step 3 — Conditional Returns:</strong> For each stock, we measure the forward return (5d, 20d, 60d, 120d) following each analog date. The result is a distribution — not a point estimate.</p>
+  <p style="margin-bottom:12px"><strong>Step 4 — Edge Calculation:</strong> <code>edge = conditional median return − unconditional baseline return</code>. Only signals with edge &gt; 5% and at least 5 analog observations are included.</p>
+  <p style="margin-bottom:12px"><strong>Volatility Filter:</strong> Stocks with 20-day realized vol above 5%/day are excluded (too unstable for reliable analog matching).</p>
+  <p><strong>What This Is Not:</strong> This is not a forecast. It is a tendencies report — a summary of what historically happened in similar conditions. Markets are non-stationary; past analogs do not guarantee future outcomes.</p>
+  </div>
+  </div>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,narrative:renderNarrative,analog:renderAnalog,methodology:renderMethodology};
+
+function route(){
+  const hash=(location.hash||"#home").replace("#","");
+  const view=VIEWS.includes(hash)?hash:"home";
+  VIEWS.forEach(v=>{
+    document.getElementById("v-"+v).classList.toggle("active",v===view);
+    const a=document.getElementById("nav-"+v);
+    if(a)a.classList.toggle("active",v===view);
+  });
+  const el=document.getElementById("v-"+view);
+  if(!el.dataset.rendered){el.innerHTML=renderers[view]();el.dataset.rendered="1";}
+}
+
+window.addEventListener("hashchange",route);
+route();
+})();
+</script>
+</body>
+</html>
