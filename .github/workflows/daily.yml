@@ -1,0 +1,51 @@
+name: Daily evolve
+
+on:
+  schedule:
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: daily-evolve
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scan
+        run: python scan/ci_scan.py
+        continue-on-error: true
+
+      - name: Run build
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PYTHONUTF8: "1"
+        run: python build/build.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "regime-desk-bot"
+          git config user.email "bot@regime-desk"
+          git add docs/index.html changelog.json history/ data/ || true
+          git diff --cached --quiet && echo "No changes to commit" || \
+            git commit -m "chore: daily build $(date -u +%Y-%m-%d)" && git push
