@@ -2160,105 +2160,40 @@ function renderMeeting(){
   const cPct=(composite*100).toFixed(0);
   const cLevel=composite>=0.65?'Elevated':composite>=0.45?'Moderate':'Low';
   const cCol=composite>=0.65?'#f85149':composite>=0.45?'#e3b341':'#3fb950';
-
-  // Static plain-English rationale per sector name
-  const WHY={
-    'Technology':'Analog conditions historically favor tech: earnings momentum and AI capex cycle intact.',
-    'Semiconductors':'Semiconductor demand driven by AI infrastructure build-out remains a tailwind in this regime.',
-    'Healthcare':'Defensive growth with pricing power; outperforms in low-vol, late-cycle conditions.',
-    'Financials':'Curve shape and credit quality support net interest margin expansion.',
-    'Consumer Discretionary':'Resilient consumer spending backed by strong employment and wage growth.',
-    'Consumer Staples':'Defensive ballast; analog days show relative strength when breadth narrows.',
-    'Energy':'Supply discipline and global demand floor keep crude supported.',
-    'Industrials':'Reshoring trends and infrastructure spending sustain order books.',
-    'Communication Services':'Ad market recovery and streaming consolidation lift margins.',
-    'Utilities':'Power demand from data centers creates a secular demand floor.',
-    'Materials':'Cyclical demand recovery tied to global manufacturing PMI.',
-    'Real Estate':'Duration-sensitive; benefits from rate stabilization in this regime.',
-    'Biotech':'High-idiosyncratic-risk sector; analog edge reflects speculative positioning.',
-    'Crypto':'Risk-on liquidity proxy; high beta to the current momentum regime.',
-    'Energy Transition':'Policy-dependent; sensitive to rate path and legislative calendar.',
-    'Unknown':'Aggregated thematic exposure — review underlying constituents.'
-  };
-
-  // Build "what to watch" dynamically from live SNAPSHOT data
-  const watch=[];
-  if((sp.reversal_risk||0)>0.5) watch.push(`Reversal risk is elevated at ${((sp.reversal_risk||0)*100).toFixed(0)}% — monitor for regime flip within 20 days.`);
-  else if((sp.reversal_risk||0)>0.3) watch.push(`Reversal risk is moderate (${((sp.reversal_risk||0)*100).toFixed(0)}%) — trend intact but watch for deterioration.`);
+  const WHY={'Technology':'Analog conditions historically favor tech: earnings momentum and AI capex cycle intact.','Semiconductors':'AI infrastructure demand remains a tailwind in this regime.','Healthcare':'Defensive growth with pricing power; outperforms in low-vol conditions.','Financials':'Curve shape and credit quality support net interest margin expansion.','Consumer Discretionary':'Resilient consumer spending backed by strong employment.','Consumer Staples':'Defensive ballast; shows relative strength when breadth narrows.','Energy':'Supply discipline and global demand floor keep crude supported.','Industrials':'Reshoring trends and infrastructure spending sustain order books.','Communication Services':'Ad market recovery and streaming consolidation lift margins.','Utilities':'Power demand from data centers creates a secular demand floor.','Materials':'Cyclical demand recovery tied to global manufacturing PMI.','Real Estate':'Duration-sensitive; benefits from rate stabilization.','Biotech':'High-idiosyncratic-risk sector; edge reflects speculative positioning.','Crypto':'Risk-on liquidity proxy; high beta to the current momentum regime.','Unknown':'Aggregated thematic exposure — review underlying constituents.'};
   const elevRisks=S.risks.filter(r=>(r.score||0)>=0.65);
-  elevRisks.slice(0,3).forEach(r=>watch.push(`${r.name} risk axis is elevated (${((r.score||0)*100).toFixed(0)}/100) — flag for client discussion.`));
-  if((sp.regime_streak||0)>20) watch.push(`Regime has persisted ${sp.regime_streak} consecutive days — extended streaks increase mean-reversion probability.`);
-  if((sp.breadth||1)<0.5) watch.push(`Sector breadth is narrow (${((sp.breadth||0)*100).toFixed(0)}% bullish) — leadership concentrated, fragility risk.`);
-  const a=S.analog||{};
-  if((a.spy_p10||0)<-0.05) watch.push(`Analog downside scenario (p10): SPY ${pct(a.spy_p10)} over 20 days — disclose adverse case to client.`);
-  if(watch.length===0) watch.push(`No elevated signals. Current regime (${sp.regime||'—'}) shows broadly constructive analog conditions.`);
-
+  const watch=[];
+  if((sp.reversal_risk||0)>0.5) watch.push('Reversal risk elevated at '+((sp.reversal_risk||0)*100).toFixed(0)+'% — monitor for regime flip within 20 days.');
+  else if((sp.reversal_risk||0)>0.3) watch.push('Reversal risk moderate ('+((sp.reversal_risk||0)*100).toFixed(0)+'%) — trend intact but watch for deterioration.');
+  elevRisks.slice(0,3).forEach(r=>watch.push(r.name+' risk axis elevated ('+((r.score||0)*100).toFixed(0)+'/100) — flag for client discussion.'));
+  if((sp.regime_streak||0)>20) watch.push('Regime has persisted '+sp.regime_streak+' consecutive days — extended streaks increase mean-reversion risk.');
+  if((sp.breadth||1)<0.5) watch.push('Sector breadth narrow ('+((sp.breadth||0)*100).toFixed(0)+'% bullish) — leadership concentrated, fragility risk.');
+  const an=S.analog||{};
+  if((an.spy_p10||0)<-0.05) watch.push('Analog downside scenario (p10): SPY '+pct(an.spy_p10)+' over 20 days — disclose adverse case to client.');
+  if(!watch.length) watch.push('No elevated signals. Current regime ('+( sp.regime||'—')+') shows broadly constructive analog conditions.');
   const firm=(S.config&&S.config.firm_name)||'';
   const disclaimer=(S.config&&S.config.disclaimer)||'For informational purposes only. Not investment advice. Analog matching identifies statistical tendencies — past patterns do not guarantee future results.';
-
-  return `
-  <div class="card" style="border-left:4px solid ${cCol}">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px">
-      <div>
-        <div style="font-size:11px;color:#6e7681;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Client Meeting Brief</div>
-        <div style="font-size:22px;font-weight:700;color:#f0f6fc;line-height:1.1">${sp.regime||'—'}${sp.regime_streak?` <span style="font-size:13px;color:#8b949e;font-weight:400">(${sp.regime_streak}-day streak)</span>`:''}</div>
-        ${firm?`<div style="color:#8b949e;font-size:12px;margin-top:2px">${firm}</div>`:''}
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <span style="color:#6e7681;font-size:12px">${S.generated}</span>
-        <button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">🖨 Print</button>
-      </div>
-    </div>
-    <div style="margin-top:14px;font-size:14px;color:#c9d1d9;line-height:1.7">${n.plain_english||'—'}</div>
-  </div>
-
-  <div class="grid2">
-    <div class="card">
-      <h2>Key Metrics</h2>
-      <table>
-        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">SPY 5-day</td><td style="text-align:right;font-weight:600;color:${sp.ret_5d>=0?'#3fb950':'#f85149'}">${pct(sp.ret_5d)}</td></tr>
-        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">SPY 20-day</td><td style="text-align:right;font-weight:600;color:${sp.ret_20d>=0?'#3fb950':'#f85149'}">${pct(sp.ret_20d)}</td></tr>
-        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">Realized volatility</td><td style="text-align:right;font-weight:600">${((sp.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}% ann.</td></tr>
-        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">Sector breadth</td><td style="text-align:right;font-weight:600">${((sp.breadth||0)*100).toFixed(0)}% bullish</td></tr>
-        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">60-day drawdown</td><td style="text-align:right;font-weight:600;color:${(sp.drawdown_60d||0)<-0.05?'#f85149':'#c9d1d9'}">${pct(sp.drawdown_60d)}</td></tr>
-      </table>
-    </div>
-    <div class="card" style="border-color:${cCol}">
-      <h2>Composite Risk</h2>
-      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
-        <div style="font-size:40px;font-weight:700;color:${cCol};line-height:1">${cLevel}</div>
-        <div style="color:#8b949e;font-size:13px">${cPct} / 100</div>
-      </div>
-      <div style="font-size:12px;color:#8b949e">Across ${S.risks.length} risk axes. Reversal risk: ${((sp.reversal_risk||0)*100).toFixed(0)}% within 20d.</div>
-      ${elevRisks.length?`<div style="margin-top:10px;font-size:12px;color:#e3b341">Elevated: ${elevRisks.map(r=>r.name).join(', ')}</div>`:''}
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Top 3 Sectors — Plain-English Rationale</h2>
-    <table>
-      <tr><th>#</th><th>Sector</th><th>Signal</th><th>Edge (20d)</th><th>Rationale</th></tr>
-      ${top3.map((s,i)=>`<tr>
-        <td style="color:#6e7681">${i+1}</td>
-        <td><strong>${s.name}</strong></td>
-        <td>${pill(s.signal)}</td>
-        <td style="color:${s.edge>=0?'#3fb950':'#f85149'};font-weight:600">${pct(s.edge)}</td>
-        <td style="color:#8b949e;font-size:12px">${WHY[s.name]||'Conditional edge in current analog regime.'}</td>
-      </tr>`).join('')}
-    </table>
-  </div>
-
-  <div class="card">
-    <h2>What to Watch</h2>
-    <ul style="list-style:none;padding:0;margin:0">
-      ${watch.map(w=>`<li style="padding:10px 0;border-bottom:1px solid #21262d;display:flex;gap:10px;align-items:flex-start"><span style="color:#e3b341;font-size:14px;flex-shrink:0">▸</span><span style="font-size:13px;color:#c9d1d9">${w}</span></li>`).join('')}
-    </ul>
-  </div>
-
-  <div class="card" style="border-color:#30363d">
-    <div style="color:#6e7681;font-size:11px;line-height:1.8">${disclaimer}</div>
-  </div>
-  <footer>Designed for one-page print. Tendencies only — not investment advice. Data: ${S.generated}.</footer>`;
+  // Pre-compute all HTML fragments to avoid nested template literals
+  const streakHtml=sp.regime_streak?'&nbsp;<span style="font-size:13px;color:#8b949e;font-weight:400">('+sp.regime_streak+'-day streak)</span>':'';
+  const firmHtml=firm?'<div style="color:#8b949e;font-size:12px;margin-top:2px">'+firm+'</div>':'';
+  const elevHtml=elevRisks.length?'<div style="margin-top:10px;font-size:12px;color:#e3b341">Elevated: '+elevRisks.map(r=>r.name).join(', ')+'</div>':'';
+  const ret5Col=sp.ret_5d>=0?'#3fb950':'#f85149';
+  const ret20Col=sp.ret_20d>=0?'#3fb950':'#f85149';
+  const dd60Col=(sp.drawdown_60d||0)<-0.05?'#f85149':'#c9d1d9';
+  const sectorRows=top3.map(function(s,i){const ec=s.edge>=0?'#3fb950':'#f85149';return '<tr><td style="color:#6e7681">'+( i+1)+'</td><td><strong>'+s.name+'</strong></td><td>'+pill(s.signal)+'</td><td style="color:'+ec+';font-weight:600">'+pct(s.edge)+'</td><td style="color:#8b949e;font-size:12px">'+(WHY[s.name]||'Conditional edge in current analog regime.')+'</td></tr>';}).join('');
+  const watchRows=watch.map(function(w){return '<li style="padding:10px 0;border-bottom:1px solid #21262d;display:flex;gap:10px;align-items:flex-start"><span style="color:#e3b341;font-size:14px;flex-shrink:0">&#9656;</span><span style="font-size:13px;color:#c9d1d9">'+w+'</span></li>';}).join('');
+  return '<div class="card" style="border-left:4px solid '+cCol+'"><div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px"><div><div style="font-size:11px;color:#6e7681;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Client Meeting Brief</div><div style="font-size:22px;font-weight:700;color:#f0f6fc;line-height:1.1">'+(sp.regime||'—')+streakHtml+'</div>'+firmHtml+'</div><div style="display:flex;gap:8px;align-items:center"><span style="color:#6e7681;font-size:12px">'+S.generated+'</span><button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">Print</button></div></div><div style="margin-top:14px;font-size:14px;color:#c9d1d9;line-height:1.7">'+(n.plain_english||'—')+'</div></div>'
+    +'<div class="grid2"><div class="card"><h2>Key Metrics</h2><table>'
+    +'<tr><td style="color:#8b949e;padding:6px 0;font-size:12px">SPY 5-day</td><td style="text-align:right;font-weight:600;color:'+ret5Col+'">'+pct(sp.ret_5d)+'</td></tr>'
+    +'<tr><td style="color:#8b949e;padding:6px 0;font-size:12px">SPY 20-day</td><td style="text-align:right;font-weight:600;color:'+ret20Col+'">'+pct(sp.ret_20d)+'</td></tr>'
+    +'<tr><td style="color:#8b949e;padding:6px 0;font-size:12px">Realized vol</td><td style="text-align:right;font-weight:600">'+((sp.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)+'% ann.</td></tr>'
+    +'<tr><td style="color:#8b949e;padding:6px 0;font-size:12px">Sector breadth</td><td style="text-align:right;font-weight:600">'+((sp.breadth||0)*100).toFixed(0)+'% bullish</td></tr>'
+    +'<tr><td style="color:#8b949e;padding:6px 0;font-size:12px">60-day drawdown</td><td style="text-align:right;font-weight:600;color:'+dd60Col+'">'+pct(sp.drawdown_60d)+'</td></tr>'
+    +'</table></div><div class="card" style="border-color:'+cCol+'"><h2>Composite Risk</h2><div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px"><div style="font-size:40px;font-weight:700;color:'+cCol+';line-height:1">'+cLevel+'</div><div style="color:#8b949e;font-size:13px">'+cPct+' / 100</div></div><div style="font-size:12px;color:#8b949e">Across '+S.risks.length+' risk axes. Reversal risk: '+((sp.reversal_risk||0)*100).toFixed(0)+'% within 20d.</div>'+elevHtml+'</div></div>'
+    +'<div class="card"><h2>Top 3 Sectors</h2><table><tr><th>#</th><th>Sector</th><th>Signal</th><th>Edge</th><th>Rationale</th></tr>'+sectorRows+'</table></div>'
+    +'<div class="card"><h2>What to Watch</h2><ul style="list-style:none;padding:0;margin:0">'+watchRows+'</ul></div>'
+    +'<div class="card" style="border-color:#30363d"><div style="color:#6e7681;font-size:11px;line-height:1.8">'+disclaimer+'</div></div>'
+    +'<footer>Designed for one-page print. Tendencies only — not investment advice. Data: '+S.generated+'.</footer>';
 }
 
 // Theme persistence
@@ -2754,14 +2689,41 @@ function renderAdvisor(){
   const disclaimer=(S.config&&S.config.disclaimer)||
     'This report is for informational purposes only and does not constitute investment advice or a recommendation to buy or sell any security. Analog matching identifies historically similar market conditions and does not predict or guarantee future results. All signals represent statistical tendencies derived from historical data. Past performance is not indicative of future results. Recipients should perform their own due diligence and consult with a qualified financial professional before making any investment decisions.';
   const firm=(S.config&&S.config.firm_name)||'';
+  // Pre-compute all fragments that would require nested template literals
+  const firmHtml=firm?'<div style="color:#8b949e;font-size:12px">'+firm+'</div>':'';
+  const streakHtml2=S.spy.regime_streak?'<div style="color:#8b949e;font-size:12px;margin:4px 0 12px">'+S.spy.regime_streak+'-day streak</div>':'<div style="margin-bottom:12px"></div>';
+  const sc=S.risks.length?S.risks.reduce(function(a,b){return a+(b.score||0);},0)/S.risks.length:0;
+  const scCol=sc>=0.65?'#f85149':sc>=0.45?'#e3b341':'#3fb950';
+  const compRiskHtml='<span style="color:'+scCol+';font-weight:600">'+(sc*100).toFixed(0)+'/100</span>';
+  const analogDates=((S.analog&&S.analog.top_dates)||[]).slice(0,5);
+  const analogDatesHtml=analogDates.map(function(d,i){return '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #21262d"><span style="color:#6e7681;font-size:11px;width:16px">'+(i+1)+'</span><span style="font-size:12px">'+d+'</span></div>';}).join('');
+  const sigTitle=isFiltered?' &mdash; Watchlist ('+wlTickers.length+' tickers)':' &mdash; Top '+stocks.length+' Signals';
+  const wlClearBtn=isFiltered?'<button onclick="window._rdWl(\'\')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>':'';
+  const wlNoMatch=isFiltered&&stocks.length===0?'<div style="color:#e3b341;margin-bottom:8px;font-size:12px">No signals matched. Showing all.</div>':'';
+  const stockRows=stocks.map(function(st){
+    const factor=FACTOR[st.sector]||'—', fc=FCOL[factor]||'#6e7681';
+    const nameHtml=st.name&&st.name!==st.ticker?'<div style="color:#6e7681;font-size:10px">'+st.name+'</div>':'';
+    const edgeCol=st.edge>=0?'#3fb950':'#f85149';
+    return '<tr><td><strong>'+st.ticker+'</strong>'+nameHtml+'</td>'
+      +'<td style="font-size:12px">'+st.sector+'</td>'
+      +'<td><span style="font-size:10px;color:'+fc+';background:'+fc+'18;padding:2px 6px;border-radius:10px;white-space:nowrap">'+factor+'</span></td>'
+      +'<td style="color:'+edgeCol+';font-weight:600">'+pct(st.edge)+'</td>'
+      +'<td style="color:#6e7681;font-size:11px">'+annEd(st.edge,st.horizon||'20d')+'</td>'
+      +'<td>'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
+      +'<td>'+((st.hit_rate||0)*100).toFixed(0)+'%</td>'
+      +'<td>'+confBadge(st.hit_rate,st.n_obs)+'</td>'
+      +'<td>'+st.n_obs+'</td></tr>';
+  }).join('');
+  const ret5Col=S.spy.ret_5d>=0?'#3fb950':'#f85149';
+  const ret20Col=S.spy.ret_20d>=0?'#3fb950':'#f85149';
 
   return `
   <div class="card" style="margin-bottom:12px">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <div><div style="font-size:16px;font-weight:700;color:#f0f6fc">Advisor View</div>${firm?`<div style="color:#8b949e;font-size:12px">${firm}</div>`:''}</div>
+      <div><div style="font-size:16px;font-weight:700;color:#f0f6fc">Advisor View</div>${firmHtml}</div>
       <span style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
-        <a href="${csvUri}" download="signals_${S.generated}.csv" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;font-size:12px;text-decoration:none">⬇ Export CSV</a>
-        <button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">🖨 Print</button>
+        <a href="${csvUri}" download="signals_${S.generated}.csv" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;font-size:12px;text-decoration:none">&#x2B07; Export CSV</a>
+        <button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">Print</button>
       </span>
     </div>
   </div>
@@ -2770,14 +2732,14 @@ function renderAdvisor(){
     <div class="card">
       <h2>Regime Summary — ${S.generated}</h2>
       <div style="font-size:30px;font-weight:700;color:#f0f6fc;line-height:1.1">${S.spy.regime||'—'}</div>
-      ${S.spy.regime_streak?`<div style="color:#8b949e;font-size:12px;margin:4px 0 12px">${S.spy.regime_streak}-day streak</div>`:'<div style="margin-bottom:12px"></div>'}
+      ${streakHtml2}
       <table style="width:100%">
-        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">SPY 5d</td><td style="text-align:right;font-weight:600;color:${S.spy.ret_5d>=0?'#3fb950':'#f85149'}">${pct(S.spy.ret_5d)}</td></tr>
-        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">SPY 20d</td><td style="text-align:right;font-weight:600;color:${S.spy.ret_20d>=0?'#3fb950':'#f85149'}">${pct(S.spy.ret_20d)}</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">SPY 5d</td><td style="text-align:right;font-weight:600;color:${ret5Col}">${pct(S.spy.ret_5d)}</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">SPY 20d</td><td style="text-align:right;font-weight:600;color:${ret20Col}">${pct(S.spy.ret_20d)}</td></tr>
         <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Realized Vol</td><td style="text-align:right;font-weight:600">${((S.spy.vol_20d||0)*100).toFixed(2)}%/day (${((S.spy.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}% ann.)</td></tr>
         <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Sector Breadth</td><td style="text-align:right;font-weight:600">${((S.spy.breadth||0)*100).toFixed(0)}% bullish</td></tr>
         <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Reversal Risk</td><td style="text-align:right">${pill(S.spy.reversal_risk>0.5?'elevated':S.spy.reversal_risk>0.3?'moderate':'low',((S.spy.reversal_risk||0)*100).toFixed(0)+'%')}</td></tr>
-        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Composite Risk</td><td style="text-align:right">${(()=>{const sc=S.risks.length?S.risks.reduce((a,b)=>a+(b.score||0),0)/S.risks.length:0;const col=sc>=0.65?'#f85149':sc>=0.45?'#e3b341':'#3fb950';return`<span style="color:${col};font-weight:600">${(sc*100).toFixed(0)}/100</span>`;})()</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Composite Risk</td><td style="text-align:right">${compRiskHtml}</td></tr>
       </table>
     </div>
     <div class="card">
@@ -2790,14 +2752,14 @@ function renderAdvisor(){
 
   <div class="card">
     <h2>Sector Edge Chart</h2>
-    <p style="margin-bottom:12px;color:#8b949e;font-size:12px">Conditional edge by sector in current analog regime. Factor tilt shown on left. 🏆 = top 3 signals, ⚠️ = bottom 3.</p>
+    <p style="margin-bottom:12px;color:#8b949e;font-size:12px">Conditional edge by sector in current analog regime. Factor tilt shown on left.</p>
     ${svgSectorBars(S.sectors)}
   </div>
 
   <div class="grid2">
     <div class="card">
       <h2>Risk Axes</h2>
-      <p style="margin-bottom:10px;color:#8b949e;font-size:12px">Score 0–100 across 7 axes. Red ≥ 65% = elevated.</p>
+      <p style="margin-bottom:10px;color:#8b949e;font-size:12px">Score 0-100 across 7 axes. Red &ge; 65% = elevated.</p>
       ${svgRiskBars(S.risks)}
     </div>
     <div class="card">
@@ -2806,41 +2768,28 @@ function renderAdvisor(){
       ${distBar((S.analog&&S.analog.spy_p10)||0,(S.analog&&S.analog.spy_p25)||0,(S.analog&&S.analog.spy_p50)||0,(S.analog&&S.analog.spy_p75)||0,(S.analog&&S.analog.spy_p90)||0)}
       <div style="margin-top:20px">
         <div style="color:#8b949e;font-size:11px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Top Analog Dates</div>
-        ${((S.analog&&S.analog.top_dates)||[]).slice(0,5).map((d,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #21262d"><span style="color:#6e7681;font-size:11px;width:16px">${i+1}</span><span style="font-size:12px">${d}</span></div>`).join('')}
+        ${analogDatesHtml}
       </div>
     </div>
   </div>
 
   <div class="card">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
-      <h2 style="border:none;padding:0;margin:0">Signal Table${isFiltered?` — Watchlist (${wlTickers.length} tickers)`:` — Top ${stocks.length} Signals`}</h2>
+      <h2 style="border:none;padding:0;margin:0">Signal Table${sigTitle}</h2>
       <div style="display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap">
         <span style="color:#8b949e;font-size:12px">Filter watchlist:</span>
         <input id="wl-input" type="text" value="${_watchlist}" placeholder="AAPL,MSFT,NVDA..."
           style="background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:5px 10px;border-radius:6px;font-size:12px;width:200px"
           oninput="window._rdWl(this.value)"/>
-        ${isFiltered?`<button onclick="window._rdWl('')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:''}
+        ${wlClearBtn}
       </div>
     </div>
-    ${isFiltered&&stocks.length===0?`<div style="color:#e3b341;margin-bottom:8px;font-size:12px">No signals matched. Showing all.</div>`:''}
+    ${wlNoMatch}
     <div style="overflow-x:auto">
     <table style="min-width:700px"><tr>
-      <th>Ticker</th><th>Sector</th><th>Factor</th><th>Edge</th><th>Ann. Edge</th><th>Distribution (p10 → p90)</th><th>Hit Rate</th><th>Conf.</th><th>n</th>
+      <th>Ticker</th><th>Sector</th><th>Factor</th><th>Edge</th><th>Ann. Edge</th><th>Distribution (p10 &rarr; p90)</th><th>Hit Rate</th><th>Conf.</th><th>n</th>
     </tr>
-    ${stocks.map(st=>{
-      const factor=FACTOR[st.sector]||'—', fc=FCOL[factor]||'#6e7681';
-      return`<tr>
-        <td><strong>${st.ticker}</strong>${st.name&&st.name!==st.ticker?`<div style="color:#6e7681;font-size:10px">${st.name}</div>`:''}</td>
-        <td style="font-size:12px">${st.sector}</td>
-        <td><span style="font-size:10px;color:${fc};background:${fc}18;padding:2px 6px;border-radius:10px;white-space:nowrap">${factor}</span></td>
-        <td style="color:${st.edge>=0?'#3fb950':'#f85149'};font-weight:600">${pct(st.edge)}</td>
-        <td style="color:#6e7681;font-size:11px">${annEd(st.edge,st.horizon||'20d')}</td>
-        <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
-        <td>${((st.hit_rate||0)*100).toFixed(0)}%</td>
-        <td>${confBadge(st.hit_rate,st.n_obs)}</td>
-        <td>${st.n_obs}</td>
-      </tr>`;
-    }).join('')}
+    ${stockRows}
     </table></div>
   </div>
 
