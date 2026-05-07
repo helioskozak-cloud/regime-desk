@@ -101,6 +101,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
   <div class="view" id="v-narrative"></div>
   <div class="view" id="v-analog"></div>
   <div class="view" id="v-methodology"></div>
+  <div class="view" id="v-advisor"></div>
 </div>
 
 <script>
@@ -2139,8 +2140,8 @@ window.SNAPSHOT = {
 <script>
 (function(){
 const S = window.SNAPSHOT;
-const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","narrative","analog","methodology"];
-const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Narrative","Analog","Methodology"];
+const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","narrative","analog","methodology","advisor"];
+const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Narrative","Analog","Methodology","Advisor"];
 
 // Theme persistence
 const _savedTheme = localStorage.getItem('rd-theme')||'dark';
@@ -2457,7 +2458,217 @@ function renderMethodology(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,narrative:renderNarrative,analog:renderAnalog,methodology:renderMethodology};
+// ── Chart primitives ─────────────────────────────────────────────────────────
+
+function svgLineChart(vals, w, h, label) {
+  if(!vals||vals.length<2) return `<div style="color:#6e7681;text-align:center;padding:20px;font-size:12px">No history data</div>`;
+  const mn=Math.min(...vals,0), mx=Math.max(...vals,0.001), range=mx-mn||0.01;
+  const pl=44,pr=54,pt=12,pb=20, pw=w-pl-pr, ph=h-pt-pb;
+  const cx=i=>pl+i/(vals.length-1)*pw, cy=v=>pt+ph-(v-mn)/range*ph;
+  const zY=cy(0);
+  const pts=vals.map((v,i)=>`${cx(i).toFixed(1)},${cy(v).toFixed(1)}`).join(' ');
+  const last=vals[vals.length-1], lc=last>=0?'#3fb950':'#f85149';
+  const area=`${pl},${zY.toFixed(1)} ${pts} ${(pl+pw).toFixed(1)},${zY.toFixed(1)}`;
+  const xLabels=[0,Math.floor((vals.length-1)/2),vals.length-1]
+    .map((i,j)=>`<text x="${cx(i).toFixed(1)}" y="${pt+ph+14}" text-anchor="middle" font-size="9" fill="#6e7681">${['20d ago','10d ago','Today'][j]}</text>`).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:${h}px">
+    <text x="${pl+pw/2}" y="9" text-anchor="middle" font-size="9" fill="#8b949e">${label}</text>
+    <line x1="${pl}" y1="${zY.toFixed(1)}" x2="${pl+pw}" y2="${zY.toFixed(1)}" stroke="#30363d" stroke-dasharray="3,2"/>
+    <polygon points="${area}" fill="${lc}" opacity="0.1"/>
+    <polyline points="${pts}" fill="none" stroke="${lc}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${cx(vals.length-1).toFixed(1)}" cy="${cy(last).toFixed(1)}" r="4" fill="${lc}"/>
+    <text x="${pl-4}" y="${cy(mx).toFixed(1)}" text-anchor="end" dominant-baseline="middle" font-size="9" fill="#6e7681">${(mx*100).toFixed(1)}%</text>
+    <text x="${pl-4}" y="${cy(mn).toFixed(1)}" text-anchor="end" dominant-baseline="middle" font-size="9" fill="#6e7681">${(mn*100).toFixed(1)}%</text>
+    <text x="${(pl+pw+6).toFixed(1)}" y="${cy(last).toFixed(1)}" dominant-baseline="middle" font-size="11" font-weight="600" fill="${lc}">${(last*100>=0?'+':'')+(last*100).toFixed(1)}%</text>
+    ${xLabels}
+  </svg>`;
+}
+
+function svgSectorBars(sectors) {
+  const FACTOR={'Technology':'Growth','Semiconductors':'Growth','Healthcare':'Quality',
+    'Financials':'Value','Consumer Discretionary':'Cyclical','Communication Services':'Growth',
+    'Industrials':'Cyclical','Consumer Staples':'Defensive','Energy':'Value',
+    'Utilities':'Defensive','Real Estate':'Income','Materials':'Cyclical',
+    'Biotech':'Speculative','Defense':'Defensive','Crypto':'Speculative'};
+  const FCOL={'Growth':'#58a6ff','Value':'#e3b341','Quality':'#3fb950','Cyclical':'#f0883e',
+    'Defensive':'#8b949e','Income':'#a371f7','Speculative':'#f85149','—':'#6e7681'};
+  const n=sectors.length, maxAbs=Math.max(...sectors.map(s=>Math.abs(s.edge)),0.05);
+  const barH=24, pl=160, pr=64, pt=20, pb=4, w=640, pw=w-pl-pr, h=n*barH+pt+pb;
+  const midX=pl+pw/2;
+  const header=`<text x="${midX}" y="12" text-anchor="middle" font-size="9" fill="#6e7681">← Underperform  |  Outperform →</text>
+    <line x1="${midX}" y1="${pt}" x2="${midX}" y2="${h-pb}" stroke="#30363d"/>`;
+  const rows=sectors.map((s,i)=>{
+    const y=pt+i*barH, bw=(Math.abs(s.edge)/maxAbs)*(pw/2);
+    const bx=s.edge>=0?midX:midX-bw, col=s.edge>=0?'#238636':'#b91c1c';
+    const badge=i<3?'🏆':i>=n-3?'⚠️':'';
+    const factor=FACTOR[s.name]||'—', fc=FCOL[factor]||'#6e7681';
+    const valX=(s.edge>=0?midX+bw+4:midX-bw-4).toFixed(1);
+    const valAnchor=s.edge>=0?'start':'end';
+    return `${badge?`<text x="${pl-152}" y="${y+barH/2}" dominant-baseline="middle" font-size="12">${badge}</text>`:''}
+    <rect x="${(pl-144)}" y="${y+5}" width="52" height="${barH-10}" fill="${fc}18" rx="3" stroke="${fc}" stroke-width="0.5"/>
+    <text x="${pl-118}" y="${y+barH/2}" text-anchor="middle" dominant-baseline="middle" font-size="9" fill="${fc}">${factor}</text>
+    <text x="${pl-8}" y="${y+barH/2}" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#c9d1d9">${s.name}</text>
+    <rect x="${bx.toFixed(1)}" y="${y+4}" width="${Math.max(bw,1).toFixed(1)}" height="${barH-8}" fill="${col}" rx="3" opacity="0.85"/>
+    <text x="${valX}" y="${y+barH/2}" text-anchor="${valAnchor}" dominant-baseline="middle" font-size="10" fill="${s.edge>=0?'#3fb950':'#f85149'}">${(s.edge*100>=0?'+':'')+(s.edge*100).toFixed(1)}%</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:${w}px;height:${h}px">${header}${rows}</svg>`;
+}
+
+function svgRiskBars(risks) {
+  const barH=24, pl=136, pr=52, pt=4, pb=4, w=520, pw=w-pl-pr, h=risks.length*barH+pt+pb;
+  const rows=risks.map((r,i)=>{
+    const y=pt+i*barH, sc=r.score||0, bw=sc*pw;
+    const col=sc>=0.65?'#b91c1c':sc>=0.45?'#d29922':'#238636';
+    return `<rect x="${pl}" y="${y+4}" width="${pw}" height="${barH-8}" fill="#21262d" rx="3"/>
+    <rect x="${pl}" y="${y+4}" width="${bw.toFixed(1)}" height="${barH-8}" fill="${col}" rx="3" opacity="0.8"/>
+    <text x="${pl-4}" y="${y+barH/2}" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#c9d1d9">${r.name}</text>
+    <text x="${(pl+Math.max(bw,1)+4).toFixed(1)}" y="${y+barH/2}" dominant-baseline="middle" font-size="10" fill="${col}">${(sc*100).toFixed(0)}%</text>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:${w}px;height:${h}px">${rows}</svg>`;
+}
+
+// ── ADVISOR view ──────────────────────────────────────────────────────────────
+let _watchlist=localStorage.getItem('rd-watchlist')||'';
+
+function renderAdvisor(){
+  const FACTOR={'Technology':'Growth','Semiconductors':'Growth','Healthcare':'Quality',
+    'Financials':'Value','Consumer Discretionary':'Cyclical','Communication Services':'Growth',
+    'Industrials':'Cyclical','Consumer Staples':'Defensive','Energy':'Value',
+    'Utilities':'Defensive','Real Estate':'Income','Materials':'Cyclical',
+    'Biotech':'Speculative','Defense':'Defensive','Crypto':'Speculative'};
+  const FCOL={'Growth':'#58a6ff','Value':'#e3b341','Quality':'#3fb950','Cyclical':'#f0883e',
+    'Defensive':'#8b949e','Income':'#a371f7','Speculative':'#f85149','—':'#6e7681'};
+
+  function confBadge(hr,n){
+    const s=(hr||0.5)*Math.log(Math.max(n||1,1));
+    if(s>1.5) return `<span class="pill low">High</span>`;
+    if(s>0.8) return `<span class="pill mod">Med</span>`;
+    return `<span class="pill" style="background:#21262d;color:#6e7681">Low</span>`;
+  }
+  function annEd(edge,horizon){
+    const d=parseInt((horizon||'20d').replace('d',''))||20;
+    return `${(edge/d*252*100>=0?'+':'')+(edge/d*252*100).toFixed(0)}%/yr`;
+  }
+
+  const hist=S.spy.history||[];
+  const ret20=hist.map(d=>d.ret_20d||0);
+  const volAnn=hist.map(d=>(d.vol_20d||0)*Math.sqrt(252));
+
+  const wlTickers=_watchlist.split(',').map(t=>t.trim().toUpperCase()).filter(Boolean);
+  let stocks=wlTickers.length?S.stocks.filter(st=>wlTickers.includes(st.ticker)):[];
+  const isFiltered=stocks.length>0;
+  if(!isFiltered) stocks=S.stocks.slice(0,20);
+
+  const csvData='ticker,name,sector,edge,ann_edge,p10,p25,p50,p75,p90,hit_rate,n_obs\n'
+    +stocks.map(st=>[st.ticker,`"${st.name||''}"`,st.sector,st.edge,annEd(st.edge,st.horizon||'20d'),st.p10,st.p25,st.p50,st.p75,st.p90,st.hit_rate,st.n_obs].join(',')).join('\n');
+  const csvUri='data:text/csv;charset=utf-8,'+encodeURIComponent(csvData);
+
+  const disclaimer=(S.config&&S.config.disclaimer)||
+    'This report is for informational purposes only and does not constitute investment advice or a recommendation to buy or sell any security. Analog matching identifies historically similar market conditions and does not predict or guarantee future results. All signals represent statistical tendencies derived from historical data. Past performance is not indicative of future results. Recipients should perform their own due diligence and consult with a qualified financial professional before making any investment decisions.';
+  const firm=(S.config&&S.config.firm_name)||'';
+
+  return `
+  <div class="card" style="margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <div><div style="font-size:16px;font-weight:700;color:#f0f6fc">Advisor View</div>${firm?`<div style="color:#8b949e;font-size:12px">${firm}</div>`:''}</div>
+      <span style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+        <a href="${csvUri}" download="signals_${S.generated}.csv" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;font-size:12px;text-decoration:none">⬇ Export CSV</a>
+        <button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">🖨 Print</button>
+      </span>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Regime Summary — ${S.generated}</h2>
+      <div style="font-size:30px;font-weight:700;color:#f0f6fc;line-height:1.1">${S.spy.regime||'—'}</div>
+      ${S.spy.regime_streak?`<div style="color:#8b949e;font-size:12px;margin:4px 0 12px">${S.spy.regime_streak}-day streak</div>`:'<div style="margin-bottom:12px"></div>'}
+      <table style="width:100%">
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">SPY 5d</td><td style="text-align:right;font-weight:600;color:${S.spy.ret_5d>=0?'#3fb950':'#f85149'}">${pct(S.spy.ret_5d)}</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">SPY 20d</td><td style="text-align:right;font-weight:600;color:${S.spy.ret_20d>=0?'#3fb950':'#f85149'}">${pct(S.spy.ret_20d)}</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Realized Vol</td><td style="text-align:right;font-weight:600">${((S.spy.vol_20d||0)*100).toFixed(2)}%/day (${((S.spy.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}% ann.)</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Sector Breadth</td><td style="text-align:right;font-weight:600">${((S.spy.breadth||0)*100).toFixed(0)}% bullish</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Reversal Risk</td><td style="text-align:right">${pill(S.spy.reversal_risk>0.5?'elevated':S.spy.reversal_risk>0.3?'moderate':'low',((S.spy.reversal_risk||0)*100).toFixed(0)+'%')}</td></tr>
+        <tr><td style="color:#8b949e;padding:5px 0;font-size:12px">Composite Risk</td><td style="text-align:right">${(()=>{const sc=S.risks.length?S.risks.reduce((a,b)=>a+(b.score||0),0)/S.risks.length:0;const col=sc>=0.65?'#f85149':sc>=0.45?'#e3b341':'#3fb950';return`<span style="color:${col};font-weight:600">${(sc*100).toFixed(0)}/100</span>`;})()</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>SPY Rolling 20d Return</h2>
+      ${svgLineChart(ret20, 480, 120, 'Rolling 20-day return — last 20 trading sessions')}
+      <div style="margin-top:14px"><h2 style="border-top:1px solid #30363d;padding-top:12px">Realized Volatility (Annualized)</h2></div>
+      ${svgLineChart(volAnn, 480, 100, 'Annualized realized vol — last 20 trading sessions')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Sector Edge Chart</h2>
+    <p style="margin-bottom:12px;color:#8b949e;font-size:12px">Conditional edge by sector in current analog regime. Factor tilt shown on left. 🏆 = top 3 signals, ⚠️ = bottom 3.</p>
+    ${svgSectorBars(S.sectors)}
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Risk Axes</h2>
+      <p style="margin-bottom:10px;color:#8b949e;font-size:12px">Score 0–100 across 7 axes. Red ≥ 65% = elevated.</p>
+      ${svgRiskBars(S.risks)}
+    </div>
+    <div class="card">
+      <h2>Analog Distribution (SPY)</h2>
+      <p style="margin-bottom:10px;color:#8b949e;font-size:12px">Forward 20d SPY return across ${S.analog&&S.analog.n_days||30} analog matches.</p>
+      ${distBar((S.analog&&S.analog.spy_p10)||0,(S.analog&&S.analog.spy_p25)||0,(S.analog&&S.analog.spy_p50)||0,(S.analog&&S.analog.spy_p75)||0,(S.analog&&S.analog.spy_p90)||0)}
+      <div style="margin-top:20px">
+        <div style="color:#8b949e;font-size:11px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Top Analog Dates</div>
+        ${((S.analog&&S.analog.top_dates)||[]).slice(0,5).map((d,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #21262d"><span style="color:#6e7681;font-size:11px;width:16px">${i+1}</span><span style="font-size:12px">${d}</span></div>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+      <h2 style="border:none;padding:0;margin:0">Signal Table${isFiltered?` — Watchlist (${wlTickers.length} tickers)`:` — Top ${stocks.length} Signals`}</h2>
+      <div style="display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap">
+        <span style="color:#8b949e;font-size:12px">Filter watchlist:</span>
+        <input id="wl-input" type="text" value="${_watchlist}" placeholder="AAPL,MSFT,NVDA..."
+          style="background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:5px 10px;border-radius:6px;font-size:12px;width:200px"
+          oninput="window._rdWl(this.value)"/>
+        ${isFiltered?`<button onclick="window._rdWl('')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:''}
+      </div>
+    </div>
+    ${isFiltered&&stocks.length===0?`<div style="color:#e3b341;margin-bottom:8px;font-size:12px">No signals matched. Showing all.</div>`:''}
+    <div style="overflow-x:auto">
+    <table style="min-width:700px"><tr>
+      <th>Ticker</th><th>Sector</th><th>Factor</th><th>Edge</th><th>Ann. Edge</th><th>Distribution (p10 → p90)</th><th>Hit Rate</th><th>Conf.</th><th>n</th>
+    </tr>
+    ${stocks.map(st=>{
+      const factor=FACTOR[st.sector]||'—', fc=FCOL[factor]||'#6e7681';
+      return`<tr>
+        <td><strong>${st.ticker}</strong>${st.name&&st.name!==st.ticker?`<div style="color:#6e7681;font-size:10px">${st.name}</div>`:''}</td>
+        <td style="font-size:12px">${st.sector}</td>
+        <td><span style="font-size:10px;color:${fc};background:${fc}18;padding:2px 6px;border-radius:10px;white-space:nowrap">${factor}</span></td>
+        <td style="color:${st.edge>=0?'#3fb950':'#f85149'};font-weight:600">${pct(st.edge)}</td>
+        <td style="color:#6e7681;font-size:11px">${annEd(st.edge,st.horizon||'20d')}</td>
+        <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
+        <td>${((st.hit_rate||0)*100).toFixed(0)}%</td>
+        <td>${confBadge(st.hit_rate,st.n_obs)}</td>
+        <td>${st.n_obs}</td>
+      </tr>`;
+    }).join('')}
+    </table></div>
+  </div>
+
+  <div class="card" style="border-color:#30363d">
+    <h2>Disclosure</h2>
+    <p style="color:#8b949e;font-size:12px;line-height:1.8">${disclaimer}</p>
+  </div>
+  <footer>Tendencies only — not investment advice. Data generated ${S.generated}.</footer>`;
+}
+window._rdWl=function(val){
+  _watchlist=val;localStorage.setItem('rd-watchlist',val);
+  const el=document.getElementById('v-advisor');
+  delete el.dataset.rendered;el.innerHTML=renderAdvisor();el.dataset.rendered='1';
+};
+
+const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,narrative:renderNarrative,analog:renderAnalog,methodology:renderMethodology,advisor:renderAdvisor};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");

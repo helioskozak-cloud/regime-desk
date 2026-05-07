@@ -17,7 +17,20 @@ Items for the daily improvement agent to implement — one per run. Move to Done
 - **Regime streak counter** — track how many consecutive days the current regime label has held; show in #regime
 - **Print stylesheet** — add a `@media print` block that forces white background, black text, hides topbar nav
 
-## RIA / Advisor-focused (pending review)
+## RIA / Advisor-focused — Done in #advisor view
+
+- **Advisor view (#advisor)** — 2026-05-07: full advisor page with SVG charts, signal table, watchlist, export, disclosure
+- **SPY momentum line chart** — rolling 20d return and annualized vol over last 20 sessions
+- **Sector edge bar chart** — horizontal SVG with factor tilt labels and winner/loser badges
+- **Risk axes chart** — horizontal bar chart for all 7 risk axes colored by severity
+- **Annualized edge** — shown alongside raw edge in advisor signal table
+- **Signal confidence badge** — Low/Med/High from hit_rate × log(n_obs)
+- **Factor tilt labels** — Growth/Value/Quality/Cyclical/Defensive/Income/Speculative per sector
+- **Watchlist filter** — type tickers to filter signal table to client holdings; persists to localStorage
+- **Export CSV** — data-URI download of signal table
+- **Compliance disclosure** — full disclaimer footer on advisor view; configurable via SNAPSHOT.config
+
+## RIA / Advisor-focused — Still pending
 
 - **Meeting prep view (#meeting)** — a new 11th view that is a single-page client-meeting summary: regime headline, top 3 sectors with plain-English rationale, composite risk level, and a "what to watch" list. Designed to print on one page or paste into a client letter.
 - **Watchlist overlay** — a text input in the topbar (or #stocks view) where an advisor pastes comma-separated tickers; JS filters the stocks table to show only those positions, highlighting which have positive or negative analog edge. Persists to localStorage.

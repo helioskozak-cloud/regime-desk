@@ -14,7 +14,7 @@ import re
 
 REQUIRED_VIEWS = [
     "home", "regime", "sectors", "stocks", "themes",
-    "signals", "risks", "narrative", "analog", "methodology"
+    "signals", "risks", "narrative", "analog", "methodology", "advisor"
 ]
 
 MIN_SIZE = 5_000
