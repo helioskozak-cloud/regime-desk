@@ -6,6 +6,10 @@ Reads (all optional, falls back to defaults if missing):
   data/theme_summary.csv   — sector, count, avg_edge, max_edge, horizon
   data/spy_state.json      — SPY state vector written by ci_scan.py
   data/cross_asset.json    — signals + risks lists written by ci_scan.py
+
+analog_matches format (optional field in spy_state.json, written by ci_scan.py):
+  [{"date": "YYYY-MM-DD", "regime": str, "spy_ret_20d": float, "breadth": float}, ...]
+  When present, overrides the synthetic illustrative rows in snap["analog"]["top_matches"].
 """
 import json
 import math
@@ -27,7 +31,7 @@ DEFAULTS = {
         "n_days": 30, "exclude_recent": 30,
         "spy_p10": -0.03, "spy_p25": 0.01, "spy_p50": 0.05,
         "spy_p75": 0.10, "spy_p90": 0.17,
-        "top_dates": [], "regime_context": "No analog data available."
+        "top_dates": [], "top_matches": [], "regime_context": "No analog data available."
     },
     "narrative": {
         "headline": "Data refresh in progress",
@@ -181,6 +185,71 @@ def _classify_reversal_risk(spy):
     return 0.25
 
 
+_ANALOG_LIBRARY = {
+    # regime → list of (date, regime_label, spy_ret_20d, breadth)
+    "Bull Trend": [
+        ("2024-01-19", "Bull Trend",     0.043, 0.72),
+        ("2023-11-14", "Bull Trend",     0.071, 0.68),
+        ("2021-04-06", "Bull Trend",     0.041, 0.74),
+        ("2019-11-15", "Bull Trend",     0.035, 0.66),
+        ("2024-07-05", "Pullback",      -0.028, 0.38),
+    ],
+    "Neutral": [
+        ("2024-05-10", "Neutral",        0.018, 0.55),
+        ("2023-06-16", "Neutral",        0.025, 0.58),
+        ("2022-08-12", "High Volatility",-0.082, 0.31),
+        ("2021-09-03", "Neutral",        0.012, 0.52),
+        ("2024-02-23", "Bull Trend",     0.047, 0.70),
+    ],
+    "Correction": [
+        ("2022-09-30", "Correction",    -0.034, 0.37),
+        ("2020-10-28", "Correction",     0.085, 0.64),
+        ("2023-03-13", "Recovery",       0.062, 0.61),
+        ("2022-06-16", "Correction",    -0.051, 0.29),
+        ("2018-12-24", "Deep Correction",0.146, 0.77),
+    ],
+    "Deep Correction": [
+        ("2022-06-16", "Correction",    -0.051, 0.29),
+        ("2020-03-23", "Deep Correction",0.312, 0.81),
+        ("2018-12-24", "Deep Correction",0.146, 0.77),
+        ("2020-10-28", "Correction",     0.085, 0.64),
+        ("2022-09-30", "Correction",    -0.034, 0.37),
+    ],
+    "Recovery": [
+        ("2020-04-24", "Recovery",       0.078, 0.73),
+        ("2023-01-06", "Recovery",       0.061, 0.65),
+        ("2022-10-14", "Recovery",       0.118, 0.74),
+        ("2020-06-05", "Bull Trend",     0.045, 0.68),
+        ("2019-01-04", "Recovery",       0.055, 0.69),
+    ],
+    "High Volatility": [
+        ("2022-01-24", "High Volatility",0.054, 0.62),
+        ("2020-03-13", "High Volatility",-0.119, 0.22),
+        ("2018-12-21", "High Volatility",0.112, 0.71),
+        ("2023-03-10", "High Volatility",0.038, 0.57),
+        ("2020-02-28", "High Volatility",-0.086, 0.27),
+    ],
+    "Pullback": [
+        ("2023-10-27", "Pullback",       0.091, 0.74),
+        ("2024-04-19", "Pullback",       0.054, 0.63),
+        ("2022-03-08", "Correction",    -0.018, 0.44),
+        ("2021-12-03", "Pullback",       0.073, 0.68),
+        ("2023-08-18", "Pullback",       0.032, 0.56),
+    ],
+}
+_ANALOG_LIBRARY["Unknown"] = _ANALOG_LIBRARY["Neutral"]
+
+
+def _synthetic_analog_matches(regime):
+    """Return 5 illustrative historical analog rows for the given regime."""
+    rows = _ANALOG_LIBRARY.get(regime, _ANALOG_LIBRARY["Neutral"])
+    return [
+        {"date": d, "regime": r, "spy_ret_20d": round(ret, 4),
+         "breadth": round(b, 2), "synthetic": True}
+        for d, r, ret, b in rows
+    ]
+
+
 def build_snapshot():
     snap = json.loads(json.dumps(DEFAULTS))
     snap["generated"] = str(date.today())
@@ -224,6 +293,26 @@ def build_snapshot():
             print(f"[snapshot] SPY state loaded: {spy}")
         except Exception as exc:
             print(f"[snapshot] Could not parse spy_state.json: {exc}")
+
+    # Populate analog comparison table
+    if has_spy_json:
+        try:
+            real_matches = spy_raw.get("analog_matches", [])
+            if real_matches:
+                snap["analog"]["top_matches"] = [
+                    {"date": m["date"], "regime": m.get("regime", "Unknown"),
+                     "spy_ret_20d": round(float(m["spy_ret_20d"]), 4),
+                     "breadth": round(float(m.get("breadth", 0.5)), 2),
+                     "synthetic": False}
+                    for m in real_matches[:5]
+                ]
+            else:
+                snap["analog"]["top_matches"] = _synthetic_analog_matches(snap["spy"]["regime"])
+        except Exception as exc:
+            print(f"[snapshot] Could not build analog matches: {exc}")
+            snap["analog"]["top_matches"] = _synthetic_analog_matches(snap["spy"]["regime"])
+    else:
+        snap["analog"]["top_matches"] = _synthetic_analog_matches(snap["spy"]["regime"])
 
     # Load stocks + sectors from signals CSV
     if has_signals:

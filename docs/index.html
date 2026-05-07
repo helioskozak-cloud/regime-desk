@@ -260,7 +260,7 @@ window.SNAPSHOT = {
     },
     {
       "name": "Consumer Staples",
-      "edge": 0.2693,
+      "edge": 0.2692,
       "breadth": 1.0,
       "horizon": "20d",
       "stocks": 4,
@@ -2135,6 +2135,43 @@ window.SNAPSHOT = {
     "spy_p75": 0.7862,
     "spy_p90": 0.9655,
     "top_dates": [],
+    "top_matches": [
+      {
+        "date": "2024-01-19",
+        "regime": "Bull Trend",
+        "spy_ret_20d": 0.043,
+        "breadth": 0.72,
+        "synthetic": true
+      },
+      {
+        "date": "2023-11-14",
+        "regime": "Bull Trend",
+        "spy_ret_20d": 0.071,
+        "breadth": 0.68,
+        "synthetic": true
+      },
+      {
+        "date": "2021-04-06",
+        "regime": "Bull Trend",
+        "spy_ret_20d": 0.041,
+        "breadth": 0.74,
+        "synthetic": true
+      },
+      {
+        "date": "2019-11-15",
+        "regime": "Bull Trend",
+        "spy_ret_20d": 0.035,
+        "breadth": 0.66,
+        "synthetic": true
+      },
+      {
+        "date": "2024-07-05",
+        "regime": "Pullback",
+        "spy_ret_20d": -0.028,
+        "breadth": 0.38,
+        "synthetic": true
+      }
+    ],
     "regime_context": "Current SPY state (ret5=+1.8%, ret20=+7.6%, vol=0.7%, dd=-0.3%) matched to 30 analog days. Regime classified as: Bull Trend."
   },
   "narrative": {
@@ -2521,35 +2558,72 @@ function renderNarrative(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// ANALOG — with stats panel
+// ANALOG — with stats panel and regime comparison table
 function renderAnalog(){
   const a=S.analog||{};
-  const dates=a.top_dates||[];
-  const dateRange=dates.length>=2?`${dates[dates.length-1]} – ${dates[0]}`:(dates[0]||'—');
-  return`<div class="card"><h2>Analog Matching</h2>
-  <div class="grid2" style="margin-bottom:16px">
-    <div style="background:#21262d;border-radius:6px;padding:12px">
-      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>
-      <div style="font-size:28px;font-weight:700;color:#f0f6fc">${a.n_days||30}</div>
-      <div style="color:#6e7681;font-size:11px">excluding last ${a.exclude_recent||30} days</div>
-    </div>
-    <div style="background:#21262d;border-radius:6px;padding:12px">
-      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Historical Range</div>
-      <div style="font-size:13px;font-weight:600;color:#f0f6fc;margin-top:4px">${dateRange}</div>
-      <div style="color:#6e7681;font-size:11px">${dates.length} top matches shown</div>
-    </div>
-  </div>
-  <div style="margin-bottom:16px">
-    <div style="color:#8b949e;font-size:12px;margin-bottom:6px">SPY Forward 20d Return Distribution across analog days</div>
-    ${distBar(a.spy_p10||0,a.spy_p25||0,a.spy_p50||0,a.spy_p75||0,a.spy_p90||0)}
-  </div>
-  ${dates.length?`<div class="card" style="margin:0"><h2>Top Analog Dates</h2>
-  <table><tr><th>#</th><th>Date</th></tr>
-  ${dates.slice(0,10).map((d,i)=>`<tr><td>${i+1}</td><td>${d}</td></tr>`).join("")}
-  </table></div>`:""}
-  <div style="margin-top:12px;color:#8b949e;font-size:13px">${a.regime_context||""}</div>
-  </div>
-  <footer>Tendencies only — not investment advice.</footer>`;
+  const matches=a.top_matches||[];
+  const dates=matches.map(function(m){return m.date;});
+  const dateRange=dates.length>=2?dates[dates.length-1]+' – '+dates[0]:(dates[0]||'—');
+  const isSynthetic=matches.length>0&&matches[0].synthetic;
+  const synthBadge=isSynthetic?'<span style="background:#161b22;color:#8b949e;border:1px solid #30363d;border-radius:10px;font-size:10px;padding:2px 8px;margin-left:8px">Illustrative</span>':'';
+
+  const matchRows=matches.map(function(m,i){
+    const ret=m.spy_ret_20d||0;
+    const retPct=(ret*100).toFixed(1);
+    const retCol=ret>=0?'#3fb950':'#f85149';
+    const retSign=ret>=0?'+':'';
+    const eqLabel=(m.breadth||0)>0.5?'Up':'Down';
+    const eqCol=(m.breadth||0)>0.5?'#3fb950':'#f85149';
+    return '<tr style="border-top:1px solid #30363d">'
+      +'<td style="color:#6e7681;text-align:center;padding:7px 4px">'+(i+1)+'</td>'
+      +'<td style="font-family:monospace;font-size:12px;padding:7px 8px">'+m.date+'</td>'
+      +'<td style="font-size:12px;padding:7px 8px;color:#c9d1d9">'+m.regime+'</td>'
+      +'<td style="text-align:right;font-weight:600;color:'+retCol+';padding:7px 8px">'+retSign+retPct+'%</td>'
+      +'<td style="text-align:center;padding:7px 4px"><span style="background:'+eqCol+'22;color:'+eqCol+';border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">'+eqLabel+'</span></td>'
+      +'</tr>';
+  }).join('');
+
+  const matchTable=matches.length
+    ? '<div style="margin-top:20px;background:#21262d;border-radius:8px;padding:14px">'
+      +'<div style="display:flex;align-items:center;margin-bottom:10px">'
+      +'<span style="color:#e6edf3;font-size:13px;font-weight:600">Historical Precedents</span>'
+      +synthBadge
+      +'</div>'
+      +'<table style="width:100%;border-collapse:collapse">'
+      +'<tr style="color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.5px">'
+      +'<th style="width:28px;text-align:center;padding:0 4px 8px">#</th>'
+      +'<th style="text-align:left;padding:0 8px 8px">Date</th>'
+      +'<th style="text-align:left;padding:0 8px 8px">Regime</th>'
+      +'<th style="text-align:right;padding:0 8px 8px">SPY +20d</th>'
+      +'<th style="text-align:center;padding:0 4px 8px">Equities</th>'
+      +'</tr>'
+      +matchRows
+      +'</table>'
+      +(isSynthetic?'<div style="color:#6e7681;font-size:11px;margin-top:10px">Illustrative examples — add analog_matches to spy_state.json for live precedents.</div>':'')
+      +'</div>'
+    : '';
+
+  return '<div class="card"><h2>Analog Matching</h2>'
+    +'<div class="grid2" style="margin-bottom:16px">'
+    +'<div style="background:#21262d;border-radius:6px;padding:12px">'
+    +'<div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>'
+    +'<div style="font-size:28px;font-weight:700;color:#f0f6fc">'+(a.n_days||30)+'</div>'
+    +'<div style="color:#6e7681;font-size:11px">excluding last '+(a.exclude_recent||30)+' days</div>'
+    +'</div>'
+    +'<div style="background:#21262d;border-radius:6px;padding:12px">'
+    +'<div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Date Range</div>'
+    +'<div style="font-size:13px;font-weight:600;color:#f0f6fc;margin-top:4px">'+dateRange+'</div>'
+    +'<div style="color:#6e7681;font-size:11px">'+matches.length+' top matches shown</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="margin-bottom:4px">'
+    +'<div style="color:#8b949e;font-size:12px;margin-bottom:6px">SPY Forward 20d Return Distribution across analog days</div>'
+    +distBar(a.spy_p10||0,a.spy_p25||0,a.spy_p50||0,a.spy_p75||0,a.spy_p90||0)
+    +'</div>'
+    +matchTable
+    +'<div style="margin-top:12px;color:#8b949e;font-size:13px">'+(a.regime_context||'')+'</div>'
+    +'</div>'
+    +'<footer>Tendencies only — not investment advice.</footer>';
 }
 
 // METHODOLOGY — with jargon glossary

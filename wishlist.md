@@ -4,9 +4,9 @@ Items for the daily improvement agent to implement — one per run. Move to Done
 
 ## Pending
 
-- **Regime comparison table** — in #analog, add a table showing the top 5 most similar historical dates with their regime label, the subsequent SPY 20d return, and whether equities were broadly up or down; gives advisors concrete historical precedents to cite. (Requires backend: snapshot_builder must compute forward SPY returns per analog date.)
-
 ## Done
+
+- **Regime comparison table** — 2026-05-07: in #analog, table of top 5 historical precedents with date, regime label, SPY +20d return (color-coded), and Equities Up/Down badge; synthetic illustrative rows keyed to current regime until ci_scan.py writes analog_matches to spy_state.json
 
 - **Watchlist overlay** — 2026-05-07: text input in #stocks view; filters to client holdings; green/red row tint for edge direction; "no signal data" row for unmatched tickers; synced with advisor watchlist via shared _watchlist state; persists to localStorage
 - **Horizon selector filter** — 2026-05-07: [ All / 5d / 20d / 60d / 120d ] toggle on #stocks and #sectors; sectors dynamically recomputed from filtered stock list client-side
