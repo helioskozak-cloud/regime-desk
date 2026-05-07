@@ -2391,15 +2391,32 @@ function renderRegime(){
 }
 
 // SECTORS — winner/loser badges + allocation delta vs SPX benchmark
+function _sectorData(){
+  if(_horizon==='all') return S.sectors;
+  const filtered=S.stocks.filter(s=>s.horizon===_horizon);
+  if(!filtered.length) return S.sectors;
+  const map={};
+  filtered.forEach(s=>{
+    if(!map[s.sector])map[s.sector]={edges:[],stocks:0};
+    map[s.sector].edges.push(s.edge);map[s.sector].stocks++;
+  });
+  return Object.entries(map).map(([name,d])=>{
+    const avg=d.edges.reduce((a,b)=>a+b,0)/d.edges.length;
+    const breadth=d.edges.filter(e=>e>0).length/d.edges.length;
+    return{name,edge:avg,breadth,stocks:d.stocks,signal:avg>0.03?'bullish':avg<-0.01?'bearish':'neutral',horizon:_horizon};
+  }).sort((a,b)=>b.edge-a.edge);
+}
 function renderSectors(){
-  const n=S.sectors.length;
+  const sectors=_sectorData();
+  const n=sectors.length;
   const SPX_WT={'Technology':28,'Healthcare':13,'Financials':13,'Consumer Discretionary':11,
     'Communication Services':9,'Industrials':8,'Consumer Staples':6,'Energy':4,
     'Real Estate':2.5,'Utilities':2.5,'Materials':2.5,'Semiconductors':5,'Biotech':2,'Crypto':0};
-  return`<div class="card"><h2>Sector Expectations (${S.sectors[0]&&S.sectors[0].horizon||"20d"} horizon)</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge — the excess return analog days showed versus the unconditional baseline.</p>
+  return`<div class="card"><h2>Sector Expectations</h2>
+  ${_horizonBar()}
+  <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge${_horizon!=='all'?' — '+_horizon+' horizon stocks only':''}.</p>
   <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
-  ${S.sectors.map((s,i)=>{
+  ${sectors.map((s,i)=>{
     const badge=i<3?'<span title="Top sector" style="margin-right:4px">🏆</span>':(i>=n-3?'<span title="Lagging sector" style="margin-right:4px">⚠️</span>':'');
     return`<tr><td>${badge}${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
   <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?"#238636":"#b91c1c"}"></div></div></td>
@@ -2409,7 +2426,7 @@ function renderSectors(){
   <div class="card"><h2>Allocation Delta vs SPX Benchmark</h2>
   <p style="margin-bottom:12px;color:#8b949e">Signal vs standard SPX sector weights. Overweight where edge is bullish, underweight where bearish.</p>
   <table><tr><th>Sector</th><th>SPX Weight</th><th>Signal</th><th>Suggested Tilt</th></tr>
-  ${S.sectors.map(s=>{
+  ${sectors.map(s=>{
     const bw=SPX_WT[s.name]!=null?SPX_WT[s.name]:null;
     const tilt=s.signal==='bullish'?'Overweight':s.signal==='bearish'?'Underweight':'Neutral';
     const tc=s.signal==='bullish'?'#3fb950':s.signal==='bearish'?'#f85149':'#8b949e';
@@ -2425,30 +2442,43 @@ function renderSectors(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// STOCKS — sortable columns + copy-to-clipboard
-let _sortCol='edge',_sortDir=-1;
+// STOCKS — sortable columns + copy-to-clipboard + horizon filter
+let _sortCol='edge',_sortDir=-1,_horizon='all';
+function _horizonBtn(h){
+  const active=_horizon===h;
+  return`<button onclick="window._rdHorizon('${h}')" style="background:${active?'#21262d':'none'};border:1px solid ${active?'#58a6ff':'#30363d'};color:${active?'#58a6ff':'#8b949e'};padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px">${h==='all'?'All':h}</button>`;
+}
+function _horizonBar(){return`<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:12px"><span style="color:#8b949e;font-size:12px;margin-right:4px">Horizon:</span>${['all','5d','20d','60d','120d'].map(_horizonBtn).join('')}</div>`;}
 function renderStocks(){
-  const sorted=[...S.stocks].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
+  const pool=_horizon==='all'?S.stocks:S.stocks.filter(s=>s.horizon===_horizon);
+  const sorted=[...pool].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
   function th(col,label){const active=_sortCol===col;return`<th onclick="window._rdSort('${col}')" style="cursor:pointer;user-select:none">${label}${active?(_sortDir>0?' ↑':' ↓'):''}</th>`;}
   return`<div class="card"><h2>Individual Stock Signals</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Click column headers to sort. Click 📋 to copy.</p>
-  <table><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10→p90)</th>${th('hit_rate','Hit Rate')}${th('n_obs','n')}<th></th></tr>
+  ${_horizonBar()}
+  <p style="margin-bottom:12px;color:#8b949e">${sorted.length} signal${sorted.length!==1?'s':''} shown${_horizon!=='all'?' for '+_horizon+' horizon':''}. Click column headers to sort. Click 📋 to copy.</p>
+  ${sorted.length===0?`<div style="color:#8b949e;padding:20px;text-align:center">No stocks with best edge at ${_horizon} horizon.</div>`:`<table><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10→p90)</th>${th('hit_rate','Hit Rate')}${th('n_obs','n')}<th></th></tr>
   ${sorted.map(st=>{const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;const ann=(st.edge||0)*(252/hd);return`<tr>
-    <td><strong>${st.ticker}</strong></td><td>${st.name||"—"}</td><td>${st.sector}</td>
+    <td><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></td><td>${st.name||"—"}</td><td>${st.sector}</td>
     <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)} <span style="color:#6e7681;font-size:11px" title="Annualized: edge × 252/${hd}d horizon">(${pct(ann)} ann)</span></td>
     <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
     <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
     <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">📋</button></td>
   </tr>`).join("")}
-  </table></div>
+  </table>`}
+  </div>
   <footer>Tendencies only — not investment advice. Hit rate = fraction of analog returns that were positive.</footer>`;
 }
 window._rdSort=function(col){
   if(_sortCol===col)_sortDir*=-1;else{_sortCol=col;_sortDir=col==='ticker'||col==='name'||col==='sector'?1:-1;}
   const el=document.getElementById('v-stocks');
-  delete el.dataset.rendered;
-  el.innerHTML=renderStocks();
-  el.dataset.rendered='1';
+  delete el.dataset.rendered;el.innerHTML=renderStocks();el.dataset.rendered='1';
+};
+window._rdHorizon=function(h){
+  _horizon=h;
+  ['stocks','sectors'].forEach(v=>{
+    const el=document.getElementById('v-'+v);
+    if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=(v==='stocks'?renderStocks:renderSectors)();el.dataset.rendered='1';}
+  });
 };
 
 // THEMES

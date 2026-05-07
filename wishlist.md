@@ -4,12 +4,12 @@ Items for the daily improvement agent to implement — one per run. Move to Done
 
 ## Pending
 
-- **Horizon selector filter** — a toggle on #stocks and #sectors to filter by horizon (5d / 20d / 60d / 120d); RIAs typically care about 60d+ for quarterly framing; default remains 20d.
 - **Watchlist overlay** — a text input in the topbar (or #stocks view) where an advisor pastes comma-separated tickers; JS filters the stocks table to show only those positions, highlighting which have positive or negative analog edge. Persists to localStorage.
 - **Regime comparison table** — in #analog, add a table showing the top 5 most similar historical dates with their regime label, the subsequent SPY 20d return, and whether equities were broadly up or down; gives advisors concrete historical precedents to cite. (Requires backend: snapshot_builder must compute forward SPY returns per analog date.)
 
 ## Done
 
+- **Horizon selector filter** — 2026-05-07: [ All / 5d / 20d / 60d / 120d ] toggle on #stocks and #sectors; sectors dynamically recomputed from filtered stock list client-side
 - **Meeting prep view (#meeting)** — 2026-05-07: single-page client-meeting brief with regime summary, key metrics, top 3 sectors with plain-English rationale, dynamic "what to watch" list, composite risk level, print button, disclosure
 - **Risk-first narrative reorder** — 2026-05-07: Risk/Reversal card now appears before Constructive Read in #narrative; fiduciary framing
 - **Tail risk emphasis** — 2026-05-07: "Adverse: p10%" callout below each distribution bar in #stocks; color-coded red/green
