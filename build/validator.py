@@ -12,9 +12,9 @@ Checks:
 import re
 
 
-REQUIRED_HASHES = [
-    "#home", "#regime", "#sectors", "#stocks", "#themes",
-    "#signals", "#risks", "#narrative", "#analog", "#methodology"
+REQUIRED_VIEWS = [
+    "home", "regime", "sectors", "stocks", "themes",
+    "signals", "risks", "narrative", "analog", "methodology"
 ]
 
 MIN_SIZE = 5_000
@@ -29,9 +29,10 @@ def validate(html: str) -> None:
     if "window.SNAPSHOT" not in html:
         errors.append("window.SNAPSHOT not found")
 
-    for h in REQUIRED_HASHES:
-        if h not in html:
-            errors.append(f"View hash '{h}' not referenced")
+    # Check each view exists as a DOM element (id="v-<name>") AND in the router (renderers object)
+    for v in REQUIRED_VIEWS:
+        if f'id="v-{v}"' not in html:
+            errors.append(f"View element id='v-{v}' not found")
 
     if re.search(r'<script[^>]+src\s*=', html, re.IGNORECASE):
         errors.append("External <script src=...> found — file must be self-contained")
