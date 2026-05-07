@@ -52,6 +52,34 @@ tr:hover td{background:#1c2128}
 .score-fill{height:6px;border-radius:3px;position:absolute;left:0;top:0}
 footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
 @media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+html.light body{background:#ffffff;color:#1f2328}
+html.light #topbar,html.light #regime-banner{background:#f6f8fa;border-color:#d0d7de}
+html.light #topbar nav a{color:#57606a}
+html.light #topbar nav a:hover,html.light #topbar nav a.active{background:#eaeef2;color:#1f2328}
+html.light .card{background:#f6f8fa;border-color:#d0d7de}
+html.light .tile{background:#f6f8fa;border-color:#d0d7de}
+html.light .tile:hover{border-color:#0969da}
+html.light td{border-color:#eaeef2}
+html.light tr:hover td{background:#eaeef2}
+html.light .bar-wrap,.light .dist-bar,.light .score-bar{background:#eaeef2}
+html.light .pill.bull{background:#d1fae5;color:#166534}
+html.light .pill.bear{background:#fee2e2;color:#991b1b}
+html.light .pill.neut{background:#dbeafe;color:#1d4ed8}
+html.light .pill.elev{background:#fef3c7;color:#92400e}
+html.light .pill.mod{background:#dbeafe;color:#1d4ed8}
+html.light .pill.low{background:#d1fae5;color:#166534}
+html.light footer{color:#57606a;border-color:#d0d7de}
+@media print{
+  #topbar nav,#topbar button,#topbar .ts{display:none!important}
+  #topbar{position:static;background:#fff!important;border-color:#ccc!important}
+  #regime-banner{background:#fff!important;border-color:#ccc!important}
+  body{background:#fff!important;color:#000!important}
+  .card{background:#fff!important;border-color:#ccc!important;break-inside:avoid}
+  .card h2,.regime-label,.stat .val,strong{color:#000!important}
+  .stat .key,footer,td{color:#333!important}
+  footer{border-color:#ccc!important}
+  .tile{background:#fff!important;border-color:#ccc!important}
+}
 </style>
 </head>
 <body>
@@ -1999,24 +2027,75 @@ const S = window.SNAPSHOT;
 const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","narrative","analog","methodology"];
 const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Narrative","Analog","Methodology"];
 
+// Theme persistence
+const _savedTheme = localStorage.getItem('rd-theme')||'dark';
+if(_savedTheme==='light') document.documentElement.classList.add('light');
+
 function pct(v){return (v>=0?"+":"")+((v||0)*100).toFixed(1)+"%"}
-function fmt(v){return typeof v==="number"?((v>=0?"+":"")+v.toFixed(3)):v}
 function pillClass(s){return s==="bullish"?"bull":s==="bearish"?"bear":s==="elevated"||s==="elev"?"elev":s==="moderate"||s==="mod"?"mod":"neut"}
 function pill(s,label){return`<span class="pill ${pillClass(s)}">${label||s}</span>`}
 
-// Topbar
+// Topbar nav
 const nav=document.getElementById("nav");
 VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textContent=LABELS[i];a.id="nav-"+v;nav.appendChild(a);});
-document.getElementById("ts").textContent="Generated: "+S.generated;
 
-// Banner
+// Dark/light toggle button
+const themeBtn=document.createElement('button');
+themeBtn.id='theme-btn';
+themeBtn.textContent=_savedTheme==='light'?'🌙':'☀';
+themeBtn.style.cssText='background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:12px;margin-left:4px';
+themeBtn.onclick=()=>{const isLight=document.documentElement.classList.toggle('light');localStorage.setItem('rd-theme',isLight?'light':'dark');themeBtn.textContent=isLight?'🌙':'☀';};
+nav.after(themeBtn);
+
+// Stale warning in topbar
+const genDate=new Date(S.generated);
+const stale=(Date.now()-genDate)/86400000>2;
+document.getElementById("ts").innerHTML=`Generated: ${S.generated}${stale?' <span style="color:#e3b341;font-weight:600">● stale</span>':''}`;
+
+// Sparkline helper
+function sparkline(history,key,w=40,h=14){
+  if(!history||history.length<2) return '';
+  const vals=history.map(d=>d[key]||0);
+  const mn=Math.min(...vals),mx=Math.max(...vals),range=mx-mn||0.001;
+  const pts=vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-(v-mn)/range*h).toFixed(1)}`).join(' ');
+  const col=vals[vals.length-1]>=0?'#3fb950':'#f85149';
+  return`<svg width="${w}" height="${h}" style="vertical-align:middle;margin-left:4px;opacity:.8"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
+}
+
+// Keyboard shortcuts modal
+const modal=document.createElement('div');
+modal.id='kbd-modal';
+modal.style.cssText='display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);align-items:center;justify-content:center';
+modal.innerHTML=`<div style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:24px;min-width:280px">
+  <h3 style="margin-bottom:14px;color:#f0f6fc">Keyboard Shortcuts</h3>
+  <table style="width:100%">
+  ${VIEWS.map((v,i)=>`<tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">${i===9?0:i+1}</kbd></td><td style="padding:3px 8px;color:#8b949e">${LABELS[i]}</td></tr>`).join('')}
+  <tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">d</kbd></td><td style="padding:3px 8px;color:#8b949e">Toggle dark/light mode</td></tr>
+  <tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">Esc</kbd></td><td style="padding:3px 8px;color:#8b949e">Close this modal</td></tr>
+  </table>
+  <button onclick="document.getElementById('kbd-modal').style.display='none'" style="margin-top:16px;background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:6px 14px;border-radius:6px;cursor:pointer;width:100%">Close</button>
+</div>`;
+document.body.appendChild(modal);
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+  if(e.key==='?'){modal.style.display='flex';return;}
+  if(e.key==='Escape'){modal.style.display='none';return;}
+  if(e.key==='d'){themeBtn.click();return;}
+  const i=parseInt(e.key);
+  if(i===0) location.hash='#'+VIEWS[9];
+  else if(i>=1&&i<=9) location.hash='#'+VIEWS[i-1];
+});
+
+// Banner with sparklines
 const spy=S.spy;
+const hist=spy.history||[];
+const streak=spy.regime_streak;
 document.getElementById("regime-banner").innerHTML=`
-  <span class="regime-label">${spy.regime||"Unknown"}</span>
-  <div class="stat"><span class="val">${pct(spy.ret_5d)}</span><span class="key">SPY 5d</span></div>
-  <div class="stat"><span class="val">${pct(spy.ret_20d)}</span><span class="key">SPY 20d</span></div>
-  <div class="stat"><span class="val">${((spy.vol_20d||0)*100).toFixed(1)}%</span><span class="key">Vol 20d</span></div>
-  <div class="stat"><span class="val">${pct(spy.drawdown_60d)}</span><span class="key">Drawdown 60d</span></div>
+  <span class="regime-label">${spy.regime||"Unknown"}${streak>1?` <span style="color:#8b949e;font-size:11px">(${streak}d streak)</span>`:''}</span>
+  <div class="stat"><span class="val">${pct(spy.ret_5d)}${sparkline(hist,'ret_5d')}</span><span class="key">SPY 5d</span></div>
+  <div class="stat"><span class="val">${pct(spy.ret_20d)}${sparkline(hist,'ret_20d')}</span><span class="key">SPY 20d</span></div>
+  <div class="stat"><span class="val">${((spy.vol_20d||0)*100).toFixed(1)}%${sparkline(hist,'vol_20d')}</span><span class="key">Vol 20d</span></div>
+  <div class="stat"><span class="val">${pct(spy.drawdown_60d)}${sparkline(hist,'drawdown_60d')}</span><span class="key">Drawdown 60d</span></div>
   <div class="stat"><span class="val">${((spy.breadth||0)*100).toFixed(0)}%</span><span class="key">Breadth</span></div>
   <div class="stat"><span class="val">${((spy.persistence||0)*100).toFixed(0)}%</span><span class="key">Persistence</span></div>
   <div class="stat">${pill(spy.reversal_risk>0.5?"elevated":spy.reversal_risk>0.3?"moderate":"low","Rev. Risk: "+(((spy.reversal_risk||0)*100).toFixed(0))+"%")}</div>`;
@@ -2064,6 +2143,7 @@ function renderRegime(){
   return`<div class="card"><h2>Regime Analysis</h2>
   <table><tr><th>Metric</th><th>Value</th><th>Note</th></tr>
   <tr><td>Regime Label</td><td><strong>${spy.regime||"—"}</strong></td><td>Classified from SPY state vector</td></tr>
+  <tr><td>Regime Streak</td><td>${spy.regime_streak||"—"}${spy.regime_streak?" trading days":""}</td><td>Consecutive days in current regime</td></tr>
   <tr><td>5d Return</td><td>${pct(spy.ret_5d)}</td><td>Short-term momentum</td></tr>
   <tr><td>20d Return</td><td>${pct(spy.ret_20d)}</td><td>Medium-term trend</td></tr>
   <tr><td>20d Volatility</td><td>${((spy.vol_20d||0)*100).toFixed(2)}%</td><td>Daily realized vol (annualizes ~${((spy.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}%)</td></tr>
@@ -2076,30 +2156,47 @@ function renderRegime(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// SECTORS
+// SECTORS — winner/loser badges
 function renderSectors(){
+  const n=S.sectors.length;
   return`<div class="card"><h2>Sector Expectations (${S.sectors[0]&&S.sectors[0].horizon||"20d"} horizon)</h2>
   <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge — the excess return analog days showed versus the unconditional baseline.</p>
   <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
-  ${S.sectors.map(s=>`<tr><td>${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
+  ${S.sectors.map((s,i)=>{
+    const badge=i<3?'<span title="Top sector" style="margin-right:4px">🏆</span>':(i>=n-3?'<span title="Lagging sector" style="margin-right:4px">⚠️</span>':'');
+    return`<tr><td>${badge}${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
   <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?"#238636":"#b91c1c"}"></div></div></td>
-  <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`).join("")}
+  <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`;
+  }).join("")}
   </table></div>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// STOCKS
+// STOCKS — sortable columns + copy-to-clipboard
+let _sortCol='edge',_sortDir=-1;
 function renderStocks(){
+  const sorted=[...S.stocks].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
+  function th(col,label){const active=_sortCol===col;return`<th onclick="window._rdSort('${col}')" style="cursor:pointer;user-select:none">${label}${active?(_sortDir>0?' ↑':' ↓'):''}</th>`;}
   return`<div class="card"><h2>Individual Stock Signals</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Stocks within leading sectors with the highest conditional edge. Distribution shows analog returns at each percentile.</p>
-  <table><tr><th>Ticker</th><th>Name</th><th>Sector</th><th>Edge</th><th>Distribution (p10→p90)</th><th>Hit Rate</th><th>n</th></tr>
-  ${S.stocks.map(st=>`<tr><td><strong>${st.ticker}</strong></td><td>${st.name||"—"}</td><td>${st.sector}</td>
-  <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)}</td>
-  <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
-  <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td></tr>`).join("")}
+  <p style="margin-bottom:12px;color:#8b949e">Click column headers to sort. Click 📋 to copy.</p>
+  <table><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10→p90)</th>${th('hit_rate','Hit Rate')}${th('n_obs','n')}<th></th></tr>
+  ${sorted.map(st=>`<tr>
+    <td><strong>${st.ticker}</strong></td><td>${st.name||"—"}</td><td>${st.sector}</td>
+    <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)}</td>
+    <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
+    <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
+    <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">📋</button></td>
+  </tr>`).join("")}
   </table></div>
   <footer>Tendencies only — not investment advice. Hit rate = fraction of analog returns that were positive.</footer>`;
 }
+window._rdSort=function(col){
+  if(_sortCol===col)_sortDir*=-1;else{_sortCol=col;_sortDir=col==='ticker'||col==='name'||col==='sector'?1:-1;}
+  const el=document.getElementById('v-stocks');
+  delete el.dataset.rendered;
+  el.innerHTML=renderStocks();
+  el.dataset.rendered='1';
+};
 
 // THEMES
 function renderThemes(){
@@ -2185,36 +2282,63 @@ function renderNarrative(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// ANALOG
+// ANALOG — with stats panel
 function renderAnalog(){
   const a=S.analog||{};
+  const dates=a.top_dates||[];
+  const dateRange=dates.length>=2?`${dates[dates.length-1]} – ${dates[0]}`:(dates[0]||'—');
   return`<div class="card"><h2>Analog Matching</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Found ${a.n_days||30} historical days most similar to today's SPY state (excluding last ${a.exclude_recent||30} days).</p>
+  <div class="grid2" style="margin-bottom:16px">
+    <div style="background:#21262d;border-radius:6px;padding:12px">
+      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>
+      <div style="font-size:28px;font-weight:700;color:#f0f6fc">${a.n_days||30}</div>
+      <div style="color:#6e7681;font-size:11px">excluding last ${a.exclude_recent||30} days</div>
+    </div>
+    <div style="background:#21262d;border-radius:6px;padding:12px">
+      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Historical Range</div>
+      <div style="font-size:13px;font-weight:600;color:#f0f6fc;margin-top:4px">${dateRange}</div>
+      <div style="color:#6e7681;font-size:11px">${dates.length} top matches shown</div>
+    </div>
+  </div>
   <div style="margin-bottom:16px">
     <div style="color:#8b949e;font-size:12px;margin-bottom:6px">SPY Forward 20d Return Distribution across analog days</div>
     ${distBar(a.spy_p10||0,a.spy_p25||0,a.spy_p50||0,a.spy_p75||0,a.spy_p90||0)}
   </div>
-  ${a.top_dates&&a.top_dates.length?`<div class="card" style="margin:0"><h2>Top Analog Dates</h2>
+  ${dates.length?`<div class="card" style="margin:0"><h2>Top Analog Dates</h2>
   <table><tr><th>#</th><th>Date</th></tr>
-  ${a.top_dates.slice(0,10).map((d,i)=>`<tr><td>${i+1}</td><td>${d}</td></tr>`).join("")}
+  ${dates.slice(0,10).map((d,i)=>`<tr><td>${i+1}</td><td>${d}</td></tr>`).join("")}
   </table></div>`:""}
   <div style="margin-top:12px;color:#8b949e;font-size:13px">${a.regime_context||""}</div>
   </div>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// METHODOLOGY
+// METHODOLOGY — with jargon glossary
 function renderMethodology(){
+  const terms=[
+    ["Edge","The conditional median forward return minus the unconditional baseline. Measures how much better (or worse) a stock historically performed in analog conditions versus any random day."],
+    ["Analog","A historical trading day whose SPY state vector is closest to today's, measured by Euclidean distance after z-score normalization across all four dimensions."],
+    ["Hit Rate","Fraction of analog forward returns that were positive. A hit rate of 0.65 means 65% of similar historical setups produced a positive return over the horizon."],
+    ["Breadth","The fraction of stocks within a sector that have a positive conditional edge. High breadth = widespread sector participation, not just a few outliers."],
+    ["Persistence","The fraction of historical analogs where the current regime label continued for at least 20 more trading days before flipping to a different regime."],
+    ["Reversal Risk","Estimated probability the current regime label changes within 20 trading days, based on how frequently analogs transitioned quickly."],
+    ["Distribution (p10–p90)","The range of forward returns observed across all analog days. p10 = adverse 10th percentile; p90 = favorable 90th percentile. p50 (the median) is the central tendency."],
+  ];
   return`<div class="card"><h2>How This Works</h2>
   <div style="line-height:1.8">
   <p style="margin-bottom:12px"><strong>Step 1 — State Vector:</strong> We compute today's SPY state as a 4-dimensional vector: 5-day return, 20-day return, 20-day realized volatility, and 60-day drawdown.</p>
   <p style="margin-bottom:12px"><strong>Step 2 — Analog Matching:</strong> We normalize each dimension by its historical mean and standard deviation, then find the 30 historical trading days with the smallest Euclidean distance to today's state. Recent days (last 30) are excluded to avoid look-ahead.</p>
   <p style="margin-bottom:12px"><strong>Step 3 — Conditional Returns:</strong> For each stock, we measure the forward return (5d, 20d, 60d, 120d) following each analog date. The result is a distribution — not a point estimate.</p>
   <p style="margin-bottom:12px"><strong>Step 4 — Edge Calculation:</strong> <code>edge = conditional median return − unconditional baseline return</code>. Only signals with edge &gt; 5% and at least 5 analog observations are included.</p>
-  <p style="margin-bottom:12px"><strong>Volatility Filter:</strong> Stocks with 20-day realized vol above 5%/day are excluded (too unstable for reliable analog matching).</p>
-  <p><strong>What This Is Not:</strong> This is not a forecast. It is a tendencies report — a summary of what historically happened in similar conditions. Markets are non-stationary; past analogs do not guarantee future outcomes.</p>
-  </div>
-  </div>
+  <p style="margin-bottom:12px"><strong>Volatility Filter:</strong> Stocks with 20-day realized vol above 5%/day are excluded.</p>
+  <p style="margin-bottom:16px"><strong>What This Is Not:</strong> This is a tendencies report — a summary of what historically happened in similar conditions. Markets are non-stationary; past analogs do not guarantee future outcomes.</p>
+  </div></div>
+  <details style="margin-bottom:16px">
+    <summary style="cursor:pointer;padding:12px 16px;background:#161b22;border:1px solid #30363d;border-radius:8px;font-weight:700;color:#f0f6fc;list-style:none">&#9654; Jargon Glossary</summary>
+    <div style="border:1px solid #30363d;border-top:none;border-radius:0 0 8px 8px;padding:16px;background:#161b22">
+    ${terms.map(([t,d])=>`<div style="margin-bottom:12px"><strong style="color:#f0f6fc">${t}</strong><div style="color:#8b949e;margin-top:2px">${d}</div></div>`).join('')}
+    </div>
+  </details>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 

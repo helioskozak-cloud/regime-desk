@@ -207,6 +207,20 @@ def build_snapshot():
             spy["drawdown_60d"] = round(float(spy_raw.get("drawdown_60d", 0)), 5)
             spy["regime"] = _classify_regime(spy)
             spy["reversal_risk"] = _classify_reversal_risk(spy)
+            # Sparkline history
+            if spy_raw.get("history"):
+                spy["history"] = spy_raw["history"]
+            # Regime streak: count consecutive trailing days with same regime
+            hist = spy_raw.get("history", [])
+            if hist:
+                current = spy["regime"]
+                streak = 1
+                for h in reversed(hist[:-1]):
+                    if _classify_regime(h) == current:
+                        streak += 1
+                    else:
+                        break
+                spy["regime_streak"] = streak
             print(f"[snapshot] SPY state loaded: {spy}")
         except Exception as exc:
             print(f"[snapshot] Could not parse spy_state.json: {exc}")

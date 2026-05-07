@@ -457,14 +457,25 @@ def main():
     market_signals.to_csv(DATA_DIR / "market_signals.csv", index=False)
     theme_summary.to_csv(DATA_DIR / "theme_summary.csv",  index=False)
 
-    # Save SPY state
-    spy_row = df[df["ticker"] == "SPY"].sort_values("date").iloc[-1]
+    # Save SPY state + 20-day history for sparklines and regime streak
+    spy_df = df[df["ticker"] == "SPY"].sort_values("date")
+    spy_row = spy_df.iloc[-1]
     spy_state = {
-        "ret_5d":       float(spy_row["return_5"]),
-        "ret_20d":      float(spy_row["return_20"]),
-        "vol_20d":      float(spy_row["volatility"]),
-        "drawdown_60d": float(spy_row["drawdown"]),
+        "ret_5d":       round(float(spy_row["return_5"]),  5),
+        "ret_20d":      round(float(spy_row["return_20"]), 5),
+        "vol_20d":      round(float(spy_row["volatility"]),5),
+        "drawdown_60d": round(float(spy_row["drawdown"]),  5),
     }
+    history_rows = spy_df.dropna(subset=["return_5","return_20","volatility","drawdown"]).tail(20)
+    spy_state["history"] = [
+        {
+            "ret_5d":       round(float(r["return_5"]),  5),
+            "ret_20d":      round(float(r["return_20"]), 5),
+            "vol_20d":      round(float(r["volatility"]),5),
+            "drawdown_60d": round(float(r["drawdown"]),  5),
+        }
+        for _, r in history_rows.iterrows()
+    ]
     (DATA_DIR / "spy_state.json").write_text(json.dumps(spy_state, indent=2))
 
     # Cross-asset signals + risk axes

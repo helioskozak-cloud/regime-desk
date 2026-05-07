@@ -35,3 +35,14 @@ Items for the daily improvement agent to implement — one per run. Move to Done
 ## Done
 
 - **Aggregate risk score composite display** — 2026-05-07: computed 0–100 composite from 7 risk scores, displayed in #risks view
+- **Sparklines on home KPIs** — 2026-05-07: SVG polylines on SPY 5d/20d/vol/drawdown in regime banner; driven by spy.history in SNAPSHOT
+- **Dark/light mode toggle** — 2026-05-07: ☀/🌙 button in topbar, persists to localStorage, full CSS overrides
+- **Keyboard shortcuts modal** — 2026-05-07: press ? for modal with 1–9/0 nav shortcuts and d for theme toggle
+- **Column sort on stocks table** — 2026-05-07: click any column header in #stocks to sort; direction toggles on repeat click
+- **Copy-to-clipboard button** — 2026-05-07: 📋 button per stock row copies "TICKER edge:X p50:Y"
+- **Analog stats panel** — 2026-05-07: stats cards in #analog showing count, date range, and match count
+- **Winner/loser badges** — 2026-05-07: 🏆 on top 3 sectors, ⚠️ on bottom 3 in #sectors
+- **Timestamp in topbar** — 2026-05-07: generated date shown; yellow "● stale" warning if >2 days old
+- **Jargon glossary** — 2026-05-07: collapsible <details> section at bottom of #methodology with 7 definitions
+- **Regime streak counter** — 2026-05-07: consecutive days in current regime shown in banner and #regime table; computed from spy_history
+- **Print stylesheet** — 2026-05-07: @media print block with white bg, black text, hidden nav buttons
