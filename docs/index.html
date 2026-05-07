@@ -102,6 +102,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
   <div class="view" id="v-analog"></div>
   <div class="view" id="v-methodology"></div>
   <div class="view" id="v-advisor"></div>
+  <div class="view" id="v-meeting"></div>
 </div>
 
 <script>
@@ -2152,60 +2153,112 @@ const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","na
 const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Narrative","Analog","Methodology","Advisor","Meeting"];
 
 function renderMeeting(){
-  const sp=S.spy||{},n=S.narrative||{};
+  const sp=S.spy||{}, n=S.narrative||{};
   const top3=S.sectors.slice(0,3);
   const scores=S.risks.map(r=>r.score||0);
   const composite=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:0;
   const cPct=(composite*100).toFixed(0);
   const cLevel=composite>=0.65?'Elevated':composite>=0.45?'Moderate':'Low';
   const cCol=composite>=0.65?'#f85149':composite>=0.45?'#e3b341':'#3fb950';
-  const rationale={
-    'Technology':'AI capex cycle and earnings strength',
-    'Semiconductors':'AI infrastructure demand persists',
-    'Healthcare':'Defensive growth with secular tailwinds',
-    'Financials':'Curve steepening supports net interest margin',
-    'Consumer Discretionary':'Resilient consumer spending',
-    'Consumer Staples':'Defensive ballast in current regime',
-    'Energy':'Crude bid; supply discipline holding',
-    'Industrials':'Reshoring and infrastructure spend',
-    'Communication Services':'Ad market recovery and streaming consolidation',
-    'Utilities':'Power demand from AI/data centers',
-    'Materials':'Cyclical demand recovery',
-    'Real Estate':'Rate-sensitive; watch duration',
-    'Biotech':'Speculative; idiosyncratic catalysts',
-    'Crypto':'Risk-on proxy; high beta to liquidity',
-    'Energy Transition':'Policy and rate-sensitive',
-    'Unknown':'Aggregated thematic exposure'
+
+  // Static plain-English rationale per sector name
+  const WHY={
+    'Technology':'Analog conditions historically favor tech: earnings momentum and AI capex cycle intact.',
+    'Semiconductors':'Semiconductor demand driven by AI infrastructure build-out remains a tailwind in this regime.',
+    'Healthcare':'Defensive growth with pricing power; outperforms in low-vol, late-cycle conditions.',
+    'Financials':'Curve shape and credit quality support net interest margin expansion.',
+    'Consumer Discretionary':'Resilient consumer spending backed by strong employment and wage growth.',
+    'Consumer Staples':'Defensive ballast; analog days show relative strength when breadth narrows.',
+    'Energy':'Supply discipline and global demand floor keep crude supported.',
+    'Industrials':'Reshoring trends and infrastructure spending sustain order books.',
+    'Communication Services':'Ad market recovery and streaming consolidation lift margins.',
+    'Utilities':'Power demand from data centers creates a secular demand floor.',
+    'Materials':'Cyclical demand recovery tied to global manufacturing PMI.',
+    'Real Estate':'Duration-sensitive; benefits from rate stabilization in this regime.',
+    'Biotech':'High-idiosyncratic-risk sector; analog edge reflects speculative positioning.',
+    'Crypto':'Risk-on liquidity proxy; high beta to the current momentum regime.',
+    'Energy Transition':'Policy-dependent; sensitive to rate path and legislative calendar.',
+    'Unknown':'Aggregated thematic exposure — review underlying constituents.'
   };
-  const watch=[
-    `VIX above 18 — current calm regime would face pressure`,
-    `SPY 20d return falls below +3% — momentum cooling`,
-    `HYG breaks down — credit stress signal`,
-    `Reversal risk above 50% — regime flip likely within 20d`,
-    `Top sector breadth narrows — leadership concentration risk`
-  ];
-  return `<div class="card" style="border-left:4px solid ${cCol}">
-    <h2>Client Meeting Brief — ${S.generated}</h2>
-    <div style="font-size:20px;font-weight:700;color:#f0f6fc;margin-bottom:6px">${sp.regime||'—'}${sp.regime_streak?` <span style="font-size:13px;color:#8b949e;font-weight:400">(${sp.regime_streak}-day streak)</span>`:''}</div>
-    <div style="color:#8b949e;margin-bottom:10px">${n.headline||''}</div>
-    <div style="font-size:13px;line-height:1.7">${n.plain_english||''}</div>
+
+  // Build "what to watch" dynamically from live SNAPSHOT data
+  const watch=[];
+  if((sp.reversal_risk||0)>0.5) watch.push(`Reversal risk is elevated at ${((sp.reversal_risk||0)*100).toFixed(0)}% — monitor for regime flip within 20 days.`);
+  else if((sp.reversal_risk||0)>0.3) watch.push(`Reversal risk is moderate (${((sp.reversal_risk||0)*100).toFixed(0)}%) — trend intact but watch for deterioration.`);
+  const elevRisks=S.risks.filter(r=>(r.score||0)>=0.65);
+  elevRisks.slice(0,3).forEach(r=>watch.push(`${r.name} risk axis is elevated (${((r.score||0)*100).toFixed(0)}/100) — flag for client discussion.`));
+  if((sp.regime_streak||0)>20) watch.push(`Regime has persisted ${sp.regime_streak} consecutive days — extended streaks increase mean-reversion probability.`);
+  if((sp.breadth||1)<0.5) watch.push(`Sector breadth is narrow (${((sp.breadth||0)*100).toFixed(0)}% bullish) — leadership concentrated, fragility risk.`);
+  const a=S.analog||{};
+  if((a.spy_p10||0)<-0.05) watch.push(`Analog downside scenario (p10): SPY ${pct(a.spy_p10)} over 20 days — disclose adverse case to client.`);
+  if(watch.length===0) watch.push(`No elevated signals. Current regime (${sp.regime||'—'}) shows broadly constructive analog conditions.`);
+
+  const firm=(S.config&&S.config.firm_name)||'';
+  const disclaimer=(S.config&&S.config.disclaimer)||'For informational purposes only. Not investment advice. Analog matching identifies statistical tendencies — past patterns do not guarantee future results.';
+
+  return `
+  <div class="card" style="border-left:4px solid ${cCol}">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:11px;color:#6e7681;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Client Meeting Brief</div>
+        <div style="font-size:22px;font-weight:700;color:#f0f6fc;line-height:1.1">${sp.regime||'—'}${sp.regime_streak?` <span style="font-size:13px;color:#8b949e;font-weight:400">(${sp.regime_streak}-day streak)</span>`:''}</div>
+        ${firm?`<div style="color:#8b949e;font-size:12px;margin-top:2px">${firm}</div>`:''}
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="color:#6e7681;font-size:12px">${S.generated}</span>
+        <button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">🖨 Print</button>
+      </div>
+    </div>
+    <div style="margin-top:14px;font-size:14px;color:#c9d1d9;line-height:1.7">${n.plain_english||'—'}</div>
   </div>
-  <div class="card"><h2>Top 3 Sectors — Plain-English Rationale</h2>
-    <table><tr><th>#</th><th>Sector</th><th>Edge</th><th>Why</th></tr>
-    ${top3.map((s,i)=>`<tr><td>${i+1}</td><td><strong>${s.name}</strong></td><td style="color:${s.edge>=0?'#3fb950':'#f85149'}">${pct(s.edge)}</td><td style="color:#8b949e">${rationale[s.name]||'Conditional edge in current analog regime'}</td></tr>`).join('')}
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Key Metrics</h2>
+      <table>
+        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">SPY 5-day</td><td style="text-align:right;font-weight:600;color:${sp.ret_5d>=0?'#3fb950':'#f85149'}">${pct(sp.ret_5d)}</td></tr>
+        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">SPY 20-day</td><td style="text-align:right;font-weight:600;color:${sp.ret_20d>=0?'#3fb950':'#f85149'}">${pct(sp.ret_20d)}</td></tr>
+        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">Realized volatility</td><td style="text-align:right;font-weight:600">${((sp.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}% ann.</td></tr>
+        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">Sector breadth</td><td style="text-align:right;font-weight:600">${((sp.breadth||0)*100).toFixed(0)}% bullish</td></tr>
+        <tr><td style="color:#8b949e;padding:6px 0;font-size:12px">60-day drawdown</td><td style="text-align:right;font-weight:600;color:${(sp.drawdown_60d||0)<-0.05?'#f85149':'#c9d1d9'}">${pct(sp.drawdown_60d)}</td></tr>
+      </table>
+    </div>
+    <div class="card" style="border-color:${cCol}">
+      <h2>Composite Risk</h2>
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
+        <div style="font-size:40px;font-weight:700;color:${cCol};line-height:1">${cLevel}</div>
+        <div style="color:#8b949e;font-size:13px">${cPct} / 100</div>
+      </div>
+      <div style="font-size:12px;color:#8b949e">Across ${S.risks.length} risk axes. Reversal risk: ${((sp.reversal_risk||0)*100).toFixed(0)}% within 20d.</div>
+      ${elevRisks.length?`<div style="margin-top:10px;font-size:12px;color:#e3b341">Elevated: ${elevRisks.map(r=>r.name).join(', ')}</div>`:''}
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Top 3 Sectors — Plain-English Rationale</h2>
+    <table>
+      <tr><th>#</th><th>Sector</th><th>Signal</th><th>Edge (20d)</th><th>Rationale</th></tr>
+      ${top3.map((s,i)=>`<tr>
+        <td style="color:#6e7681">${i+1}</td>
+        <td><strong>${s.name}</strong></td>
+        <td>${pill(s.signal)}</td>
+        <td style="color:${s.edge>=0?'#3fb950':'#f85149'};font-weight:600">${pct(s.edge)}</td>
+        <td style="color:#8b949e;font-size:12px">${WHY[s.name]||'Conditional edge in current analog regime.'}</td>
+      </tr>`).join('')}
     </table>
   </div>
-  <div class="card" style="border-left:4px solid ${cCol}"><h2>Composite Risk Level</h2>
-    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
-      <div style="font-size:36px;font-weight:700;color:${cCol}">${cLevel}</div>
-      <div style="color:#8b949e">${cPct}/100 across ${S.risks.length} risk axes</div>
-    </div>
-    <div style="color:#8b949e;font-size:13px;margin-top:8px">Reversal risk: ${((sp.reversal_risk||0)*100).toFixed(0)}% within 20d. Vol regime: ${((sp.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}% annualized.</div>
+
+  <div class="card">
+    <h2>What to Watch</h2>
+    <ul style="list-style:none;padding:0;margin:0">
+      ${watch.map(w=>`<li style="padding:10px 0;border-bottom:1px solid #21262d;display:flex;gap:10px;align-items:flex-start"><span style="color:#e3b341;font-size:14px;flex-shrink:0">▸</span><span style="font-size:13px;color:#c9d1d9">${w}</span></li>`).join('')}
+    </ul>
   </div>
-  <div class="card"><h2>What to Watch</h2>
-    <ul style="list-style:none;padding:0">${watch.map(w=>`<li style="padding:8px 0;border-bottom:1px solid #21262d">▸ ${w}</li>`).join('')}</ul>
+
+  <div class="card" style="border-color:#30363d">
+    <div style="color:#6e7681;font-size:11px;line-height:1.8">${disclaimer}</div>
   </div>
-  <footer>Designed for one-page print. Tendencies only — not investment advice.</footer>`;
+  <footer>Designed for one-page print. Tendencies only — not investment advice. Data: ${S.generated}.</footer>`;
 }
 
 // Theme persistence
@@ -2752,7 +2805,7 @@ window._rdWl=function(val){
   delete el.dataset.rendered;el.innerHTML=renderAdvisor();el.dataset.rendered='1';
 };
 
-const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,narrative:renderNarrative,analog:renderAnalog,methodology:renderMethodology,advisor:renderAdvisor};
+const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,narrative:renderNarrative,analog:renderAnalog,methodology:renderMethodology,advisor:renderAdvisor,meeting:renderMeeting};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
