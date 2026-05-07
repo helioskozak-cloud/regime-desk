@@ -2337,9 +2337,12 @@ function renderRegime(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// SECTORS — winner/loser badges
+// SECTORS — winner/loser badges + allocation delta vs SPX benchmark
 function renderSectors(){
   const n=S.sectors.length;
+  const SPX_WT={'Technology':28,'Healthcare':13,'Financials':13,'Consumer Discretionary':11,
+    'Communication Services':9,'Industrials':8,'Consumer Staples':6,'Energy':4,
+    'Real Estate':2.5,'Utilities':2.5,'Materials':2.5,'Semiconductors':5,'Biotech':2,'Crypto':0};
   return`<div class="card"><h2>Sector Expectations (${S.sectors[0]&&S.sectors[0].horizon||"20d"} horizon)</h2>
   <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge — the excess return analog days showed versus the unconditional baseline.</p>
   <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
@@ -2348,6 +2351,22 @@ function renderSectors(){
     return`<tr><td>${badge}${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
   <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?"#238636":"#b91c1c"}"></div></div></td>
   <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`;
+  }).join("")}
+  </table></div>
+  <div class="card"><h2>Allocation Delta vs SPX Benchmark</h2>
+  <p style="margin-bottom:12px;color:#8b949e">Signal vs standard SPX sector weights. Overweight where edge is bullish, underweight where bearish.</p>
+  <table><tr><th>Sector</th><th>SPX Weight</th><th>Signal</th><th>Suggested Tilt</th></tr>
+  ${S.sectors.map(s=>{
+    const bw=SPX_WT[s.name]!=null?SPX_WT[s.name]:null;
+    const tilt=s.signal==='bullish'?'Overweight':s.signal==='bearish'?'Underweight':'Neutral';
+    const tc=s.signal==='bullish'?'#3fb950':s.signal==='bearish'?'#f85149':'#8b949e';
+    const arrow=s.signal==='bullish'?'↑':s.signal==='bearish'?'↓':'→';
+    return`<tr>
+      <td>${s.name}</td>
+      <td style="color:#8b949e">${bw!=null?bw+'%':'—'}</td>
+      <td>${pill(s.signal)}</td>
+      <td style="color:${tc};font-weight:600">${arrow} ${tilt}</td>
+    </tr>`;
   }).join("")}
   </table></div>
   <footer>Tendencies only — not investment advice.</footer>`;
@@ -2364,7 +2383,7 @@ function renderStocks(){
   ${sorted.map(st=>{const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;const ann=(st.edge||0)*(252/hd);return`<tr>
     <td><strong>${st.ticker}</strong></td><td>${st.name||"—"}</td><td>${st.sector}</td>
     <td style="color:${st.edge>=0?"#3fb950":"#f85149"}">${pct(st.edge)} <span style="color:#6e7681;font-size:11px" title="Annualized: edge × 252/${hd}d horizon">(${pct(ann)} ann)</span></td>
-    <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
+    <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
     <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
     <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">📋</button></td>
   </tr>`).join("")}
@@ -2440,19 +2459,19 @@ function renderRisks(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// NARRATIVE
+// NARRATIVE — risk card shown first (fiduciary framing: disclose downside first)
 function renderNarrative(){
   const n=S.narrative||{};
   return`<div class="card"><h2>Plain-English Summary</h2>
   <div style="font-size:16px;font-weight:700;color:#f0f6fc;margin-bottom:12px">${n.headline||""}</div>
   <div class="grid2">
-    <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:14px">
-      <div style="color:#3fb950;font-weight:700;margin-bottom:8px">Constructive Read</div>
-      <div>${n.constructive||"—"}</div>
-    </div>
     <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:6px;padding:14px">
       <div style="color:#f85149;font-weight:700;margin-bottom:8px">Risk / Reversal</div>
       <div>${n.risk||"—"}</div>
+    </div>
+    <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:14px">
+      <div style="color:#3fb950;font-weight:700;margin-bottom:8px">Constructive Read</div>
+      <div>${n.constructive||"—"}</div>
     </div>
   </div>
   <div style="margin-top:16px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px">

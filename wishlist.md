@@ -35,18 +35,21 @@ Items for the daily improvement agent to implement — one per run. Move to Done
 - **Meeting prep view (#meeting)** — a new 11th view that is a single-page client-meeting summary: regime headline, top 3 sectors with plain-English rationale, composite risk level, and a "what to watch" list. Designed to print on one page or paste into a client letter.
 - **Watchlist overlay** — a text input in the topbar (or #stocks view) where an advisor pastes comma-separated tickers; JS filters the stocks table to show only those positions, highlighting which have positive or negative analog edge. Persists to localStorage.
 - **Horizon selector filter** — a toggle on #stocks and #sectors to filter by horizon (5d / 20d / 60d / 120d); RIAs typically care about 60d+ for quarterly framing; default remains 20d.
-- **Tail risk emphasis** — in the distribution bars on #stocks, add a separate callout for p10 labeled "Adverse case" so advisors see the downside scenario first, not last.
-- **Annualized edge label** — next to the raw 20d edge, show an annualized equivalent `(edge / h_days * 252)` in muted text; translates to language advisors already use in performance reporting.
-- **Signal confidence badge** — derive a quality score from `hit_rate × log(n_obs)` and display it as Low / Medium / High next to each stock; helps advisors quickly filter out low-sample signals.
-- **Sector allocation delta** — a card in #sectors that shows each sector's signal vs a standard 60/40 equity weight (e.g. Tech ~28%, Financials ~13%); framed as "overweight / underweight / neutral" relative to a benchmark allocation.
+- **Meeting prep view (#meeting)** — a new 11th view that is a single-page client-meeting summary: regime headline, top 3 sectors with plain-English rationale, composite risk level, and a "what to watch" list. Designed to print on one page or paste into a client letter.
+- **Watchlist overlay** — a text input in the topbar (or #stocks view) where an advisor pastes comma-separated tickers; JS filters the stocks table to show only those positions, highlighting which have positive or negative analog edge. Persists to localStorage.
+- **Horizon selector filter** — a toggle on #stocks and #sectors to filter by horizon (5d / 20d / 60d / 120d); RIAs typically care about 60d+ for quarterly framing; default remains 20d.
 - **Regime comparison table** — in #analog, add a table showing the top 5 most similar historical dates with their regime label, the subsequent SPY 20d return, and whether equities were broadly up or down; gives advisors concrete historical precedents to cite.
-- **Compliance disclaimer footer** — a configurable footer (text stored in SNAPSHOT.config.firm_name and SNAPSHOT.config.disclaimer) that appears on every view; defaults to generic language but can be customized per firm. Important for RIAs who share the dashboard with clients.
-- **Export signals to CSV** — a "Download CSV" button on #stocks that uses a data-URI to trigger a client-side CSV download of the current filtered/sorted signals table; eliminates copy-paste into spreadsheets.
-- **Risk-first narrative reorder** — reorder #narrative so the "Risk / Reversal" card appears before the "Constructive Read" card; reflects fiduciary duty framing where downside scenario is disclosed first.
-- **Factor tilt labels** — tag each sector in #sectors with its dominant factor exposure (Growth / Value / Quality / Momentum / Defensive) based on a static lookup; helps advisors think about how a regime tilt interacts with their existing factor exposure.
 
 ## Done
 
+- **Risk-first narrative reorder** — 2026-05-07: Risk/Reversal card now appears before Constructive Read in #narrative; fiduciary framing
+- **Tail risk emphasis** — 2026-05-07: "Adverse: p10%" callout below each distribution bar in #stocks; color-coded red/green
+- **Sector allocation delta** — 2026-05-07: second card in #sectors showing SPX benchmark weight and Overweight/Underweight/Neutral tilt per sector
+- **Annualized edge label** — 2026-05-07: in #stocks table, ann. edge shown in muted text next to raw edge
+- **Signal confidence badge** — 2026-05-07: Low/Med/High badge in #advisor signal table from hit_rate × log(n_obs)
+- **Factor tilt labels** — 2026-05-07: Growth/Value/Quality/Cyclical/Defensive/Income/Speculative labels in #advisor signal table
+- **Compliance disclaimer footer** — 2026-05-07: full disclosure card in #advisor; uses SNAPSHOT.config.disclaimer and firm_name if present
+- **Export signals to CSV** — 2026-05-07: data-URI CSV download in #advisor
 - **Aggregate risk score composite display** — 2026-05-07: computed 0–100 composite from 7 risk scores, displayed in #risks view
 - **Sparklines on home KPIs** — 2026-05-07: SVG polylines on SPY 5d/20d/vol/drawdown in regime banner; driven by spy.history in SNAPSHOT
 - **Dark/light mode toggle** — 2026-05-07: ☀/🌙 button in topbar, persists to localStorage, full CSS overrides
