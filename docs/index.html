@@ -69,6 +69,8 @@ html.light .pill.elev{background:#fef3c7;color:#92400e}
 html.light .pill.mod{background:#dbeafe;color:#1d4ed8}
 html.light .pill.low{background:#d1fae5;color:#166534}
 html.light footer{color:#57606a;border-color:#d0d7de}
+#rd-tip{position:fixed;z-index:9999;background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:10px 14px;pointer-events:none;display:none;min-width:180px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:12px;line-height:1.4}
+#rd-tip.show{display:block}
 @media print{
   #topbar nav,#topbar button,#topbar .ts{display:none!important}
   #topbar{position:static;background:#fff!important;border-color:#ccc!important}
@@ -2436,7 +2438,7 @@ function renderStocks(){
     const logo=`<img src="https://assets.parqet.com/logos/symbol/${st.ticker}?format=jpg" width="18" height="18" style="border-radius:3px;object-fit:contain;vertical-align:middle;margin-right:5px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
     const sector=st.sector&&st.sector!=='Unknown'?st.sector:'—';
     return`<tr style="${rowBg}">
-      <td><div style="display:flex;align-items:center">${logo}<div><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></div></div></td>
+      <td><div style="display:flex;align-items:center" data-ticker="${st.ticker}">${logo}<div><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></div></div></td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${st.name||'—'}</td><td>${sector}</td>
       <td style="color:${st.edge>=0?'#3fb950':'#f85149'};white-space:nowrap">${pct(st.edge)} <span style="color:#6e7681;font-size:11px">(${pct(ann)})</span></td>
       <td style="min-width:0;overflow:hidden">${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
@@ -2478,18 +2480,29 @@ window._rdHorizon=function(h){
 
 // THEMES
 function renderThemes(){
-  return`<div class="card"><h2>Thematic Reads</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Cross-sector themes aggregated from sector and stock signals.</p>
-  ${S.themes.map(t=>`<div style="border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:10px">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <strong>${t.name}</strong>${pill(t.signal)}
-      <span style="color:#8b949e;font-size:12px">${t.stocks} stocks · Edge ${pct(t.edge)}</span>
-    </div>
-    <div style="color:#8b949e;font-size:12px;margin-bottom:4px">Sectors: ${(t.sectors||[]).join(", ")}</div>
-    <div style="color:#c9d1d9;font-size:13px">${t.note||""}</div>
-  </div>`).join("")}
-  </div>
-  <footer>Tendencies only — not investment advice.</footer>`;
+  const themes=(S.themes||[]).filter(function(t){return t.name&&t.name!=='Unknown';});
+  const cards=themes.map(function(t){
+    const stocks=S.stocks.filter(function(st){return st.sector===t.name;}).sort(function(a,b){return b.edge-a.edge;}).slice(0,12);
+    const chips=stocks.map(function(st){
+      const c=st.edge>=0?'#3fb950':'#f85149';
+      return '<span data-ticker="'+st.ticker+'" style="display:inline-flex;align-items:center;gap:3px;background:'+c+'15;border:1px solid '+c+'40;color:'+c+';border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;cursor:default;margin:2px">'
+        +'<img src="https://assets.parqet.com/logos/symbol/'+st.ticker+'?format=jpg" width="12" height="12" style="border-radius:2px;background:#fff;object-fit:contain;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">'
+        +st.ticker+'</span>';
+    }).join('');
+    const empty=!chips?'<span style="color:#6e7681;font-size:12px;font-style:italic">No signals in current scan</span>':'';
+    return '<div style="border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:10px">'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+      +'<strong>'+t.name+'</strong>'+pill(t.signal)
+      +'<span style="color:#8b949e;font-size:12px">'+stocks.length+' signal'+(stocks.length!==1?'s':'')+' &middot; Edge '+pct(t.edge)+'</span>'
+      +'</div>'
+      +'<div style="display:flex;flex-wrap:wrap;line-height:1">'+chips+empty+'</div>'
+      +(t.note?'<div style="color:#c9d1d9;font-size:12px;margin-top:6px">'+t.note+'</div>':'')
+      +'</div>';
+  }).join('');
+  return '<div class="card"><h2>Thematic Reads</h2>'
+    +'<p style="margin-bottom:12px;color:#8b949e">Hover any ticker for signal details. Sorted by edge within each theme.</p>'
+    +cards+'</div>'
+    +'<footer>Tendencies only — not investment advice.</footer>';
 }
 
 // SIGNALS
@@ -2782,7 +2795,7 @@ function renderAdvisor(){
     const nameHtml=st.name&&st.name!==st.ticker?'<div style="color:#6e7681;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px">'+st.name+'</div>':'';
     const logoHtml='<img src="https://assets.parqet.com/logos/symbol/'+st.ticker+'?format=jpg" width="18" height="18" style="border-radius:3px;object-fit:contain;vertical-align:middle;margin-right:5px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">';
     const edgeCol=st.edge>=0?'#3fb950':'#f85149';
-    return '<tr><td><div style="display:flex;align-items:center">'+logoHtml+'<div><strong>'+st.ticker+'</strong>'+nameHtml+'</div></div></td>'
+    return '<tr><td><div style="display:flex;align-items:center" data-ticker="'+st.ticker+'">'+logoHtml+'<div><strong>'+st.ticker+'</strong>'+nameHtml+'</div></div></td>'
       +'<td style="font-size:12px">'+sector+'</td>'
       +'<td><span style="font-size:10px;color:'+fc+';background:'+fc+'18;padding:2px 6px;border-radius:10px;white-space:nowrap">'+factor+'</span></td>'
       +'<td style="color:'+edgeCol+';font-weight:600">'+pct(st.edge)+'</td>'
@@ -2901,8 +2914,61 @@ function route(){
 
 window.addEventListener("hashchange",route);
 route();
+
+// ── Ticker hover tooltip ──────────────────────────────────────────────────────
+(function(){
+  var tip=document.getElementById('rd-tip');
+  if(!tip)return;
+  function pos(cx,cy){
+    var tw=tip.offsetWidth||220,th=tip.offsetHeight||130;
+    var lx=cx+14,ly=cy+14;
+    if(lx+tw>window.innerWidth-8)lx=cx-tw-14;
+    if(ly+th>window.innerHeight-8)ly=cy-th-14;
+    tip.style.left=lx+'px';tip.style.top=ly+'px';
+  }
+  function show(ticker,cx,cy){
+    var st=(S.stocks||[]).find(function(s){return s.ticker===ticker;});
+    if(!st){return;}
+    var ec=st.edge>=0?'#3fb950':'#f85149';
+    var sec=st.sector&&st.sector!=='Unknown'?st.sector:'—';
+    var nameRow=st.name&&st.name!==st.ticker?'<div style="color:#8b949e;font-size:11px;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px">'+st.name+'</div>':'';
+    tip.innerHTML=''
+      +'<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">'
+      +'<img src="https://assets.parqet.com/logos/symbol/'+ticker+'?format=jpg" width="22" height="22" style="border-radius:4px;background:#fff;border:1px solid #30363d;object-fit:contain;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">'
+      +'<strong style="color:#f0f6fc;font-size:14px">'+ticker+'</strong>'
+      +'</div>'
+      +nameRow
+      +'<div style="color:#6e7681;font-size:11px;margin-bottom:8px">'+sec+'</div>'
+      +'<div style="display:flex;gap:14px">'
+      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Edge</div>'
+      +'<div style="color:'+ec+';font-weight:600">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</div></div>'
+      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">p50</div>'
+      +'<div style="color:#c9d1d9">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(1)+'%</div></div>'
+      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Horizon</div>'
+      +'<div style="color:#c9d1d9">'+(st.horizon||'20d')+'</div></div>'
+      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">n</div>'
+      +'<div style="color:#c9d1d9">'+st.n_obs+'</div></div>'
+      +'</div>';
+    pos(cx,cy);
+    tip.classList.add('show');
+  }
+  function hide(){tip.classList.remove('show');}
+  document.addEventListener('mouseover',function(e){
+    var el=e.target.closest?e.target.closest('[data-ticker]'):null;
+    if(el)show(el.dataset.ticker,e.clientX,e.clientY);
+    else hide();
+  });
+  document.addEventListener('mousemove',function(e){
+    if(tip.classList.contains('show'))pos(e.clientX,e.clientY);
+  });
+  document.addEventListener('mouseout',function(e){
+    var el=e.target.closest?e.target.closest('[data-ticker]'):null;
+    if(el&&!el.contains(e.relatedTarget))hide();
+  });
+})();
 })();
 </script>
+<div id="rd-tip"></div>
 </body>
 <!-- evolved: 2026-05-07 | add aggregate risk score composite display in #risks view -->
 <!-- evolved: 2026-05-07 | add annualized edge label next to raw edge in stocks table -->
