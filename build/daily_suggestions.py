@@ -1,15 +1,16 @@
 """
-daily_suggestions.py — Analyze questions from the Ask tab and suggest
-interface improvements. Run daily; updates wishlist.md Pending section.
+daily_suggestions.py — Analyze questions from the Ask tab and write
+suggested interface improvements to data/suggestions/ for your review.
+
+Suggestions are NOT written to wishlist.md automatically.
+Review the output file and copy anything you approve into wishlist.md.
 
 Workflow:
   1. In the dashboard, go to Ask ✦ → Daily Question Log → Download JSON
   2. Save the downloaded file to:  regime-desk/data/question_log.json
-  3. Run:  python build/daily_suggestions.py
-     (or double-click run_daily.bat)
-
-Output: 3-5 new items prepended to the Pending section of wishlist.md,
-        keyed to today's date so re-running the same day is idempotent.
+  3. Run:  python build/daily_suggestions.py  (or run_daily.bat)
+  4. Review:  data/suggestions/YYYY-MM-DD.md
+  5. Copy approved items into wishlist.md under ## Pending
 """
 import json
 import re
@@ -24,7 +25,7 @@ except ImportError:
     sys.exit(1)
 
 LOG_PATH = Path("data/question_log.json")
-WISHLIST_PATH = Path("wishlist.md")
+SUGGESTIONS_DIR = Path("data/suggestions")
 MODEL = "claude-opus-4-7"
 
 
@@ -60,7 +61,7 @@ def format_questions(ranked):
     return "\n".join(lines)
 
 
-def call_claude(questions_text):
+def call_claude(questions_text, total, days):
     client = anthropic.Anthropic()
     prompt = (
         "You are analyzing questions asked by financial advisors using the Regime Desk dashboard.\n"
@@ -71,7 +72,7 @@ def call_claude(questions_text):
         "  • Historical analog precedents with SPY +20d outcomes\n"
         "  • Cross-asset signals, 7 risk axes, narrative summaries\n"
         "  • Ask ✦ tab: client-side query engine that answers natural-language questions\n\n"
-        "Questions asked by advisors (most frequent first):\n"
+        f"Total questions logged: {total} across {days} day(s). Most frequent first:\n"
         + questions_text
         + "\n\n"
         "Identify 3–5 specific interface features or new views that would directly close the gaps "
@@ -89,29 +90,30 @@ def call_claude(questions_text):
     return resp.content[0].text.strip()
 
 
-def update_wishlist(suggestions_text, today):
-    wishlist = WISHLIST_PATH.read_text(encoding="utf-8")
-
-    marker = f"AI suggestions {today}"
-    if marker in wishlist:
-        print(f"Suggestions for {today} already present in wishlist.md — skipping write.")
-        return 0
+def save_suggestions(suggestions_text, questions_text, today):
+    SUGGESTIONS_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = SUGGESTIONS_DIR / f"{today}.md"
 
     lines = [l.strip() for l in suggestions_text.splitlines() if l.strip().startswith("**")]
-    if not lines:
-        print("WARNING: Claude returned no parseable suggestions. Raw output:")
-        print(suggestions_text)
-        return 0
 
-    items = "\n".join(
-        f"- {line} — {today}: based on advisor question patterns"
-        for line in lines
-    )
-    block = f"\n<!-- {marker} -->\n{items}\n"
+    content = f"# Regime Desk — Suggested Improvements\n"
+    content += f"Generated: {today}\n\n"
+    content += "---\n\n"
+    content += "## Suggested Features\n\n"
+    content += "_Review these and copy any approved items into wishlist.md under ## Pending._\n\n"
 
-    updated = wishlist.replace("## Pending\n", "## Pending\n" + block, 1)
-    WISHLIST_PATH.write_text(updated, encoding="utf-8")
-    return len(lines)
+    if lines:
+        for line in lines:
+            content += f"- {line} — {today}: based on advisor question patterns\n"
+    else:
+        content += suggestions_text + "\n"
+
+    content += "\n---\n\n"
+    content += "## Questions Analyzed\n\n"
+    content += questions_text + "\n"
+
+    out_path.write_text(content, encoding="utf-8")
+    return out_path, len(lines)
 
 
 def main():
@@ -133,16 +135,18 @@ def main():
 
     ranked = rank_questions(log)
     questions_text = format_questions(ranked)
-    print(f"Analyzing {len(ranked)} distinct question patterns...\n")
+    print(f"Analyzing {len(ranked)} distinct question patterns...")
 
-    suggestions = call_claude(questions_text)
-    print("Claude suggestions:\n")
+    suggestions = call_claude(questions_text, total, days)
+
+    out_path, n = save_suggestions(suggestions, questions_text, today)
+
+    print(f"\nSuggestions written to: {out_path.resolve()}")
+    print(f"\n{'='*60}")
     print(suggestions)
-    print()
-
-    n = update_wishlist(suggestions, today)
-    if n:
-        print(f"Wrote {n} suggestion(s) to wishlist.md Pending section.")
+    print(f"{'='*60}")
+    print(f"\nReview the file above, then copy approved items into wishlist.md")
+    print(f"Suggestions are NOT added to wishlist.md automatically.")
 
 
 if __name__ == "__main__":
