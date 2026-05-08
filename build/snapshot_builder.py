@@ -99,10 +99,12 @@ def _load_signals_csv(path, max_stocks=100):
 
         stocks = stocks[:max_stocks]
 
-        # Build sector summary from stocks
+        # Build sector summary from stocks (skip unknown/unmapped)
         sector_map = {}
         for s in stocks:
             sec = s["sector"]
+            if not sec or sec == "Unknown":
+                continue
             if sec not in sector_map:
                 sector_map[sec] = {"edges": [], "stocks": 0}
             sector_map[sec]["edges"].append(s["edge"])
@@ -368,10 +370,11 @@ def build_snapshot():
                 f"Regime classified as: {spy['regime']}."
             )
 
-    # Build narrative from sector signals
+    # Build narrative from sector signals (exclude Unknown)
     if snap["sectors"]:
-        top_sectors = [s["name"] for s in snap["sectors"][:3] if s["edge"] > 0.02]
-        bot_sectors = [s["name"] for s in snap["sectors"][-2:] if s["edge"] < -0.01]
+        known = [s for s in snap["sectors"] if s["name"] and s["name"] != "Unknown"]
+        top_sectors = [s["name"] for s in known[:3] if s["edge"] > 0.02]
+        bot_sectors = [s["name"] for s in known[-2:] if s["edge"] < -0.01]
         spy = snap["spy"]
         regime = spy.get("regime", "Unknown")
         snap["narrative"]["headline"] = f"{regime} regime — {', '.join(top_sectors[:2]) or 'mixed'} leading"

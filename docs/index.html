@@ -44,8 +44,8 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:#1c2128}
 .bar-wrap{background:#21262d;border-radius:3px;height:6px;position:relative;width:80px}
 .bar-fill{height:6px;border-radius:3px;background:#238636;position:absolute;left:0;top:0}
-.dist-wrap{display:flex;align-items:center;gap:4px;font-size:11px;white-space:nowrap}
-.dist-bar{background:#21262d;border-radius:2px;height:8px;position:relative;width:120px}
+.dist-wrap{display:flex;align-items:center;gap:3px;font-size:11px;white-space:nowrap;overflow:hidden;min-width:0}
+.dist-bar{background:#21262d;border-radius:2px;height:8px;position:relative;flex:1 1 70px;min-width:50px;max-width:100px}
 .dist-range{position:absolute;height:8px;border-radius:2px}
 .dist-med{position:absolute;width:2px;height:8px;background:#f0f6fc}
 .score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:3px;vertical-align:middle;position:relative}
@@ -107,7 +107,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 
 <script>
 window.SNAPSHOT = {
-  "generated": "2026-05-07",
+  "generated": "2026-05-08",
   "spy": {
     "ret_5d": 0.0182,
     "ret_20d": 0.07623,
@@ -248,14 +248,6 @@ window.SNAPSHOT = {
       "breadth": 1.0,
       "horizon": "20d",
       "stocks": 14,
-      "signal": "bullish"
-    },
-    {
-      "name": "Unknown",
-      "edge": 0.3314,
-      "breadth": 1.0,
-      "horizon": "20d",
-      "stocks": 6,
       "signal": "bullish"
     },
     {
@@ -2175,10 +2167,10 @@ window.SNAPSHOT = {
     "regime_context": "Current SPY state (ret5=+1.8%, ret20=+7.6%, vol=0.7%, dd=-0.3%) matched to 30 analog days. Regime classified as: Bull Trend."
   },
   "narrative": {
-    "headline": "Bull Trend regime \u2014 Technology, Unknown leading",
-    "constructive": "Analog matching finds bull trend conditions historically favor Technology, Unknown, Consumer Staples with positive conditional edge.",
+    "headline": "Bull Trend regime \u2014 Technology, Consumer Staples leading",
+    "constructive": "Analog matching finds bull trend conditions historically favor Technology, Consumer Staples, Semiconductors with positive conditional edge.",
     "risk": "No strongly negative sector signals. Reversal risk estimated at 25%.",
-    "plain_english": "The market is in a bull trend phase. Historical analogs suggest Technology, Unknown tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
+    "plain_english": "The market is in a bull trend phase. Historical analogs suggest Technology, Consumer Staples tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   }
 };
 </script>
@@ -2312,14 +2304,14 @@ function distBar(p10,p25,p50,p75,p90){
   function pos(v){return Math.max(0,Math.min(100,((v-lo)/range)*100)).toFixed(1)+"%"}
   const left=pos(p25),width=(((p75-p25)/range)*100).toFixed(1)+"%",med=pos(p50);
   return`<div class="dist-wrap">
-    <span style="color:#6e7681;width:36px;text-align:right">${(p10*100).toFixed(0)}%</span>
+    <span style="color:#6e7681;width:28px;text-align:right;font-size:10px;flex-shrink:0">${(p10*100).toFixed(0)}%</span>
     <div class="dist-bar">
       <div class="dist-range" style="left:${pos(p10)};width:${(((p90-p10)/range)*100).toFixed(1)}%;background:#1a3a2a;border-radius:2px"></div>
       <div class="dist-range" style="left:${left};width:${width};background:#238636;border-radius:2px"></div>
       <div class="dist-med" style="left:${med}"></div>
     </div>
-    <span style="color:#f0f6fc;width:36px">${(p90*100).toFixed(0)}%</span>
-    <span style="color:#8b949e;margin-left:4px">p50: ${pct(p50)}</span>
+    <span style="color:#f0f6fc;width:28px;font-size:10px;flex-shrink:0">${(p90*100).toFixed(0)}%</span>
+    <span style="color:#8b949e;font-size:10px;flex-shrink:0">~${pct(p50)}</span>
   </div>`;
 }
 
@@ -2379,18 +2371,26 @@ function _sectorData(){
   }).sort((a,b)=>b.edge-a.edge);
 }
 function renderSectors(){
-  const sectors=_sectorData();
+  const allSectors=_sectorData();
+  const sectors=allSectors.filter(s=>s.name&&s.name!=='Unknown');
   const n=sectors.length;
   const SPX_WT={'Technology':28,'Healthcare':13,'Financials':13,'Consumer Discretionary':11,
     'Communication Services':9,'Industrials':8,'Consumer Staples':6,'Energy':4,
     'Real Estate':2.5,'Utilities':2.5,'Materials':2.5,'Semiconductors':5,'Biotech':2,'Crypto':0};
+  const SECTOR_ICON={'Technology':'&#x25FC;','Semiconductors':'&#x2BC0;','Healthcare':'&#x2B22;',
+    'Financials':'&#x25B6;','Consumer Discretionary':'&#x25C6;','Communication Services':'&#x25CB;',
+    'Industrials':'&#x25A0;','Consumer Staples':'&#x25BD;','Energy':'&#x26A1;',
+    'Utilities':'&#x25D1;','Real Estate':'&#x25A3;','Materials':'&#x2B21;',
+    'Biotech':'&#x2B2C;','Defense':'&#x25B2;','Crypto':'&#x25C9;'};
   return`<div class="card"><h2>Sector Expectations</h2>
   ${_horizonBar()}
   <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge${_horizon!=='all'?' — '+_horizon+' horizon stocks only':''}.</p>
   <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
   ${sectors.map((s,i)=>{
-    const badge=i<3?'<span title="Top sector" style="margin-right:4px">🏆</span>':(i>=n-3?'<span title="Lagging sector" style="margin-right:4px">⚠️</span>':'');
-    return`<tr><td>${badge}${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
+    const rankBadge=i<3?'<span title="Top sector" style="color:#e3b341;font-size:11px;margin-right:3px">&#x25B2;</span>':(i>=n-3?'<span title="Lagging sector" style="color:#f85149;font-size:11px;margin-right:3px">&#x25BC;</span>':'');
+    const icon=SECTOR_ICON[s.name]||'&#x25A1;';
+    const iconHtml='<span style="color:'+(s.edge>=0?'#3fb950':'#f85149')+';font-size:12px;margin-right:5px;opacity:.7">'+icon+'</span>';
+    return`<tr><td>${rankBadge}${iconHtml}${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
   <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?"#238636":"#b91c1c"}"></div></div></td>
   <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`;
   }).join("")}
@@ -2402,7 +2402,7 @@ function renderSectors(){
     const bw=SPX_WT[s.name]!=null?SPX_WT[s.name]:null;
     const tilt=s.signal==='bullish'?'Overweight':s.signal==='bearish'?'Underweight':'Neutral';
     const tc=s.signal==='bullish'?'#3fb950':s.signal==='bearish'?'#f85149':'#8b949e';
-    const arrow=s.signal==='bullish'?'↑':s.signal==='bearish'?'↓':'→';
+    const arrow=s.signal==='bullish'?'&#x2191;':s.signal==='bearish'?'&#x2193;':'&#x2192;';
     return`<tr>
       <td>${s.name}</td>
       <td style="color:#8b949e">${bw!=null?bw+'%':'—'}</td>
@@ -2433,13 +2433,15 @@ function renderStocks(){
     const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
     const ann=(st.edge||0)*(252/hd);
     const rowBg=isWl?(st.edge>=0?'background:rgba(35,134,54,.08)':'background:rgba(248,81,73,.08)'):'';
+    const logo=`<img src="https://assets.parqet.com/logos/symbol/${st.ticker}?format=jpg" width="18" height="18" style="border-radius:3px;object-fit:contain;vertical-align:middle;margin-right:5px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
+    const sector=st.sector&&st.sector!=='Unknown'?st.sector:'—';
     return`<tr style="${rowBg}">
-      <td><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></td>
-      <td>${st.name||'—'}</td><td>${st.sector}</td>
-      <td style="color:${st.edge>=0?'#3fb950':'#f85149'}">${pct(st.edge)} <span style="color:#6e7681;font-size:11px">(${pct(ann)} ann)</span></td>
-      <td>${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
+      <td><div style="display:flex;align-items:center">${logo}<div><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></div></div></td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${st.name||'—'}</td><td>${sector}</td>
+      <td style="color:${st.edge>=0?'#3fb950':'#f85149'};white-space:nowrap">${pct(st.edge)} <span style="color:#6e7681;font-size:11px">(${pct(ann)})</span></td>
+      <td style="min-width:0;overflow:hidden">${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
       <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
-      <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">📋</button></td>
+      <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">&#x1F4CB;</button></td>
     </tr>`;
   }
   // In watchlist mode, iterate requested tickers in order; show "no data" for missing ones
@@ -2456,9 +2458,9 @@ function renderStocks(){
   return`<div class="card"><h2>Individual Stock Signals</h2>
   ${_horizonBar()}${wlBar}
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
-  <table><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10→p90)</th>${th('hit_rate','Hit Rate')}${th('n_obs','n')}<th></th></tr>
+  <div style="overflow-x:auto"><table style="min-width:640px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Distribution (p10&#8594;p90)</th>${th('hit_rate','Hit %')}${th('n_obs','n')}<th></th></tr>
   ${rows.join('')}
-  </table></div>
+  </table></div></div>
   <footer>Tendencies only — not investment advice. Green/red row tint = positive/negative edge in watchlist mode.</footer>`;
 }
 window._rdSort=function(col){
@@ -2769,21 +2771,23 @@ function renderAdvisor(){
   const sc=S.risks.length?S.risks.reduce(function(a,b){return a+(b.score||0);},0)/S.risks.length:0;
   const scCol=sc>=0.65?'#f85149':sc>=0.45?'#e3b341':'#3fb950';
   const compRiskHtml='<span style="color:'+scCol+';font-weight:600">'+(sc*100).toFixed(0)+'/100</span>';
-  const analogDates=((S.analog&&S.analog.top_dates)||[]).slice(0,5);
+  const analogDates=((S.analog&&S.analog.top_matches)||[]).slice(0,5).map(function(m){return typeof m==='string'?m:m.date;});
   const analogDatesHtml=analogDates.map(function(d,i){return '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #21262d"><span style="color:#6e7681;font-size:11px;width:16px">'+(i+1)+'</span><span style="font-size:12px">'+d+'</span></div>';}).join('');
   const sigTitle=isFiltered?' &mdash; Watchlist ('+wlTickers.length+' tickers)':' &mdash; Top '+stocks.length+' Signals';
   const wlClearBtn=isFiltered?'<button onclick="window._rdWl(\'\')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>':'';
   const wlNoMatch=isFiltered&&stocks.length===0?'<div style="color:#e3b341;margin-bottom:8px;font-size:12px">No signals matched. Showing all.</div>':'';
   const stockRows=stocks.map(function(st){
     const factor=FACTOR[st.sector]||'—', fc=FCOL[factor]||'#6e7681';
-    const nameHtml=st.name&&st.name!==st.ticker?'<div style="color:#6e7681;font-size:10px">'+st.name+'</div>':'';
+    const sector=st.sector&&st.sector!=='Unknown'?st.sector:'—';
+    const nameHtml=st.name&&st.name!==st.ticker?'<div style="color:#6e7681;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px">'+st.name+'</div>':'';
+    const logoHtml='<img src="https://assets.parqet.com/logos/symbol/'+st.ticker+'?format=jpg" width="18" height="18" style="border-radius:3px;object-fit:contain;vertical-align:middle;margin-right:5px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">';
     const edgeCol=st.edge>=0?'#3fb950':'#f85149';
-    return '<tr><td><strong>'+st.ticker+'</strong>'+nameHtml+'</td>'
-      +'<td style="font-size:12px">'+st.sector+'</td>'
+    return '<tr><td><div style="display:flex;align-items:center">'+logoHtml+'<div><strong>'+st.ticker+'</strong>'+nameHtml+'</div></div></td>'
+      +'<td style="font-size:12px">'+sector+'</td>'
       +'<td><span style="font-size:10px;color:'+fc+';background:'+fc+'18;padding:2px 6px;border-radius:10px;white-space:nowrap">'+factor+'</span></td>'
       +'<td style="color:'+edgeCol+';font-weight:600">'+pct(st.edge)+'</td>'
-      +'<td style="color:#6e7681;font-size:11px">'+annEd(st.edge,st.horizon||'20d')+'</td>'
-      +'<td>'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
+      +'<td style="color:#6e7681;font-size:11px;white-space:nowrap">'+annEd(st.edge,st.horizon||'20d')+'</td>'
+      +'<td style="min-width:0;overflow:hidden">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
       +'<td>'+((st.hit_rate||0)*100).toFixed(0)+'%</td>'
       +'<td>'+confBadge(st.hit_rate,st.n_obs)+'</td>'
       +'<td>'+st.n_obs+'</td></tr>';
