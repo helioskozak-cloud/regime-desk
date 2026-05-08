@@ -2915,7 +2915,7 @@ function route(){
     if(a)a.classList.toggle("active",v===view);
   });
   const el=document.getElementById("v-"+view);
-  if(!el.dataset.rendered){el.innerHTML=renderers[view]();el.dataset.rendered="1";}
+  if(!el.dataset.rendered){el.innerHTML=renderers[view]();el.dataset.rendered="1";if(typeof window['_rd_postrender_'+view]==='function')window['_rd_postrender_'+view]();}
 }
 
 window.addEventListener("hashchange",route);
@@ -3219,6 +3219,83 @@ function _rdQueryEngine(q){
   return _qFallback(q);
 }
 
+// ── Question log (daily wishlist) ─────────────────────────────────────────────
+var RD_LOG_KEY='rd-question-log';
+function _rdSaveQuestion(q){
+  var log=[];
+  try{log=JSON.parse(localStorage.getItem(RD_LOG_KEY)||'[]');}catch(e){}
+  var now=new Date(),date=now.toISOString().slice(0,10);
+  log.push({q:q,ts:now.toISOString().slice(11,16),date:date});
+  if(log.length>500)log=log.slice(-500);
+  try{localStorage.setItem(RD_LOG_KEY,JSON.stringify(log));}catch(e){}
+}
+function _rdLoadLog(){
+  try{return JSON.parse(localStorage.getItem(RD_LOG_KEY)||'[]');}catch(e){return[];}
+}
+window._rdClearDay=function(date){
+  var log=_rdLoadLog().filter(function(e){return e.date!==date;});
+  try{localStorage.setItem(RD_LOG_KEY,JSON.stringify(log));}catch(e){}
+  _rdRenderWishlist();
+};
+window._rdClearAll=function(){
+  try{localStorage.removeItem(RD_LOG_KEY);}catch(e){}
+  _rdRenderWishlist();
+};
+window._rdExportLog=function(){
+  var log=_rdLoadLog();
+  if(!log.length){alert('No questions logged yet.');return;}
+  var byDate={};
+  log.forEach(function(e){if(!byDate[e.date])byDate[e.date]=[];byDate[e.date].push(e);});
+  var lines=['# Regime Desk — Daily Question Log\n'];
+  Object.keys(byDate).sort().reverse().forEach(function(d){
+    lines.push('## '+d);
+    byDate[d].forEach(function(e){lines.push('- '+(e.ts?'['+e.ts+'] ':'')+e.q);});
+    lines.push('');
+  });
+  var text=lines.join('\n');
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){
+      var btn=document.getElementById('rd-export-btn');
+      if(btn){btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy Log';},2000);}
+    });
+  }else{prompt('Copy this log:',text);}
+};
+function _rdRenderWishlist(){
+  var el=document.getElementById('rd-wishlist-body');if(!el)return;
+  var log=_rdLoadLog();
+  if(!log.length){
+    el.innerHTML='<div style="color:#6e7681;padding:10px 0;font-size:13px">No questions logged yet — ask something above to start building your daily log.</div>';
+    return;
+  }
+  var byDate={};
+  log.forEach(function(e){if(!byDate[e.date])byDate[e.date]=[];byDate[e.date].push(e);});
+  var today=new Date().toISOString().slice(0,10);
+  var html='';
+  Object.keys(byDate).sort().reverse().forEach(function(d){
+    var entries=byDate[d];
+    var isToday=d===today;
+    var label=isToday?'Today — '+d:d;
+    var count=entries.length;
+    html+='<div style="margin-bottom:18px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'
+      +'<span style="font-size:12px;font-weight:600;color:'+(isToday?'#58a6ff':'#8b949e')+'">'+label
+        +'<span style="color:#6e7681;font-weight:400;margin-left:6px">'+count+' question'+(count===1?'':'s')+'</span></span>'
+      +'<button onclick="window._rdClearDay(\''+d+'\')" style="background:none;border:1px solid #30363d;color:#6e7681;border-radius:4px;padding:1px 8px;cursor:pointer;font-size:11px">Clear day</button>'
+      +'</div>'
+      +entries.map(function(e){
+        return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #21262d">'
+          +(e.ts?'<span style="color:#6e7681;font-size:11px;min-width:38px">'+e.ts+'</span>':'')
+          +'<span style="flex:1;color:#c9d1d9;font-size:13px;cursor:pointer" '
+          +'onclick="window._rdAsk(\''+e.q.replace(/'/g,'').replace(/"/g,'')+'\')" '
+          +'onmouseover="this.style.color=\'#58a6ff\'" onmouseout="this.style.color=\'#c9d1d9\'">'+e.q+'</span>'
+          +'</div>';
+      }).join('')
+      +'</div>';
+  });
+  el.innerHTML=html;
+}
+window._rd_postrender_ask=function(){_rdRenderWishlist();};
+
 // ── Ask view shell ────────────────────────────────────────────────────────────
 window._rdRefreshHistory=function(){
   var el=document.getElementById('rd-ask-history');
@@ -3233,12 +3310,14 @@ window._rdAsk=function(q){
   var inp=document.getElementById('rd-ask-input');if(inp)inp.value=q;
   var resp=document.getElementById('rd-ask-response');if(!resp)return;
   _askHistory.unshift(q);if(_askHistory.length>8)_askHistory.pop();
+  _rdSaveQuestion(q);
   resp.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:16px 0;color:#8b949e;font-size:13px">'
     +'<span class="rd-dot"></span><span class="rd-dot" style="animation-delay:.18s"></span><span class="rd-dot" style="animation-delay:.36s"></span>'
     +'<span style="margin-left:4px">Analyzing...</span></div>';
   setTimeout(function(){
     resp.innerHTML=_rdQueryEngine(q);
     window._rdRefreshHistory();
+    _rdRenderWishlist();
   },420);
 };
 
@@ -3259,6 +3338,15 @@ function renderAsk(){
     +'<div style="display:flex;flex-wrap:wrap;gap:0">'+chipHtml+'</div></div>'
     +'<div id="rd-ask-response" style="margin-top:12px"></div>'
     +'<div id="rd-ask-history"></div>'
+    +'<div class="card" style="margin-top:16px">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #30363d">'
+    +'<h2 style="margin:0;border:none;padding:0">Daily Question Log</h2>'
+    +'<div style="display:flex;gap:8px">'
+    +'<button id="rd-export-btn" onclick="window._rdExportLog()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px">Copy Log</button>'
+    +'<button onclick="window._rdClearAll()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px">Clear All</button>'
+    +'</div></div>'
+    +'<div id="rd-wishlist-body"></div>'
+    +'</div>'
     +'<footer>All analysis is computed from the locally cached snapshot — data as of '+S.generated+'. Keyboard shortcut: press <kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 5px;font-size:11px">a</kbd></footer>';
 }
 
