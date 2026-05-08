@@ -3260,6 +3260,15 @@ window._rdExportLog=function(){
     });
   }else{prompt('Copy this log:',text);}
 };
+window._rdDownloadLog=function(){
+  var log=_rdLoadLog();
+  if(!log.length){alert('No questions logged yet.');return;}
+  var json=JSON.stringify(log,null,2);
+  var a=document.createElement('a');
+  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(json);
+  a.download='question_log.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+};
 function _rdRenderWishlist(){
   var el=document.getElementById('rd-wishlist-body');if(!el)return;
   var log=_rdLoadLog();
@@ -3343,6 +3352,7 @@ function renderAsk(){
     +'<h2 style="margin:0;border:none;padding:0">Daily Question Log</h2>'
     +'<div style="display:flex;gap:8px">'
     +'<button id="rd-export-btn" onclick="window._rdExportLog()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px">Copy Log</button>'
+    +'<button onclick="window._rdDownloadLog()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px" title="Download question_log.json — save to regime-desk/data/ then run run_daily.bat">Download JSON</button>'
     +'<button onclick="window._rdClearAll()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px">Clear All</button>'
     +'</div></div>'
     +'<div id="rd-wishlist-body"></div>'
