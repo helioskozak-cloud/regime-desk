@@ -44,8 +44,7 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:#1c2128}
 .bar-wrap{background:#21262d;border-radius:3px;height:6px;position:relative;width:80px}
 .bar-fill{height:6px;border-radius:3px;background:#238636;position:absolute;left:0;top:0}
-.dist-wrap{display:flex;align-items:center;gap:4px;font-size:11px;white-space:nowrap}
-.dist-bar{background:#21262d;border-radius:2px;height:8px;position:relative;flex:1 1 80px;min-width:60px}
+.dist-bar{background:#21262d;border-radius:2px;height:8px;position:relative}
 .dist-range{position:absolute;height:8px;border-radius:2px}
 .dist-med{position:absolute;width:2px;height:8px;background:#f0f6fc}
 .score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:3px;vertical-align:middle;position:relative}
@@ -2308,21 +2307,24 @@ document.getElementById("regime-banner").innerHTML=`
   <div class="stat"><span class="val">${((spy.persistence||0)*100).toFixed(0)}%</span><span class="key">Persistence</span></div>
   <div class="stat">${pill(spy.reversal_risk>0.5?"elevated":spy.reversal_risk>0.3?"moderate":"low","Rev. Risk: "+(((spy.reversal_risk||0)*100).toFixed(0))+"%")}</div>`;
 
-// Distribution visualizer
+// Distribution visualizer — bar fills column width; p10/p50/p90 labels below
 function distBar(p10,p25,p50,p75,p90){
-  const lo=-0.20,hi=0.30,range=hi-lo;
-  function pos(v){return Math.max(0,Math.min(100,((v-lo)/range)*100)).toFixed(1)+"%"}
-  const left=pos(p25),width=(((p75-p25)/range)*100).toFixed(1)+"%",med=pos(p50);
-  return`<div class="dist-wrap">
-    <span style="color:#6e7681;width:28px;text-align:right;font-size:10px;flex-shrink:0">${(p10*100).toFixed(0)}%</span>
-    <div class="dist-bar">
-      <div class="dist-range" style="left:${pos(p10)};width:${(((p90-p10)/range)*100).toFixed(1)}%;background:#1a3a2a;border-radius:2px"></div>
-      <div class="dist-range" style="left:${left};width:${width};background:#238636;border-radius:2px"></div>
-      <div class="dist-med" style="left:${med}"></div>
-    </div>
-    <span style="color:#f0f6fc;width:28px;font-size:10px;flex-shrink:0">${(p90*100).toFixed(0)}%</span>
-    <span style="color:#8b949e;font-size:10px;flex-shrink:0">~${pct(p50)}</span>
-  </div>`;
+  var lo=-0.20,hi=0.30,r=hi-lo;
+  function pn(v){return Math.max(0,Math.min(100,((v-lo)/r)*100));}
+  function pp(v){return pn(v).toFixed(1)+'%';}
+  function sgn(v){return (v>=0?'+':'')+(v*100).toFixed(0)+'%';}
+  return '<div style="width:100%">'
+    +'<div class="dist-bar" style="width:100%">'
+    +'<div class="dist-range" style="left:'+pp(p10)+';width:'+(pn(p90)-pn(p10)).toFixed(1)+'%;background:#1a3a2a;border-radius:2px"></div>'
+    +'<div class="dist-range" style="left:'+pp(p25)+';width:'+(pn(p75)-pn(p25)).toFixed(1)+'%;background:#238636;border-radius:2px"></div>'
+    +'<div class="dist-med" style="left:'+pp(p50)+'"></div>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:space-between;font-size:10px;margin-top:3px">'
+    +'<span style="color:#6e7681">'+sgn(p10)+'</span>'
+    +'<span style="color:#8b949e">p50 '+sgn(p50)+'</span>'
+    +'<span style="color:#6e7681">'+sgn(p90)+'</span>'
+    +'</div>'
+    +'</div>';
 }
 
 // HOME
@@ -2449,7 +2451,7 @@ function renderStocks(){
       <td><div style="display:flex;align-items:center" data-ticker="${st.ticker}">${logo}<div><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></div></div></td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${st.name||'—'}</td><td>${sector}</td>
       <td style="color:${st.edge>=0?'#3fb950':'#f85149'};white-space:nowrap">${pct(st.edge)} <span style="color:#6e7681;font-size:11px">(${pct(ann)})</span></td>
-      <td style="min-width:200px">${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}<div style="font-size:10px;margin-top:3px"><span style="color:#e3b341;font-weight:600">Adverse:</span> <span style="color:${st.p10<0?'#f85149':'#3fb950'}">${pct(st.p10)}</span></div></td>
+      <td style="min-width:160px">${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
       <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
       <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">&#x1F4CB;</button></td>
     </tr>`;
@@ -2468,7 +2470,7 @@ function renderStocks(){
   return`<div class="card"><h2>Individual Stock Signals</h2>
   ${_horizonBar()}${wlBar}
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
-  <div style="overflow-x:auto"><table style="min-width:680px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th style="min-width:200px">Distribution (p10&#8594;p90)</th>${th('hit_rate','Hit %')}${th('n_obs','n')}<th></th></tr>
+  <div style="overflow-x:auto"><table style="min-width:640px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th style="min-width:160px">Distribution (p10&#8594;p90)</th>${th('hit_rate','Hit %')}${th('n_obs','n')}<th></th></tr>
   ${rows.join('')}
   </table></div></div>
   <footer>Tendencies only — not investment advice. Green/red row tint = positive/negative edge in watchlist mode.</footer>`;
@@ -2808,7 +2810,7 @@ function renderAdvisor(){
       +'<td><span style="font-size:10px;color:'+fc+';background:'+fc+'18;padding:2px 6px;border-radius:10px;white-space:nowrap">'+factor+'</span></td>'
       +'<td style="color:'+edgeCol+';font-weight:600">'+pct(st.edge)+'</td>'
       +'<td style="color:#6e7681;font-size:11px;white-space:nowrap">'+annEd(st.edge,st.horizon||'20d')+'</td>'
-      +'<td style="min-width:200px">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
+      +'<td style="min-width:160px">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
       +'<td>'+((st.hit_rate||0)*100).toFixed(0)+'%</td>'
       +'<td>'+confBadge(st.hit_rate,st.n_obs)+'</td>'
       +'<td>'+st.n_obs+'</td></tr>';
@@ -2886,7 +2888,7 @@ function renderAdvisor(){
     ${wlNoMatch}
     <div style="overflow-x:auto">
     <table style="min-width:700px"><tr>
-      <th>Ticker</th><th>Sector</th><th>Factor</th><th>Edge</th><th>Ann. Edge</th><th style="min-width:200px">Distribution (p10 &rarr; p90)</th><th>Hit Rate</th><th>Conf.</th><th>n</th>
+      <th>Ticker</th><th>Sector</th><th>Factor</th><th>Edge</th><th>Ann. Edge</th><th style="min-width:160px">Distribution (p10 &rarr; p90)</th><th>Hit Rate</th><th>Conf.</th><th>n</th>
     </tr>
     ${stockRows}
     </table></div>
@@ -2953,7 +2955,7 @@ function _qTickerTable(stocks){
         +'<div style="color:#6e7681;font-size:10px;margin-left:19px">'+st.horizon+'</div></td>'
         +'<td style="color:#8b949e;font-size:12px;padding:6px 8px">'+sec+'</td>'
         +'<td style="color:'+ec+';font-weight:600;padding:6px 8px;white-space:nowrap">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</td>'
-        +'<td style="min-width:200px;padding:6px 4px">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
+        +'<td style="min-width:160px;padding:6px 4px">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
         +'<td style="padding:6px 4px">'+((st.hit_rate||0)*100).toFixed(0)+'%</td></tr>';
     }).join('')
     +'</table></div>';
