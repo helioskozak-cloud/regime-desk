@@ -5382,7 +5382,34 @@ function renderSectors(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// ── Watchlist auto-queue ──────────────────────────────────────────────────────
+// ── Local API (on-demand signal computation) ──────────────────────────────────
+var _rdLocalApi=false;
+var RD_API_PORT=7534;
+function _rdPingLocalApi(){
+  fetch('http://localhost:'+RD_API_PORT+'/api/ping',{signal:AbortSignal.timeout(600)})
+    .then(function(r){return r.json();})
+    .then(function(d){if(d.ok)_rdLocalApi=true;})
+    .catch(function(){_rdLocalApi=false;});
+}
+function _rdFetchTicker(tk){
+  var msgEl=document.getElementById('rd-pin-msg-'+tk);
+  if(msgEl)msgEl.innerHTML='<span style="color:#58a6ff">Computing signal from local database…</span>';
+  fetch('http://localhost:'+RD_API_PORT+'/api/ticker?t='+tk,{signal:AbortSignal.timeout(20000)})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data.error){
+        if(msgEl)msgEl.innerHTML='Not found in database: '+data.error;
+        return;
+      }
+      var idx=(S.all_signals||[]).findIndex(function(s){return s.ticker===tk;});
+      if(idx===-1)(S.all_signals=S.all_signals||[]).push(data);
+      else S.all_signals[idx]=data;
+      _rdRefreshPinned();
+    })
+    .catch(function(){if(msgEl)msgEl.innerHTML='Local API stopped. Restart run_local_api.bat.';});
+}
+
+// ── Watchlist download (fallback when local API not running) ──────────────────
 var RD_WL_PENDING='rd-watchlist-pending';
 function _rdGetPending(){try{return JSON.parse(localStorage.getItem(RD_WL_PENDING)||'[]');}catch(e){return[];}}
 function _rdQueueForWatchlist(tk){
@@ -5423,23 +5450,27 @@ function _pinnedCard(tk){
     +'style="background:none;border:none;color:#6e7681;font-size:22px;cursor:pointer;padding:0 6px;line-height:1;flex-shrink:0" '
     +'title="Remove">×</button>';
   if(!st){
-    _rdQueueForWatchlist(tk);
     var alreadyInWl=(S.watchlist||[]).indexOf(tk)!==-1;
-    var statusBadge=alreadyInWl
-      ?'<span style="background:#1a2a3a;color:#58a6ff;border-radius:10px;padding:1px 8px;font-size:11px;margin-left:8px">In watchlist</span>'
-      :'<span style="background:#1a3a1a;color:#3fb950;border-radius:10px;padding:1px 8px;font-size:11px;margin-left:8px">Queued ✓</span>';
-    var msg=alreadyInWl
-      ?'Already in watchlist — rebuild to compute its signal.'
-      :'Added to watchlist queue. '
-        +'<button onclick="window._rdDownloadWatchlist()" '
-        +'style="background:none;border:1px solid #58a6ff;color:#58a6ff;padding:1px 8px;border-radius:4px;cursor:pointer;font-size:11px">↓ Download watchlist.txt</button>'
-        +' Save to <code style="background:#21262d;padding:1px 4px;border-radius:3px">data/</code> and rebuild.';
+    if(!alreadyInWl&&!_rdLocalApi)_rdQueueForWatchlist(tk);
+    var statusBadge=_rdLocalApi
+      ?'<span style="background:#0d2a1a;color:#3fb950;border-radius:10px;padding:1px 8px;font-size:11px;margin-left:8px">Computing…</span>'
+      :alreadyInWl
+        ?'<span style="background:#1a2a3a;color:#58a6ff;border-radius:10px;padding:1px 8px;font-size:11px;margin-left:8px">In watchlist</span>'
+        :'<span style="background:#1a3a1a;color:#3fb950;border-radius:10px;padding:1px 8px;font-size:11px;margin-left:8px">Queued ✓</span>';
+    var msg=_rdLocalApi
+      ?'<span style="color:#58a6ff">Computing signal from local database…</span>'
+      :alreadyInWl
+        ?'Already in watchlist — rebuild to compute its signal.'
+        :'Added to watchlist queue. '
+          +'<button onclick="window._rdDownloadWatchlist()" '
+          +'style="background:none;border:1px solid #58a6ff;color:#58a6ff;padding:1px 8px;border-radius:4px;cursor:pointer;font-size:11px">↓ Download watchlist.txt</button>'
+          +' Save to <code style="background:#21262d;padding:1px 4px;border-radius:3px">data/</code> and rebuild.';
     return '<div id="rd-pin-'+tk+'" class="card" style="border-color:#30363d;margin-bottom:10px">'
       +'<div style="display:flex;align-items:center;justify-content:space-between">'
       +'<div style="display:flex;align-items:center">'+logo
       +'<div style="display:flex;align-items:center"><strong>'+tk+'</strong>'+statusBadge+'</div>'
       +'</div>'+xBtn+'</div>'
-      +'<div style="color:#6e7681;font-size:12px;margin-top:8px">'+msg+'</div>'
+      +'<div id="rd-pin-msg-'+tk+'" style="color:#6e7681;font-size:12px;margin-top:8px">'+msg+'</div>'
       +'</div>';
   }
   var hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
@@ -5494,13 +5525,16 @@ window._rdPinTicker=function(raw){
     return;
   }
   _pinnedTickers.push(tk);_savePinned();_rdRefreshPinned();
+  var hasSignal=!!(S.stocks||[]).find(function(s){return s.ticker===tk;})
+    ||!!(S.all_signals||[]).find(function(s){return s.ticker===tk;});
+  if(!hasSignal&&_rdLocalApi)_rdFetchTicker(tk);
 };
 window._rdUnpinTicker=function(tk){
   _pinnedTickers=_pinnedTickers.filter(function(t){return t!==tk;});
   _savePinned();_rdRefreshPinned();
 };
 window._rdClearPinned=function(){_pinnedTickers=[];_savePinned();_rdRefreshPinned();};
-window._rd_postrender_stocks=function(){_rdRefreshPinned();};
+window._rd_postrender_stocks=function(){_rdPingLocalApi();_rdRefreshPinned();};
 
 // STOCKS — sortable columns + copy-to-clipboard + horizon filter
 let _sortCol='edge',_sortDir=-1,_horizon='all';
