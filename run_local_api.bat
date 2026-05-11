@@ -17,6 +17,10 @@ echo ================================================
 echo  Regime Desk — Local Signal API
 echo ================================================
 echo.
+if exist build\__pycache__ (
+    echo Clearing Python cache...
+    rmdir /s /q build\__pycache__
+)
 python build\local_api.py
 echo.
 pause
