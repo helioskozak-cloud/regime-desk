@@ -5442,26 +5442,42 @@ function renderSectors(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// ── Local API (on-demand signal computation) ──────────────────────────────────
+// ── Signal API (on-demand computation) ────────────────────────────────────────
 var RD_API_PORT=7534;
+var RD_CLOUD_API=''; // Set to your deployed URL, e.g. "https://xyz.onrender.com"
+function _rdGetApiBase(){
+  return fetch('http://localhost:'+RD_API_PORT+'/api/ping',{signal:AbortSignal.timeout(800)})
+    .then(function(r){return r.ok?'http://localhost:'+RD_API_PORT:null;})
+    .catch(function(){return null;})
+    .then(function(base){return base||(RD_CLOUD_API||null);});
+}
 function _rdFetchTicker(tk){
-  fetch('http://localhost:'+RD_API_PORT+'/api/ticker?t='+tk,{signal:AbortSignal.timeout(20000)})
-    .then(function(r){return r.json();})
-    .then(function(data){
-      var msgEl=document.getElementById('rd-pin-msg-'+tk);
-      if(data.error){
-        if(msgEl)msgEl.innerHTML='<span style="color:#6e7681">'+data.error+'</span>';
-        return;
-      }
-      var idx=(S.all_signals||[]).findIndex(function(s){return s.ticker===tk;});
-      if(idx===-1)(S.all_signals=S.all_signals||[]).push(data);
-      else S.all_signals[idx]=data;
-      _rdRefreshPinned();
-    })
-    .catch(function(){
-      var msgEl=document.getElementById('rd-pin-msg-'+tk);
-      if(msgEl)msgEl.innerHTML='<span style="color:#6e7681">Local API not running — start <code style="background:#21262d;padding:1px 4px;border-radius:3px">run_local_api.bat</code> to compute signals for unlisted tickers.</span>';
-    });
+  var msgEl=document.getElementById('rd-pin-msg-'+tk);
+  _rdGetApiBase().then(function(base){
+    if(!base){
+      if(msgEl)msgEl.innerHTML='<span style="color:#6e7681">No API available — run <code style="background:#21262d;padding:1px 4px;border-radius:3px">run_local_api.bat</code> or deploy the cloud API.</span>';
+      return;
+    }
+    var isCloud=base!=='http://localhost:'+RD_API_PORT;
+    if(msgEl&&isCloud)msgEl.innerHTML='<span style="color:#58a6ff;font-size:12px">Computing via cloud API (may take ~20s)...</span>';
+    fetch(base+'/api/ticker?t='+tk,{signal:AbortSignal.timeout(90000)})
+      .then(function(r){return r.json();})
+      .then(function(data){
+        var el=document.getElementById('rd-pin-msg-'+tk);
+        if(data.error){
+          if(el)el.innerHTML='<span style="color:#6e7681">'+data.error+'</span>';
+          return;
+        }
+        var idx=(S.all_signals||[]).findIndex(function(s){return s.ticker===tk;});
+        if(idx===-1)(S.all_signals=S.all_signals||[]).push(data);
+        else S.all_signals[idx]=data;
+        _rdRefreshPinned();
+      })
+      .catch(function(){
+        var el=document.getElementById('rd-pin-msg-'+tk);
+        if(el)el.innerHTML='<span style="color:#6e7681">Request timed out — try again.</span>';
+      });
+  });
 }
 
 // ── Pinned ticker lookup cards ────────────────────────────────────────────────
