@@ -26,7 +26,7 @@ DEFAULTS = {
         "ret_5d": 0.0, "ret_20d": 0.0, "vol_20d": 0.015, "drawdown_60d": 0.0,
         "regime": "Unknown", "breadth": 0.5, "persistence": 0.5, "reversal_risk": 0.3
     },
-    "sectors": [], "stocks": [], "themes": [], "signals": [], "risks": [],
+    "sectors": [], "stocks": [], "all_signals": [], "themes": [], "signals": [], "risks": [],
     "analog": {
         "n_days": 30, "exclude_recent": 30,
         "spy_p10": -0.03, "spy_p25": 0.01, "spy_p50": 0.05,
@@ -68,7 +68,7 @@ def _load_signals_csv(path, max_stocks=100):
 
         # One row per ticker: pick best edge across horizons
         best = df.sort_values("edge", ascending=False).drop_duplicates("ticker")
-        stocks = []
+        all_signals = []
         for _, row in best.iterrows():
             n_obs = _safe_int(row, "n_obs", 5)
             if n_obs < 4:
@@ -84,7 +84,7 @@ def _load_signals_csv(path, max_stocks=100):
             span = p90 - p10
             vol_proxy = round(span / (2.56 * math.sqrt(max(1, h_days))), 4)
             vol_proxy = max(0.005, min(0.12, vol_proxy))
-            stocks.append({
+            all_signals.append({
                 "ticker": str(row["ticker"]),
                 "name": str(row.get("name", row["ticker"])) if pd.notna(row.get("name")) else str(row["ticker"]),
                 "sector": str(row.get("sector", "Unknown")) if pd.notna(row.get("sector")) else "Unknown",
@@ -95,9 +95,10 @@ def _load_signals_csv(path, max_stocks=100):
                 "hit_rate": round(_safe(row, "hit_rate", 0.5), 3),
                 "n_obs": n_obs,
                 "vol": vol_proxy,
+                "below_threshold": edge < 0.05,
             })
 
-        stocks = stocks[:max_stocks]
+        stocks = all_signals[:max_stocks]
 
         # Build sector summary from stocks (skip unknown/unmapped)
         sector_map = {}
@@ -122,11 +123,11 @@ def _load_signals_csv(path, max_stocks=100):
                 "horizon": "20d", "stocks": d["stocks"], "signal": signal
             })
         sectors.sort(key=lambda x: x["edge"], reverse=True)
-        return stocks, sectors
+        return stocks, sectors, all_signals
 
     except Exception as exc:
         print(f"[snapshot] Could not load signals CSV: {exc}")
-        return [], []
+        return [], [], []
 
 
 def _load_theme_summary(path):
@@ -318,12 +319,33 @@ def build_snapshot():
 
     # Load stocks + sectors from signals CSV
     if has_signals:
-        stocks, sectors = _load_signals_csv(signals_path)
+        stocks, sectors, all_signals = _load_signals_csv(signals_path)
         if stocks:
             snap["stocks"] = stocks
             print(f"[snapshot] Loaded {len(stocks)} stocks")
+        if all_signals:
+            snap["all_signals"] = all_signals
+            print(f"[snapshot] Loaded {len(all_signals)} signals for lookup")
         if sectors:
             snap["sectors"] = sectors
+
+    # Merge watchlist signals from ticker_cache.json (tickers not in main scan)
+    ticker_cache_path = DATA / "ticker_cache.json"
+    if ticker_cache_path.exists():
+        try:
+            with open(ticker_cache_path, "r", encoding="utf-8") as f:
+                cache = json.load(f)
+            cached = cache.get("tickers", {})
+            existing = {s["ticker"] for s in snap["all_signals"]}
+            added = 0
+            for ticker, signal in cached.items():
+                if ticker not in existing:
+                    snap["all_signals"].append(signal)
+                    added += 1
+            if added:
+                print(f"[snapshot] Merged {added} watchlist ticker(s) from ticker_cache.json")
+        except Exception as exc:
+            print(f"[snapshot] Could not load ticker_cache.json: {exc}")
             # Update breadth from sector data
             bull = sum(1 for s in sectors if s["signal"] == "bullish")
             snap["spy"]["breadth"] = round(bull / len(sectors), 3)
