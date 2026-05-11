@@ -1,0 +1,6 @@
+# Watchlist — tickers to compute signals for even if they don't pass the main scan filters.
+# One ticker per line. Lines starting with # are ignored.
+# After editing, run build\build.py (or run_daily.bat) to update the snapshot.
+
+ADBE
+DDOG

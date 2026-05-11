@@ -80,6 +80,14 @@ def main():
     improved = False
     note = "data-only refresh"
 
+    # Step 0.5: Compute watchlist signals (tickers not in main scan)
+    if (DATA_DIR / "watchlist.txt").exists():
+        try:
+            from ticker_lookup import main as run_ticker_lookup
+            run_ticker_lookup()
+        except Exception as exc:
+            print(f"[build] WARNING: ticker_lookup failed — {exc}")
+
     # Step 1: Refresh snapshot from data/
     if _has_data():
         try:
