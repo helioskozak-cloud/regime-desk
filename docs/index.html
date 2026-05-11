@@ -2426,6 +2426,82 @@ function renderSectors(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
+// ── Pinned ticker lookup cards ────────────────────────────────────────────────
+var _pinnedTickers=[];
+try{_pinnedTickers=JSON.parse(localStorage.getItem('rd-pinned-tickers')||'[]');}catch(e){}
+function _savePinned(){try{localStorage.setItem('rd-pinned-tickers',JSON.stringify(_pinnedTickers));}catch(e){}}
+function _pinnedCard(tk){
+  var st=(S.stocks||[]).find(function(s){return s.ticker===tk;});
+  var logo='<img src="https://assets.parqet.com/logos/symbol/'+tk+'?format=jpg" width="22" height="22" '
+    +'style="border-radius:4px;object-fit:contain;background:#fff;border:1px solid #30363d;flex-shrink:0;margin-right:8px" '
+    +'onerror="this.style.display=\'none\'" loading="lazy">';
+  var xBtn='<button onclick="window._rdUnpinTicker(\''+tk+'\')" '
+    +'style="background:none;border:none;color:#6e7681;font-size:22px;cursor:pointer;padding:0 6px;line-height:1;flex-shrink:0" '
+    +'title="Remove">×</button>';
+  if(!st){
+    return '<div id="rd-pin-'+tk+'" class="card" style="border-color:#30363d;margin-bottom:10px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between">'
+      +'<div style="display:flex;align-items:center">'+logo+'<strong>'+tk+'</strong></div>'+xBtn+'</div>'
+      +'<div style="color:#6e7681;font-size:12px;margin-top:8px">No signal data for '+tk+' in current snapshot.</div>'
+      +'</div>';
+  }
+  var hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
+  var ann=(st.edge||0)*(252/hd);
+  var ec=st.edge>=0?'#3fb950':'#f85149';
+  var sector=st.sector&&st.sector!=='Unknown'?st.sector:'—';
+  var conf=(st.hit_rate||0)*Math.log(Math.max(st.n_obs||1,1));
+  var badge=conf>2?'High':conf>1?'Med':'Low';
+  var badgeCol=conf>2?'#3fb950':conf>1?'#e3b341':'#f85149';
+  return '<div id="rd-pin-'+tk+'" class="card" style="border-left:3px solid #58a6ff;margin-bottom:10px">'
+    +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">'
+    +'<div style="display:flex;align-items:center">'+logo
+    +'<div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">'
+    +'<strong style="color:#f0f6fc;font-size:15px">'+tk+'</strong>'
+    +(st.name&&st.name!==tk?'<span style="color:#8b949e;font-size:12px">'+st.name+'</span>':'')
+    +'</div>'
+    +'<div style="display:flex;gap:6px;margin-top:5px">'
+    +'<span style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:1px 8px;font-size:11px;color:#8b949e">'+sector+'</span>'
+    +'<span style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:1px 8px;font-size:11px;color:#8b949e">'+st.horizon+' horizon</span>'
+    +'</div></div></div>'
+    +xBtn+'</div>'
+    +'<div style="display:flex;gap:28px;margin-bottom:14px;flex-wrap:wrap;align-items:flex-end">'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Edge</div>'
+    +'<div style="color:'+ec+';font-size:22px;font-weight:700">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</div>'
+    +'<div style="color:#6e7681;font-size:11px">'+(ann>=0?'+':'')+(ann*100).toFixed(0)+'%/yr ann.</div></div>'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Hit Rate</div>'
+    +'<div style="font-size:18px;font-weight:600;color:#f0f6fc">'+((st.hit_rate||0)*100).toFixed(0)+'%</div></div>'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Observations</div>'
+    +'<div style="font-size:18px;font-weight:600;color:#f0f6fc">'+st.n_obs+'</div></div>'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Confidence</div>'
+    +'<div style="font-size:13px;font-weight:600;color:'+badgeCol+'">'+badge+'</div></div>'
+    +'</div>'
+    +'<div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Return Distribution — '+st.horizon+' forward (p10 → p90)</div>'
+    +distBar(st.p10,st.p25,st.p50,st.p75,st.p90)
+    +'</div>';
+}
+function _rdRefreshPinned(){
+  var el=document.getElementById('rd-pinned-cards');
+  if(!el)return;
+  el.innerHTML=_pinnedTickers.length?_pinnedTickers.map(_pinnedCard).join(''):'';
+}
+window._rdRefreshPinned=_rdRefreshPinned;
+window._rdPinTicker=function(raw){
+  var tk=(raw||'').trim().toUpperCase().replace(/[^A-Z0-9.]/g,'');
+  if(!tk)return;
+  if(_pinnedTickers.indexOf(tk)!==-1){
+    var card=document.getElementById('rd-pin-'+tk);
+    if(card){card.style.outline='2px solid #58a6ff';setTimeout(function(){card.style.outline='';},700);}
+    return;
+  }
+  _pinnedTickers.push(tk);_savePinned();_rdRefreshPinned();
+};
+window._rdUnpinTicker=function(tk){
+  _pinnedTickers=_pinnedTickers.filter(function(t){return t!==tk;});
+  _savePinned();_rdRefreshPinned();
+};
+window._rdClearPinned=function(){_pinnedTickers=[];_savePinned();_rdRefreshPinned();};
+window._rd_postrender_stocks=function(){_rdRefreshPinned();};
+
 // STOCKS — sortable columns + copy-to-clipboard + horizon filter
 let _sortCol='edge',_sortDir=-1,_horizon='all';
 function _horizonBtn(h){
@@ -2467,8 +2543,21 @@ function renderStocks(){
       oninput="window._rdWl(this.value)"/>
     ${isWl?`<span style="font-size:11px;color:#58a6ff">${pool.length}/${wlTickers.length} matched</span><button onclick="window._rdWl('')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:'<span style="color:#6e7681;font-size:11px">paste tickers to filter to client holdings</span>'}
   </div>`;
+  const lookupBar='<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">'
+    +'<span style="color:#8b949e;font-size:12px;white-space:nowrap">Ticker lookup:</span>'
+    +'<input id="rd-lookup-input" type="text" placeholder="e.g. AAPL" maxlength="8" '
+    +'style="background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:4px 10px;border-radius:6px;font-size:12px;width:110px;text-transform:uppercase" '
+    +'oninput="this.value=this.value.toUpperCase()" '
+    +'onkeydown="if(event.key===\'Enter\'){window._rdPinTicker(this.value);this.value=\'\'}" '
+    +'onfocus="this.style.borderColor=\'#58a6ff\'" onblur="this.style.borderColor=\'#30363d\'"/>'
+    +'<button onclick="var i=document.getElementById(\'rd-lookup-input\');window._rdPinTicker(i.value);i.value=\'\'" '
+    +'style="background:#238636;border:none;color:#fff;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">Pin</button>'
+    +(_pinnedTickers.length?'<button onclick="window._rdClearPinned()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear all</button>':'')
+    +'<span style="color:#6e7681;font-size:11px">Pin a ticker to see its full signal card above the table</span>'
+    +'</div>';
   return`<div class="card"><h2>Individual Stock Signals</h2>
-  ${_horizonBar()}${wlBar}
+  ${_horizonBar()}${wlBar}${lookupBar}
+  <div id="rd-pinned-cards"></div>
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
   <div style="overflow-x:auto"><table style="min-width:640px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th style="min-width:160px">Distribution (p10&#8594;p90)</th>${th('hit_rate','Hit %')}${th('n_obs','n')}<th></th></tr>
   ${rows.join('')}
@@ -2479,6 +2568,7 @@ window._rdSort=function(col){
   if(_sortCol===col)_sortDir*=-1;else{_sortCol=col;_sortDir=col==='ticker'||col==='name'||col==='sector'?1:-1;}
   const el=document.getElementById('v-stocks');
   delete el.dataset.rendered;el.innerHTML=renderStocks();el.dataset.rendered='1';
+  _rdRefreshPinned();
 };
 window._rdHorizon=function(h){
   _horizon=h;
@@ -2486,6 +2576,7 @@ window._rdHorizon=function(h){
     const el=document.getElementById('v-'+v);
     if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=(v==='stocks'?renderStocks:renderSectors)();el.dataset.rendered='1';}
   });
+  _rdRefreshPinned();
 };
 
 // THEMES
