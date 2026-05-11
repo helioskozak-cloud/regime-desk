@@ -82,41 +82,50 @@ def load_sector_map(conn):
         return {}
 
 
-def compute_ticker(conn, ticker, analog_dates, sector_map):
-    """Compute edge + distribution for a single ticker across all horizons.
+def _restricted_analog_dates(conn, ticker_start, count=20):
+    """Find the best SPY analog days within a ticker's available date range.
 
-    Unlike the main scan, no MIN_EDGE or percentile cutoff is applied.
-    Returns None if there is insufficient price history.
+    Used as a fallback for recently-listed tickers whose history doesn't
+    overlap with the standard global analog set.
     """
-    prices = pd.read_sql(
-        "SELECT p.date, p.close, f.volatility "
-        "FROM prices p JOIN features f ON p.ticker=f.ticker AND p.date=f.date "
-        "WHERE p.ticker=? ORDER BY p.date",
-        conn, params=(ticker,), parse_dates=["date"]
+    spy = pd.read_sql(
+        "SELECT date, return_5, return_20, volatility, drawdown "
+        "FROM features WHERE ticker='SPY' ORDER BY date",
+        conn, parse_dates=["date"]
     )
-    if len(prices) < 60:
-        return None
+    if len(spy) < 30:
+        return set()
+    today = spy.iloc[-1]
+    vec = np.array([today["return_5"], today["return_20"],
+                    today["volatility"], today["drawdown"]])
+    cutoff = spy.iloc[-EXCLUDE_RECENT_DAYS]["date"]
+    hist = spy[(spy["date"] >= ticker_start) & (spy["date"] <= cutoff)].copy()
+    if len(hist) < 3:
+        return set()
+    hist["dist"] = hist.apply(
+        lambda r: float(np.linalg.norm(
+            np.array([r["return_5"], r["return_20"],
+                      r["volatility"], r["drawdown"]]) - vec
+        )), axis=1
+    )
+    similar = hist.nsmallest(min(count, len(hist)), "dist")
+    return set(similar["date"].dt.strftime("%Y-%m-%d"))
 
-    prices = prices.drop_duplicates(subset=["date"]).reset_index(drop=True)
-    prices["ds"] = prices["date"].dt.strftime("%Y-%m-%d")
-    med_vol = float(prices["volatility"].median())
-    sector = sector_map.get(ticker, "Unknown")
 
+def _signal_for_dates(prices, analog_dates, ticker, sector, med_vol, min_obs, short_history=False):
+    """Core signal computation given a set of analog dates."""
     best = None
     best_nobs = -1
-
     for label, days in HORIZONS.items():
         future = prices["close"].shift(-days) / prices["close"] - 1
         valid = prices.assign(fr=future).dropna(subset=["fr"])
-        if len(valid) < 20:
+        if len(valid) < 10:
             continue
-
         baseline = float(valid["fr"].median())
         analog_rows = valid[valid["ds"].isin(analog_dates)]
         n = len(analog_rows)
-        if n < MIN_OBSERVATIONS:
+        if n < min_obs:
             continue
-
         vals = analog_rows["fr"].values
         cond = float(np.median(vals))
         edge = round(cond - baseline, 4)
@@ -125,7 +134,6 @@ def compute_ticker(conn, ticker, analog_dates, sector_map):
         span = float(pcts[4] - pcts[0])
         vol_proxy = round(span / (2.56 * math.sqrt(max(1, days))), 4)
         vol_proxy = max(0.005, min(0.12, vol_proxy))
-
         if n > best_nobs:
             best_nobs = n
             best = {
@@ -144,7 +152,43 @@ def compute_ticker(conn, ticker, analog_dates, sector_map):
                 "vol": round(med_vol, 4),
                 "below_threshold": edge < 0.05,
                 "from_watchlist": True,
+                "short_history": short_history,
             }
+    return best
+
+
+def compute_ticker(conn, ticker, analog_dates, sector_map):
+    """Compute edge + distribution for a single ticker across all horizons.
+
+    Unlike the main scan, no MIN_EDGE or percentile cutoff is applied.
+    For recently-listed tickers with insufficient overlap against the global
+    analog set, falls back to analog dates scoped to the ticker's own history.
+    Returns None only if there is truly insufficient data.
+    """
+    prices = pd.read_sql(
+        "SELECT p.date, p.close, f.volatility "
+        "FROM prices p JOIN features f ON p.ticker=f.ticker AND p.date=f.date "
+        "WHERE p.ticker=? ORDER BY p.date",
+        conn, params=(ticker,), parse_dates=["date"]
+    )
+    if len(prices) < 30:
+        return None
+
+    prices = prices.drop_duplicates(subset=["date"]).reset_index(drop=True)
+    prices["ds"] = prices["date"].dt.strftime("%Y-%m-%d")
+    med_vol = float(prices["volatility"].median())
+    sector = sector_map.get(ticker, "Unknown")
+
+    # Primary: global analog dates
+    best = _signal_for_dates(prices, analog_dates, ticker, sector, med_vol, MIN_OBSERVATIONS)
+    if best is not None:
+        return best
+
+    # Fallback: find analogs scoped to this ticker's available history
+    ticker_start = prices["date"].min()
+    restricted = _restricted_analog_dates(conn, ticker_start)
+    if restricted:
+        best = _signal_for_dates(prices, restricted, ticker, sector, med_vol, min_obs=3, short_history=True)
 
     return best
 
