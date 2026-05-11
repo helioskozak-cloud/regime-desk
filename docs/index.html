@@ -4815,6 +4815,10 @@ window.SNAPSHOT = {
       "from_watchlist": true
     }
   ],
+  "watchlist": [
+    "ADBE",
+    "DDOG"
+  ],
   "themes": [
     {
       "name": "Unknown",
@@ -5378,6 +5382,31 @@ function renderSectors(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
+// ── Watchlist auto-queue ──────────────────────────────────────────────────────
+var RD_WL_PENDING='rd-watchlist-pending';
+function _rdGetPending(){try{return JSON.parse(localStorage.getItem(RD_WL_PENDING)||'[]');}catch(e){return[];}}
+function _rdQueueForWatchlist(tk){
+  var inWl=(S.watchlist||[]).indexOf(tk)!==-1;
+  var inSignals=!!(S.all_signals||[]).find(function(s){return s.ticker===tk;});
+  if(inWl||inSignals)return;
+  var p=_rdGetPending();
+  if(p.indexOf(tk)===-1){p.push(tk);try{localStorage.setItem(RD_WL_PENDING,JSON.stringify(p));}catch(e){}}
+}
+window._rdDownloadWatchlist=function(){
+  var existing=(S.watchlist||[]).slice();
+  var pending=_rdGetPending();
+  pending.forEach(function(t){if(existing.indexOf(t)===-1)existing.push(t);});
+  var lines=['# Watchlist — tickers to compute signals for even if filtered out of the main scan.',
+    '# One ticker per line. Lines starting with # are ignored.',
+    '# After saving to data/watchlist.txt, rebuild to compute signals.',
+    ''];
+  existing.forEach(function(t){lines.push(t);});
+  var blob=new Blob([lines.join('\n')],{type:'text/plain'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='watchlist.txt';a.click();
+  URL.revokeObjectURL(a.href);
+};
+
 // ── Pinned ticker lookup cards ────────────────────────────────────────────────
 var _pinnedTickers=[];
 try{_pinnedTickers=JSON.parse(localStorage.getItem('rd-pinned-tickers')||'[]');}catch(e){}
@@ -5394,13 +5423,23 @@ function _pinnedCard(tk){
     +'style="background:none;border:none;color:#6e7681;font-size:22px;cursor:pointer;padding:0 6px;line-height:1;flex-shrink:0" '
     +'title="Remove">×</button>';
   if(!st){
+    _rdQueueForWatchlist(tk);
+    var alreadyInWl=(S.watchlist||[]).indexOf(tk)!==-1;
+    var statusBadge=alreadyInWl
+      ?'<span style="background:#1a2a3a;color:#58a6ff;border-radius:10px;padding:1px 8px;font-size:11px;margin-left:8px">In watchlist</span>'
+      :'<span style="background:#1a3a1a;color:#3fb950;border-radius:10px;padding:1px 8px;font-size:11px;margin-left:8px">Queued ✓</span>';
+    var msg=alreadyInWl
+      ?'Already in watchlist — rebuild to compute its signal.'
+      :'Added to watchlist queue. '
+        +'<button onclick="window._rdDownloadWatchlist()" '
+        +'style="background:none;border:1px solid #58a6ff;color:#58a6ff;padding:1px 8px;border-radius:4px;cursor:pointer;font-size:11px">↓ Download watchlist.txt</button>'
+        +' Save to <code style="background:#21262d;padding:1px 4px;border-radius:3px">data/</code> and rebuild.';
     return '<div id="rd-pin-'+tk+'" class="card" style="border-color:#30363d;margin-bottom:10px">'
       +'<div style="display:flex;align-items:center;justify-content:space-between">'
-      +'<div style="display:flex;align-items:center">'+logo+'<strong>'+tk+'</strong></div>'+xBtn+'</div>'
-      +'<div style="color:#6e7681;font-size:12px;margin-top:8px">'+tk+' has no computed signal. '
-      +'To look it up, add <code style="background:#21262d;padding:1px 5px;border-radius:3px">'+tk+'</code> '
-      +'to <code style="background:#21262d;padding:1px 5px;border-radius:3px">data/watchlist.txt</code> '
-      +'and rebuild the snapshot.</div>'
+      +'<div style="display:flex;align-items:center">'+logo
+      +'<div style="display:flex;align-items:center"><strong>'+tk+'</strong>'+statusBadge+'</div>'
+      +'</div>'+xBtn+'</div>'
+      +'<div style="color:#6e7681;font-size:12px;margin-top:8px">'+msg+'</div>'
       +'</div>';
   }
   var hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
@@ -5514,6 +5553,7 @@ function renderStocks(){
     +'<button onclick="var i=document.getElementById(\'rd-lookup-input\');window._rdPinTicker(i.value);i.value=\'\'" '
     +'style="background:#238636;border:none;color:#fff;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">Pin</button>'
     +(_pinnedTickers.length?'<button onclick="window._rdClearPinned()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear all</button>':'')
+    +(function(){var p=_rdGetPending();return p.length?'<button onclick="window._rdDownloadWatchlist()" style="background:none;border:1px solid #3fb950;color:#3fb950;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">↓ watchlist.txt ('+p.length+' queued)</button>':'';}())
     +'<span style="color:#6e7681;font-size:11px">Pin a ticker to see its full signal card above the table</span>'
     +'</div>';
   return`<div class="card"><h2>Individual Stock Signals</h2>

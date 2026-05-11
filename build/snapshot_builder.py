@@ -26,7 +26,7 @@ DEFAULTS = {
         "ret_5d": 0.0, "ret_20d": 0.0, "vol_20d": 0.015, "drawdown_60d": 0.0,
         "regime": "Unknown", "breadth": 0.5, "persistence": 0.5, "reversal_risk": 0.3
     },
-    "sectors": [], "stocks": [], "all_signals": [], "themes": [], "signals": [], "risks": [],
+    "sectors": [], "stocks": [], "all_signals": [], "watchlist": [], "themes": [], "signals": [], "risks": [],
     "analog": {
         "n_days": 30, "exclude_recent": 30,
         "spy_p10": -0.03, "spy_p25": 0.01, "spy_p50": 0.05,
@@ -346,6 +346,18 @@ def build_snapshot():
                 print(f"[snapshot] Merged {added} watchlist ticker(s) from ticker_cache.json")
         except Exception as exc:
             print(f"[snapshot] Could not load ticker_cache.json: {exc}")
+
+    # Load current watchlist so the UI knows which tickers are already queued
+    watchlist_path = DATA / "watchlist.txt"
+    if watchlist_path.exists():
+        try:
+            wl = [
+                line.strip() for line in watchlist_path.read_text(encoding="utf-8").splitlines()
+                if line.strip() and not line.strip().startswith("#")
+            ]
+            snap["watchlist"] = wl
+        except Exception as exc:
+            print(f"[snapshot] Could not load watchlist.txt: {exc}")
             # Update breadth from sector data
             bull = sum(1 for s in sectors if s["signal"] == "bullish")
             snap["spy"]["breadth"] = round(bull / len(sectors), 3)
