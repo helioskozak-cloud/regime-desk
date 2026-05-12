@@ -2,3 +2,5 @@ anthropic>=0.39.0
 pandas>=2.0.0
 numpy>=1.24.0
 yfinance>=0.2.36
+flask>=3.0.0
+gunicorn>=21.0.0
