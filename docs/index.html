@@ -5211,7 +5211,7 @@ function renderSectors(){
 
 // ── Signal API (on-demand computation) ────────────────────────────────────────
 var RD_API_PORT=7534;
-var RD_CLOUD_API='https://regime-desk-api.onrender.com';
+var RD_CLOUD_API='https://regime-desk.onrender.com';
 function _rdGetApiBase(){
   return fetch('http://localhost:'+RD_API_PORT+'/api/ping',{signal:AbortSignal.timeout(800)})
     .then(function(r){return r.ok?'http://localhost:'+RD_API_PORT:null;})
