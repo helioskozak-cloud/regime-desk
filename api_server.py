@@ -51,6 +51,16 @@ def _options():
     return "", 200
 
 
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _to_naive_index(index):
+    """Return a tz-naive DatetimeIndex regardless of whether input has a timezone."""
+    idx = pd.to_datetime(index)
+    if idx.tz is not None:
+        idx = idx.tz_convert("UTC").tz_localize(None)
+    return idx
+
+
 # ── SPY features ──────────────────────────────────────────────────────────────
 
 def _fetch_spy():
@@ -58,7 +68,7 @@ def _fetch_spy():
     if hist.empty or len(hist) < 150:
         raise ValueError("Insufficient SPY data from yfinance")
     close = hist["Close"]
-    spy = pd.DataFrame({"close": close.values}, index=pd.to_datetime(close.index).tz_localize(None))
+    spy = pd.DataFrame({"close": close.values}, index=_to_naive_index(close.index))
     spy["return_5"] = spy["close"].pct_change(5)
     spy["return_20"] = spy["close"].pct_change(20)
     spy["volatility"] = spy["close"].pct_change().rolling(20).std()
@@ -169,7 +179,7 @@ def _compute_ticker(ticker):
     vol = daily_ret.rolling(20).std()
 
     prices = pd.DataFrame({
-        "date": pd.to_datetime(close.index).tz_localize(None),
+        "date": _to_naive_index(close.index),
         "close": close.values,
         "volatility": vol.values,
     }).dropna(subset=["close"]).reset_index(drop=True)
@@ -191,7 +201,8 @@ def _compute_ticker(ticker):
 
 @app.route("/api/ping")
 def ping():
-    return jsonify({"ok": True, "source": "cloud", "port": 0})
+    spy_ready = _state["spy_df"] is not None
+    return jsonify({"ok": True, "source": "cloud", "port": 0, "spy_ready": spy_ready})
 
 
 @app.route("/api/ticker")
@@ -213,17 +224,19 @@ def ticker():
     return jsonify({"error": f"{t} not found or insufficient data"}), 404
 
 
-# ── Startup ───────────────────────────────────────────────────────────────────
+# ── Warmup — runs immediately when module is imported (gunicorn or direct) ────
 
 def _warmup():
     try:
         _ensure_spy()
+        print("[api] Warmup complete.", flush=True)
     except Exception as exc:
         print(f"[api] Warmup failed: {exc}", flush=True)
 
 
+threading.Thread(target=_warmup, daemon=True).start()
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     print(f"[api] Regime Desk Cloud API -> http://0.0.0.0:{port}", flush=True)
-    threading.Thread(target=_warmup, daemon=True).start()
     app.run(host="0.0.0.0", port=port, threaded=False)

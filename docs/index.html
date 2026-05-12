@@ -5226,8 +5226,8 @@ function _rdFetchTicker(tk){
       return;
     }
     var isCloud=base!=='http://localhost:'+RD_API_PORT;
-    if(msgEl&&isCloud)msgEl.innerHTML='<span style="color:#58a6ff;font-size:12px">Computing via cloud API (may take ~20s)...</span>';
-    fetch(base+'/api/ticker?t='+tk,{signal:AbortSignal.timeout(90000)})
+    if(msgEl&&isCloud)msgEl.innerHTML='<span style="color:#58a6ff;font-size:12px">Computing via cloud API (may take up to a minute if server just woke up)...</span>';
+    fetch(base+'/api/ticker?t='+tk,{signal:AbortSignal.timeout(180000)})
       .then(function(r){return r.json();})
       .then(function(data){
         var el=document.getElementById('rd-pin-msg-'+tk);
