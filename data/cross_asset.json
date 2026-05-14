@@ -3,65 +3,65 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "+1.3%",
+      "value": "+2.1%",
       "signal": "bullish",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "+6.2%",
+      "value": "+6.4%",
       "signal": "bullish",
       "context": "Medium-term trend strength"
     },
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-2.0% (20d)",
-      "signal": "bullish",
-      "context": "20d ret -2.0% \u2014 sell-off = rising rates"
+      "value": "-0.9% (20d)",
+      "signal": "neutral",
+      "context": "20d ret -0.9% \u2014 range-bound rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "-0.1% (20d)",
+      "value": "+0.0% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.1% \u2014 stable credit"
+      "context": "20d ret +0.0% \u2014 stable credit"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-2.2% (20d)",
+      "value": "-2.4% (20d)",
       "signal": "bullish",
-      "context": "20d ret -2.2% \u2014 no safe-haven premium"
+      "context": "20d ret -2.4% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "+0.9% (20d)",
+      "value": "+0.8% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.9% \u2014 dollar neutral"
+      "context": "20d ret +0.8% \u2014 dollar neutral"
     },
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+15.7% (20d)",
+      "value": "+12.9% (20d)",
       "signal": "bullish",
-      "context": "20d ret +15.7% \u2014 energy bid; watch inflation pass-through"
+      "context": "20d ret +12.9% \u2014 energy bid; watch inflation pass-through"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "17.8",
+      "value": "17.6",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+27.1% (20d)",
+      "value": "+26.5% (20d)",
       "signal": "bullish",
-      "context": "20d ret +27.1% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +26.5% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
@@ -73,80 +73,80 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+8.3% (20d)",
+      "value": "+8.6% (20d)",
       "signal": "bullish",
-      "context": "20d ret +8.3% \u2014 copper bid = growth optimism"
+      "context": "20d ret +8.6% \u2014 copper bid = growth optimism"
     },
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "+0.2% (20d)",
+      "value": "+0.5% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.2% \u2014 inflation expectations contained"
+      "context": "20d ret +0.5% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+12.4% (20d)",
+      "value": "+12.2% (20d)",
       "signal": "bullish",
-      "context": "20d ret +12.4% \u2014 growth leadership intact"
+      "context": "20d ret +12.2% \u2014 growth leadership intact"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "-2.2% (20d)",
-      "signal": "bearish",
-      "context": "20d ret -2.2% \u2014 financials lagging"
+      "value": "-1.5% (20d)",
+      "signal": "neutral",
+      "context": "20d ret -1.5% \u2014 financials lagging"
     }
   ],
   "risks": [
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.21,
-      "description": "VIX at 17.8. Calm regime; vol suppression in force.",
+      "score": 0.2,
+      "description": "VIX at 17.6. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
       "name": "Credit Stress",
       "level": "moderate",
-      "score": 0.51,
-      "description": "HYG 20d -0.1%. Spread widening signals funding stress.",
+      "score": 0.5,
+      "description": "HYG 20d +0.0%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return"
     },
     {
       "name": "Rate Re-pricing",
-      "level": "elevated",
-      "score": 0.66,
-      "description": "TLT 20d -2.0%. Bond sell-off = rates rising; duration assets under pressure.",
+      "level": "moderate",
+      "score": 0.57,
+      "description": "TLT 20d -0.9%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
     },
     {
       "name": "Growth Slowdown",
       "level": "low",
-      "score": 0.1,
-      "description": "Copper 20d +8.3%, IWM +5.1%. Cyclicals constructive; growth fears not confirmed.",
+      "score": 0.09,
+      "description": "Copper 20d +8.6%, IWM +5.1%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
       "name": "Inflation Re-pricing",
       "level": "low",
-      "score": 0.31,
-      "description": "TIPS 20d +0.2%. Inflation expectations contained; Fed credibility intact.",
+      "score": 0.34,
+      "description": "TIPS 20d +0.5%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall"
     },
     {
       "name": "Dollar Headwind",
       "level": "moderate",
       "score": 0.47,
-      "description": "UUP 20d +0.9%. Dollar neutral to weak; no FX drag on multinationals.",
+      "description": "UUP 20d +0.8%. Dollar neutral to weak; no FX drag on multinationals.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
     },
     {
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.43,
-      "description": "SPY +6.2% / 20d with vol 0.62%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +6.4% / 20d with vol 0.62%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
     }
   ]
