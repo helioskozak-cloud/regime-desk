@@ -542,6 +542,13 @@ def _compute_ticker(ticker):
         if restricted:
             best = _signal_for_dates(prices, restricted, ticker, med_vol, min_obs=3, short_history=True)
 
+    if best is not None:
+        recent = [round(float(v), 2) for v in close.values[-7:]]
+        if len(recent) >= 2:
+            best["week_closes"] = recent
+            best["price"] = recent[-1]
+            best["change_pct"] = round((recent[-1] - recent[-2]) / recent[-2], 4)
+
     _state["ticker_cache"][cache_key] = best
     return best
 

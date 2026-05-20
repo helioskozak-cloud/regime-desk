@@ -329,6 +329,24 @@ def build_snapshot():
         if sectors:
             snap["sectors"] = sectors
 
+    # Enrich stocks with recent price data for tooltip sparklines
+    price_data_path = DATA / "price_data.json"
+    if price_data_path.exists():
+        try:
+            with open(price_data_path, "r", encoding="utf-8") as f:
+                price_data = json.load(f)
+            enriched = 0
+            for stock in snap["stocks"] + snap["all_signals"]:
+                pd_entry = price_data.get(stock["ticker"])
+                if pd_entry:
+                    stock["price"] = pd_entry["price"]
+                    stock["change_pct"] = pd_entry["change_pct"]
+                    stock["week_closes"] = pd_entry["week_closes"]
+                    enriched += 1
+            print(f"[snapshot] Enriched {enriched} stocks with price data")
+        except Exception as exc:
+            print(f"[snapshot] Could not load price_data.json: {exc}")
+
     # Merge watchlist signals from ticker_cache.json (tickers not in main scan)
     ticker_cache_path = DATA / "ticker_cache.json"
     if ticker_cache_path.exists():

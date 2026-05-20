@@ -457,6 +457,26 @@ def main():
     market_signals.to_csv(DATA_DIR / "market_signals.csv", index=False)
     theme_summary.to_csv(DATA_DIR / "theme_summary.csv",  index=False)
 
+    # Save recent price data (last 7 closes + day change) for tooltip sparklines
+    price_data = {}
+    signal_tickers = set(market_signals["ticker"].tolist()) if not market_signals.empty else set()
+    for tk in signal_tickers:
+        if tk not in prices.columns:
+            continue
+        s = prices[tk].dropna()
+        if len(s) < 2:
+            continue
+        closes = [round(float(v), 2) for v in s.values[-7:]]
+        prev, curr = closes[-2], closes[-1]
+        price_data[tk] = {
+            "price": curr,
+            "prev_close": prev,
+            "change_pct": round((curr - prev) / prev, 4),
+            "week_closes": closes,
+        }
+    (DATA_DIR / "price_data.json").write_text(json.dumps(price_data))
+    print(f"Saved price data for {len(price_data)} tickers", flush=True)
+
     # Save SPY state + 20-day history for sparklines and regime streak
     spy_df = df[df["ticker"] == "SPY"].sort_values("date")
     spy_row = spy_df.iloc[-1]

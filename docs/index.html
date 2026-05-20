@@ -5323,29 +5323,33 @@ document.getElementById("regime-banner").innerHTML=`
   <div class="stat"><span class="val">${((spy.persistence||0)*100).toFixed(0)}%</span><span class="key">Persistence</span></div>
   <div class="stat">${pill(spy.reversal_risk>0.5?"elevated":spy.reversal_risk>0.3?"moderate":"low","Rev. Risk: "+(((spy.reversal_risk||0)*100).toFixed(0))+"%")}</div>${(function(){var vs=(S.signals||[]).find(function(s){return s.asset==='VIX';});if(!vs)return '';var vix=parseFloat(vs.value)||0;var col=vix>=25?'#f85149':vix>=18?'#e3b341':'#3fb950';var lbl=vix>=25?'Fear':vix>=18?'Caution':'Calm';var pos=Math.min(100,Math.max(0,(vix/40)*100));return '<div class="stat" title="VIX '+vix.toFixed(1)+' — '+lbl+' regime"><span class="val" style="color:'+col+'">'+vix.toFixed(1)+' <span style="font-size:10px;font-weight:500">'+lbl+'</span></span><div style="width:70px;height:5px;background:linear-gradient(90deg,#1a3a2a 0%,#1a3a2a 45%,#3a2a1a 45%,#3a2a1a 62%,#3a1a1a 62%,#3a1a1a 100%);border-radius:2px;position:relative;margin-top:3px"><div style="position:absolute;left:'+pos.toFixed(0)+'%;top:-2px;width:2px;height:9px;background:#f0f6fc;transform:translateX(-1px)"></div></div><span class="key">VIX</span></div>';})()}`;
 
-// Distribution visualizer — bar fills column width; p10/p50/p90 labels below
+// Distribution — SVG box-and-whisker: whisker p10→p90, box p25→p75, median line, zero ref
 function distBar(p10,p25,p50,p75,p90){
-  var lo=-0.20,hi=0.30,r=hi-lo;
-  function pn(v){return Math.max(0,Math.min(100,((v-lo)/r)*100));}
-  function pp(v){return pn(v).toFixed(1)+'%';}
-  function sgn(v){return (v>=0?'+':'')+(v*100).toFixed(0)+'%';}
-  var pos=p50>=0;
-  var outerBg=pos?'rgba(35,134,54,0.2)':'rgba(248,81,73,0.18)';
-  var innerBg=pos?'#238636':'#cf222e';
-  var zeroLeft=pn(0).toFixed(1)+'%';
-  return '<div style="width:100%">'
-    +'<div class="dist-bar" style="width:100%">'
-    +'<div class="dist-range" style="left:'+pp(p10)+';width:'+(pn(p90)-pn(p10)).toFixed(1)+'%;background:'+outerBg+'"></div>'
-    +'<div class="dist-range" style="left:'+pp(p25)+';width:'+(pn(p75)-pn(p25)).toFixed(1)+'%;background:'+innerBg+'"></div>'
-    +'<div style="position:absolute;left:'+zeroLeft+';width:1px;height:10px;background:rgba(240,246,252,0.18)"></div>'
-    +'<div class="dist-med" style="left:'+pp(p50)+'"></div>'
-    +'</div>'
-    +'<div style="display:flex;justify-content:space-between;font-size:10px;margin-top:3px">'
-    +'<span style="color:#6e7681">'+sgn(p10)+'</span>'
-    +'<span style="color:#8b949e">p50 '+sgn(p50)+'</span>'
-    +'<span style="color:#6e7681">'+sgn(p90)+'</span>'
-    +'</div>'
-    +'</div>';
+  var lo=-0.20,hi=0.30,span=hi-lo;
+  var W=154,pad=10,aw=W-2*pad;
+  function px(v){return pad+Math.max(0,Math.min(aw,((v-lo)/span)*aw));}
+  function fmt(v){return (v>=0?'+':'')+(v*100).toFixed(0)+'%';}
+  var boxCol=p50>=0?'#238636':'#cf222e';
+  var x10=px(p10),x25=px(p25),x50=px(p50),x75=px(p75),x90=px(p90);
+  var zx=px(0);
+  var bw=Math.max(3,x75-x25);
+  return '<svg width="'+W+'" height="38" viewBox="0 0 '+W+' 38" style="display:block;overflow:visible">'
+    // Zero reference — dashed
+    +'<line x1="'+zx.toFixed(1)+'" y1="2" x2="'+zx.toFixed(1)+'" y2="26" stroke="rgba(240,246,252,0.2)" stroke-width="1" stroke-dasharray="2,2"/>'
+    // Whisker line
+    +'<line x1="'+x10.toFixed(1)+'" y1="14" x2="'+x90.toFixed(1)+'" y2="14" stroke="#484f58" stroke-width="1.5" stroke-linecap="round"/>'
+    // Whisker caps
+    +'<line x1="'+x10.toFixed(1)+'" y1="9" x2="'+x10.toFixed(1)+'" y2="19" stroke="#6e7681" stroke-width="1.5"/>'
+    +'<line x1="'+x90.toFixed(1)+'" y1="9" x2="'+x90.toFixed(1)+'" y2="19" stroke="#6e7681" stroke-width="1.5"/>'
+    // IQR box p25–p75
+    +'<rect x="'+x25.toFixed(1)+'" y="7" width="'+bw.toFixed(1)+'" height="14" fill="'+boxCol+'" rx="2" opacity="0.9"/>'
+    // Median line
+    +'<line x1="'+x50.toFixed(1)+'" y1="5" x2="'+x50.toFixed(1)+'" y2="23" stroke="#f0f6fc" stroke-width="2" stroke-linecap="round"/>'
+    // Labels
+    +'<text x="'+x10.toFixed(1)+'" y="36" text-anchor="middle" fill="#6e7681" font-size="9" font-family="system-ui,sans-serif">'+fmt(p10)+'</text>'
+    +'<text x="'+x50.toFixed(1)+'" y="36" text-anchor="middle" fill="#c9d1d9" font-size="9" font-family="system-ui,sans-serif" font-weight="600">'+fmt(p50)+'</text>'
+    +'<text x="'+x90.toFixed(1)+'" y="36" text-anchor="middle" fill="#6e7681" font-size="9" font-family="system-ui,sans-serif">'+fmt(p90)+'</text>'
+    +'</svg>';
 }
 
 // HOME
@@ -6535,38 +6539,23 @@ function renderAsk(){
 (function(){
   var tip=document.getElementById('rd-tip');
   if(!tip)return;
-  var _quoteCache={},_tipTicker=null,_tipCx=0,_tipCy=0;
+  var _cx=0,_cy=0;
 
-  function _miniSpark(closes){
+  function _spark(closes){
     if(!closes||closes.length<2)return '';
     var mn=Math.min.apply(null,closes),mx=Math.max.apply(null,closes);
-    var rng=mx-mn||1,W=230,H=28,n=closes.length;
+    var rng=mx-mn||1,W=238,H=30,n=closes.length;
     var pts=closes.map(function(v,i){
-      return ((i/(n-1))*W).toFixed(1)+','+(H-((v-mn)/rng)*(H-6)-3).toFixed(1);
+      return ((i/(n-1))*W).toFixed(1)+','+(H-2-((v-mn)/rng)*(H-6)).toFixed(1);
     }).join(' ');
     var col=closes[closes.length-1]>=closes[0]?'#3fb950':'#f85149';
-    return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="display:block;overflow:visible;margin-top:4px">'
+    return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="display:block;margin-top:5px;overflow:visible">'
       +'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
       +'</svg>';
   }
 
-  function _updateQuote(ticker,d){
-    if(_tipTicker!==ticker)return;
-    var el=document.getElementById('rd-tip-quote');
-    if(!el)return;
-    var col=d.change_pct>=0?'#3fb950':'#f85149';
-    var sign=d.change_pct>=0?'+':'';
-    el.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:4px 0 2px">'
-      +'<span style="color:#f0f6fc;font-weight:600">$'+d.price.toFixed(2)+'</span>'
-      +'<span style="color:'+col+';font-size:11px;font-weight:600">'+sign+(d.change_pct*100).toFixed(2)+'%</span>'
-      +'<span style="color:#484f58;font-size:10px">day</span>'
-      +'</div>'
-      +_miniSpark(d.week_closes);
-    pos(_tipCx,_tipCy);
-  }
-
   function pos(cx,cy){
-    var tw=tip.offsetWidth||250,th=tip.offsetHeight||160;
+    var tw=tip.offsetWidth||260,th=tip.offsetHeight||180;
     var lx=cx+14,ly=cy+14;
     if(lx+tw>window.innerWidth-8)lx=cx-tw-14;
     if(ly+th>window.innerHeight-8)ly=cy-th-14;
@@ -6574,55 +6563,62 @@ function renderAsk(){
   }
 
   function show(ticker,cx,cy){
-    _tipTicker=ticker;_tipCx=cx;_tipCy=cy;
+    _cx=cx;_cy=cy;
     var st=(S.stocks||[]).find(function(s){return s.ticker===ticker;})
         ||(S.all_signals||[]).find(function(s){return s.ticker===ticker;});
-    if(!st){return;}
+    if(!st)return;
     var ec=st.edge>=0?'#3fb950':'#f85149';
     var sec=st.sector&&st.sector!=='Unknown'?st.sector:'—';
-    var nameRow=st.name&&st.name!==st.ticker?'<div style="color:#8b949e;font-size:11px;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">'+st.name+'</div>':'';
+    var nameRow=st.name&&st.name!==st.ticker
+      ?'<div style="color:#8b949e;font-size:11px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+st.name+'</div>':'';
+
+    var priceBlock='';
+    if(st.price!=null&&st.week_closes&&st.week_closes.length>=2){
+      var pc=st.change_pct>=0?'#3fb950':'#f85149';
+      var ps=st.change_pct>=0?'+':'';
+      priceBlock='<div style="border-top:1px solid #21262d;border-bottom:1px solid #21262d;margin:6px 0;padding:4px 0">'
+        +'<div style="display:flex;align-items:baseline;gap:8px">'
+        +'<span style="color:#f0f6fc;font-size:15px;font-weight:700">$'+st.price.toFixed(2)+'</span>'
+        +'<span style="color:'+pc+';font-size:12px;font-weight:600">'+ps+(st.change_pct*100).toFixed(2)+'%</span>'
+        +'<span style="color:#484f58;font-size:10px">today</span>'
+        +'</div>'
+        +_spark(st.week_closes)
+        +'</div>';
+    }
+
     tip.innerHTML=''
-      +'<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">'
-      +'<img src="https://assets.parqet.com/logos/symbol/'+ticker+'?format=jpg" width="22" height="22" style="border-radius:4px;background:#fff;border:1px solid #30363d;object-fit:contain;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">'
+      +'<div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">'
+      +'<img src="https://assets.parqet.com/logos/symbol/'+ticker+'?format=jpg" width="22" height="22" '
+      +'style="border-radius:4px;background:#fff;border:1px solid #30363d;object-fit:contain;flex-shrink:0" '
+      +'onerror="this.style.display=\'none\'" loading="lazy">'
       +'<strong style="color:#f0f6fc;font-size:14px">'+ticker+'</strong>'
+      +'<span style="color:#6e7681;font-size:11px;margin-left:2px">'+sec+'</span>'
       +'</div>'
       +nameRow
-      +'<div id="rd-tip-quote" style="border-bottom:1px solid #21262d;margin-bottom:7px"></div>'
-      +'<div style="color:#6e7681;font-size:11px;margin-bottom:8px">'+sec+'</div>'
-      +'<div style="display:flex;gap:14px">'
+      +priceBlock
+      +'<div style="display:flex;gap:16px;padding-top:2px">'
       +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Edge</div>'
-      +'<div style="color:'+ec+';font-weight:600">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</div></div>'
-      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">p50</div>'
-      +'<div style="color:#c9d1d9">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(1)+'%</div></div>'
-      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Horizon</div>'
-      +'<div style="color:#c9d1d9">'+(st.horizon||'20d')+'</div></div>'
-      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">n</div>'
-      +'<div style="color:#c9d1d9">'+st.n_obs+'</div></div>'
+      +'<div style="color:'+ec+';font-weight:600;font-size:13px">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</div></div>'
+      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Median</div>'
+      +'<div style="color:#c9d1d9;font-size:13px">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(1)+'%</div></div>'
+      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Window</div>'
+      +'<div style="color:#c9d1d9;font-size:13px">'+(st.horizon||'20d')+'</div></div>'
+      +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Hits</div>'
+      +'<div style="color:#c9d1d9;font-size:13px">'+((st.hit_rate||0)*100).toFixed(0)+'%</div></div>'
       +'</div>';
     pos(cx,cy);
     tip.classList.add('show');
-    if(_quoteCache[ticker]){
-      _updateQuote(ticker,_quoteCache[ticker]);
-    }else{
-      _rdGetApiBase().then(function(base){
-        if(!base||_tipTicker!==ticker)return;
-        fetch(base+'/api/quote?t='+ticker,{signal:AbortSignal.timeout(5000)})
-          .then(function(r){return r.ok?r.json():null;})
-          .then(function(d){if(d&&!d.error){_quoteCache[ticker]=d;_updateQuote(ticker,d);}})
-          .catch(function(){});
-      });
-    }
   }
 
-  function hide(){_tipTicker=null;tip.classList.remove('show');}
+  function hide(){tip.classList.remove('show');}
   document.addEventListener('mouseover',function(e){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
     if(el)show(el.dataset.ticker,e.clientX,e.clientY);
     else hide();
   });
   document.addEventListener('mousemove',function(e){
-    _tipCx=e.clientX;_tipCy=e.clientY;
-    if(tip.classList.contains('show'))pos(_tipCx,_tipCy);
+    _cx=e.clientX;_cy=e.clientY;
+    if(tip.classList.contains('show'))pos(_cx,_cy);
   });
   document.addEventListener('mouseout',function(e){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
