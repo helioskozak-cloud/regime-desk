@@ -44,9 +44,9 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:#1c2128}
 .bar-wrap{background:#21262d;border-radius:3px;height:6px;position:relative;width:80px}
 .bar-fill{height:6px;border-radius:3px;background:#238636;position:absolute;left:0;top:0}
-.dist-bar{background:#21262d;border-radius:2px;height:8px;position:relative}
-.dist-range{position:absolute;height:8px;border-radius:2px}
-.dist-med{position:absolute;width:2px;height:8px;background:#f0f6fc}
+.dist-bar{background:#21262d;border-radius:2px;height:10px;position:relative}
+.dist-range{position:absolute;height:10px;border-radius:2px}
+.dist-med{position:absolute;width:2px;height:10px;background:#f0f6fc}
 .score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:3px;vertical-align:middle;position:relative}
 .score-fill{height:6px;border-radius:3px;position:absolute;left:0;top:0}
 footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
@@ -68,7 +68,7 @@ html.light .pill.elev{background:#fef3c7;color:#92400e}
 html.light .pill.mod{background:#dbeafe;color:#1d4ed8}
 html.light .pill.low{background:#d1fae5;color:#166534}
 html.light footer{color:#57606a;border-color:#d0d7de}
-#rd-tip{position:fixed;z-index:9999;background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:10px 14px;pointer-events:none;display:none;min-width:180px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:12px;line-height:1.4}
+#rd-tip{position:fixed;z-index:9999;background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:10px 14px;pointer-events:none;display:none;min-width:220px;max-width:270px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:12px;line-height:1.4}
 #rd-tip.show{display:block}
 .rd-chip{background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:14px;cursor:pointer;font-size:12px;margin:3px;transition:border-color .15s,color .15s}
 .rd-chip:hover{border-color:#58a6ff;color:#f0f6fc}
@@ -5329,10 +5329,15 @@ function distBar(p10,p25,p50,p75,p90){
   function pn(v){return Math.max(0,Math.min(100,((v-lo)/r)*100));}
   function pp(v){return pn(v).toFixed(1)+'%';}
   function sgn(v){return (v>=0?'+':'')+(v*100).toFixed(0)+'%';}
+  var pos=p50>=0;
+  var outerBg=pos?'rgba(35,134,54,0.2)':'rgba(248,81,73,0.18)';
+  var innerBg=pos?'#238636':'#cf222e';
+  var zeroLeft=pn(0).toFixed(1)+'%';
   return '<div style="width:100%">'
     +'<div class="dist-bar" style="width:100%">'
-    +'<div class="dist-range" style="left:'+pp(p10)+';width:'+(pn(p90)-pn(p10)).toFixed(1)+'%;background:#1a3a2a;border-radius:2px"></div>'
-    +'<div class="dist-range" style="left:'+pp(p25)+';width:'+(pn(p75)-pn(p25)).toFixed(1)+'%;background:#238636;border-radius:2px"></div>'
+    +'<div class="dist-range" style="left:'+pp(p10)+';width:'+(pn(p90)-pn(p10)).toFixed(1)+'%;background:'+outerBg+'"></div>'
+    +'<div class="dist-range" style="left:'+pp(p25)+';width:'+(pn(p75)-pn(p25)).toFixed(1)+'%;background:'+innerBg+'"></div>'
+    +'<div style="position:absolute;left:'+zeroLeft+';width:1px;height:10px;background:rgba(240,246,252,0.18)"></div>'
     +'<div class="dist-med" style="left:'+pp(p50)+'"></div>'
     +'</div>'
     +'<div style="display:flex;justify-content:space-between;font-size:10px;margin-top:3px">'
@@ -6530,25 +6535,59 @@ function renderAsk(){
 (function(){
   var tip=document.getElementById('rd-tip');
   if(!tip)return;
+  var _quoteCache={},_tipTicker=null,_tipCx=0,_tipCy=0;
+
+  function _miniSpark(closes){
+    if(!closes||closes.length<2)return '';
+    var mn=Math.min.apply(null,closes),mx=Math.max.apply(null,closes);
+    var rng=mx-mn||1,W=230,H=28,n=closes.length;
+    var pts=closes.map(function(v,i){
+      return ((i/(n-1))*W).toFixed(1)+','+(H-((v-mn)/rng)*(H-6)-3).toFixed(1);
+    }).join(' ');
+    var col=closes[closes.length-1]>=closes[0]?'#3fb950':'#f85149';
+    return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="display:block;overflow:visible;margin-top:4px">'
+      +'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
+      +'</svg>';
+  }
+
+  function _updateQuote(ticker,d){
+    if(_tipTicker!==ticker)return;
+    var el=document.getElementById('rd-tip-quote');
+    if(!el)return;
+    var col=d.change_pct>=0?'#3fb950':'#f85149';
+    var sign=d.change_pct>=0?'+':'';
+    el.innerHTML='<div style="display:flex;align-items:center;gap:8px;padding:4px 0 2px">'
+      +'<span style="color:#f0f6fc;font-weight:600">$'+d.price.toFixed(2)+'</span>'
+      +'<span style="color:'+col+';font-size:11px;font-weight:600">'+sign+(d.change_pct*100).toFixed(2)+'%</span>'
+      +'<span style="color:#484f58;font-size:10px">day</span>'
+      +'</div>'
+      +_miniSpark(d.week_closes);
+    pos(_tipCx,_tipCy);
+  }
+
   function pos(cx,cy){
-    var tw=tip.offsetWidth||220,th=tip.offsetHeight||130;
+    var tw=tip.offsetWidth||250,th=tip.offsetHeight||160;
     var lx=cx+14,ly=cy+14;
     if(lx+tw>window.innerWidth-8)lx=cx-tw-14;
     if(ly+th>window.innerHeight-8)ly=cy-th-14;
     tip.style.left=lx+'px';tip.style.top=ly+'px';
   }
+
   function show(ticker,cx,cy){
-    var st=(S.stocks||[]).find(function(s){return s.ticker===ticker;});
+    _tipTicker=ticker;_tipCx=cx;_tipCy=cy;
+    var st=(S.stocks||[]).find(function(s){return s.ticker===ticker;})
+        ||(S.all_signals||[]).find(function(s){return s.ticker===ticker;});
     if(!st){return;}
     var ec=st.edge>=0?'#3fb950':'#f85149';
     var sec=st.sector&&st.sector!=='Unknown'?st.sector:'—';
-    var nameRow=st.name&&st.name!==st.ticker?'<div style="color:#8b949e;font-size:11px;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px">'+st.name+'</div>':'';
+    var nameRow=st.name&&st.name!==st.ticker?'<div style="color:#8b949e;font-size:11px;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">'+st.name+'</div>':'';
     tip.innerHTML=''
-      +'<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">'
+      +'<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">'
       +'<img src="https://assets.parqet.com/logos/symbol/'+ticker+'?format=jpg" width="22" height="22" style="border-radius:4px;background:#fff;border:1px solid #30363d;object-fit:contain;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">'
       +'<strong style="color:#f0f6fc;font-size:14px">'+ticker+'</strong>'
       +'</div>'
       +nameRow
+      +'<div id="rd-tip-quote" style="border-bottom:1px solid #21262d;margin-bottom:7px"></div>'
       +'<div style="color:#6e7681;font-size:11px;margin-bottom:8px">'+sec+'</div>'
       +'<div style="display:flex;gap:14px">'
       +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Edge</div>'
@@ -6562,15 +6601,28 @@ function renderAsk(){
       +'</div>';
     pos(cx,cy);
     tip.classList.add('show');
+    if(_quoteCache[ticker]){
+      _updateQuote(ticker,_quoteCache[ticker]);
+    }else{
+      _rdGetApiBase().then(function(base){
+        if(!base||_tipTicker!==ticker)return;
+        fetch(base+'/api/quote?t='+ticker,{signal:AbortSignal.timeout(5000)})
+          .then(function(r){return r.ok?r.json():null;})
+          .then(function(d){if(d&&!d.error){_quoteCache[ticker]=d;_updateQuote(ticker,d);}})
+          .catch(function(){});
+      });
+    }
   }
-  function hide(){tip.classList.remove('show');}
+
+  function hide(){_tipTicker=null;tip.classList.remove('show');}
   document.addEventListener('mouseover',function(e){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
     if(el)show(el.dataset.ticker,e.clientX,e.clientY);
     else hide();
   });
   document.addEventListener('mousemove',function(e){
-    if(tip.classList.contains('show'))pos(e.clientX,e.clientY);
+    _tipCx=e.clientX;_tipCy=e.clientY;
+    if(tip.classList.contains('show'))pos(_tipCx,_tipCy);
   });
   document.addEventListener('mouseout',function(e){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;

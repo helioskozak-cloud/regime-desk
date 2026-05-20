@@ -127,6 +127,37 @@ class _Handler(BaseHTTPRequestHandler):
                 print(f"[api] {ticker}: not found or insufficient data", flush=True)
                 self._json({"error": f"{ticker} not in database or insufficient observations"}, 404)
 
+        elif parsed.path == "/api/quote":
+            ticker = re.sub(r"[^A-Z0-9.]", "", (qs.get("t", [""])[0]).strip().upper())
+            if not ticker:
+                self._json({"error": "missing ?t=TICKER"}, 400)
+                return
+            db = _find_db()
+            if not db:
+                self._json({"error": "no database"}, 503)
+                return
+            conn = sqlite3.connect(db)
+            try:
+                rows = conn.execute(
+                    "SELECT date, close FROM prices WHERE ticker=? ORDER BY date DESC LIMIT 12",
+                    (ticker,)
+                ).fetchall()
+            finally:
+                conn.close()
+            if len(rows) < 2:
+                self._json({"error": f"{ticker} not found"}, 404)
+                return
+            rows = list(reversed(rows))
+            closes = [round(float(r[1]), 2) for r in rows]
+            prev, curr = closes[-2], closes[-1]
+            self._json({
+                "ticker": ticker,
+                "price": curr,
+                "prev_close": prev,
+                "change_pct": round((curr - prev) / prev, 4),
+                "week_closes": closes[-7:],
+            })
+
         else:
             self._json({"error": "not found"}, 404)
 
