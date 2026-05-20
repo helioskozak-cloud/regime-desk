@@ -8385,9 +8385,10 @@ window._rdSort=function(col){
 };
 window._rdHorizon=function(h){
   _horizon=h;
-  ['stocks','sectors'].forEach(v=>{
+  const map={stocks:renderStocks,sectors:renderSectors,themes:renderThemes};
+  Object.keys(map).forEach(function(v){
     const el=document.getElementById('v-'+v);
-    if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=(v==='stocks'?renderStocks:renderSectors)();el.dataset.rendered='1';}
+    if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=map[v]();el.dataset.rendered='1';}
   });
   _rdRefreshPinned();
 };
@@ -8396,29 +8397,52 @@ window._rdHorizon=function(h){
 function renderThemes(){
   const THEME_ICON={'Technology':'&#x25FC;','Semiconductors':'&#x2BC0;','Healthcare':'&#x2B22;','Financials':'&#x25B6;','Consumer Discretionary':'&#x25C6;','Communication Services':'&#x25CB;','Industrials':'&#x25A0;','Consumer Staples':'&#x25BD;','Energy':'&#x26A1;','Utilities':'&#x25D1;','Real Estate':'&#x25A3;','Materials':'&#x2B21;','Biotech':'&#x2B2C;','Defense':'&#x25B2;','Crypto':'&#x25C9;','Energy Transition':'&#x2600;'};
   const themes=(S.themes||[]).filter(function(t){return t.name&&t.name!=='Unknown';});
+  let pool=S.stocks||[];
+  if(_horizon!=='all')pool=pool.filter(function(s){return s.horizon===_horizon;});
+  function _med(arr){if(!arr.length)return null;var s=[].concat(arr).sort(function(a,b){return a-b;});return s[Math.floor(s.length/2)];}
   const cards=themes.map(function(t){
-    const stocks=S.stocks.filter(function(st){return st.sector===t.name;}).sort(function(a,b){return b.edge-a.edge;}).slice(0,12);
+    const stocks=pool.filter(function(st){return st.sector===t.name;}).sort(function(a,b){return b.edge-a.edge;}).slice(0,12);
     const chips=stocks.map(function(st){
       const c=st.edge>=0?'#3fb950':'#f85149';
-      return '<span data-ticker="'+st.ticker+'" style="display:inline-flex;align-items:center;gap:3px;background:'+c+'15;border:1px solid '+c+'40;color:'+c+';border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;cursor:default;margin:2px">'
+      const sign=st.edge>=0?'+':'';
+      return '<span data-ticker="'+st.ticker+'" style="display:inline-flex;align-items:center;gap:4px;background:'+c+'15;border:1px solid '+c+'40;color:'+c+';border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600;cursor:default;margin:2px">'
         +'<img src="https://assets.parqet.com/logos/symbol/'+st.ticker+'?format=jpg" width="12" height="12" style="border-radius:2px;background:#fff;object-fit:contain;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">'
-        +st.ticker+'</span>';
+        +st.ticker
+        +'<span style="opacity:.75;font-size:10px;font-weight:500">'+sign+(st.edge*100).toFixed(1)+'%</span>'
+        +'</span>';
     }).join('');
-    const empty=!chips?'<span style="color:#6e7681;font-size:12px;font-style:italic">No signals in current scan</span>':'';
+    const empty=!chips?'<span style="color:#6e7681;font-size:12px;font-style:italic">No signals'+(_horizon!=='all'?' for '+_horizon:'')+'</span>':'';
     const tCol=t.edge>=0?'#3fb950':'#f85149';
     const icon=THEME_ICON[t.name]||'&#x25A1;';
-    return '<div style="border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:10px;border-left:3px solid '+tCol+'">'
-      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+    const tp10=_med(stocks.map(function(s){return s.p10;}).filter(function(v){return v!=null;}));
+    const tp50=_med(stocks.map(function(s){return s.p50;}).filter(function(v){return v!=null;}));
+    const tp90=_med(stocks.map(function(s){return s.p90;}).filter(function(v){return v!=null;}));
+    const pctRow=tp50!=null
+      ?'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 0;border-top:1px solid #30363d;margin-top:10px">'
+        +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Bear Case</div>'
+        +'<div style="color:#f85149;font-size:16px;font-weight:700">'+(tp10>=0?'+':'')+(tp10*100).toFixed(0)+'%</div></div>'
+        +'<div style="text-align:center;border-left:1px solid #30363d;border-right:1px solid #30363d">'
+        +'<div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Median</div>'
+        +'<div style="color:#c9d1d9;font-size:16px;font-weight:700">'+(tp50>=0?'+':'')+(tp50*100).toFixed(0)+'%</div></div>'
+        +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Bull Case</div>'
+        +'<div style="color:#3fb950;font-size:16px;font-weight:700">'+(tp90>=0?'+':'')+(tp90*100).toFixed(0)+'%</div></div>'
+        +'</div>'
+      :'';
+    return '<div class="card" style="background:#21262d;border-left:3px solid '+tCol+';margin-bottom:10px;padding:14px">'
+      +'<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">'
       +'<span style="color:'+tCol+';font-size:15px;opacity:.85">'+icon+'</span>'
-      +'<strong>'+t.name+'</strong>'+pill(t.signal)
-      +'<span style="color:#8b949e;font-size:12px">'+stocks.length+' signal'+(stocks.length!==1?'s':'')+' &middot; Edge '+pct(t.edge)+'</span>'
+      +'<strong style="font-size:14px;color:#f0f6fc">'+t.name+'</strong>'+pill(t.signal)
+      +'<span style="color:'+tCol+';font-weight:700;font-size:13px">'+(t.edge>=0?'+':'')+(t.edge*100).toFixed(1)+'%</span>'
+      +'<span style="color:#8b949e;font-size:12px">&middot; '+stocks.length+' signal'+(stocks.length!==1?'s':'')+' &middot; breadth '+((t.breadth||0)*100).toFixed(0)+'%</span>'
       +'</div>'
       +'<div style="display:flex;flex-wrap:wrap;line-height:1">'+chips+empty+'</div>'
-      +(t.note?'<div style="color:#c9d1d9;font-size:12px;margin-top:6px">'+t.note+'</div>':'')
+      +pctRow
+      +(t.note?'<div style="color:#c9d1d9;font-size:12px;margin-top:8px">'+t.note+'</div>':'')
       +'</div>';
   }).join('');
   return '<div class="card"><h2>Thematic Reads</h2>'
-    +'<p style="margin-bottom:12px;color:#8b949e">Hover any ticker for signal details. Sorted by edge within each theme.</p>'
+    +_horizonBar()
+    +'<p style="margin-bottom:12px;color:#8b949e">Hover any ticker for signal details. Bear/Median/Bull are the median percentiles across signals in each theme.</p>'
     +cards+'</div>'
     +'<footer>Tendencies only — not investment advice.</footer>';
 }
