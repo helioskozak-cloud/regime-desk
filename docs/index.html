@@ -9319,7 +9319,7 @@ function renderAsk(){
 (function(){
   var tip=document.getElementById('rd-tip');
   if(!tip){tip=document.createElement('div');tip.id='rd-tip';document.body.appendChild(tip);}
-  tip.style.cssText='position:fixed;z-index:9999;background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:10px 14px;pointer-events:none;display:none;min-width:220px;max-width:270px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:12px;line-height:1.5';
+  tip.style.display='none';
   var _cx=0,_cy=0;
 
   function _spark(closes){
@@ -9388,10 +9388,10 @@ function renderAsk(){
       +'<div style="color:#c9d1d9;font-size:13px">'+((st.hit_rate||0)*100).toFixed(0)+'%</div></div>'
       +'</div>';
     pos(cx,cy);
-    tip.classList.add('show');
+    tip.style.display='block';
   }
 
-  function hide(){tip.classList.remove('show');}
+  function hide(){tip.style.display='none';}
   document.addEventListener('mouseover',function(e){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
     if(el)show(el.dataset.ticker,e.clientX,e.clientY);
@@ -9399,7 +9399,7 @@ function renderAsk(){
   });
   document.addEventListener('mousemove',function(e){
     _cx=e.clientX;_cy=e.clientY;
-    if(tip.classList.contains('show'))pos(_cx,_cy);
+    if(tip.style.display==='block')pos(_cx,_cy);
   });
   document.addEventListener('mouseout',function(e){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
