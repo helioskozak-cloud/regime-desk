@@ -8314,8 +8314,11 @@ function _pinnedCard(tk){
     +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Confidence</div>'
     +'<div style="font-size:13px;font-weight:600;color:'+badgeCol+'">'+badge+'</div></div>'
     +'</div>'
-    +'<div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Return Distribution — '+st.horizon+' forward (p10 → p90)</div>'
-    +distBar(st.p10,st.p25,st.p50,st.p75,st.p90)
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 0;border-top:1px solid #30363d;border-bottom:1px solid #30363d;margin-bottom:8px">'
+    +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bear Case (p10)</div><div style="color:#f85149;font-size:18px;font-weight:700">'+(st.p10>=0?'+':'')+(st.p10*100).toFixed(0)+'%</div></div>'
+    +'<div style="text-align:center;border-left:1px solid #30363d;border-right:1px solid #30363d"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Median (p50)</div><div style="color:#c9d1d9;font-size:18px;font-weight:700">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(0)+'%</div></div>'
+    +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bull Case (p90)</div><div style="color:#3fb950;font-size:18px;font-weight:700">'+(st.p90>=0?'+':'')+(st.p90*100).toFixed(0)+'%</div></div>'
+    +'</div>'
     +(shortHistory?'<div style="color:#8b949e;font-size:11px;margin-top:8px;padding:6px 8px;background:#21262d;border-radius:4px">Analog dates scoped to this ticker\'s available history (recently listed). Signal based on '+st.n_obs+' observations — treat with caution.</div>':'')
     +'</div>';
 }
@@ -8370,14 +8373,16 @@ function renderStocks(){
       <td><div style="display:flex;align-items:center" data-ticker="${st.ticker}">${logo}<div><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></div></div></td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${st.name||'—'}</td><td>${sector}</td>
       <td style="color:${st.edge>=0?'#3fb950':'#f85149'};white-space:nowrap">${pct(st.edge)} <span style="color:#6e7681;font-size:11px">(${pct(ann)})</span></td>
-      <td style="min-width:160px">${distBar(st.p10,st.p25,st.p50,st.p75,st.p90)}</td>
+      <td style="color:#f85149;font-weight:600;white-space:nowrap">${pct(st.p10)}</td>
+      <td style="color:#c9d1d9;font-weight:600;white-space:nowrap">${pct(st.p50)}</td>
+      <td style="color:#3fb950;font-weight:600;white-space:nowrap">${pct(st.p90)}</td>
       <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
       <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">&#x1F4CB;</button></td>
     </tr>`;
   }
   // In watchlist mode, iterate requested tickers in order; show "no data" for missing ones
   const rows=isWl
-    ?wlTickers.map(tk=>{const st=pool.find(s=>s.ticker===tk);return st?stRow(st):`<tr><td><strong>${tk}</strong></td><td colspan="7" style="color:#6e7681;font-size:12px;font-style:italic">No signal data available</td></tr>`;})
+    ?wlTickers.map(tk=>{const st=pool.find(s=>s.ticker===tk);return st?stRow(st):`<tr><td><strong>${tk}</strong></td><td colspan="9" style="color:#6e7681;font-size:12px;font-style:italic">No signal data available</td></tr>`;})
     :sorted.map(stRow);
   const wlBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px">
     <span style="color:#8b949e;font-size:12px">Watchlist:</span>
@@ -8402,7 +8407,7 @@ function renderStocks(){
   ${_horizonBar()}${wlBar}${lookupBar}
   <div id="rd-pinned-cards"></div>
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
-  <div style="overflow-x:auto"><table style="min-width:640px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th style="min-width:160px">Distribution (p10&#8594;p90)</th>${th('hit_rate','Hit %')}${th('n_obs','n')}<th></th></tr>
+  <div style="overflow-x:auto"><table style="min-width:640px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Bear Case</th><th>Median</th><th>Bull Case</th>${th('hit_rate','Hit %')}${th('n_obs','n')}<th></th></tr>
   ${rows.join('')}
   </table></div></div>
   <footer>Tendencies only — not investment advice. Green/red row tint = positive/negative edge in watchlist mode.</footer>`;
@@ -8748,7 +8753,9 @@ function renderAdvisor(){
       +'<td><span style="font-size:10px;color:'+fc+';background:'+fc+'18;padding:2px 6px;border-radius:10px;white-space:nowrap">'+factor+'</span></td>'
       +'<td style="color:'+edgeCol+';font-weight:600">'+pct(st.edge)+'</td>'
       +'<td style="color:#6e7681;font-size:11px;white-space:nowrap">'+annEd(st.edge,st.horizon||'20d')+'</td>'
-      +'<td style="min-width:160px">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
+      +'<td style="color:#f85149;font-weight:600;white-space:nowrap">'+pct(st.p10)+'</td>'
+      +'<td style="color:#c9d1d9;font-weight:600;white-space:nowrap">'+pct(st.p50)+'</td>'
+      +'<td style="color:#3fb950;font-weight:600;white-space:nowrap">'+pct(st.p90)+'</td>'
       +'<td>'+((st.hit_rate||0)*100).toFixed(0)+'%</td>'
       +'<td>'+confBadge(st.hit_rate,st.n_obs)+'</td>'
       +'<td>'+st.n_obs+'</td></tr>';
@@ -8826,7 +8833,7 @@ function renderAdvisor(){
     ${wlNoMatch}
     <div style="overflow-x:auto">
     <table style="min-width:700px"><tr>
-      <th>Ticker</th><th>Sector</th><th>Factor</th><th>Edge</th><th>Ann. Edge</th><th style="min-width:160px">Distribution (p10 &rarr; p90)</th><th>Hit Rate</th><th>Conf.</th><th>n</th>
+      <th>Ticker</th><th>Sector</th><th>Factor</th><th>Edge</th><th>Ann. Edge</th><th>Bear Case</th><th>Median</th><th>Bull Case</th><th>Hit Rate</th><th>Conf.</th><th>n</th>
     </tr>
     ${stockRows}
     </table></div>
@@ -8883,7 +8890,7 @@ function _qTickerTable(stocks){
   if(!stocks.length)return '<p style="color:#6e7681">No matching signals.</p>';
   return '<div style="overflow-x:auto"><table style="width:100%;min-width:480px">'
     +'<tr style="color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.5px">'
-    +'<th style="width:24px;text-align:center">#</th><th>Ticker</th><th>Sector</th><th>Edge</th><th>Distribution</th><th>Hit%</th></tr>'
+    +'<th style="width:24px;text-align:center">#</th><th>Ticker</th><th>Sector</th><th>Edge</th><th>Bear Case</th><th>Median</th><th>Bull Case</th><th>Hit%</th></tr>'
     +stocks.map(function(st,i){
       var ec=st.edge>=0?'#3fb950':'#f85149';
       var sec=st.sector&&st.sector!=='Unknown'?st.sector:'—';
@@ -8893,7 +8900,9 @@ function _qTickerTable(stocks){
         +'<div style="color:#6e7681;font-size:10px;margin-left:19px">'+st.horizon+'</div></td>'
         +'<td style="color:#8b949e;font-size:12px;padding:6px 8px">'+sec+'</td>'
         +'<td style="color:'+ec+';font-weight:600;padding:6px 8px;white-space:nowrap">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</td>'
-        +'<td style="min-width:160px;padding:6px 4px">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</td>'
+        +'<td style="color:#f85149;font-weight:600;padding:6px 4px;white-space:nowrap">'+(st.p10>=0?'+':'')+(st.p10*100).toFixed(0)+'%</td>'
+        +'<td style="color:#c9d1d9;font-weight:600;padding:6px 4px;white-space:nowrap">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(0)+'%</td>'
+        +'<td style="color:#3fb950;font-weight:600;padding:6px 4px;white-space:nowrap">'+(st.p90>=0?'+':'')+(st.p90*100).toFixed(0)+'%</td>'
         +'<td style="padding:6px 4px">'+((st.hit_rate||0)*100).toFixed(0)+'%</td></tr>';
     }).join('')
     +'</table></div>';
@@ -8945,7 +8954,11 @@ function _qTicker(ticker){
     +'<div style="display:flex;align-items:center;margin-bottom:16px">'+logo
     +'<div><div style="font-size:36px;font-weight:700;color:'+ec+';line-height:1">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</div>'
     +'<div style="color:#8b949e;font-size:12px">conditional edge · '+(ann>=0?'+':'')+( ann*100).toFixed(0)+'%/yr ann.</div></div></div>'
-    +'<div style="margin-bottom:14px">'+distBar(st.p10,st.p25,st.p50,st.p75,st.p90)+'</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 0;border-top:1px solid #30363d;border-bottom:1px solid #30363d;margin-bottom:14px;text-align:center">'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bear Case (p10)</div><div style="color:#f85149;font-size:20px;font-weight:700">'+(st.p10>=0?'+':'')+(st.p10*100).toFixed(0)+'%</div></div>'
+    +'<div style="border-left:1px solid #30363d;border-right:1px solid #30363d"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Median (p50)</div><div style="color:#c9d1d9;font-size:20px;font-weight:700">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(0)+'%</div></div>'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bull Case (p90)</div><div style="color:#3fb950;font-size:20px;font-weight:700">'+(st.p90>=0?'+':'')+(st.p90*100).toFixed(0)+'%</div></div>'
+    +'</div>'
     +'<div class="grid2"><table style="width:100%">'
     +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">Hit rate</td><td style="text-align:right;font-weight:600">'+((st.hit_rate||0)*100).toFixed(0)+'%</td></tr>'
     +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">Observations</td><td style="text-align:right;font-weight:600">'+st.n_obs+' analog days</td></tr>'
