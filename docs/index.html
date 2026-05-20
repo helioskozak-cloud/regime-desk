@@ -9318,7 +9318,8 @@ function renderAsk(){
 // ── Ticker hover tooltip ──────────────────────────────────────────────────────
 (function(){
   var tip=document.getElementById('rd-tip');
-  if(!tip)return;
+  if(!tip){tip=document.createElement('div');tip.id='rd-tip';document.body.appendChild(tip);}
+  tip.style.cssText='position:fixed;z-index:9999;background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:10px 14px;pointer-events:none;display:none;min-width:220px;max-width:270px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:12px;line-height:1.5';
   var _cx=0,_cy=0;
 
   function _spark(closes){
