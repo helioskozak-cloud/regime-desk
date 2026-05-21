@@ -432,6 +432,119 @@ def compute_cross_asset(spy_state: dict) -> dict:
     return {"signals": signals, "risks": risks}
 
 
+def update_signal_memory(market_signals: pd.DataFrame, prices: pd.DataFrame) -> None:
+    """
+    Append today's signals to signal_log.csv, resolve past outcomes using
+    the fresh price data already in memory, and write stock_scores.csv.
+    """
+    log_path      = DATA_DIR / "signal_log.csv"
+    outcomes_path = DATA_DIR / "signal_outcomes.csv"
+    scores_path   = DATA_DIR / "stock_scores.csv"
+
+    run_date = prices.index[-1].strftime("%Y-%m-%d")
+    print(f"\nUpdating signal memory for {run_date} ...", flush=True)
+
+    # --- 1. Append today's signals ---
+    if not market_signals.empty:
+        today_rows = market_signals[["ticker", "horizon", "edge", "sector"]].copy()
+        today_rows["run_date"] = run_date
+        today_rows = today_rows.rename(columns={"edge": "predicted_edge"})
+        today_rows = today_rows[["run_date", "ticker", "horizon", "predicted_edge", "sector"]]
+    else:
+        today_rows = pd.DataFrame(columns=["run_date", "ticker", "horizon", "predicted_edge", "sector"])
+
+    if log_path.exists():
+        existing = pd.read_csv(log_path)
+        existing = existing[existing["run_date"] != run_date]  # idempotent re-run
+        signal_log = pd.concat([existing, today_rows], ignore_index=True)
+    else:
+        signal_log = today_rows.copy()
+
+    signal_log.to_csv(log_path, index=False)
+    print(f"  Log: {len(signal_log)} total rows, {len(today_rows)} added today", flush=True)
+
+    # --- 2. Resolve outcomes from the in-memory price data ---
+    HORIZON_DAYS = {"5d": 5, "20d": 20, "60d": 60, "120d": 120}
+    records = []
+
+    for _, sig in signal_log.iterrows():
+        ticker  = sig["ticker"]
+        horizon = sig["horizon"]
+        h_days  = HORIZON_DAYS.get(horizon)
+        if h_days is None or ticker not in prices.columns:
+            continue
+
+        ticker_series = prices[ticker].dropna()
+        ticker_dates  = ticker_series.index
+        run_dt        = pd.Timestamp(sig["run_date"])
+
+        entry_pool = ticker_dates[ticker_dates >= run_dt]
+        if len(entry_pool) == 0:
+            continue
+        entry_date = entry_pool[0]
+        entry_pos  = int(ticker_dates.searchsorted(entry_date))
+        exit_pos   = entry_pos + h_days
+        if exit_pos >= len(ticker_dates):
+            continue  # horizon hasn't elapsed yet
+
+        entry_price = float(ticker_series.iloc[entry_pos])
+        exit_price  = float(ticker_series.iloc[exit_pos])
+        if entry_price == 0:
+            continue
+
+        actual_return = exit_price / entry_price - 1
+        records.append({
+            "run_date":       sig["run_date"],
+            "ticker":         ticker,
+            "horizon":        horizon,
+            "predicted_edge": round(float(sig["predicted_edge"]), 6),
+            "actual_return":  round(actual_return, 6),
+            "regime_alpha":   round(actual_return - float(sig["predicted_edge"]), 6),
+        })
+
+    if records:
+        outcomes_df = pd.DataFrame(records)
+        outcomes_df.to_csv(outcomes_path, index=False)
+        print(f"  Outcomes: {len(outcomes_df)} resolved", flush=True)
+    else:
+        outcomes_df = pd.DataFrame()
+        print("  Outcomes: none resolved yet (log too new)", flush=True)
+
+    # --- 3. Stock scores (90-day lookback) ---
+    cutoff     = (pd.Timestamp(run_date) - pd.Timedelta(days=90)).strftime("%Y-%m-%d")
+    recent_log = signal_log[signal_log["run_date"] >= cutoff]
+
+    persistence = (
+        recent_log.groupby("ticker")["run_date"]
+        .nunique()
+        .rename("persistence")
+        .reset_index()
+    )
+
+    if not outcomes_df.empty:
+        recent_out        = outcomes_df[outcomes_df["run_date"] >= cutoff].copy()
+        recent_out["hit"] = (recent_out["actual_return"] >= recent_out["predicted_edge"]).astype(float)
+        accuracy = (
+            recent_out.groupby("ticker")
+            .agg(
+                avg_regime_alpha=("regime_alpha",  "mean"),
+                resolved_signals=("regime_alpha",  "count"),
+                hit_rate        =("hit",            "mean"),
+            )
+            .reset_index()
+        )
+        scores = persistence.merge(accuracy, on="ticker", how="left")
+    else:
+        scores = persistence.copy()
+        scores["avg_regime_alpha"] = None
+        scores["resolved_signals"] = 0
+        scores["hit_rate"]         = None
+
+    scores = scores.sort_values("persistence", ascending=False)
+    scores.to_csv(scores_path, index=False)
+    print(f"  Stock scores: {len(scores)} tickers scored", flush=True)
+
+
 def main():
     DATA_DIR.mkdir(exist_ok=True)
 
@@ -504,6 +617,12 @@ def main():
 
     print(f"\nSaved {len(market_signals)} signals, {len(theme_summary)} theme rows", flush=True)
     print(f"SPY state: {spy_state}", flush=True)
+
+    # Historical memory — must come after prices is available
+    try:
+        update_signal_memory(market_signals, prices)
+    except Exception as exc:
+        print(f"WARNING: signal memory update failed — {exc}", flush=True)
 
 
 if __name__ == "__main__":

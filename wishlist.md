@@ -4,6 +4,8 @@ Items for the daily improvement agent to implement — one per run. Move to Done
 
 ## Pending
 
+- **Stock Memory view (#memory)** — new hash-routed view (`id="v-memory"`) showing a sortable table of stocks from `SNAPSHOT.stock_memory`. Columns: Ticker, Persistence (how many daily scans it appeared in, last 90 days), Avg Regime Alpha (actual return minus predicted edge — positive means it beat the model), Resolved Signals (count), Hit Rate (% of signals where actual return met or beat the prediction). Color-code Avg Regime Alpha green if positive, red if negative. Add "Memory" to the nav bar. Show a banner if stock_memory is empty explaining the log needs a few weeks to build up.
+
 ## Done
 
 - **Regime comparison table** — 2026-05-07: in #analog, table of top 5 historical precedents with date, regime label, SPY +20d return (color-coded), and Equities Up/Down badge; synthetic illustrative rows keyed to current regime until ci_scan.py writes analog_matches to spy_state.json

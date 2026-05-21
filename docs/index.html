@@ -8645,6 +8645,14 @@ window._rdHorizon=function(h){
 };
 
 // THEMES
+window._rdThemeToggle=function(i){
+  var body=document.getElementById('rd-tb-'+i);
+  var chev=document.getElementById('rd-tc-'+i);
+  if(!body)return;
+  var open=body.style.display!=='none';
+  body.style.display=open?'none':'';
+  if(chev)chev.style.transform=open?'':'rotate(90deg)';
+};
 function renderThemes(){
   const THEME_ICON={'Technology':'&#x25FC;','Semiconductors':'&#x2BC0;','Healthcare':'&#x2B22;','Financials':'&#x25B6;','Consumer Discretionary':'&#x25C6;','Communication Services':'&#x25CB;','Industrials':'&#x25A0;','Consumer Staples':'&#x25BD;','Energy':'&#x26A1;','Utilities':'&#x25D1;','Real Estate':'&#x25A3;','Materials':'&#x2B21;','Biotech':'&#x2B2C;','Defense':'&#x25B2;','Crypto':'&#x25C9;','Energy Transition':'&#x2600;'};
   const themes=(S.themes||[]).filter(function(t){return t.name&&t.name!=='Unknown';});
@@ -8652,7 +8660,7 @@ function renderThemes(){
   if(_horizon!=='all')pool=pool.filter(function(s){return s.horizon===_horizon;});
   function _med(arr){if(!arr.length)return null;var s=[].concat(arr).sort(function(a,b){return a-b;});return s[Math.floor(s.length/2)];}
   const TH='<th style="text-align:left;padding:0 10px 6px;font-weight:500;white-space:nowrap">';
-  const cards=themes.map(function(t){
+  const cards=themes.map(function(t,i){
     const stocks=pool.filter(function(st){return st.sector===t.name;}).sort(function(a,b){return b.edge-a.edge;}).slice(0,15);
     const tCol=t.edge>=0?'#3fb950':'#f85149';
     const icon=THEME_ICON[t.name]||'&#x25A1;';
@@ -8689,21 +8697,24 @@ function renderThemes(){
         +'</tr>'
         +rows+medianRow
         +'</table>'
-      :'<div style="color:#6e7681;font-size:12px;font-style:italic;margin-top:8px">No signals'+(_horizon!=='all'?' for '+_horizon:'')+'</div>';
+      :'<div style="color:#6e7681;font-size:12px;font-style:italic;padding-top:8px">No signals'+(_horizon!=='all'?' for '+_horizon:'')+'</div>';
     return '<div class="card" style="background:#21262d;border-left:3px solid '+tCol+';margin-bottom:10px;padding:14px">'
-      +'<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">'
+      +'<div onclick="window._rdThemeToggle('+i+')" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;cursor:pointer;user-select:none">'
+      +'<span id="rd-tc-'+i+'" style="color:#6e7681;font-size:10px;display:inline-block;transition:transform .18s">&#x25B6;</span>'
       +'<span style="color:'+tCol+';font-size:15px;opacity:.85">'+icon+'</span>'
       +'<strong style="font-size:14px;color:#f0f6fc">'+t.name+'</strong>'+pill(t.signal)
       +'<span style="color:'+tCol+';font-weight:700;font-size:13px">'+(t.edge>=0?'+':'')+(t.edge*100).toFixed(1)+'%</span>'
       +'<span style="color:#8b949e;font-size:12px">&middot; '+stocks.length+' signal'+(stocks.length!==1?'s':'')+' &middot; breadth '+((t.breadth||0)*100).toFixed(0)+'%</span>'
       +'</div>'
+      +'<div id="rd-tb-'+i+'" style="display:none">'
       +tableBody
       +(t.note?'<div style="color:#c9d1d9;font-size:12px;margin-top:10px">'+t.note+'</div>':'')
+      +'</div>'
       +'</div>';
   }).join('');
   return '<div class="card"><h2>Thematic Reads</h2>'
     +_horizonBar()
-    +'<p style="margin-bottom:12px;color:#8b949e">Each theme shows its top signals sorted by edge. Bear/Median/Bull are p10/p50/p90 forward returns.</p>'
+    +'<p style="margin-bottom:12px;color:#8b949e">Click any theme to expand. Bear/Median/Bull are p10/p50/p90 forward returns.</p>'
     +cards+'</div>'
     +'<footer>Tendencies only — not investment advice.</footer>';
 }

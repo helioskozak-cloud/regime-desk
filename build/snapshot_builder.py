@@ -33,6 +33,7 @@ DEFAULTS = {
         "spy_p75": 0.10, "spy_p90": 0.17,
         "top_dates": [], "top_matches": [], "regime_context": "No analog data available."
     },
+    "stock_memory": [],
     "narrative": {
         "headline": "Data refresh in progress",
         "constructive": "Signal data not yet available.",
@@ -387,6 +388,30 @@ def build_snapshot():
         if themes:
             snap["themes"] = themes
             print(f"[snapshot] Loaded {len(themes)} themes")
+
+    # Load stock memory scores
+    scores_path = DATA / "stock_scores.csv"
+    if scores_path.exists():
+        try:
+            import pandas as pd
+            scores_df = pd.read_csv(scores_path)
+            memory = []
+            for _, row in scores_df.head(100).iterrows():
+                entry = {
+                    "ticker":      str(row["ticker"]),
+                    "persistence": int(row.get("persistence", 0)),
+                }
+                if pd.notna(row.get("avg_regime_alpha")):
+                    entry["avg_regime_alpha"] = round(float(row["avg_regime_alpha"]), 4)
+                if pd.notna(row.get("resolved_signals")):
+                    entry["resolved_signals"] = int(row["resolved_signals"])
+                if pd.notna(row.get("hit_rate")):
+                    entry["hit_rate"] = round(float(row["hit_rate"]), 3)
+                memory.append(entry)
+            snap["stock_memory"] = memory
+            print(f"[snapshot] Loaded {len(memory)} stock memory scores")
+        except Exception as exc:
+            print(f"[snapshot] Could not load stock_scores.csv: {exc}")
 
     # Load cross-asset signals + risks
     if has_cross_asset:
