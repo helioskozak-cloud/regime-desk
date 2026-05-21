@@ -34,6 +34,7 @@ DEFAULTS = {
         "top_dates": [], "top_matches": [], "regime_context": "No analog data available."
     },
     "stock_memory": [],
+    "portfolios": {},
     "narrative": {
         "headline": "Data refresh in progress",
         "constructive": "Signal data not yet available.",
@@ -412,6 +413,33 @@ def build_snapshot():
             print(f"[snapshot] Loaded {len(memory)} stock memory scores")
         except Exception as exc:
             print(f"[snapshot] Could not load stock_scores.csv: {exc}")
+
+    # Load paper portfolios
+    portfolio_path = DATA / "portfolio.json"
+    if portfolio_path.exists():
+        try:
+            with open(portfolio_path, "r", encoding="utf-8") as f:
+                port_state = json.load(f)
+            portfolios = {}
+            for key, port in port_state.items():
+                portfolios[key] = {
+                    "name":           port.get("name", key),
+                    "label":          port.get("label", ""),
+                    "sort_col":       port.get("sort_col", "edge"),
+                    "inception_date": port.get("inception_date", ""),
+                    "initial_cash":   port.get("initial_cash", 100000),
+                    "cash":           round(port.get("cash", 0), 2),
+                    "n_positions":    len(port.get("holdings", {})),
+                    "holdings":       list(port.get("holdings", {}).values()),
+                    "history":        port.get("history", [])[-90:],  # last 90 days
+                    "transactions":   port.get("transactions", [])[-50:],
+                    "return_pct":     port["history"][-1]["return_pct"] if port.get("history") else 0.0,
+                    "total_value":    port["history"][-1]["total_value"] if port.get("history") else port.get("initial_cash", 100000),
+                }
+            snap["portfolios"] = portfolios
+            print(f"[snapshot] Loaded {len(portfolios)} portfolios")
+        except Exception as exc:
+            print(f"[snapshot] Could not load portfolio.json: {exc}")
 
     # Load cross-asset signals + risks
     if has_cross_asset:

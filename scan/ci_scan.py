@@ -446,12 +446,20 @@ def update_signal_memory(market_signals: pd.DataFrame, prices: pd.DataFrame) -> 
 
     # --- 1. Append today's signals ---
     if not market_signals.empty:
-        today_rows = market_signals[["ticker", "horizon", "edge", "sector"]].copy()
+        keep = ["ticker", "horizon", "edge", "sector"]
+        for _c in ("p10", "p90"):
+            if _c in market_signals.columns:
+                keep.append(_c)
+        today_rows = market_signals[keep].copy()
         today_rows["run_date"] = run_date
         today_rows = today_rows.rename(columns={"edge": "predicted_edge"})
-        today_rows = today_rows[["run_date", "ticker", "horizon", "predicted_edge", "sector"]]
+        ordered = ["run_date", "ticker", "horizon", "predicted_edge", "sector"]
+        for _c in ("p10", "p90"):
+            if _c in today_rows.columns:
+                ordered.append(_c)
+        today_rows = today_rows[ordered]
     else:
-        today_rows = pd.DataFrame(columns=["run_date", "ticker", "horizon", "predicted_edge", "sector"])
+        today_rows = pd.DataFrame(columns=["run_date", "ticker", "horizon", "predicted_edge", "sector", "p10", "p90"])
 
     if log_path.exists():
         existing = pd.read_csv(log_path)
@@ -623,6 +631,13 @@ def main():
         update_signal_memory(market_signals, prices)
     except Exception as exc:
         print(f"WARNING: signal memory update failed — {exc}", flush=True)
+
+    # Paper portfolios
+    try:
+        from portfolio_manager import update_portfolios
+        update_portfolios(market_signals, prices)
+    except Exception as exc:
+        print(f"WARNING: portfolio update failed — {exc}", flush=True)
 
 
 if __name__ == "__main__":
