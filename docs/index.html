@@ -108,6 +108,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
   <div class="view" id="v-methodology"></div>
   <div class="view" id="v-advisor"></div>
   <div class="view" id="v-meeting"></div>
+  <div class="view" id="v-analysis"></div>
   <div class="view" id="v-ask"></div>
   <div class="view" id="v-memory"></div>
   <div class="view" id="v-portfolios"></div>
@@ -13006,8 +13007,8 @@ window.SNAPSHOT = {
 <script>
 (function(){
 const S = window.SNAPSHOT;
-const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","narrative","analog","methodology","advisor","meeting","ask","memory","portfolios"];
-const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Narrative","Analog","Methodology","Advisor","Meeting","Ask ✦","Memory","Portfolios"];
+const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","analysis","ask","memory","portfolios"];
+const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Analysis","Ask ✦","Memory","Portfolios"];
 
 function renderMeeting(){
   const sp=S.spy||{}, n=S.narrative||{};
@@ -13168,25 +13169,81 @@ function distBar(p10,p25,p50,p75,p90){
 
 // HOME
 function renderHome(){
-  const top=S.sectors.slice(0,3);
-  const tiles=VIEWS.slice(1).map((v,i)=>{
-    const sec=S.sectors[0]||{};
-    const descs=["SPY state & regime context","Sector expectations","Leading stocks","Thematic reads","Cross-asset backdrop","Risk axes & invalidations","Plain-English summary","Analog matches","System methodology"];
-    return`<div class="tile" onclick="location.hash='#${v}'"><h3>${LABELS[i+1]}</h3><div class="sub">${descs[i]}</div></div>`;
-  });
-  return`<div class="card"><h2>Market Overview — ${S.generated}</h2>
-    <p style="margin-bottom:12px;color:#8b949e">${S.narrative&&S.narrative.headline||""}</p>
-    <div class="grid3">${tiles.join("")}</div>
-  </div>
-  <div class="card"><h2>Top Sectors</h2><table>
-    <tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
-    ${S.sectors.slice(0,6).map(s=>`<tr><td>${s.name}</td><td>${pct(s.edge)}</td>
-    <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%"></div></div></td>
-    <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`).join("")}
-  </table></div>
-  <footer>Tendencies only — not investment advice. Analog matching finds historically similar days; it does not guarantee future outcomes.</footer>`;
-}
+  const n=S.narrative||{};
+  const top=(S.stocks||[]).slice(0,6);
+  const ports=S.portfolios||{};
+  const portKeys=Object.keys(ports);
+  const colors={max_edge:'#58a6ff',bull_case:'#3fb950',defensive:'#e3b341'};
 
+  // ── Narrative boxes ──────────────────────────────────────────────────────
+  const headline=n.headline?`<p style="font-size:15px;font-weight:700;color:#f0f6fc;margin-bottom:10px">${n.headline}</p>`:'';
+  const summary=n.plain_english?`<p style="margin-bottom:14px;font-size:13px;line-height:1.65;color:#c9d1d9">${n.plain_english}</p>`:'';
+  const boxes=`<div class="grid2" style="margin-bottom:0">
+    <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:12px">
+      <div style="color:#3fb950;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Constructive</div>
+      <div style="font-size:12px;line-height:1.55;color:#c9d1d9">${n.constructive||'—'}</div>
+    </div>
+    <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:6px;padding:12px">
+      <div style="color:#f85149;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Watch Out For</div>
+      <div style="font-size:12px;line-height:1.55;color:#c9d1d9">${n.risk||'—'}</div>
+    </div>
+  </div>`;
+
+  // ── Portfolio mini-cards ─────────────────────────────────────────────────
+  const portSection=portKeys.length?`<div class="card"><h2>Paper Portfolios <span style="font-size:11px;font-weight:400;color:#8b949e">— click to expand</span></h2>
+    <div class="grid3">${portKeys.map(k=>{
+      const p=ports[k],clr=colors[k]||'#8b949e',ret=p.return_pct||0,rc=ret>=0?'#3fb950':'#f85149';
+      const cashPct=p.total_value?((p.cash/p.total_value)*100).toFixed(1):'0.0';
+      return`<div onclick="location.hash='#portfolios';window._portTabFn&&window._portTabFn('${k}')" style="background:#0d1117;border:1px solid ${clr}55;border-radius:8px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${clr}'" onmouseout="this.style.borderColor='${clr}55'">
+        <div style="font-size:10px;font-weight:700;color:${clr};text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${p.name}</div>
+        <div style="font-size:20px;font-weight:700;color:#f0f6fc">$${(p.total_value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</div>
+        <div style="font-size:13px;font-weight:600;color:${rc};margin:2px 0">${ret>=0?'+':''}${ret.toFixed(2)}%</div>
+        <div style="font-size:10px;color:#6e7681;margin-top:4px">${p.n_positions} positions · ${cashPct}% cash</div>
+      </div>`;
+    }).join('')}</div></div>`:'';
+
+  // ── Top signals compact ──────────────────────────────────────────────────
+  const sigRows=top.map(st=>{
+    const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
+    const ann=((st.edge||0)*(252/hd)*100).toFixed(0);
+    const logo=`<img src="https://assets.parqet.com/logos/symbol/${st.ticker}?format=jpg" width="16" height="16" style="border-radius:2px;object-fit:contain;vertical-align:middle;margin-right:5px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
+    const sec=st.sector&&st.sector!=='Unknown'?st.sector:'—';
+    return`<tr onclick="location.hash='#stocks'" style="cursor:pointer">
+      <td><div style="display:flex;align-items:center">${logo}<strong style="font-family:monospace">${st.ticker}</strong></div></td>
+      <td style="color:#8b949e;font-size:12px">${sec}</td>
+      <td style="color:${(st.edge||0)>=0?'#3fb950':'#f85149'};font-weight:600">${pct(st.edge)} <span style="color:#6e7681;font-size:10px">(${ann}% ann)</span></td>
+      <td style="color:#c9d1d9;font-weight:600">${pct(st.p50)}</td>
+      <td style="color:#3fb950;font-weight:600">${pct(st.p90)}</td>
+      <td style="color:#6e7681;font-size:11px">${st.horizon}</td>
+    </tr>`;
+  }).join('');
+
+  // ── Sector table ─────────────────────────────────────────────────────────
+  const secRows=S.sectors.slice(0,7).map(s=>`<tr>
+    <td>${s.name}</td>
+    <td style="color:${s.edge>=0?'#3fb950':'#f85149'};font-weight:600">${pct(s.edge)}</td>
+    <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%"></div></div></td>
+    <td style="color:#8b949e">${s.stocks}</td>
+    <td>${pill(s.signal)}</td>
+  </tr>`).join('');
+
+  return`<div class="card"><h2>Morning Brief — ${S.generated}</h2>
+    ${headline}${summary}${boxes}
+  </div>
+  ${portSection}
+  ${top.length?`<div class="card"><h2>Top Signals <span style="font-size:11px;font-weight:400;color:#8b949e">— click row to open full table</span></h2>
+    <div style="overflow-x:auto"><table style="min-width:480px">
+      <tr><th>Ticker</th><th>Sector</th><th>Edge</th><th>Median</th><th>Bull Case</th><th>Horizon</th></tr>
+      ${sigRows}
+    </table></div>
+  </div>`:''}
+  ${S.sectors.length?`<div class="card"><h2>Sector Landscape</h2>
+    <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
+    ${secRows}
+    </table>
+  </div>`:''}
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
 // REGIME
 function renderRegime(){
   return`<div class="card"><h2>Regime Analysis</h2>
@@ -14115,7 +14172,117 @@ window._portTabFn=function(key){
   delete el.dataset.rendered;el.innerHTML=renderPortfolios();el.dataset.rendered='1';
 };
 
-const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,narrative:renderNarrative,analog:renderAnalog,methodology:renderMethodology,advisor:renderAdvisor,meeting:renderMeeting,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios};
+
+// ANALYSIS — combined narrative, analog matching, methodology
+function renderAnalysis(){
+  const n=S.narrative||{};
+  const a=S.analog||{};
+  const matches=a.top_matches||[];
+  const isSynth=matches.length>0&&matches[0].synthetic;
+  const synthBadge=isSynth?'<span style="background:#161b22;color:#8b949e;border:1px solid #30363d;border-radius:10px;font-size:10px;padding:2px 8px;margin-left:8px">Illustrative</span>':'';
+
+  const matchRows=matches.map((m,i)=>{
+    const ret=m.spy_ret_20d||0,retPct=(ret*100).toFixed(1),retCol=ret>=0?'#3fb950':'#f85149';
+    const eqCol=(m.breadth||0)>0.5?'#3fb950':'#f85149',eqLabel=(m.breadth||0)>0.5?'Up':'Down';
+    return`<tr style="border-top:1px solid #30363d">
+      <td style="color:#6e7681;text-align:center;padding:7px 4px">${i+1}</td>
+      <td style="font-family:monospace;font-size:12px;padding:7px 8px">${m.date}</td>
+      <td style="font-size:12px;padding:7px 8px;color:#c9d1d9">${m.regime}</td>
+      <td style="text-align:right;font-weight:600;color:${retCol};padding:7px 8px">${ret>=0?'+':''}${retPct}%</td>
+      <td style="text-align:center;padding:7px 4px"><span style="background:${eqCol}22;color:${eqCol};border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">${eqLabel}</span></td>
+    </tr>`;
+  }).join('');
+
+  const matchTable=matches.length?`<div style="background:#21262d;border-radius:8px;padding:14px;margin-top:4px">
+    <div style="display:flex;align-items:center;margin-bottom:10px">
+      <span style="color:#e6edf3;font-size:13px;font-weight:600">Historical Precedents</span>${synthBadge}
+    </div>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.5px">
+        <th style="width:28px;text-align:center;padding:0 4px 8px">#</th>
+        <th style="text-align:left;padding:0 8px 8px">Date</th>
+        <th style="text-align:left;padding:0 8px 8px">Regime</th>
+        <th style="text-align:right;padding:0 8px 8px">SPY +20d</th>
+        <th style="text-align:center;padding:0 4px 8px">Equities</th>
+      </tr>${matchRows}
+    </table>
+    ${isSynth?'<div style="color:#6e7681;font-size:11px;margin-top:10px">Illustrative examples — real analog dates populate from spy_state.json.</div>':''}
+  </div>`:'';
+
+  const distRow=(label,val,color)=>{
+    const w=Math.max(0,Math.min(100,((val+0.2)/0.4)*100));
+    return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <div style="width:32px;font-size:11px;color:#8b949e;text-align:right">${label}</div>
+      <div style="flex:1;background:#21262d;border-radius:4px;height:10px;position:relative">
+        <div style="position:absolute;left:${w}%;width:2px;height:10px;border-radius:1px;background:${color};top:0"></div>
+      </div>
+      <div style="width:48px;font-size:11px;font-weight:600;color:${color};text-align:right">${val>=0?'+':''}${(val*100).toFixed(1)}%</div>
+    </div>`;
+  };
+
+  const terms=[
+    ["Edge","Conditional median return minus unconditional baseline. How much better a stock historically performed in analog conditions vs any random day."],
+    ["Analog","A historical day whose SPY state vector is closest to today's, measured by Euclidean distance after z-score normalization across 4 dimensions."],
+    ["Hit Rate","Fraction of analog forward returns that were positive. 0.65 = 65% of similar setups produced a positive return over the horizon."],
+    ["Breadth","Fraction of stocks in a sector with positive conditional edge. High breadth = widespread participation, not just a few outliers."],
+    ["p10 / p50 / p90","The 10th, 50th, and 90th percentile of forward returns across analog days. p50 is the central tendency; p10/p90 show the distribution width."],
+  ];
+
+  return`<div class="card"><h2>Plain-English Summary</h2>
+  <div style="font-size:16px;font-weight:700;color:#f0f6fc;margin-bottom:12px">${n.headline||''}</div>
+  <div class="grid2">
+    <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:14px">
+      <div style="color:#3fb950;font-weight:700;margin-bottom:8px">Constructive Read</div>
+      <div style="font-size:13px;line-height:1.6">${n.constructive||'—'}</div>
+    </div>
+    <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:6px;padding:14px">
+      <div style="color:#f85149;font-weight:700;margin-bottom:8px">Risk / Reversal</div>
+      <div style="font-size:13px;line-height:1.6">${n.risk||'—'}</div>
+    </div>
+  </div>
+  <div style="margin-top:14px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px">
+    <div style="color:#8b949e;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">In Plain English</div>
+    <div style="font-size:13px;line-height:1.65;color:#c9d1d9">${n.plain_english||'—'}</div>
+  </div>
+  </div>
+
+  <div class="card"><h2>Analog Matching</h2>
+  <div class="grid2" style="margin-bottom:16px">
+    <div style="background:#21262d;border-radius:6px;padding:12px">
+      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>
+      <div style="font-size:28px;font-weight:700;color:#f0f6fc">${a.n_days||30}</div>
+      <div style="color:#6e7681;font-size:11px">excluding last ${a.exclude_recent||30} days</div>
+    </div>
+    <div style="background:#21262d;border-radius:6px;padding:12px">
+      <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Stock Return Distribution</div>
+      ${distRow('p10',a.spy_p10||0,'#f85149')}
+      ${distRow('p50',a.spy_p50||0,'#c9d1d9')}
+      ${distRow('p90',a.spy_p90||0,'#3fb950')}
+    </div>
+  </div>
+  <div style="font-size:12px;color:#8b949e;margin-bottom:14px">${a.regime_context||''}</div>
+  ${matchTable}
+  </div>
+
+  <details style="margin-bottom:16px">
+    <summary style="cursor:pointer;padding:12px 16px;background:#161b22;border:1px solid #30363d;border-radius:8px;font-weight:700;color:#f0f6fc;list-style:none;user-select:none">&#9654; How This Works — Methodology</summary>
+    <div class="card" style="margin-top:8px;border-radius:0 0 8px 8px">
+      <div style="line-height:1.8;font-size:13px">
+        <p style="margin-bottom:12px"><strong>Step 1 — State Vector:</strong> Today's SPY state = 4-dimensional vector: 5d return, 20d return, 20d realized vol, 60d drawdown.</p>
+        <p style="margin-bottom:12px"><strong>Step 2 — Analog Matching:</strong> Each dimension is z-score normalized, then we find the 30 historical days with smallest Euclidean distance to today. Last 30 days excluded to avoid recency bias.</p>
+        <p style="margin-bottom:12px"><strong>Step 3 — Conditional Returns:</strong> For each stock, measure forward returns (5d, 20d, 60d, 120d) following each analog date. Result is a distribution, not a point estimate.</p>
+        <p style="margin-bottom:12px"><strong>Step 4 — Edge:</strong> <code>edge = conditional median − unconditional baseline</code>. Only signals with edge &gt; 5% and ≥ 5 observations are included.</p>
+        <p style="margin-bottom:16px"><strong>Volatility filter:</strong> Stocks with 20d realized vol above 5%/day excluded. <strong>This is not a forecast</strong> — it's a tendencies report based on historical pattern matching.</p>
+      </div>
+      <div>
+        ${terms.map(([t,d])=>`<div style="margin-bottom:10px"><strong style="color:#f0f6fc">${t}:</strong> <span style="color:#8b949e;font-size:12px">${d}</span></div>`).join('')}
+      </div>
+    </div>
+  </details>
+  <footer>Tendencies only — not investment advice.</footer>`;
+}
+
+const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
