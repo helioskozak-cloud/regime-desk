@@ -13007,8 +13007,8 @@ window.SNAPSHOT = {
 <script>
 (function(){
 const S = window.SNAPSHOT;
-const VIEWS = ["home","regime","sectors","stocks","themes","signals","risks","analysis","ask","memory","portfolios"];
-const LABELS = ["Home","Regime","Sectors","Stocks","Themes","Signals","Risks","Analysis","Ask ✦","Memory","Portfolios"];
+const VIEWS = ["home","regime","sectors","stocks","signals","risks","analysis","ask","memory","portfolios"];
+const LABELS = ["Home","Regime","Sectors","Stocks","Signals","Risks","Analysis","Ask ✦","Memory","Portfolios"];
 
 function renderMeeting(){
   const sp=S.spy||{}, n=S.narrative||{};
@@ -13287,40 +13287,97 @@ function renderSectors(){
   const SPX_WT={'Technology':28,'Healthcare':13,'Financials':13,'Consumer Discretionary':11,
     'Communication Services':9,'Industrials':8,'Consumer Staples':6,'Energy':4,
     'Real Estate':2.5,'Utilities':2.5,'Materials':2.5,'Semiconductors':5,'Biotech':2,'Crypto':0};
-  const SECTOR_ICON={'Technology':'&#x25FC;','Semiconductors':'&#x2BC0;','Healthcare':'&#x2B22;',
+  const ICON={'Technology':'&#x25FC;','Semiconductors':'&#x2BC0;','Healthcare':'&#x2B22;',
     'Financials':'&#x25B6;','Consumer Discretionary':'&#x25C6;','Communication Services':'&#x25CB;',
     'Industrials':'&#x25A0;','Consumer Staples':'&#x25BD;','Energy':'&#x26A1;',
     'Utilities':'&#x25D1;','Real Estate':'&#x25A3;','Materials':'&#x2B21;',
     'Biotech':'&#x2B2C;','Defense':'&#x25B2;','Crypto':'&#x25C9;','Energy Transition':'&#x2600;'};
-  return`<div class="card"><h2>Sector Expectations</h2>
-  ${_horizonBar()}
-  <p style="margin-bottom:12px;color:#8b949e">Sectors ranked by conditional edge${_horizon!=='all'?' — '+_horizon+' horizon stocks only':''}.</p>
-  <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
-  ${sectors.map((s,i)=>{
-    const rankBadge=i<3?'<span title="Top sector" style="color:#e3b341;font-size:11px;margin-right:3px">&#x25B2;</span>':(i>=n-3?'<span title="Lagging sector" style="color:#f85149;font-size:11px;margin-right:3px">&#x25BC;</span>':'');
-    const icon=SECTOR_ICON[s.name]||'&#x25A1;';
-    const iconHtml='<span style="color:'+(s.edge>=0?'#3fb950':'#f85149')+';font-size:12px;margin-right:5px;opacity:.7">'+icon+'</span>';
-    return`<tr><td>${rankBadge}${iconHtml}${s.name}</td><td style="color:${s.edge>=0?"#3fb950":"#f85149"}">${pct(s.edge)}</td>
-  <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?"#238636":"#b91c1c"}"></div></div></td>
-  <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`;
-  }).join("")}
-  </table></div>
-  <div class="card"><h2>Allocation Delta vs SPX Benchmark</h2>
-  <p style="margin-bottom:12px;color:#8b949e">Signal vs standard SPX sector weights. Overweight where edge is bullish, underweight where bearish.</p>
-  <table><tr><th>Sector</th><th>SPX Weight</th><th>Signal</th><th>Suggested Tilt</th></tr>
-  ${sectors.map(s=>{
+
+  // ── Sector table ──────────────────────────────────────────────────────────
+  const sectorRows=sectors.map((s,i)=>{
+    const rankBadge=i<3?'<span style="color:#e3b341;font-size:11px;margin-right:3px">&#x25B2;</span>'
+      :(i>=n-3?'<span style="color:#f85149;font-size:11px;margin-right:3px">&#x25BC;</span>':'');
+    const icon='<span style="color:'+(s.edge>=0?'#3fb950':'#f85149')+';font-size:12px;margin-right:5px;opacity:.7">'+(ICON[s.name]||'&#x25A1;')+'</span>';
+    return`<tr><td>${rankBadge}${icon}${s.name}</td>
+      <td style="color:${s.edge>=0?'#3fb950':'#f85149'};font-weight:600">${pct(s.edge)}</td>
+      <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?'#238636':'#b91c1c'}"></div></div></td>
+      <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`;
+  }).join('');
+
+  // ── Allocation delta ──────────────────────────────────────────────────────
+  const allocRows=sectors.map(s=>{
     const bw=SPX_WT[s.name]!=null?SPX_WT[s.name]:null;
     const tilt=s.signal==='bullish'?'Overweight':s.signal==='bearish'?'Underweight':'Neutral';
     const tc=s.signal==='bullish'?'#3fb950':s.signal==='bearish'?'#f85149':'#8b949e';
     const arrow=s.signal==='bullish'?'&#x2191;':s.signal==='bearish'?'&#x2193;':'&#x2192;';
-    return`<tr>
-      <td>${s.name}</td>
-      <td style="color:#8b949e">${bw!=null?bw+'%':'—'}</td>
-      <td>${pill(s.signal)}</td>
-      <td style="color:${tc};font-weight:600">${arrow} ${tilt}</td>
-    </tr>`;
-  }).join("")}
-  </table></div>
+    return`<tr><td>${s.name}</td><td style="color:#8b949e">${bw!=null?bw+'%':'—'}</td>
+      <td>${pill(s.signal)}</td><td style="color:${tc};font-weight:600">${arrow} ${tilt}</td></tr>`;
+  }).join('');
+
+  // ── Thematic breakdown (collapsible cards) ────────────────────────────────
+  const themes=(S.themes||[]).filter(t=>t.name&&t.name!=='Unknown');
+  let pool=S.stocks||[];
+  if(_horizon!=='all')pool=pool.filter(s=>s.horizon===_horizon);
+  function _med(arr){if(!arr.length)return null;const s=[...arr].sort((a,b)=>a-b);return s[Math.floor(s.length/2)];}
+  const TH='<th style="text-align:left;padding:0 10px 6px;font-weight:500;white-space:nowrap">';
+  const themeCards=themes.map((t,i)=>{
+    const stocks=pool.filter(st=>st.sector===t.name).sort((a,b)=>b.edge-a.edge).slice(0,15);
+    const tCol=t.edge>=0?'#3fb950':'#f85149';
+    const icon=ICON[t.name]||'&#x25A1;';
+    const tp10=_med(stocks.map(s=>s.p10).filter(v=>v!=null));
+    const tp50=_med(stocks.map(s=>s.p50).filter(v=>v!=null));
+    const tp90=_med(stocks.map(s=>s.p90).filter(v=>v!=null));
+    const rows=stocks.map(st=>{
+      const ec=st.edge>=0?'#3fb950':'#f85149';
+      const logo=`<img src="https://assets.parqet.com/logos/symbol/${st.ticker}?format=jpg" width="14" height="14" style="border-radius:3px;object-fit:contain;background:#fff;border:1px solid #30363d;flex-shrink:0;vertical-align:middle;margin-right:5px" onerror="this.style.display='none'" loading="lazy">`;
+      return`<tr style="border-top:1px solid #30363d40">
+        <td style="padding:5px 10px;white-space:nowrap"><div style="display:inline-flex;align-items:center" data-ticker="${st.ticker}">${logo}<strong style="font-size:12px">${st.ticker}</strong></div></td>
+        <td style="padding:5px 10px;color:${ec};font-weight:700;font-size:12px;white-space:nowrap">${st.edge>=0?'+':''}${(st.edge*100).toFixed(1)}%</td>
+        <td style="padding:5px 10px;color:#f85149;font-size:12px;white-space:nowrap">${st.p10!=null?(st.p10>=0?'+':'')+(st.p10*100).toFixed(0)+'%':'—'}</td>
+        <td style="padding:5px 10px;color:#c9d1d9;font-size:12px;white-space:nowrap">${st.p50!=null?(st.p50>=0?'+':'')+(st.p50*100).toFixed(0)+'%':'—'}</td>
+        <td style="padding:5px 10px;color:#3fb950;font-size:12px;white-space:nowrap">${st.p90!=null?(st.p90>=0?'+':'')+(st.p90*100).toFixed(0)+'%':'—'}</td>
+        <td style="padding:5px 10px;color:#8b949e;font-size:11px;white-space:nowrap">${((st.hit_rate||0)*100).toFixed(0)}%</td>
+      </tr>`;
+    }).join('');
+    const medianRow=tp50!=null?`<tr style="border-top:1px solid #30363d;background:#1c2128">
+      <td style="padding:5px 10px;color:#6e7681;font-size:11px;font-style:italic">Theme median</td><td></td>
+      <td style="padding:5px 10px;color:#f85149;font-size:11px;font-weight:600">${tp10>=0?'+':''}${(tp10*100).toFixed(0)}%</td>
+      <td style="padding:5px 10px;color:#c9d1d9;font-size:11px;font-weight:600">${tp50>=0?'+':''}${(tp50*100).toFixed(0)}%</td>
+      <td style="padding:5px 10px;color:#3fb950;font-size:11px;font-weight:600">${tp90>=0?'+':''}${(tp90*100).toFixed(0)}%</td>
+      <td></td></tr>`:'';
+    const tableBody=stocks.length
+      ?`<table style="width:100%;border-collapse:collapse;margin-top:10px">
+          <tr style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px">
+            ${TH}Ticker</th>${TH}Edge</th>${TH}Bear</th>${TH}Median</th>${TH}Bull</th>${TH}Hit%</th>
+          </tr>${rows}${medianRow}</table>`
+      :`<div style="color:#6e7681;font-size:12px;font-style:italic;padding-top:8px">No signals${_horizon!=='all'?' for '+_horizon:''}</div>`;
+    return`<div class="card" style="background:#21262d;border-left:3px solid ${tCol};margin-bottom:10px;padding:14px">
+      <div onclick="window._rdThemeToggle(${i})" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;cursor:pointer;user-select:none">
+        <span id="rd-tc-${i}" style="color:#6e7681;font-size:10px;display:inline-block;transition:transform .18s">&#x25B6;</span>
+        <span style="color:${tCol};font-size:15px;opacity:.85">${icon}</span>
+        <strong style="font-size:14px;color:#f0f6fc">${t.name}</strong>${pill(t.signal)}
+        <span style="color:${tCol};font-weight:700;font-size:13px">${t.edge>=0?'+':''}${(t.edge*100).toFixed(1)}%</span>
+        <span style="color:#8b949e;font-size:12px">&middot; ${stocks.length} signal${stocks.length!==1?'s':''} &middot; breadth ${((t.breadth||0)*100).toFixed(0)}%</span>
+      </div>
+      <div id="rd-tb-${i}" style="display:none">${tableBody}${t.note?`<div style="color:#c9d1d9;font-size:12px;margin-top:10px">${t.note}</div>`:''}</div>
+    </div>`;
+  }).join('');
+
+  return`<div class="card"><h2>Sector Expectations</h2>
+    ${_horizonBar()}
+    <p style="margin-bottom:12px;color:#8b949e">Ranked by conditional edge${_horizon!=='all'?' — '+_horizon+' horizon':''}.</p>
+    <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
+    ${sectorRows}</table>
+  </div>
+  <div class="card"><h2>Allocation Delta vs SPX</h2>
+    <p style="margin-bottom:12px;color:#8b949e">Overweight where edge is bullish, underweight where bearish.</p>
+    <table><tr><th>Sector</th><th>SPX Weight</th><th>Signal</th><th>Suggested Tilt</th></tr>
+    ${allocRows}</table>
+  </div>
+  ${themes.length?`<div class="card"><h2>Thematic Breakdown</h2>
+    <p style="margin-bottom:12px;color:#8b949e">Click any theme to expand. Bear/Median/Bull = p10/p50/p90 forward returns.</p>
+    ${themeCards}
+  </div>`:''}
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
@@ -13524,7 +13581,7 @@ window._rdSort=function(col){
 };
 window._rdHorizon=function(h){
   _horizon=h;
-  const map={stocks:renderStocks,sectors:renderSectors,themes:renderThemes};
+  const map={stocks:renderStocks,sectors:renderSectors};
   Object.keys(map).forEach(function(v){
     const el=document.getElementById('v-'+v);
     if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=map[v]();el.dataset.rendered='1';}
@@ -14282,7 +14339,7 @@ function renderAnalysis(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,themes:renderThemes,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios};
+const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
