@@ -430,7 +430,7 @@ def build_snapshot():
                     "initial_cash":   port.get("initial_cash", 100000),
                     "cash":           round(port.get("cash", 0), 2),
                     "n_positions":    len(port.get("holdings", {})),
-                    "holdings":       list(port.get("holdings", {}).values()),
+                    "holdings":       [{"ticker": k, **v} for k, v in port.get("holdings", {}).items()],
                     "history":        port.get("history", [])[-90:],  # last 90 days
                     "transactions":   port.get("transactions", [])[-50:],
                     "return_pct":     port["history"][-1]["return_pct"] if port.get("history") else 0.0,
