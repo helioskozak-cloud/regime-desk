@@ -34,6 +34,29 @@ LOOKBACK_YEARS     = 3          # years of price history to download
 BATCH_SIZE         = 200        # tickers per yfinance batch
 RETRY_DELAY        = 5          # seconds between retries
 
+import re as _re
+_LEV_RE = _re.compile(
+    r'\b[23]x\b'
+    r'|direxion'
+    r'|ultrapro'
+    r'|proshares\s+ultra'
+    r'|proshares\s+short'
+    r'|microsectors'
+    r'|graniteshares'
+    r'|t-rex\s+\d'
+    r'|\bleveraged\b'
+    r'|\binverse\b'
+    r'|daily\s+(bull|bear)'
+    r'|daily\s+target',
+    _re.IGNORECASE,
+)
+
+def _is_leveraged(name) -> bool:
+    """Return True if the ticker name indicates a leveraged or inverse product."""
+    if not name or not isinstance(name, str) or name != name:  # NaN check
+        return False
+    return bool(_LEV_RE.search(name))
+
 
 def _download_batch(tickers: list[str], period: str) -> pd.DataFrame:
     """Download OHLCV for a batch; returns Close prices as DataFrame."""
@@ -559,6 +582,9 @@ def main():
     print("Loading universe ...", flush=True)
     sectors_df = pd.read_csv(UNIV_FILE)
     sectors_df["ticker"] = sectors_df["ticker"].str.upper().str.strip()
+    before = len(sectors_df)
+    sectors_df = sectors_df[~sectors_df["name"].apply(_is_leveraged)].reset_index(drop=True)
+    print(f"  Excluded {before - len(sectors_df)} leveraged/inverse tickers", flush=True)
     tickers = sectors_df["ticker"].tolist()
     if "SPY" not in tickers:
         tickers.insert(0, "SPY")

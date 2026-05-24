@@ -29,7 +29,7 @@ from ci_scan import (
     DATA_DIR, UNIV_FILE,
     MIN_EDGE, STABILITY_VOL_LIMIT,
     SIMILAR_DAY_COUNT, EXCLUDE_RECENT_DAYS, MIN_OBSERVATIONS, HORIZONS,
-    download_prices, compute_features, update_signal_memory,
+    download_prices, compute_features, update_signal_memory, _is_leveraged,
 )
 from portfolio_manager import update_portfolios
 
@@ -55,6 +55,9 @@ def main():
     print("Loading universe ...", flush=True)
     sectors_df = pd.read_csv(UNIV_FILE)
     sectors_df["ticker"] = sectors_df["ticker"].str.upper().str.strip()
+    before = len(sectors_df)
+    sectors_df = sectors_df[~sectors_df["name"].apply(_is_leveraged)].reset_index(drop=True)
+    print(f"  Excluded {before - len(sectors_df)} leveraged/inverse tickers", flush=True)
     tickers = sectors_df["ticker"].tolist()
     if "SPY" not in tickers:
         tickers.insert(0, "SPY")
