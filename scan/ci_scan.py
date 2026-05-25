@@ -33,6 +33,8 @@ HORIZONS           = {"5d": 5, "20d": 20, "60d": 60, "120d": 120}
 LOOKBACK_YEARS     = 3          # years of price history to download
 BATCH_SIZE         = 200        # tickers per yfinance batch
 RETRY_DELAY        = 5          # seconds between retries
+MIN_PRICE          = 5.0        # LPL compliance: exclude stocks below this price
+PRICE_HISTORY_FRAC = 0.90       # fraction of price history that must be above MIN_PRICE
 
 import re as _re
 _LEV_RE = _re.compile(
@@ -58,8 +60,13 @@ def _is_leveraged(name) -> bool:
     return bool(_LEV_RE.search(name))
 
 
-def _download_batch(tickers: list[str], period: str) -> pd.DataFrame:
-    """Download OHLCV for a batch; returns Close prices as DataFrame."""
+def _download_batch(tickers: list[str], period: str,
+                    include_volume: bool = False):
+    """Download OHLCV for a batch.
+
+    Returns Close DataFrame normally; returns (Close, Volume) when
+    include_volume=True.
+    """
     for attempt in range(3):
         try:
             raw = yf.download(
@@ -70,34 +77,55 @@ def _download_batch(tickers: list[str], period: str) -> pd.DataFrame:
                 threads=True,
             )
             if raw.empty:
-                return pd.DataFrame()
+                return (pd.DataFrame(), pd.DataFrame()) if include_volume else pd.DataFrame()
             # yfinance returns MultiIndex columns when len(tickers) > 1
             if isinstance(raw.columns, pd.MultiIndex):
-                close = raw["Close"]
+                close  = raw["Close"]
+                volume = raw["Volume"] if include_volume else None
             else:
-                close = raw[["Close"]].rename(columns={"Close": tickers[0]})
+                close  = raw[["Close"]].rename(columns={"Close": tickers[0]})
+                volume = raw[["Volume"]].rename(columns={"Volume": tickers[0]}) if include_volume else None
+            if include_volume:
+                return close, volume
             return close
         except Exception as e:
             print(f"  Batch attempt {attempt+1} failed: {e}", flush=True)
             time.sleep(RETRY_DELAY)
-    return pd.DataFrame()
+    return (pd.DataFrame(), pd.DataFrame()) if include_volume else pd.DataFrame()
 
 
-def download_prices(tickers: list[str]) -> pd.DataFrame:
-    """Download close prices for all tickers in batches. Returns wide DataFrame."""
+def download_prices(tickers: list[str],
+                    return_volumes: bool = False):
+    """Download close prices for all tickers in batches.
+
+    Returns wide Close DataFrame.  When return_volumes=True, returns
+    (prices, volumes) tuple where volumes is a matching wide DataFrame of
+    daily traded volume.
+    """
     period = f"{LOOKBACK_YEARS}y"
-    frames = []
+    close_frames  = []
+    volume_frames = []
     total = len(tickers)
     for i in range(0, total, BATCH_SIZE):
         batch = tickers[i : i + BATCH_SIZE]
         print(f"  Downloading {i+1}–{min(i+BATCH_SIZE, total)} / {total} ...", flush=True)
-        chunk = _download_batch(batch, period)
-        if not chunk.empty:
-            frames.append(chunk)
-    if not frames:
+        if return_volumes:
+            chunk_c, chunk_v = _download_batch(batch, period, include_volume=True)
+        else:
+            chunk_c = _download_batch(batch, period)
+            chunk_v = pd.DataFrame()
+        if not chunk_c.empty:
+            close_frames.append(chunk_c)
+        if return_volumes and not chunk_v.empty:
+            volume_frames.append(chunk_v)
+    if not close_frames:
         raise RuntimeError("No price data downloaded")
-    prices = pd.concat(frames, axis=1)
+    prices = pd.concat(close_frames, axis=1)
     prices = prices.loc[:, ~prices.columns.duplicated()]
+    if return_volumes:
+        volumes = pd.concat(volume_frames, axis=1) if volume_frames else pd.DataFrame()
+        volumes = volumes.loc[:, ~volumes.columns.duplicated()]
+        return prices, volumes
     return prices
 
 
@@ -182,10 +210,24 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
         )
 
     # Volatility filter
-    vol_by_ticker = df.groupby("ticker")["volatility"].median()
-    stable_tickers = vol_by_ticker[vol_by_ticker < STABILITY_VOL_LIMIT].index
+    vol_by_ticker  = df.groupby("ticker")["volatility"].median()
+    stable_tickers = set(vol_by_ticker[vol_by_ticker < STABILITY_VOL_LIMIT].index)
+
+    # Price filter (LPL compliance): current price > $5 AND ≥90% of history > $5
+    current_prices = df.groupby("ticker")["close"].last()
+    frac_above     = df.groupby("ticker")["close"].apply(lambda s: (s > MIN_PRICE).mean())
+    price_ok = set(
+        current_prices[
+            (current_prices > MIN_PRICE) &
+            (frac_above.reindex(current_prices.index, fill_value=0) >= PRICE_HISTORY_FRAC)
+        ].index
+    )
+    eligible = stable_tickers & price_ok
+    print(f"  Eligible tickers after vol+price filter: {len(eligible)} "
+          f"(removed {len(stable_tickers) - len(eligible)} below-$5)", flush=True)
+
     filtered = df[df["date"].isin(similar_dates)].copy()
-    filtered = filtered[filtered["ticker"].isin(stable_tickers)]
+    filtered = filtered[filtered["ticker"].isin(eligible)]
 
     all_signals = []
     all_themes  = []
@@ -250,6 +292,28 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
         market_signals = market_signals.sort_values(["horizon","edge"], ascending=[True,False])
     if not theme_summary.empty:
         theme_summary = theme_summary.sort_values(["horizon","avg_edge"], ascending=[True,False])
+
+    # Compute beta vs SPY from full price history in df
+    if not market_signals.empty:
+        spy_ret = (
+            df[df["ticker"] == "SPY"].sort_values("date")
+            .set_index("date")["close"].pct_change().dropna()
+        )
+        spy_var = spy_ret.var()
+        if spy_var > 0:
+            betas = {}
+            for tkr in market_signals["ticker"].unique():
+                tkr_ret = (
+                    df[df["ticker"] == tkr].sort_values("date")
+                    .set_index("date")["close"].pct_change().dropna()
+                )
+                common = tkr_ret.index.intersection(spy_ret.index)
+                if len(common) >= 60:
+                    t = tkr_ret.loc[common]
+                    s = spy_ret.loc[common]
+                    betas[tkr] = round(float(np.cov(t.values, s.values)[0, 1] / spy_var), 2)
+            market_signals = market_signals.copy()
+            market_signals["beta"] = market_signals["ticker"].map(betas)
 
     return market_signals, theme_summary
 
@@ -590,7 +654,7 @@ def main():
         tickers.insert(0, "SPY")
 
     print(f"Downloading prices for {len(tickers)} tickers ({LOOKBACK_YEARS}y) ...", flush=True)
-    prices = download_prices(tickers)
+    prices, volumes = download_prices(tickers, return_volumes=True)
     print(f"Downloaded {len(prices.columns)} tickers, {len(prices)} trading days", flush=True)
 
     print("Computing features ...", flush=True)
@@ -623,6 +687,28 @@ def main():
         }
     (DATA_DIR / "price_data.json").write_text(json.dumps(price_data))
     print(f"Saved price data for {len(price_data)} tickers", flush=True)
+
+    # Enrichment: avg_volume (3-month) from volume data + market_cap from yfinance
+    enrichment = {}
+    for tk in signal_tickers:
+        if tk in volumes.columns:
+            s = volumes[tk].dropna()
+            if len(s) > 0:
+                avg_vol = float(s.tail(63).mean())
+                if avg_vol > 0:
+                    enrichment[tk] = {"avg_volume": int(avg_vol)}
+    print(f"Computing market caps for {len(signal_tickers)} signal tickers ...", flush=True)
+    for tk in list(signal_tickers):
+        try:
+            mc = yf.Ticker(tk).fast_info.market_cap
+            if mc:
+                if tk not in enrichment:
+                    enrichment[tk] = {}
+                enrichment[tk]["market_cap"] = int(mc)
+        except Exception:
+            pass
+    (DATA_DIR / "enrichment.json").write_text(json.dumps(enrichment))
+    print(f"Saved enrichment data for {len(enrichment)} tickers", flush=True)
 
     # Save SPY state + 20-day history for sparklines and regime streak
     spy_df = df[df["ticker"] == "SPY"].sort_values("date")

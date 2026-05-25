@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT / "scan"))
 
 from ci_scan import (
     DATA_DIR, UNIV_FILE,
-    MIN_EDGE, STABILITY_VOL_LIMIT,
+    MIN_EDGE, STABILITY_VOL_LIMIT, MIN_PRICE, PRICE_HISTORY_FRAC,
     SIMILAR_DAY_COUNT, EXCLUDE_RECENT_DAYS, MIN_OBSERVATIONS, HORIZONS,
     download_prices, compute_features, update_signal_memory, _is_leveraged,
 )
@@ -87,6 +87,22 @@ def main():
     vol_by_ticker  = df.groupby("ticker")["volatility"].median()
     stable_tickers = set(vol_by_ticker[vol_by_ticker < STABILITY_VOL_LIMIT].index)
 
+    # Price stability precomputation (LPL compliance — uses full downloaded history)
+    current_prices   = df.groupby("ticker")["close"].last()
+    frac_above_price = df.groupby("ticker")["close"].apply(lambda s: (s > MIN_PRICE).mean())
+    price_ok_global  = set(
+        current_prices[
+            (current_prices > MIN_PRICE) &
+            (frac_above_price.reindex(current_prices.index, fill_value=0) >= PRICE_HISTORY_FRAC)
+        ].index
+    )
+    eligible_tickers = stable_tickers & price_ok_global
+    print(f"  Eligible tickers after vol+price filter: {len(eligible_tickers)} "
+          f"(removed {len(stable_tickers) - len(eligible_tickers)} below-$5)", flush=True)
+
+    # Wide-format close prices for per-date current price check
+    price_pivot = df.pivot_table(index="date", columns="ticker", values="close", aggfunc="last")
+
     spy_df       = df[df["ticker"] == "SPY"].copy().sort_values("date")
     feature_mean = spy_df[FEATURES].mean()
     feature_std  = spy_df[FEATURES].std().replace(0, 1)
@@ -135,8 +151,17 @@ def main():
         )
         similar_dates = set(historical_norm.nsmallest(SIMILAR_DAY_COUNT, "distance").index)
 
+        # Per-date current price check (price must be > $5 on target_date)
+        rows_up_to = price_pivot.loc[price_pivot.index <= target_date]
+        if not rows_up_to.empty:
+            date_prices     = rows_up_to.iloc[-1]
+            price_on_date_ok = set(date_prices[date_prices > MIN_PRICE].index)
+        else:
+            price_on_date_ok = set()
+        eligible = eligible_tickers & price_on_date_ok
+
         filtered = df[df["date"].isin(similar_dates)].copy()
-        filtered = filtered[filtered["ticker"].isin(stable_tickers)]
+        filtered = filtered[filtered["ticker"].isin(eligible)]
 
         date_signals = []
 

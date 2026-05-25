@@ -331,6 +331,25 @@ def build_snapshot():
         if sectors:
             snap["sectors"] = sectors
 
+    # Enrich stocks with avg_volume and market_cap
+    enrichment_path = DATA / "enrichment.json"
+    if enrichment_path.exists():
+        try:
+            with open(enrichment_path, "r", encoding="utf-8") as f:
+                enrichment = json.load(f)
+            enriched_count = 0
+            for stock in snap["stocks"] + snap["all_signals"]:
+                enr = enrichment.get(stock["ticker"])
+                if enr:
+                    if enr.get("avg_volume"):
+                        stock["avg_volume"] = enr["avg_volume"]
+                    if enr.get("market_cap"):
+                        stock["market_cap"] = enr["market_cap"]
+                    enriched_count += 1
+            print(f"[snapshot] Enriched {enriched_count} stocks with volume/mcap data")
+        except Exception as exc:
+            print(f"[snapshot] Could not load enrichment.json: {exc}")
+
     # Enrich stocks with recent price data for tooltip sparklines
     price_data_path = DATA / "price_data.json"
     if price_data_path.exists():

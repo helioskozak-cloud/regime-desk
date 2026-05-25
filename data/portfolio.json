@@ -8,23 +8,23 @@
     "initial_cash": 100000.0,
     "cash": 9.094947017729282e-13,
     "holdings": {
-      "ALMS": {
-        "shares": 108.4991,
-        "entry_price": 27.65,
+      "QXO": {
+        "shares": 121.3592,
+        "entry_price": 24.72,
         "entry_date": "2026-02-23",
-        "entry_edge": 0.3525,
-        "entry_p90": 3.4281,
-        "entry_p10": -0.3651,
-        "sector": "Biotech",
-        "horizon": "60d",
+        "entry_edge": 0.3469,
+        "entry_p90": 3.559,
+        "entry_p10": -0.8298,
+        "sector": "Industrials",
+        "horizon": "120d",
         "sort_col": "edge",
-        "sort_value": 0.3525,
-        "current_price": 22.17,
-        "current_value": 2405.43,
-        "pnl_pct": -19.82
+        "sort_value": 0.3469,
+        "current_price": 17.03,
+        "current_value": 2066.75,
+        "pnl_pct": -31.11
       },
       "VSAT": {
-        "shares": 63.5163,
+        "shares": 63.235,
         "entry_price": 47.24,
         "entry_date": "2026-03-02",
         "entry_edge": 0.5975,
@@ -35,26 +35,11 @@
         "sort_col": "edge",
         "sort_value": 0.5975,
         "current_price": 70.76,
-        "current_value": 4494.41,
+        "current_value": 4474.51,
         "pnl_pct": 49.79
       },
-      "SBSW": {
-        "shares": 181.7298,
-        "entry_price": 16.5108,
-        "entry_date": "2026-03-02",
-        "entry_edge": 0.513,
-        "entry_p90": 1.2897,
-        "entry_p10": -0.2051,
-        "sector": "Materials",
-        "horizon": "120d",
-        "sort_col": "edge",
-        "sort_value": 0.513,
-        "current_price": 11.68,
-        "current_value": 2122.6,
-        "pnl_pct": -29.26
-      },
       "SLNO": {
-        "shares": 76.818,
+        "shares": 76.4777,
         "entry_price": 39.06,
         "entry_date": "2026-03-02",
         "entry_edge": 0.5087,
@@ -65,26 +50,11 @@
         "sort_col": "edge",
         "sort_value": 0.5087,
         "current_price": 53.01,
-        "current_value": 4072.12,
+        "current_value": 4054.08,
         "pnl_pct": 35.71
       },
-      "NVTS": {
-        "shares": 314.1896,
-        "entry_price": 9.55,
-        "entry_date": "2026-03-02",
-        "entry_edge": 0.4271,
-        "entry_p90": 1.5683,
-        "entry_p10": -0.4277,
-        "sector": "Semiconductors",
-        "horizon": "120d",
-        "sort_col": "edge",
-        "sort_value": 0.4271,
-        "current_price": 24.38,
-        "current_value": 7659.94,
-        "pnl_pct": 155.29
-      },
       "TTMI": {
-        "shares": 26.5532,
+        "shares": 26.4356,
         "entry_price": 113.0,
         "entry_date": "2026-03-02",
         "entry_edge": 0.4249,
@@ -95,11 +65,41 @@
         "sort_col": "edge",
         "sort_value": 0.4249,
         "current_price": 174.55,
-        "current_value": 4634.86,
+        "current_value": 4614.33,
         "pnl_pct": 54.47
       },
+      "FNGD": {
+        "shares": 45.8655,
+        "entry_price": 65.13,
+        "entry_date": "2026-03-02",
+        "entry_edge": 0.327,
+        "entry_p90": 0.466,
+        "entry_p10": -0.3333,
+        "sector": "nan",
+        "horizon": "60d",
+        "sort_col": "edge",
+        "sort_value": 0.327,
+        "current_price": 36.84,
+        "current_value": 1689.69,
+        "pnl_pct": -43.44
+      },
+      "ATRO": {
+        "shares": 36.7206,
+        "entry_price": 81.35,
+        "entry_date": "2026-03-02",
+        "entry_edge": 0.3056,
+        "entry_p90": 1.087,
+        "entry_p10": 0.0845,
+        "sector": "Defense",
+        "horizon": "120d",
+        "sort_col": "edge",
+        "sort_value": 0.3056,
+        "current_price": 79.89,
+        "current_value": 2933.61,
+        "pnl_pct": -1.79
+      },
       "APLS": {
-        "shares": 147.3871,
+        "shares": 147.4337,
         "entry_price": 19.99,
         "entry_date": "2026-03-09",
         "entry_edge": 0.4539,
@@ -110,26 +110,11 @@
         "sort_col": "edge",
         "sort_value": 0.4539,
         "current_price": 41.03,
-        "current_value": 6047.29,
+        "current_value": 6049.2,
         "pnl_pct": 105.25
       },
-      "QXO": {
-        "shares": 135.8353,
-        "entry_price": 21.69,
-        "entry_date": "2026-03-09",
-        "entry_edge": 0.3663,
-        "entry_p90": 3.4204,
-        "entry_p10": -0.2014,
-        "sector": "Industrials",
-        "horizon": "120d",
-        "sort_col": "edge",
-        "sort_value": 0.3663,
-        "current_price": 17.03,
-        "current_value": 2313.28,
-        "pnl_pct": -21.48
-      },
       "OSCR": {
-        "shares": 211.0507,
+        "shares": 211.1174,
         "entry_price": 13.96,
         "entry_date": "2026-03-09",
         "entry_edge": 0.328,
@@ -140,11 +125,11 @@
         "sort_col": "edge",
         "sort_value": 0.328,
         "current_price": 22.14,
-        "current_value": 4672.66,
+        "current_value": 4674.14,
         "pnl_pct": 58.6
       },
       "CE": {
-        "shares": 57.2911,
+        "shares": 57.3092,
         "entry_price": 51.4263,
         "entry_date": "2026-03-09",
         "entry_edge": 0.3106,
@@ -155,11 +140,11 @@
         "sort_col": "edge",
         "sort_value": 0.3106,
         "current_price": 52.9,
-        "current_value": 3030.7,
+        "current_value": 3031.66,
         "pnl_pct": 2.87
       },
       "CHYM": {
-        "shares": 130.193,
+        "shares": 130.2342,
         "entry_price": 22.63,
         "entry_date": "2026-03-09",
         "entry_edge": 0.31,
@@ -170,11 +155,26 @@
         "sort_col": "edge",
         "sort_value": 0.31,
         "current_price": 18.12,
-        "current_value": 2359.1,
+        "current_value": 2359.84,
         "pnl_pct": -19.93
       },
+      "STNE": {
+        "shares": 257.2122,
+        "entry_price": 11.4582,
+        "entry_date": "2026-03-09",
+        "entry_edge": 0.3007,
+        "entry_p90": 0.8407,
+        "entry_p10": -0.2916,
+        "sector": "Technology",
+        "horizon": "120d",
+        "sort_col": "edge",
+        "sort_value": 0.3007,
+        "current_price": 11.1,
+        "current_value": 2855.06,
+        "pnl_pct": -3.13
+      },
       "ETHE": {
-        "shares": 154.9372,
+        "shares": 154.3697,
         "entry_price": 18.9302,
         "entry_date": "2026-03-16",
         "entry_edge": 0.5929,
@@ -185,11 +185,11 @@
         "sort_col": "edge",
         "sort_value": 0.5929,
         "current_price": 17.35,
-        "current_value": 2688.16,
+        "current_value": 2678.31,
         "pnl_pct": -8.35
       },
       "ELF": {
-        "shares": 39.8396,
+        "shares": 39.6937,
         "entry_price": 73.62,
         "entry_date": "2026-03-16",
         "entry_edge": 0.5033,
@@ -200,11 +200,11 @@
         "sort_col": "edge",
         "sort_value": 0.5033,
         "current_price": 53.12,
-        "current_value": 2116.28,
+        "current_value": 2108.53,
         "pnl_pct": -27.85
       },
       "PI": {
-        "shares": 29.7766,
+        "shares": 29.6675,
         "entry_price": 98.5,
         "entry_date": "2026-03-16",
         "entry_edge": 0.4393,
@@ -215,11 +215,11 @@
         "sort_col": "edge",
         "sort_value": 0.4393,
         "current_price": 140.27,
-        "current_value": 4176.76,
+        "current_value": 4161.46,
         "pnl_pct": 42.41
       },
       "RYTM": {
-        "shares": 32.4052,
+        "shares": 32.2865,
         "entry_price": 90.51,
         "entry_date": "2026-03-16",
         "entry_edge": 0.4054,
@@ -230,11 +230,11 @@
         "sort_col": "edge",
         "sort_value": 0.4054,
         "current_price": 90.19,
-        "current_value": 2922.63,
+        "current_value": 2911.92,
         "pnl_pct": -0.35
       },
       "AMD": {
-        "shares": 14.9201,
+        "shares": 14.8655,
         "entry_price": 196.58,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3887,
@@ -245,11 +245,11 @@
         "sort_col": "edge",
         "sort_value": 0.3887,
         "current_price": 449.59,
-        "current_value": 6707.93,
+        "current_value": 6683.38,
         "pnl_pct": 128.71
       },
       "DAVE": {
-        "shares": 13.212,
+        "shares": 13.3163,
         "entry_price": 215.36,
         "entry_date": "2026-03-23",
         "entry_edge": 0.8607,
@@ -260,11 +260,11 @@
         "sort_col": "edge",
         "sort_value": 0.8607,
         "current_price": 240.9,
-        "current_value": 3182.77,
+        "current_value": 3207.9,
         "pnl_pct": 11.86
       },
       "MSTR": {
-        "shares": 20.5885,
+        "shares": 20.7511,
         "entry_price": 138.2,
         "entry_date": "2026-03-23",
         "entry_edge": 0.6798,
@@ -275,11 +275,11 @@
         "sort_col": "edge",
         "sort_value": 0.6798,
         "current_price": 164.85,
-        "current_value": 3394.01,
+        "current_value": 3420.82,
         "pnl_pct": 19.28
       },
       "ETHA": {
-        "shares": 174.775,
+        "shares": 176.155,
         "entry_price": 16.28,
         "entry_date": "2026-03-23",
         "entry_edge": 0.6449,
@@ -290,11 +290,11 @@
         "sort_col": "edge",
         "sort_value": 0.6449,
         "current_price": 16.15,
-        "current_value": 2822.62,
+        "current_value": 2844.9,
         "pnl_pct": -0.8
       },
       "FETH": {
-        "shares": 132.5262,
+        "shares": 133.5726,
         "entry_price": 21.47,
         "entry_date": "2026-03-23",
         "entry_edge": 0.6441,
@@ -305,11 +305,11 @@
         "sort_col": "edge",
         "sort_value": 0.6441,
         "current_price": 21.33,
-        "current_value": 2826.78,
+        "current_value": 2849.1,
         "pnl_pct": -0.65
       },
       "ETH": {
-        "shares": 139.3407,
+        "shares": 140.4409,
         "entry_price": 20.42,
         "entry_date": "2026-03-23",
         "entry_edge": 0.6433,
@@ -320,26 +320,11 @@
         "sort_col": "edge",
         "sort_value": 0.6433,
         "current_price": 20.33,
-        "current_value": 2832.8,
+        "current_value": 2855.16,
         "pnl_pct": -0.44
       },
-      "VISN": {
-        "shares": 315.0584,
-        "entry_price": 8.5931,
-        "entry_date": "2026-03-30",
-        "entry_edge": 1.0028,
-        "entry_p90": 2.4388,
-        "entry_p10": -0.601,
-        "sector": "Technology",
-        "horizon": "120d",
-        "sort_col": "edge",
-        "sort_value": 1.0028,
-        "current_price": 11.9,
-        "current_value": 3749.19,
-        "pnl_pct": 38.48
-      },
       "LIF": {
-        "shares": 71.0212,
+        "shares": 72.7486,
         "entry_price": 38.12,
         "entry_date": "2026-03-30",
         "entry_edge": 0.9478,
@@ -350,11 +335,11 @@
         "sort_col": "edge",
         "sort_value": 0.9478,
         "current_price": 40.03,
-        "current_value": 2842.98,
+        "current_value": 2912.13,
         "pnl_pct": 5.01
       },
       "SOFI": {
-        "shares": 178.7016,
+        "shares": 183.048,
         "entry_price": 15.15,
         "entry_date": "2026-03-30",
         "entry_edge": 0.9259,
@@ -365,26 +350,11 @@
         "sort_col": "edge",
         "sort_value": 0.9259,
         "current_price": 15.65,
-        "current_value": 2796.68,
+        "current_value": 2864.7,
         "pnl_pct": 3.3
       },
-      "RKLB": {
-        "shares": 47.1825,
-        "entry_price": 57.38,
-        "entry_date": "2026-03-30",
-        "entry_edge": 0.8788,
-        "entry_p90": 5.119,
-        "entry_p10": -0.1341,
-        "sector": "Industrials",
-        "horizon": "120d",
-        "sort_col": "edge",
-        "sort_value": 0.8788,
-        "current_price": 125.45,
-        "current_value": 5919.04,
-        "pnl_pct": 118.63
-      },
       "TMDX": {
-        "shares": 28.7067,
+        "shares": 29.4049,
         "entry_price": 94.31,
         "entry_date": "2026-03-30",
         "entry_edge": 0.8284,
@@ -395,11 +365,41 @@
         "sort_col": "edge",
         "sort_value": 0.8284,
         "current_price": 68.85,
-        "current_value": 1976.46,
+        "current_value": 2024.53,
         "pnl_pct": -27.0
       },
+      "MP": {
+        "shares": 60.8286,
+        "entry_price": 45.59,
+        "entry_date": "2026-03-30",
+        "entry_edge": 0.79,
+        "entry_p90": 1.9449,
+        "entry_p10": -0.2269,
+        "sector": "Materials",
+        "horizon": "120d",
+        "sort_col": "edge",
+        "sort_value": 0.79,
+        "current_price": 61.74,
+        "current_value": 3755.56,
+        "pnl_pct": 35.42
+      },
+      "CRDO": {
+        "shares": 31.5816,
+        "entry_price": 87.81,
+        "entry_date": "2026-03-30",
+        "entry_edge": 0.784,
+        "entry_p90": 2.1963,
+        "entry_p10": 0.2765,
+        "sector": "Semiconductors",
+        "horizon": "120d",
+        "sort_col": "edge",
+        "sort_value": 0.784,
+        "current_price": 193.39,
+        "current_value": 6107.57,
+        "pnl_pct": 120.24
+      },
       "VST": {
-        "shares": 100.0175,
+        "shares": 101.2788,
         "entry_price": 151.59,
         "entry_date": "2026-04-06",
         "entry_edge": 0.6842,
@@ -410,11 +410,11 @@
         "sort_col": "edge",
         "sort_value": 0.6842,
         "current_price": 149.08,
-        "current_value": 14910.61,
+        "current_value": 15098.64,
         "pnl_pct": -1.66
       },
       "PRAX": {
-        "shares": 9.1901,
+        "shares": 8.6545,
         "entry_price": 321.92,
         "entry_date": "2026-04-28",
         "entry_edge": 0.9546,
@@ -425,11 +425,11 @@
         "sort_col": "edge",
         "sort_value": 0.9546,
         "current_price": 350.56,
-        "current_value": 3221.68,
+        "current_value": 3033.92,
         "pnl_pct": 8.9
       },
       "RDDT": {
-        "shares": 19.9991,
+        "shares": 18.8335,
         "entry_price": 147.93,
         "entry_date": "2026-04-28",
         "entry_edge": 0.8829,
@@ -440,23 +440,23 @@
         "sort_col": "edge",
         "sort_value": 0.8829,
         "current_price": 150.04,
-        "current_value": 3000.66,
+        "current_value": 2825.78,
         "pnl_pct": 1.43
       },
-      "TERN": {
-        "shares": 55.8834,
-        "entry_price": 52.94,
+      "CYTK": {
+        "shares": 45.9062,
+        "entry_price": 60.69,
         "entry_date": "2026-04-28",
-        "entry_edge": 0.825,
-        "entry_p90": 1.2161,
-        "entry_p10": -0.338,
+        "entry_edge": 0.7911,
+        "entry_p90": 1.1102,
+        "entry_p10": -0.301,
         "sector": "Biotech",
-        "horizon": "60d",
+        "horizon": "120d",
         "sort_col": "edge",
-        "sort_value": 0.825,
-        "current_price": 52.95,
-        "current_value": 2959.03,
-        "pnl_pct": 0.02
+        "sort_value": 0.7911,
+        "current_price": 78.06,
+        "current_value": 3583.44,
+        "pnl_pct": 28.62
       }
     },
     "history": [
@@ -470,499 +470,499 @@
       },
       {
         "date": "2026-02-24",
-        "total_value": 100207.57,
+        "total_value": 100211.89,
         "cash": 87962.91,
-        "invested": 12244.66,
+        "invested": 12248.98,
         "n_positions": 4,
-        "return_pct": 0.2076
+        "return_pct": 0.2119
       },
       {
         "date": "2026-02-25",
-        "total_value": 100514.51,
+        "total_value": 100262.61,
         "cash": 87962.91,
-        "invested": 12551.6,
+        "invested": 12299.7,
         "n_positions": 4,
-        "return_pct": 0.5145
+        "return_pct": 0.2626
       },
       {
         "date": "2026-02-26",
-        "total_value": 99976.58,
+        "total_value": 99621.84,
         "cash": 87962.91,
-        "invested": 12013.67,
+        "invested": 11658.93,
         "n_positions": 4,
-        "return_pct": -0.0234
+        "return_pct": -0.3782
       },
       {
         "date": "2026-02-27",
-        "total_value": 99990.12,
+        "total_value": 99675.33,
         "cash": 87962.91,
-        "invested": 12027.21,
+        "invested": 11712.42,
         "n_positions": 4,
-        "return_pct": -0.0099
+        "return_pct": -0.3247
       },
       {
         "date": "2026-03-02",
-        "total_value": 100017.03,
-        "cash": 72960.36,
-        "invested": 27056.67,
+        "total_value": 99573.99,
+        "cash": 73026.81,
+        "invested": 26547.18,
         "n_positions": 9,
-        "return_pct": 0.017
+        "return_pct": -0.426
       },
       {
         "date": "2026-03-03",
-        "total_value": 98725.14,
-        "cash": 72960.36,
-        "invested": 25764.78,
+        "total_value": 98675.94,
+        "cash": 73026.81,
+        "invested": 25649.13,
         "n_positions": 9,
-        "return_pct": -1.2749
+        "return_pct": -1.3241
       },
       {
         "date": "2026-03-04",
-        "total_value": 99382.59,
-        "cash": 72960.36,
-        "invested": 26422.23,
+        "total_value": 99274.94,
+        "cash": 73026.81,
+        "invested": 26248.13,
         "n_positions": 9,
-        "return_pct": -0.6174
+        "return_pct": -0.7251
       },
       {
         "date": "2026-03-05",
-        "total_value": 98520.18,
-        "cash": 72960.36,
-        "invested": 25559.82,
+        "total_value": 98510.84,
+        "cash": 73026.81,
+        "invested": 25484.03,
         "n_positions": 9,
-        "return_pct": -1.4798
+        "return_pct": -1.4892
       },
       {
         "date": "2026-03-06",
-        "total_value": 97628.52,
-        "cash": 72960.36,
-        "invested": 24668.16,
+        "total_value": 97938.27,
+        "cash": 73026.81,
+        "invested": 24911.46,
         "n_positions": 9,
-        "return_pct": -2.3715
+        "return_pct": -2.0617
       },
       {
         "date": "2026-03-09",
-        "total_value": 98208.94,
-        "cash": 58229.02,
-        "invested": 39979.92,
+        "total_value": 98239.97,
+        "cash": 58290.82,
+        "invested": 39949.15,
         "n_positions": 14,
-        "return_pct": -1.7911
+        "return_pct": -1.76
       },
       {
         "date": "2026-03-10",
-        "total_value": 98304.31,
-        "cash": 58229.02,
-        "invested": 40075.29,
+        "total_value": 98120.34,
+        "cash": 58290.82,
+        "invested": 39829.52,
         "n_positions": 14,
-        "return_pct": -1.6957
+        "return_pct": -1.8797
       },
       {
         "date": "2026-03-11",
-        "total_value": 98806.57,
-        "cash": 58229.02,
-        "invested": 40577.55,
+        "total_value": 98344.67,
+        "cash": 58290.82,
+        "invested": 40053.85,
         "n_positions": 14,
-        "return_pct": -1.1934
+        "return_pct": -1.6553
       },
       {
         "date": "2026-03-12",
-        "total_value": 97670.43,
-        "cash": 58229.02,
-        "invested": 39441.41,
+        "total_value": 97421.16,
+        "cash": 58290.82,
+        "invested": 39130.34,
         "n_positions": 14,
-        "return_pct": -2.3296
+        "return_pct": -2.5788
       },
       {
         "date": "2026-03-13",
-        "total_value": 97126.44,
-        "cash": 58229.02,
-        "invested": 38897.42,
+        "total_value": 97036.38,
+        "cash": 58290.82,
+        "invested": 38745.56,
         "n_positions": 14,
-        "return_pct": -2.8736
+        "return_pct": -2.9636
       },
       {
         "date": "2026-03-16",
-        "total_value": 97766.47,
-        "cash": 43564.04,
-        "invested": 54202.43,
+        "total_value": 97408.37,
+        "cash": 43679.56,
+        "invested": 53728.81,
         "n_positions": 19,
-        "return_pct": -2.2335
+        "return_pct": -2.5916
       },
       {
         "date": "2026-03-17",
-        "total_value": 97893.52,
-        "cash": 43564.04,
-        "invested": 54329.48,
+        "total_value": 97752.88,
+        "cash": 43679.56,
+        "invested": 54073.32,
         "n_positions": 19,
-        "return_pct": -2.1065
+        "return_pct": -2.2471
       },
       {
         "date": "2026-03-18",
-        "total_value": 96231.11,
-        "cash": 43564.04,
-        "invested": 52667.07,
+        "total_value": 96640.39,
+        "cash": 43679.56,
+        "invested": 52960.83,
         "n_positions": 19,
-        "return_pct": -3.7689
+        "return_pct": -3.3596
       },
       {
         "date": "2026-03-19",
-        "total_value": 97023.35,
-        "cash": 43564.04,
-        "invested": 53459.31,
+        "total_value": 97554.37,
+        "cash": 43679.56,
+        "invested": 53874.81,
         "n_positions": 19,
-        "return_pct": -2.9766
+        "return_pct": -2.4456
       },
       {
         "date": "2026-03-20",
-        "total_value": 94206.06,
-        "cash": 43564.04,
-        "invested": 50642.02,
+        "total_value": 94877.64,
+        "cash": 43679.56,
+        "invested": 51198.08,
         "n_positions": 19,
-        "return_pct": -5.7939
+        "return_pct": -5.1224
       },
       {
         "date": "2026-03-23",
-        "total_value": 94844.58,
-        "cash": 29337.36,
-        "invested": 65507.22,
+        "total_value": 95593.45,
+        "cash": 29340.54,
+        "invested": 66252.91,
         "n_positions": 24,
-        "return_pct": -5.1554
+        "return_pct": -4.4065
       },
       {
         "date": "2026-03-24",
-        "total_value": 94585.27,
-        "cash": 29337.36,
-        "invested": 65247.91,
+        "total_value": 95548.56,
+        "cash": 29340.54,
+        "invested": 66208.02,
         "n_positions": 24,
-        "return_pct": -5.4147
+        "return_pct": -4.4514
       },
       {
         "date": "2026-03-25",
-        "total_value": 95782.9,
-        "cash": 29337.36,
-        "invested": 66445.54,
+        "total_value": 96502.2,
+        "cash": 29340.54,
+        "invested": 67161.66,
         "n_positions": 24,
-        "return_pct": -4.2171
+        "return_pct": -3.4978
       },
       {
         "date": "2026-03-26",
-        "total_value": 93509.26,
-        "cash": 29337.36,
-        "invested": 64171.9,
+        "total_value": 94425.62,
+        "cash": 29340.54,
+        "invested": 65085.08,
         "n_positions": 24,
-        "return_pct": -6.4907
+        "return_pct": -5.5744
       },
       {
         "date": "2026-03-27",
-        "total_value": 91810.5,
-        "cash": 29337.36,
-        "invested": 62473.14,
+        "total_value": 93192.99,
+        "cash": 29340.54,
+        "invested": 63852.45,
         "n_positions": 24,
-        "return_pct": -8.1895
+        "return_pct": -6.807
       },
       {
         "date": "2026-03-30",
-        "total_value": 90244.33,
-        "cash": 15800.71,
-        "invested": 74443.62,
+        "total_value": 92439.26,
+        "cash": 15474.66,
+        "invested": 76964.6,
         "n_positions": 29,
-        "return_pct": -9.7557
+        "return_pct": -7.5607
       },
       {
         "date": "2026-03-31",
-        "total_value": 97948.41,
-        "cash": 15800.71,
-        "invested": 82147.7,
+        "total_value": 99099.52,
+        "cash": 15474.66,
+        "invested": 83624.86,
         "n_positions": 29,
-        "return_pct": -2.0516
+        "return_pct": -0.9005
       },
       {
         "date": "2026-04-01",
-        "total_value": 98442.21,
-        "cash": 15800.71,
-        "invested": 82641.5,
+        "total_value": 99602.27,
+        "cash": 15474.66,
+        "invested": 84127.61,
         "n_positions": 29,
-        "return_pct": -1.5578
+        "return_pct": -0.3977
       },
       {
         "date": "2026-04-02",
-        "total_value": 99304.52,
-        "cash": 15800.71,
-        "invested": 83503.81,
+        "total_value": 100237.31,
+        "cash": 15474.66,
+        "invested": 84762.65,
         "n_positions": 29,
-        "return_pct": -0.6955
+        "return_pct": 0.2373
       },
       {
         "date": "2026-04-06",
-        "total_value": 101077.68,
-        "cash": 639.06,
-        "invested": 100438.62,
+        "total_value": 102352.39,
+        "cash": 121.8,
+        "invested": 102230.59,
         "n_positions": 30,
-        "return_pct": 1.0777
+        "return_pct": 2.3524
       },
       {
         "date": "2026-04-07",
-        "total_value": 100960.71,
-        "cash": 639.06,
-        "invested": 100321.65,
+        "total_value": 102249.43,
+        "cash": 121.8,
+        "invested": 102127.63,
         "n_positions": 30,
-        "return_pct": 0.9607
+        "return_pct": 2.2494
       },
       {
         "date": "2026-04-08",
-        "total_value": 104166.05,
-        "cash": 639.06,
-        "invested": 103526.99,
+        "total_value": 105082.59,
+        "cash": 121.8,
+        "invested": 104960.79,
         "n_positions": 30,
-        "return_pct": 4.166
+        "return_pct": 5.0826
       },
       {
         "date": "2026-04-09",
-        "total_value": 103596.39,
-        "cash": 639.06,
-        "invested": 102957.33,
+        "total_value": 104465.66,
+        "cash": 121.8,
+        "invested": 104343.86,
         "n_positions": 30,
-        "return_pct": 3.5964
+        "return_pct": 4.4657
       },
       {
         "date": "2026-04-10",
-        "total_value": 104736.91,
-        "cash": 639.06,
-        "invested": 104097.85,
+        "total_value": 105833.11,
+        "cash": 121.8,
+        "invested": 105711.31,
         "n_positions": 30,
-        "return_pct": 4.7369
+        "return_pct": 5.8331
       },
       {
         "date": "2026-04-13",
-        "total_value": 107009.25,
-        "cash": 639.06,
-        "invested": 106370.19,
+        "total_value": 108541.38,
+        "cash": 121.8,
+        "invested": 108419.58,
         "n_positions": 30,
-        "return_pct": 7.0092
+        "return_pct": 8.5414
       },
       {
         "date": "2026-04-14",
-        "total_value": 108921.9,
-        "cash": 639.06,
-        "invested": 108282.84,
+        "total_value": 110920.59,
+        "cash": 121.8,
+        "invested": 110798.79,
         "n_positions": 30,
-        "return_pct": 8.9219
+        "return_pct": 10.9206
       },
       {
         "date": "2026-04-15",
-        "total_value": 110713.86,
-        "cash": 639.06,
-        "invested": 110074.8,
+        "total_value": 112798.68,
+        "cash": 121.8,
+        "invested": 112676.88,
         "n_positions": 30,
-        "return_pct": 10.7139
+        "return_pct": 12.7987
       },
       {
         "date": "2026-04-16",
-        "total_value": 113160.03,
-        "cash": 639.06,
-        "invested": 112520.97,
+        "total_value": 113939.81,
+        "cash": 121.8,
+        "invested": 113818.01,
         "n_positions": 30,
-        "return_pct": 13.16
+        "return_pct": 13.9398
       },
       {
         "date": "2026-04-17",
-        "total_value": 114788.58,
-        "cash": 639.06,
-        "invested": 114149.52,
+        "total_value": 115349.15,
+        "cash": 121.8,
+        "invested": 115227.35,
         "n_positions": 30,
-        "return_pct": 14.7886
+        "return_pct": 15.3491
       },
       {
         "date": "2026-04-20",
-        "total_value": 114846.68,
-        "cash": 639.06,
-        "invested": 114207.62,
+        "total_value": 115913.14,
+        "cash": 121.8,
+        "invested": 115791.34,
         "n_positions": 30,
-        "return_pct": 14.8467
+        "return_pct": 15.9131
       },
       {
         "date": "2026-04-21",
-        "total_value": 113949.62,
-        "cash": 639.06,
-        "invested": 113310.56,
+        "total_value": 114860.69,
+        "cash": 121.8,
+        "invested": 114738.89,
         "n_positions": 30,
-        "return_pct": 13.9496
+        "return_pct": 14.8607
       },
       {
         "date": "2026-04-22",
-        "total_value": 117071.61,
-        "cash": 639.06,
-        "invested": 116432.55,
+        "total_value": 116696.74,
+        "cash": 121.8,
+        "invested": 116574.94,
         "n_positions": 30,
-        "return_pct": 17.0716
+        "return_pct": 16.6967
       },
       {
         "date": "2026-04-23",
-        "total_value": 115464.66,
-        "cash": 639.06,
-        "invested": 114825.6,
+        "total_value": 114861.56,
+        "cash": 121.8,
+        "invested": 114739.76,
         "n_positions": 30,
-        "return_pct": 15.4647
+        "return_pct": 14.8616
       },
       {
         "date": "2026-04-24",
-        "total_value": 116868.13,
-        "cash": 639.06,
-        "invested": 116229.07,
+        "total_value": 117065.35,
+        "cash": 121.8,
+        "invested": 116943.55,
         "n_positions": 30,
-        "return_pct": 16.8681
+        "return_pct": 17.0653
       },
       {
         "date": "2026-04-27",
-        "total_value": 116473.32,
-        "cash": 639.06,
-        "invested": 115834.26,
+        "total_value": 115967.77,
+        "cash": 121.8,
+        "invested": 115845.97,
         "n_positions": 30,
-        "return_pct": 16.4733
+        "return_pct": 15.9678
       },
       {
         "date": "2026-04-28",
-        "total_value": 113723.21,
+        "total_value": 113724.36,
         "cash": 0.0,
-        "invested": 113723.21,
+        "invested": 113724.36,
         "n_positions": 30,
-        "return_pct": 13.7232
+        "return_pct": 13.7244
       },
       {
         "date": "2026-04-29",
-        "total_value": 111734.1,
+        "total_value": 111535.93,
         "cash": 0.0,
-        "invested": 111734.1,
+        "invested": 111535.93,
         "n_positions": 30,
-        "return_pct": 11.7341
+        "return_pct": 11.5359
       },
       {
         "date": "2026-04-30",
-        "total_value": 116840.69,
+        "total_value": 115679.53,
         "cash": 0.0,
-        "invested": 116840.69,
+        "invested": 115679.53,
         "n_positions": 30,
-        "return_pct": 16.8407
+        "return_pct": 15.6795
       },
       {
         "date": "2026-05-01",
-        "total_value": 117763.9,
+        "total_value": 116942.91,
         "cash": 0.0,
-        "invested": 117763.9,
+        "invested": 116942.91,
         "n_positions": 30,
-        "return_pct": 17.7639
+        "return_pct": 16.9429
       },
       {
         "date": "2026-05-04",
-        "total_value": 118089.12,
+        "total_value": 117504.84,
         "cash": 0.0,
-        "invested": 118089.12,
+        "invested": 117504.84,
         "n_positions": 30,
-        "return_pct": 18.0891
+        "return_pct": 17.5048
       },
       {
         "date": "2026-05-05",
-        "total_value": 118662.6,
+        "total_value": 118686.37,
         "cash": 0.0,
-        "invested": 118662.6,
+        "invested": 118686.37,
         "n_positions": 30,
-        "return_pct": 18.6626
+        "return_pct": 18.6864
       },
       {
         "date": "2026-05-06",
-        "total_value": 119480.94,
+        "total_value": 119718.13,
         "cash": 0.0,
-        "invested": 119480.94,
+        "invested": 119718.13,
         "n_positions": 30,
-        "return_pct": 19.4809
+        "return_pct": 19.7181
       },
       {
         "date": "2026-05-07",
-        "total_value": 116506.72,
+        "total_value": 117021.53,
         "cash": 0.0,
-        "invested": 116506.72,
+        "invested": 117021.53,
         "n_positions": 30,
-        "return_pct": 16.5067
+        "return_pct": 17.0215
       },
       {
         "date": "2026-05-08",
-        "total_value": 118763.53,
+        "total_value": 117001.06,
         "cash": 0.0,
-        "invested": 118763.53,
+        "invested": 117001.06,
         "n_positions": 30,
-        "return_pct": 18.7635
+        "return_pct": 17.0011
       },
       {
         "date": "2026-05-11",
-        "total_value": 121756.4,
+        "total_value": 118361.47,
         "cash": 0.0,
-        "invested": 121756.4,
+        "invested": 118361.47,
         "n_positions": 30,
-        "return_pct": 21.7564
+        "return_pct": 18.3615
       },
       {
         "date": "2026-05-12",
-        "total_value": 118916.59,
+        "total_value": 116371.24,
         "cash": 0.0,
-        "invested": 118916.59,
+        "invested": 116371.24,
         "n_positions": 30,
-        "return_pct": 18.9166
+        "return_pct": 16.3712
       },
       {
         "date": "2026-05-13",
-        "total_value": 119141.03,
+        "total_value": 115119.79,
         "cash": 0.0,
-        "invested": 119141.03,
+        "invested": 115119.79,
         "n_positions": 30,
-        "return_pct": 19.141
+        "return_pct": 15.1198
       },
       {
         "date": "2026-05-14",
-        "total_value": 120342.13,
+        "total_value": 115460.41,
         "cash": 0.0,
-        "invested": 120342.13,
+        "invested": 115460.41,
         "n_positions": 30,
-        "return_pct": 20.3421
+        "return_pct": 15.4604
       },
       {
         "date": "2026-05-15",
-        "total_value": 117109.39,
+        "total_value": 112773.85,
         "cash": 0.0,
-        "invested": 117109.39,
+        "invested": 112773.85,
         "n_positions": 30,
-        "return_pct": 17.1094
+        "return_pct": 12.7738
       },
       {
         "date": "2026-05-18",
-        "total_value": 115760.78,
+        "total_value": 111379.42,
         "cash": 0.0,
-        "invested": 115760.78,
+        "invested": 111379.42,
         "n_positions": 30,
-        "return_pct": 15.7608
+        "return_pct": 11.3794
       },
       {
         "date": "2026-05-19",
-        "total_value": 114060.4,
+        "total_value": 110373.11,
         "cash": 0.0,
-        "invested": 114060.4,
+        "invested": 110373.11,
         "n_positions": 30,
-        "return_pct": 14.0604
+        "return_pct": 10.3731
       },
       {
         "date": "2026-05-20",
-        "total_value": 118274.17,
+        "total_value": 113821.74,
         "cash": 0.0,
-        "invested": 118274.17,
+        "invested": 113821.74,
         "n_positions": 30,
-        "return_pct": 18.2742
+        "return_pct": 13.8217
       },
       {
         "date": "2026-05-21",
-        "total_value": 118859.46,
+        "total_value": 114730.62,
         "cash": 0.0,
-        "invested": 118859.46,
+        "invested": 114730.62,
         "n_positions": 30,
-        "return_pct": 18.8595
+        "return_pct": 14.7306
       }
     ],
     "transactions": [
@@ -1009,12 +1009,12 @@
       {
         "date": "2026-02-23",
         "action": "buy",
-        "ticker": "ALMS",
-        "shares": 108.4991,
-        "price": 27.65,
+        "ticker": "QXO",
+        "shares": 121.3592,
+        "price": 24.72,
         "value": 3000.0,
         "sort_col": "edge",
-        "sort_value": 0.3525
+        "sort_value": 0.3469
       },
       {
         "date": "2026-02-24",
@@ -1030,79 +1030,69 @@
         "date": "2026-03-02",
         "action": "buy",
         "ticker": "VSAT",
-        "shares": 63.5163,
+        "shares": 63.235,
         "price": 47.24,
-        "value": 3000.51,
+        "value": 2987.22,
         "sort_col": "edge",
         "sort_value": 0.5975
       },
       {
         "date": "2026-03-02",
         "action": "buy",
-        "ticker": "SBSW",
-        "shares": 181.7298,
-        "price": 16.5108,
-        "value": 3000.51,
-        "sort_col": "edge",
-        "sort_value": 0.513
-      },
-      {
-        "date": "2026-03-02",
-        "action": "buy",
         "ticker": "SLNO",
-        "shares": 76.818,
+        "shares": 76.4777,
         "price": 39.06,
-        "value": 3000.51,
+        "value": 2987.22,
         "sort_col": "edge",
         "sort_value": 0.5087
       },
       {
         "date": "2026-03-02",
         "action": "buy",
-        "ticker": "NVTS",
-        "shares": 314.1896,
-        "price": 9.55,
-        "value": 3000.51,
+        "ticker": "TTMI",
+        "shares": 26.4356,
+        "price": 113.0,
+        "value": 2987.22,
         "sort_col": "edge",
-        "sort_value": 0.4271
+        "sort_value": 0.4249
       },
       {
         "date": "2026-03-02",
         "action": "buy",
-        "ticker": "TTMI",
-        "shares": 26.5532,
-        "price": 113.0,
-        "value": 3000.51,
+        "ticker": "FNGD",
+        "shares": 45.8655,
+        "price": 65.13,
+        "value": 2987.22,
         "sort_col": "edge",
-        "sort_value": 0.4249
+        "sort_value": 0.327
+      },
+      {
+        "date": "2026-03-02",
+        "action": "buy",
+        "ticker": "ATRO",
+        "shares": 36.7206,
+        "price": 81.35,
+        "value": 2987.22,
+        "sort_col": "edge",
+        "sort_value": 0.3056
       },
       {
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "APLS",
-        "shares": 147.3871,
+        "shares": 147.4337,
         "price": 19.99,
-        "value": 2946.27,
+        "value": 2947.2,
         "sort_col": "edge",
         "sort_value": 0.4539
       },
       {
         "date": "2026-03-09",
         "action": "buy",
-        "ticker": "QXO",
-        "shares": 135.8353,
-        "price": 21.69,
-        "value": 2946.27,
-        "sort_col": "edge",
-        "sort_value": 0.3663
-      },
-      {
-        "date": "2026-03-09",
-        "action": "buy",
         "ticker": "OSCR",
-        "shares": 211.0507,
+        "shares": 211.1174,
         "price": 13.96,
-        "value": 2946.27,
+        "value": 2947.2,
         "sort_col": "edge",
         "sort_value": 0.328
       },
@@ -1110,9 +1100,9 @@
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "CE",
-        "shares": 57.2911,
+        "shares": 57.3092,
         "price": 51.4263,
-        "value": 2946.27,
+        "value": 2947.2,
         "sort_col": "edge",
         "sort_value": 0.3106
       },
@@ -1120,19 +1110,29 @@
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "CHYM",
-        "shares": 130.193,
+        "shares": 130.2342,
         "price": 22.63,
-        "value": 2946.27,
+        "value": 2947.2,
         "sort_col": "edge",
         "sort_value": 0.31
+      },
+      {
+        "date": "2026-03-09",
+        "action": "buy",
+        "ticker": "STNE",
+        "shares": 257.2122,
+        "price": 11.4582,
+        "value": 2947.2,
+        "sort_col": "edge",
+        "sort_value": 0.3007
       },
       {
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "ETHE",
-        "shares": 154.9372,
+        "shares": 154.3697,
         "price": 18.9302,
-        "value": 2932.99,
+        "value": 2922.25,
         "sort_col": "edge",
         "sort_value": 0.5929
       },
@@ -1140,9 +1140,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "ELF",
-        "shares": 39.8396,
+        "shares": 39.6937,
         "price": 73.62,
-        "value": 2932.99,
+        "value": 2922.25,
         "sort_col": "edge",
         "sort_value": 0.5033
       },
@@ -1150,9 +1150,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "PI",
-        "shares": 29.7766,
+        "shares": 29.6675,
         "price": 98.5,
-        "value": 2932.99,
+        "value": 2922.25,
         "sort_col": "edge",
         "sort_value": 0.4393
       },
@@ -1160,9 +1160,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "RYTM",
-        "shares": 32.4052,
+        "shares": 32.2865,
         "price": 90.51,
-        "value": 2932.99,
+        "value": 2922.25,
         "sort_col": "edge",
         "sort_value": 0.4054
       },
@@ -1170,9 +1170,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "AMD",
-        "shares": 14.9201,
+        "shares": 14.8655,
         "price": 196.58,
-        "value": 2932.99,
+        "value": 2922.25,
         "sort_col": "edge",
         "sort_value": 0.3887
       },
@@ -1180,9 +1180,9 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "DAVE",
-        "shares": 13.212,
+        "shares": 13.3163,
         "price": 215.36,
-        "value": 2845.34,
+        "value": 2867.8,
         "sort_col": "edge",
         "sort_value": 0.8607
       },
@@ -1190,9 +1190,9 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "MSTR",
-        "shares": 20.5885,
+        "shares": 20.7511,
         "price": 138.2,
-        "value": 2845.34,
+        "value": 2867.8,
         "sort_col": "edge",
         "sort_value": 0.6798
       },
@@ -1200,9 +1200,9 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "ETHA",
-        "shares": 174.775,
+        "shares": 176.155,
         "price": 16.28,
-        "value": 2845.34,
+        "value": 2867.8,
         "sort_col": "edge",
         "sort_value": 0.6449
       },
@@ -1210,9 +1210,9 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "FETH",
-        "shares": 132.5262,
+        "shares": 133.5726,
         "price": 21.47,
-        "value": 2845.34,
+        "value": 2867.8,
         "sort_col": "edge",
         "sort_value": 0.6441
       },
@@ -1220,29 +1220,19 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "ETH",
-        "shares": 139.3407,
+        "shares": 140.4409,
         "price": 20.42,
-        "value": 2845.34,
+        "value": 2867.8,
         "sort_col": "edge",
         "sort_value": 0.6433
       },
       {
         "date": "2026-03-30",
         "action": "buy",
-        "ticker": "VISN",
-        "shares": 315.0584,
-        "price": 8.5931,
-        "value": 2707.33,
-        "sort_col": "edge",
-        "sort_value": 1.0028
-      },
-      {
-        "date": "2026-03-30",
-        "action": "buy",
         "ticker": "LIF",
-        "shares": 71.0212,
+        "shares": 72.7486,
         "price": 38.12,
-        "value": 2707.33,
+        "value": 2773.18,
         "sort_col": "edge",
         "sort_value": 0.9478
       },
@@ -1250,39 +1240,49 @@
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "SOFI",
-        "shares": 178.7016,
+        "shares": 183.048,
         "price": 15.15,
-        "value": 2707.33,
+        "value": 2773.18,
         "sort_col": "edge",
         "sort_value": 0.9259
       },
       {
         "date": "2026-03-30",
         "action": "buy",
-        "ticker": "RKLB",
-        "shares": 47.1825,
-        "price": 57.38,
-        "value": 2707.33,
+        "ticker": "TMDX",
+        "shares": 29.4049,
+        "price": 94.31,
+        "value": 2773.18,
         "sort_col": "edge",
-        "sort_value": 0.8788
+        "sort_value": 0.8284
       },
       {
         "date": "2026-03-30",
         "action": "buy",
-        "ticker": "TMDX",
-        "shares": 28.7067,
-        "price": 94.31,
-        "value": 2707.33,
+        "ticker": "MP",
+        "shares": 60.8286,
+        "price": 45.59,
+        "value": 2773.18,
         "sort_col": "edge",
-        "sort_value": 0.8284
+        "sort_value": 0.79
+      },
+      {
+        "date": "2026-03-30",
+        "action": "buy",
+        "ticker": "CRDO",
+        "shares": 31.5816,
+        "price": 87.81,
+        "value": 2773.18,
+        "sort_col": "edge",
+        "sort_value": 0.784
       },
       {
         "date": "2026-04-06",
         "action": "buy",
         "ticker": "VST",
-        "shares": 100.0175,
+        "shares": 101.2788,
         "price": 151.59,
-        "value": 15161.65,
+        "value": 15352.86,
         "sort_col": "edge",
         "sort_value": 0.6842
       },
@@ -1320,9 +1320,9 @@
         "date": "2026-04-28",
         "action": "buy",
         "ticker": "PRAX",
-        "shares": 9.1901,
+        "shares": 8.6545,
         "price": 321.92,
-        "value": 2958.47,
+        "value": 2786.05,
         "sort_col": "edge",
         "sort_value": 0.9546
       },
@@ -1330,21 +1330,21 @@
         "date": "2026-04-28",
         "action": "buy",
         "ticker": "RDDT",
-        "shares": 19.9991,
+        "shares": 18.8335,
         "price": 147.93,
-        "value": 2958.47,
+        "value": 2786.05,
         "sort_col": "edge",
         "sort_value": 0.8829
       },
       {
         "date": "2026-04-28",
         "action": "buy",
-        "ticker": "TERN",
-        "shares": 55.8834,
-        "price": 52.94,
-        "value": 2958.47,
+        "ticker": "CYTK",
+        "shares": 45.9062,
+        "price": 60.69,
+        "value": 2786.05,
         "sort_col": "edge",
-        "sort_value": 0.825
+        "sort_value": 0.7911
       }
     ],
     "last_buy_date": "2026-04-28",
@@ -1357,7 +1357,7 @@
     "sort_col": "p90",
     "inception_date": "2026-02-23",
     "initial_cash": 100000.0,
-    "cash": 0.0,
+    "cash": 9.094947017729282e-13,
     "holdings": {
       "QXO": {
         "shares": 121.3592,
@@ -1375,7 +1375,7 @@
         "pnl_pct": -31.11
       },
       "LEU": {
-        "shares": 14.0024,
+        "shares": 13.9285,
         "entry_price": 207.99,
         "entry_date": "2026-03-02",
         "entry_edge": 0.2923,
@@ -1386,41 +1386,11 @@
         "sort_col": "p90",
         "sort_value": 1.7263,
         "current_price": 177.15,
-        "current_value": 2480.53,
+        "current_value": 2467.43,
         "pnl_pct": -14.83
       },
-      "NVTS": {
-        "shares": 304.9585,
-        "entry_price": 9.55,
-        "entry_date": "2026-03-02",
-        "entry_edge": 0.4271,
-        "entry_p90": 1.5683,
-        "entry_p10": -0.4277,
-        "sector": "Semiconductors",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 1.5683,
-        "current_price": 24.38,
-        "current_value": 7434.89,
-        "pnl_pct": 155.29
-      },
-      "SLS": {
-        "shares": 576.7037,
-        "entry_price": 5.05,
-        "entry_date": "2026-03-02",
-        "entry_edge": 0.3041,
-        "entry_p90": 1.4797,
-        "entry_p10": -0.1917,
-        "sector": "Healthcare",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 1.4797,
-        "current_price": 7.56,
-        "current_value": 4359.88,
-        "pnl_pct": 49.7
-      },
       "VSAT": {
-        "shares": 61.6502,
+        "shares": 61.3248,
         "entry_price": 47.24,
         "entry_date": "2026-03-02",
         "entry_edge": 0.5975,
@@ -1431,26 +1401,41 @@
         "sort_col": "p90",
         "sort_value": 1.4323,
         "current_price": 70.76,
-        "current_value": 4362.37,
+        "current_value": 4339.34,
         "pnl_pct": 49.79
       },
-      "METC": {
-        "shares": 204.3822,
-        "entry_price": 14.18,
-        "entry_date": "2026-03-09",
-        "entry_edge": 0.3167,
-        "entry_p90": 1.4044,
-        "entry_p10": -0.2909,
-        "sector": "Materials",
+      "CAR": {
+        "shares": 30.2683,
+        "entry_price": 95.71,
+        "entry_date": "2026-03-02",
+        "entry_edge": 0.2991,
+        "entry_p90": 1.3154,
+        "entry_p10": -0.391,
+        "sector": "Industrials",
         "horizon": "120d",
         "sort_col": "p90",
-        "sort_value": 1.4044,
-        "current_price": 13.91,
-        "current_value": 2842.96,
-        "pnl_pct": -1.9
+        "sort_value": 1.3154,
+        "current_price": 157.71,
+        "current_value": 4773.61,
+        "pnl_pct": 64.78
+      },
+      "TTMI": {
+        "shares": 25.637,
+        "entry_price": 113.0,
+        "entry_date": "2026-03-02",
+        "entry_edge": 0.4249,
+        "entry_p90": 1.1928,
+        "entry_p10": 0.116,
+        "sector": "Technology",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 1.1928,
+        "current_price": 174.55,
+        "current_value": 4474.94,
+        "pnl_pct": 54.47
       },
       "OSCR": {
-        "shares": 207.6031,
+        "shares": 205.4204,
         "entry_price": 13.96,
         "entry_date": "2026-03-09",
         "entry_edge": 0.328,
@@ -1461,11 +1446,11 @@
         "sort_col": "p90",
         "sort_value": 1.3495,
         "current_price": 22.14,
-        "current_value": 4596.33,
+        "current_value": 4548.01,
         "pnl_pct": 58.6
       },
       "APLS": {
-        "shares": 144.9795,
+        "shares": 143.4552,
         "entry_price": 19.99,
         "entry_date": "2026-03-09",
         "entry_edge": 0.4539,
@@ -1476,11 +1461,11 @@
         "sort_col": "p90",
         "sort_value": 1.0839,
         "current_price": 41.03,
-        "current_value": 5948.51,
+        "current_value": 5885.97,
         "pnl_pct": 105.25
       },
       "AMD": {
-        "shares": 14.2991,
+        "shares": 14.1487,
         "entry_price": 202.68,
         "entry_date": "2026-03-09",
         "entry_edge": 0.2958,
@@ -1491,26 +1476,41 @@
         "sort_col": "p90",
         "sort_value": 0.8685,
         "current_price": 449.59,
-        "current_value": 6428.73,
+        "current_value": 6361.11,
         "pnl_pct": 121.82
       },
-      "GAP": {
-        "shares": 127.7372,
-        "entry_price": 22.6883,
+      "STNE": {
+        "shares": 250.2713,
+        "entry_price": 11.4582,
         "entry_date": "2026-03-09",
-        "entry_edge": 0.1841,
-        "entry_p90": 0.8529,
-        "entry_p10": -0.0948,
-        "sector": "Consumer Discretionary",
-        "horizon": "60d",
+        "entry_edge": 0.3007,
+        "entry_p90": 0.8407,
+        "entry_p10": -0.2916,
+        "sector": "Technology",
+        "horizon": "120d",
         "sort_col": "p90",
-        "sort_value": 0.8529,
-        "current_price": 23.17,
-        "current_value": 2959.67,
-        "pnl_pct": 2.12
+        "sort_value": 0.8407,
+        "current_price": 11.1,
+        "current_value": 2778.01,
+        "pnl_pct": -3.13
+      },
+      "PI": {
+        "shares": 29.022,
+        "entry_price": 98.81,
+        "entry_date": "2026-03-09",
+        "entry_edge": 0.291,
+        "entry_p90": 0.7813,
+        "entry_p10": -0.4983,
+        "sector": "Technology",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 0.7813,
+        "current_price": 140.27,
+        "current_value": 4070.92,
+        "pnl_pct": 41.96
       },
       "DAVE": {
-        "shares": 13.7733,
+        "shares": 13.5972,
         "entry_price": 209.69,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3144,
@@ -1521,11 +1521,11 @@
         "sort_col": "p90",
         "sort_value": 2.8779,
         "current_price": 240.9,
-        "current_value": 3317.99,
+        "current_value": 3275.57,
         "pnl_pct": 14.88
       },
       "MSTR": {
-        "shares": 19.5778,
+        "shares": 19.3275,
         "entry_price": 147.52,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3012,
@@ -1536,11 +1536,11 @@
         "sort_col": "p90",
         "sort_value": 2.023,
         "current_price": 164.85,
-        "current_value": 3227.4,
+        "current_value": 3186.14,
         "pnl_pct": 11.75
       },
       "ETHE": {
-        "shares": 152.5669,
+        "shares": 150.6157,
         "entry_price": 18.9302,
         "entry_date": "2026-03-16",
         "entry_edge": 0.5929,
@@ -1551,11 +1551,11 @@
         "sort_col": "p90",
         "sort_value": 1.5009,
         "current_price": 17.35,
-        "current_value": 2647.04,
+        "current_value": 2613.18,
         "pnl_pct": -8.35
       },
       "GEV": {
-        "shares": 3.4928,
+        "shares": 3.4482,
         "entry_price": 826.87,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3125,
@@ -1566,11 +1566,11 @@
         "sort_col": "p90",
         "sort_value": 1.3602,
         "current_price": 1043.8199,
-        "current_value": 3645.85,
+        "current_value": 3599.3,
         "pnl_pct": 26.24
       },
       "WING": {
-        "shares": 14.5338,
+        "shares": 14.3479,
         "entry_price": 198.7176,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3457,
@@ -1581,26 +1581,11 @@
         "sort_col": "p90",
         "sort_value": 1.1773,
         "current_price": 132.65,
-        "current_value": 1927.91,
+        "current_value": 1903.25,
         "pnl_pct": -33.25
       },
-      "OCUL": {
-        "shares": 346.6259,
-        "entry_price": 8.1,
-        "entry_date": "2026-03-23",
-        "entry_edge": 0.4838,
-        "entry_p90": 2.1826,
-        "entry_p10": 0.0099,
-        "sector": "Healthcare",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 2.1826,
-        "current_price": 8.22,
-        "current_value": 2849.26,
-        "pnl_pct": 1.48
-      },
       "DJT": {
-        "shares": 310.2398,
+        "shares": 309.4668,
         "entry_price": 9.05,
         "entry_date": "2026-03-23",
         "entry_edge": 0.3912,
@@ -1611,26 +1596,26 @@
         "sort_col": "p90",
         "sort_value": 2.12,
         "current_price": 7.95,
-        "current_value": 2466.41,
+        "current_value": 2460.26,
         "pnl_pct": -12.15
       },
       "AFRM": {
-        "shares": 60.8247,
+        "shares": 60.6732,
         "entry_price": 46.16,
         "entry_date": "2026-03-23",
-        "entry_edge": 0.507,
-        "entry_p90": 2.0295,
-        "entry_p10": 0.2469,
+        "entry_edge": 0.4918,
+        "entry_p90": 1.4253,
+        "entry_p10": -0.1916,
         "sector": "Financials",
-        "horizon": "120d",
+        "horizon": "60d",
         "sort_col": "p90",
-        "sort_value": 2.0295,
+        "sort_value": 1.4253,
         "current_price": 67.18,
-        "current_value": 4086.2,
+        "current_value": 4076.03,
         "pnl_pct": 45.54
       },
       "LQDA": {
-        "shares": 79.0893,
+        "shares": 78.8922,
         "entry_price": 35.5,
         "entry_date": "2026-03-23",
         "entry_edge": 0.4738,
@@ -1641,11 +1626,11 @@
         "sort_col": "p90",
         "sort_value": 1.5195,
         "current_price": 61.97,
-        "current_value": 4901.16,
+        "current_value": 4888.95,
         "pnl_pct": 74.56
       },
       "CVNA": {
-        "shares": 46.857,
+        "shares": 46.7402,
         "entry_price": 59.92,
         "entry_date": "2026-03-23",
         "entry_edge": 0.4004,
@@ -1656,26 +1641,11 @@
         "sort_col": "p90",
         "sort_value": 1.4994,
         "current_price": 64.39,
-        "current_value": 3017.12,
+        "current_value": 3009.6,
         "pnl_pct": 7.46
       },
-      "RKLB": {
-        "shares": 46.0753,
-        "entry_price": 57.38,
-        "entry_date": "2026-03-30",
-        "entry_edge": 0.8788,
-        "entry_p90": 5.119,
-        "entry_p10": -0.1341,
-        "sector": "Industrials",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 5.119,
-        "current_price": 125.45,
-        "current_value": 5780.15,
-        "pnl_pct": 118.63
-      },
       "CELC": {
-        "shares": 24.4186,
+        "shares": 24.1964,
         "entry_price": 108.27,
         "entry_date": "2026-03-30",
         "entry_edge": 0.5423,
@@ -1686,11 +1656,11 @@
         "sort_col": "p90",
         "sort_value": 4.2158,
         "current_price": 142.53,
-        "current_value": 3480.38,
+        "current_value": 3448.71,
         "pnl_pct": 31.64
       },
       "COIN": {
-        "shares": 16.4426,
+        "shares": 16.293,
         "entry_price": 160.79,
         "entry_date": "2026-03-30",
         "entry_edge": 0.4931,
@@ -1701,26 +1671,11 @@
         "sort_col": "p90",
         "sort_value": 2.5568,
         "current_price": 193.56,
-        "current_value": 3182.63,
+        "current_value": 3153.67,
         "pnl_pct": 20.38
       },
-      "VISN": {
-        "shares": 307.6654,
-        "entry_price": 8.5931,
-        "entry_date": "2026-03-30",
-        "entry_edge": 1.0028,
-        "entry_p90": 2.4388,
-        "entry_p10": -0.601,
-        "sector": "Technology",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 2.4388,
-        "current_price": 11.9,
-        "current_value": 3661.22,
-        "pnl_pct": 38.48
-      },
       "CRDO": {
-        "shares": 30.1082,
+        "shares": 29.8343,
         "entry_price": 87.81,
         "entry_date": "2026-03-30",
         "entry_edge": 0.784,
@@ -1731,11 +1686,41 @@
         "sort_col": "p90",
         "sort_value": 2.1963,
         "current_price": 193.39,
-        "current_value": 5822.62,
+        "current_value": 5769.66,
         "pnl_pct": 120.24
       },
+      "BE": {
+        "shares": 21.9207,
+        "entry_price": 119.51,
+        "entry_date": "2026-03-30",
+        "entry_edge": 0.4885,
+        "entry_p90": 2.0239,
+        "entry_p10": -0.1445,
+        "sector": "Industrials",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 2.0239,
+        "current_price": 307.88,
+        "current_value": 6748.95,
+        "pnl_pct": 157.62
+      },
+      "HOOD": {
+        "shares": 40.2048,
+        "entry_price": 65.16,
+        "entry_date": "2026-03-30",
+        "entry_edge": 0.6027,
+        "entry_p90": 1.9941,
+        "entry_p10": 0.7815,
+        "sector": "Financials",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 1.9941,
+        "current_price": 75.92,
+        "current_value": 3052.35,
+        "pnl_pct": 16.51
+      },
       "RDDT": {
-        "shares": 53.9596,
+        "shares": 36.1791,
         "entry_price": 138.34,
         "entry_date": "2026-04-06",
         "entry_edge": 0.5312,
@@ -1746,11 +1731,11 @@
         "sort_col": "p90",
         "sort_value": 3.0721,
         "current_price": 150.04,
-        "current_value": 8096.1,
+        "current_value": 5428.31,
         "pnl_pct": 8.46
       },
       "VERA": {
-        "shares": 184.5659,
+        "shares": 123.7488,
         "entry_price": 40.445,
         "entry_date": "2026-04-06",
         "entry_edge": 0.2735,
@@ -1761,11 +1746,26 @@
         "sort_col": "p90",
         "sort_value": 2.3893,
         "current_price": 34.35,
-        "current_value": 6339.84,
+        "current_value": 4250.77,
         "pnl_pct": -15.07
       },
+      "GBTC": {
+        "shares": 92.2414,
+        "entry_price": 54.26,
+        "entry_date": "2026-04-06",
+        "entry_edge": 0.3894,
+        "entry_p90": 1.8522,
+        "entry_p10": 0.07,
+        "sector": "Crypto",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 1.8522,
+        "current_price": 60.27,
+        "current_value": 5559.39,
+        "pnl_pct": 11.08
+      },
       "PRAX": {
-        "shares": 11.8921,
+        "shares": 12.3024,
         "entry_price": 321.92,
         "entry_date": "2026-04-28",
         "entry_edge": 0.9546,
@@ -1776,11 +1776,11 @@
         "sort_col": "p90",
         "sort_value": 3.6309,
         "current_price": 350.56,
-        "current_value": 4168.89,
+        "current_value": 4312.73,
         "pnl_pct": 8.9
       },
       "APGE": {
-        "shares": 44.8437,
+        "shares": 46.3909,
         "entry_price": 85.37,
         "entry_date": "2026-04-28",
         "entry_edge": 0.5379,
@@ -1791,23 +1791,23 @@
         "sort_col": "p90",
         "sort_value": 2.0005,
         "current_price": 82.43,
-        "current_value": 3696.47,
+        "current_value": 3824.0,
         "pnl_pct": -3.44
       },
-      "OMER": {
-        "shares": 260.9618,
-        "entry_price": 14.67,
+      "W": {
+        "shares": 53.817,
+        "entry_price": 73.59,
         "entry_date": "2026-04-28",
-        "entry_edge": 0.5145,
-        "entry_p90": 1.5957,
-        "entry_p10": 0.2039,
-        "sector": "Healthcare",
+        "entry_edge": 0.3605,
+        "entry_p90": 1.5135,
+        "entry_p10": -0.4074,
+        "sector": "Consumer Discretionary",
         "horizon": "120d",
         "sort_col": "p90",
-        "sort_value": 1.5957,
-        "current_price": 11.96,
-        "current_value": 3121.1,
-        "pnl_pct": -18.47
+        "sort_value": 1.5135,
+        "current_price": 66.34,
+        "current_value": 3570.22,
+        "pnl_pct": -9.85
       }
     },
     "history": [
@@ -1821,499 +1821,499 @@
       },
       {
         "date": "2026-02-24",
-        "total_value": 97101.56,
+        "total_value": 97211.89,
         "cash": 87962.91,
-        "invested": 9138.65,
+        "invested": 9248.98,
         "n_positions": 3,
-        "return_pct": -2.8984
+        "return_pct": -2.7881
       },
       {
         "date": "2026-02-25",
-        "total_value": 97370.91,
+        "total_value": 97262.35,
         "cash": 87962.91,
-        "invested": 9408.0,
+        "invested": 9299.44,
         "n_positions": 3,
-        "return_pct": -2.6291
+        "return_pct": -2.7376
       },
       {
         "date": "2026-02-26",
-        "total_value": 97267.14,
+        "total_value": 96618.41,
         "cash": 87962.91,
-        "invested": 9304.23,
+        "invested": 8655.5,
         "n_positions": 3,
-        "return_pct": -2.7329
+        "return_pct": -3.3816
       },
       {
         "date": "2026-02-27",
-        "total_value": 97254.92,
+        "total_value": 96674.28,
         "cash": 87962.91,
-        "invested": 9292.01,
+        "invested": 8711.37,
         "n_positions": 3,
-        "return_pct": -2.7451
+        "return_pct": -3.3257
       },
       {
         "date": "2026-03-02",
-        "total_value": 97078.46,
-        "cash": 73401.14,
-        "invested": 23677.32,
+        "total_value": 96566.08,
+        "cash": 73478.0,
+        "invested": 23088.08,
         "n_positions": 8,
-        "return_pct": -2.9215
+        "return_pct": -3.4339
       },
       {
         "date": "2026-03-03",
-        "total_value": 96293.34,
-        "cash": 73401.14,
-        "invested": 22892.2,
+        "total_value": 95796.4,
+        "cash": 73478.0,
+        "invested": 22318.4,
         "n_positions": 8,
-        "return_pct": -3.7067
+        "return_pct": -4.2036
       },
       {
         "date": "2026-03-04",
-        "total_value": 97188.48,
-        "cash": 73401.14,
-        "invested": 23787.34,
+        "total_value": 96437.18,
+        "cash": 73478.0,
+        "invested": 22959.18,
         "n_positions": 8,
-        "return_pct": -2.8115
+        "return_pct": -3.5628
       },
       {
         "date": "2026-03-05",
-        "total_value": 96504.36,
-        "cash": 73401.14,
-        "invested": 23103.22,
+        "total_value": 95816.24,
+        "cash": 73478.0,
+        "invested": 22338.24,
         "n_positions": 8,
-        "return_pct": -3.4956
+        "return_pct": -4.1838
       },
       {
         "date": "2026-03-06",
-        "total_value": 96016.99,
-        "cash": 73401.14,
-        "invested": 22615.85,
+        "total_value": 95092.13,
+        "cash": 73478.0,
+        "invested": 21614.13,
         "n_positions": 8,
-        "return_pct": -3.983
+        "return_pct": -4.9079
       },
       {
         "date": "2026-03-09",
-        "total_value": 96604.65,
-        "cash": 58910.44,
-        "invested": 37694.21,
+        "total_value": 95588.94,
+        "cash": 59139.66,
+        "invested": 36449.28,
         "n_positions": 13,
-        "return_pct": -3.3953
+        "return_pct": -4.4111
       },
       {
         "date": "2026-03-10",
-        "total_value": 96843.94,
-        "cash": 58910.44,
-        "invested": 37933.5,
+        "total_value": 95486.35,
+        "cash": 59139.66,
+        "invested": 36346.69,
         "n_positions": 13,
-        "return_pct": -3.1561
+        "return_pct": -4.5137
       },
       {
         "date": "2026-03-11",
-        "total_value": 97203.05,
-        "cash": 58910.44,
-        "invested": 38292.61,
+        "total_value": 95909.87,
+        "cash": 59139.66,
+        "invested": 36770.21,
         "n_positions": 13,
-        "return_pct": -2.7969
+        "return_pct": -4.0901
       },
       {
         "date": "2026-03-12",
-        "total_value": 95789.14,
-        "cash": 58910.44,
-        "invested": 36878.7,
+        "total_value": 94686.73,
+        "cash": 59139.66,
+        "invested": 35547.07,
         "n_positions": 13,
-        "return_pct": -4.2109
+        "return_pct": -5.3133
       },
       {
         "date": "2026-03-13",
-        "total_value": 95718.42,
-        "cash": 58910.44,
-        "invested": 36807.98,
+        "total_value": 94452.75,
+        "cash": 59139.66,
+        "invested": 35313.09,
         "n_positions": 13,
-        "return_pct": -4.2816
+        "return_pct": -5.5473
       },
       {
         "date": "2026-03-16",
-        "total_value": 96270.74,
-        "cash": 44469.82,
-        "invested": 51800.92,
+        "total_value": 95039.6,
+        "cash": 44883.72,
+        "invested": 50155.88,
         "n_positions": 18,
-        "return_pct": -3.7293
+        "return_pct": -4.9604
       },
       {
         "date": "2026-03-17",
-        "total_value": 96240.64,
-        "cash": 44469.82,
-        "invested": 51770.82,
+        "total_value": 95476.44,
+        "cash": 44883.72,
+        "invested": 50592.72,
         "n_positions": 18,
-        "return_pct": -3.7594
+        "return_pct": -4.5236
       },
       {
         "date": "2026-03-18",
-        "total_value": 94772.55,
-        "cash": 44469.82,
-        "invested": 50302.73,
+        "total_value": 94295.19,
+        "cash": 44883.72,
+        "invested": 49411.47,
         "n_positions": 18,
-        "return_pct": -5.2274
+        "return_pct": -5.7048
       },
       {
         "date": "2026-03-19",
-        "total_value": 95422.97,
-        "cash": 44469.82,
-        "invested": 50953.15,
+        "total_value": 94784.47,
+        "cash": 44883.72,
+        "invested": 49900.75,
         "n_positions": 18,
-        "return_pct": -4.577
+        "return_pct": -5.2155
       },
       {
         "date": "2026-03-20",
-        "total_value": 92483.45,
-        "cash": 44469.82,
-        "invested": 48013.63,
+        "total_value": 92003.84,
+        "cash": 44883.72,
+        "invested": 47120.12,
         "n_positions": 18,
-        "return_pct": -7.5165
+        "return_pct": -7.9962
       },
       {
         "date": "2026-03-23",
-        "total_value": 93589.0,
-        "cash": 30431.47,
-        "invested": 63157.53,
-        "n_positions": 23,
-        "return_pct": -6.411
+        "total_value": 90555.13,
+        "cash": 30880.35,
+        "invested": 59674.78,
+        "n_positions": 22,
+        "return_pct": -9.4449
       },
       {
         "date": "2026-03-24",
-        "total_value": 93060.26,
-        "cash": 30431.47,
-        "invested": 62628.79,
-        "n_positions": 23,
-        "return_pct": -6.9397
+        "total_value": 90641.33,
+        "cash": 30880.35,
+        "invested": 59760.98,
+        "n_positions": 22,
+        "return_pct": -9.3587
       },
       {
         "date": "2026-03-25",
-        "total_value": 94132.63,
-        "cash": 30431.47,
-        "invested": 63701.16,
-        "n_positions": 23,
-        "return_pct": -5.8674
+        "total_value": 91642.7,
+        "cash": 30880.35,
+        "invested": 60762.35,
+        "n_positions": 22,
+        "return_pct": -8.3573
       },
       {
         "date": "2026-03-26",
-        "total_value": 92215.85,
-        "cash": 30431.47,
-        "invested": 61784.38,
-        "n_positions": 23,
-        "return_pct": -7.7841
+        "total_value": 90022.31,
+        "cash": 30880.35,
+        "invested": 59141.96,
+        "n_positions": 22,
+        "return_pct": -9.9777
       },
       {
         "date": "2026-03-27",
-        "total_value": 90258.2,
-        "cash": 30431.47,
-        "invested": 59826.73,
-        "n_positions": 23,
-        "return_pct": -9.7418
+        "total_value": 89031.04,
+        "cash": 30880.35,
+        "invested": 58150.69,
+        "n_positions": 22,
+        "return_pct": -10.969
       },
       {
         "date": "2026-03-30",
-        "total_value": 88126.68,
-        "cash": 17212.47,
-        "invested": 70914.21,
-        "n_positions": 28,
-        "return_pct": -11.8733
+        "total_value": 87324.87,
+        "cash": 17781.62,
+        "invested": 69543.25,
+        "n_positions": 27,
+        "return_pct": -12.6751
       },
       {
         "date": "2026-03-31",
-        "total_value": 95842.92,
-        "cash": 17212.47,
-        "invested": 78630.45,
-        "n_positions": 28,
-        "return_pct": -4.1571
+        "total_value": 94889.61,
+        "cash": 17781.62,
+        "invested": 77107.99,
+        "n_positions": 27,
+        "return_pct": -5.1104
       },
       {
         "date": "2026-04-01",
-        "total_value": 96121.88,
-        "cash": 17212.47,
-        "invested": 78909.41,
-        "n_positions": 28,
-        "return_pct": -3.8781
+        "total_value": 95803.53,
+        "cash": 17781.62,
+        "invested": 78021.91,
+        "n_positions": 27,
+        "return_pct": -4.1965
       },
       {
         "date": "2026-04-02",
-        "total_value": 97660.36,
-        "cash": 17212.47,
-        "invested": 80447.89,
-        "n_positions": 28,
-        "return_pct": -2.3396
+        "total_value": 97536.98,
+        "cash": 17781.62,
+        "invested": 79755.36,
+        "n_positions": 27,
+        "return_pct": -2.463
       },
       {
         "date": "2026-04-06",
-        "total_value": 99530.23,
-        "cash": 2282.94,
-        "invested": 97247.29,
+        "total_value": 100100.39,
+        "cash": 2766.56,
+        "invested": 97333.83,
         "n_positions": 30,
-        "return_pct": -0.4698
+        "return_pct": 0.1004
       },
       {
         "date": "2026-04-07",
-        "total_value": 99305.72,
-        "cash": 2282.94,
-        "invested": 97022.78,
+        "total_value": 101237.98,
+        "cash": 2766.56,
+        "invested": 98471.42,
         "n_positions": 30,
-        "return_pct": -0.6943
+        "return_pct": 1.238
       },
       {
         "date": "2026-04-08",
-        "total_value": 102516.37,
-        "cash": 2282.94,
-        "invested": 100233.43,
+        "total_value": 104576.51,
+        "cash": 2766.56,
+        "invested": 101809.95,
         "n_positions": 30,
-        "return_pct": 2.5164
+        "return_pct": 4.5765
       },
       {
         "date": "2026-04-09",
-        "total_value": 102785.13,
-        "cash": 2282.94,
-        "invested": 100502.19,
+        "total_value": 105902.47,
+        "cash": 2766.56,
+        "invested": 103135.91,
         "n_positions": 30,
-        "return_pct": 2.7851
+        "return_pct": 5.9025
       },
       {
         "date": "2026-04-10",
-        "total_value": 104230.33,
-        "cash": 2282.94,
-        "invested": 101947.39,
+        "total_value": 107808.3,
+        "cash": 2766.56,
+        "invested": 105041.74,
         "n_positions": 30,
-        "return_pct": 4.2303
+        "return_pct": 7.8083
       },
       {
         "date": "2026-04-13",
-        "total_value": 106569.6,
-        "cash": 2282.94,
-        "invested": 104286.66,
+        "total_value": 112707.39,
+        "cash": 2766.56,
+        "invested": 109940.83,
         "n_positions": 30,
-        "return_pct": 6.5696
+        "return_pct": 12.7074
       },
       {
         "date": "2026-04-14",
-        "total_value": 109234.84,
-        "cash": 2282.94,
-        "invested": 106951.9,
+        "total_value": 117650.16,
+        "cash": 2766.56,
+        "invested": 114883.6,
         "n_positions": 30,
-        "return_pct": 9.2348
+        "return_pct": 17.6502
       },
       {
         "date": "2026-04-15",
-        "total_value": 111541.73,
-        "cash": 2282.94,
-        "invested": 109258.79,
+        "total_value": 119199.6,
+        "cash": 2766.56,
+        "invested": 116433.04,
         "n_positions": 30,
-        "return_pct": 11.5417
+        "return_pct": 19.1996
       },
       {
         "date": "2026-04-16",
-        "total_value": 113144.14,
-        "cash": 2282.94,
-        "invested": 110861.2,
+        "total_value": 121292.05,
+        "cash": 2766.56,
+        "invested": 118525.49,
         "n_positions": 30,
-        "return_pct": 13.1441
+        "return_pct": 21.292
       },
       {
         "date": "2026-04-17",
-        "total_value": 115645.81,
-        "cash": 2282.94,
-        "invested": 113362.87,
+        "total_value": 124923.19,
+        "cash": 2766.56,
+        "invested": 122156.63,
         "n_positions": 30,
-        "return_pct": 15.6458
+        "return_pct": 24.9232
       },
       {
         "date": "2026-04-20",
-        "total_value": 116787.95,
-        "cash": 2282.94,
-        "invested": 114505.01,
+        "total_value": 129502.51,
+        "cash": 2766.56,
+        "invested": 126735.95,
         "n_positions": 30,
-        "return_pct": 16.7879
+        "return_pct": 29.5025
       },
       {
         "date": "2026-04-21",
-        "total_value": 115718.87,
-        "cash": 2282.94,
-        "invested": 113435.93,
+        "total_value": 131400.76,
+        "cash": 2766.56,
+        "invested": 128634.2,
         "n_positions": 30,
-        "return_pct": 15.7189
+        "return_pct": 31.4008
       },
       {
         "date": "2026-04-22",
-        "total_value": 119423.41,
-        "cash": 2282.94,
-        "invested": 117140.47,
+        "total_value": 126243.09,
+        "cash": 2766.56,
+        "invested": 123476.53,
         "n_positions": 30,
-        "return_pct": 19.4234
+        "return_pct": 26.2431
       },
       {
         "date": "2026-04-23",
-        "total_value": 116575.55,
-        "cash": 2282.94,
-        "invested": 114292.61,
+        "total_value": 117591.68,
+        "cash": 2766.56,
+        "invested": 114825.12,
         "n_positions": 30,
-        "return_pct": 16.5755
+        "return_pct": 17.5917
       },
       {
         "date": "2026-04-24",
-        "total_value": 116878.26,
-        "cash": 2282.94,
-        "invested": 114595.32,
+        "total_value": 118415.72,
+        "cash": 2766.56,
+        "invested": 115649.16,
         "n_positions": 30,
-        "return_pct": 16.8783
+        "return_pct": 18.4157
       },
       {
         "date": "2026-04-27",
-        "total_value": 117259.5,
-        "cash": 2282.94,
-        "invested": 114976.56,
+        "total_value": 117256.87,
+        "cash": 2766.56,
+        "invested": 114490.31,
         "n_positions": 30,
-        "return_pct": 17.2595
+        "return_pct": 17.2569
       },
       {
         "date": "2026-04-28",
-        "total_value": 113712.68,
+        "total_value": 114412.29,
         "cash": 0.0,
-        "invested": 113712.68,
+        "invested": 114412.29,
         "n_positions": 30,
-        "return_pct": 13.7127
+        "return_pct": 14.4123
       },
       {
         "date": "2026-04-29",
-        "total_value": 112782.8,
+        "total_value": 114205.0,
         "cash": 0.0,
-        "invested": 112782.8,
+        "invested": 114205.0,
         "n_positions": 30,
-        "return_pct": 12.7828
+        "return_pct": 14.205
       },
       {
         "date": "2026-04-30",
-        "total_value": 115966.49,
+        "total_value": 116590.2,
         "cash": 0.0,
-        "invested": 115966.49,
+        "invested": 116590.2,
         "n_positions": 30,
-        "return_pct": 15.9665
+        "return_pct": 16.5902
       },
       {
         "date": "2026-05-01",
-        "total_value": 117549.13,
+        "total_value": 118544.28,
         "cash": 0.0,
-        "invested": 117549.13,
+        "invested": 118544.28,
         "n_positions": 30,
-        "return_pct": 17.5491
+        "return_pct": 18.5443
       },
       {
         "date": "2026-05-04",
-        "total_value": 117881.87,
+        "total_value": 118558.71,
         "cash": 0.0,
-        "invested": 117881.87,
+        "invested": 118558.71,
         "n_positions": 30,
-        "return_pct": 17.8819
+        "return_pct": 18.5587
       },
       {
         "date": "2026-05-05",
-        "total_value": 118534.82,
+        "total_value": 119108.34,
         "cash": 0.0,
-        "invested": 118534.82,
+        "invested": 119108.34,
         "n_positions": 30,
-        "return_pct": 18.5348
+        "return_pct": 19.1083
       },
       {
         "date": "2026-05-06",
-        "total_value": 121125.84,
+        "total_value": 121727.49,
         "cash": 0.0,
-        "invested": 121125.84,
+        "invested": 121727.49,
         "n_positions": 30,
-        "return_pct": 21.1258
+        "return_pct": 21.7275
       },
       {
         "date": "2026-05-07",
-        "total_value": 118088.02,
+        "total_value": 118322.88,
         "cash": 0.0,
-        "invested": 118088.02,
+        "invested": 118322.88,
         "n_positions": 30,
-        "return_pct": 18.088
+        "return_pct": 18.3229
       },
       {
         "date": "2026-05-08",
-        "total_value": 120487.01,
+        "total_value": 118980.79,
         "cash": 0.0,
-        "invested": 120487.01,
+        "invested": 118980.79,
         "n_positions": 30,
-        "return_pct": 20.487
+        "return_pct": 18.9808
       },
       {
         "date": "2026-05-11",
-        "total_value": 125055.62,
+        "total_value": 122278.97,
         "cash": 0.0,
-        "invested": 125055.62,
+        "invested": 122278.97,
         "n_positions": 30,
-        "return_pct": 25.0556
+        "return_pct": 22.279
       },
       {
         "date": "2026-05-12",
-        "total_value": 122868.21,
+        "total_value": 120568.55,
         "cash": 0.0,
-        "invested": 122868.21,
+        "invested": 120568.55,
         "n_positions": 30,
-        "return_pct": 22.8682
+        "return_pct": 20.5685
       },
       {
         "date": "2026-05-13",
-        "total_value": 123587.68,
+        "total_value": 119849.22,
         "cash": 0.0,
-        "invested": 123587.68,
+        "invested": 119849.22,
         "n_positions": 30,
-        "return_pct": 23.5877
+        "return_pct": 19.8492
       },
       {
         "date": "2026-05-14",
-        "total_value": 125896.9,
+        "total_value": 121732.69,
         "cash": 0.0,
-        "invested": 125896.9,
+        "invested": 121732.69,
         "n_positions": 30,
-        "return_pct": 25.8969
+        "return_pct": 21.7327
       },
       {
         "date": "2026-05-15",
-        "total_value": 121786.16,
+        "total_value": 117780.38,
         "cash": 0.0,
-        "invested": 121786.16,
+        "invested": 117780.38,
         "n_positions": 30,
-        "return_pct": 21.7862
+        "return_pct": 17.7804
       },
       {
         "date": "2026-05-18",
-        "total_value": 119197.73,
+        "total_value": 115444.99,
         "cash": 0.0,
-        "invested": 119197.73,
+        "invested": 115444.99,
         "n_positions": 30,
-        "return_pct": 19.1977
+        "return_pct": 15.445
       },
       {
         "date": "2026-05-19",
-        "total_value": 118527.58,
+        "total_value": 114960.63,
         "cash": 0.0,
-        "invested": 118527.58,
+        "invested": 114960.63,
         "n_positions": 30,
-        "return_pct": 18.5276
+        "return_pct": 14.9606
       },
       {
         "date": "2026-05-20",
-        "total_value": 123050.07,
+        "total_value": 118530.22,
         "cash": 0.0,
-        "invested": 123050.07,
+        "invested": 118530.22,
         "n_positions": 30,
-        "return_pct": 23.0501
+        "return_pct": 18.5302
       },
       {
         "date": "2026-05-21",
-        "total_value": 122916.36,
+        "total_value": 119897.13,
         "cash": 0.0,
-        "invested": 122916.36,
+        "invested": 119897.13,
         "n_positions": 30,
-        "return_pct": 22.9164
+        "return_pct": 19.8971
       }
     ],
     "transactions": [
@@ -2350,22 +2350,22 @@
       {
         "date": "2026-02-23",
         "action": "buy",
-        "ticker": "ALMS",
-        "shares": 108.4991,
-        "price": 27.65,
-        "value": 3000.0,
-        "sort_col": "p90",
-        "sort_value": 3.4281
-      },
-      {
-        "date": "2026-02-23",
-        "action": "buy",
         "ticker": "SMCI",
         "shares": 97.6881,
         "price": 30.71,
         "value": 3000.0,
         "sort_col": "p90",
         "sort_value": 2.4206
+      },
+      {
+        "date": "2026-02-23",
+        "action": "buy",
+        "ticker": "METC",
+        "shares": 174.4186,
+        "price": 17.2,
+        "value": 3000.0,
+        "sort_col": "p90",
+        "sort_value": 1.3934
       },
       {
         "date": "2026-02-24",
@@ -2381,9 +2381,9 @@
         "date": "2026-03-02",
         "action": "buy",
         "ticker": "SLNO",
-        "shares": 74.561,
+        "shares": 74.1675,
         "price": 39.06,
-        "value": 2912.35,
+        "value": 2896.98,
         "sort_col": "p90",
         "sort_value": 5.5555
       },
@@ -2391,59 +2391,49 @@
         "date": "2026-03-02",
         "action": "buy",
         "ticker": "LEU",
-        "shares": 14.0024,
+        "shares": 13.9285,
         "price": 207.99,
-        "value": 2912.35,
+        "value": 2896.98,
         "sort_col": "p90",
         "sort_value": 1.7263
       },
       {
         "date": "2026-03-02",
         "action": "buy",
-        "ticker": "NVTS",
-        "shares": 304.9585,
-        "price": 9.55,
-        "value": 2912.35,
-        "sort_col": "p90",
-        "sort_value": 1.5683
-      },
-      {
-        "date": "2026-03-02",
-        "action": "buy",
-        "ticker": "SLS",
-        "shares": 576.7037,
-        "price": 5.05,
-        "value": 2912.35,
-        "sort_col": "p90",
-        "sort_value": 1.4797
-      },
-      {
-        "date": "2026-03-02",
-        "action": "buy",
         "ticker": "VSAT",
-        "shares": 61.6502,
+        "shares": 61.3248,
         "price": 47.24,
-        "value": 2912.35,
+        "value": 2896.98,
         "sort_col": "p90",
         "sort_value": 1.4323
       },
       {
-        "date": "2026-03-09",
+        "date": "2026-03-02",
         "action": "buy",
-        "ticker": "METC",
-        "shares": 204.3822,
-        "price": 14.18,
-        "value": 2898.14,
+        "ticker": "CAR",
+        "shares": 30.2683,
+        "price": 95.71,
+        "value": 2896.98,
         "sort_col": "p90",
-        "sort_value": 1.4044
+        "sort_value": 1.3154
+      },
+      {
+        "date": "2026-03-02",
+        "action": "buy",
+        "ticker": "TTMI",
+        "shares": 25.637,
+        "price": 113.0,
+        "value": 2896.98,
+        "sort_col": "p90",
+        "sort_value": 1.1928
       },
       {
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "OSCR",
-        "shares": 207.6031,
+        "shares": 205.4204,
         "price": 13.96,
-        "value": 2898.14,
+        "value": 2867.67,
         "sort_col": "p90",
         "sort_value": 1.3495
       },
@@ -2451,9 +2441,9 @@
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "APLS",
-        "shares": 144.9795,
+        "shares": 143.4552,
         "price": 19.99,
-        "value": 2898.14,
+        "value": 2867.67,
         "sort_col": "p90",
         "sort_value": 1.0839
       },
@@ -2461,29 +2451,39 @@
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "AMD",
-        "shares": 14.2991,
+        "shares": 14.1487,
         "price": 202.68,
-        "value": 2898.14,
+        "value": 2867.67,
         "sort_col": "p90",
         "sort_value": 0.8685
       },
       {
         "date": "2026-03-09",
         "action": "buy",
-        "ticker": "GAP",
-        "shares": 127.7372,
-        "price": 22.6883,
-        "value": 2898.14,
+        "ticker": "STNE",
+        "shares": 250.2713,
+        "price": 11.4582,
+        "value": 2867.67,
         "sort_col": "p90",
-        "sort_value": 0.8529
+        "sort_value": 0.8407
+      },
+      {
+        "date": "2026-03-09",
+        "action": "buy",
+        "ticker": "PI",
+        "shares": 29.022,
+        "price": 98.81,
+        "value": 2867.67,
+        "sort_col": "p90",
+        "sort_value": 0.7813
       },
       {
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "DAVE",
-        "shares": 13.7733,
+        "shares": 13.5972,
         "price": 209.69,
-        "value": 2888.12,
+        "value": 2851.19,
         "sort_col": "p90",
         "sort_value": 2.8779
       },
@@ -2491,9 +2491,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "MSTR",
-        "shares": 19.5778,
+        "shares": 19.3275,
         "price": 147.52,
-        "value": 2888.12,
+        "value": 2851.19,
         "sort_col": "p90",
         "sort_value": 2.023
       },
@@ -2501,9 +2501,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "ETHE",
-        "shares": 152.5669,
+        "shares": 150.6157,
         "price": 18.9302,
-        "value": 2888.12,
+        "value": 2851.19,
         "sort_col": "p90",
         "sort_value": 1.5009
       },
@@ -2511,9 +2511,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "GEV",
-        "shares": 3.4928,
+        "shares": 3.4482,
         "price": 826.87,
-        "value": 2888.12,
+        "value": 2851.19,
         "sort_col": "p90",
         "sort_value": 1.3602
       },
@@ -2521,29 +2521,19 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "WING",
-        "shares": 14.5338,
+        "shares": 14.3479,
         "price": 198.7176,
-        "value": 2888.12,
+        "value": 2851.19,
         "sort_col": "p90",
         "sort_value": 1.1773
       },
       {
         "date": "2026-03-23",
         "action": "buy",
-        "ticker": "OCUL",
-        "shares": 346.6259,
-        "price": 8.1,
-        "value": 2807.67,
-        "sort_col": "p90",
-        "sort_value": 2.1826
-      },
-      {
-        "date": "2026-03-23",
-        "action": "buy",
         "ticker": "DJT",
-        "shares": 310.2398,
+        "shares": 309.4668,
         "price": 9.05,
-        "value": 2807.67,
+        "value": 2800.67,
         "sort_col": "p90",
         "sort_value": 2.12
       },
@@ -2551,9 +2541,9 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "AFRM",
-        "shares": 60.8247,
+        "shares": 60.6732,
         "price": 46.16,
-        "value": 2807.67,
+        "value": 2800.67,
         "sort_col": "p90",
         "sort_value": 2.0295
       },
@@ -2561,9 +2551,9 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "LQDA",
-        "shares": 79.0893,
+        "shares": 78.8922,
         "price": 35.5,
-        "value": 2807.67,
+        "value": 2800.67,
         "sort_col": "p90",
         "sort_value": 1.5195
       },
@@ -2571,29 +2561,29 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "CVNA",
-        "shares": 46.857,
+        "shares": 46.7402,
         "price": 59.92,
-        "value": 2807.67,
+        "value": 2800.67,
         "sort_col": "p90",
         "sort_value": 1.4994
       },
       {
-        "date": "2026-03-30",
+        "date": "2026-03-23",
         "action": "buy",
-        "ticker": "RKLB",
-        "shares": 46.0753,
-        "price": 57.38,
-        "value": 2643.8,
+        "ticker": "AFRM",
+        "shares": 60.6732,
+        "price": 46.16,
+        "value": 2800.67,
         "sort_col": "p90",
-        "sort_value": 5.119
+        "sort_value": 1.4253
       },
       {
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "CELC",
-        "shares": 24.4186,
+        "shares": 24.1964,
         "price": 108.27,
-        "value": 2643.8,
+        "value": 2619.75,
         "sort_col": "p90",
         "sort_value": 4.2158
       },
@@ -2601,39 +2591,49 @@
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "COIN",
-        "shares": 16.4426,
+        "shares": 16.293,
         "price": 160.79,
-        "value": 2643.8,
+        "value": 2619.75,
         "sort_col": "p90",
         "sort_value": 2.5568
       },
       {
         "date": "2026-03-30",
         "action": "buy",
-        "ticker": "VISN",
-        "shares": 307.6654,
-        "price": 8.5931,
-        "value": 2643.8,
+        "ticker": "CRDO",
+        "shares": 29.8343,
+        "price": 87.81,
+        "value": 2619.75,
         "sort_col": "p90",
-        "sort_value": 2.4388
+        "sort_value": 2.1963
       },
       {
         "date": "2026-03-30",
         "action": "buy",
-        "ticker": "CRDO",
-        "shares": 30.1082,
-        "price": 87.81,
-        "value": 2643.8,
+        "ticker": "BE",
+        "shares": 21.9207,
+        "price": 119.51,
+        "value": 2619.75,
         "sort_col": "p90",
-        "sort_value": 2.1963
+        "sort_value": 2.0239
+      },
+      {
+        "date": "2026-03-30",
+        "action": "buy",
+        "ticker": "HOOD",
+        "shares": 40.2048,
+        "price": 65.16,
+        "value": 2619.75,
+        "sort_col": "p90",
+        "sort_value": 1.9941
       },
       {
         "date": "2026-04-06",
         "action": "buy",
         "ticker": "RDDT",
-        "shares": 53.9596,
+        "shares": 36.1791,
         "price": 138.34,
-        "value": 7464.77,
+        "value": 5005.02,
         "sort_col": "p90",
         "sort_value": 3.0721
       },
@@ -2641,21 +2641,21 @@
         "date": "2026-04-06",
         "action": "buy",
         "ticker": "VERA",
-        "shares": 184.5659,
+        "shares": 123.7488,
         "price": 40.445,
-        "value": 7464.77,
+        "value": 5005.02,
         "sort_col": "p90",
         "sort_value": 2.3893
       },
       {
-        "date": "2026-04-28",
-        "action": "sell",
-        "reason": "turnover",
-        "ticker": "ALMS",
-        "shares": 108.4991,
-        "price": 24.02,
-        "value": 2606.15,
-        "pnl_pct": -13.13
+        "date": "2026-04-06",
+        "action": "buy",
+        "ticker": "GBTC",
+        "shares": 92.2414,
+        "price": 54.26,
+        "value": 5005.02,
+        "sort_col": "p90",
+        "sort_value": 1.8522
       },
       {
         "date": "2026-04-28",
@@ -2671,19 +2671,29 @@
         "date": "2026-04-28",
         "action": "sell",
         "reason": "turnover",
+        "ticker": "METC",
+        "shares": 174.4186,
+        "price": 14.56,
+        "value": 2539.53,
+        "pnl_pct": -15.35
+      },
+      {
+        "date": "2026-04-28",
+        "action": "sell",
+        "reason": "turnover",
         "ticker": "SLNO",
-        "shares": 74.561,
+        "shares": 74.1675,
         "price": 52.76,
-        "value": 3933.84,
+        "value": 3913.08,
         "pnl_pct": 35.07
       },
       {
         "date": "2026-04-28",
         "action": "buy",
         "ticker": "PRAX",
-        "shares": 11.8921,
+        "shares": 12.3024,
         "price": 321.92,
-        "value": 3828.31,
+        "value": 3960.39,
         "sort_col": "p90",
         "sort_value": 3.6309
       },
@@ -2691,21 +2701,21 @@
         "date": "2026-04-28",
         "action": "buy",
         "ticker": "APGE",
-        "shares": 44.8437,
+        "shares": 46.3909,
         "price": 85.37,
-        "value": 3828.31,
+        "value": 3960.39,
         "sort_col": "p90",
         "sort_value": 2.0005
       },
       {
         "date": "2026-04-28",
         "action": "buy",
-        "ticker": "OMER",
-        "shares": 260.9618,
-        "price": 14.67,
-        "value": 3828.31,
+        "ticker": "W",
+        "shares": 53.817,
+        "price": 73.59,
+        "value": 3960.39,
         "sort_col": "p90",
-        "sort_value": 1.5957
+        "sort_value": 1.5135
       }
     ],
     "last_buy_date": "2026-04-28",
@@ -2721,7 +2731,7 @@
     "cash": 0.0,
     "holdings": {
       "TTMI": {
-        "shares": 25.9481,
+        "shares": 25.9004,
         "entry_price": 113.0,
         "entry_date": "2026-03-02",
         "entry_edge": 0.4249,
@@ -2732,26 +2742,41 @@
         "sort_col": "p10",
         "sort_value": 0.116,
         "current_price": 174.55,
-        "current_value": 4529.24,
+        "current_value": 4520.91,
         "pnl_pct": 54.47
       },
       "ATRO": {
-        "shares": 36.0435,
+        "shares": 35.9772,
         "entry_price": 81.35,
         "entry_date": "2026-03-02",
-        "entry_edge": 0.2293,
-        "entry_p90": 0.5839,
-        "entry_p10": -0.0848,
+        "entry_edge": 0.3056,
+        "entry_p90": 1.087,
+        "entry_p10": 0.0845,
         "sector": "Defense",
-        "horizon": "60d",
+        "horizon": "120d",
         "sort_col": "p10",
-        "sort_value": -0.0848,
+        "sort_value": 0.0845,
         "current_price": 79.89,
-        "current_value": 2879.52,
+        "current_value": 2874.22,
         "pnl_pct": -1.79
       },
+      "GDXJ": {
+        "shares": 18.8786,
+        "entry_price": 155.03,
+        "entry_date": "2026-03-02",
+        "entry_edge": 0.1405,
+        "entry_p90": 0.3538,
+        "entry_p10": 0.0449,
+        "sector": "Materials",
+        "horizon": "60d",
+        "sort_col": "p10",
+        "sort_value": 0.0449,
+        "current_price": 112.21,
+        "current_value": 2118.37,
+        "pnl_pct": -27.62
+      },
       "ESLT": {
-        "shares": 3.5392,
+        "shares": 3.5327,
         "entry_price": 828.4636,
         "entry_date": "2026-03-02",
         "entry_edge": 0.2059,
@@ -2762,41 +2787,41 @@
         "sort_col": "p10",
         "sort_value": 0.0085,
         "current_price": 763.72,
-        "current_value": 2702.96,
+        "current_value": 2697.99,
         "pnl_pct": -7.81
       },
-      "RDDT": {
-        "shares": 19.9316,
-        "entry_price": 147.11,
+      "EWY": {
+        "shares": 19.8369,
+        "entry_price": 147.54,
         "entry_date": "2026-03-02",
-        "entry_edge": 0.0513,
-        "entry_p90": 0.1456,
-        "entry_p10": -0.0594,
-        "sector": "Communication Services",
-        "horizon": "5d",
+        "entry_edge": 0.2612,
+        "entry_p90": 0.7852,
+        "entry_p10": -0.0419,
+        "sector": "nan",
+        "horizon": "120d",
         "sort_col": "p10",
-        "sort_value": -0.0594,
-        "current_price": 150.04,
-        "current_value": 2990.54,
-        "pnl_pct": 1.99
+        "sort_value": -0.0419,
+        "current_price": 186.42,
+        "current_value": 3697.99,
+        "pnl_pct": 26.35
       },
-      "GAP": {
-        "shares": 124.5482,
-        "entry_price": 22.6883,
+      "SLNO": {
+        "shares": 72.6658,
+        "entry_price": 39.77,
         "entry_date": "2026-03-09",
-        "entry_edge": 0.1841,
-        "entry_p90": 0.8529,
-        "entry_p10": -0.0948,
-        "sector": "Consumer Discretionary",
-        "horizon": "60d",
+        "entry_edge": 0.5969,
+        "entry_p90": 10.608,
+        "entry_p10": -0.047,
+        "sector": "Biotech",
+        "horizon": "120d",
         "sort_col": "p10",
-        "sort_value": -0.0948,
-        "current_price": 23.17,
-        "current_value": 2885.78,
-        "pnl_pct": 2.12
+        "sort_value": -0.047,
+        "current_price": 53.01,
+        "current_value": 3852.01,
+        "pnl_pct": 33.29
       },
       "AMD": {
-        "shares": 13.9421,
+        "shares": 14.2585,
         "entry_price": 202.68,
         "entry_date": "2026-03-09",
         "entry_edge": 0.2958,
@@ -2807,11 +2832,11 @@
         "sort_col": "p10",
         "sort_value": -0.1499,
         "current_price": 449.59,
-        "current_value": 6268.23,
+        "current_value": 6410.48,
         "pnl_pct": 121.82
       },
       "IOT": {
-        "shares": 82.7221,
+        "shares": 84.5995,
         "entry_price": 34.16,
         "entry_date": "2026-03-09",
         "entry_edge": 0.1288,
@@ -2822,11 +2847,11 @@
         "sort_col": "p10",
         "sort_value": -0.1863,
         "current_price": 30.15,
-        "current_value": 2494.07,
+        "current_value": 2550.67,
         "pnl_pct": -11.74
       },
       "AS": {
-        "shares": 82.9163,
+        "shares": 84.7981,
         "entry_price": 34.08,
         "entry_date": "2026-03-09",
         "entry_edge": 0.1992,
@@ -2837,26 +2862,26 @@
         "sort_col": "p10",
         "sort_value": -0.1882,
         "current_price": 35.33,
-        "current_value": 2929.43,
+        "current_value": 2995.92,
         "pnl_pct": 3.67
       },
-      "ALHC": {
-        "shares": 155.0926,
-        "entry_price": 18.22,
+      "QXO": {
+        "shares": 133.2374,
+        "entry_price": 21.69,
         "entry_date": "2026-03-09",
-        "entry_edge": 0.1849,
-        "entry_p90": 0.3993,
-        "entry_p10": -0.1944,
-        "sector": "Healthcare",
-        "horizon": "20d",
+        "entry_edge": 0.3663,
+        "entry_p90": 3.4204,
+        "entry_p10": -0.2014,
+        "sector": "Industrials",
+        "horizon": "120d",
         "sort_col": "p10",
-        "sort_value": -0.1944,
-        "current_price": 16.37,
-        "current_value": 2538.87,
-        "pnl_pct": -10.15
+        "sort_value": -0.2014,
+        "current_price": 17.03,
+        "current_value": 2269.03,
+        "pnl_pct": -21.48
       },
       "GEV": {
-        "shares": 3.3667,
+        "shares": 3.4261,
         "entry_price": 826.87,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3125,
@@ -2867,11 +2892,11 @@
         "sort_col": "p10",
         "sort_value": 0.3913,
         "current_price": 1043.8199,
-        "current_value": 3514.23,
+        "current_value": 3576.23,
         "pnl_pct": 26.24
       },
       "DAVE": {
-        "shares": 13.2759,
+        "shares": 13.5099,
         "entry_price": 209.69,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3144,
@@ -2882,11 +2907,11 @@
         "sort_col": "p10",
         "sort_value": 0.2032,
         "current_price": 240.9,
-        "current_value": 3198.16,
+        "current_value": 3254.53,
         "pnl_pct": 14.88
       },
       "MSTR": {
-        "shares": 18.8708,
+        "shares": 19.2035,
         "entry_price": 147.52,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3012,
@@ -2897,11 +2922,11 @@
         "sort_col": "p10",
         "sort_value": 0.1353,
         "current_price": 164.85,
-        "current_value": 3110.85,
+        "current_value": 3165.7,
         "pnl_pct": 11.75
       },
       "RBLX": {
-        "shares": 47.0478,
+        "shares": 47.8773,
         "entry_price": 59.17,
         "entry_date": "2026-03-16",
         "entry_edge": 0.3033,
@@ -2912,11 +2937,11 @@
         "sort_col": "p10",
         "sort_value": 0.1258,
         "current_price": 46.14,
-        "current_value": 2170.79,
+        "current_value": 2209.06,
         "pnl_pct": -22.02
       },
       "RYTM": {
-        "shares": 30.757,
+        "shares": 31.2993,
         "entry_price": 90.51,
         "entry_date": "2026-03-16",
         "entry_edge": 0.4054,
@@ -2927,11 +2952,11 @@
         "sort_col": "p10",
         "sort_value": 0.0939,
         "current_price": 90.19,
-        "current_value": 2773.97,
+        "current_value": 2822.88,
         "pnl_pct": -0.35
       },
       "CVNA": {
-        "shares": 46.4533,
+        "shares": 46.8938,
         "entry_price": 59.92,
         "entry_date": "2026-03-23",
         "entry_edge": 0.4004,
@@ -2942,11 +2967,11 @@
         "sort_col": "p10",
         "sort_value": 0.3454,
         "current_price": 64.39,
-        "current_value": 2991.13,
+        "current_value": 3019.49,
         "pnl_pct": 7.46
       },
       "AFRM": {
-        "shares": 60.3007,
+        "shares": 60.8726,
         "entry_price": 46.16,
         "entry_date": "2026-03-23",
         "entry_edge": 0.507,
@@ -2957,26 +2982,11 @@
         "sort_col": "p10",
         "sort_value": 0.2469,
         "current_price": 67.18,
-        "current_value": 4051.0,
+        "current_value": 4089.42,
         "pnl_pct": 45.54
       },
-      "HMY": {
-        "shares": 201.4935,
-        "entry_price": 13.8142,
-        "entry_date": "2026-03-23",
-        "entry_edge": 0.1954,
-        "entry_p90": 0.3596,
-        "entry_p10": 0.0682,
-        "sector": "Materials",
-        "horizon": "20d",
-        "sort_col": "p10",
-        "sort_value": 0.0682,
-        "current_price": 17.19,
-        "current_value": 3463.67,
-        "pnl_pct": 24.44
-      },
       "CRWD": {
-        "shares": 6.7346,
+        "shares": 6.7985,
         "entry_price": 413.31,
         "entry_date": "2026-03-23",
         "entry_edge": 0.3655,
@@ -2987,11 +2997,41 @@
         "sort_col": "p10",
         "sort_value": 0.0719,
         "current_price": 648.23,
-        "current_value": 4365.57,
+        "current_value": 4406.99,
         "pnl_pct": 56.84
       },
+      "UBER": {
+        "shares": 37.4052,
+        "entry_price": 75.12,
+        "entry_date": "2026-03-23",
+        "entry_edge": 0.3949,
+        "entry_p90": 0.7424,
+        "entry_p10": 0.0572,
+        "sector": "Technology",
+        "horizon": "120d",
+        "sort_col": "p10",
+        "sort_value": 0.0572,
+        "current_price": 73.61,
+        "current_value": 2753.4,
+        "pnl_pct": -2.01
+      },
+      "ZS": {
+        "shares": 18.5104,
+        "entry_price": 151.8,
+        "entry_date": "2026-03-23",
+        "entry_edge": 0.2643,
+        "entry_p90": 0.4706,
+        "entry_p10": 0.0328,
+        "sector": "Technology",
+        "horizon": "60d",
+        "sort_col": "p10",
+        "sort_value": 0.0328,
+        "current_price": 171.01,
+        "current_value": 3165.46,
+        "pnl_pct": 12.65
+      },
       "ETH": {
-        "shares": 133.8109,
+        "shares": 138.7325,
         "entry_price": 19.16,
         "entry_date": "2026-03-30",
         "entry_edge": 1.3989,
@@ -3002,11 +3042,11 @@
         "sort_col": "p10",
         "sort_value": 1.0607,
         "current_price": 20.33,
-        "current_value": 2720.38,
+        "current_value": 2820.43,
         "pnl_pct": 6.11
       },
       "FETH": {
-        "shares": 127.2998,
+        "shares": 131.9819,
         "entry_price": 20.14,
         "entry_date": "2026-03-30",
         "entry_edge": 1.3976,
@@ -3017,11 +3057,11 @@
         "sort_col": "p10",
         "sort_value": 1.0591,
         "current_price": 21.33,
-        "current_value": 2715.3,
+        "current_value": 2815.17,
         "pnl_pct": 5.91
       },
       "ETHA": {
-        "shares": 167.899,
+        "shares": 174.0744,
         "entry_price": 15.27,
         "entry_date": "2026-03-30",
         "entry_edge": 1.4005,
@@ -3032,11 +3072,11 @@
         "sort_col": "p10",
         "sort_value": 1.0589,
         "current_price": 16.15,
-        "current_value": 2711.57,
+        "current_value": 2811.3,
         "pnl_pct": 5.76
       },
       "ECG": {
-        "shares": 23.029,
+        "shares": 23.876,
         "entry_price": 111.33,
         "entry_date": "2026-03-30",
         "entry_edge": 0.5626,
@@ -3047,11 +3087,11 @@
         "sort_col": "p10",
         "sort_value": 0.9488,
         "current_price": 150.71,
-        "current_value": 3470.7,
+        "current_value": 3598.35,
         "pnl_pct": 35.37
       },
       "HOOD": {
-        "shares": 39.3465,
+        "shares": 40.7937,
         "entry_price": 65.16,
         "entry_date": "2026-03-30",
         "entry_edge": 0.6027,
@@ -3062,11 +3102,11 @@
         "sort_col": "p10",
         "sort_value": 0.7815,
         "current_price": 75.92,
-        "current_value": 2987.19,
+        "current_value": 3097.06,
         "pnl_pct": 16.51
       },
       "HIMS": {
-        "shares": 171.0163,
+        "shares": 353.4065,
         "entry_price": 20.33,
         "entry_date": "2026-04-06",
         "entry_edge": 0.4268,
@@ -3077,11 +3117,11 @@
         "sort_col": "p10",
         "sort_value": 0.3703,
         "current_price": 24.01,
-        "current_value": 4106.1,
+        "current_value": 8485.29,
         "pnl_pct": 18.1
       },
       "VST": {
-        "shares": 22.9353,
+        "shares": 47.396,
         "entry_price": 151.59,
         "entry_date": "2026-04-06",
         "entry_edge": 0.6842,
@@ -3092,71 +3132,26 @@
         "sort_col": "p10",
         "sort_value": 0.2982,
         "current_price": 149.08,
-        "current_value": 3419.19,
+        "current_value": 7065.8,
         "pnl_pct": -1.66
       },
-      "TTAN": {
-        "shares": 55.1779,
-        "entry_price": 63.01,
-        "entry_date": "2026-04-06",
-        "entry_edge": 0.2396,
-        "entry_p90": 0.2597,
-        "entry_p10": 0.1179,
-        "sector": "Technology",
-        "horizon": "20d",
-        "sort_col": "p10",
-        "sort_value": 0.1179,
-        "current_price": 61.33,
-        "current_value": 3384.06,
-        "pnl_pct": -2.67
-      },
-      "GBTC": {
-        "shares": 64.076,
-        "entry_price": 54.26,
-        "entry_date": "2026-04-06",
-        "entry_edge": 0.3894,
-        "entry_p90": 1.8522,
-        "entry_p10": 0.07,
-        "sector": "Crypto",
-        "horizon": "120d",
-        "sort_col": "p10",
-        "sort_value": 0.07,
-        "current_price": 60.27,
-        "current_value": 3861.86,
-        "pnl_pct": 11.08
-      },
-      "OMER": {
-        "shares": 345.1419,
-        "entry_price": 14.67,
+      "CENX": {
+        "shares": 71.4155,
+        "entry_price": 59.31,
         "entry_date": "2026-04-28",
-        "entry_edge": 0.5145,
-        "entry_p90": 1.5957,
-        "entry_p10": 0.2039,
-        "sector": "Healthcare",
+        "entry_edge": 0.345,
+        "entry_p90": 1.2487,
+        "entry_p10": 0.1176,
+        "sector": "Materials",
         "horizon": "120d",
         "sort_col": "p10",
-        "sort_value": 0.2039,
-        "current_price": 11.96,
-        "current_value": 4127.9,
-        "pnl_pct": -18.47
-      },
-      "COMP": {
-        "shares": 641.7277,
-        "entry_price": 7.89,
-        "entry_date": "2026-04-28",
-        "entry_edge": 0.4338,
-        "entry_p90": 1.0164,
-        "entry_p10": 0.1791,
-        "sector": "Real Estate",
-        "horizon": "120d",
-        "sort_col": "p10",
-        "sort_value": 0.1791,
-        "current_price": 8.47,
-        "current_value": 5435.43,
-        "pnl_pct": 7.35
+        "sort_value": 0.1176,
+        "current_price": 60.46,
+        "current_value": 4317.78,
+        "pnl_pct": 1.94
       },
       "LQDA": {
-        "shares": 134.4816,
+        "shares": 112.5007,
         "entry_price": 37.65,
         "entry_date": "2026-04-28",
         "entry_edge": 0.5453,
@@ -3167,8 +3162,23 @@
         "sort_col": "p10",
         "sort_value": 0.0773,
         "current_price": 61.97,
-        "current_value": 8333.82,
+        "current_value": 6971.67,
         "pnl_pct": 64.59
+      },
+      "ELF": {
+        "shares": 67.2326,
+        "entry_price": 63.0,
+        "entry_date": "2026-04-28",
+        "entry_edge": 0.2272,
+        "entry_p90": 0.4009,
+        "entry_p10": -0.027,
+        "sector": "Consumer Staples",
+        "horizon": "20d",
+        "sort_col": "p10",
+        "sort_value": -0.027,
+        "current_price": 53.12,
+        "current_value": 3571.4,
+        "pnl_pct": -15.68
       }
     },
     "history": [
@@ -3182,499 +3192,499 @@
       },
       {
         "date": "2026-02-24",
-        "total_value": 97210.69,
-        "cash": 88053.97,
-        "invested": 9156.72,
+        "total_value": 97180.74,
+        "cash": 88028.0,
+        "invested": 9152.74,
         "n_positions": 3,
-        "return_pct": -2.7893
+        "return_pct": -2.8193
       },
       {
         "date": "2026-02-25",
-        "total_value": 97520.64,
-        "cash": 88053.97,
-        "invested": 9466.67,
+        "total_value": 97277.07,
+        "cash": 88028.0,
+        "invested": 9249.07,
         "n_positions": 3,
-        "return_pct": -2.4794
+        "return_pct": -2.7229
       },
       {
         "date": "2026-02-26",
-        "total_value": 97824.83,
-        "cash": 88053.97,
-        "invested": 9770.86,
+        "total_value": 97776.28,
+        "cash": 88028.0,
+        "invested": 9748.28,
         "n_positions": 3,
-        "return_pct": -2.1752
+        "return_pct": -2.2237
       },
       {
         "date": "2026-02-27",
-        "total_value": 97640.2,
-        "cash": 88053.97,
-        "invested": 9586.23,
+        "total_value": 97417.67,
+        "cash": 88028.0,
+        "invested": 9389.67,
         "n_positions": 3,
-        "return_pct": -2.3598
+        "return_pct": -2.5823
       },
       {
         "date": "2026-03-02",
-        "total_value": 94805.69,
-        "cash": 73393.29,
-        "invested": 21412.4,
-        "n_positions": 7,
-        "return_pct": -5.1943
+        "total_value": 97558.07,
+        "cash": 73394.29,
+        "invested": 24163.78,
+        "n_positions": 8,
+        "return_pct": -2.4419
       },
       {
         "date": "2026-03-03",
-        "total_value": 94259.31,
-        "cash": 73393.29,
-        "invested": 20866.02,
-        "n_positions": 7,
-        "return_pct": -5.7407
+        "total_value": 96406.73,
+        "cash": 73394.29,
+        "invested": 23012.44,
+        "n_positions": 8,
+        "return_pct": -3.5933
       },
       {
         "date": "2026-03-04",
-        "total_value": 94671.57,
-        "cash": 73393.29,
-        "invested": 21278.28,
-        "n_positions": 7,
-        "return_pct": -5.3284
+        "total_value": 96902.56,
+        "cash": 73394.29,
+        "invested": 23508.27,
+        "n_positions": 8,
+        "return_pct": -3.0974
       },
       {
         "date": "2026-03-05",
-        "total_value": 94400.64,
-        "cash": 73393.29,
-        "invested": 21007.35,
-        "n_positions": 7,
-        "return_pct": -5.5994
+        "total_value": 96346.35,
+        "cash": 73394.29,
+        "invested": 22952.06,
+        "n_positions": 8,
+        "return_pct": -3.6537
       },
       {
         "date": "2026-03-06",
-        "total_value": 94136.8,
-        "cash": 73393.29,
-        "invested": 20743.51,
-        "n_positions": 7,
-        "return_pct": -5.8632
+        "total_value": 96111.28,
+        "cash": 73394.29,
+        "invested": 22716.99,
+        "n_positions": 8,
+        "return_pct": -3.8887
       },
       {
         "date": "2026-03-09",
-        "total_value": 94192.88,
-        "cash": 59264.36,
-        "invested": 34928.52,
-        "n_positions": 12,
-        "return_pct": -5.8071
+        "total_value": 96330.64,
+        "cash": 58944.69,
+        "invested": 37385.95,
+        "n_positions": 13,
+        "return_pct": -3.6694
       },
       {
         "date": "2026-03-10",
-        "total_value": 93877.36,
-        "cash": 59264.36,
-        "invested": 34613.0,
-        "n_positions": 12,
-        "return_pct": -6.1226
+        "total_value": 96038.42,
+        "cash": 58944.69,
+        "invested": 37093.73,
+        "n_positions": 13,
+        "return_pct": -3.9616
       },
       {
         "date": "2026-03-11",
-        "total_value": 93898.42,
-        "cash": 59264.36,
-        "invested": 34634.06,
-        "n_positions": 12,
-        "return_pct": -6.1016
+        "total_value": 95730.36,
+        "cash": 58944.69,
+        "invested": 36785.67,
+        "n_positions": 13,
+        "return_pct": -4.2696
       },
       {
         "date": "2026-03-12",
-        "total_value": 92573.5,
-        "cash": 59264.36,
-        "invested": 33309.14,
-        "n_positions": 12,
-        "return_pct": -7.4265
+        "total_value": 94122.9,
+        "cash": 58944.69,
+        "invested": 35178.21,
+        "n_positions": 13,
+        "return_pct": -5.8771
       },
       {
         "date": "2026-03-13",
-        "total_value": 92008.84,
-        "cash": 59264.36,
-        "invested": 32744.48,
-        "n_positions": 12,
-        "return_pct": -7.9912
+        "total_value": 93578.15,
+        "cash": 58944.69,
+        "invested": 34633.46,
+        "n_positions": 13,
+        "return_pct": -6.4218
       },
       {
         "date": "2026-03-16",
-        "total_value": 92793.98,
-        "cash": 45345.26,
-        "invested": 47448.72,
-        "n_positions": 17,
-        "return_pct": -7.206
+        "total_value": 94430.01,
+        "cash": 44780.2,
+        "invested": 49649.81,
+        "n_positions": 18,
+        "return_pct": -5.57
       },
       {
         "date": "2026-03-17",
-        "total_value": 93690.2,
-        "cash": 45345.26,
-        "invested": 48344.94,
-        "n_positions": 17,
-        "return_pct": -6.3098
+        "total_value": 95090.69,
+        "cash": 44780.2,
+        "invested": 50310.49,
+        "n_positions": 18,
+        "return_pct": -4.9093
       },
       {
         "date": "2026-03-18",
-        "total_value": 92971.36,
-        "cash": 45345.26,
-        "invested": 47626.1,
-        "n_positions": 17,
-        "return_pct": -7.0286
+        "total_value": 94008.72,
+        "cash": 44780.2,
+        "invested": 49228.52,
+        "n_positions": 18,
+        "return_pct": -5.9913
       },
       {
         "date": "2026-03-19",
-        "total_value": 93175.92,
-        "cash": 45345.26,
-        "invested": 47830.66,
-        "n_positions": 17,
-        "return_pct": -6.8241
+        "total_value": 94301.61,
+        "cash": 44780.2,
+        "invested": 49521.41,
+        "n_positions": 18,
+        "return_pct": -5.6984
       },
       {
         "date": "2026-03-20",
-        "total_value": 92000.61,
-        "cash": 45345.26,
-        "invested": 46655.35,
-        "n_positions": 17,
-        "return_pct": -7.9994
+        "total_value": 92598.47,
+        "cash": 44780.2,
+        "invested": 47818.27,
+        "n_positions": 18,
+        "return_pct": -7.4015
       },
       {
         "date": "2026-03-23",
-        "total_value": 89999.18,
-        "cash": 31427.87,
-        "invested": 58571.31,
-        "n_positions": 21,
-        "return_pct": -10.0008
+        "total_value": 93662.59,
+        "cash": 30730.81,
+        "invested": 62931.78,
+        "n_positions": 23,
+        "return_pct": -6.3374
       },
       {
         "date": "2026-03-24",
-        "total_value": 89339.13,
-        "cash": 31427.87,
-        "invested": 57911.26,
-        "n_positions": 21,
-        "return_pct": -10.6609
+        "total_value": 92609.83,
+        "cash": 30730.81,
+        "invested": 61879.02,
+        "n_positions": 23,
+        "return_pct": -7.3902
       },
       {
         "date": "2026-03-25",
-        "total_value": 89722.44,
-        "cash": 31427.87,
-        "invested": 58294.57,
-        "n_positions": 21,
-        "return_pct": -10.2776
+        "total_value": 92880.01,
+        "cash": 30730.81,
+        "invested": 62149.2,
+        "n_positions": 23,
+        "return_pct": -7.12
       },
       {
         "date": "2026-03-26",
-        "total_value": 87671.53,
-        "cash": 31427.87,
-        "invested": 56243.66,
-        "n_positions": 21,
-        "return_pct": -12.3285
+        "total_value": 90850.29,
+        "cash": 30730.81,
+        "invested": 60119.48,
+        "n_positions": 23,
+        "return_pct": -9.1497
       },
       {
         "date": "2026-03-27",
-        "total_value": 86167.12,
-        "cash": 31427.87,
-        "invested": 54739.25,
-        "n_positions": 21,
-        "return_pct": -13.8329
+        "total_value": 89294.38,
+        "cash": 30730.81,
+        "invested": 58563.57,
+        "n_positions": 23,
+        "return_pct": -10.7056
       },
       {
         "date": "2026-03-30",
-        "total_value": 85460.6,
-        "cash": 18608.78,
-        "invested": 66851.82,
-        "n_positions": 26,
-        "return_pct": -14.5394
+        "total_value": 88603.86,
+        "cash": 17440.23,
+        "invested": 71163.63,
+        "n_positions": 28,
+        "return_pct": -11.3961
       },
       {
         "date": "2026-03-31",
-        "total_value": 89339.8,
-        "cash": 18608.78,
-        "invested": 70731.02,
-        "n_positions": 26,
-        "return_pct": -10.6602
+        "total_value": 92596.04,
+        "cash": 17440.23,
+        "invested": 75155.81,
+        "n_positions": 28,
+        "return_pct": -7.404
       },
       {
         "date": "2026-04-01",
-        "total_value": 90827.77,
-        "cash": 18608.78,
-        "invested": 72218.99,
-        "n_positions": 26,
-        "return_pct": -9.1722
+        "total_value": 93899.13,
+        "cash": 17440.23,
+        "invested": 76458.9,
+        "n_positions": 28,
+        "return_pct": -6.1009
       },
       {
         "date": "2026-04-02",
-        "total_value": 91019.65,
-        "cash": 18608.78,
-        "invested": 72410.87,
-        "n_positions": 26,
-        "return_pct": -8.9804
+        "total_value": 94114.45,
+        "cash": 17440.23,
+        "invested": 76674.22,
+        "n_positions": 28,
+        "return_pct": -5.8855
       },
       {
         "date": "2026-04-06",
-        "total_value": 92713.62,
-        "cash": 4701.73,
-        "invested": 88011.89,
+        "total_value": 95796.73,
+        "cash": 3070.72,
+        "invested": 92726.01,
         "n_positions": 30,
-        "return_pct": -7.2864
+        "return_pct": -4.2033
       },
       {
         "date": "2026-04-07",
-        "total_value": 92704.66,
-        "cash": 4701.73,
-        "invested": 88002.93,
+        "total_value": 95766.43,
+        "cash": 3070.72,
+        "invested": 92695.71,
         "n_positions": 30,
-        "return_pct": -7.2953
+        "return_pct": -4.2336
       },
       {
         "date": "2026-04-08",
-        "total_value": 94994.23,
-        "cash": 4701.73,
-        "invested": 90292.5,
+        "total_value": 98226.78,
+        "cash": 3070.72,
+        "invested": 95156.06,
         "n_positions": 30,
-        "return_pct": -5.0058
+        "return_pct": -1.7732
       },
       {
         "date": "2026-04-09",
-        "total_value": 94594.98,
-        "cash": 4701.73,
-        "invested": 89893.25,
+        "total_value": 97782.52,
+        "cash": 3070.72,
+        "invested": 94711.8,
         "n_positions": 30,
-        "return_pct": -5.405
+        "return_pct": -2.2175
       },
       {
         "date": "2026-04-10",
-        "total_value": 94670.62,
-        "cash": 4701.73,
-        "invested": 89968.89,
+        "total_value": 98022.62,
+        "cash": 3070.72,
+        "invested": 94951.9,
         "n_positions": 30,
-        "return_pct": -5.3294
+        "return_pct": -1.9774
       },
       {
         "date": "2026-04-13",
-        "total_value": 96963.19,
-        "cash": 4701.73,
-        "invested": 92261.46,
+        "total_value": 100747.0,
+        "cash": 3070.72,
+        "invested": 97676.28,
         "n_positions": 30,
-        "return_pct": -3.0368
+        "return_pct": 0.747
       },
       {
         "date": "2026-04-14",
-        "total_value": 99021.95,
-        "cash": 4701.73,
-        "invested": 94320.22,
+        "total_value": 103113.31,
+        "cash": 3070.72,
+        "invested": 100042.59,
         "n_positions": 30,
-        "return_pct": -0.978
+        "return_pct": 3.1133
       },
       {
         "date": "2026-04-15",
-        "total_value": 101399.25,
-        "cash": 4701.73,
-        "invested": 96697.52,
+        "total_value": 105592.1,
+        "cash": 3070.72,
+        "invested": 102521.38,
         "n_positions": 30,
-        "return_pct": 1.3993
+        "return_pct": 5.5921
       },
       {
         "date": "2026-04-16",
-        "total_value": 102380.11,
-        "cash": 4701.73,
-        "invested": 97678.38,
+        "total_value": 107118.92,
+        "cash": 3070.72,
+        "invested": 104048.2,
         "n_positions": 30,
-        "return_pct": 2.3801
+        "return_pct": 7.1189
       },
       {
         "date": "2026-04-17",
-        "total_value": 105588.7,
-        "cash": 4701.73,
-        "invested": 100886.97,
+        "total_value": 110421.58,
+        "cash": 3070.72,
+        "invested": 107350.86,
         "n_positions": 30,
-        "return_pct": 5.5887
+        "return_pct": 10.4216
       },
       {
         "date": "2026-04-20",
-        "total_value": 106329.42,
-        "cash": 4701.73,
-        "invested": 101627.69,
+        "total_value": 111178.24,
+        "cash": 3070.72,
+        "invested": 108107.52,
         "n_positions": 30,
-        "return_pct": 6.3294
+        "return_pct": 11.1782
       },
       {
         "date": "2026-04-21",
-        "total_value": 104659.87,
-        "cash": 4701.73,
-        "invested": 99958.14,
+        "total_value": 109353.67,
+        "cash": 3070.72,
+        "invested": 106282.95,
         "n_positions": 30,
-        "return_pct": 4.6599
+        "return_pct": 9.3537
       },
       {
         "date": "2026-04-22",
-        "total_value": 106655.79,
-        "cash": 4701.73,
-        "invested": 101954.06,
+        "total_value": 111170.06,
+        "cash": 3070.72,
+        "invested": 108099.34,
         "n_positions": 30,
-        "return_pct": 6.6558
+        "return_pct": 11.1701
       },
       {
         "date": "2026-04-23",
-        "total_value": 104225.38,
-        "cash": 4701.73,
-        "invested": 99523.65,
+        "total_value": 109118.67,
+        "cash": 3070.72,
+        "invested": 106047.95,
         "n_positions": 30,
-        "return_pct": 4.2254
+        "return_pct": 9.1187
       },
       {
         "date": "2026-04-24",
-        "total_value": 106223.18,
-        "cash": 4701.73,
-        "invested": 101521.45,
+        "total_value": 111513.41,
+        "cash": 3070.72,
+        "invested": 108442.69,
         "n_positions": 30,
-        "return_pct": 6.2232
+        "return_pct": 11.5134
       },
       {
         "date": "2026-04-27",
-        "total_value": 105580.08,
-        "cash": 4701.73,
-        "invested": 100878.35,
+        "total_value": 110602.16,
+        "cash": 3070.72,
+        "invested": 107531.44,
         "n_positions": 30,
-        "return_pct": 5.5801
+        "return_pct": 10.6022
       },
       {
         "date": "2026-04-28",
-        "total_value": 103779.57,
+        "total_value": 108773.89,
         "cash": 0.0,
-        "invested": 103779.57,
+        "invested": 108773.89,
         "n_positions": 30,
-        "return_pct": 3.7796
+        "return_pct": 8.7739
       },
       {
         "date": "2026-04-29",
-        "total_value": 101481.15,
+        "total_value": 106208.23,
         "cash": 0.0,
-        "invested": 101481.15,
+        "invested": 106208.23,
         "n_positions": 30,
-        "return_pct": 1.4811
+        "return_pct": 6.2082
       },
       {
         "date": "2026-04-30",
-        "total_value": 103980.15,
+        "total_value": 109067.85,
         "cash": 0.0,
-        "invested": 103980.15,
+        "invested": 109067.85,
         "n_positions": 30,
-        "return_pct": 3.9802
+        "return_pct": 9.0678
       },
       {
         "date": "2026-05-01",
-        "total_value": 104406.24,
+        "total_value": 109129.56,
         "cash": 0.0,
-        "invested": 104406.24,
+        "invested": 109129.56,
         "n_positions": 30,
-        "return_pct": 4.4062
+        "return_pct": 9.1296
       },
       {
         "date": "2026-05-04",
-        "total_value": 104784.59,
+        "total_value": 109990.39,
         "cash": 0.0,
-        "invested": 104784.59,
+        "invested": 109990.39,
         "n_positions": 30,
-        "return_pct": 4.7846
+        "return_pct": 9.9904
       },
       {
         "date": "2026-05-05",
-        "total_value": 105764.42,
+        "total_value": 110821.29,
         "cash": 0.0,
-        "invested": 105764.42,
+        "invested": 110821.29,
         "n_positions": 30,
-        "return_pct": 5.7644
+        "return_pct": 10.8213
       },
       {
         "date": "2026-05-06",
-        "total_value": 108832.51,
+        "total_value": 113125.06,
         "cash": 0.0,
-        "invested": 108832.51,
+        "invested": 113125.06,
         "n_positions": 30,
-        "return_pct": 8.8325
+        "return_pct": 13.1251
       },
       {
         "date": "2026-05-07",
-        "total_value": 107160.09,
+        "total_value": 111321.93,
         "cash": 0.0,
-        "invested": 107160.09,
+        "invested": 111321.93,
         "n_positions": 30,
-        "return_pct": 7.1601
+        "return_pct": 11.3219
       },
       {
         "date": "2026-05-08",
-        "total_value": 107540.02,
+        "total_value": 112686.29,
         "cash": 0.0,
-        "invested": 107540.02,
+        "invested": 112686.29,
         "n_positions": 30,
-        "return_pct": 7.54
+        "return_pct": 12.6863
       },
       {
         "date": "2026-05-11",
-        "total_value": 109549.78,
+        "total_value": 114622.17,
         "cash": 0.0,
-        "invested": 109549.78,
+        "invested": 114622.17,
         "n_positions": 30,
-        "return_pct": 9.5498
+        "return_pct": 14.6222
       },
       {
         "date": "2026-05-12",
-        "total_value": 107898.55,
+        "total_value": 112195.66,
         "cash": 0.0,
-        "invested": 107898.55,
+        "invested": 112195.66,
         "n_positions": 30,
-        "return_pct": 7.8985
+        "return_pct": 12.1957
       },
       {
         "date": "2026-05-13",
-        "total_value": 106826.75,
+        "total_value": 111438.51,
         "cash": 0.0,
-        "invested": 106826.75,
+        "invested": 111438.51,
         "n_positions": 30,
-        "return_pct": 6.8268
+        "return_pct": 11.4385
       },
       {
         "date": "2026-05-14",
-        "total_value": 107610.7,
+        "total_value": 112876.81,
         "cash": 0.0,
-        "invested": 107610.7,
+        "invested": 112876.81,
         "n_positions": 30,
-        "return_pct": 7.6107
+        "return_pct": 12.8768
       },
       {
         "date": "2026-05-15",
-        "total_value": 104884.14,
+        "total_value": 110357.73,
         "cash": 0.0,
-        "invested": 104884.14,
+        "invested": 110357.73,
         "n_positions": 30,
-        "return_pct": 4.8841
+        "return_pct": 10.3577
       },
       {
         "date": "2026-05-18",
-        "total_value": 103725.99,
+        "total_value": 108440.6,
         "cash": 0.0,
-        "invested": 103725.99,
+        "invested": 108440.6,
         "n_positions": 30,
-        "return_pct": 3.726
+        "return_pct": 8.4406
       },
       {
         "date": "2026-05-19",
-        "total_value": 103485.8,
+        "total_value": 108167.19,
         "cash": 0.0,
-        "invested": 103485.8,
+        "invested": 108167.19,
         "n_positions": 30,
-        "return_pct": 3.4858
+        "return_pct": 8.1672
       },
       {
         "date": "2026-05-20",
-        "total_value": 106882.78,
+        "total_value": 111137.72,
         "cash": 0.0,
-        "invested": 106882.78,
+        "invested": 111137.72,
         "n_positions": 30,
-        "return_pct": 6.8828
+        "return_pct": 11.1377
       },
       {
         "date": "2026-05-21",
-        "total_value": 107131.51,
+        "total_value": 112005.0,
         "cash": 0.0,
-        "invested": 107131.51,
+        "invested": 112005.0,
         "n_positions": 30,
-        "return_pct": 7.1315
+        "return_pct": 12.005
       }
     ],
     "transactions": [
@@ -3687,16 +3697,6 @@
         "value": 3000.0,
         "sort_col": "p10",
         "sort_value": 0.0445
-      },
-      {
-        "date": "2026-02-23",
-        "action": "buy",
-        "ticker": "FSM",
-        "shares": 224.8876,
-        "price": 13.34,
-        "value": 3000.0,
-        "sort_col": "p10",
-        "sort_value": -0.003
       },
       {
         "date": "2026-02-23",
@@ -3721,30 +3721,40 @@
       {
         "date": "2026-02-23",
         "action": "buy",
-        "ticker": "SLNO",
-        "shares": 75.7002,
-        "price": 39.63,
+        "ticker": "CCI",
+        "shares": 34.6351,
+        "price": 86.6174,
         "value": 3000.0,
         "sort_col": "p10",
-        "sort_value": -0.1115
+        "sort_value": -0.0587
+      },
+      {
+        "date": "2026-02-23",
+        "action": "buy",
+        "ticker": "ALHC",
+        "shares": 150.7538,
+        "price": 19.9,
+        "value": 3000.0,
+        "sort_col": "p10",
+        "sort_value": -0.0894
       },
       {
         "date": "2026-02-24",
         "action": "sell",
         "reason": "turnover",
-        "ticker": "FSM",
-        "shares": 224.8876,
-        "price": 13.58,
-        "value": 3053.97,
-        "pnl_pct": 1.8
+        "ticker": "UBER",
+        "shares": 42.4208,
+        "price": 71.38,
+        "value": 3028.0,
+        "pnl_pct": 0.93
       },
       {
         "date": "2026-03-02",
         "action": "buy",
         "ticker": "TTMI",
-        "shares": 25.9481,
+        "shares": 25.9004,
         "price": 113.0,
-        "value": 2932.14,
+        "value": 2926.74,
         "sort_col": "p10",
         "sort_value": 0.116
       },
@@ -3752,59 +3762,59 @@
         "date": "2026-03-02",
         "action": "buy",
         "ticker": "ATRO",
-        "shares": 36.0435,
+        "shares": 35.9772,
         "price": 81.35,
-        "value": 2932.14,
+        "value": 2926.74,
         "sort_col": "p10",
         "sort_value": 0.0845
       },
       {
         "date": "2026-03-02",
         "action": "buy",
+        "ticker": "GDXJ",
+        "shares": 18.8786,
+        "price": 155.03,
+        "value": 2926.74,
+        "sort_col": "p10",
+        "sort_value": 0.0449
+      },
+      {
+        "date": "2026-03-02",
+        "action": "buy",
         "ticker": "ESLT",
-        "shares": 3.5392,
+        "shares": 3.5327,
         "price": 828.4636,
-        "value": 2932.14,
+        "value": 2926.74,
         "sort_col": "p10",
         "sort_value": 0.0085
       },
       {
         "date": "2026-03-02",
         "action": "buy",
-        "ticker": "RDDT",
-        "shares": 19.9316,
-        "price": 147.11,
-        "value": 2932.14,
+        "ticker": "EWY",
+        "shares": 19.8369,
+        "price": 147.54,
+        "value": 2926.74,
         "sort_col": "p10",
-        "sort_value": -0.0594
-      },
-      {
-        "date": "2026-03-02",
-        "action": "buy",
-        "ticker": "ATRO",
-        "shares": 36.0435,
-        "price": 81.35,
-        "value": 2932.14,
-        "sort_col": "p10",
-        "sort_value": -0.0848
+        "sort_value": -0.0419
       },
       {
         "date": "2026-03-09",
         "action": "buy",
-        "ticker": "GAP",
-        "shares": 124.5482,
-        "price": 22.6883,
-        "value": 2825.79,
+        "ticker": "SLNO",
+        "shares": 72.6658,
+        "price": 39.77,
+        "value": 2889.92,
         "sort_col": "p10",
-        "sort_value": -0.0948
+        "sort_value": -0.047
       },
       {
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "AMD",
-        "shares": 13.9421,
+        "shares": 14.2585,
         "price": 202.68,
-        "value": 2825.79,
+        "value": 2889.92,
         "sort_col": "p10",
         "sort_value": -0.1499
       },
@@ -3812,9 +3822,9 @@
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "IOT",
-        "shares": 82.7221,
+        "shares": 84.5995,
         "price": 34.16,
-        "value": 2825.79,
+        "value": 2889.92,
         "sort_col": "p10",
         "sort_value": -0.1863
       },
@@ -3822,29 +3832,29 @@
         "date": "2026-03-09",
         "action": "buy",
         "ticker": "AS",
-        "shares": 82.9163,
+        "shares": 84.7981,
         "price": 34.08,
-        "value": 2825.79,
+        "value": 2889.92,
         "sort_col": "p10",
         "sort_value": -0.1882
       },
       {
         "date": "2026-03-09",
         "action": "buy",
-        "ticker": "ALHC",
-        "shares": 155.0926,
-        "price": 18.22,
-        "value": 2825.79,
+        "ticker": "QXO",
+        "shares": 133.2374,
+        "price": 21.69,
+        "value": 2889.92,
         "sort_col": "p10",
-        "sort_value": -0.1944
+        "sort_value": -0.2014
       },
       {
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "GEV",
-        "shares": 3.3667,
+        "shares": 3.4261,
         "price": 826.87,
-        "value": 2783.82,
+        "value": 2832.9,
         "sort_col": "p10",
         "sort_value": 0.3913
       },
@@ -3852,9 +3862,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "DAVE",
-        "shares": 13.2759,
+        "shares": 13.5099,
         "price": 209.69,
-        "value": 2783.82,
+        "value": 2832.9,
         "sort_col": "p10",
         "sort_value": 0.2032
       },
@@ -3862,9 +3872,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "MSTR",
-        "shares": 18.8708,
+        "shares": 19.2035,
         "price": 147.52,
-        "value": 2783.82,
+        "value": 2832.9,
         "sort_col": "p10",
         "sort_value": 0.1353
       },
@@ -3872,9 +3882,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "RBLX",
-        "shares": 47.0478,
+        "shares": 47.8773,
         "price": 59.17,
-        "value": 2783.82,
+        "value": 2832.9,
         "sort_col": "p10",
         "sort_value": 0.1258
       },
@@ -3882,9 +3892,9 @@
         "date": "2026-03-16",
         "action": "buy",
         "ticker": "RYTM",
-        "shares": 30.757,
+        "shares": 31.2993,
         "price": 90.51,
-        "value": 2783.82,
+        "value": 2832.9,
         "sort_col": "p10",
         "sort_value": 0.0939
       },
@@ -3892,9 +3902,9 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "CVNA",
-        "shares": 46.4533,
+        "shares": 46.8938,
         "price": 59.92,
-        "value": 2783.48,
+        "value": 2809.88,
         "sort_col": "p10",
         "sort_value": 0.3454
       },
@@ -3902,49 +3912,49 @@
         "date": "2026-03-23",
         "action": "buy",
         "ticker": "AFRM",
-        "shares": 60.3007,
+        "shares": 60.8726,
         "price": 46.16,
-        "value": 2783.48,
+        "value": 2809.88,
         "sort_col": "p10",
         "sort_value": 0.2469
       },
       {
         "date": "2026-03-23",
         "action": "buy",
-        "ticker": "HMY",
-        "shares": 201.4935,
-        "price": 13.8142,
-        "value": 2783.48,
-        "sort_col": "p10",
-        "sort_value": 0.1358
-      },
-      {
-        "date": "2026-03-23",
-        "action": "buy",
         "ticker": "CRWD",
-        "shares": 6.7346,
+        "shares": 6.7985,
         "price": 413.31,
-        "value": 2783.48,
+        "value": 2809.88,
         "sort_col": "p10",
         "sort_value": 0.0719
       },
       {
         "date": "2026-03-23",
         "action": "buy",
-        "ticker": "HMY",
-        "shares": 201.4935,
-        "price": 13.8142,
-        "value": 2783.48,
+        "ticker": "UBER",
+        "shares": 37.4052,
+        "price": 75.12,
+        "value": 2809.88,
         "sort_col": "p10",
-        "sort_value": 0.0682
+        "sort_value": 0.0572
+      },
+      {
+        "date": "2026-03-23",
+        "action": "buy",
+        "ticker": "ZS",
+        "shares": 18.5104,
+        "price": 151.8,
+        "value": 2809.88,
+        "sort_col": "p10",
+        "sort_value": 0.0328
       },
       {
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "ETH",
-        "shares": 133.8109,
+        "shares": 138.7325,
         "price": 19.16,
-        "value": 2563.82,
+        "value": 2658.12,
         "sort_col": "p10",
         "sort_value": 1.0607
       },
@@ -3952,9 +3962,9 @@
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "FETH",
-        "shares": 127.2998,
+        "shares": 131.9819,
         "price": 20.14,
-        "value": 2563.82,
+        "value": 2658.12,
         "sort_col": "p10",
         "sort_value": 1.0591
       },
@@ -3962,9 +3972,9 @@
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "ETHA",
-        "shares": 167.899,
+        "shares": 174.0744,
         "price": 15.27,
-        "value": 2563.82,
+        "value": 2658.12,
         "sort_col": "p10",
         "sort_value": 1.0589
       },
@@ -3972,9 +3982,9 @@
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "ECG",
-        "shares": 23.029,
+        "shares": 23.876,
         "price": 111.33,
-        "value": 2563.82,
+        "value": 2658.12,
         "sort_col": "p10",
         "sort_value": 0.9488
       },
@@ -3982,9 +3992,9 @@
         "date": "2026-03-30",
         "action": "buy",
         "ticker": "HOOD",
-        "shares": 39.3465,
+        "shares": 40.7937,
         "price": 65.16,
-        "value": 2563.82,
+        "value": 2658.12,
         "sort_col": "p10",
         "sort_value": 0.7815
       },
@@ -3992,9 +4002,9 @@
         "date": "2026-04-06",
         "action": "buy",
         "ticker": "HIMS",
-        "shares": 171.0163,
+        "shares": 353.4065,
         "price": 20.33,
-        "value": 3476.76,
+        "value": 7184.75,
         "sort_col": "p10",
         "sort_value": 0.3703
       },
@@ -4002,31 +4012,11 @@
         "date": "2026-04-06",
         "action": "buy",
         "ticker": "VST",
-        "shares": 22.9353,
+        "shares": 47.396,
         "price": 151.59,
-        "value": 3476.76,
+        "value": 7184.75,
         "sort_col": "p10",
         "sort_value": 0.2982
-      },
-      {
-        "date": "2026-04-06",
-        "action": "buy",
-        "ticker": "TTAN",
-        "shares": 55.1779,
-        "price": 63.01,
-        "value": 3476.76,
-        "sort_col": "p10",
-        "sort_value": 0.1179
-      },
-      {
-        "date": "2026-04-06",
-        "action": "buy",
-        "ticker": "GBTC",
-        "shares": 64.076,
-        "price": 54.26,
-        "value": 3476.76,
-        "sort_col": "p10",
-        "sort_value": 0.07
       },
       {
         "date": "2026-04-28",
@@ -4042,51 +4032,51 @@
         "date": "2026-04-28",
         "action": "sell",
         "reason": "turnover",
-        "ticker": "UBER",
-        "shares": 42.4208,
-        "price": 74.11,
-        "value": 3143.81,
-        "pnl_pct": 4.79
+        "ticker": "CCI",
+        "shares": 34.6351,
+        "price": 86.17,
+        "value": 2984.51,
+        "pnl_pct": -0.52
       },
       {
         "date": "2026-04-28",
         "action": "sell",
         "reason": "turnover",
-        "ticker": "SLNO",
-        "shares": 75.7002,
-        "price": 52.76,
-        "value": 3993.94,
-        "pnl_pct": 33.13
+        "ticker": "ALHC",
+        "shares": 150.7538,
+        "price": 21.9,
+        "value": 3301.51,
+        "pnl_pct": 10.05
       },
       {
         "date": "2026-04-28",
         "action": "buy",
-        "ticker": "OMER",
-        "shares": 345.1419,
-        "price": 14.67,
-        "value": 5063.23,
+        "ticker": "CENX",
+        "shares": 71.4155,
+        "price": 59.31,
+        "value": 4235.65,
         "sort_col": "p10",
-        "sort_value": 0.2039
-      },
-      {
-        "date": "2026-04-28",
-        "action": "buy",
-        "ticker": "COMP",
-        "shares": 641.7277,
-        "price": 7.89,
-        "value": 5063.23,
-        "sort_col": "p10",
-        "sort_value": 0.1791
+        "sort_value": 0.1176
       },
       {
         "date": "2026-04-28",
         "action": "buy",
         "ticker": "LQDA",
-        "shares": 134.4816,
+        "shares": 112.5007,
         "price": 37.65,
-        "value": 5063.23,
+        "value": 4235.65,
         "sort_col": "p10",
         "sort_value": 0.0773
+      },
+      {
+        "date": "2026-04-28",
+        "action": "buy",
+        "ticker": "ELF",
+        "shares": 67.2326,
+        "price": 63.0,
+        "value": 4235.65,
+        "sort_col": "p10",
+        "sort_value": -0.027
       }
     ],
     "last_buy_date": "2026-04-28",
