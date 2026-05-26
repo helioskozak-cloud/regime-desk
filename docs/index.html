@@ -12957,7 +12957,7 @@ window._rd_postrender_stocks=function(){_rdRefreshPinned();};
 
 // STOCKS — sortable columns + copy-to-clipboard + horizon filter
 let _sortCol='edge',_sortDir=-1,_horizon='all';
-let _stFilter={sector:'',mcap:'',vol:'',betaMin:null,betaMax:null};
+let _stFilter={sector:'',mcapMin:null,mcapMax:null,volMin:null,volMax:null,betaMin:null,betaMax:null};
 function _horizonBtn(h){
   const active=_horizon===h;
   return`<button onclick="window._rdHorizon('${h}')" style="background:${active?'#21262d':'none'};border:1px solid ${active?'#58a6ff':'#30363d'};color:${active?'#58a6ff':'#8b949e'};padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px">${h==='all'?'All':h}</button>`;
@@ -12970,15 +12970,11 @@ function renderStocks(){
   if(_horizon!=='all') pool=pool.filter(s=>s.horizon===_horizon);
   // Column filters
   if(_stFilter.sector) pool=pool.filter(s=>s.sector===_stFilter.sector);
-  if(_stFilter.mcap){
-    const mc={nano:[0,3e8],small:[3e8,2e9],mid:[2e9,1e10],large:[1e10,Infinity]};
-    const [lo,hi]=mc[_stFilter.mcap];
-    pool=pool.filter(s=>(s.market_cap??-1)>=lo&&(s.market_cap??-1)<hi);
-  }
-  if(_stFilter.vol){
-    const vt={k100:1e5,k500:5e5,m1:1e6,m5:5e6}[_stFilter.vol]||0;
-    pool=pool.filter(s=>(s.avg_volume??-1)>=vt);
-  }
+  // Market cap in $M (millions); volume in K (thousands)
+  if(_stFilter.mcapMin!=null) pool=pool.filter(s=>s.market_cap!=null&&s.market_cap>=_stFilter.mcapMin*1e6);
+  if(_stFilter.mcapMax!=null) pool=pool.filter(s=>s.market_cap!=null&&s.market_cap<=_stFilter.mcapMax*1e6);
+  if(_stFilter.volMin!=null)  pool=pool.filter(s=>s.avg_volume!=null&&s.avg_volume>=_stFilter.volMin*1e3);
+  if(_stFilter.volMax!=null)  pool=pool.filter(s=>s.avg_volume!=null&&s.avg_volume<=_stFilter.volMax*1e3);
   if(_stFilter.betaMin!=null) pool=pool.filter(s=>s.beta!=null&&s.beta>=_stFilter.betaMin);
   if(_stFilter.betaMax!=null) pool=pool.filter(s=>s.beta!=null&&s.beta<=_stFilter.betaMax);
   const sorted=[...pool].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
@@ -13010,26 +13006,23 @@ function renderStocks(){
   const secOpts=sectors.map(s=>`<option value="${s}"${_stFilter.sector===s?' selected':''}>${s}</option>`).join('');
   const selSt='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 8px;border-radius:6px;font-size:12px;cursor:pointer';
   const inpSt='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 6px;border-radius:6px;font-size:12px;width:60px;text-align:center';
-  const activeCount=[_stFilter.sector,_stFilter.mcap,_stFilter.vol].filter(Boolean).length+(_stFilter.betaMin!=null?1:0)+(_stFilter.betaMax!=null?1:0);
+  const activeCount=(_stFilter.sector?1:0)
+    +(_stFilter.mcapMin!=null?1:0)+(_stFilter.mcapMax!=null?1:0)
+    +(_stFilter.volMin!=null?1:0)+(_stFilter.volMax!=null?1:0)
+    +(_stFilter.betaMin!=null?1:0)+(_stFilter.betaMax!=null?1:0);
   const filterBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;background:#161b22;border-radius:8px;border:1px solid #30363d">
     <span style="color:#8b949e;font-size:12px;font-weight:600;white-space:nowrap">Filter:</span>
     <select onchange="window._stFilt('sector',this.value)" style="${selSt}">
       <option value="">All sectors</option>${secOpts}
     </select>
-    <select onchange="window._stFilt('mcap',this.value)" style="${selSt}">
-      <option value=""${!_stFilter.mcap?' selected':''}>Any cap</option>
-      <option value="nano"${_stFilter.mcap==='nano'?' selected':''}>Nano &lt;$300M</option>
-      <option value="small"${_stFilter.mcap==='small'?' selected':''}>Small $300M–$2B</option>
-      <option value="mid"${_stFilter.mcap==='mid'?' selected':''}>Mid $2B–$10B</option>
-      <option value="large"${_stFilter.mcap==='large'?' selected':''}>Large &gt;$10B</option>
-    </select>
-    <select onchange="window._stFilt('vol',this.value)" style="${selSt}">
-      <option value=""${!_stFilter.vol?' selected':''}>Any volume</option>
-      <option value="k100"${_stFilter.vol==='k100'?' selected':''}>&gt;100K/day</option>
-      <option value="k500"${_stFilter.vol==='k500'?' selected':''}>&gt;500K/day</option>
-      <option value="m1"${_stFilter.vol==='m1'?' selected':''}>&gt;1M/day</option>
-      <option value="m5"${_stFilter.vol==='m5'?' selected':''}>&gt;5M/day</option>
-    </select>
+    <span style="color:#6e7681;font-size:12px;white-space:nowrap" title="Market cap in millions of dollars">Cap ($M):</span>
+    <input type="number" placeholder="min" step="100" value="${_stFilter.mcapMin??''}" style="${inpSt}" oninput="window._stFilt('mcapMin',this.value!==''?+this.value:null)" title="Market cap minimum ($M, e.g. 2000 = $2B)"/>
+    <span style="color:#6e7681;font-size:11px">–</span>
+    <input type="number" placeholder="max" step="100" value="${_stFilter.mcapMax??''}" style="${inpSt}" oninput="window._stFilt('mcapMax',this.value!==''?+this.value:null)" title="Market cap maximum ($M)"/>
+    <span style="color:#6e7681;font-size:12px;white-space:nowrap" title="Average daily volume in thousands of shares">Vol (K):</span>
+    <input type="number" placeholder="min" step="100" value="${_stFilter.volMin??''}" style="${inpSt}" oninput="window._stFilt('volMin',this.value!==''?+this.value:null)" title="Avg daily volume minimum (K shares, e.g. 1000 = 1M)"/>
+    <span style="color:#6e7681;font-size:11px">–</span>
+    <input type="number" placeholder="max" step="100" value="${_stFilter.volMax??''}" style="${inpSt}" oninput="window._stFilt('volMax',this.value!==''?+this.value:null)" title="Avg daily volume maximum (K shares)"/>
     <span style="color:#6e7681;font-size:12px;white-space:nowrap">Beta:</span>
     <input type="number" placeholder="min" step="0.1" value="${_stFilter.betaMin??''}" style="${inpSt}" oninput="window._stFilt('betaMin',this.value!==''?+this.value:null)" title="Beta minimum"/>
     <span style="color:#6e7681;font-size:11px">–</span>
@@ -13077,7 +13070,7 @@ window._stFilt=function(key,val){
   _rdRefreshPinned();
 };
 window._stFiltClear=function(){
-  _stFilter={sector:'',mcap:'',vol:'',betaMin:null,betaMax:null};
+  _stFilter={sector:'',mcapMin:null,mcapMax:null,volMin:null,volMax:null,betaMin:null,betaMax:null};
   const el=document.getElementById('v-stocks');
   if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=renderStocks();el.dataset.rendered='1';}
   _rdRefreshPinned();
