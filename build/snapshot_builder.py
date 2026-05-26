@@ -86,6 +86,8 @@ def _load_signals_csv(path, max_stocks=100):
             span = p90 - p10
             vol_proxy = round(span / (2.56 * math.sqrt(max(1, h_days))), 4)
             vol_proxy = max(0.005, min(0.12, vol_proxy))
+            beta_raw = row.get("beta") if "beta" in row.index else None
+            beta_val = float(beta_raw) if pd.notna(beta_raw) else None
             all_signals.append({
                 "ticker": str(row["ticker"]),
                 "name": str(row.get("name", row["ticker"])) if pd.notna(row.get("name")) else str(row["ticker"]),
@@ -98,6 +100,7 @@ def _load_signals_csv(path, max_stocks=100):
                 "n_obs": n_obs,
                 "vol": vol_proxy,
                 "below_threshold": edge < 0.05,
+                "beta": round(beta_val, 2) if beta_val is not None else None,
             })
 
         stocks = all_signals[:max_stocks]
