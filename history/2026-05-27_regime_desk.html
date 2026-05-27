@@ -116,7 +116,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 
 <script>
 window.SNAPSHOT = {
-  "generated": "2026-05-27",
+  "generated": "2026-05-26",
   "spy": {
     "ret_5d": 0.01616,
     "ret_20d": 0.04953,
@@ -293,7 +293,7 @@ window.SNAPSHOT = {
     },
     {
       "name": "Technology",
-      "edge": 0.1779,
+      "edge": 0.178,
       "breadth": 1.0,
       "horizon": "20d",
       "stocks": 18,
@@ -1686,7 +1686,7 @@ window.SNAPSHOT = {
       "ticker": "PSTG",
       "name": "Pure Storage, Inc.",
       "sector": "Technology",
-      "edge": 0.1484,
+      "edge": 0.1491,
       "horizon": "60d",
       "p10": -0.0924,
       "p25": -0.0062,
@@ -1697,19 +1697,19 @@ window.SNAPSHOT = {
       "n_obs": 30,
       "vol": 0.0311,
       "below_threshold": false,
-      "beta": 1.9,
-      "avg_volume": 2990797,
-      "market_cap": 29196222661,
-      "price": 88.35,
-      "change_pct": 0.0132,
+      "beta": 1.91,
+      "avg_volume": 2909755,
+      "market_cap": 28816192087,
+      "price": 87.2,
+      "change_pct": 0.1038,
       "week_closes": [
+        83.8,
         81.18,
         77.07,
         76.03,
         77.93,
         79.0,
-        87.2,
-        88.35
+        87.2
       ]
     },
     {
@@ -4683,7 +4683,7 @@ window.SNAPSHOT = {
       "ticker": "PSTG",
       "name": "Pure Storage, Inc.",
       "sector": "Technology",
-      "edge": 0.1484,
+      "edge": 0.1491,
       "horizon": "60d",
       "p10": -0.0924,
       "p25": -0.0062,
@@ -4694,19 +4694,19 @@ window.SNAPSHOT = {
       "n_obs": 30,
       "vol": 0.0311,
       "below_threshold": false,
-      "beta": 1.9,
-      "avg_volume": 2990797,
-      "market_cap": 29196222661,
-      "price": 88.35,
-      "change_pct": 0.0132,
+      "beta": 1.91,
+      "avg_volume": 2909755,
+      "market_cap": 28816192087,
+      "price": 87.2,
+      "change_pct": 0.1038,
       "week_closes": [
+        83.8,
         81.18,
         77.07,
         76.03,
         77.93,
         79.0,
-        87.2,
-        88.35
+        87.2
       ]
     },
     {
@@ -12882,13 +12882,11 @@ function renderHome(){
     <div class="grid3">${portKeys.map(k=>{
       const p=ports[k],clr=colors[k]||'#8b949e',ret=p.return_pct||0,rc=ret>=0?'#3fb950':'#f85149';
       const cashPct=p.total_value?((p.cash/p.total_value)*100).toFixed(1):'0.0';
-      let daysTxt='';
-      if(p.inception_date){const days=Math.floor((Date.now()-new Date(p.inception_date))/86400000);if(days>=0)daysTxt=` · ${days}d`;}
       return`<div onclick="location.hash='#portfolios';window._portTabFn&&window._portTabFn('${k}')" style="background:#0d1117;border:1px solid ${clr}55;border-radius:8px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${clr}'" onmouseout="this.style.borderColor='${clr}55'">
         <div style="font-size:10px;font-weight:700;color:${clr};text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${p.name}</div>
         <div style="font-size:20px;font-weight:700;color:#f0f6fc">$${(p.total_value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</div>
         <div style="font-size:13px;font-weight:600;color:${rc};margin:2px 0">${ret>=0?'+':''}${ret.toFixed(2)}%</div>
-        <div style="font-size:10px;color:#6e7681;margin-top:4px">${p.n_positions} positions · ${cashPct}% cash${daysTxt}</div>
+        <div style="font-size:10px;color:#6e7681;margin-top:4px">${p.n_positions} positions · ${cashPct}% cash</div>
       </div>`;
     }).join('')}</div></div>`:'';
 
@@ -14680,5 +14678,4 @@ function renderAsk(){
 <!-- evolved: 2026-05-26 | color ticker symbol in memory view by today's change direction -->
 <!-- evolved: 2026-05-26 | add sortable header tooltips to memory view columns -->
 <!-- evolved: 2026-05-26 | add visual sort direction indicators to memory view headers -->
-<!-- evolved: 2026-05-27 | add inception date and days-elapsed to portfolio cards on home view -->
 </html>
