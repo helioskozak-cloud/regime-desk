@@ -14244,11 +14244,9 @@ window._portTabFn=function(key){
 
 // ANALYSIS — combined narrative, analog matching, methodology
 function renderAnalysis(){
-  const n=S.narrative||{};
   const a=S.analog||{};
   const matches=a.top_matches||[];
   const isSynth=matches.length>0&&matches[0].synthetic;
-  const synthBadge=isSynth?'<span style="background:#161b22;color:#8b949e;border:1px solid #30363d;border-radius:10px;font-size:10px;padding:2px 8px;margin-left:8px">Illustrative</span>':'';
 
   const matchRows=matches.map((m,i)=>{
     const ret=m.spy_ret_20d||0,retPct=(ret*100).toFixed(1),retCol=ret>=0?'#3fb950':'#f85149';
@@ -14262,9 +14260,11 @@ function renderAnalysis(){
     </tr>`;
   }).join('');
 
-  const matchTable=matches.length?`<div style="background:#21262d;border-radius:8px;padding:14px;margin-top:4px">
+  // Only show the precedents table when we have real analog dates persisted.
+  // Synthetic illustrative rows are replaced with a note explaining the gap.
+  const precedentsBlock=(matches.length&&!isSynth)?`<div style="background:#21262d;border-radius:8px;padding:14px;margin-top:4px">
     <div style="display:flex;align-items:center;margin-bottom:10px">
-      <span style="color:#e6edf3;font-size:13px;font-weight:600">Historical Precedents</span>${synthBadge}
+      <span style="color:#e6edf3;font-size:13px;font-weight:600">Historical Precedents</span>
     </div>
     <table style="width:100%;border-collapse:collapse">
       <tr style="color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.5px">
@@ -14275,8 +14275,9 @@ function renderAnalysis(){
         <th style="text-align:center;padding:0 4px 8px">Equities</th>
       </tr>${matchRows}
     </table>
-    ${isSynth?'<div style="color:#6e7681;font-size:11px;margin-top:10px">Illustrative examples — real analog dates populate from spy_state.json.</div>':''}
-  </div>`:'';
+  </div>`:`<div style="background:#161b22;border:1px dashed #30363d;border-radius:8px;padding:14px;margin-top:4px;color:#8b949e;font-size:12px;line-height:1.6">
+    The 30 actual analog dates from today's scan are used internally to compute every stock's edge, but they aren't yet persisted into <code style="background:#21262d;padding:1px 5px;border-radius:3px;color:#c9d1d9">spy_state.json</code> for display here. The dates exist; they just don't make it to the snapshot.
+  </div>`;
 
   const distRow=(label,val,color)=>{
     const w=Math.max(0,Math.min(100,((val+0.2)/0.4)*100));
@@ -14290,32 +14291,14 @@ function renderAnalysis(){
   };
 
   const terms=[
-    ["Edge","Conditional median return minus unconditional baseline. How much better a stock historically performed in analog conditions vs any random day."],
-    ["Analog","A historical day whose SPY state vector is closest to today's, measured by Euclidean distance after z-score normalization across 4 dimensions."],
-    ["Hit Rate","Fraction of analog forward returns that were positive. 0.65 = 65% of similar setups produced a positive return over the horizon."],
-    ["Breadth","Fraction of stocks in a sector with positive conditional edge. High breadth = widespread participation, not just a few outliers."],
-    ["p10 / p50 / p90","The 10th, 50th, and 90th percentile of forward returns across analog days. p50 is the central tendency; p10/p90 show the distribution width."],
+    ["Edge","Conditional median return minus unconditional baseline. How much better a stock performs in analog conditions vs any random day."],
+    ["Analog","A historical day whose SPY state is closest to today's, by Euclidean distance after z-score normalization across 4 dimensions."],
+    ["Hit Rate","Fraction of resolved signals where the actual return matched or beat the predicted edge."],
+    ["Breadth","Fraction of stocks in a sector with positive conditional edge. High breadth means widespread participation, not a few outliers."],
+    ["p10 / p50 / p90","The 10th, 50th, and 90th percentile of forward returns across analog days. p50 is the typical outcome; p10/p90 bound the distribution."],
   ];
 
-  return`<div class="card"><h2>Plain-English Summary</h2>
-  <div style="font-size:16px;font-weight:700;color:#f0f6fc;margin-bottom:12px">${n.headline||''}</div>
-  <div class="grid2">
-    <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:14px">
-      <div style="color:#3fb950;font-weight:700;margin-bottom:8px">Constructive Read</div>
-      <div style="font-size:13px;line-height:1.6">${n.constructive||'—'}</div>
-    </div>
-    <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:6px;padding:14px">
-      <div style="color:#f85149;font-weight:700;margin-bottom:8px">Risk / Reversal</div>
-      <div style="font-size:13px;line-height:1.6">${n.risk||'—'}</div>
-    </div>
-  </div>
-  <div style="margin-top:14px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px">
-    <div style="color:#8b949e;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">In Plain English</div>
-    <div style="font-size:13px;line-height:1.65;color:#c9d1d9">${n.plain_english||'—'}</div>
-  </div>
-  </div>
-
-  <div class="card"><h2>Analog Matching</h2>
+  return`<div class="card"><h2>Analog Matching</h2>
   <div class="grid2" style="margin-bottom:16px">
     <div style="background:#21262d;border-radius:6px;padding:12px">
       <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>
@@ -14330,24 +14313,34 @@ function renderAnalysis(){
     </div>
   </div>
   <div style="font-size:12px;color:#8b949e;margin-bottom:14px">${a.regime_context||''}</div>
-  ${matchTable}
+  ${precedentsBlock}
   </div>
 
-  <details style="margin-bottom:16px">
-    <summary style="cursor:pointer;padding:12px 16px;background:#161b22;border:1px solid #30363d;border-radius:8px;font-weight:700;color:#f0f6fc;list-style:none;user-select:none">&#9654; How This Works — Methodology</summary>
-    <div class="card" style="margin-top:8px;border-radius:0 0 8px 8px">
-      <div style="line-height:1.8;font-size:13px">
-        <p style="margin-bottom:12px"><strong>Step 1 — State Vector:</strong> Today's SPY state = 4-dimensional vector: 5d return, 20d return, 20d realized vol, 60d drawdown.</p>
-        <p style="margin-bottom:12px"><strong>Step 2 — Analog Matching:</strong> Each dimension is z-score normalized, then we find the 30 historical days with smallest Euclidean distance to today. Last 30 days excluded to avoid recency bias.</p>
-        <p style="margin-bottom:12px"><strong>Step 3 — Conditional Returns:</strong> For each stock, measure forward returns (5d, 20d, 60d, 120d) following each analog date. Result is a distribution, not a point estimate.</p>
-        <p style="margin-bottom:12px"><strong>Step 4 — Edge:</strong> <code>edge = conditional median − unconditional baseline</code>. Only signals with edge &gt; 5% and ≥ 5 observations are included.</p>
-        <p style="margin-bottom:16px"><strong>Volatility filter:</strong> Stocks with 20d realized vol above 5%/day excluded. <strong>This is not a forecast</strong> — it's a tendencies report based on historical pattern matching.</p>
-      </div>
-      <div>
-        ${terms.map(([t,d])=>`<div style="margin-bottom:10px"><strong style="color:#f0f6fc">${t}:</strong> <span style="color:#8b949e;font-size:12px">${d}</span></div>`).join('')}
-      </div>
-    </div>
-  </details>
+  <div class="card"><h2>How This Works — Methodology</h2>
+  <div style="line-height:1.7;font-size:13px;color:#c9d1d9">
+    <p style="margin-bottom:10px"><strong style="color:#f0f6fc">1 · State vector.</strong> Reduce today's market to 4 numbers: SPY 5-day return, 20-day return, 20-day realized volatility, and 60-day drawdown.</p>
+    <p style="margin-bottom:10px"><strong style="color:#f0f6fc">2 · Analog matching.</strong> Z-score each dimension across all SPY history, then pick the 30 historical days closest to today by Euclidean distance. The most recent 30 days are excluded so we don't match today to itself.</p>
+    <p style="margin-bottom:10px"><strong style="color:#f0f6fc">3 · Conditional returns.</strong> For every stock, look at what happened over the next 5 / 20 / 60 / 120 trading days following each analog. That produces a distribution of forward returns, not a point forecast.</p>
+    <p style="margin-bottom:10px"><strong style="color:#f0f6fc">4 · Edge.</strong> <code style="background:#21262d;padding:1px 5px;border-radius:3px">edge = conditional median − unconditional median</code>. Only signals with edge ≥ 5% and at least 5 observations are kept.</p>
+    <p style="margin-bottom:6px"><strong style="color:#f0f6fc">Eligibility filters.</strong> Stocks with 20-day realized vol above 5% / day are excluded. Per LPL compliance, stocks priced under $5 today — or with more than 10% of their trailing closes under $5 — are removed. Leveraged and inverse products are filtered out by name.</p>
+  </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid #e3b341">
+  <h2 style="color:#e3b341">Limitations</h2>
+  <div style="line-height:1.65;font-size:13px;color:#c9d1d9">
+    <p style="margin-bottom:8px"><strong style="color:#f0f6fc">Small samples.</strong> Five observations is the floor; many signals sit near it. Hit rates and p-percentiles from tiny samples are noisy — don't over-weight them.</p>
+    <p style="margin-bottom:8px"><strong style="color:#f0f6fc">Regime shifts.</strong> A 3-year lookback can miss structural changes (rate regime, AI capex cycle, dollar trends). When the world genuinely changes, analog matching breaks because the new state has no real historical twin.</p>
+    <p style="margin-bottom:8px"><strong style="color:#f0f6fc">No causation.</strong> Pattern matching describes co-occurrence, not mechanism. If a stock historically ran in similar setups, the model doesn't know <em>why</em>.</p>
+    <p style="margin-bottom:0"><strong style="color:#f0f6fc">Tendencies, not forecasts.</strong> A 60% hit rate means the same setup paid off 6 out of 10 times in history. That's an edge, not a guarantee.</p>
+  </div>
+  </div>
+
+  <div class="card"><h2>Glossary</h2>
+  <div>
+    ${terms.map(([t,d])=>`<div style="margin-bottom:10px"><strong style="color:#f0f6fc">${t}:</strong> <span style="color:#8b949e;font-size:12px">${d}</span></div>`).join('')}
+  </div>
+  </div>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
