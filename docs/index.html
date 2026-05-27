@@ -14068,13 +14068,17 @@ window._rdWl=function(val){
 
 
 // MEMORY VIEW
+if(typeof window._memFilter==='undefined') window._memFilter={minPersist:null,minResolved:null};
 function renderMemory(){
   const mem=S.stock_memory||[];
   if(!mem.length)return`<div class="card"><h2>Stock Memory</h2><p style="color:#8b949e;padding:20px 0">No stock memory data yet. Run the scan to build edge history.</p></div><footer>Tendencies only — not investment advice.</footer>`;
   // Enrich memory entries with today's change from stock signals
   const stockMap={};
   (S.all_signals||S.stocks||[]).forEach(s=>{stockMap[s.ticker]=s;});
-  const enriched=mem.map(m=>{const s=stockMap[m.ticker];return Object.assign({},m,{change_pct:s?s.change_pct:null});});
+  let enriched=mem.map(m=>{const s=stockMap[m.ticker];return Object.assign({},m,{change_pct:s?s.change_pct:null});});
+  // Apply filters
+  if(window._memFilter.minPersist!=null) enriched=enriched.filter(m=>(m.persistence||0)>=window._memFilter.minPersist);
+  if(window._memFilter.minResolved!=null) enriched=enriched.filter(m=>(m.resolved_signals||0)>=window._memFilter.minResolved);
   let sc=window._memSort||'persistence', sd=window._memDir!=null?window._memDir:(-1);
   const sorted=[...enriched].sort((a,b)=>{
     const av=sc==='ticker'?a[sc]||'':a[sc]||0, bv=sc==='ticker'?b[sc]||'':b[sc]||0;
@@ -14096,8 +14100,21 @@ function renderMemory(){
     const logo=`<img src="https://assets.parqet.com/logos/symbol/${m.ticker}?format=jpg" width="16" height="16" style="border-radius:2px;object-fit:contain;vertical-align:middle;margin-right:6px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
     return`<tr style="${rowBg}"><td><div style="display:inline-flex;align-items:center" data-ticker="${m.ticker}">${logo}<strong style="font-family:monospace;color:${tickerCol}">${m.ticker}</strong></div></td><td>${persBar}</td><td style="color:${ac};font-weight:600;white-space:nowrap">${alpha}</td><td style="color:${hrc};font-weight:600">${hr}</td><td style="color:#8b949e">${m.resolved_signals!=null?m.resolved_signals:'—'}</td><td style="color:${cc};font-weight:600;white-space:nowrap">${chg}</td></tr>`;
   }).join('');
+  const mf=window._memFilter;
+  const mfActive=(mf.minPersist!=null||mf.minResolved!=null);
+  const mInp='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 6px;border-radius:6px;font-size:12px;width:62px;text-align:center';
+  const filterBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#161b22;border-radius:8px;border:1px solid #30363d">
+    <span style="color:#8b949e;font-size:12px;font-weight:600;white-space:nowrap">Filter:</span>
+    <span style="color:#6e7681;font-size:12px;white-space:nowrap" title="Minimum number of scan days the ticker appeared as a signal">Min Persistence:</span>
+    <input type="number" placeholder="0" min="0" step="1" value="${mf.minPersist??''}" style="${mInp}" oninput="window._memFilt('minPersist',this.value!==''?+this.value:null)"/>
+    <span style="color:#6e7681;font-size:12px;white-space:nowrap" title="Minimum number of resolved signals — filter out noisy 1-sample tickers">Min Resolved:</span>
+    <input type="number" placeholder="0" min="0" step="1" value="${mf.minResolved??''}" style="${mInp}" oninput="window._memFilt('minResolved',this.value!==''?+this.value:null)" title="Hide tickers with too few resolved signals to be statistically meaningful"/>
+    <span style="color:#6e7681;font-size:11px;margin-left:2px">${sorted.length} of ${mem.length} shown</span>
+    ${mfActive?`<button onclick="window._memFiltClear()" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:''}
+  </div>`;
   return`<div class="card"><h2>Stock Memory — Edge Persistence Tracker</h2>
   <p style="color:#8b949e;margin-bottom:14px;font-size:12px">Tracks which stocks consistently appear as signals across multiple regime scans, and how well past signals have played out. Hover any column header for details. Click to sort.</p>
+  ${filterBar}
   <div style="overflow-x:auto"><table style="min-width:540px">
     <tr>${mth('ticker','Ticker','Stock ticker symbol')}${mth('persistence','Persistence','Number of distinct scan days (last 90) on which this ticker appeared as a signal. Higher = the edge keeps reappearing across changing market regimes.')}${mth('avg_regime_alpha','Avg Alpha','Average regime alpha across resolved signals = actual return minus predicted edge. Positive means the stock has been beating its own forecast on average.')}${mth('hit_rate','Hit %','Fraction of resolved signals where the actual return met or exceeded the predicted edge. Small samples (low Resolved count) make this noisy.')}${mth('resolved_signals','Resolved','Past signals whose forecast horizon has fully elapsed (5d / 20d / 60d / 120d after the signal date), so we can compare predicted vs actual return. Recent signals are still in-flight and excluded.')}${mth('change_pct','Today','Today’s price change for this ticker (vs. previous close).')}</tr>
     ${rows}
@@ -14109,6 +14126,16 @@ window._memSortFn=function(col){
   else{window._memSort=col;window._memDir=col==='ticker'?1:-1;}
   const el=document.getElementById('v-memory');
   delete el.dataset.rendered;el.innerHTML=renderMemory();el.dataset.rendered='1';
+};
+window._memFilt=function(key,val){
+  window._memFilter[key]=val;
+  const el=document.getElementById('v-memory');
+  if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=renderMemory();el.dataset.rendered='1';}
+};
+window._memFiltClear=function(){
+  window._memFilter={minPersist:null,minResolved:null};
+  const el=document.getElementById('v-memory');
+  if(el&&el.dataset.rendered){delete el.dataset.rendered;el.innerHTML=renderMemory();el.dataset.rendered='1';}
 };
 
 // PORTFOLIOS VIEW
@@ -14173,8 +14200,9 @@ function renderPortfolios(){
       <div style="font-size:10px;color:#6e7681;margin-bottom:10px">${p.label||''}</div>
       <div style="font-size:24px;font-weight:700;color:#f0f6fc">$${(p.total_value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</div>
       <div style="font-size:13px;font-weight:600;color:${rc};margin:3px 0">${ret>=0?'+':''}${ret.toFixed(2)}% return</div>
-      <div style="display:flex;gap:10px;margin-top:8px;font-size:11px;color:#8b949e">
-        <span>${p.n_positions} positions</span><span>${cashPct}% cash</span><span>Since ${p.inception_date||'—'}</span>
+      <div style="font-size:10px;color:#6e7681;margin-top:8px;letter-spacing:.3px">SINCE <strong style="color:#c9d1d9;font-family:monospace;letter-spacing:0">${p.inception_date||'—'}</strong> · ${(p.history||[]).length} days tracked</div>
+      <div style="display:flex;gap:10px;margin-top:6px;font-size:11px;color:#8b949e">
+        <span>${p.n_positions} positions</span><span>${cashPct}% cash</span>
       </div>
     </div>`;
   }).join('');
@@ -14195,7 +14223,7 @@ function renderPortfolios(){
       <td style="color:#6e7681;font-size:11px">${h.entry_date||'—'}</td>
     </tr>`;
   }).join(''):`<tr><td colspan="7" style="color:#6e7681;text-align:center;padding:24px">No positions held</td></tr>`;
-  const txns=[...(port.transactions||[])].reverse().slice(0,25);
+  const txns=[...(port.transactions||[])].reverse();
   const tRows=txns.length?txns.map(t=>{
     const isBuy=t.action==='buy',ac=isBuy?'#3fb950':'#f85149';
     const pnlStr=t.pnl_pct!=null?((t.pnl_pct>=0?'+':'')+t.pnl_pct.toFixed(2)+'%'):'—';
@@ -14227,9 +14255,12 @@ function renderPortfolios(){
     </table></div>
   </div>
   <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px">
-    <div style="font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:12px">Recent Transactions — ${port.name||activeKey}</div>
-    <div style="overflow-x:auto"><table style="min-width:500px">
-      <tr><th>Date</th><th>Action</th><th>Ticker</th><th>Reason</th><th>Value</th><th>Price &times; Shares</th><th>P&amp;L</th></tr>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:#f0f6fc">Full Trade Log — ${port.name||activeKey}</div>
+      <div style="font-size:11px;color:#8b949e">${(port.transactions||[]).length} transactions since ${port.inception_date||'—'}</div>
+    </div>
+    <div style="overflow:auto;max-height:520px;border:1px solid #21262d;border-radius:6px"><table style="min-width:500px;border-collapse:collapse">
+      <tr style="position:sticky;top:0;background:#161b22;z-index:1"><th>Date</th><th>Action</th><th>Ticker</th><th>Reason</th><th>Value</th><th>Price &times; Shares</th><th>P&amp;L</th></tr>
       ${tRows}
     </table></div>
   </div></div>
