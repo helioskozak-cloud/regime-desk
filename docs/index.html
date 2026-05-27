@@ -13217,40 +13217,58 @@ function renderSectors(){
   const allSectors=_sectorData();
   const sectors=allSectors.filter(s=>s.name&&s.name!=='Unknown');
   const n=sectors.length;
-  const SPX_WT={'Technology':28,'Healthcare':13,'Financials':13,'Consumer Discretionary':11,
-    'Communication Services':9,'Industrials':8,'Consumer Staples':6,'Energy':4,
-    'Real Estate':2.5,'Utilities':2.5,'Materials':2.5,'Semiconductors':5,'Biotech':2,'Crypto':0};
   const ICON={'Technology':'&#x25FC;','Semiconductors':'&#x2BC0;','Healthcare':'&#x2B22;',
     'Financials':'&#x25B6;','Consumer Discretionary':'&#x25C6;','Communication Services':'&#x25CB;',
     'Industrials':'&#x25A0;','Consumer Staples':'&#x25BD;','Energy':'&#x26A1;',
     'Utilities':'&#x25D1;','Real Estate':'&#x25A3;','Materials':'&#x2B21;',
     'Biotech':'&#x2B2C;','Defense':'&#x25B2;','Crypto':'&#x25C9;','Energy Transition':'&#x2600;'};
 
-  // ── Sector table ──────────────────────────────────────────────────────────
-  const sectorRows=sectors.map((s,i)=>{
+  // Stock pool filtered by current horizon, used for "Top tickers" and themes
+  let pool=S.stocks||[];
+  if(_horizon!=='all') pool=pool.filter(s=>s.horizon===_horizon);
+
+  function _topTickers(secName){
+    const sStocks=pool.filter(st=>st.sector===secName).sort((a,b)=>(b.edge||0)-(a.edge||0)).slice(0,3);
+    if(!sStocks.length) return '<span style="color:#484f58">—</span>';
+    return sStocks.map(st=>{
+      const c=st.edge>=0?'#3fb950':'#f85149';
+      return `<span data-ticker="${st.ticker}" style="font-family:monospace;color:#c9d1d9;font-weight:600;font-size:12px">${st.ticker}</span><span style="color:${c};font-size:11px;margin:0 9px 0 3px">${st.edge>=0?'+':''}${(st.edge*100).toFixed(1)}%</span>`;
+    }).join('');
+  }
+
+  function _row(s,i){
     const rankBadge=i<3?'<span style="color:#e3b341;font-size:11px;margin-right:3px">&#x25B2;</span>'
       :(i>=n-3?'<span style="color:#f85149;font-size:11px;margin-right:3px">&#x25BC;</span>':'');
     const icon='<span style="color:'+(s.edge>=0?'#3fb950':'#f85149')+';font-size:12px;margin-right:5px;opacity:.7">'+(ICON[s.name]||'&#x25A1;')+'</span>';
     return`<tr><td>${rankBadge}${icon}${s.name}</td>
-      <td style="color:${s.edge>=0?'#3fb950':'#f85149'};font-weight:600">${pct(s.edge)}</td>
+      <td style="color:${s.edge>=0?'#3fb950':'#f85149'};font-weight:600;white-space:nowrap">${pct(s.edge)}</td>
       <td><div class="bar-wrap"><div class="bar-fill" style="width:${((s.breadth||0)*100).toFixed(0)}%;background:${s.edge>=0?'#238636':'#b91c1c'}"></div></div></td>
-      <td>${s.stocks}</td><td>${pill(s.signal)}</td></tr>`;
-  }).join('');
+      <td>${s.stocks}</td>
+      <td style="white-space:nowrap">${_topTickers(s.name)}</td>
+      <td>${pill(s.signal)}</td></tr>`;
+  }
 
-  // ── Allocation delta ──────────────────────────────────────────────────────
-  const allocRows=sectors.map(s=>{
-    const bw=SPX_WT[s.name]!=null?SPX_WT[s.name]:null;
-    const tilt=s.signal==='bullish'?'Overweight':s.signal==='bearish'?'Underweight':'Neutral';
-    const tc=s.signal==='bullish'?'#3fb950':s.signal==='bearish'?'#f85149':'#8b949e';
-    const arrow=s.signal==='bullish'?'&#x2191;':s.signal==='bearish'?'&#x2193;':'&#x2192;';
-    return`<tr><td>${s.name}</td><td style="color:#8b949e">${bw!=null?bw+'%':'—'}</td>
-      <td>${pill(s.signal)}</td><td style="color:${tc};font-weight:600">${arrow} ${tilt}</td></tr>`;
-  }).join('');
+  // Split into bullish (edge >= 0) and bearish (edge < 0), keeping order
+  const bull=sectors.filter(s=>s.edge>=0);
+  const bear=sectors.filter(s=>s.edge<0);
+
+  function _groupHeader(label,count,color){
+    return`<tr><td colspan="6" style="padding:14px 0 6px;border-bottom:1px solid #30363d;color:${color};font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">${label} <span style="color:#6e7681;font-weight:400">· ${count}</span></td></tr>`;
+  }
+
+  const tableRows=[];
+  if(bull.length){
+    tableRows.push(_groupHeader('Leaders — positive edge',bull.length,'#3fb950'));
+    bull.forEach((s,i)=>tableRows.push(_row(s,i)));
+  }
+  if(bear.length){
+    tableRows.push(_groupHeader('Laggards — negative edge',bear.length,'#f85149'));
+    // continue rank index from bull length so the bottom 3 ▼ badges still apply
+    bear.forEach((s,i)=>tableRows.push(_row(s,bull.length+i)));
+  }
 
   // ── Thematic breakdown (collapsible cards) ────────────────────────────────
   const themes=(S.themes||[]).filter(t=>t.name&&t.name!=='Unknown');
-  let pool=S.stocks||[];
-  if(_horizon!=='all')pool=pool.filter(s=>s.horizon===_horizon);
   function _med(arr){if(!arr.length)return null;const s=[...arr].sort((a,b)=>a-b);return s[Math.floor(s.length/2)];}
   const TH='<th style="text-align:left;padding:0 10px 6px;font-weight:500;white-space:nowrap">';
   const themeCards=themes.map((t,i)=>{
@@ -13298,14 +13316,9 @@ function renderSectors(){
 
   return`<div class="card"><h2>Sector Expectations</h2>
     ${_horizonBar()}
-    <p style="margin-bottom:12px;color:#8b949e">Ranked by conditional edge${_horizon!=='all'?' — '+_horizon+' horizon':''}.</p>
-    <table><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Signal</th></tr>
-    ${sectorRows}</table>
-  </div>
-  <div class="card"><h2>Allocation Delta vs SPX</h2>
-    <p style="margin-bottom:12px;color:#8b949e">Overweight where edge is bullish, underweight where bearish.</p>
-    <table><tr><th>Sector</th><th>SPX Weight</th><th>Signal</th><th>Suggested Tilt</th></tr>
-    ${allocRows}</table>
+    <p style="margin-bottom:12px;color:#8b949e">Ranked by conditional edge${_horizon!=='all'?' — '+_horizon+' horizon':''}. Top tickers are the strongest-edge symbols in each sector.</p>
+    <div style="overflow-x:auto"><table style="min-width:760px"><tr><th>Sector</th><th>Edge</th><th>Breadth</th><th>Stocks</th><th>Top Tickers</th><th>Signal</th></tr>
+    ${tableRows.join('')}</table></div>
   </div>
   ${themes.length?`<div class="card"><h2>Thematic Breakdown</h2>
     <p style="margin-bottom:12px;color:#8b949e">Click any theme to expand. Bear/Median/Bull = p10/p50/p90 forward returns.</p>
