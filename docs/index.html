@@ -13492,7 +13492,7 @@ function renderStocks(){
     const betaCell=st.beta!=null?`<span style="color:#8b949e">${st.beta.toFixed(2)}</span>`:'<span style="color:#484f58">—</span>';
     return`<tr style="${rowBg}">
       <td><div style="display:flex;align-items:center" data-ticker="${st.ticker}">${logo}<div><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></div></div></td>
-      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${st.name||'—'}</td><td>${sector}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(st.name||'').replace(/"/g,'&quot;')}">${st.name||'—'}</td><td>${sector}</td>
       <td style="color:#8b949e;font-variant-numeric:tabular-nums;white-space:nowrap">${_fmtPx(st.price)}</td>
       <td style="color:#8b949e;font-variant-numeric:tabular-nums;white-space:nowrap">${_fmtCap(st.market_cap)}</td>
       <td style="color:#8b949e;font-variant-numeric:tabular-nums;white-space:nowrap">${_fmtVol(st.avg_volume)}</td>
@@ -14075,7 +14075,7 @@ function renderMemory(){
   // Enrich memory entries with today's change from stock signals
   const stockMap={};
   (S.all_signals||S.stocks||[]).forEach(s=>{stockMap[s.ticker]=s;});
-  let enriched=mem.map(m=>{const s=stockMap[m.ticker];return Object.assign({},m,{change_pct:s?s.change_pct:null});});
+  let enriched=mem.map(m=>{const s=stockMap[m.ticker];return Object.assign({},m,{change_pct:s?s.change_pct:null,name:s?s.name:null});});
   // Apply filters
   if(window._memFilter.minPersist!=null) enriched=enriched.filter(m=>(m.persistence||0)>=window._memFilter.minPersist);
   if(window._memFilter.minResolved!=null) enriched=enriched.filter(m=>(m.resolved_signals||0)>=window._memFilter.minResolved);
@@ -14098,7 +14098,7 @@ function renderMemory(){
     const rowBg=m.change_pct!=null?(m.change_pct>=0.02?'background:rgba(63,185,80,.10);':m.change_pct<=-0.02?'background:rgba(248,81,73,.10);':m.change_pct>=0.005?'background:rgba(63,185,80,.04);':m.change_pct<=-0.005?'background:rgba(248,81,73,.04);':''):'';
     const tickerCol=m.change_pct!=null?(m.change_pct>=0?'#3fb950':m.change_pct<0?'#f85149':'#c9d1d9'):'#c9d1d9';
     const logo=`<img src="https://assets.parqet.com/logos/symbol/${m.ticker}?format=jpg" width="16" height="16" style="border-radius:2px;object-fit:contain;vertical-align:middle;margin-right:6px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
-    return`<tr style="${rowBg}"><td><div style="display:inline-flex;align-items:center" data-ticker="${m.ticker}">${logo}<strong style="font-family:monospace;color:${tickerCol}">${m.ticker}</strong></div></td><td>${persBar}</td><td style="color:${ac};font-weight:600;white-space:nowrap">${alpha}</td><td style="color:${hrc};font-weight:600">${hr}</td><td style="color:#8b949e">${m.resolved_signals!=null?m.resolved_signals:'—'}</td><td style="color:${cc};font-weight:600;white-space:nowrap">${chg}</td></tr>`;
+    return`<tr style="${rowBg}"><td><div style="display:inline-flex;align-items:center" data-ticker="${m.ticker}">${logo}<strong style="font-family:monospace;color:${tickerCol}">${m.ticker}</strong></div></td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${(m.name||'').replace(/"/g,'&quot;')}">${m.name||'—'}</td><td>${persBar}</td><td style="color:${ac};font-weight:600;white-space:nowrap">${alpha}</td><td style="color:${hrc};font-weight:600">${hr}</td><td style="color:#8b949e">${m.resolved_signals!=null?m.resolved_signals:'—'}</td><td style="color:${cc};font-weight:600;white-space:nowrap">${chg}</td></tr>`;
   }).join('');
   const mf=window._memFilter;
   const mfActive=(mf.minPersist!=null||mf.minResolved!=null);
@@ -14116,7 +14116,7 @@ function renderMemory(){
   <p style="color:#8b949e;margin-bottom:14px;font-size:12px">Tracks which stocks consistently appear as signals across multiple regime scans, and how well past signals have played out. Hover any column header for details. Click to sort.</p>
   ${filterBar}
   <div style="overflow-x:auto"><table style="min-width:540px">
-    <tr>${mth('ticker','Ticker','Stock ticker symbol')}${mth('persistence','Persistence','Number of distinct scan days (last 90) on which this ticker appeared as a signal. Higher = the edge keeps reappearing across changing market regimes.')}${mth('avg_regime_alpha','Avg Alpha','Average regime alpha across resolved signals = actual return minus predicted edge. Positive means the stock has been beating its own forecast on average.')}${mth('hit_rate','Hit %','Fraction of resolved signals where the actual return met or exceeded the predicted edge. Small samples (low Resolved count) make this noisy.')}${mth('resolved_signals','Resolved','Past signals whose forecast horizon has fully elapsed (5d / 20d / 60d / 120d after the signal date), so we can compare predicted vs actual return. Recent signals are still in-flight and excluded.')}${mth('change_pct','Today','Today’s price change for this ticker (vs. previous close).')}</tr>
+    <tr>${mth('ticker','Ticker','Stock ticker symbol')}<th style="user-select:none" title="Company name">Name</th>${mth('persistence','Persistence','Number of distinct scan days (last 90) on which this ticker appeared as a signal. Higher = the edge keeps reappearing across changing market regimes.')}${mth('avg_regime_alpha','Avg Alpha','Average regime alpha across resolved signals = actual return minus predicted edge. Positive means the stock has been beating its own forecast on average.')}${mth('hit_rate','Hit %','Fraction of resolved signals where the actual return met or exceeded the predicted edge. Small samples (low Resolved count) make this noisy.')}${mth('resolved_signals','Resolved','Past signals whose forecast horizon has fully elapsed (5d / 20d / 60d / 120d after the signal date), so we can compare predicted vs actual return. Recent signals are still in-flight and excluded.')}${mth('change_pct','Today','Today’s price change for this ticker (vs. previous close).')}</tr>
     ${rows}
   </table></div></div>
   <footer>Persistence = how often the signal recurs · Resolved = signals whose horizon has elapsed · Alpha = actual minus predicted return. Small Resolved counts give noisy Hit% — weight by sample size. Not investment advice.</footer>`;
@@ -14209,12 +14209,16 @@ function renderPortfolios(){
   const legend=keys.map(k=>{const clr=colors[k]||'#8b949e';return`<span style="display:inline-flex;align-items:center;gap:5px;margin-right:14px;font-size:11px;color:${clr}"><svg width="18" height="3" style="flex-shrink:0"><line x1="0" y1="1.5" x2="18" y2="1.5" stroke="${clr}" stroke-width="2.5"/></svg>${(ports[k]||{}).name||k}</span>`;}).join('');
   const chart=_portMultiLine(ports,720,200);
   const port=ports[activeKey]||{};
+  const nameMap={};
+  (S.all_signals||S.stocks||[]).forEach(s=>{if(s.name) nameMap[s.ticker]=s.name;});
   const holdings=[...(port.holdings||[])].sort((a,b)=>(b.current_value||0)-(a.current_value||0));
   const hRows=holdings.length?holdings.map(h=>{
+    const hName=h.name||nameMap[h.ticker]||'—';
     const pnl=h.pnl_pct||0,pc=pnl>=0?'#3fb950':'#f85149';
     const logo=`<img src="https://assets.parqet.com/logos/symbol/${h.ticker||'?'}?format=jpg" width="16" height="16" style="border-radius:2px;object-fit:contain;vertical-align:middle;margin-right:5px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
     return`<tr>
       <td><div style="display:flex;align-items:center">${logo}<strong style="font-family:monospace">${h.ticker||'?'}</strong></div></td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c9d1d9;font-size:12px" title="${hName.replace(/"/g,'&quot;')}">${hName}</td>
       <td style="color:#8b949e;font-size:12px">${h.sector||'—'}</td>
       <td style="color:#6e7681;font-size:11px">${h.horizon||'—'}</td>
       <td style="font-weight:600">$${(h.current_value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</td>
@@ -14222,7 +14226,7 @@ function renderPortfolios(){
       <td style="color:#6e7681;font-size:11px;white-space:nowrap">$${(h.entry_price||0).toFixed(2)} &#x2192; $${(h.current_price||0).toFixed(2)}</td>
       <td style="color:#6e7681;font-size:11px">${h.entry_date||'—'}</td>
     </tr>`;
-  }).join(''):`<tr><td colspan="7" style="color:#6e7681;text-align:center;padding:24px">No positions held</td></tr>`;
+  }).join(''):`<tr><td colspan="8" style="color:#6e7681;text-align:center;padding:24px">No positions held</td></tr>`;
   const txns=[...(port.transactions||[])].reverse();
   const tRows=txns.length?txns.map(t=>{
     const isBuy=t.action==='buy',ac=isBuy?'#3fb950':'#f85149';
@@ -14249,8 +14253,8 @@ function renderPortfolios(){
   <div style="display:flex;gap:8px;margin-bottom:14px">${tabBtns}</div>
   <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;margin-bottom:12px">
     <div style="font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:12px">Holdings — ${port.name||activeKey} (${holdings.length} positions)</div>
-    <div style="overflow-x:auto"><table style="min-width:560px">
-      <tr><th>Ticker</th><th>Sector</th><th>Horizon</th><th>Value</th><th>P&amp;L</th><th>Price</th><th>Entered</th></tr>
+    <div style="overflow-x:auto"><table style="min-width:640px">
+      <tr><th>Ticker</th><th>Name</th><th>Sector</th><th>Horizon</th><th>Value</th><th>P&amp;L</th><th>Price</th><th>Entered</th></tr>
       ${hRows}
     </table></div>
   </div>
