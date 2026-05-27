@@ -116,7 +116,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 
 <script>
 window.SNAPSHOT = {
-  "generated": "2026-05-27",
+  "generated": "2026-05-26",
   "spy": {
     "ret_5d": 0.01777,
     "ret_20d": 0.05118,
@@ -7811,132 +7811,6 @@ window.SNAPSHOT = {
         343.56,
         344.92
       ]
-    },
-    {
-      "ticker": "ADBE",
-      "name": "ADBE",
-      "sector": "Unknown",
-      "edge": -0.0038,
-      "horizon": "5d",
-      "n_obs": 30,
-      "p10": -0.034,
-      "p25": -0.0209,
-      "p50": -0.0026,
-      "p75": 0.0167,
-      "p90": 0.0412,
-      "hit_rate": 0.4,
-      "vol": 0.0132,
-      "below_threshold": true,
-      "from_watchlist": true,
-      "short_history": false
-    },
-    {
-      "ticker": "DDOG",
-      "name": "DDOG",
-      "sector": "Unknown",
-      "edge": 0.0197,
-      "horizon": "5d",
-      "n_obs": 30,
-      "p10": -0.0425,
-      "p25": -0.0069,
-      "p50": 0.0262,
-      "p75": 0.0427,
-      "p90": 0.0583,
-      "hit_rate": 0.667,
-      "vol": 0.0217,
-      "below_threshold": true,
-      "from_watchlist": true,
-      "short_history": false
-    },
-    {
-      "ticker": "TSLA",
-      "name": "TSLA",
-      "sector": "Unknown",
-      "edge": 0.0091,
-      "horizon": "5d",
-      "n_obs": 30,
-      "p10": -0.0682,
-      "p25": -0.0312,
-      "p50": 0.0114,
-      "p75": 0.0355,
-      "p90": 0.0722,
-      "hit_rate": 0.533,
-      "vol": 0.035,
-      "below_threshold": true,
-      "from_watchlist": true,
-      "short_history": false
-    },
-    {
-      "ticker": "CIFR",
-      "name": "CIFR",
-      "sector": "Unknown",
-      "edge": -0.0065,
-      "horizon": "5d",
-      "n_obs": 26,
-      "p10": -0.1448,
-      "p25": -0.063,
-      "p50": -0.0085,
-      "p75": 0.074,
-      "p90": 0.1321,
-      "hit_rate": 0.346,
-      "vol": 0.0446,
-      "below_threshold": true,
-      "from_watchlist": true,
-      "short_history": false
-    },
-    {
-      "ticker": "LITE",
-      "name": "LITE",
-      "sector": "Unknown",
-      "edge": -0.0015,
-      "horizon": "5d",
-      "n_obs": 30,
-      "p10": -0.0362,
-      "p25": -0.0117,
-      "p50": 0.0042,
-      "p75": 0.025,
-      "p90": 0.0585,
-      "hit_rate": 0.567,
-      "vol": 0.0272,
-      "below_threshold": true,
-      "from_watchlist": true,
-      "short_history": false
-    },
-    {
-      "ticker": "ANRO",
-      "name": "ANRO",
-      "sector": "Unknown",
-      "edge": -0.0568,
-      "horizon": "5d",
-      "n_obs": 20,
-      "p10": -0.1157,
-      "p25": -0.0927,
-      "p50": -0.0482,
-      "p75": 0.0227,
-      "p90": 0.1045,
-      "hit_rate": 0.4,
-      "vol": 0.0343,
-      "below_threshold": true,
-      "from_watchlist": true,
-      "short_history": true
-    },
-    {
-      "ticker": "JNJ",
-      "name": "JNJ",
-      "sector": "Unknown",
-      "edge": 0.0039,
-      "horizon": "5d",
-      "n_obs": 30,
-      "p10": -0.0176,
-      "p25": -0.0078,
-      "p50": 0.0057,
-      "p75": 0.0245,
-      "p90": 0.0391,
-      "hit_rate": 0.633,
-      "vol": 0.0098,
-      "below_threshold": true,
-      "from_watchlist": true,
-      "short_history": false
     }
   ],
   "watchlist": [
@@ -13124,10 +12998,7 @@ modal.innerHTML=`<div style="background:#161b22;border:1px solid #30363d;border-
 </div>`;
 document.body.appendChild(modal);
 document.addEventListener('keydown',e=>{
-  // Skip when typing in any form control, contenteditable, or with modifier keys held
-  if(e.ctrlKey||e.metaKey||e.altKey) return;
-  const t=e.target;
-  if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable)) return;
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
   if(e.key==='?'){modal.style.display='flex';return;}
   if(e.key==='Escape'){modal.style.display='none';return;}
   if(e.key==='d'){themeBtn.click();return;}
@@ -13662,10 +13533,6 @@ function renderStocks(){
   if(_stFilter.betaMax!=null) pool=pool.filter(s=>s.beta!=null&&s.beta<=_stFilter.betaMax);
   const sorted=[...pool].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
   function th(col,label){const active=_sortCol===col;return`<th onclick="window._rdSort('${col}')" style="cursor:pointer;user-select:none">${label}${active?(_sortDir>0?' ↑':' ↓'):''}</th>`;}
-  // Compact formatters for the new columns
-  function _fmtCap(v){if(v==null)return'<span style="color:#484f58">—</span>';if(v>=1e12)return(v/1e12).toFixed(1)+'T';if(v>=1e9)return(v/1e9).toFixed(1)+'B';if(v>=1e6)return Math.round(v/1e6)+'M';return Math.round(v/1e3)+'K';}
-  function _fmtVol(v){if(v==null)return'<span style="color:#484f58">—</span>';if(v>=1e6)return(v/1e6).toFixed(1)+'M';if(v>=1e3)return Math.round(v/1e3)+'K';return Math.round(v);}
-  function _fmtPx(v){if(v==null)return'<span style="color:#484f58">—</span>';return v>=100?v.toFixed(0):v.toFixed(2);}
   function stRow(st){
     const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
     const ann=(st.edge||0)*(252/hd);
@@ -13676,9 +13543,6 @@ function renderStocks(){
     return`<tr style="${rowBg}">
       <td><div style="display:flex;align-items:center" data-ticker="${st.ticker}">${logo}<div><strong>${st.ticker}</strong><div style="color:#6e7681;font-size:10px">${st.horizon}</div></div></div></td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${st.name||'—'}</td><td>${sector}</td>
-      <td style="color:#8b949e;font-variant-numeric:tabular-nums;white-space:nowrap">${_fmtPx(st.price)}</td>
-      <td style="color:#8b949e;font-variant-numeric:tabular-nums;white-space:nowrap">${_fmtCap(st.market_cap)}</td>
-      <td style="color:#8b949e;font-variant-numeric:tabular-nums;white-space:nowrap">${_fmtVol(st.avg_volume)}</td>
       <td style="color:${st.edge>=0?'#3fb950':'#f85149'};white-space:nowrap">${pct(st.edge)} <span style="color:#6e7681;font-size:11px">(${pct(ann)})</span></td>
       <td style="color:#f85149;font-weight:600;white-space:nowrap">${pct(st.p10)}</td>
       <td style="color:#c9d1d9;font-weight:600;white-space:nowrap">${pct(st.p50)}</td>
@@ -13689,7 +13553,7 @@ function renderStocks(){
     </tr>`;
   }
   const rows=isWl
-    ?wlTickers.map(tk=>{const st=pool.find(s=>s.ticker===tk);return st?stRow(st):`<tr><td><strong>${tk}</strong></td><td colspan="13" style="color:#6e7681;font-size:12px;font-style:italic">No signal data available</td></tr>`;})
+    ?wlTickers.map(tk=>{const st=pool.find(s=>s.ticker===tk);return st?stRow(st):`<tr><td><strong>${tk}</strong></td><td colspan="10" style="color:#6e7681;font-size:12px;font-style:italic">No signal data available</td></tr>`;})
     :sorted.map(stRow);
   // Filter bar
   const sectors=[...new Set((S.stocks||[]).map(s=>s.sector).filter(x=>x&&x!=='Unknown'))].sort();
@@ -13742,7 +13606,7 @@ function renderStocks(){
   ${_horizonBar()}${filterBar}${wlBar}${lookupBar}
   <div id="rd-pinned-cards"></div>
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
-  <div style="overflow-x:auto"><table style="min-width:860px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('price','Price')}${th('market_cap','Cap')}${th('avg_volume','Vol')}${th('edge','Edge')}<th>Bear</th><th>Median</th><th>Bull</th>${th('hit_rate','Hit%')}${th('n_obs','n')}<th>Beta</th><th></th></tr>
+  <div style="overflow-x:auto"><table style="min-width:700px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('edge','Edge')}<th>Bear</th><th>Median</th><th>Bull</th>${th('hit_rate','Hit%')}${th('n_obs','n')}<th>Beta</th><th></th></tr>
   ${rows.join('')}
   </table></div></div>
   <footer>Tendencies only — not investment advice. Green/red row tint = positive/negative edge in watchlist mode.</footer>`;
