@@ -234,10 +234,34 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
             state[key] = _empty_portfolio(key, run_date)
 
     for key, port in state.items():
-        # Skip if already updated today
+        # If today's snapshot already exists, only continue if there are still
+        # trade decisions to make (turnover due, or cash to deploy). If neither
+        # is pending, skip — otherwise pop today's snapshot so we recompute it
+        # after the trades. This lets a same-day re-run pick up config changes
+        # (e.g. shortened TURNOVER_INTERVAL) instead of being silently blocked.
         if port["history"] and port["history"][-1]["date"] == run_date:
-            print(f"  {port['name']}: already updated today", flush=True)
-            continue
+            last_to = port.get("last_turnover_date")
+            days_since_to = (
+                (run_dt - pd.Timestamp(last_to)).days if last_to else TURNOVER_INTERVAL + 1
+            )
+            turnover_due = days_since_to >= TURNOVER_INTERVAL and bool(port["holdings"])
+            last_buy = port.get("last_buy_date")
+            days_since_buy = (
+                (run_dt - pd.Timestamp(last_buy)).days if last_buy else DEPLOY_INTERVAL + 1
+            )
+            today_snapshot = port["history"][-1]
+            cash_ratio = (
+                today_snapshot["cash"] / today_snapshot["total_value"]
+                if today_snapshot.get("total_value") else 1.0
+            )
+            buy_due = (days_since_buy >= DEPLOY_INTERVAL
+                       and cash_ratio > FULLY_DEPLOYED
+                       and len(port["holdings"]) < MAX_POSITIONS)
+            if not (turnover_due or buy_due):
+                print(f"  {port['name']}: already updated today, no pending trades", flush=True)
+                continue
+            # Pop today's snapshot — it will be re-appended with the new trades
+            port["history"].pop()
 
         # 1. Mark current prices
         total_invested = _mark_holdings(port, prices, run_dt)
