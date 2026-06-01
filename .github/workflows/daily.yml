@@ -3,9 +3,14 @@ name: Daily evolve
 on:
   schedule:
     # Times in UTC; aligned to EDT (UTC-4). In EST (winter) these shift one hour earlier.
-    - cron: "30 13 * * 1-5"  # 09:30 ET — market open (weekdays)
+    # Each run gets a 20-min backup trigger to absorb GitHub Actions cron delay.
+    # The concurrency group below dedupes overlapping runs.
+    - cron: "30 13 * * 1-5"  # 09:30 ET — market open
+    - cron: "50 13 * * 1-5"  # 09:50 ET — backup
     - cron: "0 16 * * 1-5"   # 12:00 ET — midday
+    - cron: "20 16 * * 1-5"  # 12:20 ET — backup
     - cron: "15 20 * * 1-5"  # 16:15 ET — after market close
+    - cron: "35 20 * * 1-5"  # 16:35 ET — backup
   workflow_dispatch:
 
 concurrency:
@@ -22,30 +27,57 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Skip the run if the data was already refreshed in the last 30 min by a
+      # primary trigger. This lets the +20 min backup crons absorb scheduler
+      # delay without re-running when the primary landed on time.
+      - name: Skip if recently refreshed
+        id: freshness
+        run: |
+          if [ -f data/spy_state.json ]; then
+            now=$(date -u +%s)
+            mod=$(date -u -d "$(git log -1 --format=%cI -- data/spy_state.json)" +%s 2>/dev/null || echo 0)
+            age=$(( now - mod ))
+            echo "spy_state.json age = ${age}s"
+            if [ "$age" -lt 1800 ]; then
+              echo "fresh=true" >> "$GITHUB_OUTPUT"
+              echo "Data refreshed within last 30 min — skipping rebuild."
+            else
+              echo "fresh=false" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "fresh=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up Python
+        if: steps.freshness.outputs.fresh != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Set up Node
+        if: steps.freshness.outputs.fresh != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - name: Install dependencies
+        if: steps.freshness.outputs.fresh != 'true'
         run: pip install -r requirements.txt
 
       - name: Run scan
+        if: steps.freshness.outputs.fresh != 'true'
         run: python scan/ci_scan.py
         continue-on-error: true
 
       - name: Run build
+        if: steps.freshness.outputs.fresh != 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PYTHONUTF8: "1"
         run: python build/build.py
 
       - name: Commit and push
+        if: steps.freshness.outputs.fresh != 'true'
         run: |
           git config user.name "regime-desk-bot"
           git config user.email "bot@regime-desk"
