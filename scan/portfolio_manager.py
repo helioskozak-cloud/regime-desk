@@ -10,7 +10,7 @@ Shared rules:
   - Deploy 15% of total value every 5 trading days until cash < 5% of total
   - 5 positions per weekly tranche, equal-weight (~3% each)
   - Max 30 positions, max 25% in any one sector
-  - Quarterly turnover (~63 days): sell 10% of holdings not in current signals
+  - Monthly turnover (~30 days): sell 10% of holdings not in current signals
   - Prices from the wide-format yfinance DataFrame already in memory
 """
 import json
@@ -28,7 +28,7 @@ MAX_POSITIONS       = 30
 MAX_SECTOR_WEIGHT   = 0.25        # 25% cap per sector
 MIN_POSITION_VALUE  = 500.0       # minimum position size
 FULLY_DEPLOYED      = 0.05        # stop buying when cash < 5% of total
-TURNOVER_INTERVAL   = 63          # trading days between turnover events
+TURNOVER_INTERVAL   = 30          # calendar days between turnover events
 TURNOVER_RATE       = 0.10        # fraction of portfolio to replace each quarter
 MAX_TRANSACTIONS    = 300         # keep last N transactions per portfolio
 
