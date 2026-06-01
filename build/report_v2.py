@@ -62,9 +62,19 @@ def main():
     port_shaped = {k: _shape(v) for k, v in port_v2.items()}
 
     today_str = date.today().strftime("%Y-%m-%d")
-    out_path = OUT_DIR / f"v2_portfolio_review_{today_str}.pdf"
-    build_report(port_shaped, out_path, V2_META)
-    print(f"Wrote {out_path}")
+    # 1. Dated copy in reports/ (local archive, gitignored)
+    dated_path = OUT_DIR / f"v2_portfolio_review_{today_str}.pdf"
+    build_report(port_shaped, dated_path, V2_META)
+    print(f"Wrote {dated_path}")
+
+    # 2. Stable copy in docs/reports/v2_latest.pdf so GitHub Pages serves it
+    #    at https://<user>.github.io/regime-desk/reports/v2_latest.pdf
+    import shutil
+    docs_reports = Path(__file__).parent.parent / "docs" / "reports"
+    docs_reports.mkdir(parents=True, exist_ok=True)
+    latest_path = docs_reports / "v2_latest.pdf"
+    shutil.copy(dated_path, latest_path)
+    print(f"Published {latest_path}")
 
 
 if __name__ == "__main__":

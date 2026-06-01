@@ -16656,11 +16656,15 @@ function renderPortfolios(){
     </tr>`;
   }).join(''):`<tr><td colspan="7" style="color:#6e7681;text-align:center;padding:24px">No transactions yet</td></tr>`;
   const tabBtns=keys.map(k=>{const clr=colors[k]||'#8b949e',isAct=k===activeKey;return`<button onclick="window._portTabFn('${k}')" style="background:${isAct?'#21262d':'none'};border:1px solid ${isAct?clr:'#30363d'};color:${isAct?clr:'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${isAct?700:400};transition:all .15s">${ports[k].name}</button>`;}).join('');
-  const verToggle = hasV1 ? `<div style="display:flex;gap:6px;margin-bottom:16px;align-items:center">
+  const pdfHref = version==='v1' ? 'reports/v1_archive.pdf' : 'reports/v2_latest.pdf';
+  const pdfLabel = version==='v1' ? '📄 v1 archive PDF' : '📄 v2 latest PDF';
+  const pdfLink = `<a href="${pdfHref}" target="_blank" rel="noopener noreferrer" style="margin-left:auto;border:1px solid #30363d;color:#8b949e;padding:5px 12px;border-radius:6px;font-size:12px;text-decoration:none">${pdfLabel}</a>`;
+  const verToggle = hasV1 ? `<div style="display:flex;gap:6px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
     <span style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-right:6px">Experiment</span>
     <button onclick="window._portVerFn('v2')" style="background:${version==='v2'?'#1f6feb':'none'};border:1px solid ${version==='v2'?'#1f6feb':'#30363d'};color:${version==='v2'?'#fff':'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${version==='v2'?700:400}">v2 · Horizon Exits · LIVE</button>
     <button onclick="window._portVerFn('v1')" style="background:${version==='v1'?'#6e7681':'none'};border:1px solid ${version==='v1'?'#6e7681':'#30363d'};color:${version==='v1'?'#fff':'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${version==='v1'?700:400}">v1 · Quarterly Turnover · ARCHIVED</button>
     ${version==='v1' ? '<span style="color:#e3b341;font-size:11px;margin-left:8px">★ Frozen Feb 23 – Jun 1 · no further updates</span>' : '<span style="color:#3fb950;font-size:11px;margin-left:8px">● Live · updates with each scan</span>'}
+    ${pdfLink}
   </div>` : '';
   const headerSuffix = version==='v1' ? ' — v1 Archive' : ' — v2 Live';
   return`<div class="card"><h2>Paper Portfolios — $100k Each, Simulated${headerSuffix}</h2>

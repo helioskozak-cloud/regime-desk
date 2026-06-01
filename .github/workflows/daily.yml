@@ -80,12 +80,17 @@ jobs:
           PYTHONUTF8: "1"
         run: python build/build.py
 
+      - name: Generate v2 portfolio review PDF
+        if: steps.freshness.outputs.fresh != 'true'
+        run: python build/report_v2.py
+        continue-on-error: true
+
       - name: Commit and push
         if: steps.freshness.outputs.fresh != 'true'
         run: |
           git config user.name "regime-desk-bot"
           git config user.email "bot@regime-desk"
-          git add docs/index.html changelog.json history/ data/ || true
+          git add docs/index.html docs/reports/v2_latest.pdf changelog.json history/ data/ || true
           git diff --cached --quiet && echo "No changes to commit" || \
             git commit -m "chore: daily build $(date -u +%Y-%m-%d)"
           git pull --rebase origin main

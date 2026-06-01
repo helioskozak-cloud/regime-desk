@@ -11,4 +11,5 @@ data/api_test.log
 data/api_test_err.log
 sector_map_snippet.txt
 .claude/
-reports/
+# Local PDF report cache (only ignore at repo root, NOT docs/reports/ which is published)
+/reports/
