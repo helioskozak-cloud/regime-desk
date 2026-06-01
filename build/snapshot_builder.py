@@ -436,32 +436,47 @@ def build_snapshot():
         except Exception as exc:
             print(f"[snapshot] Could not load stock_scores.csv: {exc}")
 
-    # Load paper portfolios
+    # Load paper portfolios — v2 (active) from portfolio.json, v1 (archived)
+    # from portfolio_v1.json. Both rendered in the dashboard via toggle.
+    def _shape_portfolio(port: dict) -> dict:
+        return {
+            "name":           port.get("name", ""),
+            "label":          port.get("label", ""),
+            "sort_col":       port.get("sort_col", "edge"),
+            "inception_date": port.get("inception_date", ""),
+            "archive_date":   port.get("archive_date", ""),
+            "version":        port.get("version", "v1"),
+            "initial_cash":   port.get("initial_cash", 100000),
+            "cash":           round(port.get("cash", 0), 2),
+            "n_positions":    len(port.get("holdings", {})),
+            "holdings":       [{"ticker": k, **v} for k, v in port.get("holdings", {}).items()],
+            "history":        port.get("history", [])[-180:],
+            "transactions":   port.get("transactions", [])[-500:],
+            "return_pct":     port["history"][-1]["return_pct"] if port.get("history") else 0.0,
+            "total_value":    port["history"][-1]["total_value"] if port.get("history") else port.get("initial_cash", 100000),
+        }
+
     portfolio_path = DATA / "portfolio.json"
     if portfolio_path.exists():
         try:
             with open(portfolio_path, "r", encoding="utf-8") as f:
                 port_state = json.load(f)
-            portfolios = {}
-            for key, port in port_state.items():
-                portfolios[key] = {
-                    "name":           port.get("name", key),
-                    "label":          port.get("label", ""),
-                    "sort_col":       port.get("sort_col", "edge"),
-                    "inception_date": port.get("inception_date", ""),
-                    "initial_cash":   port.get("initial_cash", 100000),
-                    "cash":           round(port.get("cash", 0), 2),
-                    "n_positions":    len(port.get("holdings", {})),
-                    "holdings":       [{"ticker": k, **v} for k, v in port.get("holdings", {}).items()],
-                    "history":        port.get("history", [])[-90:],  # last 90 days
-                    "transactions":   port.get("transactions", [])[-500:],
-                    "return_pct":     port["history"][-1]["return_pct"] if port.get("history") else 0.0,
-                    "total_value":    port["history"][-1]["total_value"] if port.get("history") else port.get("initial_cash", 100000),
-                }
+            portfolios = {k: _shape_portfolio(p) for k, p in port_state.items()}
             snap["portfolios"] = portfolios
-            print(f"[snapshot] Loaded {len(portfolios)} portfolios")
+            print(f"[snapshot] Loaded {len(portfolios)} v2 portfolios")
         except Exception as exc:
             print(f"[snapshot] Could not load portfolio.json: {exc}")
+
+    portfolio_v1_path = DATA / "portfolio_v1.json"
+    if portfolio_v1_path.exists():
+        try:
+            with open(portfolio_v1_path, "r", encoding="utf-8") as f:
+                port_v1 = json.load(f)
+            v1 = {k: _shape_portfolio(p) for k, p in port_v1.items()}
+            snap["portfolios_v1"] = v1
+            print(f"[snapshot] Loaded {len(v1)} v1 archived portfolios")
+        except Exception as exc:
+            print(f"[snapshot] Could not load portfolio_v1.json: {exc}")
 
     # Load cross-asset signals + risks
     if has_cross_asset:

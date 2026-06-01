@@ -6,12 +6,20 @@ Strategy differences (everything else identical):
   bull_case — buys stocks ranked by highest p90  (best upside scenario)
   defensive — buys stocks ranked by highest p10  (best downside floor)
 
-Shared rules:
-  - Deploy 15% of total value every 5 trading days until cash < 5% of total
-  - 5 positions per weekly tranche, equal-weight (~3% each)
-  - Max 30 positions, max 25% in any one sector
-  - Monthly turnover (~30 days): sell 10% of holdings not in current signals
-  - Prices from the wide-format yfinance DataFrame already in memory
+v2 rules (active 2026-06-01 onwards):
+  - Horizon-based exits: sell each position when its signal's forecast
+    horizon has elapsed. A 5d signal exits ~7 calendar days after entry;
+    a 120d signal exits ~170 days after. Uses a 1.4× business→calendar
+    fudge factor.
+  - Continuous buying: deploy any free cash on every run, no weekly
+    tranche timer. Cash freed by a horizon exit is redeployed within
+    the same daily build.
+  - Equal-weight target (~3.33% per slot at 30 positions).
+  - Max 30 positions, max 25% in any one sector.
+
+v1 archive (2026-02-23 → 2026-06-01) is preserved in data/portfolio_v1.json
+and rendered separately in the dashboard. The v1 rules used a 30/63-day
+calendar turnover and a 5-day buy tranche.
 """
 import json
 from pathlib import Path
@@ -21,16 +29,15 @@ import pandas as pd
 DATA_DIR = Path(__file__).parent.parent / "data"
 
 INITIAL_CASH        = 100_000.0
-DEPLOY_FRAC         = 0.15        # 15% of total value per weekly tranche
-DEPLOY_INTERVAL     = 5           # trading days between deployment runs
-POSITIONS_PER_BATCH = 5           # new positions per tranche
 MAX_POSITIONS       = 30
 MAX_SECTOR_WEIGHT   = 0.25        # 25% cap per sector
 MIN_POSITION_VALUE  = 500.0       # minimum position size
-FULLY_DEPLOYED      = 0.05        # stop buying when cash < 5% of total
-TURNOVER_INTERVAL   = 30          # calendar days between turnover events
-TURNOVER_RATE       = 0.10        # fraction of portfolio to replace each quarter
-MAX_TRANSACTIONS    = 300         # keep last N transactions per portfolio
+MAX_TRANSACTIONS    = 500         # keep last N transactions per portfolio
+
+# Horizon-exit threshold: how many calendar days = one trading-day horizon.
+# 5 trading days ≈ 7 calendar days (1.4× factor).
+HORIZON_CAL_FACTOR  = 1.4
+HORIZON_DAYS        = {"5d": 5, "20d": 20, "60d": 60, "120d": 120}
 
 STRATEGIES = {
     "max_edge":  {"name": "Max Edge",   "sort_col": "edge", "label": "Ranks by conditional edge (median)"},
@@ -53,7 +60,7 @@ def _empty_portfolio(strategy_key: str, inception_date: str) -> dict:
         "history":       [],
         "transactions":  [],
         "last_buy_date": None,
-        "last_turnover_date": None,
+        "version":       "v2",
     }
 
 
@@ -97,58 +104,71 @@ def _mark_holdings(port: dict, prices: pd.DataFrame, run_dt: pd.Timestamp) -> fl
     return total_invested
 
 
-def _do_turnover(port: dict, market_signals: pd.DataFrame,
-                 run_date: str, run_dt: pd.Timestamp, total_value: float) -> None:
-    if market_signals.empty:
-        return
-    current_tickers = set(market_signals["ticker"].tolist())
-    candidates = [t for t in port["holdings"] if t not in current_tickers]
-    n_sell = max(1, round(len(port["holdings"]) * TURNOVER_RATE))
-    to_sell = candidates[:n_sell]
+def _do_horizon_exits(port: dict, run_date: str, run_dt: pd.Timestamp) -> int:
+    """Sell positions whose signal horizon has elapsed (in calendar days).
+    Returns the number of positions sold."""
+    to_sell = []
+    for ticker, pos in port["holdings"].items():
+        horizon = pos.get("horizon", "20d")
+        h_days = HORIZON_DAYS.get(horizon, 20)
+        entry_date_str = pos.get("entry_date")
+        if not entry_date_str:
+            continue
+        entry_dt = pd.Timestamp(entry_date_str)
+        days_held = (run_dt - entry_dt).days
+        threshold = int(h_days * HORIZON_CAL_FACTOR)
+        if days_held >= threshold:
+            to_sell.append((ticker, days_held, horizon))
 
-    for ticker in to_sell:
+    for ticker, days_held, horizon in to_sell:
         pos = port["holdings"].pop(ticker)
-        price    = pos.get("current_price", pos["entry_price"])
+        price = pos.get("current_price", pos["entry_price"])
         proceeds = round(pos["shares"] * price, 2)
         port["cash"] += proceeds
         port["transactions"].append({
-            "date": run_date,
-            "action": "sell", "reason": "turnover",
-            "ticker": ticker,
-            "shares": pos["shares"],
-            "price": round(price, 4),
-            "value": proceeds,
-            "pnl_pct": pos.get("pnl_pct", 0.0),
+            "date":      run_date,
+            "action":    "sell",
+            "reason":    f"horizon_exit_{horizon}",
+            "ticker":    ticker,
+            "shares":    pos["shares"],
+            "price":     round(price, 4),
+            "value":     proceeds,
+            "pnl_pct":   pos.get("pnl_pct", 0.0),
+            "days_held": days_held,
+            "horizon":   horizon,
         })
+    return len(to_sell)
 
-    port["last_turnover_date"] = run_date
 
-
-def _do_buy(port: dict, market_signals: pd.DataFrame,
-            prices: pd.DataFrame, run_date: str, run_dt: pd.Timestamp,
-            total_value: float) -> None:
+def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
+                        prices: pd.DataFrame, run_date: str, run_dt: pd.Timestamp,
+                        total_value: float) -> int:
+    """Buy candidate stocks until cash drops below threshold or position cap
+    is hit. Equal-weight target = total_value / MAX_POSITIONS."""
     if market_signals.empty:
-        return
+        return 0
     sort_col = port["sort_col"]
     if sort_col not in market_signals.columns:
         sort_col = "edge"
 
-    held     = set(port["holdings"].keys())
-    cash     = port["cash"]
-    tranche  = min(cash, total_value * DEPLOY_FRAC)
-
-    # Rank candidates by this portfolio's strategy metric
+    held = set(port["holdings"].keys())
     candidates = (
         market_signals[~market_signals["ticker"].isin(held)]
         .dropna(subset=[sort_col])
         .sort_values(sort_col, ascending=False)
     )
 
-    selected = []
+    target_position_size = total_value / MAX_POSITIONS
+
+    available_slots = MAX_POSITIONS - len(port["holdings"])
+    if available_slots <= 0:
+        return 0
+
+    bought = 0
     for _, row in candidates.iterrows():
-        if len(selected) >= POSITIONS_PER_BATCH:
+        if bought >= available_slots:
             break
-        if len(port["holdings"]) + len(selected) >= MAX_POSITIONS:
+        if port["cash"] < MIN_POSITION_VALUE:
             break
 
         sector = str(row.get("sector", "Unknown"))
@@ -157,29 +177,21 @@ def _do_buy(port: dict, market_signals: pd.DataFrame,
             for p in port["holdings"].values()
             if p.get("sector") == sector
         )
-        if sector_value > total_value * MAX_SECTOR_WEIGHT:
+        if sector_value + target_position_size > total_value * MAX_SECTOR_WEIGHT:
             continue
 
         price = _get_price(str(row["ticker"]), prices, run_dt)
         if price is None or price == 0:
             continue
 
-        selected.append((row, price))
-
-    if not selected:
-        return
-
-    per_pos = tranche / len(selected)
-    if per_pos < MIN_POSITION_VALUE:
-        return
-
-    for row, price in selected:
-        ticker = str(row["ticker"])
-        value  = min(per_pos, port["cash"])
+        # Use the smaller of target size, available cash; never below the floor
+        value = min(target_position_size, port["cash"])
         if value < MIN_POSITION_VALUE:
             break
+
         shares = value / price
         port["cash"] -= value
+        ticker = str(row["ticker"])
         port["holdings"][ticker] = {
             "shares":        round(shares, 4),
             "entry_price":   round(price, 4),
@@ -205,8 +217,11 @@ def _do_buy(port: dict, market_signals: pd.DataFrame,
             "sort_col":  sort_col,
             "sort_value": round(float(row.get(sort_col, 0)), 4),
         })
+        bought += 1
 
-    port["last_buy_date"] = run_date
+    if bought:
+        port["last_buy_date"] = run_date
+    return bought
 
 
 def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
@@ -234,57 +249,38 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
             state[key] = _empty_portfolio(key, run_date)
 
     for key, port in state.items():
-        # If today's snapshot already exists, only continue if there are still
-        # trade decisions to make (turnover due, or cash to deploy). If neither
-        # is pending, skip — otherwise pop today's snapshot so we recompute it
-        # after the trades. This lets a same-day re-run pick up config changes
-        # (e.g. shortened TURNOVER_INTERVAL) instead of being silently blocked.
+        # Same-day re-run: only reprocess if there's pending work
         if port["history"] and port["history"][-1]["date"] == run_date:
-            last_to = port.get("last_turnover_date")
-            days_since_to = (
-                (run_dt - pd.Timestamp(last_to)).days if last_to else TURNOVER_INTERVAL + 1
+            # Check if any horizon exits or buys are pending given current state
+            has_pending_exit = any(
+                (run_dt - pd.Timestamp(pos.get("entry_date", run_date))).days
+                >= int(HORIZON_DAYS.get(pos.get("horizon", "20d"), 20) * HORIZON_CAL_FACTOR)
+                for pos in port["holdings"].values()
             )
-            turnover_due = days_since_to >= TURNOVER_INTERVAL and bool(port["holdings"])
-            last_buy = port.get("last_buy_date")
-            days_since_buy = (
-                (run_dt - pd.Timestamp(last_buy)).days if last_buy else DEPLOY_INTERVAL + 1
+            today_snap = port["history"][-1]
+            has_room_to_buy = (
+                today_snap.get("cash", 0) >= MIN_POSITION_VALUE
+                and len(port["holdings"]) < MAX_POSITIONS
             )
-            today_snapshot = port["history"][-1]
-            cash_ratio = (
-                today_snapshot["cash"] / today_snapshot["total_value"]
-                if today_snapshot.get("total_value") else 1.0
-            )
-            buy_due = (days_since_buy >= DEPLOY_INTERVAL
-                       and cash_ratio > FULLY_DEPLOYED
-                       and len(port["holdings"]) < MAX_POSITIONS)
-            if not (turnover_due or buy_due):
+            if not (has_pending_exit or has_room_to_buy):
                 print(f"  {port['name']}: already updated today, no pending trades", flush=True)
                 continue
-            # Pop today's snapshot — it will be re-appended with the new trades
+            # Pop today's snapshot — it will be re-appended with the new state
             port["history"].pop()
 
         # 1. Mark current prices
         total_invested = _mark_holdings(port, prices, run_dt)
         total_value    = port["cash"] + total_invested
 
-        # 2. Quarterly turnover
-        last_to = port.get("last_turnover_date")
-        days_since_to = (
-            (run_dt - pd.Timestamp(last_to)).days if last_to else TURNOVER_INTERVAL + 1
-        )
-        if days_since_to >= TURNOVER_INTERVAL and port["holdings"]:
-            _do_turnover(port, market_signals, run_date, run_dt, total_value)
+        # 2. Horizon-based exits
+        n_sold = _do_horizon_exits(port, run_date, run_dt)
+        if n_sold:
             total_invested = _mark_holdings(port, prices, run_dt)
             total_value    = port["cash"] + total_invested
 
-        # 3. Weekly deployment
-        last_buy  = port.get("last_buy_date")
-        days_since_buy = (
-            (run_dt - pd.Timestamp(last_buy)).days if last_buy else DEPLOY_INTERVAL + 1
-        )
-        cash_ratio     = port["cash"] / total_value if total_value > 0 else 1.0
-        if days_since_buy >= DEPLOY_INTERVAL and cash_ratio > FULLY_DEPLOYED:
-            _do_buy(port, market_signals, prices, run_date, run_dt, total_value)
+        # 3. Continuous buying — deploy any free cash
+        n_bought = _do_continuous_buy(port, market_signals, prices, run_date, run_dt, total_value)
+        if n_bought:
             total_invested = _mark_holdings(port, prices, run_dt)
             total_value    = port["cash"] + total_invested
 
@@ -298,13 +294,15 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
             "return_pct":   round((total_value / port["initial_cash"] - 1) * 100, 4),
         })
 
-        # Trim transactions
         port["transactions"] = port["transactions"][-MAX_TRANSACTIONS:]
 
         n = len(port["holdings"])
         ret = port["history"][-1]["return_pct"]
+        activity = ""
+        if n_sold or n_bought:
+            activity = f" | +{n_bought}b/-{n_sold}s today"
         print(f"  {port['name']}: ${total_value:,.0f} | {n} positions | "
-              f"{ret:+.2f}% return", flush=True)
+              f"{ret:+.2f}% return{activity}", flush=True)
 
     with open(port_path, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2)

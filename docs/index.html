@@ -349,7 +349,7 @@ window.SNAPSHOT = {
     },
     {
       "name": "Energy",
-      "edge": 0.1163,
+      "edge": 0.1164,
       "breadth": 1.0,
       "horizon": "20d",
       "stocks": 8,
@@ -7892,6 +7892,132 @@ window.SNAPSHOT = {
         148.49,
         143.07
       ]
+    },
+    {
+      "ticker": "ADBE",
+      "name": "ADBE",
+      "sector": "Unknown",
+      "edge": -0.0038,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.034,
+      "p25": -0.0209,
+      "p50": -0.0026,
+      "p75": 0.0167,
+      "p90": 0.0412,
+      "hit_rate": 0.4,
+      "vol": 0.0132,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "DDOG",
+      "name": "DDOG",
+      "sector": "Unknown",
+      "edge": 0.0197,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0425,
+      "p25": -0.0069,
+      "p50": 0.0262,
+      "p75": 0.0427,
+      "p90": 0.0583,
+      "hit_rate": 0.667,
+      "vol": 0.0217,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "TSLA",
+      "name": "TSLA",
+      "sector": "Unknown",
+      "edge": 0.0091,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0682,
+      "p25": -0.0312,
+      "p50": 0.0114,
+      "p75": 0.0355,
+      "p90": 0.0722,
+      "hit_rate": 0.533,
+      "vol": 0.035,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "CIFR",
+      "name": "CIFR",
+      "sector": "Unknown",
+      "edge": -0.0065,
+      "horizon": "5d",
+      "n_obs": 26,
+      "p10": -0.1448,
+      "p25": -0.063,
+      "p50": -0.0085,
+      "p75": 0.074,
+      "p90": 0.1321,
+      "hit_rate": 0.346,
+      "vol": 0.0446,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "LITE",
+      "name": "LITE",
+      "sector": "Unknown",
+      "edge": -0.0015,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0362,
+      "p25": -0.0117,
+      "p50": 0.0042,
+      "p75": 0.025,
+      "p90": 0.0585,
+      "hit_rate": 0.567,
+      "vol": 0.0272,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "ANRO",
+      "name": "ANRO",
+      "sector": "Unknown",
+      "edge": -0.0568,
+      "horizon": "5d",
+      "n_obs": 20,
+      "p10": -0.1157,
+      "p25": -0.0927,
+      "p50": -0.0482,
+      "p75": 0.0227,
+      "p90": 0.1045,
+      "hit_rate": 0.4,
+      "vol": 0.0343,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": true
+    },
+    {
+      "ticker": "JNJ",
+      "name": "JNJ",
+      "sector": "Unknown",
+      "edge": 0.0039,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0176,
+      "p25": -0.0078,
+      "p50": 0.0057,
+      "p75": 0.0245,
+      "p90": 0.0391,
+      "hit_rate": 0.633,
+      "vol": 0.0098,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
     }
   ],
   "watchlist": [
@@ -8741,7 +8867,65 @@ window.SNAPSHOT = {
       "name": "Max Edge",
       "label": "Ranks by conditional edge (median)",
       "sort_col": "edge",
+      "inception_date": "2026-06-01",
+      "archive_date": "",
+      "version": "v2",
+      "initial_cash": 100000.0,
+      "cash": 100000.0,
+      "n_positions": 0,
+      "holdings": [],
+      "history": [],
+      "transactions": [],
+      "return_pct": 0.0,
+      "total_value": 100000.0
+    },
+    "bull_case": {
+      "name": "Bull Case",
+      "label": "Ranks by p90 - best upside scenario",
+      "sort_col": "p90",
+      "inception_date": "2026-06-01",
+      "archive_date": "",
+      "version": "v2",
+      "initial_cash": 100000.0,
+      "cash": 100000.0,
+      "n_positions": 0,
+      "holdings": [],
+      "history": [],
+      "transactions": [],
+      "return_pct": 0.0,
+      "total_value": 100000.0
+    },
+    "defensive": {
+      "name": "Defensive",
+      "label": "Ranks by p10 - best downside floor",
+      "sort_col": "p10",
+      "inception_date": "2026-06-01",
+      "archive_date": "",
+      "version": "v2",
+      "initial_cash": 100000.0,
+      "cash": 100000.0,
+      "n_positions": 0,
+      "holdings": [],
+      "history": [],
+      "transactions": [],
+      "return_pct": 0.0,
+      "total_value": 100000.0
+    }
+  },
+  "narrative": {
+    "headline": "Neutral regime \u2014 Energy Transition, Semiconductors leading",
+    "constructive": "Analog matching finds neutral conditions historically favor Energy Transition, Semiconductors, Communication Services with positive conditional edge.",
+    "risk": "No strongly negative sector signals. Reversal risk estimated at 25%.",
+    "plain_english": "The market is in a neutral phase. Historical analogs suggest Energy Transition, Semiconductors tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
+  },
+  "portfolios_v1": {
+    "max_edge": {
+      "name": "Max Edge",
+      "label": "Ranks by conditional edge (median)",
+      "sort_col": "edge",
       "inception_date": "2026-02-23",
+      "archive_date": "2026-06-01",
+      "version": "v1",
       "initial_cash": 100000.0,
       "cash": 0.0,
       "n_positions": 30,
@@ -10231,6 +10415,8 @@ window.SNAPSHOT = {
       "label": "Ranks by p90 \u2014 best upside scenario",
       "sort_col": "p90",
       "inception_date": "2026-02-23",
+      "archive_date": "2026-06-01",
+      "version": "v1",
       "initial_cash": 100000.0,
       "cash": 0.0,
       "n_positions": 30,
@@ -11740,6 +11926,8 @@ window.SNAPSHOT = {
       "label": "Ranks by p10 \u2014 best downside floor",
       "sort_col": "p10",
       "inception_date": "2026-02-23",
+      "archive_date": "2026-06-01",
+      "version": "v1",
       "initial_cash": 100000.0,
       "cash": 0.0,
       "n_positions": 30,
@@ -13234,12 +13422,6 @@ window.SNAPSHOT = {
       "return_pct": 15.7822,
       "total_value": 115782.22
     }
-  },
-  "narrative": {
-    "headline": "Neutral regime \u2014 Energy Transition, Semiconductors leading",
-    "constructive": "Analog matching finds neutral conditions historically favor Energy Transition, Semiconductors, Communication Services with positive conditional edge.",
-    "risk": "No strongly negative sector signals. Reversal risk estimated at 25%.",
-    "plain_english": "The market is in a neutral phase. Historical analogs suggest Energy Transition, Semiconductors tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   }
 };
 </script>
@@ -14613,7 +14795,12 @@ function _portMultiLine(ports,w,h){
 }
 
 function renderPortfolios(){
-  const ports=S.portfolios||{};
+  // v2 = current (live), v1 = archived original experiment
+  const portsV2=S.portfolios||{};
+  const portsV1=S.portfolios_v1||{};
+  const hasV1=Object.keys(portsV1).length>0;
+  const version=window._portVer||(Object.keys(portsV2).length?'v2':'v1');
+  const ports = version==='v1' ? portsV1 : portsV2;
   const keys=Object.keys(ports);
   if(!keys.length)return`<div class="card"><h2>Paper Portfolios</h2><p style="color:#8b949e;padding:20px 0">No portfolio data yet. Run the scan or backfill to seed history.</p></div><footer>Simulated only.</footer>`;
   const colors={max_edge:'#58a6ff',bull_case:'#3fb950',defensive:'#e3b341'};
@@ -14670,7 +14857,15 @@ function renderPortfolios(){
     </tr>`;
   }).join(''):`<tr><td colspan="7" style="color:#6e7681;text-align:center;padding:24px">No transactions yet</td></tr>`;
   const tabBtns=keys.map(k=>{const clr=colors[k]||'#8b949e',isAct=k===activeKey;return`<button onclick="window._portTabFn('${k}')" style="background:${isAct?'#21262d':'none'};border:1px solid ${isAct?clr:'#30363d'};color:${isAct?clr:'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${isAct?700:400};transition:all .15s">${ports[k].name}</button>`;}).join('');
-  return`<div class="card"><h2>Paper Portfolios — $100k Each, Simulated</h2>
+  const verToggle = hasV1 ? `<div style="display:flex;gap:6px;margin-bottom:16px;align-items:center">
+    <span style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-right:6px">Experiment</span>
+    <button onclick="window._portVerFn('v2')" style="background:${version==='v2'?'#1f6feb':'none'};border:1px solid ${version==='v2'?'#1f6feb':'#30363d'};color:${version==='v2'?'#fff':'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${version==='v2'?700:400}">v2 · Horizon Exits · LIVE</button>
+    <button onclick="window._portVerFn('v1')" style="background:${version==='v1'?'#6e7681':'none'};border:1px solid ${version==='v1'?'#6e7681':'#30363d'};color:${version==='v1'?'#fff':'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${version==='v1'?700:400}">v1 · Quarterly Turnover · ARCHIVED</button>
+    ${version==='v1' ? '<span style="color:#e3b341;font-size:11px;margin-left:8px">★ Frozen Feb 23 – Jun 1 · no further updates</span>' : '<span style="color:#3fb950;font-size:11px;margin-left:8px">● Live · updates with each scan</span>'}
+  </div>` : '';
+  const headerSuffix = version==='v1' ? ' — v1 Archive' : ' — v2 Live';
+  return`<div class="card"><h2>Paper Portfolios — $100k Each, Simulated${headerSuffix}</h2>
+  ${verToggle}
   <div class="grid3" style="margin-bottom:18px">${cards}</div>
   <div style="background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:14px;margin-bottom:18px">
     <div style="font-size:11px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Cumulative Return</div>
@@ -14699,6 +14894,13 @@ function renderPortfolios(){
 }
 window._portTabFn=function(key){
   window._portTab=key;
+  const el=document.getElementById('v-portfolios');
+  delete el.dataset.rendered;el.innerHTML=renderPortfolios();el.dataset.rendered='1';
+};
+window._portVerFn=function(ver){
+  window._portVer=ver;
+  // Reset per-strategy tab when flipping versions (different portfolio keys)
+  window._portTab=null;
   const el=document.getElementById('v-portfolios');
   delete el.dataset.rendered;el.innerHTML=renderPortfolios();el.dataset.rendered='1';
 };
