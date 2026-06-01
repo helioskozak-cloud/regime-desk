@@ -154,7 +154,30 @@ def _equity_curve_drawing(history: list, width=6.0*inch, height=2.0*inch,
 
 
 # ── Document builder ────────────────────────────────────────────────────────
-def build_report(port_v1: dict, out_path: Path):
+def build_report(port_data: dict, out_path: Path, meta: dict = None):
+    """Build the PDF.
+
+    `meta` keys (all optional):
+        title           — h1 on cover page
+        doc_title       — PDF metadata title
+        subtitle_fmt    — f-string template using {today}, {inception}, {archive_or_status}
+        methodology     — paragraph text describing the strategy ruleset
+        post_note       — optional second paragraph after methodology (e.g. v1 archive callout)
+        holdings_label  — section heading above the holdings table
+        footer_label    — version label in the page footer
+    """
+    if meta is None:
+        meta = {}
+    title           = meta.get("title", "Paper Portfolio Review")
+    doc_title       = meta.get("doc_title", "Regime Desk — Portfolio Review")
+    subtitle_fmt    = meta.get("subtitle_fmt",
+        "Report generated {today} · Experiment {inception} to {archive_or_status} · "
+        "Simulated only — not investment advice")
+    methodology     = meta.get("methodology", "")
+    post_note       = meta.get("post_note", "")
+    holdings_label  = meta.get("holdings_label", "Holdings")
+    footer_label    = meta.get("footer_label", "Portfolio Review")
+
     doc = SimpleDocTemplate(
         str(out_path),
         pagesize=letter,
@@ -162,7 +185,7 @@ def build_report(port_v1: dict, out_path: Path):
         rightMargin=0.6 * inch,
         topMargin=0.55 * inch,
         bottomMargin=0.6 * inch,
-        title="Regime Desk — v1 Portfolio Review",
+        title=doc_title,
         author="Regime Desk",
     )
 
@@ -194,17 +217,19 @@ def build_report(port_v1: dict, out_path: Path):
     story = []
 
     # ── Title page header ──────────────────────────────────────────────────
-    story.append(Paragraph("Paper Portfolio Review — v1 Archive", h_title))
+    story.append(Paragraph(title, h_title))
     today = date.today().strftime("%B %d, %Y")
-    inception = min((p.get("inception_date", "") for p in port_v1.values()), default="")
-    archive_date = max((p.get("archive_date", "") for p in port_v1.values()), default="")
+    inception = min((p.get("inception_date", "") for p in port_data.values()), default="")
+    archive_date = max((p.get("archive_date", "") for p in port_data.values()), default="")
+    archive_or_status = archive_date if archive_date else f"present ({today})"
     story.append(Paragraph(
-        f"Report generated {today} · Experiment {inception} to {archive_date} · "
-        "Simulated only — not real money", h_subtitle))
+        subtitle_fmt.format(today=today, inception=inception,
+                             archive_or_status=archive_or_status),
+        h_subtitle))
 
     story.append(Paragraph("Executive Summary", h_section))
     summary_lines = []
-    for key, p in port_v1.items():
+    for key, p in port_data.items():
         ret = p["history"][-1]["return_pct"] if p["history"] else 0
         cash = p["history"][-1]["cash"] if p["history"] else p.get("cash", 0)
         n_days = len(p["history"])
@@ -246,28 +271,15 @@ def build_report(port_v1: dict, out_path: Path):
     summary_tbl.setStyle(TableStyle(ts))
     story.append(summary_tbl)
 
-    story.append(Spacer(1, 12))
-    story.append(Paragraph(
-        "Methodology: Three paper portfolios were seeded with $100,000 each on "
-        f"{inception}. All three pulled candidate names from the daily Regime Desk "
-        "analog-matching scan but ranked them differently: <b>Max Edge</b> by "
-        "conditional median minus baseline; <b>Bull Case</b> by 90th-percentile "
-        "forward return; <b>Defensive</b> by 10th-percentile floor. Trades were "
-        "executed at the next available close, equal-weighted to about 3.3% per slot "
-        "with a 25% sector cap. Cash was redeployed in weekly tranches of 15% of "
-        "total value, with a quarterly (63-day) turnover that rotated out 10% of "
-        "holdings.",
-        body))
-    story.append(Spacer(1, 14))
-    story.append(Paragraph(
-        "Note: This v1 ruleset has been retired in favor of a v2 ruleset "
-        "(horizon-based exits, signal-decay sells, stay-long renewals, and "
-        "continuous buying). The figures in this report reflect the original "
-        "experiment as it ran.",
-        body_muted))
+    if methodology:
+        story.append(Spacer(1, 12))
+        story.append(Paragraph(methodology.format(inception=inception), body))
+    if post_note:
+        story.append(Spacer(1, 14))
+        story.append(Paragraph(post_note, body_muted))
 
     # ── Per-portfolio sections ─────────────────────────────────────────────
-    for key, p in port_v1.items():
+    for key, p in port_data.items():
         story.append(PageBreak())
         story.append(Paragraph(f"{p.get('name', key)} — Detailed Review", h_section))
         story.append(Paragraph(p.get("label", ""), body_muted))
@@ -330,10 +342,10 @@ def build_report(port_v1: dict, out_path: Path):
                 body_muted))
             story.append(Spacer(1, 14))
 
-        # Holdings snapshot (at archive)
+        # Holdings snapshot
         holdings = p.get("holdings", [])
         if holdings:
-            story.append(Paragraph("Holdings at Archive Date", h_sub2))
+            story.append(Paragraph(holdings_label, h_sub2))
             h_rows = sorted(holdings, key=lambda x: -(x.get("current_value", 0) or 0))
             tbl_data = [["Ticker", "Sector", "Horizon", "Entry", "Shares", "Cost", "Value", "P&L"]]
             for h in h_rows:
@@ -375,7 +387,7 @@ def build_report(port_v1: dict, out_path: Path):
             story.append(Spacer(1, 10))
 
     # ── Trade log section per portfolio ────────────────────────────────────
-    for key, p in port_v1.items():
+    for key, p in port_data.items():
         story.append(PageBreak())
         story.append(Paragraph(f"{p.get('name', key)} — Complete Trade Log",
                                 h_section))
@@ -433,7 +445,7 @@ def build_report(port_v1: dict, out_path: Path):
         story.append(log_tbl)
 
     # ── Daily risk profile per portfolio ───────────────────────────────────
-    for key, p in port_v1.items():
+    for key, p in port_data.items():
         history = p.get("history", [])
         if len(history) < 5:
             continue
@@ -493,17 +505,56 @@ def build_report(port_v1: dict, out_path: Path):
         story.append(risk_tbl)
 
     # ── Build & footer ─────────────────────────────────────────────────────
+    footer_text = f"Regime Desk · {footer_label} · Simulated only — not investment advice"
+
     def _page_footer(canv, doc):
         canv.saveState()
         canv.setFont("Helvetica", 7)
         canv.setFillColor(COL_MUTED)
         page_text = f"Page {canv.getPageNumber()}"
-        canv.drawString(0.6 * inch, 0.35 * inch,
-                        "Regime Desk · v1 Portfolio Review · Simulated only — not investment advice")
+        canv.drawString(0.6 * inch, 0.35 * inch, footer_text)
         canv.drawRightString(letter[0] - 0.6 * inch, 0.35 * inch, page_text)
         canv.restoreState()
 
     doc.build(story, onFirstPage=_page_footer, onLaterPages=_page_footer)
+
+
+def _shape(p):
+    """Reshape raw portfolio.json entry into the schema build_report wants."""
+    return {
+        "name":            p.get("name", ""),
+        "label":           p.get("label", ""),
+        "inception_date":  p.get("inception_date", ""),
+        "archive_date":    p.get("archive_date", ""),
+        "initial_cash":    p.get("initial_cash", 100000),
+        "cash":            p.get("cash", 0),
+        "history":         p.get("history", []),
+        "transactions":    p.get("transactions", []),
+        "holdings":        [{"ticker": k, **v} for k, v in p.get("holdings", {}).items()],
+    }
+
+
+V1_META = {
+    "title":          "Paper Portfolio Review — v1 Archive",
+    "doc_title":      "Regime Desk — v1 Portfolio Review",
+    "subtitle_fmt":   "Report generated {today} · Experiment {inception} to {archive_or_status} · "
+                      "Simulated only — not investment advice",
+    "methodology":    "Methodology: Three paper portfolios were seeded with $100,000 each on "
+                      "{inception}. All three pulled candidate names from the daily Regime Desk "
+                      "analog-matching scan but ranked them differently: <b>Max Edge</b> by "
+                      "conditional median minus baseline; <b>Bull Case</b> by 90th-percentile "
+                      "forward return; <b>Defensive</b> by 10th-percentile floor. Trades were "
+                      "executed at the next available close, equal-weighted to about 3.3% per slot "
+                      "with a 25% sector cap. Cash was redeployed in weekly tranches of 15% of "
+                      "total value, with a quarterly (63-day) turnover that rotated out 10% of "
+                      "holdings.",
+    "post_note":      "Note: This v1 ruleset has been retired in favor of a v2 ruleset "
+                      "(horizon-based exits, signal-decay sells, stay-long renewals, and "
+                      "continuous buying). The figures in this report reflect the original "
+                      "experiment as it ran.",
+    "holdings_label": "Holdings at Archive Date",
+    "footer_label":   "v1 Portfolio Review",
+}
 
 
 def main():
@@ -513,25 +564,11 @@ def main():
     with open(v1_path, "r", encoding="utf-8") as f:
         port_v1 = json.load(f)
 
-    # Reshape to match the renderer's expected schema
-    def _shape(p):
-        return {
-            "name":            p.get("name", ""),
-            "label":           p.get("label", ""),
-            "inception_date":  p.get("inception_date", ""),
-            "archive_date":    p.get("archive_date", ""),
-            "initial_cash":    p.get("initial_cash", 100000),
-            "cash":            p.get("cash", 0),
-            "history":         p.get("history", []),
-            "transactions":    p.get("transactions", []),
-            "holdings":        [{"ticker": k, **v} for k, v in p.get("holdings", {}).items()],
-        }
-
     port_shaped = {k: _shape(v) for k, v in port_v1.items()}
 
     today_str = date.today().strftime("%Y-%m-%d")
     out_path = OUT_DIR / f"v1_portfolio_review_{today_str}.pdf"
-    build_report(port_shaped, out_path)
+    build_report(port_shaped, out_path, V1_META)
     print(f"Wrote {out_path}")
 
 
