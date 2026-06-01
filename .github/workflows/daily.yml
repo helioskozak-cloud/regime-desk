@@ -29,11 +29,15 @@ jobs:
 
       # Skip the run if the data was already refreshed in the last 30 min by a
       # primary trigger. This lets the +20 min backup crons absorb scheduler
-      # delay without re-running when the primary landed on time.
+      # delay without re-running when the primary landed on time. Manual
+      # workflow_dispatch always runs (lets us force a refresh on demand).
       - name: Skip if recently refreshed
         id: freshness
         run: |
-          if [ -f data/spy_state.json ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual dispatch — bypassing freshness check."
+            echo "fresh=false" >> "$GITHUB_OUTPUT"
+          elif [ -f data/spy_state.json ]; then
             now=$(date -u +%s)
             mod=$(date -u -d "$(git log -1 --format=%cI -- data/spy_state.json)" +%s 2>/dev/null || echo 0)
             age=$(( now - mod ))
