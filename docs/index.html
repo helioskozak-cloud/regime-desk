@@ -51,6 +51,37 @@ tr:hover td{background:#1c2128}
 .score-fill{height:6px;border-radius:3px;position:absolute;left:0;top:0}
 footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
 @media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+@media(max-width:800px){
+  body{font-size:13px}
+  #topbar{padding:10px 14px !important}
+  #topbar h1{font-size:16px !important}
+  #topbar nav{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;white-space:nowrap;gap:2px !important}
+  #topbar nav a{padding:5px 8px !important;font-size:11px !important;flex-shrink:0}
+  #regime-banner{flex-wrap:wrap;padding:10px 14px !important;gap:10px !important}
+  #regime-banner .stat{flex:0 0 auto;font-size:11px}
+  main{padding:14px 12px !important}
+  .card{padding:14px !important;margin-bottom:14px !important}
+  .card h2{font-size:15px !important;margin-bottom:10px !important}
+  table{font-size:11.5px}
+  table th,table td{padding:5px 6px !important}
+  /* Stocks tab filter bar wraps cleanly */
+  .card div[style*="display:flex"][style*="flex-wrap:wrap"]{gap:5px !important}
+  /* Pinned ticker cards in stocks */
+  #rd-pinned-cards{margin-bottom:12px}
+  /* Ticker hover tooltip — make it not run off screen */
+  #rd-tip{min-width:200px !important;max-width:88vw !important;font-size:11px !important}
+  /* Treemap-like tile grids stack on phone */
+  .tile{padding:10px !important}
+}
+@media(max-width:480px){
+  #topbar h1{font-size:14px !important;letter-spacing:0}
+  #topbar h1 span{display:none}
+  #regime-banner .stat{font-size:10.5px}
+  .card h2{font-size:14px !important}
+  table{font-size:11px}
+  /* Horizontal scroll for big tables — they already use overflow-x:auto wrappers, but tighten */
+  .card div[style*="overflow-x:auto"] table{min-width:560px !important}
+}
 html.light body{background:#ffffff;color:#1f2328}
 html.light #topbar,html.light #regime-banner{background:#f6f8fa;border-color:#d0d7de}
 html.light #topbar nav a{color:#57606a}
