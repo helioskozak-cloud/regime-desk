@@ -16175,14 +16175,14 @@ function renderSectors(){
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
-// ── Signal API (on-demand computation) ────────────────────────────────────────
+// ── Signal API (on-demand computation, local only) ───────────────────────
+// The cloud Render fallback has been retired. On-demand ticker lookups
+// only succeed when run_local_api.bat is running on the user's machine.
 var RD_API_PORT=7534;
-var RD_CLOUD_API='https://regime-desk.onrender.com';
 function _rdGetApiBase(){
   return fetch('http://localhost:'+RD_API_PORT+'/api/ping',{signal:AbortSignal.timeout(800)})
     .then(function(r){return r.ok?'http://localhost:'+RD_API_PORT:null;})
-    .catch(function(){return null;})
-    .then(function(base){return base||(RD_CLOUD_API||null);});
+    .catch(function(){return null;});
 }
 function _rdFetchTicker(tk){
   var msgEl=document.getElementById('rd-pin-msg-'+tk);
