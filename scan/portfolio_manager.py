@@ -243,13 +243,22 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
         sort_col = "edge"
 
     held = set(port["holdings"].keys())
+    # Dedupe by ticker first — market_signals has one row per ticker × horizon
+    # (5d/20d/60d/120d), so the same name can appear up to 4 times. Without
+    # dedupe the loop could buy the same ticker on two different horizon rows
+    # and overwrite the holdings entry (wasting cash). Keep the best-ranked
+    # row for each ticker by this portfolio's sort metric.
     candidates = (
         market_signals[~market_signals["ticker"].isin(held)]
         .dropna(subset=[sort_col])
         .sort_values(sort_col, ascending=False)
+        .drop_duplicates(subset=["ticker"], keep="first")
     )
 
     target_position_size = total_value / MAX_POSITIONS
+    # Belt-and-suspenders: track tickers bought during THIS loop so even if
+    # dedupe ever misses one, we still won't double-buy.
+    bought_tickers: set[str] = set()
 
     available_slots = MAX_POSITIONS - len(port["holdings"])
     if available_slots <= 0:
@@ -261,6 +270,9 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
             break
         if port["cash"] < MIN_POSITION_VALUE:
             break
+        ticker_candidate = str(row["ticker"])
+        if ticker_candidate in bought_tickers or ticker_candidate in port["holdings"]:
+            continue
 
         sector = str(row.get("sector", "Unknown"))
         sector_value = sum(
@@ -282,7 +294,8 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
 
         shares = value / price
         port["cash"] -= value
-        ticker = str(row["ticker"])
+        ticker = ticker_candidate
+        bought_tickers.add(ticker)
         port["holdings"][ticker] = {
             "shares":        round(shares, 4),
             "entry_price":   round(price, 4),

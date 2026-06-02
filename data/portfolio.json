@@ -782,7 +782,7 @@
     "sort_col": "p90",
     "inception_date": "2026-06-01",
     "initial_cash": 100000.0,
-    "cash": 2.8194335754960775e-11,
+    "cash": 6666.66,
     "holdings": {
       "COGT": {
         "shares": 96.2279,
@@ -1208,11 +1208,11 @@
     "history": [
       {
         "date": "2026-06-01",
-        "total_value": 93333.32,
-        "cash": 0.0,
+        "total_value": 99999.98,
+        "cash": 6666.66,
         "invested": 93333.32,
         "n_positions": 28,
-        "return_pct": -6.6667
+        "return_pct": -0.0
       }
     ],
     "transactions": [
@@ -1355,26 +1355,6 @@
         "value": 3333.33,
         "sort_col": "p90",
         "sort_value": 1.1442
-      },
-      {
-        "date": "2026-06-01",
-        "action": "buy",
-        "ticker": "APP",
-        "shares": 5.527,
-        "price": 603.0999,
-        "value": 3333.33,
-        "sort_col": "p90",
-        "sort_value": 1.0961
-      },
-      {
-        "date": "2026-06-01",
-        "action": "buy",
-        "ticker": "VKTX",
-        "shares": 105.753,
-        "price": 31.52,
-        "value": 3333.33,
-        "sort_col": "p90",
-        "sort_value": 1.0786
       },
       {
         "date": "2026-06-01",
@@ -1528,7 +1508,7 @@
     "sort_col": "p10",
     "inception_date": "2026-06-01",
     "initial_cash": 100000.0,
-    "cash": 2.8194335754960775e-11,
+    "cash": 3333.33,
     "holdings": {
       "APP": {
         "shares": 5.527,
@@ -1969,11 +1949,11 @@
     "history": [
       {
         "date": "2026-06-01",
-        "total_value": 96666.66,
-        "cash": 0.0,
+        "total_value": 99999.99,
+        "cash": 3333.33,
         "invested": 96666.66,
         "n_positions": 29,
-        "return_pct": -3.3333
+        "return_pct": -0.0
       }
     ],
     "transactions": [
@@ -2086,16 +2066,6 @@
         "value": 3333.33,
         "sort_col": "p10",
         "sort_value": -0.0152
-      },
-      {
-        "date": "2026-06-01",
-        "action": "buy",
-        "ticker": "APP",
-        "shares": 5.527,
-        "price": 603.0999,
-        "value": 3333.33,
-        "sort_col": "p10",
-        "sort_value": -0.0159
       },
       {
         "date": "2026-06-01",
