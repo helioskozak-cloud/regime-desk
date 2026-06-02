@@ -16272,6 +16272,26 @@ window._rdUnpinTicker=function(tk){
 window._rdClearPinned=function(){_pinnedTickers=[];_savePinned();_rdRefreshPinned();};
 window._rd_postrender_stocks=function(){_rdRefreshPinned();};
 
+/* URL deep-link: ?pin=TICKER pre-pins on landing, ?pin=A,B,C pins many.
+ * Pairs with news-desk's shift-click-to-regime-desk shortcut so a
+ * ticker chip there opens this dashboard with the ticker queued up.  */
+(function _rdApplyUrlPins(){
+  try{
+    var p=new URLSearchParams(location.search).get('pin')||'';
+    if(!p)return;
+    var raw=p.split(',').map(function(s){return s.trim().toUpperCase();}).filter(Boolean);
+    if(!raw.length)return;
+    // Force navigation to the stocks view so the user lands where the pins render
+    if(location.hash!=='#stocks'){location.hash='#stocks';}
+    raw.forEach(function(tk){window._rdPinTicker(tk);});
+    // Strip the param so a manual refresh doesn't re-add duplicates
+    if(history.replaceState){
+      var clean=location.pathname+location.hash;
+      history.replaceState(null,'',clean);
+    }
+  }catch(e){console&&console.warn&&console.warn('pin url:',e);}
+})();
+
 // STOCKS — sortable columns + copy-to-clipboard + horizon filter
 let _sortCol='edge',_sortDir=-1,_horizon='all';
 let _stFilter={sector:'',mcapMin:null,mcapMax:null,volMin:null,volMax:null,betaMin:null,betaMax:null};
@@ -17764,6 +17784,9 @@ function renderAsk(){
       +'<div style="color:#c9d1d9;font-size:13px">'+(st.horizon||'20d')+'</div></div>'
       +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Hits</div>'
       +'<div style="color:#c9d1d9;font-size:13px">'+((st.hit_rate||0)*100).toFixed(0)+'%</div></div>'
+      +'</div>'
+      +'<div style="margin-top:8px;padding-top:6px;border-top:1px solid #21262d;color:#6e7681;font-size:10px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
+      +  '<div style="color:#58a6ff">shift-click → news-desk ↗</div>'
       +'</div>';
     pos(cx,cy);
     tip.style.display='block';
@@ -17783,6 +17806,15 @@ function renderAsk(){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
     if(el&&!el.contains(e.relatedTarget))hide();
   });
+  /* shift-click on any [data-ticker] element opens news-desk filtered to it */
+  document.addEventListener('click',function(e){
+    if(!(e.shiftKey||e.metaKey||e.ctrlKey))return;
+    var el=e.target.closest?e.target.closest('[data-ticker]'):null;
+    if(!el||!el.dataset.ticker)return;
+    e.preventDefault();e.stopPropagation();
+    window.open('https://helioskozak-cloud.github.io/news-desk/?ticker='+encodeURIComponent(el.dataset.ticker),
+                '_blank','noopener,noreferrer');
+  },true);
 })();
 })();
 </script>
