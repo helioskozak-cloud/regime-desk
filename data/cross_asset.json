@@ -17,16 +17,16 @@
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-0.2% (20d)",
+      "value": "+0.2% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.2% \u2014 range-bound rates"
+      "context": "20d ret +0.2% \u2014 range-bound rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "-0.3% (20d)",
+      "value": "+0.2% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.3% \u2014 stable credit"
+      "context": "20d ret +0.2% \u2014 stable credit"
     },
     {
       "name": "Gold",
@@ -52,7 +52,7 @@
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "16.0",
+      "value": "16.2",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
@@ -80,9 +80,9 @@
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "-1.2% (20d)",
+      "value": "-0.1% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.2% \u2014 inflation expectations contained"
+      "context": "20d ret -0.1% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
@@ -103,22 +103,22 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.14,
-      "description": "VIX at 16.0. Calm regime; vol suppression in force.",
+      "score": 0.15,
+      "description": "VIX at 16.2. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
       "name": "Credit Stress",
       "level": "moderate",
-      "score": 0.53,
-      "description": "HYG 20d -0.3%. Spread widening signals funding stress.",
+      "score": 0.48,
+      "description": "HYG 20d +0.2%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return"
     },
     {
       "name": "Rate Re-pricing",
       "level": "moderate",
-      "score": 0.51,
-      "description": "TLT 20d -0.2%. Bond sell-off = rates rising; duration assets under pressure.",
+      "score": 0.48,
+      "description": "TLT 20d +0.2%. Rates stable to falling; supportive for equities.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
     },
     {
@@ -131,8 +131,8 @@
     {
       "name": "Inflation Re-pricing",
       "level": "low",
-      "score": 0.2,
-      "description": "TIPS 20d -1.2%. Inflation expectations contained; Fed credibility intact.",
+      "score": 0.29,
+      "description": "TIPS 20d -0.1%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall"
     },
     {
