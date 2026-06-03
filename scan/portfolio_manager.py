@@ -57,6 +57,74 @@ STRATEGIES = {
     "defensive": {"name": "Defensive",  "sort_col": "p10",  "label": "Ranks by p10 — best downside floor"},
 }
 
+# Which macro-risk axes (from data/cross_asset.json) hit which thematic sector.
+# When a listed risk is elevated (score > 0.5), the sector is demoted in ranking.
+# Empty list = sector is defensive/neutral and unaffected by regime.
+SECTOR_RISK_SENSITIVITY = {
+    "Biotech":                ["Volatility Regime", "Rate Re-pricing"],
+    "Communication Services": ["Rate Re-pricing"],
+    "Consumer Discretionary": ["Growth Slowdown", "Credit Stress"],
+    "Crypto":                 ["Volatility Regime", "Complacency Risk", "Credit Stress"],
+    "Defense":                [],
+    "Energy":                 ["Growth Slowdown", "Dollar Headwind"],
+    "Energy Transition":      ["Growth Slowdown", "Rate Re-pricing"],
+    "Financials":             ["Credit Stress", "Rate Re-pricing", "Growth Slowdown"],
+    "Industrials":            ["Growth Slowdown", "Dollar Headwind"],
+    "Materials":              ["Growth Slowdown", "Dollar Headwind"],
+    "Semiconductors":         ["Growth Slowdown", "Volatility Regime", "Dollar Headwind"],
+    "Technology":             ["Rate Re-pricing", "Dollar Headwind", "Complacency Risk"],
+    "Utilities":              ["Rate Re-pricing"],
+    "Consumer Staples":       [],
+    "Healthcare":             [],
+    "Unknown":                [],
+}
+# Per elevated risk-point above 0.5, add this to the sector's rank-shift penalty.
+# Worst case (3 axes all at 1.0) → penalty = 3 * 0.5 * 0.25 = 0.375 → capped at 0.4.
+REGIME_PENALTY_PER_POINT = 0.25
+REGIME_PENALTY_CAP       = 0.40
+
+
+def _load_regime_penalties() -> dict:
+    """Return {sector: rank_shift_fraction in [0, 0.4]} from cross_asset.json.
+    Empty dict if file missing or unreadable — picks fall back to pre-regime
+    behavior so this is safe to remove the file at any time."""
+    path = DATA_DIR / "cross_asset.json"
+    if not path.exists():
+        return {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            ca = json.load(f)
+    except Exception:
+        return {}
+    scores = {r["name"]: float(r.get("score", 0.0)) for r in ca.get("risks", [])}
+    out = {}
+    for sector, sensitive_to in SECTOR_RISK_SENSITIVITY.items():
+        penalty = 0.0
+        for risk_name in sensitive_to:
+            s = scores.get(risk_name, 0.0)
+            if s > 0.5:
+                penalty += (s - 0.5) * REGIME_PENALTY_PER_POINT
+        out[sector] = min(REGIME_PENALTY_CAP, penalty)
+    return out
+
+
+def _apply_regime_tilt(candidates: pd.DataFrame, penalties: dict) -> pd.DataFrame:
+    """Rank-shift candidates by sector regime penalty. Input must already be
+    sorted by the portfolio's sort_col descending and reset_index'd. Returns
+    a re-sorted frame with two debug columns (_regime_penalty, _adjusted_rank)
+    so trade logs can audit why a pick made the cut."""
+    if not penalties or candidates.empty:
+        candidates = candidates.copy()
+        candidates["_regime_penalty"] = 0.0
+        candidates["_adjusted_rank"]  = range(len(candidates))
+        return candidates
+    n = len(candidates)
+    out = candidates.copy()
+    out["_regime_penalty"] = out["sector"].fillna("Unknown").map(penalties).fillna(0.0)
+    out["_orig_rank"]      = range(n)
+    out["_adjusted_rank"]  = out["_orig_rank"] + out["_regime_penalty"] * n
+    return out.sort_values("_adjusted_rank", ascending=True, kind="mergesort").reset_index(drop=True)
+
 
 def _empty_portfolio(strategy_key: str, inception_date: str) -> dict:
     meta = STRATEGIES[strategy_key]
@@ -118,12 +186,20 @@ def _mark_holdings(port: dict, prices: pd.DataFrame, run_dt: pd.Timestamp) -> fl
 
 def _top_quartile_set(market_signals: pd.DataFrame, sort_col: str) -> set:
     """Return the set of tickers in the top RENEW_TOP_FRACTION of current
-    signals ranked by sort_col."""
+    signals ranked by sort_col, with regime tilt applied so renewals match
+    the same selection logic as new buys."""
     if market_signals.empty or sort_col not in market_signals.columns:
         return set()
-    ranked = market_signals.dropna(subset=[sort_col]).sort_values(sort_col, ascending=False)
+    ranked = (
+        market_signals.dropna(subset=[sort_col])
+        .sort_values(sort_col, ascending=False)
+        .drop_duplicates(subset=["ticker"], keep="first")
+        .reset_index(drop=True)
+    )
     if ranked.empty:
         return set()
+    penalties = _load_regime_penalties()
+    ranked = _apply_regime_tilt(ranked, penalties)
     q_size = max(1, int(len(ranked) * RENEW_TOP_FRACTION))
     return set(ranked.head(q_size)["ticker"].astype(str).tolist())
 
@@ -253,7 +329,9 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
         .dropna(subset=[sort_col])
         .sort_values(sort_col, ascending=False)
         .drop_duplicates(subset=["ticker"], keep="first")
+        .reset_index(drop=True)
     )
+    candidates = _apply_regime_tilt(candidates, _load_regime_penalties())
 
     target_position_size = total_value / MAX_POSITIONS
     # Belt-and-suspenders: track tickers bought during THIS loop so even if
@@ -296,30 +374,33 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
         port["cash"] -= value
         ticker = ticker_candidate
         bought_tickers.add(ticker)
+        regime_penalty = float(row.get("_regime_penalty", 0.0))
         port["holdings"][ticker] = {
-            "shares":        round(shares, 4),
-            "entry_price":   round(price, 4),
-            "entry_date":    run_date,
-            "entry_edge":    round(float(row.get("edge", 0)), 4),
-            "entry_p90":     round(float(row.get("p90", 0)), 4) if "p90" in row.index else None,
-            "entry_p10":     round(float(row.get("p10", 0)), 4) if "p10" in row.index else None,
-            "sector":        str(row.get("sector", "Unknown")),
-            "horizon":       str(row.get("horizon", "20d")),
-            "sort_col":      sort_col,
-            "sort_value":    round(float(row.get(sort_col, 0)), 4),
-            "current_price": round(price, 4),
-            "current_value": round(shares * price, 2),
-            "pnl_pct":       0.0,
+            "shares":         round(shares, 4),
+            "entry_price":    round(price, 4),
+            "entry_date":     run_date,
+            "entry_edge":     round(float(row.get("edge", 0)), 4),
+            "entry_p90":      round(float(row.get("p90", 0)), 4) if "p90" in row.index else None,
+            "entry_p10":      round(float(row.get("p10", 0)), 4) if "p10" in row.index else None,
+            "sector":         str(row.get("sector", "Unknown")),
+            "horizon":        str(row.get("horizon", "20d")),
+            "sort_col":       sort_col,
+            "sort_value":     round(float(row.get(sort_col, 0)), 4),
+            "regime_penalty": round(regime_penalty, 3),
+            "current_price":  round(price, 4),
+            "current_value":  round(shares * price, 2),
+            "pnl_pct":        0.0,
         }
         port["transactions"].append({
-            "date":      run_date,
-            "action":    "buy",
-            "ticker":    ticker,
-            "shares":    round(shares, 4),
-            "price":     round(price, 4),
-            "value":     round(value, 2),
-            "sort_col":  sort_col,
-            "sort_value": round(float(row.get(sort_col, 0)), 4),
+            "date":           run_date,
+            "action":         "buy",
+            "ticker":         ticker,
+            "shares":         round(shares, 4),
+            "price":          round(price, 4),
+            "value":          round(value, 2),
+            "sort_col":       sort_col,
+            "sort_value":     round(float(row.get(sort_col, 0)), 4),
+            "regime_penalty": round(regime_penalty, 3),
         })
         bought += 1
 
