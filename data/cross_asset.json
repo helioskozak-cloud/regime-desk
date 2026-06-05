@@ -52,7 +52,7 @@
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "15.4",
+      "value": "15.7",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
@@ -103,8 +103,8 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.12,
-      "description": "VIX at 15.4. Calm regime; vol suppression in force.",
+      "score": 0.13,
+      "description": "VIX at 15.7. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
