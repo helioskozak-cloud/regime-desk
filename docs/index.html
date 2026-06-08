@@ -16912,15 +16912,30 @@ function renderSectors(){
 // The cloud Render fallback has been retired. On-demand ticker lookups
 // only succeed when run_local_api.bat is running on the user's machine.
 var RD_API_PORT=7534;
-function _rdGetApiBase(){
-  // 3s timeout — was 800ms but Chrome's cross-origin preflight to localhost
-  // (CORS + Private Network Access) regularly burns past that on first hit,
-  // making the dashboard report "No API available" even when the server is
-  // up. localhost is fast; 3s is generous enough for a cold preflight and
-  // still snappy on subsequent calls.
-  return fetch('http://localhost:'+RD_API_PORT+'/api/ping',{signal:AbortSignal.timeout(3000)})
-    .then(function(r){return r.ok?'http://localhost:'+RD_API_PORT:null;})
+var _rdApiBaseCache=null;
+function _rdProbe(base){
+  return fetch(base+'/api/ping',{signal:AbortSignal.timeout(3500)})
+    .then(function(r){return r.ok?base:null;})
     .catch(function(){return null;});
+}
+function _rdGetApiBase(){
+  // Cache the resolved base so we don't re-probe on every pin.
+  if(_rdApiBaseCache) return Promise.resolve(_rdApiBaseCache);
+  // Strategy: try the cloud tunnel URL first (works from any machine),
+  // then fall back to localhost (works on the dev machine without a
+  // tunnel). The tunnel URL is published to api_endpoint.json by
+  // run_tunnel.ps1 on the machine running the local API.
+  return fetch('api_endpoint.json',{cache:'no-store'})
+    .then(function(r){return r.ok?r.json():null;})
+    .catch(function(){return null;})
+    .then(function(doc){
+      var cloud=(doc&&doc.url)?String(doc.url).replace(/\/+$/,''):null;
+      if(!cloud) return _rdProbe('http://localhost:'+RD_API_PORT);
+      return _rdProbe(cloud).then(function(ok){
+        return ok||_rdProbe('http://localhost:'+RD_API_PORT);
+      });
+    })
+    .then(function(base){_rdApiBaseCache=base;return base;});
 }
 function _rdFetchTicker(tk){
   var msgEl=document.getElementById('rd-pin-msg-'+tk);

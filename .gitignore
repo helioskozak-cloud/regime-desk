@@ -13,3 +13,10 @@ sector_map_snippet.txt
 .claude/
 # Local PDF report cache (only ignore at repo root, NOT docs/reports/ which is published)
 /reports/
+
+# Local-only runtime artifacts — don't commit
+cloudflared.exe
+local_api_task.log
+tunnel_logs/
+build_client_deck.py
+client_deck.pdf
