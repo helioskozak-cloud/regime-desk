@@ -390,6 +390,11 @@ def _cors(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    # Chrome 104+ Private Network Access — required for HTTPS pages
+    # (like the GitHub Pages dashboard) to reach localhost. Without
+    # this the preflight succeeds but the browser silently blocks the
+    # actual request before it ever shows up in the network panel.
+    response.headers["Access-Control-Allow-Private-Network"] = "true"
     return response
 
 
