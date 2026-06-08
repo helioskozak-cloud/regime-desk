@@ -16913,7 +16913,12 @@ function renderSectors(){
 // only succeed when run_local_api.bat is running on the user's machine.
 var RD_API_PORT=7534;
 function _rdGetApiBase(){
-  return fetch('http://localhost:'+RD_API_PORT+'/api/ping',{signal:AbortSignal.timeout(800)})
+  // 3s timeout — was 800ms but Chrome's cross-origin preflight to localhost
+  // (CORS + Private Network Access) regularly burns past that on first hit,
+  // making the dashboard report "No API available" even when the server is
+  // up. localhost is fast; 3s is generous enough for a cold preflight and
+  // still snappy on subsequent calls.
+  return fetch('http://localhost:'+RD_API_PORT+'/api/ping',{signal:AbortSignal.timeout(3000)})
     .then(function(r){return r.ok?'http://localhost:'+RD_API_PORT:null;})
     .catch(function(){return null;});
 }
