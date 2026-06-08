@@ -31,9 +31,9 @@
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-8.5% (20d)",
+      "value": "-8.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret -8.5% \u2014 no safe-haven premium"
+      "context": "20d ret -8.3% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -45,15 +45,15 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+2.0% (20d)",
-      "signal": "bullish",
-      "context": "20d ret +2.0% \u2014 stable oil"
+      "value": "+1.8% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.8% \u2014 stable oil"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
       "value": "18.0",
-      "signal": "moderate",
+      "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
@@ -87,23 +87,23 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+1.6% (20d)",
+      "value": "+1.5% (20d)",
       "signal": "neutral",
-      "context": "20d ret +1.6% \u2014 growth neutral"
+      "context": "20d ret +1.5% \u2014 growth neutral"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+2.1% (20d)",
-      "signal": "bullish",
-      "context": "20d ret +2.1% \u2014 financials leading; curve steepening favourable"
+      "value": "+2.0% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +2.0% \u2014 financials lagging"
     }
   ],
   "risks": [
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.22,
+      "score": 0.21,
       "description": "VIX at 18.0. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
@@ -146,7 +146,7 @@
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.17,
-      "description": "SPY +1.0% / 20d with vol 0.84%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +1.0% / 20d with vol 0.83%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
     }
   ]
