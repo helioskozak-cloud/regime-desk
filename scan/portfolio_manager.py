@@ -215,11 +215,14 @@ def _backfill_holding_metadata(port: dict, market_signals: pd.DataFrame | None) 
     patched = 0
     for ticker, pos in port["holdings"].items():
         tk = str(ticker)
-        if not pos.get("name"):
-            nm = sig_names.get(tk) or _UNIV_NAMES.get(tk)
-            if nm:
-                pos["name"] = nm
-                patched += 1
+        # Universe is the curated source of truth — overwrite the cached
+        # name if it differs (heals legacy entries like "Fidelity Ethereum
+        # Fund Fidelity Ethereum Fund" where the universe was previously
+        # double-stamped).
+        nm_new = sig_names.get(tk) or _UNIV_NAMES.get(tk)
+        if nm_new and pos.get("name") != nm_new:
+            pos["name"] = nm_new
+            patched += 1
         if not pos.get("sector") or pos.get("sector") == "Unknown":
             sec = sig_sectors.get(tk) or _UNIV_SECTORS.get(tk)
             if sec and sec != "Unknown":
@@ -474,6 +477,9 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
         port["transactions"].append({
             "date":           run_date,
             "action":         "buy",
+            # Tag every buy with WHY it qualified — the dashboard's Trade Log
+            # Reason column was blank for buys because nothing populated it.
+            "reason":         f"top_{sort_col}",
             "ticker":         ticker,
             "shares":         round(shares, 4),
             "price":          round(price, 4),
@@ -522,6 +528,20 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
         total_patched += _backfill_holding_metadata(port, market_signals)
     if total_patched:
         print(f"  Backfilled {total_patched} missing name/sector field(s)", flush=True)
+
+    # Backfill reason on legacy buy transactions (older entries were saved
+    # before reason was tagged at buy time; the dashboard shows blank for
+    # them in the Trade Log).
+    tx_patched = 0
+    for port in state.values():
+        for tx in port.get("transactions", []):
+            if tx.get("action") == "buy" and not (tx.get("reason") or "").strip():
+                sc = tx.get("sort_col")
+                if sc:
+                    tx["reason"] = f"top_{sc}"
+                    tx_patched += 1
+    if tx_patched:
+        print(f"  Backfilled reason on {tx_patched} legacy buy transactions", flush=True)
 
     for key, port in state.items():
         # Same-day re-run: only reprocess if there's pending work
