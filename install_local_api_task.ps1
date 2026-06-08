@@ -13,8 +13,9 @@ $ErrorActionPreference = "Stop"
 
 $TaskName    = "Regime Desk Local API"
 $RepoDir     = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Script      = Join-Path $RepoDir "build\local_api.py"
+$Script      = Join-Path $RepoDir "api_server.py"
 $LogFile     = Join-Path $RepoDir "local_api_task.log"
+$ApiPort     = "7534"  # dashboard hard-codes localhost:7534 (RD_API_PORT)
 
 # ── Locate pythonw.exe (suppresses console window) ───────────────────────────
 $PyCmd = Get-Command python -ErrorAction SilentlyContinue
@@ -48,13 +49,13 @@ if ($existing) {
     Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
 }
 
-# ── Action: run pythonw with the local_api.py script ────────────────────────
-# Note: pythonw.exe has no stdout — we let local_api.py write its own
-# console logs into local_api_task.log via Python's logging or print to a
-# file. If the script crashes, the task restart logic catches it.
+# ── Action: run pythonw with api_server.py via cmd so we can set PORT and
+# redirect stderr/stdout to a log file. The dashboard expects port 7534;
+# api_server.py reads it from the PORT env var (defaults to 8080 otherwise). ─
+$CmdArg = ('/c "set PORT={0}&& "{1}" "{2}" >>"{3}" 2>&1"' -f $ApiPort, $PythonW, $Script, $LogFile)
 $Action = New-ScheduledTaskAction `
-    -Execute  $PythonW `
-    -Argument "`"$Script`"" `
+    -Execute  "$env:WINDIR\System32\cmd.exe" `
+    -Argument $CmdArg `
     -WorkingDirectory $RepoDir
 
 # ── Trigger: at the current user's logon ─────────────────────────────────────
