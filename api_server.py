@@ -628,4 +628,15 @@ threading.Thread(target=_warmup, daemon=True).start()
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     print(f"[api] Regime Desk Cloud API -> http://0.0.0.0:{port}", flush=True)
-    app.run(host="0.0.0.0", port=port, threaded=False)
+    # Use waitress (production-grade pure-Python WSGI server) instead of
+    # Flask's dev server. The dev server crashed intermittently on Windows
+    # under cross-origin preflight traffic with no traceback — waitress is
+    # stable, handles concurrent connections cleanly, and falls back to
+    # Flask's dev server only if waitress isn't installed.
+    try:
+        from waitress import serve
+        print(f"[api] Serving with waitress on port {port}", flush=True)
+        serve(app, host="0.0.0.0", port=port, threads=4)
+    except ImportError:
+        print("[api] waitress not installed; falling back to Flask dev server", flush=True)
+        app.run(host="0.0.0.0", port=port, threaded=False)
