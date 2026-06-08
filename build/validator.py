@@ -37,9 +37,19 @@ def validate(html: str) -> None:
     if re.search(r'<script[^>]+src\s*=', html, re.IGNORECASE):
         errors.append("External <script src=...> found — file must be self-contained")
 
-    # fetch() to localhost is allowed (local API server); any other target is not
+    # fetch() to localhost is allowed (local API server). Same-origin
+    # relative paths are also allowed — they resolve against the Pages
+    # site origin, no third-party data flow. The cloud-tunnel discovery
+    # code fetches api_endpoint.json, which is a relative path.
+    def _is_external_fetch(u: str) -> bool:
+        if u.startswith("http://localhost"):
+            return False
+        # Relative URL — no scheme, no protocol-relative leading //
+        if "://" not in u and not u.startswith("//"):
+            return False
+        return True
     fetch_calls = re.findall(r"fetch\(['\"]([^'\"]*)['\"]", html)
-    bad_fetch = [u for u in fetch_calls if not u.startswith("http://localhost")]
+    bad_fetch = [u for u in fetch_calls if _is_external_fetch(u)]
     if bad_fetch:
         errors.append("fetch() to external URL found — file must be self-contained: " + str(bad_fetch))
     elif re.search(r"fetch\([^'\"]", html.replace("fetch('http://localhost", "").replace('fetch("http://localhost', "")):
