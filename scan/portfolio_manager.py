@@ -154,39 +154,54 @@ def _get_price(ticker: str, prices: pd.DataFrame, run_dt: pd.Timestamp):
     return float(available.iloc[-1])
 
 
-def _mark_holdings(port: dict, prices: pd.DataFrame, run_dt: pd.Timestamp,
-                    market_signals: pd.DataFrame | None = None) -> float:
-    """Update current_price/current_value on all holdings, and backfill
-    name + sector from market_signals for any holding that doesn't have
-    them yet. Returns total invested."""
+def _backfill_holding_metadata(port: dict, market_signals: pd.DataFrame | None) -> int:
+    """Fill in name + sector on any holding that doesn't have them yet,
+    using the current market_signals frame as the source of truth.
+
+    Returned count is how many fields were patched. This runs on EVERY
+    daily build — before the same-day early-exit check — so older
+    portfolio.json entries (saved before name was captured at buy time)
+    get healed eventually as long as their ticker is still in the signal
+    list."""
+    if market_signals is None or market_signals.empty:
+        return 0
     name_lookup: dict[str, str] = {}
     sector_lookup: dict[str, str] = {}
-    if market_signals is not None and not market_signals.empty:
-        if "name" in market_signals.columns:
-            name_lookup = dict(zip(
-                market_signals["ticker"].astype(str),
-                market_signals["name"].fillna("").astype(str),
-            ))
-        if "sector" in market_signals.columns:
-            sector_lookup = dict(zip(
-                market_signals["ticker"].astype(str),
-                market_signals["sector"].fillna("").astype(str),
-            ))
-
-    dead = []
-    total_invested = 0.0
+    if "name" in market_signals.columns:
+        name_lookup = dict(zip(
+            market_signals["ticker"].astype(str),
+            market_signals["name"].fillna("").astype(str),
+        ))
+    if "sector" in market_signals.columns:
+        sector_lookup = dict(zip(
+            market_signals["ticker"].astype(str),
+            market_signals["sector"].fillna("").astype(str),
+        ))
+    patched = 0
     for ticker, pos in port["holdings"].items():
-        # Backfill name / sector if missing — older portfolio.json entries
-        # were saved before these fields were captured at buy time.
         if not pos.get("name"):
             nm = name_lookup.get(str(ticker))
             if nm:
                 pos["name"] = nm
+                patched += 1
         if not pos.get("sector") or pos.get("sector") == "Unknown":
             sec = sector_lookup.get(str(ticker))
             if sec and sec != "Unknown":
                 pos["sector"] = sec
+                patched += 1
+    return patched
 
+
+def _mark_holdings(port: dict, prices: pd.DataFrame, run_dt: pd.Timestamp,
+                    market_signals: pd.DataFrame | None = None) -> float:
+    """Update current_price/current_value on all holdings. Backfill name +
+    sector here too, in case a holding was added by a same-day re-run.
+    Returns total invested."""
+    _backfill_holding_metadata(port, market_signals)
+
+    dead = []
+    total_invested = 0.0
+    for ticker, pos in port["holdings"].items():
         price = _get_price(ticker, prices, run_dt)
         if price is None:
             dead.append(ticker)
@@ -461,6 +476,16 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
     for key in STRATEGIES:
         if key not in state:
             state[key] = _empty_portfolio(key, run_date)
+
+    # First pass: backfill missing name + sector on all holdings, regardless
+    # of whether the portfolio will be re-processed for trades today. This
+    # heals older portfolio.json entries that were saved before name was
+    # captured at buy time.
+    total_patched = 0
+    for port in state.values():
+        total_patched += _backfill_holding_metadata(port, market_signals)
+    if total_patched:
+        print(f"  Backfilled {total_patched} missing name/sector field(s)", flush=True)
 
     for key, port in state.items():
         # Same-day re-run: only reprocess if there's pending work
