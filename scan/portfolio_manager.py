@@ -154,11 +154,39 @@ def _get_price(ticker: str, prices: pd.DataFrame, run_dt: pd.Timestamp):
     return float(available.iloc[-1])
 
 
-def _mark_holdings(port: dict, prices: pd.DataFrame, run_dt: pd.Timestamp) -> float:
-    """Update current_price/current_value on all holdings. Returns total invested."""
+def _mark_holdings(port: dict, prices: pd.DataFrame, run_dt: pd.Timestamp,
+                    market_signals: pd.DataFrame | None = None) -> float:
+    """Update current_price/current_value on all holdings, and backfill
+    name + sector from market_signals for any holding that doesn't have
+    them yet. Returns total invested."""
+    name_lookup: dict[str, str] = {}
+    sector_lookup: dict[str, str] = {}
+    if market_signals is not None and not market_signals.empty:
+        if "name" in market_signals.columns:
+            name_lookup = dict(zip(
+                market_signals["ticker"].astype(str),
+                market_signals["name"].fillna("").astype(str),
+            ))
+        if "sector" in market_signals.columns:
+            sector_lookup = dict(zip(
+                market_signals["ticker"].astype(str),
+                market_signals["sector"].fillna("").astype(str),
+            ))
+
     dead = []
     total_invested = 0.0
     for ticker, pos in port["holdings"].items():
+        # Backfill name / sector if missing — older portfolio.json entries
+        # were saved before these fields were captured at buy time.
+        if not pos.get("name"):
+            nm = name_lookup.get(str(ticker))
+            if nm:
+                pos["name"] = nm
+        if not pos.get("sector") or pos.get("sector") == "Unknown":
+            sec = sector_lookup.get(str(ticker))
+            if sec and sec != "Unknown":
+                pos["sector"] = sec
+
         price = _get_price(ticker, prices, run_dt)
         if price is None:
             dead.append(ticker)
@@ -382,6 +410,7 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
             "entry_edge":     round(float(row.get("edge", 0)), 4),
             "entry_p90":      round(float(row.get("p90", 0)), 4) if "p90" in row.index else None,
             "entry_p10":      round(float(row.get("p10", 0)), 4) if "p10" in row.index else None,
+            "name":           str(row.get("name", "") or ""),
             "sector":         str(row.get("sector", "Unknown")),
             "horizon":        str(row.get("horizon", "20d")),
             "sort_col":       sort_col,
@@ -454,26 +483,26 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
             port["history"].pop()
 
         # 1. Mark current prices
-        total_invested = _mark_holdings(port, prices, run_dt)
+        total_invested = _mark_holdings(port, prices, run_dt, market_signals)
         total_value    = port["cash"] + total_invested
 
         # 2a. Signal-decay exits — sell names that dropped out of signals
         #     after being held more than half their horizon
         n_decayed = _do_signal_decay_exits(port, market_signals, run_date, run_dt)
         if n_decayed:
-            total_invested = _mark_holdings(port, prices, run_dt)
+            total_invested = _mark_holdings(port, prices, run_dt, market_signals)
             total_value    = port["cash"] + total_invested
 
         # 2b. Horizon-based exits with stay-long-if-still-strong renewal
         n_sold, n_renewed = _do_horizon_exits(port, market_signals, run_date, run_dt)
         if n_sold:
-            total_invested = _mark_holdings(port, prices, run_dt)
+            total_invested = _mark_holdings(port, prices, run_dt, market_signals)
             total_value    = port["cash"] + total_invested
 
         # 3. Continuous buying — deploy any free cash
         n_bought = _do_continuous_buy(port, market_signals, prices, run_date, run_dt, total_value)
         if n_bought:
-            total_invested = _mark_holdings(port, prices, run_dt)
+            total_invested = _mark_holdings(port, prices, run_dt, market_signals)
             total_value    = port["cash"] + total_invested
 
         # 4. Record daily snapshot
