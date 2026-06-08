@@ -154,38 +154,74 @@ def _get_price(ticker: str, prices: pd.DataFrame, run_dt: pd.Timestamp):
     return float(available.iloc[-1])
 
 
-def _backfill_holding_metadata(port: dict, market_signals: pd.DataFrame | None) -> int:
-    """Fill in name + sector on any holding that doesn't have them yet,
-    using the current market_signals frame as the source of truth.
+_UNIV_PATH = Path(__file__).parent / "universe_ci.csv"
 
-    Returned count is how many fields were patched. This runs on EVERY
-    daily build — before the same-day early-exit check — so older
-    portfolio.json entries (saved before name was captured at buy time)
-    get healed eventually as long as their ticker is still in the signal
-    list."""
-    if market_signals is None or market_signals.empty:
-        return 0
-    name_lookup: dict[str, str] = {}
-    sector_lookup: dict[str, str] = {}
-    if "name" in market_signals.columns:
-        name_lookup = dict(zip(
-            market_signals["ticker"].astype(str),
-            market_signals["name"].fillna("").astype(str),
+
+def _load_universe_lookup() -> tuple[dict, dict]:
+    """Build (name_map, sector_map) from scan/universe_ci.csv. Cached at
+    module import — the file is small (~1750 rows) and only changes when
+    we explicitly edit the universe."""
+    name_map, sector_map = {}, {}
+    if not _UNIV_PATH.exists():
+        return name_map, sector_map
+    try:
+        df = pd.read_csv(_UNIV_PATH)
+    except Exception:
+        return name_map, sector_map
+    if "ticker" not in df.columns:
+        return name_map, sector_map
+    if "name" in df.columns:
+        name_map = dict(zip(
+            df["ticker"].astype(str),
+            df["name"].fillna("").astype(str),
         ))
-    if "sector" in market_signals.columns:
-        sector_lookup = dict(zip(
-            market_signals["ticker"].astype(str),
-            market_signals["sector"].fillna("").astype(str),
+    if "sector" in df.columns:
+        sector_map = dict(zip(
+            df["ticker"].astype(str),
+            df["sector"].fillna("").astype(str),
         ))
+    return name_map, sector_map
+
+
+_UNIV_NAMES, _UNIV_SECTORS = _load_universe_lookup()
+
+
+def _backfill_holding_metadata(port: dict, market_signals: pd.DataFrame | None) -> int:
+    """Fill in name + sector on any holding that doesn't have them yet.
+
+    Source priority:
+      1. market_signals (today's qualifying signals — freshest)
+      2. universe_ci.csv (broad ticker → name/sector reference)
+
+    Holdings that have decayed off the signal list (ETFs, names whose
+    edge dropped below 5%) still get healed from universe_ci.csv. This
+    runs on EVERY daily build, before the same-day early-exit check, so
+    older portfolio.json entries (saved before name was captured at buy
+    time) recover even if no trades happen today."""
+    sig_names: dict[str, str] = {}
+    sig_sectors: dict[str, str] = {}
+    if market_signals is not None and not market_signals.empty:
+        if "name" in market_signals.columns:
+            sig_names = dict(zip(
+                market_signals["ticker"].astype(str),
+                market_signals["name"].fillna("").astype(str),
+            ))
+        if "sector" in market_signals.columns:
+            sig_sectors = dict(zip(
+                market_signals["ticker"].astype(str),
+                market_signals["sector"].fillna("").astype(str),
+            ))
+
     patched = 0
     for ticker, pos in port["holdings"].items():
+        tk = str(ticker)
         if not pos.get("name"):
-            nm = name_lookup.get(str(ticker))
+            nm = sig_names.get(tk) or _UNIV_NAMES.get(tk)
             if nm:
                 pos["name"] = nm
                 patched += 1
         if not pos.get("sector") or pos.get("sector") == "Unknown":
-            sec = sector_lookup.get(str(ticker))
+            sec = sig_sectors.get(tk) or _UNIV_SECTORS.get(tk)
             if sec and sec != "Unknown":
                 pos["sector"] = sec
                 patched += 1
