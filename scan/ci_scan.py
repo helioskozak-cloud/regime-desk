@@ -49,7 +49,9 @@ _LEV_RE = _re.compile(
     r'|\bleveraged\b'
     r'|\binverse\b'
     r'|daily\s+(bull|bear)'
-    r'|daily\s+target',
+    r'|daily\s+target'
+    r'|\bvix\s+(?:short|mid|long)-term\s+futures\b'  # VIX futures ETNs (VXX, VIXM, etc.)
+    r'|\bs&p\s+500\s+vix\b',
     _re.IGNORECASE,
 )
 
