@@ -17,9 +17,9 @@
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-1.2% (20d)",
+      "value": "-1.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.2% \u2014 range-bound rates"
+      "context": "20d ret -1.3% \u2014 range-bound rates"
     },
     {
       "name": "High-Yield Credit",
@@ -31,9 +31,9 @@
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-8.5% (20d)",
+      "value": "-8.4% (20d)",
       "signal": "bullish",
-      "context": "20d ret -8.5% \u2014 no safe-haven premium"
+      "context": "20d ret -8.4% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -45,9 +45,9 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+1.4% (20d)",
+      "value": "+1.2% (20d)",
       "signal": "neutral",
-      "context": "20d ret +1.4% \u2014 stable oil"
+      "context": "20d ret +1.2% \u2014 stable oil"
     },
     {
       "name": "VIX Level",
@@ -59,16 +59,16 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+5.2% (20d)",
+      "value": "+5.6% (20d)",
       "signal": "bullish",
-      "context": "20d ret +5.2% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +5.6% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "+0.0% (20d)",
+      "value": "-0.0% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.0% \u2014 mixed breadth"
+      "context": "20d ret -0.0% \u2014 mixed breadth"
     },
     {
       "name": "Copper",
@@ -80,23 +80,23 @@
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "-0.8% (20d)",
+      "value": "-0.9% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.8% \u2014 inflation expectations contained"
+      "context": "20d ret -0.9% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+0.6% (20d)",
+      "value": "+0.7% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.6% \u2014 growth neutral"
+      "context": "20d ret +0.7% \u2014 growth neutral"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+1.5% (20d)",
+      "value": "+1.4% (20d)",
       "signal": "neutral",
-      "context": "20d ret +1.5% \u2014 financials lagging"
+      "context": "20d ret +1.4% \u2014 financials lagging"
     }
   ],
   "risks": [
@@ -117,22 +117,22 @@
     {
       "name": "Rate Re-pricing",
       "level": "moderate",
-      "score": 0.59,
-      "description": "TLT 20d -1.2%. Bond sell-off = rates rising; duration assets under pressure.",
+      "score": 0.6,
+      "description": "TLT 20d -1.3%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
     },
     {
       "name": "Growth Slowdown",
       "level": "moderate",
       "score": 0.48,
-      "description": "Copper 20d +0.7%, IWM +0.0%. Cyclicals constructive; growth fears not confirmed.",
+      "description": "Copper 20d +0.7%, IWM -0.0%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
       "name": "Inflation Re-pricing",
       "level": "low",
       "score": 0.23,
-      "description": "TIPS 20d -0.8%. Inflation expectations contained; Fed credibility intact.",
+      "description": "TIPS 20d -0.9%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall"
     },
     {
