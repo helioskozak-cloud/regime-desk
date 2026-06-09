@@ -75,6 +75,47 @@ git add docs/api_endpoint.json 2>&1 | Out-Null
 git commit -m "ops: update api tunnel endpoint" 2>&1 | Out-Null
 git push 2>&1 | Out-Null
 
-Write-Host "[tunnel] cloudflared running with PID $($proc.Id) - script will wait for it." -ForegroundColor Green
-Wait-Process -Id $proc.Id
-Write-Host "[tunnel] cloudflared exited; script done." -ForegroundColor Yellow
+Write-Host "[tunnel] cloudflared running with PID $($proc.Id). watchdog starting." -ForegroundColor Green
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Watchdog: probe the published tunnel URL every 5 minutes. Quick tunnels
+# can internally roll their URL without cloudflared exiting, leaving the
+# published URL dead while the process still appears healthy. On two
+# consecutive failures, kill cloudflared so the scheduled task's
+# restart-on-failure brings us back fresh - run_tunnel.ps1 then captures
+# the new URL and publishes it.
+$probeIntervalSec = 300   # 5 minutes
+$failThreshold    = 2     # consecutive failures before restarting
+$failCount        = 0
+$probeUrl         = "$tunnelUrl/api/ping"
+
+while ($true) {
+    Start-Sleep -Seconds $probeIntervalSec
+
+    if (-not (Get-Process -Id $proc.Id -ErrorAction SilentlyContinue)) {
+        Write-Host "[tunnel] cloudflared exited; script done." -ForegroundColor Yellow
+        exit 0
+    }
+
+    $ok = $false
+    try {
+        $r = Invoke-WebRequest -Uri $probeUrl -TimeoutSec 8 -UseBasicParsing
+        if ($r.StatusCode -eq 200) { $ok = $true }
+    } catch { }
+
+    if ($ok) {
+        if ($failCount -gt 0) {
+            Write-Host "[tunnel] probe recovered after $failCount failure(s)" -ForegroundColor Green
+        }
+        $failCount = 0
+        continue
+    }
+
+    $failCount++
+    Write-Host "[tunnel] probe failure #$failCount on $probeUrl" -ForegroundColor Yellow
+    if ($failCount -ge $failThreshold) {
+        Write-Host "[tunnel] $failCount consecutive failures - killing cloudflared to force fresh URL" -ForegroundColor Red
+        try { Stop-Process -Id $proc.Id -Force -ErrorAction Stop } catch {}
+        exit 1
+    }
+}
