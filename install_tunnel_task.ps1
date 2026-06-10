@@ -27,12 +27,23 @@ $Action = New-ScheduledTaskAction `
     -WorkingDirectory $RepoDir
 
 $CurrentUser = "$env:USERDOMAIN\$env:USERNAME"
-$Trigger = New-ScheduledTaskTrigger -AtLogOn -User $CurrentUser
 
-# Wait a little after logon so the local API (which has its own task) has time
-# to start. Quick tunnels grab the URL fast; no point binding it to a dead
-# upstream.
-$Trigger.Delay = 'PT30S'
+# Two triggers — belt and suspenders:
+#   1. AtLogOn: start when the user logs in (30s delay so the local API is up)
+#   2. Recurring every 30 min: if the task ever burns through its 99
+#      restart-on-failure attempts (e.g. a long network outage like
+#      2026-06-10 08:05 UTC) the periodic trigger wakes it back up. The
+#      MultipleInstances:IgnoreNew setting below means this is a no-op
+#      when the task is already running, so it never causes duplication.
+$TriggerLogon = New-ScheduledTaskTrigger -AtLogOn -User $CurrentUser
+$TriggerLogon.Delay = 'PT30S'
+
+$TriggerPeriodic = New-ScheduledTaskTrigger -Once `
+    -At (Get-Date).Date.AddMinutes(15) `
+    -RepetitionInterval (New-TimeSpan -Minutes 30)
+$TriggerPeriodic.Repetition.Duration = 'P3650D'   # 10 years (effectively forever)
+
+$Trigger = @($TriggerLogon, $TriggerPeriodic)
 
 $Settings = New-ScheduledTaskSettingsSet `
     -AllowStartIfOnBatteries `
