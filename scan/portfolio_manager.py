@@ -549,6 +549,7 @@ def _do_continuous_buy(port: dict, market_signals: pd.DataFrame,
             "value":          round(value, 2),
             "sort_col":       sort_col,
             "sort_value":     round(float(row.get(sort_col, 0)), 4),
+            "horizon":        str(row.get("horizon", "20d")),
             "regime_penalty": round(regime_penalty, 3),
         })
         bought += 1
@@ -592,19 +593,34 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
     if total_patched:
         print(f"  Backfilled {total_patched} missing name/sector field(s)", flush=True)
 
-    # Backfill reason on legacy buy transactions (older entries were saved
-    # before reason was tagged at buy time; the dashboard shows blank for
-    # them in the Trade Log).
+    # Backfill reason + horizon on legacy buy transactions (older entries
+    # were saved before these fields were tagged at buy time; the dashboard
+    # showed blank Reason and couldn't render the horizon chip in the log).
     tx_patched = 0
     for port in state.values():
+        # ticker -> horizon from currently-held positions (the only source we
+        # have for closed positions is the matching sell reason like
+        # horizon_exit_20d, which we don't bother parsing here).
+        held_horizons = {
+            tk: pos.get("horizon")
+            for tk, pos in port.get("holdings", {}).items()
+            if pos.get("horizon")
+        }
         for tx in port.get("transactions", []):
-            if tx.get("action") == "buy" and not (tx.get("reason") or "").strip():
+            if tx.get("action") != "buy":
+                continue
+            if not (tx.get("reason") or "").strip():
                 sc = tx.get("sort_col")
                 if sc:
                     tx["reason"] = f"top_{sc}"
                     tx_patched += 1
+            if not tx.get("horizon"):
+                hz = held_horizons.get(tx.get("ticker"))
+                if hz:
+                    tx["horizon"] = hz
+                    tx_patched += 1
     if tx_patched:
-        print(f"  Backfilled reason on {tx_patched} legacy buy transactions", flush=True)
+        print(f"  Backfilled reason/horizon on {tx_patched} legacy transaction(s)", flush=True)
 
     # Catch-up pass: when the daily cron skips one or more business days,
     # process horizon exits for each missed day so positions don't carry

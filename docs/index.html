@@ -18464,16 +18464,63 @@ function renderPortfolios(){
   const port=ports[activeKey]||{};
   const nameMap={};
   (S.all_signals||S.stocks||[]).forEach(s=>{if(s.name) nameMap[s.ticker]=s.name;});
+  // Map of ticker -> CURRENT signal (best horizon by edge). Lets us show
+  // entry_edge -> today's_edge per holding so it's obvious whether the
+  // signal is still alive or has decayed.
+  const sigMap={};
+  (S.all_signals||S.stocks||[]).forEach(function(s){
+    if(s.edge==null) return;
+    const cur=sigMap[s.ticker];
+    if(!cur || (s.edge||0)>(cur.edge||0)) sigMap[s.ticker]=s;
+  });
+  // Strategy thresholds (mirror portfolio_manager.py)
+  const HD={'5d':5,'20d':20,'60d':60,'120d':120};
+  const CAL_FACTOR=1.4;
+  const SIG_DECAY_FACTOR=0.5;
+  function _daysSince(dateStr){
+    if(!dateStr) return 0;
+    const today=new Date(S.generated||new Date().toISOString().slice(0,10));
+    const d=new Date(dateStr);
+    if(isNaN(d)) return 0;
+    return Math.max(0,Math.round((today-d)/86400000));
+  }
+  function _fmtPct(v){
+    if(v==null||isNaN(v)) return '—';
+    return (v>=0?'+':'')+(v*100).toFixed(1)+'%';
+  }
   const holdings=[...(port.holdings||[])].sort((a,b)=>(b.current_value||0)-(a.current_value||0));
   const hRows=holdings.length?holdings.map(h=>{
     const hName=h.name||nameMap[h.ticker]||'—';
     const pnl=h.pnl_pct||0,pc=pnl>=0?'#3fb950':'#f85149';
     const logo=`<img src="https://assets.parqet.com/logos/symbol/${h.ticker||'?'}?format=jpg" width="16" height="16" style="border-radius:2px;object-fit:contain;vertical-align:middle;margin-right:5px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
+    // ── Signal column: entry edge → today's edge, plus horizon/days info ──
+    const entryEdge=(h.entry_edge!=null)?h.entry_edge:null;
+    const sig=sigMap[h.ticker];
+    const curEdge=sig?sig.edge:null;
+    const horizon=h.horizon||'20d';
+    const hDays=HD[horizon]||20;
+    const horizonThresh=Math.round(hDays*CAL_FACTOR);
+    const decayThresh=Math.round(hDays*CAL_FACTOR*SIG_DECAY_FACTOR);
+    const daysHeld=_daysSince(h.entry_date);
+    const eEdgeCol=(entryEdge==null)?'#6e7681':(entryEdge>=0.05?'#3fb950':'#e3b341');
+    const cEdgeCol=(curEdge==null)?'#f85149':(curEdge>=0.05?'#3fb950':'#e3b341');
+    const arrow=sig?'&#x2192;':'&#x2715;'; // → or ×
+    const arrowCol=sig?'#6e7681':'#f85149';
+    const cEdgeTxt=sig?`<span style="color:${cEdgeCol}">${_fmtPct(curEdge)}</span>`:`<span style="color:#f85149;font-size:10px">decayed</span>`;
+    // Days/threshold display: amber if past horizon, red if past sig-decay floor while decayed
+    let daysCol='#8b949e';
+    if(!sig && daysHeld>=decayThresh) daysCol='#f85149';
+    else if(daysHeld>=horizonThresh) daysCol='#e3b341';
+    const signalCell=
+      `<div style="font-size:11px;line-height:1.35">`
+       +`<div style="white-space:nowrap"><span style="color:${eEdgeCol};font-weight:600">${_fmtPct(entryEdge)}</span> <span style="color:${arrowCol}">${arrow}</span> ${cEdgeTxt}</div>`
+       +`<div style="color:#6e7681;font-size:10px;letter-spacing:.3px"><strong style="color:#8b949e">${horizon}</strong> &middot; <span style="color:${daysCol}" title="days held / horizon-exit threshold">${daysHeld}/${horizonThresh}d</span></div>`
+      +`</div>`;
     return`<tr>
       <td><div style="display:flex;align-items:center">${logo}<strong style="font-family:monospace">${h.ticker||'?'}</strong></div></td>
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c9d1d9;font-size:12px" title="${hName.replace(/"/g,'&quot;')}">${hName}</td>
       <td style="color:#8b949e;font-size:12px">${h.sector||'—'}</td>
-      <td style="color:#6e7681;font-size:11px">${h.horizon||'—'}</td>
+      <td>${signalCell}</td>
       <td style="font-weight:600">$${(h.current_value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</td>
       <td style="color:${pc};font-weight:600">${pnl>=0?'+':''}${pnl.toFixed(2)}%</td>
       <td style="color:#6e7681;font-size:11px;white-space:nowrap">$${(h.entry_price||0).toFixed(2)} &#x2192; $${(h.current_price||0).toFixed(2)}</td>
@@ -18485,11 +18532,19 @@ function renderPortfolios(){
     const isBuy=t.action==='buy',ac=isBuy?'#3fb950':'#f85149';
     const pnlStr=t.pnl_pct!=null?((t.pnl_pct>=0?'+':'')+t.pnl_pct.toFixed(2)+'%'):'—';
     const pnlClr=t.pnl_pct!=null?(t.pnl_pct>=0?'#3fb950':'#f85149'):'#8b949e';
+    // Enhance Reason for buys: append sort value + horizon for context.
+    // Sells keep their explicit reason (horizon_exit_20d, signal_decayed_5d).
+    let reasonDisplay=t.reason||'';
+    if(isBuy && t.sort_value!=null){
+      const sv=(t.sort_value>=0?'+':'')+(t.sort_value*100).toFixed(1)+'%';
+      const hzTag=t.horizon?(' &middot; '+t.horizon):'';
+      reasonDisplay=`${reasonDisplay} <span style="color:#8b949e">${sv}${hzTag}</span>`;
+    }
     return`<tr>
       <td style="color:#6e7681;font-size:11px">${t.date||''}</td>
       <td><span style="color:${ac};font-weight:700;font-size:11px;text-transform:uppercase">${t.action}</span></td>
       <td><strong style="font-family:monospace">${t.ticker||'?'}</strong></td>
-      <td style="color:#6e7681;font-size:11px">${t.reason||''}</td>
+      <td style="color:#6e7681;font-size:11px">${reasonDisplay}</td>
       <td style="font-weight:600">$${(t.value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</td>
       <td style="color:#8b949e;font-size:11px;white-space:nowrap">$${(t.price||0).toFixed(2)} &times; ${(t.shares||0).toFixed(2)}</td>
       <td style="color:${pnlClr}">${pnlStr}</td>
@@ -18519,7 +18574,7 @@ function renderPortfolios(){
   <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;margin-bottom:12px">
     <div style="font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:12px">Holdings — ${port.name||activeKey} (${holdings.length} positions)</div>
     <div style="overflow-x:auto"><table style="min-width:640px">
-      <tr><th>Ticker</th><th>Name</th><th>Sector</th><th>Horizon</th><th>Value</th><th>P&amp;L</th><th>Price</th><th>Entered</th></tr>
+      <tr><th>Ticker</th><th>Name</th><th>Sector</th><th title="Entry edge → today's edge for this horizon. Days held / horizon-exit threshold (1.4× trading-day horizon, e.g. 20d → 28 cal-days).">Signal</th><th>Value</th><th>P&amp;L</th><th>Price</th><th>Entered</th></tr>
       ${hRows}
     </table></div>
   </div>
