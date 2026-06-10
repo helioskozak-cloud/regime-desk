@@ -186,6 +186,63 @@ def _load_universe_lookup() -> tuple[dict, dict]:
 _UNIV_NAMES, _UNIV_SECTORS = _load_universe_lookup()
 
 
+def _catchup_missed_days(state: dict, prices: pd.DataFrame, run_dt: pd.Timestamp,
+                          market_signals: "pd.DataFrame | None") -> None:
+    """For each portfolio, if there's a gap of business days between the
+    last history entry and today, mark-to-market and process horizon exits
+    for each missed day. Skips holidays (no SPY trade). Appends a snapshot
+    per missed day so the dashboard's performance chart doesn't interpolate
+    across the gap.
+
+    Conservative by design: missed-day horizon exits force_sell=True (no
+    look-ahead renewal). Buys and signal-decay exits are NOT processed for
+    missed days — they need that day's signal list, which we don't have."""
+    # SPY trading days = real market days. Use this to skip holidays.
+    open_days: set | None = None
+    if "SPY" in prices.columns:
+        s = prices["SPY"].dropna()
+        if not s.empty:
+            open_days = set(pd.DatetimeIndex(s.index).normalize())
+
+    for key, port in state.items():
+        if not port.get("history"):
+            continue
+        try:
+            last_dt = pd.Timestamp(port["history"][-1]["date"]).normalize()
+        except Exception:
+            continue
+        start = last_dt + pd.Timedelta(days=1)
+        end   = run_dt - pd.Timedelta(days=1)
+        if start > end:
+            continue
+        missed_bdays = pd.bdate_range(start=start, end=end)
+        if open_days is not None:
+            missed = [d for d in missed_bdays if d.normalize() in open_days]
+        else:
+            missed = list(missed_bdays)
+        if not missed:
+            continue
+        print(f"  {port['name']}: catching up {len(missed)} missed day(s) "
+              f"({missed[0].date()} -> {missed[-1].date()})", flush=True)
+        for day in missed:
+            day_str = day.strftime("%Y-%m-%d")
+            total_invested = _mark_holdings(port, prices, day, market_signals)
+            n_sold, _ = _do_horizon_exits(port, market_signals, day_str, day,
+                                            force_sell=True)
+            if n_sold:
+                total_invested = _mark_holdings(port, prices, day, market_signals)
+            total_value = port["cash"] + total_invested
+            port["history"].append({
+                "date":         day_str,
+                "total_value":  round(total_value, 2),
+                "cash":         round(port["cash"], 2),
+                "invested":     round(total_invested, 2),
+                "n_positions":  len(port["holdings"]),
+                "return_pct":   round((total_value / port.get("initial_cash", INITIAL_CASH) - 1) * 100, 4),
+                "note":         "catchup",
+            })
+
+
 def _backfill_holding_metadata(port: dict, market_signals: pd.DataFrame | None) -> int:
     """Fill in name + sector on any holding that doesn't have them yet.
 
@@ -331,10 +388,16 @@ def _do_signal_decay_exits(port: dict, market_signals: pd.DataFrame,
 
 
 def _do_horizon_exits(port: dict, market_signals: pd.DataFrame,
-                      run_date: str, run_dt: pd.Timestamp) -> tuple[int, int]:
+                      run_date: str, run_dt: pd.Timestamp,
+                      force_sell: bool = False) -> tuple[int, int]:
     """At horizon-elapsed time for each holding, either sell or renew the
     entry date if the ticker is still in the top quartile of current signals
-    by this portfolio's sort metric. Returns (n_sold, n_renewed)."""
+    by this portfolio's sort metric. Returns (n_sold, n_renewed).
+
+    force_sell=True bypasses the renewal check entirely and sells every
+    horizon-eligible position. Used by the catch-up pass for missed days,
+    where we don't have signal lists from those days and don't want to
+    look ahead at today's signals to make past renewal decisions."""
     sort_col = port.get("sort_col", "edge")
     top_quartile = _top_quartile_set(market_signals, sort_col)
     if not top_quartile:
@@ -357,7 +420,7 @@ def _do_horizon_exits(port: dict, market_signals: pd.DataFrame,
     n_renewed = 0
     for ticker, days_held, horizon in to_resolve:
         pos = port["holdings"][ticker]
-        if ticker in top_quartile:
+        if not force_sell and ticker in top_quartile:
             # Renew: preserve original_entry_date once, log renewal in metadata
             if "original_entry_date" not in pos:
                 pos["original_entry_date"] = pos.get("entry_date")
@@ -542,6 +605,16 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
                     tx_patched += 1
     if tx_patched:
         print(f"  Backfilled reason on {tx_patched} legacy buy transactions", flush=True)
+
+    # Catch-up pass: when the daily cron skips one or more business days,
+    # process horizon exits for each missed day so positions don't carry
+    # past their intended exit dates. Signal-decay exits and new buys are
+    # NOT run for missed days — we don't have signal lists from those
+    # dates, and we won't look ahead at today's signals to make past
+    # decisions. The catch-up is conservative: it always SELLS at horizon
+    # expiry rather than renewing. Cash freed gets redeployed in today's
+    # main pass.
+    _catchup_missed_days(state, prices, run_dt, market_signals)
 
     for key, port in state.items():
         # Same-day re-run: only reprocess if there's pending work
