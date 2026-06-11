@@ -18586,7 +18586,7 @@ function renderPortfolios(){
   // Strategy thresholds (mirror portfolio_manager.py)
   const HD={'5d':5,'20d':20,'60d':60,'120d':120};
   const CAL_FACTOR=1.4;
-  const SIG_DECAY_FACTOR=0.5;
+  const SIG_DECAY_FACTOR=0.0;  // decayed = sell on next build (no hold-floor)
   function _daysSince(dateStr){
     if(!dateStr) return 0;
     const today=new Date(S.generated||new Date().toISOString().slice(0,10));

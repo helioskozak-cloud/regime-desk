@@ -48,8 +48,15 @@ HORIZON_CAL_FACTOR  = 1.4
 HORIZON_DAYS        = {"5d": 5, "20d": 20, "60d": 60, "120d": 120}
 RENEW_TOP_FRACTION  = 0.25        # at horizon, renew hold if ticker is still
                                   # in this fraction of current ranked signals
-SIGNAL_DECAY_FACTOR = 0.5         # min held-fraction-of-horizon before a
-                                  # disappeared signal can trigger a sell
+SIGNAL_DECAY_FACTOR = 0.0         # min held-fraction-of-horizon before a
+                                  # disappeared signal can trigger a sell.
+                                  # 0.0 = exit as soon as the signal decays
+                                  # off the qualifying list (whichever fires
+                                  # first: signal-decay OR horizon). The
+                                  # old 0.5 floor made the portfolios
+                                  # effectively buy-and-hold until horizon
+                                  # for half their lifetime, which didn't
+                                  # let them react to regime changes.
 
 STRATEGIES = {
     "max_edge":  {"name": "Max Edge",   "sort_col": "edge", "label": "Ranks by conditional edge (median)"},
