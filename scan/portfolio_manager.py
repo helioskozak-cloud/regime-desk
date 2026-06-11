@@ -639,6 +639,12 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
     # main pass.
     _catchup_missed_days(state, prices, run_dt, market_signals)
 
+    # Pre-compute current signal tickers once for the same-day pending-decay check
+    current_tickers = (
+        set(market_signals["ticker"].astype(str).tolist())
+        if market_signals is not None and not market_signals.empty else set()
+    )
+
     for key, port in state.items():
         # Same-day re-run: only reprocess if there's pending work
         if port["history"] and port["history"][-1]["date"] == run_date:
@@ -648,12 +654,18 @@ def update_portfolios(market_signals: pd.DataFrame, prices: pd.DataFrame,
                 >= int(HORIZON_DAYS.get(pos.get("horizon", "20d"), 20) * HORIZON_CAL_FACTOR)
                 for pos in port["holdings"].values()
             )
+            # Signal-decay pending: any holding NOT in today's qualifying signals.
+            # With SIGNAL_DECAY_FACTOR=0 these get sold immediately; the check
+            # has to know about them or the same-day skip swallows the work.
+            has_pending_decay = bool(current_tickers) and any(
+                str(tk) not in current_tickers for tk in port["holdings"].keys()
+            )
             today_snap = port["history"][-1]
             has_room_to_buy = (
                 today_snap.get("cash", 0) >= MIN_POSITION_VALUE
                 and len(port["holdings"]) < MAX_POSITIONS
             )
-            if not (has_pending_exit or has_room_to_buy):
+            if not (has_pending_exit or has_pending_decay or has_room_to_buy):
                 print(f"  {port['name']}: already updated today, no pending trades", flush=True)
                 continue
             # Pop today's snapshot — it will be re-appended with the new state
