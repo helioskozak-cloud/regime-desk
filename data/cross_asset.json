@@ -38,9 +38,9 @@
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "+2.1% (20d)",
-      "signal": "bullish",
-      "context": "20d ret +2.1% \u2014 dollar strength headwind for EM/commodities"
+      "value": "+1.4% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.4% \u2014 dollar strength headwind for EM/commodities"
     },
     {
       "name": "Crude Oil",
@@ -138,8 +138,8 @@
     {
       "name": "Dollar Headwind",
       "level": "moderate",
-      "score": 0.56,
-      "description": "UUP 20d +2.1%. Strong dollar compresses EM earnings and commodity prices.",
+      "score": 0.51,
+      "description": "UUP 20d +1.4%. Strong dollar compresses EM earnings and commodity prices.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
     },
     {
