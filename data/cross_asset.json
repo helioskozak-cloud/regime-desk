@@ -3,14 +3,14 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "+0.5%",
-      "signal": "neutral",
+      "value": "+0.6%",
+      "signal": "bullish",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "+0.4%",
+      "value": "+0.5%",
       "signal": "neutral",
       "context": "Medium-term trend strength"
     },
@@ -24,9 +24,9 @@
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "+0.5% (20d)",
+      "value": "+0.6% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.5% \u2014 stable credit"
+      "context": "20d ret +0.6% \u2014 stable credit"
     },
     {
       "name": "Gold",
@@ -45,23 +45,23 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "-21.0% (20d)",
+      "value": "-20.9% (20d)",
       "signal": "bearish",
-      "context": "20d ret -21.0% \u2014 demand concerns"
+      "context": "20d ret -20.9% \u2014 demand concerns"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "17.4",
+      "value": "17.3",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+16.6% (20d)",
+      "value": "+17.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +16.6% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +17.8% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
@@ -87,16 +87,16 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+2.9% (20d)",
+      "value": "+3.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret +2.9% \u2014 growth leadership intact"
+      "context": "20d ret +3.3% \u2014 growth leadership intact"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+3.7% (20d)",
+      "value": "+3.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +3.7% \u2014 financials leading; curve steepening favourable"
+      "context": "20d ret +3.8% \u2014 financials leading; curve steepening favourable"
     }
   ],
   "risks": [
@@ -104,14 +104,14 @@
       "name": "Volatility Regime",
       "level": "low",
       "score": 0.19,
-      "description": "VIX at 17.4. Calm regime; vol suppression in force.",
+      "description": "VIX at 17.3. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
       "name": "Credit Stress",
       "level": "low",
-      "score": 0.45,
-      "description": "HYG 20d +0.5%. Credit broadly constructive; no systemic signal.",
+      "score": 0.44,
+      "description": "HYG 20d +0.6%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return"
     },
     {
@@ -146,7 +146,7 @@
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.11,
-      "description": "SPY +0.4% / 20d with vol 1.04%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +0.5% / 20d with vol 1.03%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
     }
   ]
