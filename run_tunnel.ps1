@@ -44,7 +44,16 @@ while ((Get-Date) -lt $deadline -and -not $tunnelUrl) {
     foreach ($f in @($logErr, $logOut)) {
         if (-not (Test-Path $f)) { continue }
         $content = Get-Content $f -Raw -ErrorAction SilentlyContinue
-        if ($content -match 'https://([a-z0-9-]+\.trycloudflare\.com)') {
+        # Fast-fail: cloudflared couldn't even reach trycloudflare.com (DNS/network down)
+        if ($content -match 'failed to request quick Tunnel') {
+            Write-Host "[tunnel] cloudflared failed to request tunnel (network not ready?) — exiting" -ForegroundColor Red
+            try { Stop-Process -Id $proc.Id -Force -ErrorAction Stop } catch {}
+            exit 1
+        }
+        # Require a hyphenated subdomain — real quick-tunnel URLs always look like
+        # abc-def-ghi.trycloudflare.com; this excludes api.trycloudflare.com which
+        # appears in cloudflared's own error messages and caused false matches.
+        if ($content -match 'https://([a-z0-9]+-[a-z0-9-]+\.trycloudflare\.com)') {
             $tunnelUrl = "https://$($matches[1])"
             break
         }
@@ -59,6 +68,15 @@ if (-not $tunnelUrl) {
 
 Write-Host "[tunnel] URL: $tunnelUrl" -ForegroundColor Green
 
+# Only commit if the URL changed — the timestamp alone isn't worth a commit.
+$prevUrl = ""
+if (Test-Path $endpointFile) {
+    try {
+        $prev = Get-Content $endpointFile -Raw | ConvertFrom-Json
+        $prevUrl = $prev.url
+    } catch {}
+}
+
 # Write the endpoint file (UTF-8, no BOM)
 $payload = @{
     url       = $tunnelUrl
@@ -67,13 +85,14 @@ $payload = @{
 [System.IO.File]::WriteAllText($endpointFile, $payload + "`n",
     (New-Object System.Text.UTF8Encoding($false)))
 
-# Commit + push so GitHub Pages picks it up. If nothing changed (rare -
-# the timestamp differs each time, but git config might noop somehow),
-# the commit fails silently and we keep going.
-Write-Host "[tunnel] publishing to git..." -ForegroundColor Cyan
-git add docs/api_endpoint.json 2>&1 | Out-Null
-git commit -m "ops: update api tunnel endpoint" 2>&1 | Out-Null
-git push 2>&1 | Out-Null
+if ($tunnelUrl -ne $prevUrl) {
+    Write-Host "[tunnel] URL changed ($prevUrl -> $tunnelUrl) — publishing to git..." -ForegroundColor Cyan
+    git add docs/api_endpoint.json 2>&1 | Out-Null
+    git commit -m "ops: update api tunnel endpoint" 2>&1 | Out-Null
+    git push 2>&1 | Out-Null
+} else {
+    Write-Host "[tunnel] URL unchanged — skipping git commit." -ForegroundColor DarkGray
+}
 
 Write-Host "[tunnel] cloudflared running with PID $($proc.Id). watchdog starting." -ForegroundColor Green
 
