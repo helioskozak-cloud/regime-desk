@@ -3,7 +3,7 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "-2.1%",
+      "value": "-2.0%",
       "signal": "bearish",
       "context": "Short-term price momentum"
     },
@@ -31,9 +31,9 @@
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-11.8% (20d)",
+      "value": "-11.6% (20d)",
       "signal": "bullish",
-      "context": "20d ret -11.8% \u2014 no safe-haven premium"
+      "context": "20d ret -11.6% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -45,37 +45,37 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "-22.0% (20d)",
+      "value": "-22.4% (20d)",
       "signal": "bearish",
-      "context": "20d ret -22.0% \u2014 demand concerns"
+      "context": "20d ret -22.4% \u2014 demand concerns"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "19.8",
+      "value": "18.6",
       "signal": "moderate",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+1.6% (20d)",
-      "signal": "neutral",
-      "context": "20d ret +1.6% \u2014 semis in line"
+      "value": "+2.8% (20d)",
+      "signal": "bullish",
+      "context": "20d ret +2.8% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "+2.2% (20d)",
+      "value": "+2.4% (20d)",
       "signal": "bullish",
-      "context": "20d ret +2.2% \u2014 small-cap breadth expanding"
+      "context": "20d ret +2.4% \u2014 small-cap breadth expanding"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-7.1% (20d)",
+      "value": "-7.0% (20d)",
       "signal": "bearish",
-      "context": "20d ret -7.1% \u2014 copper weak = growth concerns"
+      "context": "20d ret -7.0% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
@@ -87,9 +87,9 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-2.9% (20d)",
+      "value": "-2.6% (20d)",
       "signal": "bearish",
-      "context": "20d ret -2.9% \u2014 growth selling; value rotation"
+      "context": "20d ret -2.6% \u2014 growth selling; value rotation"
     },
     {
       "name": "Financials",
@@ -103,8 +103,8 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.28,
-      "description": "VIX at 19.8. Calm regime; vol suppression in force.",
+      "score": 0.24,
+      "description": "VIX at 18.6. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
@@ -124,8 +124,8 @@
     {
       "name": "Growth Slowdown",
       "level": "moderate",
-      "score": 0.65,
-      "description": "Copper 20d -7.1%, IWM +2.2%. Cyclical indicators softening.",
+      "score": 0.64,
+      "description": "Copper 20d -7.0%, IWM +2.4%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
@@ -138,7 +138,7 @@
     {
       "name": "Dollar Headwind",
       "level": "moderate",
-      "score": 0.63,
+      "score": 0.62,
       "description": "UUP 20d +2.8%. Strong dollar compresses EM earnings and commodity prices.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
     },
