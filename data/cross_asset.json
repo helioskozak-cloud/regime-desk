@@ -10,7 +10,7 @@
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "-1.4%",
+      "value": "-1.5%",
       "signal": "neutral",
       "context": "Medium-term trend strength"
     },
@@ -31,51 +31,51 @@
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-11.3% (20d)",
+      "value": "-11.0% (20d)",
       "signal": "bullish",
-      "context": "20d ret -11.3% \u2014 no safe-haven premium"
+      "context": "20d ret -11.0% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "+2.8% (20d)",
+      "value": "+2.7% (20d)",
       "signal": "bullish",
-      "context": "20d ret +2.8% \u2014 dollar strength headwind for EM/commodities"
+      "context": "20d ret +2.7% \u2014 dollar strength headwind for EM/commodities"
     },
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "-22.1% (20d)",
+      "value": "-21.7% (20d)",
       "signal": "bearish",
-      "context": "20d ret -22.1% \u2014 demand concerns"
+      "context": "20d ret -21.7% \u2014 demand concerns"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "18.1",
+      "value": "18.3",
       "signal": "moderate",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+2.9% (20d)",
+      "value": "+3.1% (20d)",
       "signal": "bullish",
-      "context": "20d ret +2.9% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +3.1% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "+3.1% (20d)",
+      "value": "+3.2% (20d)",
       "signal": "bullish",
-      "context": "20d ret +3.1% \u2014 small-cap breadth expanding"
+      "context": "20d ret +3.2% \u2014 small-cap breadth expanding"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-6.6% (20d)",
+      "value": "-6.8% (20d)",
       "signal": "bearish",
-      "context": "20d ret -6.6% \u2014 copper weak = growth concerns"
+      "context": "20d ret -6.8% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
@@ -94,17 +94,17 @@
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+4.5% (20d)",
+      "value": "+4.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret +4.5% \u2014 financials leading; curve steepening favourable"
+      "context": "20d ret +4.3% \u2014 financials leading; curve steepening favourable"
     }
   ],
   "risks": [
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.22,
-      "description": "VIX at 18.1. Calm regime; vol suppression in force.",
+      "score": 0.23,
+      "description": "VIX at 18.3. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
@@ -124,8 +124,8 @@
     {
       "name": "Growth Slowdown",
       "level": "moderate",
-      "score": 0.6,
-      "description": "Copper 20d -6.6%, IWM +3.1%. Cyclical indicators softening.",
+      "score": 0.61,
+      "description": "Copper 20d -6.8%, IWM +3.2%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
@@ -139,14 +139,14 @@
       "name": "Dollar Headwind",
       "level": "moderate",
       "score": 0.62,
-      "description": "UUP 20d +2.8%. Strong dollar compresses EM earnings and commodity prices.",
+      "description": "UUP 20d +2.7%. Strong dollar compresses EM earnings and commodity prices.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
     },
     {
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.03,
-      "description": "SPY +-1.4% / 20d with vol 1.08%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +-1.5% / 20d with vol 1.08%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
     }
   ]
