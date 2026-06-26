@@ -6,7 +6,7 @@
     "sort_col": "edge",
     "inception_date": "2026-06-01",
     "initial_cash": 100000.0,
-    "cash": 897.752749392911,
+    "cash": 580.0264744536189,
     "holdings": {
       "ESLT": {
         "shares": 3.4413,
@@ -21,9 +21,9 @@
         "sort_col": "edge",
         "sort_value": 0.286,
         "regime_penalty": 0.02,
-        "current_price": 722.21,
-        "current_value": 2485.34,
-        "pnl_pct": -20.79
+        "current_price": 722.655,
+        "current_value": 2486.87,
+        "pnl_pct": -20.74
       },
       "CHYM": {
         "shares": 188.8605,
@@ -38,9 +38,9 @@
         "sort_col": "edge",
         "sort_value": 0.5545,
         "regime_penalty": 0.0,
-        "current_price": 18.1,
-        "current_value": 3418.38,
-        "pnl_pct": 4.93
+        "current_price": 19.81,
+        "current_value": 3741.33,
+        "pnl_pct": 14.84
       },
       "ACMR": {
         "shares": 32.8227,
@@ -55,9 +55,9 @@
         "sort_col": "edge",
         "sort_value": 0.2414,
         "regime_penalty": 0.003,
-        "current_price": 102.035,
-        "current_value": 3349.06,
-        "pnl_pct": 6.08
+        "current_price": 102.3,
+        "current_value": 3357.76,
+        "pnl_pct": 6.35
       },
       "ALGM": {
         "shares": 55.5806,
@@ -72,9 +72,9 @@
         "sort_col": "edge",
         "sort_value": 0.2477,
         "regime_penalty": 0.013,
-        "current_price": 57.87,
-        "current_value": 3216.45,
-        "pnl_pct": 0.85
+        "current_price": 59.07,
+        "current_value": 3283.15,
+        "pnl_pct": 2.95
       },
       "CAR": {
         "shares": 17.214,
@@ -89,9 +89,9 @@
         "sort_col": "edge",
         "sort_value": 0.2468,
         "regime_penalty": 0.015,
-        "current_price": 165.2,
-        "current_value": 2843.75,
-        "pnl_pct": -12.33
+        "current_price": 168.99,
+        "current_value": 2908.99,
+        "pnl_pct": -10.32
       },
       "VSAT": {
         "shares": 52.0932,
@@ -106,9 +106,9 @@
         "sort_col": "edge",
         "sort_value": 0.2732,
         "regime_penalty": 0.02,
-        "current_price": 59.205,
-        "current_value": 3084.18,
-        "pnl_pct": -5.32
+        "current_price": 60.76,
+        "current_value": 3165.18,
+        "pnl_pct": -2.83
       },
       "TTMI": {
         "shares": 14.6514,
@@ -123,9 +123,9 @@
         "sort_col": "edge",
         "sort_value": 0.4472,
         "regime_penalty": 0.02,
-        "current_price": 200.69,
-        "current_value": 2940.39,
-        "pnl_pct": -9.37
+        "current_price": 197.59,
+        "current_value": 2894.97,
+        "pnl_pct": -10.77
       },
       "STM": {
         "shares": 40.5906,
@@ -140,9 +140,9 @@
         "sort_col": "edge",
         "sort_value": 0.3094,
         "regime_penalty": 0.02,
-        "current_price": 72.13,
-        "current_value": 2927.8,
-        "pnl_pct": -9.76
+        "current_price": 71.73,
+        "current_value": 2911.56,
+        "pnl_pct": -10.26
       },
       "ATRO": {
         "shares": 40.1337,
@@ -157,9 +157,9 @@
         "sort_col": "edge",
         "sort_value": 0.2541,
         "regime_penalty": 0.0,
-        "current_price": 86.725,
-        "current_value": 3480.6,
-        "pnl_pct": 7.28
+        "current_price": 84.61,
+        "current_value": 3395.71,
+        "pnl_pct": 4.66
       },
       "MCHP": {
         "shares": 31.8173,
@@ -174,26 +174,9 @@
         "sort_col": "edge",
         "sort_value": 0.2719,
         "regime_penalty": 0.02,
-        "current_price": 90.0,
-        "current_value": 2863.56,
-        "pnl_pct": -11.74
-      },
-      "EWY": {
-        "shares": 14.5027,
-        "entry_price": 218.05,
-        "entry_date": "2026-06-22",
-        "entry_edge": 0.2162,
-        "entry_p90": 1.092,
-        "entry_p10": -0.0859,
-        "name": "iShares MSCI South Korea ETF",
-        "sector": "Unknown",
-        "horizon": "120d",
-        "sort_col": "edge",
-        "sort_value": 0.2162,
-        "regime_penalty": 0.0,
-        "current_price": 195.46,
-        "current_value": 2834.7,
-        "pnl_pct": -10.36
+        "current_price": 88.62,
+        "current_value": 2819.65,
+        "pnl_pct": -13.09
       },
       "RBLX": {
         "shares": 67.2913,
@@ -208,9 +191,9 @@
         "sort_col": "edge",
         "sort_value": 0.3884,
         "regime_penalty": 0.0,
-        "current_price": 45.52,
-        "current_value": 3063.1,
-        "pnl_pct": -2.49
+        "current_price": 47.36,
+        "current_value": 3186.92,
+        "pnl_pct": 1.46
       },
       "HOOD": {
         "shares": 30.9352,
@@ -225,9 +208,9 @@
         "sort_col": "edge",
         "sort_value": 0.3791,
         "regime_penalty": 0.0,
-        "current_price": 94.9899,
-        "current_value": 2938.53,
-        "pnl_pct": -6.45
+        "current_price": 98.1,
+        "current_value": 3034.74,
+        "pnl_pct": -3.39
       },
       "MP": {
         "shares": 54.5908,
@@ -242,9 +225,9 @@
         "sort_col": "edge",
         "sort_value": 0.4316,
         "regime_penalty": 0.022,
-        "current_price": 54.255,
-        "current_value": 2961.82,
-        "pnl_pct": -5.71
+        "current_price": 54.95,
+        "current_value": 2999.76,
+        "pnl_pct": -4.5
       },
       "SRAD": {
         "shares": 214.4134,
@@ -259,9 +242,9 @@
         "sort_col": "edge",
         "sort_value": 0.3689,
         "regime_penalty": 0.022,
-        "current_price": 14.74,
-        "current_value": 3160.45,
-        "pnl_pct": 0.61
+        "current_price": 14.99,
+        "current_value": 3214.06,
+        "pnl_pct": 2.32
       },
       "BLSH": {
         "shares": 124.9963,
@@ -276,9 +259,9 @@
         "sort_col": "edge",
         "sort_value": 0.2985,
         "regime_penalty": 0.022,
-        "current_price": 22.055,
-        "current_value": 2756.79,
-        "pnl_pct": -12.24
+        "current_price": 22.8901,
+        "current_value": 2861.18,
+        "pnl_pct": -8.91
       },
       "AG": {
         "shares": 187.9795,
@@ -293,9 +276,9 @@
         "sort_col": "edge",
         "sort_value": 0.2892,
         "regime_penalty": 0.022,
-        "current_price": 16.65,
-        "current_value": 3129.86,
-        "pnl_pct": -0.36
+        "current_price": 17.295,
+        "current_value": 3251.11,
+        "pnl_pct": 3.5
       },
       "PPLT": {
         "shares": 209.69,
@@ -310,9 +293,9 @@
         "sort_col": "edge",
         "sort_value": 0.2519,
         "regime_penalty": 0.0,
-        "current_price": 14.61,
-        "current_value": 3063.57,
-        "pnl_pct": -2.47
+        "current_price": 14.83,
+        "current_value": 3109.7,
+        "pnl_pct": -1.0
       },
       "SLNO": {
         "shares": 60.3822,
@@ -344,9 +327,9 @@
         "sort_col": "edge",
         "sort_value": 0.2213,
         "regime_penalty": 0.0,
-        "current_price": 120.4,
-        "current_value": 3240.7,
-        "pnl_pct": 1.24
+        "current_price": 119.905,
+        "current_value": 3227.37,
+        "pnl_pct": 0.83
       },
       "LEU": {
         "shares": 17.3624,
@@ -361,9 +344,9 @@
         "sort_col": "edge",
         "sort_value": 0.3551,
         "regime_penalty": 0.025,
-        "current_price": 165.51,
-        "current_value": 2873.65,
-        "pnl_pct": -9.97
+        "current_price": 166.175,
+        "current_value": 2885.2,
+        "pnl_pct": -9.6
       },
       "TMDX": {
         "shares": 40.6559,
@@ -378,9 +361,9 @@
         "sort_col": "edge",
         "sort_value": 0.4426,
         "regime_penalty": 0.0,
-        "current_price": 68.32,
-        "current_value": 2777.61,
-        "pnl_pct": -11.47
+        "current_price": 71.0088,
+        "current_value": 2886.93,
+        "pnl_pct": -7.98
       },
       "LBRDK": {
         "shares": 102.927,
@@ -395,9 +378,9 @@
         "sort_col": "edge",
         "sort_value": 0.3942,
         "regime_penalty": 0.0,
-        "current_price": 30.55,
-        "current_value": 3144.42,
-        "pnl_pct": -0.28
+        "current_price": 31.6,
+        "current_value": 3252.49,
+        "pnl_pct": 3.15
       },
       "SYM": {
         "shares": 78.4858,
@@ -412,9 +395,9 @@
         "sort_col": "edge",
         "sort_value": 0.4554,
         "regime_penalty": 0.035,
-        "current_price": 39.89,
-        "current_value": 3130.8,
-        "pnl_pct": -0.71
+        "current_price": 41.28,
+        "current_value": 3239.89,
+        "pnl_pct": 2.75
       },
       "KLAR": {
         "shares": 161.8073,
@@ -429,9 +412,9 @@
         "sort_col": "edge",
         "sort_value": 0.4161,
         "regime_penalty": 0.025,
-        "current_price": 19.0,
-        "current_value": 3074.34,
-        "pnl_pct": 0.0
+        "current_price": 19.6599,
+        "current_value": 3181.12,
+        "pnl_pct": 3.47
       },
       "UPST": {
         "shares": 93.8586,
@@ -446,9 +429,9 @@
         "sort_col": "edge",
         "sort_value": 0.3424,
         "regime_penalty": 0.022,
-        "current_price": 32.755,
-        "current_value": 3074.34,
-        "pnl_pct": 0.0
+        "current_price": 32.72,
+        "current_value": 3071.05,
+        "pnl_pct": -0.11
       },
       "VG": {
         "shares": 284.3976,
@@ -463,26 +446,9 @@
         "sort_col": "edge",
         "sort_value": 0.5912,
         "regime_penalty": 0.047,
-        "current_price": 10.81,
-        "current_value": 3074.34,
-        "pnl_pct": 0.0
-      },
-      "SOC": {
-        "shares": 411.2827,
-        "entry_price": 7.475,
-        "entry_date": "2026-06-26",
-        "entry_edge": 0.4633,
-        "entry_p90": 2.1354,
-        "entry_p10": -0.0334,
-        "name": "Sable Offshore Corp.",
-        "sector": "Energy",
-        "horizon": "120d",
-        "sort_col": "edge",
-        "sort_value": 0.4633,
-        "regime_penalty": 0.047,
-        "current_price": 7.475,
-        "current_value": 3074.34,
-        "pnl_pct": -0.0
+        "current_price": 10.855,
+        "current_value": 3087.14,
+        "pnl_pct": 0.42
       },
       "ALNY": {
         "shares": 10.3183,
@@ -497,25 +463,59 @@
         "sort_col": "edge",
         "sort_value": 0.3097,
         "regime_penalty": 0.0,
-        "current_price": 297.95,
-        "current_value": 3074.34,
-        "pnl_pct": 0.0
+        "current_price": 298.45,
+        "current_value": 3079.5,
+        "pnl_pct": 0.17
       },
-      "ECG": {
-        "shares": 19.3324,
-        "entry_price": 159.025,
+      "CELH": {
+        "shares": 104.5797,
+        "entry_price": 29.86,
         "entry_date": "2026-06-26",
-        "entry_edge": 0.3531,
-        "entry_p90": 0.9665,
-        "entry_p10": -0.0704,
-        "name": "Everus Construction Group, Inc.",
-        "sector": "Industrials",
+        "entry_edge": 0.6347,
+        "entry_p90": 0.8266,
+        "entry_p10": -0.4526,
+        "name": "Celsius Holdings, Inc.",
+        "sector": "Consumer Staples",
         "horizon": "120d",
         "sort_col": "edge",
-        "sort_value": 0.3531,
-        "regime_penalty": 0.047,
-        "current_price": 159.025,
-        "current_value": 3074.33,
+        "sort_value": 0.6347,
+        "regime_penalty": 0.0,
+        "current_price": 29.86,
+        "current_value": 3122.75,
+        "pnl_pct": 0.0
+      },
+      "DG": {
+        "shares": 25.9926,
+        "entry_price": 120.14,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.4048,
+        "entry_p90": 0.5923,
+        "entry_p10": -0.4035,
+        "name": "Dollar General Corporation",
+        "sector": "Consumer Staples",
+        "horizon": "120d",
+        "sort_col": "edge",
+        "sort_value": 0.4048,
+        "regime_penalty": 0.0,
+        "current_price": 120.14,
+        "current_value": 3122.75,
+        "pnl_pct": -0.0
+      },
+      "DB": {
+        "shares": 92.2526,
+        "entry_price": 33.85,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.4335,
+        "entry_p90": 0.8206,
+        "entry_p10": -0.0822,
+        "name": "Deutsche Bank Aktiengesellschaft",
+        "sector": "Financials",
+        "horizon": "120d",
+        "sort_col": "edge",
+        "sort_value": 0.4335,
+        "regime_penalty": 0.01,
+        "current_price": 33.85,
+        "current_value": 3122.75,
         "pnl_pct": -0.0
       }
     },
@@ -666,11 +666,11 @@
       },
       {
         "date": "2026-06-26",
-        "total_value": 92230.15,
-        "cash": 897.75,
-        "invested": 91332.4,
+        "total_value": 93682.47,
+        "cash": 580.03,
+        "invested": 93102.44,
         "n_positions": 30,
-        "return_pct": -7.7698
+        "return_pct": -6.3175
       }
     ],
     "transactions": [
@@ -6083,6 +6083,81 @@
         "sort_value": 0.3531,
         "horizon": "120d",
         "regime_penalty": 0.047
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "EWY",
+        "shares": 14.5027,
+        "price": 200.415,
+        "value": 2906.56,
+        "pnl_pct": -8.09,
+        "days_held": 4,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "SOC",
+        "shares": 411.2827,
+        "price": 7.515,
+        "value": 3090.79,
+        "pnl_pct": 0.54,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "ECG",
+        "shares": 19.3324,
+        "price": 157.93,
+        "value": 3053.17,
+        "pnl_pct": -0.69,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_edge",
+        "ticker": "CELH",
+        "shares": 104.5797,
+        "price": 29.86,
+        "value": 3122.75,
+        "sort_col": "edge",
+        "sort_value": 0.6347,
+        "horizon": "120d",
+        "regime_penalty": 0.0
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_edge",
+        "ticker": "DG",
+        "shares": 25.9926,
+        "price": 120.14,
+        "value": 3122.75,
+        "sort_col": "edge",
+        "sort_value": 0.4048,
+        "horizon": "120d",
+        "regime_penalty": 0.0
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_edge",
+        "ticker": "DB",
+        "shares": 92.2526,
+        "price": 33.85,
+        "value": 3122.75,
+        "sort_col": "edge",
+        "sort_value": 0.4335,
+        "horizon": "120d",
+        "regime_penalty": 0.01
       }
     ],
     "last_buy_date": "2026-06-26",
@@ -6111,9 +6186,9 @@
         "sort_col": "p90",
         "sort_value": 0.9698,
         "regime_penalty": 0.0,
-        "current_price": 722.21,
-        "current_value": 2913.9,
-        "pnl_pct": -13.46
+        "current_price": 722.655,
+        "current_value": 2915.7,
+        "pnl_pct": -13.41
       },
       "ACMR": {
         "shares": 34.1203,
@@ -6128,9 +6203,9 @@
         "sort_col": "p90",
         "sort_value": 1.2197,
         "regime_penalty": 0.003,
-        "current_price": 102.035,
-        "current_value": 3481.46,
-        "pnl_pct": 6.08
+        "current_price": 102.3,
+        "current_value": 3490.51,
+        "pnl_pct": 6.35
       },
       "CAR": {
         "shares": 17.583,
@@ -6145,9 +6220,9 @@
         "sort_col": "p90",
         "sort_value": 1.6377,
         "regime_penalty": 0.015,
-        "current_price": 165.2,
-        "current_value": 2904.71,
-        "pnl_pct": -12.33
+        "current_price": 168.99,
+        "current_value": 2971.35,
+        "pnl_pct": -10.32
       },
       "STM": {
         "shares": 42.2652,
@@ -6162,9 +6237,9 @@
         "sort_col": "p90",
         "sort_value": 1.2677,
         "regime_penalty": 0.015,
-        "current_price": 72.13,
-        "current_value": 3048.59,
-        "pnl_pct": -7.99
+        "current_price": 71.73,
+        "current_value": 3031.68,
+        "pnl_pct": -8.5
       },
       "ATRO": {
         "shares": 41.1267,
@@ -6179,26 +6254,9 @@
         "sort_col": "p90",
         "sort_value": 0.8461,
         "regime_penalty": 0.0,
-        "current_price": 86.725,
-        "current_value": 3566.71,
-        "pnl_pct": 7.65
-      },
-      "EWY": {
-        "shares": 15.1963,
-        "entry_price": 218.62,
-        "entry_date": "2026-06-22",
-        "entry_edge": 0.228,
-        "entry_p90": 1.2756,
-        "entry_p10": -0.0824,
-        "name": "iShares MSCI South Korea ETF",
-        "sector": "Unknown",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 1.2756,
-        "regime_penalty": 0.0,
-        "current_price": 195.46,
-        "current_value": 2970.27,
-        "pnl_pct": -10.59
+        "current_price": 84.61,
+        "current_value": 3479.73,
+        "pnl_pct": 5.03
       },
       "STX": {
         "shares": 3.0621,
@@ -6213,9 +6271,9 @@
         "sort_col": "p90",
         "sort_value": 2.2191,
         "regime_penalty": 0.02,
-        "current_price": 978.96,
-        "current_value": 2997.67,
-        "pnl_pct": -10.15
+        "current_price": 952.3901,
+        "current_value": 2916.31,
+        "pnl_pct": -12.59
       },
       "VSAT": {
         "shares": 50.9783,
@@ -6230,9 +6288,9 @@
         "sort_col": "p90",
         "sort_value": 2.0702,
         "regime_penalty": 0.022,
-        "current_price": 59.205,
-        "current_value": 3018.17,
-        "pnl_pct": -4.84
+        "current_price": 60.76,
+        "current_value": 3097.44,
+        "pnl_pct": -2.34
       },
       "MP": {
         "shares": 55.1202,
@@ -6247,9 +6305,9 @@
         "sort_col": "p90",
         "sort_value": 1.8671,
         "regime_penalty": 0.022,
-        "current_price": 54.255,
-        "current_value": 2990.55,
-        "pnl_pct": -5.71
+        "current_price": 54.95,
+        "current_value": 3028.86,
+        "pnl_pct": -4.5
       },
       "TTMI": {
         "shares": 15.4412,
@@ -6264,9 +6322,9 @@
         "sort_col": "p90",
         "sort_value": 1.6697,
         "regime_penalty": 0.022,
-        "current_price": 200.69,
-        "current_value": 3098.89,
-        "pnl_pct": -2.29
+        "current_price": 197.59,
+        "current_value": 3051.03,
+        "pnl_pct": -3.8
       },
       "HOOD": {
         "shares": 31.2351,
@@ -6281,9 +6339,9 @@
         "sort_col": "p90",
         "sort_value": 1.3461,
         "regime_penalty": 0.0,
-        "current_price": 94.9899,
-        "current_value": 2967.02,
-        "pnl_pct": -6.45
+        "current_price": 98.1,
+        "current_value": 3064.16,
+        "pnl_pct": -3.39
       },
       "CORT": {
         "shares": 39.6461,
@@ -6298,9 +6356,9 @@
         "sort_col": "p90",
         "sort_value": 0.9593,
         "regime_penalty": 0.0,
-        "current_price": 84.26,
-        "current_value": 3340.58,
-        "pnl_pct": 3.74
+        "current_price": 87.035,
+        "current_value": 3450.6,
+        "pnl_pct": 7.16
       },
       "SLNO": {
         "shares": 60.7443,
@@ -6332,9 +6390,9 @@
         "sort_col": "p90",
         "sort_value": 0.8087,
         "regime_penalty": 0.0,
-        "current_price": 45.52,
-        "current_value": 3020.65,
-        "pnl_pct": -6.19
+        "current_price": 47.36,
+        "current_value": 3142.75,
+        "pnl_pct": -2.4
       },
       "AG": {
         "shares": 190.8181,
@@ -6349,9 +6407,9 @@
         "sort_col": "p90",
         "sort_value": 0.8399,
         "regime_penalty": 0.025,
-        "current_price": 16.65,
-        "current_value": 3177.12,
-        "pnl_pct": -1.33
+        "current_price": 17.295,
+        "current_value": 3300.2,
+        "pnl_pct": 2.49
       },
       "ALGM": {
         "shares": 49.4491,
@@ -6366,9 +6424,9 @@
         "sort_col": "p90",
         "sort_value": 0.7905,
         "regime_penalty": 0.025,
-        "current_price": 57.87,
-        "current_value": 2861.62,
-        "pnl_pct": 1.76
+        "current_price": 59.07,
+        "current_value": 2920.96,
+        "pnl_pct": 3.87
       },
       "DOCN": {
         "shares": 20.3798,
@@ -6383,9 +6441,9 @@
         "sort_col": "p90",
         "sort_value": 1.7663,
         "regime_penalty": 0.025,
-        "current_price": 142.29,
-        "current_value": 2899.84,
-        "pnl_pct": -9.98
+        "current_price": 138.9,
+        "current_value": 2830.75,
+        "pnl_pct": -12.12
       },
       "TMDX": {
         "shares": 40.8817,
@@ -6400,9 +6458,9 @@
         "sort_col": "p90",
         "sort_value": 1.0943,
         "regime_penalty": 0.0,
-        "current_price": 68.32,
-        "current_value": 2793.04,
-        "pnl_pct": -11.47
+        "current_price": 71.0088,
+        "current_value": 2902.96,
+        "pnl_pct": -7.98
       },
       "LEU": {
         "shares": 18.2863,
@@ -6417,9 +6475,9 @@
         "sort_col": "p90",
         "sort_value": 1.6292,
         "regime_penalty": 0.062,
-        "current_price": 165.51,
-        "current_value": 3026.57,
-        "pnl_pct": -4.06
+        "current_price": 166.175,
+        "current_value": 3038.73,
+        "pnl_pct": -3.68
       },
       "LGN": {
         "shares": 37.7459,
@@ -6434,9 +6492,9 @@
         "sort_col": "p90",
         "sort_value": 1.4499,
         "regime_penalty": 0.055,
-        "current_price": 79.785,
-        "current_value": 3011.56,
-        "pnl_pct": -4.86
+        "current_price": 79.53,
+        "current_value": 3001.93,
+        "pnl_pct": -5.17
       },
       "PLTR": {
         "shares": 27.7269,
@@ -6451,9 +6509,9 @@
         "sort_col": "p90",
         "sort_value": 1.5924,
         "regime_penalty": 0.033,
-        "current_price": 109.74,
-        "current_value": 3042.75,
-        "pnl_pct": -2.4
+        "current_price": 113.7701,
+        "current_value": 3154.49,
+        "pnl_pct": 1.19
       },
       "UPST": {
         "shares": 96.3093,
@@ -6468,9 +6526,9 @@
         "sort_col": "p90",
         "sort_value": 1.357,
         "regime_penalty": 0.005,
-        "current_price": 32.755,
-        "current_value": 3154.61,
-        "pnl_pct": -0.27
+        "current_price": 32.72,
+        "current_value": 3151.24,
+        "pnl_pct": -0.38
       },
       "QXO": {
         "shares": 181.3806,
@@ -6485,9 +6543,9 @@
         "sort_col": "p90",
         "sort_value": 2.9104,
         "regime_penalty": 0.035,
-        "current_price": 17.56,
-        "current_value": 3185.04,
-        "pnl_pct": 0.69
+        "current_price": 18.1,
+        "current_value": 3282.99,
+        "pnl_pct": 3.78
       },
       "HUM": {
         "shares": 8.3013,
@@ -6502,9 +6560,9 @@
         "sort_col": "p90",
         "sort_value": 1.0283,
         "regime_penalty": 0.0,
-        "current_price": 372.7075,
-        "current_value": 3093.96,
-        "pnl_pct": -0.81
+        "current_price": 381.12,
+        "current_value": 3163.79,
+        "pnl_pct": 1.43
       },
       "ALNY": {
         "shares": 10.0843,
@@ -6519,26 +6577,9 @@
         "sort_col": "p90",
         "sort_value": 0.9633,
         "regime_penalty": 0.0,
-        "current_price": 297.95,
-        "current_value": 3004.62,
-        "pnl_pct": 1.31
-      },
-      "LITE": {
-        "shares": 3.8349,
-        "entry_price": 800.91,
-        "entry_date": "2026-06-26",
-        "entry_edge": 0.2131,
-        "entry_p90": 2.9873,
-        "entry_p10": 0.0827,
-        "name": "Lumentum Holdings Inc.",
-        "sector": "Technology",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 2.9873,
-        "regime_penalty": 0.025,
-        "current_price": 800.91,
-        "current_value": 3071.41,
-        "pnl_pct": -0.0
+        "current_price": 298.45,
+        "current_value": 3009.66,
+        "pnl_pct": 1.48
       },
       "KTOS": {
         "shares": 65.4188,
@@ -6553,26 +6594,9 @@
         "sort_col": "p90",
         "sort_value": 1.5093,
         "regime_penalty": 0.0,
-        "current_price": 46.95,
-        "current_value": 3071.41,
-        "pnl_pct": 0.0
-      },
-      "SOC": {
-        "shares": 410.8911,
-        "entry_price": 7.475,
-        "entry_date": "2026-06-26",
-        "entry_edge": 0.4633,
-        "entry_p90": 2.1354,
-        "entry_p10": -0.0334,
-        "name": "Sable Offshore Corp.",
-        "sector": "Energy",
-        "horizon": "120d",
-        "sort_col": "p90",
-        "sort_value": 2.1354,
-        "regime_penalty": 0.047,
-        "current_price": 7.475,
-        "current_value": 3071.41,
-        "pnl_pct": -0.0
+        "current_price": 48.7,
+        "current_value": 3185.9,
+        "pnl_pct": 3.73
       },
       "CVNA": {
         "shares": 47.2525,
@@ -6587,26 +6611,77 @@
         "sort_col": "p90",
         "sort_value": 1.4738,
         "regime_penalty": 0.022,
-        "current_price": 65.0,
-        "current_value": 3071.41,
-        "pnl_pct": 0.0
+        "current_price": 64.725,
+        "current_value": 3058.42,
+        "pnl_pct": -0.42
       },
-      "CRDO": {
-        "shares": 11.9593,
-        "entry_price": 256.43,
+      "DAVE": {
+        "shares": 9.4484,
+        "entry_price": 328.39,
         "entry_date": "2026-06-26",
-        "entry_edge": 0.24,
-        "entry_p90": 1.5712,
-        "entry_p10": 0.2782,
-        "name": "Credo Technology Group Holding Ltd",
-        "sector": "Semiconductors",
+        "entry_edge": 0.2141,
+        "entry_p90": 2.1483,
+        "entry_p10": 0.2192,
+        "name": "Dave Inc.",
+        "sector": "Technology",
         "horizon": "120d",
         "sort_col": "p90",
-        "sort_value": 1.5712,
-        "regime_penalty": 0.047,
-        "current_price": 256.43,
-        "current_value": 3066.72,
+        "sort_value": 2.1483,
+        "regime_penalty": 0.027,
+        "current_price": 328.39,
+        "current_value": 3102.76,
+        "pnl_pct": 0.0
+      },
+      "SOFI": {
+        "shares": 174.2142,
+        "entry_price": 17.81,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.3449,
+        "entry_p90": 1.2267,
+        "entry_p10": -0.3763,
+        "name": "SoFi Technologies, Inc.",
+        "sector": "Financials",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 1.2267,
+        "regime_penalty": 0.01,
+        "current_price": 17.81,
+        "current_value": 3102.75,
         "pnl_pct": -0.0
+      },
+      "METC": {
+        "shares": 243.3533,
+        "entry_price": 12.75,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.2474,
+        "entry_p90": 1.4452,
+        "entry_p10": -0.3123,
+        "name": "Ramaco Resources, Inc.",
+        "sector": "Materials",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 1.4452,
+        "regime_penalty": 0.038,
+        "current_price": 12.75,
+        "current_value": 3102.75,
+        "pnl_pct": 0.0
+      },
+      "GEV": {
+        "shares": 2.7397,
+        "entry_price": 1062.9449,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.2905,
+        "entry_p90": 1.3206,
+        "entry_p10": 0.4272,
+        "name": "GE Vernova Inc.",
+        "sector": "Industrials",
+        "horizon": "120d",
+        "sort_col": "p90",
+        "sort_value": 1.3206,
+        "regime_penalty": 0.038,
+        "current_price": 1062.9449,
+        "current_value": 2912.15,
+        "pnl_pct": 0.0
       }
     },
     "history": [
@@ -6756,110 +6831,14 @@
       },
       {
         "date": "2026-06-26",
-        "total_value": 92142.32,
+        "total_value": 93082.61,
         "cash": 0.0,
-        "invested": 92142.32,
+        "invested": 93082.61,
         "n_positions": 30,
-        "return_pct": -7.8577
+        "return_pct": -6.9174
       }
     ],
     "transactions": [
-      {
-        "date": "2026-06-01",
-        "action": "buy",
-        "ticker": "TPL",
-        "shares": 8.7008,
-        "price": 383.105,
-        "value": 3333.33,
-        "sort_col": "p90",
-        "sort_value": 0.7564,
-        "reason": "top_p90",
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-01",
-        "action": "buy",
-        "ticker": "CORT",
-        "shares": 47.4158,
-        "price": 70.3,
-        "value": 3333.33,
-        "sort_col": "p90",
-        "sort_value": 0.7441,
-        "reason": "top_p90",
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-02",
-        "action": "buy",
-        "ticker": "DAVE",
-        "shares": 11.6483,
-        "price": 278.96,
-        "value": 3249.41,
-        "sort_col": "p90",
-        "sort_value": 3.6603,
-        "reason": "top_p90",
-        "horizon": "60d"
-      },
-      {
-        "date": "2026-06-02",
-        "action": "buy",
-        "ticker": "MU",
-        "shares": 3.0809,
-        "price": 1054.6899,
-        "value": 3249.41,
-        "sort_col": "p90",
-        "sort_value": 1.6454,
-        "reason": "top_p90",
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_120d",
-        "ticker": "COGT",
-        "shares": 96.2279,
-        "price": 32.35,
-        "value": 3112.97,
-        "pnl_pct": -6.61,
-        "days_held": 10,
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_20d",
-        "ticker": "VKTX",
-        "shares": 105.753,
-        "price": 27.57,
-        "value": 2915.61,
-        "pnl_pct": -12.53,
-        "days_held": 10,
-        "horizon": "20d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_120d",
-        "ticker": "INSM",
-        "shares": 32.0605,
-        "price": 97.02,
-        "value": 3110.51,
-        "pnl_pct": -6.68,
-        "days_held": 10,
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_60d",
-        "ticker": "VERA",
-        "shares": 98.0681,
-        "price": 33.42,
-        "value": 3277.44,
-        "pnl_pct": -1.68,
-        "days_held": 10,
-        "horizon": "60d"
-      },
       {
         "date": "2026-06-11",
         "action": "sell",
@@ -13011,6 +12990,106 @@
         "sort_value": 1.5712,
         "horizon": "120d",
         "regime_penalty": 0.047
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "EWY",
+        "shares": 15.1963,
+        "price": 200.415,
+        "value": 3045.57,
+        "pnl_pct": -8.33,
+        "days_held": 4,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "LITE",
+        "shares": 3.8349,
+        "price": 792.98,
+        "value": 3041.0,
+        "pnl_pct": -0.99,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "SOC",
+        "shares": 410.8911,
+        "price": 7.515,
+        "value": 3087.85,
+        "pnl_pct": 0.54,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "CRDO",
+        "shares": 11.9593,
+        "price": 254.7,
+        "value": 3046.03,
+        "pnl_pct": -0.67,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p90",
+        "ticker": "DAVE",
+        "shares": 9.4484,
+        "price": 328.39,
+        "value": 3102.75,
+        "sort_col": "p90",
+        "sort_value": 2.1483,
+        "horizon": "120d",
+        "regime_penalty": 0.027
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p90",
+        "ticker": "SOFI",
+        "shares": 174.2142,
+        "price": 17.81,
+        "value": 3102.75,
+        "sort_col": "p90",
+        "sort_value": 1.2267,
+        "horizon": "120d",
+        "regime_penalty": 0.01
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p90",
+        "ticker": "METC",
+        "shares": 243.3533,
+        "price": 12.75,
+        "value": 3102.75,
+        "sort_col": "p90",
+        "sort_value": 1.4452,
+        "horizon": "120d",
+        "regime_penalty": 0.038
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p90",
+        "ticker": "GEV",
+        "shares": 2.7397,
+        "price": 1062.9449,
+        "value": 2912.19,
+        "sort_col": "p90",
+        "sort_value": 1.3206,
+        "horizon": "120d",
+        "regime_penalty": 0.038
       }
     ],
     "last_buy_date": "2026-06-26",
@@ -13024,7 +13103,7 @@
     "sort_col": "p10",
     "inception_date": "2026-06-01",
     "initial_cash": 100000.0,
-    "cash": 919.0633745593896,
+    "cash": 520.7822579514714,
     "holdings": {
       "ESLT": {
         "shares": 3.6749,
@@ -13039,9 +13118,9 @@
         "sort_col": "p10",
         "sort_value": 0.2797,
         "regime_penalty": 0.02,
-        "current_price": 722.21,
-        "current_value": 2654.05,
-        "pnl_pct": -20.79
+        "current_price": 722.655,
+        "current_value": 2655.68,
+        "pnl_pct": -20.74
       },
       "CHYM": {
         "shares": 197.7766,
@@ -13056,9 +13135,9 @@
         "sort_col": "p10",
         "sort_value": 0.0333,
         "regime_penalty": 0.0,
-        "current_price": 18.1,
-        "current_value": 3579.76,
-        "pnl_pct": 4.93
+        "current_price": 19.81,
+        "current_value": 3917.95,
+        "pnl_pct": 14.84
       },
       "ACMR": {
         "shares": 33.5434,
@@ -13073,9 +13152,9 @@
         "sort_col": "p10",
         "sort_value": 0.1522,
         "regime_penalty": 0.013,
-        "current_price": 102.035,
-        "current_value": 3422.6,
-        "pnl_pct": -0.3
+        "current_price": 102.3,
+        "current_value": 3431.49,
+        "pnl_pct": -0.04
       },
       "AXSM": {
         "shares": 13.8894,
@@ -13090,9 +13169,9 @@
         "sort_col": "p10",
         "sort_value": 0.0716,
         "regime_penalty": 0.0,
-        "current_price": 239.85,
-        "current_value": 3331.37,
-        "pnl_pct": -4.25
+        "current_price": 246.1401,
+        "current_value": 3418.74,
+        "pnl_pct": -1.74
       },
       "JBL": {
         "shares": 9.3559,
@@ -13107,9 +13186,9 @@
         "sort_col": "p10",
         "sort_value": 0.0484,
         "regime_penalty": 0.015,
-        "current_price": 364.37,
-        "current_value": 3409.01,
-        "pnl_pct": -2.02
+        "current_price": 364.215,
+        "current_value": 3407.56,
+        "pnl_pct": -2.06
       },
       "ATRO": {
         "shares": 43.1887,
@@ -13124,9 +13203,9 @@
         "sort_col": "p10",
         "sort_value": 0.0232,
         "regime_penalty": 0.0,
-        "current_price": 86.725,
-        "current_value": 3745.54,
-        "pnl_pct": 7.65
+        "current_price": 84.61,
+        "current_value": 3654.2,
+        "pnl_pct": 5.03
       },
       "ALGM": {
         "shares": 56.7299,
@@ -13141,9 +13220,9 @@
         "sort_col": "p10",
         "sort_value": 0.0993,
         "regime_penalty": 0.02,
-        "current_price": 57.87,
-        "current_value": 3282.96,
-        "pnl_pct": -5.61
+        "current_price": 59.07,
+        "current_value": 3351.04,
+        "pnl_pct": -3.65
       },
       "TTMI": {
         "shares": 15.658,
@@ -13158,9 +13237,9 @@
         "sort_col": "p10",
         "sort_value": 0.2005,
         "regime_penalty": 0.02,
-        "current_price": 200.69,
-        "current_value": 3142.4,
-        "pnl_pct": -9.37
+        "current_price": 197.59,
+        "current_value": 3093.86,
+        "pnl_pct": -10.77
       },
       "AG": {
         "shares": 194.9566,
@@ -13175,9 +13254,9 @@
         "sort_col": "p10",
         "sort_value": 0.1343,
         "regime_penalty": 0.02,
-        "current_price": 16.65,
-        "current_value": 3246.03,
-        "pnl_pct": -6.38
+        "current_price": 17.295,
+        "current_value": 3371.77,
+        "pnl_pct": -2.76
       },
       "STX": {
         "shares": 3.2185,
@@ -13192,9 +13271,9 @@
         "sort_col": "p10",
         "sort_value": 0.1019,
         "regime_penalty": 0.02,
-        "current_price": 978.96,
-        "current_value": 3150.78,
-        "pnl_pct": -9.13
+        "current_price": 952.3901,
+        "current_value": 3065.27,
+        "pnl_pct": -11.59
       },
       "BUD": {
         "shares": 42.9387,
@@ -13209,26 +13288,9 @@
         "sort_col": "p10",
         "sort_value": 0.0091,
         "regime_penalty": 0.0,
-        "current_price": 84.72,
-        "current_value": 3637.77,
-        "pnl_pct": 4.92
-      },
-      "EWY": {
-        "shares": 15.9239,
-        "entry_price": 219.02,
-        "entry_date": "2026-06-22",
-        "entry_edge": 0.1639,
-        "entry_p90": 0.4551,
-        "entry_p10": -0.0288,
-        "name": "iShares MSCI South Korea ETF",
-        "sector": "Unknown",
-        "horizon": "60d",
-        "sort_col": "p10",
-        "sort_value": -0.0288,
-        "regime_penalty": 0.0,
-        "current_price": 195.46,
-        "current_value": 3112.49,
-        "pnl_pct": -10.76
+        "current_price": 85.22,
+        "current_value": 3659.24,
+        "pnl_pct": 5.54
       },
       "VRSN": {
         "shares": 13.6339,
@@ -13243,9 +13305,9 @@
         "sort_col": "p10",
         "sort_value": 0.0838,
         "regime_penalty": 0.022,
-        "current_price": 252.74,
-        "current_value": 3445.83,
-        "pnl_pct": 2.46
+        "current_price": 255.5,
+        "current_value": 3483.46,
+        "pnl_pct": 3.58
       },
       "BLSH": {
         "shares": 133.8296,
@@ -13260,9 +13322,9 @@
         "sort_col": "p10",
         "sort_value": 0.0417,
         "regime_penalty": 0.022,
-        "current_price": 22.055,
-        "current_value": 2951.61,
-        "pnl_pct": -12.24
+        "current_price": 22.8901,
+        "current_value": 3063.37,
+        "pnl_pct": -8.91
       },
       "MP": {
         "shares": 58.4487,
@@ -13277,9 +13339,9 @@
         "sort_col": "p10",
         "sort_value": 0.0393,
         "regime_penalty": 0.022,
-        "current_price": 54.255,
-        "current_value": 3171.13,
-        "pnl_pct": -5.71
+        "current_price": 54.95,
+        "current_value": 3211.76,
+        "pnl_pct": -4.5
       },
       "SLNO": {
         "shares": 63.4435,
@@ -13311,9 +13373,9 @@
         "sort_col": "p10",
         "sort_value": 0.0712,
         "regime_penalty": 0.0,
-        "current_price": 120.4,
-        "current_value": 3441.67,
-        "pnl_pct": 1.24
+        "current_price": 119.905,
+        "current_value": 3427.52,
+        "pnl_pct": 0.83
       },
       "CBRL": {
         "shares": 71.5219,
@@ -13328,9 +13390,9 @@
         "sort_col": "p10",
         "sort_value": 0.0902,
         "regime_penalty": 0.03,
-        "current_price": 48.2875,
-        "current_value": 3453.61,
-        "pnl_pct": 2.42
+        "current_price": 50.035,
+        "current_value": 3578.6,
+        "pnl_pct": 6.13
       },
       "LTH": {
         "shares": 88.4897,
@@ -13345,9 +13407,9 @@
         "sort_col": "p10",
         "sort_value": 0.0845,
         "regime_penalty": 0.03,
-        "current_price": 39.715,
-        "current_value": 3514.37,
-        "pnl_pct": 4.23
+        "current_price": 41.2595,
+        "current_value": 3651.04,
+        "pnl_pct": 8.28
       },
       "EWZ": {
         "shares": 100.835,
@@ -13362,9 +13424,9 @@
         "sort_col": "p10",
         "sort_value": 0.0593,
         "regime_penalty": 0.0,
-        "current_price": 34.15,
-        "current_value": 3443.52,
-        "pnl_pct": 1.12
+        "current_price": 34.745,
+        "current_value": 3503.51,
+        "pnl_pct": 2.89
       },
       "LGN": {
         "shares": 40.6034,
@@ -13379,9 +13441,9 @@
         "sort_col": "p10",
         "sort_value": 0.9611,
         "regime_penalty": 0.055,
-        "current_price": 79.785,
-        "current_value": 3239.54,
-        "pnl_pct": -4.86
+        "current_price": 79.53,
+        "current_value": 3229.19,
+        "pnl_pct": -5.17
       },
       "RAL": {
         "shares": 47.1766,
@@ -13396,9 +13458,9 @@
         "sort_col": "p10",
         "sort_value": 0.0767,
         "regime_penalty": 0.03,
-        "current_price": 73.01,
-        "current_value": 3444.36,
-        "pnl_pct": 1.15
+        "current_price": 72.6949,
+        "current_value": 3429.5,
+        "pnl_pct": 0.71
       },
       "PM": {
         "shares": 19.0341,
@@ -13413,9 +13475,9 @@
         "sort_col": "p10",
         "sort_value": 0.0289,
         "regime_penalty": 0.0,
-        "current_price": 180.585,
-        "current_value": 3437.27,
-        "pnl_pct": 1.94
+        "current_price": 181.25,
+        "current_value": 3449.93,
+        "pnl_pct": 2.31
       },
       "MNST": {
         "shares": 35.5068,
@@ -13430,9 +13492,9 @@
         "sort_col": "p10",
         "sort_value": 0.0276,
         "regime_penalty": 0.0,
-        "current_price": 96.505,
-        "current_value": 3426.58,
-        "pnl_pct": 1.62
+        "current_price": 97.48,
+        "current_value": 3461.2,
+        "pnl_pct": 2.65
       },
       "HOOD": {
         "shares": 34.9516,
@@ -13447,9 +13509,9 @@
         "sort_col": "p10",
         "sort_value": 0.475,
         "regime_penalty": 0.005,
-        "current_price": 94.9899,
-        "current_value": 3320.05,
-        "pnl_pct": -2.85
+        "current_price": 98.1,
+        "current_value": 3428.75,
+        "pnl_pct": 0.33
       },
       "TGTX": {
         "shares": 63.4764,
@@ -13464,43 +13526,9 @@
         "sort_col": "p10",
         "sort_value": 0.1689,
         "regime_penalty": 0.0,
-        "current_price": 54.49,
-        "current_value": 3458.83,
-        "pnl_pct": 1.21
-      },
-      "ROKU": {
-        "shares": 25.0553,
-        "entry_price": 134.695,
-        "entry_date": "2026-06-26",
-        "entry_edge": 0.1947,
-        "entry_p90": 0.373,
-        "entry_p10": 0.1271,
-        "name": "Roku, Inc.",
-        "sector": "Communication Services",
-        "horizon": "120d",
-        "sort_col": "p10",
-        "sort_value": 0.1271,
-        "regime_penalty": 0.0,
-        "current_price": 134.695,
-        "current_value": 3374.82,
-        "pnl_pct": 0.0
-      },
-      "SOLS": {
-        "shares": 39.7505,
-        "entry_price": 84.9,
-        "entry_date": "2026-06-26",
-        "entry_edge": 0.2798,
-        "entry_p90": 1.1247,
-        "entry_p10": 0.897,
-        "name": "Solstice Advanced Materials, Inc.",
-        "sector": "Materials",
-        "horizon": "120d",
-        "sort_col": "p10",
-        "sort_value": 0.897,
-        "regime_penalty": 0.047,
-        "current_price": 84.9,
-        "current_value": 3374.82,
-        "pnl_pct": 0.0
+        "current_price": 54.935,
+        "current_value": 3487.08,
+        "pnl_pct": 2.03
       },
       "GEV": {
         "shares": 3.2128,
@@ -13515,25 +13543,76 @@
         "sort_col": "p10",
         "sort_value": 0.446,
         "regime_penalty": 0.047,
-        "current_price": 1050.42,
-        "current_value": 3374.79,
-        "pnl_pct": 0.0
+        "current_price": 1062.9449,
+        "current_value": 3415.03,
+        "pnl_pct": 1.19
       },
-      "CUK": {
-        "shares": 122.8548,
-        "entry_price": 27.47,
+      "CVNA": {
+        "shares": 52.7264,
+        "entry_price": 64.725,
         "entry_date": "2026-06-26",
-        "entry_edge": 0.2287,
-        "entry_p90": 0.4694,
-        "entry_p10": 0.1476,
-        "name": "Carnival Corporation & plc",
+        "entry_edge": 0.2392,
+        "entry_p90": 0.902,
+        "entry_p10": 0.3097,
+        "name": "Carvana Co.",
         "sector": "Consumer Discretionary",
         "horizon": "120d",
         "sort_col": "p10",
-        "sort_value": 0.1476,
-        "regime_penalty": 0.022,
-        "current_price": 27.47,
-        "current_value": 3374.82,
+        "sort_value": 0.3097,
+        "regime_penalty": 0.01,
+        "current_price": 64.725,
+        "current_value": 3412.72,
+        "pnl_pct": -0.0
+      },
+      "URA": {
+        "shares": 77.2633,
+        "entry_price": 44.17,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.2054,
+        "entry_p90": 0.4992,
+        "entry_p10": 0.108,
+        "name": "Global X Uranium ETF",
+        "sector": "Unknown",
+        "horizon": "120d",
+        "sort_col": "p10",
+        "sort_value": 0.108,
+        "regime_penalty": 0.0,
+        "current_price": 44.17,
+        "current_value": 3412.72,
+        "pnl_pct": -0.0
+      },
+      "TIGO": {
+        "shares": 38.8383,
+        "entry_price": 87.87,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.0577,
+        "entry_p90": 0.1691,
+        "entry_p10": 0.05,
+        "name": "Millicom International Cellular S.A.",
+        "sector": "Communication Services",
+        "horizon": "20d",
+        "sort_col": "p10",
+        "sort_value": 0.05,
+        "regime_penalty": 0.0,
+        "current_price": 87.87,
+        "current_value": 3412.72,
+        "pnl_pct": 0.0
+      },
+      "SHLD": {
+        "shares": 57.8672,
+        "entry_price": 58.975,
+        "entry_date": "2026-06-26",
+        "entry_edge": 0.3125,
+        "entry_p90": 0.5983,
+        "entry_p10": 0.0466,
+        "name": "Global X Defense Tech ETF",
+        "sector": "Defense",
+        "horizon": "120d",
+        "sort_col": "p10",
+        "sort_value": 0.0466,
+        "regime_penalty": 0.0,
+        "current_price": 58.975,
+        "current_value": 3412.72,
         "pnl_pct": -0.0
       }
     },
@@ -13684,112 +13763,14 @@
       },
       {
         "date": "2026-06-26",
-        "total_value": 101244.58,
-        "cash": 919.06,
-        "invested": 100325.52,
+        "total_value": 102381.54,
+        "cash": 520.78,
+        "invested": 101860.76,
         "n_positions": 30,
-        "return_pct": 1.2446
+        "return_pct": 2.3815
       }
     ],
     "transactions": [
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_120d",
-        "ticker": "FIX",
-        "shares": 1.8397,
-        "price": 1819.75,
-        "value": 3347.79,
-        "pnl_pct": 1.08,
-        "days_held": 0,
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_60d",
-        "ticker": "MPWR",
-        "shares": 2.1638,
-        "price": 1565.645,
-        "value": 3387.74,
-        "pnl_pct": 2.28,
-        "days_held": 0,
-        "horizon": "60d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_120d",
-        "ticker": "CUK",
-        "shares": 120.5747,
-        "price": 27.47,
-        "value": 3312.19,
-        "pnl_pct": -0.0,
-        "days_held": 0,
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_20d",
-        "ticker": "ELV",
-        "shares": 8.3044,
-        "price": 402.16,
-        "value": 3339.7,
-        "pnl_pct": 0.83,
-        "days_held": 0,
-        "horizon": "20d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_120d",
-        "ticker": "RCL",
-        "shares": 12.0879,
-        "price": 279.805,
-        "value": 3382.25,
-        "pnl_pct": 2.53,
-        "days_held": 0,
-        "horizon": "120d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "sell",
-        "reason": "signal_decayed_60d",
-        "ticker": "EGO",
-        "shares": 114.9516,
-        "price": 29.4,
-        "value": 3379.58,
-        "pnl_pct": 2.58,
-        "days_held": 0,
-        "horizon": "60d"
-      },
-      {
-        "date": "2026-06-11",
-        "action": "buy",
-        "reason": "top_p10",
-        "ticker": "TIGO",
-        "shares": 36.1972,
-        "price": 92.56,
-        "value": 3350.42,
-        "sort_col": "p10",
-        "sort_value": 0.1768,
-        "horizon": "120d",
-        "regime_penalty": 0.0
-      },
-      {
-        "date": "2026-06-11",
-        "action": "buy",
-        "reason": "top_p10",
-        "ticker": "ESLT",
-        "shares": 3.6749,
-        "price": 911.71,
-        "value": 3350.42,
-        "sort_col": "p10",
-        "sort_value": 0.2797,
-        "horizon": "120d",
-        "regime_penalty": 0.02
-      },
       {
         "date": "2026-06-11",
         "action": "buy",
@@ -19942,6 +19923,106 @@
         "sort_value": 0.1476,
         "horizon": "120d",
         "regime_penalty": 0.022
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_60d",
+        "ticker": "EWY",
+        "shares": 15.9239,
+        "price": 200.415,
+        "value": 3191.39,
+        "pnl_pct": -8.49,
+        "days_held": 4,
+        "horizon": "60d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "ROKU",
+        "shares": 25.0553,
+        "price": 135.47,
+        "value": 3394.24,
+        "pnl_pct": 0.58,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "SOLS",
+        "shares": 39.7505,
+        "price": 82.82,
+        "value": 3292.14,
+        "pnl_pct": -2.45,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "sell",
+        "reason": "signal_decayed_120d",
+        "ticker": "CUK",
+        "shares": 122.8548,
+        "price": 27.47,
+        "value": 3374.82,
+        "pnl_pct": -0.0,
+        "days_held": 0,
+        "horizon": "120d"
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p10",
+        "ticker": "CVNA",
+        "shares": 52.7264,
+        "price": 64.725,
+        "value": 3412.72,
+        "sort_col": "p10",
+        "sort_value": 0.3097,
+        "horizon": "120d",
+        "regime_penalty": 0.01
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p10",
+        "ticker": "URA",
+        "shares": 77.2633,
+        "price": 44.17,
+        "value": 3412.72,
+        "sort_col": "p10",
+        "sort_value": 0.108,
+        "horizon": "120d",
+        "regime_penalty": 0.0
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p10",
+        "ticker": "TIGO",
+        "shares": 38.8383,
+        "price": 87.87,
+        "value": 3412.72,
+        "sort_col": "p10",
+        "sort_value": 0.05,
+        "horizon": "20d",
+        "regime_penalty": 0.0
+      },
+      {
+        "date": "2026-06-26",
+        "action": "buy",
+        "reason": "top_p10",
+        "ticker": "SHLD",
+        "shares": 57.8672,
+        "price": 58.975,
+        "value": 3412.72,
+        "sort_col": "p10",
+        "sort_value": 0.0466,
+        "horizon": "120d",
+        "regime_penalty": 0.0
       }
     ],
     "last_buy_date": "2026-06-26",
