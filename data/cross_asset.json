@@ -3,15 +3,15 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "-0.8%",
+      "value": "-0.5%",
       "signal": "bearish",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "-2.2%",
-      "signal": "bearish",
+      "value": "-1.9%",
+      "signal": "neutral",
       "context": "Medium-term trend strength"
     },
     {
@@ -31,9 +31,9 @@
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-11.6% (20d)",
+      "value": "-11.5% (20d)",
       "signal": "bullish",
-      "context": "20d ret -11.6% \u2014 no safe-haven premium"
+      "context": "20d ret -11.5% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -45,37 +45,37 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "-16.7% (20d)",
+      "value": "-16.6% (20d)",
       "signal": "bearish",
-      "context": "20d ret -16.7% \u2014 demand concerns"
+      "context": "20d ret -16.6% \u2014 demand concerns"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "17.9",
+      "value": "17.7",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+4.3% (20d)",
+      "value": "+5.4% (20d)",
       "signal": "bullish",
-      "context": "20d ret +4.3% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +5.4% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "+2.3% (20d)",
+      "value": "+2.9% (20d)",
       "signal": "bullish",
-      "context": "20d ret +2.3% \u2014 small-cap breadth expanding"
+      "context": "20d ret +2.9% \u2014 small-cap breadth expanding"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-4.3% (20d)",
+      "value": "-4.2% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.3% \u2014 copper weak = growth concerns"
+      "context": "20d ret -4.2% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
@@ -87,24 +87,24 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-2.5% (20d)",
-      "signal": "bearish",
-      "context": "20d ret -2.5% \u2014 growth selling; value rotation"
+      "value": "-1.9% (20d)",
+      "signal": "neutral",
+      "context": "20d ret -1.9% \u2014 growth neutral"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+4.5% (20d)",
+      "value": "+4.7% (20d)",
       "signal": "bullish",
-      "context": "20d ret +4.5% \u2014 financials leading; curve steepening favourable"
+      "context": "20d ret +4.7% \u2014 financials leading; curve steepening favourable"
     }
   ],
   "risks": [
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.21,
-      "description": "VIX at 17.9. Calm regime; vol suppression in force.",
+      "score": 0.2,
+      "description": "VIX at 17.7. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
@@ -124,8 +124,8 @@
     {
       "name": "Growth Slowdown",
       "level": "moderate",
-      "score": 0.56,
-      "description": "Copper 20d -4.3%, IWM +2.3%. Cyclical indicators softening.",
+      "score": 0.54,
+      "description": "Copper 20d -4.2%, IWM +2.9%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
@@ -146,7 +146,7 @@
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.0,
-      "description": "SPY +-2.2% / 20d with vol 1.11%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +-1.9% / 20d with vol 1.13%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
     }
   ]
