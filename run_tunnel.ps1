@@ -30,7 +30,7 @@ foreach ($f in @($logOut, $logErr)) {
 
 Write-Host "[tunnel] launching cloudflared..." -ForegroundColor Cyan
 $proc = Start-Process -FilePath $cf `
-    -ArgumentList 'tunnel','--url','http://localhost:7534','--no-autoupdate' `
+    -ArgumentList 'tunnel','--url','http://localhost:7534','--no-autoupdate','--protocol','http2' `
     -NoNewWindow -PassThru `
     -RedirectStandardOutput $logOut `
     -RedirectStandardError  $logErr
