@@ -35513,7 +35513,8 @@ var RD_API_PORT=7534;
 var _rdApiBaseCache=null;
 function _rdProbe(base){
   return fetch(base+'/api/ping',{signal:AbortSignal.timeout(3500)})
-    .then(function(r){return r.ok?base:null;})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(d){return (d&&d.ok)?base:null;})
     .catch(function(){return null;});
 }
 function _rdGetApiBase(){
