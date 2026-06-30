@@ -35570,11 +35570,9 @@ var _pinnedTickers=[];
 try{_pinnedTickers=JSON.parse(localStorage.getItem('rd-pinned-tickers')||'[]');}catch(e){}
 function _savePinned(){try{localStorage.setItem('rd-pinned-tickers',JSON.stringify(_pinnedTickers));}catch(e){}}
 function _pinnedCard(tk){
-  var st=(S.stocks||[]).find(function(s){return s.ticker===tk;})
-      ||(S.all_signals||[]).find(function(s){return s.ticker===tk;});
-  var belowThreshold=st&&st.below_threshold;
-  var fromWatchlist=st&&st.from_watchlist;
-  var shortHistory=st&&st.short_history;
+  // Prefer freshly-fetched 4-horizon data (all_signals) over single-horizon main-scan data
+  var st=(S.all_signals||[]).find(function(s){return s.ticker===tk;})
+      ||(S.stocks||[]).find(function(s){return s.ticker===tk;});
   var logo='<img src="https://assets.parqet.com/logos/symbol/'+tk+'?format=jpg" width="22" height="22" '
     +'style="border-radius:4px;object-fit:contain;background:#fff;border:1px solid #30363d;flex-shrink:0;margin-right:8px" '
     +'onerror="this.style.display=\'none\'" loading="lazy">';
@@ -35588,51 +35586,96 @@ function _pinnedCard(tk){
       +'<div id="rd-pin-msg-'+tk+'" style="color:#58a6ff;font-size:12px;margin-top:8px">Computing signal...</div>'
       +'</div>';
   }
-  var hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
-  var ann=(st.edge||0)*(252/hd);
-  var ec=st.edge>=0?'#3fb950':'#f85149';
   var sector=st.sector&&st.sector!=='Unknown'?st.sector:'—';
-  var conf=(st.hit_rate||0)*Math.log(Math.max(st.n_obs||1,1));
-  var badge=conf>2?'High':conf>1?'Med':'Low';
-  var badgeCol=conf>2?'#3fb950':conf>1?'#e3b341':'#f85149';
-  var borderCol=belowThreshold?'#e3b341':'#58a6ff';
-  return '<div id="rd-pin-'+tk+'" class="card" style="border-left:3px solid '+borderCol+';margin-bottom:10px">'
-    +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">'
+  var priceStr=st.price?('$'+st.price.toFixed(2)+(st.change_pct!=null?' <span style="color:'+(st.change_pct>=0?'#3fb950':'#f85149')+'">'+(st.change_pct>=0?'+':'')+(st.change_pct*100).toFixed(2)+'%</span>':'')):'';
+  var borderCol=st.below_threshold?'#e3b341':'#58a6ff';
+  var header='<div id="rd-pin-'+tk+'" class="card" style="border-left:3px solid '+borderCol+';margin-bottom:10px">'
+    +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">'
     +'<div style="display:flex;align-items:center">'+logo
     +'<div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">'
     +'<strong style="color:#f0f6fc;font-size:15px">'+tk+'</strong>'
     +(st.name&&st.name!==tk?'<span style="color:#8b949e;font-size:12px">'+st.name+'</span>':'')
-    +(belowThreshold?'<span style="background:#3a2a1a;color:#e3b341;border-radius:10px;padding:1px 8px;font-size:11px">Below signal threshold</span>':'')
-    +(fromWatchlist?'<span style="background:#1a2a3a;color:#58a6ff;border-radius:10px;padding:1px 8px;font-size:11px">Watchlist</span>':'')
+    +(st.below_threshold?'<span style="background:#3a2a1a;color:#e3b341;border-radius:10px;padding:1px 8px;font-size:11px">Below threshold</span>':'')
+    +(st.short_history?'<span style="background:#2a2a1a;color:#e3b341;border-radius:10px;padding:1px 8px;font-size:11px">Short history</span>':'')
     +'</div>'
-    +'<div style="display:flex;gap:6px;margin-top:5px">'
+    +'<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;align-items:center">'
     +'<span style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:1px 8px;font-size:11px;color:#8b949e">'+sector+'</span>'
-    +'<span style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:1px 8px;font-size:11px;color:#8b949e">'+st.horizon+' horizon</span>'
+    +(priceStr?'<span style="font-size:12px;color:#c9d1d9">'+priceStr+'</span>':'')
     +'</div></div></div>'
-    +xBtn+'</div>'
+    +xBtn+'</div>';
+
+  // ── New format: horizons dict ─────────────────────────────────────────────
+  if(st.horizons){
+    var HLABELS=['5d','20d','60d','120d'];
+    var HDAYS={'5d':5,'20d':20,'60d':60,'120d':120};
+    var cols=HLABELS.map(function(lbl){
+      var h=st.horizons[lbl];
+      if(!h){
+        return '<div style="background:#0d1117;border:1px dashed #30363d;border-radius:6px;padding:10px;opacity:.45;text-align:center">'
+          +'<div style="color:#8b949e;font-size:11px;font-weight:600;text-transform:uppercase;margin-bottom:6px">'+lbl+'</div>'
+          +'<div style="color:#6e7681;font-size:13px">—</div>'
+          +'<div style="color:#6e7681;font-size:10px;margin-top:4px">no data</div></div>';
+      }
+      var ec=h.edge>=0.05?'#3fb950':h.edge>=0?'#e3b341':'#f85149';
+      var ann=h.edge*(252/HDAYS[lbl]);
+      var conf=h.hit_rate*Math.log(Math.max(h.n_obs,1));
+      var badge=conf>2?'●●●':conf>1?'●●○':'●○○';
+      var badgeCol=conf>2?'#3fb950':conf>1?'#e3b341':'#6e7681';
+      return '<div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:10px">'
+        +'<div style="color:#8b949e;font-size:11px;font-weight:600;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">'
+        +'<span>'+lbl+'</span>'
+        +'<span style="color:'+badgeCol+';font-size:9px;letter-spacing:1px">'+badge+'</span></div>'
+        +'<div style="color:'+ec+';font-size:20px;font-weight:700;margin-bottom:1px">'+(h.edge>=0?'+':'')+(h.edge*100).toFixed(1)+'%</div>'
+        +'<div style="color:#6e7681;font-size:10px;margin-bottom:8px">'+(ann>=0?'+':'')+(ann*100).toFixed(0)+'%/yr</div>'
+        +'<div style="border-top:1px solid #21262d;padding-top:8px;margin-bottom:6px">'
+        +'<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">'
+        +'<span style="color:#6e7681">Bear</span><span style="color:#f85149;font-weight:600">'+(h.p10>=0?'+':'')+(h.p10*100).toFixed(0)+'%</span></div>'
+        +'<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">'
+        +'<span style="color:#6e7681">Median</span><span style="color:#c9d1d9;font-weight:600">'+(h.p50>=0?'+':'')+(h.p50*100).toFixed(0)+'%</span></div>'
+        +'<div style="display:flex;justify-content:space-between;font-size:11px">'
+        +'<span style="color:#6e7681">Bull</span><span style="color:#3fb950;font-weight:600">'+(h.p90>=0?'+':'')+(h.p90*100).toFixed(0)+'%</span></div></div>'
+        +'<div style="border-top:1px solid #21262d;padding-top:6px;display:flex;justify-content:space-between;font-size:10px;color:#6e7681">'
+        +'<span>Hit '+((h.hit_rate||0)*100).toFixed(0)+'%</span>'
+        +'<span>n='+h.n_obs+'</span></div>'
+        +'</div>';
+    });
+    return header
+      +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">'
+      +cols.join('')
+      +'</div></div>';
+  }
+
+  // ── Legacy format: single horizon (fallback while API loads) ─────────────
+  var hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
+  var ann=(st.edge||0)*(252/hd);
+  var ec=st.edge>=0?'#3fb950':'#f85149';
+  var conf=(st.hit_rate||0)*Math.log(Math.max(st.n_obs||1,1));
+  var badgeCol=conf>2?'#3fb950':conf>1?'#e3b341':'#f85149';
+  return header
     +'<div style="display:flex;gap:28px;margin-bottom:14px;flex-wrap:wrap;align-items:flex-end">'
-    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Edge</div>'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Edge ('+st.horizon+')</div>'
     +'<div style="color:'+ec+';font-size:22px;font-weight:700">'+(st.edge>=0?'+':'')+(st.edge*100).toFixed(1)+'%</div>'
     +'<div style="color:#6e7681;font-size:11px">'+(ann>=0?'+':'')+(ann*100).toFixed(0)+'%/yr ann.</div></div>'
     +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Hit Rate</div>'
     +'<div style="font-size:18px;font-weight:600;color:#f0f6fc">'+((st.hit_rate||0)*100).toFixed(0)+'%</div></div>'
-    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Observations</div>'
+    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">n</div>'
     +'<div style="font-size:18px;font-weight:600;color:#f0f6fc">'+st.n_obs+'</div></div>'
-    +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Confidence</div>'
-    +'<div style="font-size:13px;font-weight:600;color:'+badgeCol+'">'+badge+'</div></div>'
     +'</div>'
     +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 0;border-top:1px solid #30363d;border-bottom:1px solid #30363d;margin-bottom:8px">'
-    +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bear Case (p10)</div><div style="color:#f85149;font-size:18px;font-weight:700">'+(st.p10>=0?'+':'')+(st.p10*100).toFixed(0)+'%</div></div>'
-    +'<div style="text-align:center;border-left:1px solid #30363d;border-right:1px solid #30363d"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Median (p50)</div><div style="color:#c9d1d9;font-size:18px;font-weight:700">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(0)+'%</div></div>'
-    +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bull Case (p90)</div><div style="color:#3fb950;font-size:18px;font-weight:700">'+(st.p90>=0?'+':'')+(st.p90*100).toFixed(0)+'%</div></div>'
-    +'</div>'
-    +(shortHistory?'<div style="color:#8b949e;font-size:11px;margin-top:8px;padding:6px 8px;background:#21262d;border-radius:4px">Analog dates scoped to this ticker\'s available history (recently listed). Signal based on '+st.n_obs+' observations — treat with caution.</div>':'')
-    +'</div>';
+    +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bear (p10)</div><div style="color:#f85149;font-size:18px;font-weight:700">'+(st.p10>=0?'+':'')+(st.p10*100).toFixed(0)+'%</div></div>'
+    +'<div style="text-align:center;border-left:1px solid #30363d;border-right:1px solid #30363d"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Median</div><div style="color:#c9d1d9;font-size:18px;font-weight:700">'+(st.p50>=0?'+':'')+(st.p50*100).toFixed(0)+'%</div></div>'
+    +'<div style="text-align:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Bull (p90)</div><div style="color:#3fb950;font-size:18px;font-weight:700">'+(st.p90>=0?'+':'')+(st.p90*100).toFixed(0)+'%</div></div>'
+    +'</div></div>';
 }
 function _rdRefreshPinned(){
   var el=document.getElementById('rd-pinned-cards');
   if(!el)return;
   el.innerHTML=_pinnedTickers.length?_pinnedTickers.map(_pinnedCard).join(''):'';
+  // Fetch fresh 4-horizon data for any pinned ticker not yet in all_signals
+  _pinnedTickers.forEach(function(tk){
+    var hasAll=!!(S.all_signals||[]).find(function(s){return s.ticker===tk&&s.horizons;});
+    if(!hasAll)_rdFetchTicker(tk);
+  });
 }
 window._rdRefreshPinned=_rdRefreshPinned;
 window._rdPinTicker=function(raw){
@@ -35644,9 +35687,6 @@ window._rdPinTicker=function(raw){
     return;
   }
   _pinnedTickers.push(tk);_savePinned();_rdRefreshPinned();
-  var hasSignal=!!(S.stocks||[]).find(function(s){return s.ticker===tk;})
-    ||!!(S.all_signals||[]).find(function(s){return s.ticker===tk;});
-  if(!hasSignal)_rdFetchTicker(tk);
 };
 window._rdUnpinTicker=function(tk){
   _pinnedTickers=_pinnedTickers.filter(function(t){return t!==tk;});

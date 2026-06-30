@@ -473,8 +473,8 @@ def _ensure_spy():
 # ── Signal computation ────────────────────────────────────────────────────────
 
 def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_history=False):
-    best = None
-    best_nobs = -1
+    """Return {label: signal_dict} for every horizon that meets min_obs."""
+    results = {}
     for label, days in HORIZONS.items():
         future = prices["close"].shift(-days) / prices["close"] - 1
         valid = prices.assign(fr=future).dropna(subset=["fr"])
@@ -490,31 +490,20 @@ def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_hist
         edge = round(cond - baseline, 4)
         pcts = np.percentile(vals, [10, 25, 50, 75, 90])
         hit = round(float((vals > 0).mean()), 3)
-        span = float(pcts[4] - pcts[0])
-        vol_proxy = round(span / (2.56 * math.sqrt(max(1, days))), 4)
-        vol_proxy = max(0.005, min(0.12, vol_proxy))
-        if n > best_nobs:
-            best_nobs = n
-            best = {
-                "ticker": ticker,
-                "name": ticker,
-                "sector": "Unknown",
-                "edge": edge,
-                "horizon": label,
-                "n_obs": n,
-                "p10": round(float(pcts[0]), 4),
-                "p25": round(float(pcts[1]), 4),
-                "p50": round(float(pcts[2]), 4),
-                "p75": round(float(pcts[3]), 4),
-                "p90": round(float(pcts[4]), 4),
-                "hit_rate": hit,
-                "vol": round(med_vol, 4),
-                "below_threshold": edge < 0.05,
-                "from_watchlist": True,
-                "short_history": short_history,
-                "source": "cloud",
-            }
-    return best
+        results[label] = {
+            "edge":            edge,
+            "n_obs":           n,
+            "p10":             round(float(pcts[0]), 4),
+            "p25":             round(float(pcts[1]), 4),
+            "p50":             round(float(pcts[2]), 4),
+            "p75":             round(float(pcts[3]), 4),
+            "p90":             round(float(pcts[4]), 4),
+            "hit_rate":        hit,
+            "vol":             round(med_vol, 4),
+            "below_threshold": edge < 0.05,
+            "short_history":   short_history,
+        }
+    return results
 
 
 def _compute_ticker(ticker):
@@ -541,21 +530,39 @@ def _compute_ticker(ticker):
     prices["ds"] = prices["date"].dt.strftime("%Y-%m-%d")
     med_vol = float(prices["volatility"].median())
 
-    best = _signal_for_dates(prices, analog_dates, ticker, med_vol, MIN_OBSERVATIONS)
-    if best is None:
+    horizons = _signal_for_dates(prices, analog_dates, ticker, med_vol, MIN_OBSERVATIONS)
+    short_history = False
+    if not horizons:
         restricted = _restricted_analog_dates(spy_df, prices["date"].min())
         if restricted:
-            best = _signal_for_dates(prices, restricted, ticker, med_vol, min_obs=3, short_history=True)
+            horizons = _signal_for_dates(prices, restricted, ticker, med_vol,
+                                          min_obs=3, short_history=True)
+            short_history = bool(horizons)
 
-    if best is not None:
-        recent = [round(float(v), 2) for v in close.values[-7:]]
-        if len(recent) >= 2:
-            best["week_closes"] = recent
-            best["price"] = recent[-1]
-            best["change_pct"] = round((recent[-1] - recent[-2]) / recent[-2], 4)
+    if not horizons:
+        _state["ticker_cache"][cache_key] = None
+        return None
 
-    _state["ticker_cache"][cache_key] = best
-    return best
+    recent = [round(float(v), 2) for v in close.values[-7:]]
+    best_edge = max(h["edge"] for h in horizons.values())
+
+    result = {
+        "ticker":          ticker,
+        "name":            ticker,
+        "sector":          _SECTOR_MAP.get(ticker, "Unknown"),
+        "from_watchlist":  True,
+        "short_history":   short_history,
+        "below_threshold": best_edge < 0.05,
+        "source":          "cloud",
+        "horizons":        horizons,
+    }
+    if len(recent) >= 2:
+        result["week_closes"] = recent
+        result["price"]       = recent[-1]
+        result["change_pct"]  = round((recent[-1] - recent[-2]) / recent[-2], 4)
+
+    _state["ticker_cache"][cache_key] = result
+    return result
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
@@ -607,7 +614,9 @@ def ticker():
         return jsonify({"error": f"computation failed: {exc}"}), 500
     if signal:
         flag = " [below threshold]" if signal["below_threshold"] else ""
-        print(f"[api] {t}: edge={signal['edge']:+.1%} ({signal['horizon']}, n={signal['n_obs']}){flag}", flush=True)
+        edges = ", ".join(f"{lbl}:{h['edge']:+.0%}(n={h['n_obs']})"
+                          for lbl, h in signal.get("horizons", {}).items())
+        print(f"[api] {t}: {edges}{flag}", flush=True)
         return jsonify(signal)
     print(f"[api] {t}: not found or insufficient data", flush=True)
     return jsonify({"error": f"{t} not found or insufficient data"}), 404
