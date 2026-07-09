@@ -35283,7 +35283,13 @@ function _rdGetApiBase(){
   // prompt — was firing too late for Chrome to show it. Trying localhost
   // first also means the common case (dev machine, local API running)
   // skips the api_endpoint.json fetch entirely.
-  return _rdProbe('http://localhost:'+RD_API_PORT).then(function(local){
+  // Use 127.0.0.1, not "localhost": on dual-stack Windows machines
+  // "localhost" often resolves to ::1 (IPv6) first, and run_local_api.bat's
+  // waitress server only binds IPv4 (0.0.0.0) — so the browser's IPv6
+  // attempt gets ECONNREFUSED before ever trying the IPv4 address that
+  // actually works. Confirmed 2026-07-09: curl to 127.0.0.1:PORT succeeds,
+  // curl to [::1]:PORT fails, browser's plain "localhost" fails the same way.
+  return _rdProbe('http://127.0.0.1:'+RD_API_PORT).then(function(local){
     if(local){_rdApiBaseCache=local;return local;}
     return fetch('api_endpoint.json',{cache:'no-store'})
       .then(function(r){return r.ok?r.json():null;})
@@ -35310,7 +35316,7 @@ function _rdFetchTicker(tk){
         +'<code style="background:#21262d;padding:1px 4px;border-radius:3px">chrome://settings/content/localNetworkAccess</code> and allow this site, then try again.</span>';
       return;
     }
-    var isCloud=base!=='http://localhost:'+RD_API_PORT;
+    var isCloud=base!=='http://127.0.0.1:'+RD_API_PORT;
     if(msgEl&&isCloud)msgEl.innerHTML='<span style="color:#58a6ff;font-size:12px">Computing via cloud API (may take up to a minute if server just woke up)...</span>';
     fetch(base+'/api/ticker?t='+tk,{signal:AbortSignal.timeout(180000)})
       .then(function(r){return r.json();})
