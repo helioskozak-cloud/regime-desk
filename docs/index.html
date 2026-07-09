@@ -35272,21 +35272,28 @@ function _rdProbe(base){
 function _rdGetApiBase(){
   // Cache the resolved base so we don't re-probe on every pin.
   if(_rdApiBaseCache) return Promise.resolve(_rdApiBaseCache);
-  // Strategy: try the cloud tunnel URL first (works from any machine),
-  // then fall back to localhost (works on the dev machine without a
-  // tunnel). The tunnel URL is published to api_endpoint.json by
-  // run_tunnel.ps1 on the machine running the local API.
-  return fetch('api_endpoint.json',{cache:'no-store'})
-    .then(function(r){return r.ok?r.json():null;})
-    .catch(function(){return null;})
-    .then(function(doc){
-      var cloud=(doc&&doc.url)?String(doc.url).replace(/\/+$/,''):null;
-      if(!cloud) return _rdProbe('http://localhost:'+RD_API_PORT);
-      return _rdProbe(cloud).then(function(ok){
-        return ok||_rdProbe('http://localhost:'+RD_API_PORT);
-      });
-    })
-    .then(function(base){_rdApiBaseCache=base;return base;});
+  // Strategy: try localhost FIRST, then fall back to the cloud tunnel.
+  // This is the opposite of the original order (cloud first) — reversed
+  // 2026-07-09 because Chrome's Local Network Access permission prompt
+  // requires "transient user activation" (a short window after the click
+  // that triggered this call). Probing the cloud tunnel first burns that
+  // window on a request that's usually dead anyway (trycloudflare.com
+  // quick-tunnel URLs expire whenever run_tunnel.ps1 stops), so the
+  // localhost request — the one that actually needs the permission
+  // prompt — was firing too late for Chrome to show it. Trying localhost
+  // first also means the common case (dev machine, local API running)
+  // skips the api_endpoint.json fetch entirely.
+  return _rdProbe('http://localhost:'+RD_API_PORT).then(function(local){
+    if(local){_rdApiBaseCache=local;return local;}
+    return fetch('api_endpoint.json',{cache:'no-store'})
+      .then(function(r){return r.ok?r.json():null;})
+      .catch(function(){return null;})
+      .then(function(doc){
+        var cloud=(doc&&doc.url)?String(doc.url).replace(/\/+$/,''):null;
+        return cloud?_rdProbe(cloud):null;
+      })
+      .then(function(base){_rdApiBaseCache=base;return base;});
+  });
 }
 function _rdFetchTicker(tk){
   var msgEl=document.getElementById('rd-pin-msg-'+tk);
