@@ -35540,7 +35540,15 @@ function _rdFetchTicker(tk){
   var msgEl=document.getElementById('rd-pin-msg-'+tk);
   _rdGetApiBase().then(function(base){
     if(!base){
-      if(msgEl)msgEl.innerHTML='<span style="color:#6e7681">No API available — run <code style="background:#21262d;padding:1px 4px;border-radius:3px">run_local_api.bat</code> or deploy the cloud API.</span>';
+      // Two real causes look identical to this code (fetch() only ever
+      // surfaces a generic "Failed to fetch" for CORS-blocked requests, so
+      // we can't tell them apart): either run_local_api.bat isn't running,
+      // or — as of Chrome 142 (Oct 2025) — Chrome's Local Network Access
+      // policy is blocking the request even with a running server, and
+      // requires an explicit one-time permission grant per site.
+      if(msgEl)msgEl.innerHTML='<span style="color:#6e7681">No API available. Either <code style="background:#21262d;padding:1px 4px;border-radius:3px">run_local_api.bat</code> isn\'t running, '
+        +'or Chrome blocked local network access — look for a permission prompt near the address bar, or check '
+        +'<code style="background:#21262d;padding:1px 4px;border-radius:3px">chrome://settings/content/localNetworkAccess</code> and allow this site, then try again.</span>';
       return;
     }
     var isCloud=base!=='http://localhost:'+RD_API_PORT;
