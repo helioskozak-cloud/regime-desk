@@ -18,7 +18,7 @@ ROOT = Path(__file__).parent.parent
 WISHLIST_PATH = ROOT / "wishlist.md"
 CHANGELOG_PATH = ROOT / "changelog.json"
 
-MODEL = "claude-opus-4-7"
+MODEL = "claude-sonnet-5"
 MAX_TOKENS = 4000
 
 
@@ -112,6 +112,9 @@ def improve(html_content: str) -> str:
     message = client.messages.create(
         model=MODEL,
         max_tokens=MAX_TOKENS,
+        # Sonnet 5 defaults to adaptive thinking when this is omitted, which
+        # would prepend a thinking block; this task needs a bare JSON patch.
+        thinking={"type": "disabled"},
         system=system,
         messages=[{
             "role": "user",
@@ -121,7 +124,7 @@ def improve(html_content: str) -> str:
         }]
     )
 
-    raw = message.content[0].text.strip()
+    raw = next(b.text for b in message.content if b.type == "text").strip()
     # Strip accidental code fences
     if raw.startswith("```"):
         raw = re.sub(r"^```[^\n]*\n", "", raw)
