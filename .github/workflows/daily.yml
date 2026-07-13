@@ -73,6 +73,11 @@ jobs:
         run: python scan/ci_scan.py
         continue-on-error: true
 
+      - name: Bubble watch scan
+        if: steps.freshness.outputs.fresh != 'true'
+        run: python scan/bubble_scan.py
+        continue-on-error: true
+
       - name: Run build
         if: steps.freshness.outputs.fresh != 'true'
         env:

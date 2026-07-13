@@ -35,6 +35,7 @@ DEFAULTS = {
     },
     "stock_memory": [],
     "portfolios": {},
+    "bubble_watch": {},
     "narrative": {
         "headline": "Data refresh in progress",
         "constructive": "Signal data not yet available.",
@@ -477,6 +478,18 @@ def build_snapshot():
             print(f"[snapshot] Loaded {len(v1)} v1 archived portfolios")
         except Exception as exc:
             print(f"[snapshot] Could not load portfolio_v1.json: {exc}")
+
+    # Load bubble watch churn history (written by scan/bubble_scan.py)
+    bubble_path = DATA / "bubble_watch.json"
+    if bubble_path.exists():
+        try:
+            with open(bubble_path, "r", encoding="utf-8") as f:
+                bw = json.load(f)
+            if bw.get("years"):
+                snap["bubble_watch"] = bw
+                print(f"[snapshot] Loaded bubble watch: {len(bw['years'])} year rows")
+        except Exception as exc:
+            print(f"[snapshot] Could not load bubble_watch.json: {exc}")
 
     # Load cross-asset signals + risks
     if has_cross_asset:
