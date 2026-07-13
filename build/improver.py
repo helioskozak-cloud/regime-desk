@@ -67,6 +67,22 @@ Return only the JSON object. Example format:
 {{"note": "add keyboard shortcut hints to topbar", "search": "<nav id=\\"nav\\"></nav>", "replace": "<nav id=\\"nav\\"></nav><kbd style=\\"...\\">?</kbd>"}}"""
 
 
+def _elide_snapshot(html: str) -> str:
+    """Replace the window.SNAPSHOT data blob with a stub before sending to the
+    API. The blob is ~80-90% of the file, grows daily (portfolio histories),
+    and rule 6 forbids patching it anyway — sending it blew past the model's
+    context limit starting 2026-07-12 (BadRequestError on every run)."""
+    start = html.find("window.SNAPSHOT = ")
+    if start == -1:
+        return html
+    end = html.find("\n};\n", start)
+    if end == -1:
+        return html
+    stub = ("window.SNAPSHOT = {/* data elided for review — injected by build "
+            "script; never patch this block */};\n")
+    return html[:start] + stub + html[end + len("\n};\n"):]
+
+
 def _apply_patch(html: str, search: str, replace: str) -> str:
     count = html.count(search)
     if count == 0:
@@ -99,7 +115,9 @@ def improve(html_content: str) -> str:
         system=system,
         messages=[{
             "role": "user",
-            "content": "Here is the current docs/index.html to improve:\n\n" + html_content
+            "content": "Here is the current docs/index.html to improve "
+                       "(SNAPSHOT data elided — your patch must not target it):\n\n"
+                       + _elide_snapshot(html_content)
         }]
     )
 
