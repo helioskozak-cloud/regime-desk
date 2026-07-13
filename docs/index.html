@@ -37102,6 +37102,43 @@ function renderBubble(){
   </div>
   <div style="color:#6e7681;font-size:11px;margin-top:6px">Hover a column for counts, coverage and the names at the extremes. Δn under each year = index return minus median member return, in points — the "narrowness" of the advance (1999: Δ20, the median stock lost money while the index rose 19.5%). * = partial year.</div>
   </div>
+  ${(()=>{
+    const gap=latest.sp500_ret-latest.median_ret;
+    const churnPk=peak99?(peak99.pct_doubled+peak99.pct_halved):9.37;
+    const checks=[
+      {name:'1 · Doubling mania',lit:latest.pct_doubled>=4,
+       read:`${latest.pct_doubled}% of members doubled${latest.partial?' so far this year':''} (trigger ≥4%; 1999 printed 5.8% even in survivor-limited data)`,
+       why:'The melt-up phase: speculative doubling spreads beyond one theme. Watch both the level and the breadth — 2026’s doublers are one trade (AI memory/storage), where 1999’s spanned tech, telecom and retail.'},
+      {name:'2 · Two-sided churn',lit:(latest.pct_doubled+latest.pct_halved)>=0.6*churnPk,
+       read:`churn ${(latest.pct_doubled+latest.pct_halved).toFixed(1)}% vs 1999 peak ${churnPk.toFixed(1)}% — ${churnRatio}% of the way (trigger ≥60%)`,
+       why:'The dissolution signature: doublers AND halvers elevated together under a rising tape. This is what made 1998–99 different from a healthy bull.'},
+      {name:'3 · Destruction under highs',lit:latest.pct_halved>=3&&latest.sp500_ret>0,
+       read:`${latest.pct_halved}% halved with the index ${latest.sp500_ret>0?'up':'down'} ${Math.abs(latest.sp500_ret).toFixed(1)}% (trigger: ≥3% halved while the index is positive — 1999 printed 3.6%)`,
+       why:'The single most reliable tell last time: casualties mounting while the index still makes highs. Red bars rising on the right panel before the tape breaks.'},
+      {name:'4 · Extreme narrowness',lit:gap>=15,
+       read:`index-minus-median gap ${gap>=0?'+':''}${gap.toFixed(1)} pts (trigger ≥15; 1999 hit 20 — the median stock fell while the index rose)`,
+       why:'A handful of names carrying everything. Elevated 2023–25 (8–12 pts) but never 1999-extreme; a jump past 15 with the other markers lighting is late-stage.'},
+      {name:'5 · The flip',lit:flipLit,
+       read:flipLit?'halvers now exceed doublers — the 2000 condition is ACTIVE':`doublers still exceed halvers (${latest.pct_doubled}% vs ${latest.pct_halved}%)`,
+       why:'The top-marker itself: in 2000 halvers overtook doublers while the S&amp;P was only −10%. By the time this lights, the top is usually in — it confirms rather than predicts.'},
+    ];
+    const nLit=checks.filter(c=>c.lit).length;
+    const verdict=nLit>=4?['2000-top profile','#f85149','The clock has struck — this configuration marked the actual top last time. Defensive positioning conversations are overdue.']
+      :nLit>=2?['Late-1999 profile','#e3b341','Froth is broadening and dissolution has begun. Last cycle this phase ran ~12–18 months before the flip — trim into strength, tighten the leash on speculative names.']
+      :['Late-1998 profile','#3fb950','Melt-up conditions without the destruction phase. On the dot-com clock this is roughly 12–18 months before the top formed — the historical playbook says stay invested but watch marker 3 weekly: halvers rising under index highs was the earliest reliable warning.'];
+    const rows=checks.map(c=>`<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #21262d">
+      <div style="flex-shrink:0;width:64px;text-align:center;padding-top:2px"><span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.5px;background:${c.lit?'rgba(248,81,73,.15)':'rgba(63,185,80,.12)'};color:${c.lit?'#f85149':'#3fb950'}">${c.lit?'LIT':'quiet'}</span></div>
+      <div><div style="color:#f0f6fc;font-weight:600;font-size:13.5px">${c.name}</div>
+      <div style="color:#c9d1d9;font-size:12.5px;font-family:monospace;margin:2px 0">${c.read}</div>
+      <div style="color:#8b949e;font-size:12px;max-width:76ch">${c.why}</div></div></div>`).join('');
+    return `<div class="card" style="margin-top:14px"><h3 style="color:#f0f6fc;margin-bottom:4px">What a top looks like on this clock</h3>
+    <p style="color:#8b949e;font-size:12.5px;max-width:82ch">The dot-com sequence ran: <strong style="color:#c9d1d9">melt-up</strong> (doublers accelerate and broaden, 1998–99) → <strong style="color:#c9d1d9">dissolution</strong> (halvers rise while the index still makes highs, 1999) → <strong style="color:#c9d1d9">the flip</strong> (halvers overtake doublers, 2000 — the top) → <strong style="color:#c9d1d9">capitulation</strong> (no doublers, mass halving, 2002). The five markers below track that sequence against the latest year of data and update with every daily scan.</p>
+    ${rows}
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:12px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${verdict[1]};border-radius:6px">
+      <div><div style="font-weight:700;color:${verdict[1]};font-size:13px">${nLit} of 5 markers lit — ${verdict[0]}</div>
+      <div style="color:#8b949e;font-size:12.5px;max-width:80ch;margin-top:3px">${verdict[2]} Timing caveat: this clock had exactly one full cycle to calibrate on, analogies stretch, and today’s mega-cap concentration means the index can mask member-level damage longer than in 1999.</div></div>
+    </div></div>`;
+  })()}
   <div class="card" style="margin-top:14px"><h3 style="color:#f0f6fc;margin-bottom:6px">Method &amp; caveats</h3>
   <p style="color:#8b949e;font-size:12.5px;max-width:860px">${(bw.meta&&bw.meta.method)||''}. <strong style="color:#c9d1d9">Survivorship bias:</strong> ${(bw.meta&&bw.meta.survivorship_note)||'dot-com era coverage is partial — treat those bars as floors.'} The historical record puts 1999's true extremes far higher (13 large caps rose &gt;1,000%; Qualcomm +2,619%) — so the real dot-com/AI contrast is starker than charted. Data as of ${bw.as_of||S.generated}.</p></div>
   <footer>Breadth-extremes research view — not investment advice.</footer>`;
