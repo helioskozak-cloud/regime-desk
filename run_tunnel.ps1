@@ -1,4 +1,4 @@
-# run_tunnel.ps1 - orchestrates Cloudflare quick-tunnel for the local API.
+﻿# run_tunnel.ps1 - orchestrates Cloudflare quick-tunnel for the local API.
 #
 # What it does:
 #   1. Starts cloudflared as a quick tunnel pointed at http://localhost:7534
