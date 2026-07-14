@@ -83,6 +83,11 @@ jobs:
         run: python scan/econ_scan.py
         continue-on-error: true
 
+      - name: ETF holdings rolling scan
+        if: steps.freshness.outputs.fresh != 'true'
+        run: python scan/etf_holdings_scan.py
+        continue-on-error: true
+
       - name: Run build
         if: steps.freshness.outputs.fresh != 'true'
         env:
