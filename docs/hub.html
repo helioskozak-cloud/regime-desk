@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advisor Terminal — Finance Suite Hub</title>
+<style>
+  :root{--bg:#010409;--surface:#0d1117;--panel:#161b22;--border:#30363d;
+        --ink:#e6edf3;--ink2:#8b949e;--ink3:#6e7681;--blue:#58a6ff;
+        --green:#3fb950;--red:#f85149;--amber:#e3b341;}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:14px/1.5 -apple-system,"Segoe UI",system-ui,sans-serif;
+       max-width:920px;margin:0 auto;padding:36px 18px 60px}
+  .mono{font-family:ui-monospace,Consolas,monospace}
+  header{margin-bottom:22px}
+  .eyebrow{font-family:ui-monospace,Consolas,monospace;font-size:11px;
+           letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+  h1{font-size:24px;margin:4px 0 6px}
+  .sub{color:var(--ink2);font-size:13px}
+  #apidot{display:inline-block;width:8px;height:8px;border-radius:50%;
+          background:var(--ink3);margin-right:5px;vertical-align:1px}
+  .search{display:flex;gap:8px;margin:20px 0 8px}
+  #q{flex:1;background:var(--surface);border:1px solid var(--border);
+     border-radius:8px;color:var(--ink);padding:12px 14px;font-size:16px;
+     font-family:ui-monospace,Consolas,monospace;text-transform:uppercase}
+  #q:focus{outline:none;border-color:var(--blue)}
+  #go{background:#1f6feb;border:none;border-radius:8px;color:#fff;
+      padding:0 22px;font-size:14px;font-weight:600;cursor:pointer}
+  #go:disabled{opacity:.5;cursor:default}
+  .hint{color:var(--ink3);font-size:11.5px;margin-bottom:18px}
+  #result{margin:14px 0 26px}
+  .card{background:var(--surface);border:1px solid var(--border);
+        border-radius:10px;padding:16px 18px}
+  .hz{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+  .hzt{background:var(--panel);border:1px solid var(--border);border-radius:8px;
+       padding:10px 12px;flex:1;min-width:120px}
+  .hzt .k{color:var(--ink3);font-size:10px;text-transform:uppercase;letter-spacing:.6px}
+  .hzt .v{font-size:19px;font-weight:700;font-family:ui-monospace,Consolas,monospace}
+  .hzt .d{font-size:10.5px;color:var(--ink3)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10.5px;
+         font-weight:600;margin-left:6px;vertical-align:2px}
+  .links{margin-top:10px;font-size:12.5px}
+  .links a{color:var(--blue);text-decoration:none;margin-right:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  a.tile{display:block;background:var(--surface);border:1px solid var(--border);
+         border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--ink);
+         transition:border-color .12s}
+  a.tile:hover{border-color:var(--blue)}
+  .tile .t{font-weight:650;margin-bottom:3px}
+  .tile .d{color:var(--ink2);font-size:12px}
+  .tile .u{color:var(--ink3);font-size:10.5px;font-family:ui-monospace,Consolas,monospace;margin-top:6px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);
+     margin:26px 0 10px;font-weight:600}
+  footer{margin-top:34px;color:var(--ink3);font-size:11px}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Finance Suite</div>
+  <h1>Advisor Terminal</h1>
+  <div class="sub"><span id="apidot"></span><span id="apitxt">checking signal API…</span></div>
+</header>
+
+<div class="search">
+  <input id="q" placeholder="Ticker — press / to focus, Enter to search" maxlength="8" autofocus>
+  <button id="go">Signal</button>
+</div>
+<div class="hint">Computes the full analog-day signal on demand (any US ticker, ~1–3s) via the local API or its tunnel — the same engine behind the daily scan.</div>
+<div id="result"></div>
+
+<h2>Surfaces</h2>
+<div class="grid">
+  <a class="tile" href="index.html"><div class="t">Regime Desk</div><div class="d">Daily regime, sectors, signals, risk axes</div><div class="u">index.html</div></a>
+  <a class="tile" href="index.html#bubble"><div class="t">Bubble Watch</div><div class="d">Dot-com vs AI churn clock — five top-markers</div><div class="u">#bubble</div></a>
+  <a class="tile" href="index.html#econ"><div class="t">Macro (FRED)</div><div class="d">Curve, credit, CPI, payrolls, unemployment</div><div class="u">#econ</div></a>
+  <a class="tile" href="index.html#portfolios"><div class="t">Paper Portfolios</div><div class="d">V1/V2 strategy tracking (V2 frozen to 8/30)</div><div class="u">#portfolios</div></a>
+  <a class="tile" href="https://helioskozak-cloud.github.io/news-desk/"><div class="t">News Desk</div><div class="d">Live headline firehose, ticker-tagged</div><div class="u">news-desk</div></a>
+  <a class="tile" href="https://finvisible.streamlit.app"><div class="t">FINvisible</div><div class="d">Client triage, book, risk, screener, charts</div><div class="u">finvisible.streamlit.app</div></a>
+</div>
+
+<footer>Signal search never sends client data anywhere — it queries regime-desk's own API with a ticker string only. Internal decision support; not investment advice.</footer>
+
+<script>
+const LOCAL="http://127.0.0.1:7534";
+let API=null;
+async function ping(base){
+  try{const r=await fetch(base+"/api/ping",{signal:AbortSignal.timeout(2500)});
+      const j=await r.json();return j&&j.ok;}catch(e){return false;}
+}
+async function discover(){
+  if(await ping(LOCAL)){API=LOCAL;setApi("local API (127.0.0.1:7534)","#3fb950");return;}
+  try{
+    const r=await fetch("api_endpoint.json?_="+Date.now(),{signal:AbortSignal.timeout(4000)});
+    const j=await r.json();
+    if(j.url&&await ping(j.url)){API=j.url;setApi("tunnel ("+j.url.replace("https://","")+")","#3fb950");return;}
+  }catch(e){}
+  setApi("signal API unreachable — start run_local_api.bat or the tunnel","#f85149");
+}
+function setApi(txt,color){
+  document.getElementById("apidot").style.background=color;
+  document.getElementById("apitxt").textContent=txt;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+async function search(){
+  const t=(document.getElementById("q").value||"").trim().toUpperCase();
+  const out=document.getElementById("result");
+  if(!t)return;
+  if(!API){out.innerHTML='<div class="card" style="color:#f85149">No signal API reachable. Start run_local_api.bat (or run_tunnel.ps1) and reload.</div>';return;}
+  const btn=document.getElementById("go");btn.disabled=true;
+  out.innerHTML='<div class="card" style="color:#8b949e">Computing '+esc(t)+'… (downloads its price history server-side)</div>';
+  try{
+    const r=await fetch(API+"/api/ticker?t="+encodeURIComponent(t),{signal:AbortSignal.timeout(90000)});
+    const j=await r.json();
+    if(j.error){out.innerHTML='<div class="card" style="color:#f85149">'+esc(j.error)+'</div>';return;}
+    const hz=j.horizons||{};
+    const order=["5d","20d","60d","120d"];
+    const tiles=order.filter(h=>hz[h]).map(h=>{
+      const s=hz[h];const c=s.edge>=0?"var(--green)":"var(--red)";
+      return'<div class="hzt" title="edge = analog-day conditional expectation vs baseline; p10/p90 = the historical bear/bull cases at this horizon">'+
+        '<div class="k">'+h+' edge</div><div class="v" style="color:'+c+'">'+(s.edge>=0?"+":"")+(s.edge*100).toFixed(1)+"%</div>"+
+        '<div class="d">p10 '+(s.p10*100).toFixed(0)+"% · p50 "+(s.p50*100).toFixed(0)+"% · p90 "+(s.p90*100).toFixed(0)+"% · n="+s.n_obs+"</div></div>";
+    }).join("");
+    const badges=(j.below_threshold?'<span class="badge" style="background:rgba(227,179,65,.15);color:var(--amber)">below edge threshold</span>':"")+
+                 (j.short_history?'<span class="badge" style="background:rgba(139,148,158,.15);color:var(--ink2)">short history</span>':"");
+    const px=j.price?'<span class="mono" style="color:var(--ink2)"> · $'+j.price+(j.change_pct!=null?" ("+(j.change_pct>=0?"+":"")+(j.change_pct*100).toFixed(2)+"%)":"")+"</span>":"";
+    out.innerHTML='<div class="card"><div style="font-size:17px;font-weight:700">'+esc(j.ticker)+
+      ' <span style="color:var(--ink3);font-weight:400;font-size:13px">'+esc(j.sector||"")+"</span>"+px+badges+"</div>"+
+      '<div class="hz">'+tiles+"</div>"+
+      '<div class="links">Open in: <a href="index.html#stocks">Regime Desk</a>'+
+      '<a href="https://helioskozak-cloud.github.io/news-desk/" target="_blank">News Desk</a>'+
+      '<a href="https://finance.yahoo.com/quote/'+encodeURIComponent(j.ticker)+'" target="_blank">Yahoo</a>'+
+      '<a href="https://finviz.com/quote.ashx?t='+encodeURIComponent(j.ticker)+'" target="_blank">Finviz</a></div></div>';
+  }catch(e){
+    out.innerHTML='<div class="card" style="color:#f85149">Request failed ('+esc(e.message||e)+'). The API may still be warming up — try again.</div>';
+  }finally{btn.disabled=false;}
+}
+document.getElementById("go").addEventListener("click",search);
+document.getElementById("q").addEventListener("keydown",e=>{if(e.key==="Enter")search();});
+document.addEventListener("keydown",e=>{
+  if(e.key==="/"&&document.activeElement.id!=="q"){e.preventDefault();document.getElementById("q").focus();}
+});
+discover();
+</script>
+</body>
+</html>
