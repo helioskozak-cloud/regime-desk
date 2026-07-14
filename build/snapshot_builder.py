@@ -36,6 +36,7 @@ DEFAULTS = {
     "stock_memory": [],
     "portfolios": {},
     "bubble_watch": {},
+    "econ": {},
     "narrative": {
         "headline": "Data refresh in progress",
         "constructive": "Signal data not yet available.",
@@ -490,6 +491,18 @@ def build_snapshot():
                 print(f"[snapshot] Loaded bubble watch: {len(bw['years'])} year rows")
         except Exception as exc:
             print(f"[snapshot] Could not load bubble_watch.json: {exc}")
+
+    # Load FRED macro snapshot (written by scan/econ_scan.py)
+    econ_path = DATA / "econ.json"
+    if econ_path.exists():
+        try:
+            with open(econ_path, "r", encoding="utf-8") as f:
+                econ = json.load(f)
+            if econ.get("series"):
+                snap["econ"] = econ
+                print(f"[snapshot] Loaded econ: {len(econ['series'])} series")
+        except Exception as exc:
+            print(f"[snapshot] Could not load econ.json: {exc}")
 
     # Load cross-asset signals + risks
     if has_cross_asset:

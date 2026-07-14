@@ -78,6 +78,11 @@ jobs:
         run: python scan/bubble_scan.py
         continue-on-error: true
 
+      - name: Econ scan
+        if: steps.freshness.outputs.fresh != 'true'
+        run: python scan/econ_scan.py
+        continue-on-error: true
+
       - name: Run build
         if: steps.freshness.outputs.fresh != 'true'
         env:
