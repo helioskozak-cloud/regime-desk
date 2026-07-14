@@ -389,7 +389,7 @@ _SECTOR_MAP = {
 @app.after_request
 def _cors(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type"
     # Chrome 104+ Private Network Access — required for HTTPS pages
     # (like the GitHub Pages dashboard) to reach localhost. Without
@@ -402,8 +402,40 @@ def _cors(response):
 @app.route("/api/ping", methods=["OPTIONS"])
 @app.route("/api/ticker", methods=["OPTIONS"])
 @app.route("/api/quote", methods=["OPTIONS"])
+@app.route("/api/sim/log", methods=["OPTIONS"])
 def _options():
     return "", 200
+
+
+# ── Sim-desk intern telemetry ─────────────────────────────────────────────────
+# The paper-trading simulator posts trade and daily-snapshot events here so the
+# owner can watch activity and build daily reports ON THIS MACHINE. Append-only
+# JSONL with size-capped fields; paper trades only, nothing sensitive, and the
+# log never leaves this box.
+SIM_LOG_PATH = r"C:\Portfolizer\sim-logs\events.jsonl"
+
+
+@app.route("/api/sim/log", methods=["POST"])
+def sim_log():
+    import json as _json
+    try:
+        evt = request.get_json(force=True, silent=True) or {}
+        rec = {
+            "received": pd.Timestamp.utcnow().isoformat(timespec="seconds"),
+            "trader":   str(evt.get("trader", "intern"))[:40],
+            "type":     str(evt.get("type", "?"))[:20],
+        }
+        for k in ("t", "side", "qty", "px", "value", "cash", "total",
+                  "spy", "as_of", "ts"):
+            if k in evt:
+                v = evt[k]
+                rec[k] = v[:40] if isinstance(v, str) else v
+        os.makedirs(os.path.dirname(SIM_LOG_PATH), exist_ok=True)
+        with open(SIM_LOG_PATH, "a", encoding="utf-8") as f:
+            f.write(_json.dumps(rec) + "\n")
+        return jsonify({"ok": True})
+    except Exception as exc:
+        return jsonify({"ok": False, "error": str(exc)}), 500
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
