@@ -89,7 +89,19 @@ if ($tunnelUrl -ne $prevUrl) {
     Write-Host "[tunnel] URL changed ($prevUrl -> $tunnelUrl) — publishing to git..." -ForegroundColor Cyan
     git add docs/api_endpoint.json 2>&1 | Out-Null
     git commit -m "ops: update api tunnel endpoint" 2>&1 | Out-Null
-    git push 2>&1 | Out-Null
+    # Push can lose a race with CI commits (non-fast-forward). Rebase and
+    # retry; a stale published URL breaks every remote consumer, so fail LOUD.
+    $pushed = $false
+    foreach ($attempt in 1..3) {
+        git pull --rebase origin main 2>&1 | Out-Null
+        git push 2>&1 | Out-Null
+        if ($LASTEXITCODE -eq 0) { $pushed = $true; break }
+        Write-Host "[tunnel] push attempt $attempt failed; retrying..." -ForegroundColor Yellow
+        Start-Sleep -Seconds 10
+    }
+    if (-not $pushed) {
+        Write-Host "[tunnel] FAILED to publish endpoint after 3 attempts - remote consumers have a stale URL!" -ForegroundColor Red
+    }
 } else {
     Write-Host "[tunnel] URL unchanged — skipping git commit." -ForegroundColor DarkGray
 }
