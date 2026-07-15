@@ -403,6 +403,7 @@ def _cors(response):
 @app.route("/api/ticker", methods=["OPTIONS"])
 @app.route("/api/quote", methods=["OPTIONS"])
 @app.route("/api/sim/log", methods=["OPTIONS"])
+@app.route("/api/sim/feed", methods=["OPTIONS"])
 def _options():
     return "", 200
 
@@ -436,6 +437,40 @@ def sim_log():
         return jsonify({"ok": True})
     except Exception as exc:
         return jsonify({"ok": False, "error": str(exc)}), 500
+
+
+@app.route("/api/sim/feed", methods=["GET"])
+def sim_feed():
+    """Read-back of the intern telemetry for the supervisor dashboard.
+
+    Returns the most recent events (paper-trading only). Read-only — it never
+    writes — reading the same append-only log the POST handler above appends to.
+    The dashboard (a GitHub Pages page) reaches this through the same tunnel the
+    intern's app uses; CORS is handled globally by _cors().
+    """
+    import json as _json
+    try:
+        limit = min(max(int(request.args.get("limit", 2000)), 1), 10000)
+    except Exception:
+        limit = 2000
+    events = []
+    if os.path.exists(SIM_LOG_PATH):
+        try:
+            with open(SIM_LOG_PATH, "r", encoding="utf-8") as f:
+                lines = f.readlines()[-limit:]
+        except Exception as exc:
+            return jsonify({"ok": False, "error": str(exc)}), 500
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                events.append(_json.loads(line))
+            except Exception:
+                continue
+    return jsonify({"ok": True, "count": len(events),
+                    "server_time": pd.Timestamp.utcnow().isoformat(timespec="seconds"),
+                    "events": events})
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
