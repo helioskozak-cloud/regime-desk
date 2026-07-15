@@ -35511,7 +35511,7 @@ function renderStocks(){
   if(_stFilter.betaMin!=null) pool=pool.filter(s=>s.beta!=null&&s.beta>=_stFilter.betaMin);
   if(_stFilter.betaMax!=null) pool=pool.filter(s=>s.beta!=null&&s.beta<=_stFilter.betaMax);
   const sorted=[...pool].sort((a,b)=>_sortDir*((a[_sortCol]||0)<(b[_sortCol]||0)?-1:(a[_sortCol]||0)>(b[_sortCol]||0)?1:0));
-  function th(col,label){const active=_sortCol===col;return`<th onclick="window._rdSort('${col}')" style="cursor:pointer;user-select:none">${label}${active?(_sortDir>0?' ↑':' ↓'):''}</th>`;}
+  function th(col,label,tip){const active=_sortCol===col;return`<th title="${(tip||'').replace(/"/g,'&quot;')}" onclick="window._rdSort('${col}')" style="cursor:pointer;user-select:none">${label}${active?(_sortDir>0?' ↑':' ↓'):''}</th>`;}
   // Compact formatters for the new columns
   function _fmtCap(v){if(v==null)return'<span style="color:#484f58">—</span>';if(v>=1e12)return(v/1e12).toFixed(1)+'T';if(v>=1e9)return(v/1e9).toFixed(1)+'B';if(v>=1e6)return Math.round(v/1e6)+'M';return Math.round(v/1e3)+'K';}
   function _fmtVol(v){if(v==null)return'<span style="color:#484f58">—</span>';if(v>=1e6)return(v/1e6).toFixed(1)+'M';if(v>=1e3)return Math.round(v/1e3)+'K';return Math.round(v);}
@@ -35592,7 +35592,7 @@ function renderStocks(){
   ${_horizonBar()}${filterBar}${wlBar}${lookupBar}
   <div id="rd-pinned-cards"></div>
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
-  <div style="overflow-x:auto"><table style="min-width:860px"><tr>${th('ticker','Ticker')}${th('name','Name')}${th('sector','Sector')}${th('price','Price')}${th('market_cap','Cap')}${th('avg_volume','Vol')}${th('edge','Edge')}<th>Bear</th><th>Median</th><th>Bull</th>${th('hit_rate','Hit%')}${th('n_obs','n')}<th>Beta</th><th></th></tr>
+  <div style="overflow-x:auto"><table style="min-width:860px"><tr>${th('ticker','Ticker','Stock symbol. The small label under each ticker is the signal horizon — 5 / 20 / 60 / 120 trading days forward.')}${th('name','Name','Company name.')}${th('sector','Sector','Regime-desk sector classification.')}${th('price','Price','Latest close price.')}${th('market_cap','Cap','Market capitalization (T / B / M / K).')}${th('avg_volume','Vol','Average daily share volume.')}${th('edge','Edge','The conditional edge: this ticker’s forward-return signal over the horizon, measured on days historically analogous to today. The value in parentheses is the annualized equivalent. Green = positive, red = negative.')}<th title="Downside case — the 10th-percentile forward return across the analog days.">Bear</th><th title="Central case — the median (50th-percentile) forward return across the analog days.">Median</th><th title="Upside case — the 90th-percentile forward return across the analog days.">Bull</th>${th('hit_rate','Hit%','Share of analog days on which the forward return was positive — the batting average of the signal.')}${th('n_obs','n','Number of analog-day observations behind the signal. Higher = more reliable.')}<th title="The ticker’s beta — sensitivity to the broad market (1.0 = moves with the market).">Beta</th><th></th></tr>
   ${rows.join('')}
   </table></div></div>
   <footer>Tendencies only — not investment advice. Green/red row tint = positive/negative edge in watchlist mode.</footer>`;
