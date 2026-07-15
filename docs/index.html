@@ -34751,8 +34751,8 @@ window.SNAPSHOT = {
 <script>
 (function(){
 const S = window.SNAPSHOT;
-const VIEWS = ["home","regime","sectors","stocks","signals","risks","analysis","ask","memory","portfolios","bubble","econ"];
-const LABELS = ["Home","Regime","Sectors","Stocks","Signals","Risks","Analysis","Ask ✦","Memory","Portfolios","Bubble","Econ"];
+const VIEWS = ["home","regime","stocks","analysis","memory","portfolios","bubble"];
+const LABELS = ["Home","Regime","Stocks","Analysis","Memory","Portfolios","Bubble"];
 
 function renderMeeting(){
   const sp=S.spy||{}, n=S.narrative||{};
@@ -34866,10 +34866,8 @@ document.addEventListener('keydown',e=>{
   if(e.key==='?'){modal.style.display='flex';return;}
   if(e.key==='Escape'){modal.style.display='none';return;}
   if(e.key==='d'){themeBtn.click();return;}
-  if(e.key==='a'){location.hash='#ask';return;}
   const i=parseInt(e.key);
-  if(i===0) location.hash='#'+VIEWS[9];
-  else if(i>=1&&i<=9) location.hash='#'+VIEWS[i-1];
+  if(i>=1&&i<=VIEWS.length) location.hash='#'+VIEWS[i-1];
 });
 
 // Banner with sparklines
@@ -34982,7 +34980,7 @@ function renderHome(){
   if(bestSector){
     const ec=(bestSector.edge||0)>=0?'#3fb950':'#f85149';
     const bw=(bestSector.breadth||0)*100;
-    focusCards.push(`<div onclick="location.hash='#sectors'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderLeftColor='${ec}';this.style.borderColor='#30363d';this.style.borderLeftColor='${ec}'">
+    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderLeftColor='${ec}';this.style.borderColor='#30363d';this.style.borderLeftColor='${ec}'">
       <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Strongest sector</div>
       <div style="font-size:15px;font-weight:700;color:#f0f6fc;margin-bottom:2px">${bestSector.name}</div>
       <div style="font-size:13px;font-weight:600;color:${ec};margin-bottom:3px">${pct(bestSector.edge)} edge</div>
@@ -35006,7 +35004,7 @@ function renderHome(){
     const sc=(worstRisk.score||0);
     const rCol=sc>=0.65?'#f85149':sc>=0.45?'#e3b341':'#3fb950';
     const rLvl=sc>=0.65?'Elevated':sc>=0.45?'Moderate':'Low';
-    focusCards.push(`<div onclick="location.hash='#risks'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${rCol};border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${rCol}'" onmouseout="this.style.borderColor='#30363d'">
+    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${rCol};border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${rCol}'" onmouseout="this.style.borderColor='#30363d'">
       <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Most elevated risk</div>
       <div style="font-size:15px;font-weight:700;color:#f0f6fc;margin-bottom:2px">${worstRisk.name}</div>
       <div style="font-size:13px;font-weight:600;color:${rCol};margin-bottom:3px">${rLvl} · ${(sc*100).toFixed(0)}/100</div>
@@ -35042,7 +35040,7 @@ function renderHome(){
     else if(bull>bear){verdict='Lean constructive';vCol='#e3b341';}
     else if(bear>bull){verdict='Lean cautious';vCol='#e3b341';}
     else{verdict='No clear confirmation';vCol='#8b949e';}
-    pulseBlock=`<div onclick="location.hash='#signals'" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #30363d;border-radius:6px;margin-bottom:14px;cursor:pointer;flex-wrap:wrap">
+    pulseBlock=`<div onclick="location.hash='#regime'" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #30363d;border-radius:6px;margin-bottom:14px;cursor:pointer;flex-wrap:wrap">
       <span style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px">Cross-asset pulse</span>
       <span style="font-size:13px;font-weight:700;color:${vCol}">${verdict}</span>
       <span style="font-size:11px;color:#8b949e"><span style="color:#3fb950">${bull} bull</span> · <span style="color:#f85149">${bear} bear</span> · ${neut} neutral across ${total} readings</span>
@@ -36635,7 +36633,9 @@ function renderEcon(){
   <div style="color:#6e7681;font-size:11px;margin-top:8px">CPI shown as year-over-year %; payrolls as monthly change; monthly downsampling on daily series. Sources: FRED series T10Y2Y, DGS10, BAMLH0A0HYM2, CPIAUCSL, PAYEMS, UNRATE.</div>
   </div><footer>Macro context only — not investment advice.</footer>`;
 }
-const renderers={home:renderHome,regime:renderRegime,sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
+// "regime" is now a combined view: regime + signals + risks + econ stacked
+// (the separate Sectors and Ask tabs were retired; their renderers are unused).
+const renderers={home:renderHome,regime:()=>renderRegime()+renderSignals()+renderRisks()+renderEcon(),sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
