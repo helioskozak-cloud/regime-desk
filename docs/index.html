@@ -6,20 +6,21 @@
 <title>Regime Desk</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0d1117;color:#c9d1d9;font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5}
+:root{--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+body{background:#0d1117;color:#c9d1d9;font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:#58a6ff;text-decoration:none}
 #topbar{position:sticky;top:0;z-index:100;background:#161b22;border-bottom:1px solid #30363d;display:flex;align-items:center;gap:16px;padding:0 20px;height:48px}
-#topbar h1{font-size:15px;font-weight:700;color:#f0f6fc;white-space:nowrap}
+#topbar h1{font-family:var(--mono);font-size:14px;font-weight:700;color:#f0f6fc;white-space:nowrap;text-transform:uppercase;letter-spacing:1px}
 #topbar nav{display:flex;gap:4px;flex-wrap:wrap}
-#topbar nav a{padding:4px 10px;border-radius:6px;color:#8b949e;font-size:12px;transition:background .15s}
+#topbar nav a{font-family:var(--mono);padding:4px 10px;border-radius:2px;color:#8b949e;font-size:12px;transition:background .15s}
 #topbar nav a:hover,#topbar nav a.active{background:#21262d;color:#f0f6fc}
 #topbar .ts{margin-left:auto;color:#6e7681;font-size:11px;white-space:nowrap}
 #regime-banner{background:#161b22;border-bottom:1px solid #30363d;padding:8px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .regime-label{font-size:13px;font-weight:700;color:#f0f6fc}
 .stat{display:flex;flex-direction:column;align-items:center;gap:2px}
-.stat .val{font-size:14px;font-weight:600;color:#f0f6fc}
-.stat .key{font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.5px}
-.pill{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.stat .val{font-family:var(--mono);font-size:14px;font-weight:600;color:#f0f6fc;font-variant-numeric:tabular-nums}
+.stat .key{font-family:var(--mono);font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.5px}
+.pill{font-family:var(--mono);padding:2px 7px;border-radius:2px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .pill.bull{background:#1a3a2a;color:#3fb950}
 .pill.bear{background:#3a1a1a;color:#f85149}
 .pill.neut{background:#1e2733;color:#58a6ff}
@@ -29,26 +30,26 @@ a{color:#58a6ff;text-decoration:none}
 #main{padding:20px;max-width:1200px;margin:0 auto}
 .view{display:none}
 .view.active{display:block}
-.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:16px}
-.card h2{font-size:14px;font-weight:700;color:#f0f6fc;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #30363d}
+.card{background:#161b22;border:1px solid #30363d;border-radius:2px;padding:13px 14px;margin-bottom:12px}
+.card h2{font-family:var(--mono);font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:11px;padding-bottom:7px;border-bottom:1px solid #30363d;text-transform:uppercase;letter-spacing:.8px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.tile{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;cursor:pointer;transition:border-color .15s}
+.tile{background:#161b22;border:1px solid #30363d;border-radius:2px;padding:14px;cursor:pointer;transition:border-color .15s}
 .tile:hover{border-color:#58a6ff}
-.tile h3{font-size:13px;font-weight:700;color:#f0f6fc;margin-bottom:8px}
+.tile h3{font-family:var(--mono);font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
 .tile .sub{font-size:11px;color:#8b949e}
-table{width:100%;border-collapse:collapse;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-family:var(--mono);font-variant-numeric:tabular-nums}
 th{text-align:left;padding:6px 8px;color:#8b949e;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #30363d}
 td{padding:7px 8px;border-bottom:1px solid #21262d}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#1c2128}
-.bar-wrap{background:#21262d;border-radius:3px;height:6px;position:relative;width:80px}
-.bar-fill{height:6px;border-radius:3px;background:#238636;position:absolute;left:0;top:0}
-.dist-bar{background:#21262d;border-radius:2px;height:10px;position:relative}
-.dist-range{position:absolute;height:10px;border-radius:2px}
+.bar-wrap{background:#21262d;border-radius:1px;height:6px;position:relative;width:80px}
+.bar-fill{height:6px;border-radius:1px;background:#238636;position:absolute;left:0;top:0}
+.dist-bar{background:#21262d;border-radius:1px;height:10px;position:relative}
+.dist-range{position:absolute;height:10px;border-radius:1px}
 .dist-med{position:absolute;width:2px;height:10px;background:#f0f6fc}
-.score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:3px;vertical-align:middle;position:relative}
-.score-fill{height:6px;border-radius:3px;position:absolute;left:0;top:0}
+.score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:1px;vertical-align:middle;position:relative}
+.score-fill{height:6px;border-radius:1px;position:absolute;left:0;top:0}
 footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
 @media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
 @media(max-width:800px){
@@ -99,9 +100,9 @@ html.light .pill.elev{background:#fef3c7;color:#92400e}
 html.light .pill.mod{background:#dbeafe;color:#1d4ed8}
 html.light .pill.low{background:#d1fae5;color:#166534}
 html.light footer{color:#57606a;border-color:#d0d7de}
-#rd-tip{position:fixed;z-index:9999;background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:10px 14px;pointer-events:none;display:none;min-width:220px;max-width:270px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:12px;line-height:1.4}
+#rd-tip{position:fixed;z-index:9999;background:#1c2128;border:1px solid #30363d;border-radius:2px;padding:10px 14px;pointer-events:none;display:none;min-width:220px;max-width:270px;box-shadow:0 8px 32px rgba(0,0,0,.6);font-size:12px;line-height:1.4}
 #rd-tip.show{display:block}
-.rd-chip{background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:14px;cursor:pointer;font-size:12px;margin:3px;transition:border-color .15s,color .15s}
+.rd-chip{background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:2px;cursor:pointer;font-size:12px;margin:3px;transition:border-color .15s,color .15s}
 .rd-chip:hover{border-color:#58a6ff;color:#f0f6fc}
 .rd-dot{width:7px;height:7px;border-radius:50%;background:#58a6ff;display:inline-block;animation:rdpulse 1.1s ease-in-out infinite}
 @keyframes rdpulse{0%,80%,100%{opacity:.2;transform:scale(.85)}40%{opacity:1;transform:scale(1.1)}}
@@ -34789,7 +34790,7 @@ function renderMeeting(){
     const nm=st.name&&st.name.length>32?st.name.slice(0,30)+'…':(st.name||'');
     return '<tr><td style="color:#6e7681;width:20px">'+(i+1)+'</td><td><strong>'+st.ticker+'</strong><div style="color:#6e7681;font-size:11px">'+nm+'</div></td><td style="font-size:12px;color:#8b949e">'+sec+'</td><td style="color:'+ec+';font-weight:600;text-align:right">'+pct(st.edge)+'</td><td style="color:#c9d1d9;font-size:12px;text-align:right">'+pct(st.p50)+'</td><td style="color:#8b949e;font-size:11px;text-align:right">'+((st.hit_rate||0)*100).toFixed(0)+'% &middot; n='+st.n_obs+'</td></tr>';
   }).join('');
-  return '<div class="card" style="border-left:4px solid '+cCol+'"><div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px"><div><div style="font-size:11px;color:#6e7681;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Client Meeting Brief</div><div style="font-size:22px;font-weight:700;color:#f0f6fc;line-height:1.1">'+(sp.regime||'—')+streakHtml+'</div>'+firmHtml+'</div><div style="display:flex;gap:8px;align-items:center"><span style="color:#6e7681;font-size:12px">'+S.generated+'</span><button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">Print</button></div></div><div style="margin-top:14px;font-size:14px;color:#c9d1d9;line-height:1.7">'+(n.plain_english||'—')+'</div></div>'
+  return '<div class="card" style="border-left:4px solid '+cCol+'"><div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px"><div><div style="font-size:11px;color:#6e7681;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Client Meeting Brief</div><div style="font-size:22px;font-weight:700;color:#f0f6fc;line-height:1.1">'+(sp.regime||'—')+streakHtml+'</div>'+firmHtml+'</div><div style="display:flex;gap:8px;align-items:center"><span style="color:#6e7681;font-size:12px">'+S.generated+'</span><button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:2px;cursor:pointer;font-size:12px">Print</button></div></div><div style="margin-top:14px;font-size:14px;color:#c9d1d9;line-height:1.7">'+(n.plain_english||'—')+'</div></div>'
     +'<div class="card"><h2>Top 5 Stock Picks</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Highest-edge signals in current analog regime. Discuss in context of client risk tolerance and existing holdings.</p><table><tr><th>#</th><th>Ticker</th><th>Sector</th><th style="text-align:right">Edge</th><th style="text-align:right">Median</th><th style="text-align:right">Hit Rate</th></tr>'+stockRows+'</table></div>'
     +'<div class="grid2"><div class="card"><h2>Key Metrics</h2><table>'
     +'<tr><td style="color:#8b949e;padding:6px 0;font-size:12px">SPY 5-day</td><td style="text-align:right;font-weight:600;color:'+ret5Col+'">'+pct(sp.ret_5d)+'</td></tr>'
@@ -34822,7 +34823,7 @@ VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textCon
 const themeBtn=document.createElement('button');
 themeBtn.id='theme-btn';
 themeBtn.textContent=_savedTheme==='light'?'🌙':'☀';
-themeBtn.style.cssText='background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:12px;margin-left:4px';
+themeBtn.style.cssText='background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:2px;cursor:pointer;font-size:12px;margin-left:4px';
 themeBtn.onclick=()=>{const isLight=document.documentElement.classList.toggle('light');localStorage.setItem('rd-theme',isLight?'light':'dark');themeBtn.textContent=isLight?'🌙':'☀';};
 nav.after(themeBtn);
 
@@ -34845,7 +34846,7 @@ function sparkline(history,key,w=40,h=14){
 const modal=document.createElement('div');
 modal.id='kbd-modal';
 modal.style.cssText='display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);align-items:center;justify-content:center';
-modal.innerHTML=`<div style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:24px;min-width:280px">
+modal.innerHTML=`<div style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:24px;min-width:280px">
   <h3 style="margin-bottom:14px;color:#f0f6fc">Keyboard Shortcuts</h3>
   <table style="width:100%">
   ${VIEWS.map((v,i)=>`<tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">${i===9?0:i+1}</kbd></td><td style="padding:3px 8px;color:#8b949e">${LABELS[i]}</td></tr>`).join('')}
@@ -34853,7 +34854,7 @@ modal.innerHTML=`<div style="background:#161b22;border:1px solid #30363d;border-
   <tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">d</kbd></td><td style="padding:3px 8px;color:#8b949e">Toggle dark/light mode</td></tr>
   <tr><td style="padding:3px 8px"><kbd style="background:#21262d;border:1px solid #30363d;border-radius:3px;padding:1px 6px;font-size:12px">Esc</kbd></td><td style="padding:3px 8px;color:#8b949e">Close this modal</td></tr>
   </table>
-  <button onclick="document.getElementById('kbd-modal').style.display='none'" style="margin-top:16px;background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:6px 14px;border-radius:6px;cursor:pointer;width:100%">Close</button>
+  <button onclick="document.getElementById('kbd-modal').style.display='none'" style="margin-top:16px;background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:6px 14px;border-radius:2px;cursor:pointer;width:100%">Close</button>
 </div>`;
 document.body.appendChild(modal);
 document.addEventListener('keydown',e=>{
@@ -34948,7 +34949,7 @@ function renderHome(){
       const good=goodUp?delta>=0:delta<=0;
       const col=Math.abs(delta)<0.0001?'#8b949e':(good?'#3fb950':'#f85149');
       const arrow=delta>0.0001?'▲':delta<-0.0001?'▼':'■';
-      return `<div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:8px 10px;flex:1;min-width:120px">
+      return `<div style="background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:8px 10px;flex:1;min-width:120px">
         <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px">${label}</div>
         <div style="font-size:14px;font-weight:700;color:${col}">${arrow} ${fmt(delta)}</div>
       </div>`;
@@ -34978,7 +34979,7 @@ function renderHome(){
   if(bestSector){
     const ec=(bestSector.edge||0)>=0?'#3fb950':'#f85149';
     const bw=(bestSector.breadth||0)*100;
-    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderLeftColor='${ec}';this.style.borderColor='#30363d';this.style.borderLeftColor='${ec}'">
+    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:2px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderLeftColor='${ec}';this.style.borderColor='#30363d';this.style.borderLeftColor='${ec}'">
       <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Strongest sector</div>
       <div style="font-size:15px;font-weight:700;color:#f0f6fc;margin-bottom:2px">${bestSector.name}</div>
       <div style="font-size:13px;font-weight:600;color:${ec};margin-bottom:3px">${pct(bestSector.edge)} edge</div>
@@ -34991,7 +34992,7 @@ function renderHome(){
     const ann=((st.edge||0)*(252/hd)*100).toFixed(0);
     const hitPct=((st.hit_rate||0)*100).toFixed(0);
     const logo=`<img src="https://assets.parqet.com/logos/symbol/${st.ticker}?format=jpg" width="18" height="18" style="border-radius:3px;object-fit:contain;background:#fff;border:1px solid #30363d;flex-shrink:0;vertical-align:middle;margin-right:6px" onerror="this.style.display='none'" loading="lazy">`;
-    focusCards.push(`<div onclick="location.hash='#stocks'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderColor='#30363d'">
+    focusCards.push(`<div onclick="location.hash='#stocks'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:2px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderColor='#30363d'">
       <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Top stock signal</div>
       <div style="display:flex;align-items:center;margin-bottom:2px">${logo}<strong style="font-family:monospace;font-size:15px;color:#f0f6fc">${st.ticker}</strong><span style="margin-left:6px;font-size:11px;color:#8b949e">${st.sector&&st.sector!=='Unknown'?st.sector:''}</span></div>
       <div style="font-size:13px;font-weight:600;color:${ec};margin-bottom:3px">${pct(st.edge)} edge <span style="color:#6e7681;font-weight:400;font-size:10px">(${ann}%/yr ${st.horizon})</span></div>
@@ -35002,7 +35003,7 @@ function renderHome(){
     const sc=(worstRisk.score||0);
     const rCol=sc>=0.65?'#f85149':sc>=0.45?'#e3b341':'#3fb950';
     const rLvl=sc>=0.65?'Elevated':sc>=0.45?'Moderate':'Low';
-    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${rCol};border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${rCol}'" onmouseout="this.style.borderColor='#30363d'">
+    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${rCol};border-radius:2px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${rCol}'" onmouseout="this.style.borderColor='#30363d'">
       <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Most elevated risk</div>
       <div style="font-size:15px;font-weight:700;color:#f0f6fc;margin-bottom:2px">${worstRisk.name}</div>
       <div style="font-size:13px;font-weight:600;color:${rCol};margin-bottom:3px">${rLvl} · ${(sc*100).toFixed(0)}/100</div>
@@ -35018,7 +35019,7 @@ function renderHome(){
   // Pull invalidation condition from the most-elevated risk axis.
   let breakBlock='';
   if(worstRisk&&worstRisk.invalidation){
-    breakBlock=`<div style="background:#1c1812;border:1px solid #9e7a18;border-left:3px solid #e3b341;border-radius:6px;padding:10px 12px;margin-bottom:14px">
+    breakBlock=`<div style="background:#1c1812;border:1px solid #9e7a18;border-left:3px solid #e3b341;border-radius:2px;padding:10px 12px;margin-bottom:14px">
       <div style="font-size:9px;color:#e3b341;text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-bottom:4px">What would break this view</div>
       <div style="font-size:12px;color:#c9d1d9;line-height:1.5"><strong style="color:#f0f6fc">${worstRisk.name}</strong> tips elevated if: <em style="color:#e3b341;font-style:normal">${worstRisk.invalidation}</em></div>
     </div>`;
@@ -35038,7 +35039,7 @@ function renderHome(){
     else if(bull>bear){verdict='Lean constructive';vCol='#e3b341';}
     else if(bear>bull){verdict='Lean cautious';vCol='#e3b341';}
     else{verdict='No clear confirmation';vCol='#8b949e';}
-    pulseBlock=`<div onclick="location.hash='#regime'" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #30363d;border-radius:6px;margin-bottom:14px;cursor:pointer;flex-wrap:wrap">
+    pulseBlock=`<div onclick="location.hash='#regime'" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #30363d;border-radius:2px;margin-bottom:14px;cursor:pointer;flex-wrap:wrap">
       <span style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px">Cross-asset pulse</span>
       <span style="font-size:13px;font-weight:700;color:${vCol}">${verdict}</span>
       <span style="font-size:11px;color:#8b949e"><span style="color:#3fb950">${bull} bull</span> · <span style="color:#f85149">${bear} bear</span> · ${neut} neutral across ${total} readings</span>
@@ -35051,7 +35052,7 @@ function renderHome(){
       <h2 style="margin:0">Morning Brief</h2>
       <span style="font-size:11px;color:#6e7681">${S.generated}</span>
     </div>
-    <div style="background:${regimeBg};border:1px solid ${regimeBorder};border-radius:6px;padding:14px 16px;margin-bottom:14px">
+    <div style="background:${regimeBg};border:1px solid ${regimeBorder};border-radius:2px;padding:14px 16px;margin-bottom:14px">
       <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px">
         <div style="font-size:24px;font-weight:700;color:${regimeCol};line-height:1.1">${regime}</div>
         <div style="font-size:12px;color:#8b949e">${streak>0?streak+'-day streak':'day 1 of regime'}</div>
@@ -35074,7 +35075,7 @@ function renderHome(){
       <span style="font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;font-weight:700">Paper portfolios YTD</span>
       ${portKeys.map(k=>{
         const p=ports[k],clr=portColors[k]||'#8b949e',ret=p.return_pct||0,rc=ret>=0?'#3fb950':'#f85149';
-        return `<a href="#portfolios" style="text-decoration:none;display:inline-flex;align-items:baseline;gap:4px;padding:3px 9px;background:#0d1117;border:1px solid ${clr}55;border-radius:4px">
+        return `<a href="#portfolios" style="text-decoration:none;display:inline-flex;align-items:baseline;gap:4px;padding:3px 9px;background:#0d1117;border:1px solid ${clr}55;border-radius:2px">
           <span style="font-size:11px;font-weight:600;color:${clr}">${p.name}</span>
           <span style="font-size:13px;font-weight:700;color:${rc}">${ret>=0?'+':''}${ret.toFixed(2)}%</span>
         </a>`;
@@ -35087,11 +35088,11 @@ function renderHome(){
     <h2>Why this setup, in plain English</h2>
     ${n.plain_english?`<p style="margin-bottom:12px;font-size:13px;line-height:1.65;color:#c9d1d9">${n.plain_english}</p>`:''}
     <div class="grid2">
-      <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:12px">
+      <div style="background:#0d2818;border:1px solid #238636;border-radius:2px;padding:12px">
         <div style="color:#3fb950;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Constructive</div>
         <div style="font-size:12px;line-height:1.55;color:#c9d1d9">${n.constructive||'—'}</div>
       </div>
-      <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:6px;padding:12px">
+      <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:2px;padding:12px">
         <div style="color:#f85149;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Watch out for</div>
         <div style="font-size:12px;line-height:1.55;color:#c9d1d9">${n.risk||'—'}</div>
       </div>
@@ -35117,10 +35118,9 @@ function renderRegime(){
   <tr><td>Breadth</td><td>${((spy.breadth||0)*100).toFixed(0)}%</td><td>Fraction of sectors with positive conditional edge</td></tr>
   <tr><td>Persistence</td><td>${((spy.persistence||0)*100).toFixed(0)}%</td><td>Fraction of analog regimes that continued for 20d+</td></tr>
   <tr><td>Reversal Risk</td><td>${((spy.reversal_risk||0)*100).toFixed(0)}%</td><td>Estimated probability of regime flip within 20d</td></tr>
-  </table></div>
-  <div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 20-day return and annualized realized volatility trends. Use to gauge whether momentum is accelerating or decelerating.</p><div class="grid2">${svgLineChart((spy.history||[]).map(d=>d.ret_20d||0),440,110,'Rolling 20d return')}${svgLineChart((spy.history||[]).map(d=>(d.vol_20d||0)*Math.sqrt(252)),440,110,'Annualized vol')}</div>${(function(){var h=spy.history||[];if(h.length<2)return'';var r20=h.map(function(d){return d.ret_20d||0;});var v20=h.map(function(d){return (d.vol_20d||0)*Math.sqrt(252);});var dd=h.map(function(d){return d.drawdown_60d||0;});var first=r20[0],last=r20[r20.length-1];var rChg=last-first;var rDir=rChg>=0?'accelerating':'decelerating';var rCol=rChg>=0?'#3fb950':'#f85149';var vFirst=v20[0],vLast=v20[v20.length-1];var vChg=vLast-vFirst;var vDir=vChg>=0?'rising':'falling';var vCol=vChg>=0?'#e3b341':'#3fb950';var ddMin=Math.min.apply(null,dd);var ddTxt=ddMin<-0.02?'touched '+(ddMin*100).toFixed(1)+'% intra-window':'no meaningful drawdown';return '<div style="margin-top:14px;padding-top:12px;border-top:1px solid #30363d;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12px"><div><div style="color:#6e7681;text-transform:uppercase;letter-spacing:.5px;font-size:10px;margin-bottom:3px">Momentum</div><div style="color:'+rCol+';font-weight:600">'+rDir+'</div><div style="color:#8b949e;margin-top:2px">20d ret '+(rChg>=0?'+':'')+(rChg*100).toFixed(1)+' pp</div></div><div><div style="color:#6e7681;text-transform:uppercase;letter-spacing:.5px;font-size:10px;margin-bottom:3px">Volatility</div><div style="color:'+vCol+';font-weight:600">'+vDir+'</div><div style="color:#8b949e;margin-top:2px">ann. vol '+(vChg>=0?'+':'')+(vChg*100).toFixed(1)+' pp</div></div><div><div style="color:#6e7681;text-transform:uppercase;letter-spacing:.5px;font-size:10px;margin-bottom:3px">Drawdown</div><div style="color:#c9d1d9;font-weight:600">'+ddTxt+'</div></div></div>';})()}</div>
+  </table><div style="color:#6e7681;font-size:12px;margin-top:10px;padding-top:8px;border-top:1px solid #30363d"><strong style="color:#8b949e">ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}</div></div>
+  <div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 20-day return and annualized realized volatility trends. Use to gauge whether momentum is accelerating or decelerating.</p><div class="grid2">${svgLineChart((spy.history||[]).map(d=>d.ret_20d||0),440,110,'Rolling 20d return')}${svgLineChart((spy.history||[]).map(d=>(d.vol_20d||0)*Math.sqrt(252)),440,110,'Annualized vol')}</div></div>
   ${(function(){var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}return '<div class="card" style="border-left:4px solid '+vCol+'"><h2>Trajectory Verdict</h2><div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap"><div style="font-size:22px;font-weight:700;color:'+vCol+'">'+verdict+'</div><div style="color:#8b949e;font-size:12px">last 5 vs prior 5 sessions</div></div><div style="color:#c9d1d9;font-size:13px;line-height:1.6;margin-bottom:10px">'+vDesc+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12px;padding-top:10px;border-top:1px solid #30363d"><div><span style="color:#6e7681">Return shift:</span> <strong style="color:'+(rDelta>=0?'#3fb950':'#f85149')+'">'+(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)+' pp</strong></div><div><span style="color:#6e7681">Vol shift:</span> <strong style="color:'+(vDelta<=0?'#3fb950':'#f85149')+'">'+(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)+' pp ann.</strong></div></div></div>';})()}
-  <div class="card"><h2>Analog Context</h2><p style="color:#8b949e">${S.analog&&S.analog.regime_context||"—"}</p></div>
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
@@ -35343,7 +35343,7 @@ function _pinnedCard(tk){
   var st=(S.all_signals||[]).find(function(s){return s.ticker===tk;})
       ||(S.stocks||[]).find(function(s){return s.ticker===tk;});
   var logo='<img src="https://assets.parqet.com/logos/symbol/'+tk+'?format=jpg" width="22" height="22" '
-    +'style="border-radius:4px;object-fit:contain;background:#fff;border:1px solid #30363d;flex-shrink:0;margin-right:8px" '
+    +'style="border-radius:2px;object-fit:contain;background:#fff;border:1px solid #30363d;flex-shrink:0;margin-right:8px" '
     +'onerror="this.style.display=\'none\'" loading="lazy">';
   var xBtn='<button onclick="window._rdUnpinTicker(\''+tk+'\')" '
     +'style="background:none;border:none;color:#6e7681;font-size:22px;cursor:pointer;padding:0 6px;line-height:1;flex-shrink:0" '
@@ -35364,11 +35364,11 @@ function _pinnedCard(tk){
     +'<div><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">'
     +'<strong style="color:#f0f6fc;font-size:15px">'+tk+'</strong>'
     +(st.name&&st.name!==tk?'<span style="color:#8b949e;font-size:12px">'+st.name+'</span>':'')
-    +(st.below_threshold?'<span style="background:#3a2a1a;color:#e3b341;border-radius:10px;padding:1px 8px;font-size:11px">Below threshold</span>':'')
-    +(st.short_history?'<span style="background:#2a2a1a;color:#e3b341;border-radius:10px;padding:1px 8px;font-size:11px">Short history</span>':'')
+    +(st.below_threshold?'<span style="background:#3a2a1a;color:#e3b341;border-radius:2px;padding:1px 8px;font-size:11px">Below threshold</span>':'')
+    +(st.short_history?'<span style="background:#2a2a1a;color:#e3b341;border-radius:2px;padding:1px 8px;font-size:11px">Short history</span>':'')
     +'</div>'
     +'<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;align-items:center">'
-    +'<span style="background:#21262d;border:1px solid #30363d;border-radius:10px;padding:1px 8px;font-size:11px;color:#8b949e">'+sector+'</span>'
+    +'<span style="background:#21262d;border:1px solid #30363d;border-radius:2px;padding:1px 8px;font-size:11px;color:#8b949e">'+sector+'</span>'
     +(priceStr?'<span style="font-size:12px;color:#c9d1d9">'+priceStr+'</span>':'')
     +'</div></div></div>'
     +xBtn+'</div>';
@@ -35380,7 +35380,7 @@ function _pinnedCard(tk){
     var cols=HLABELS.map(function(lbl){
       var h=st.horizons[lbl];
       if(!h){
-        return '<div style="background:#0d1117;border:1px dashed #30363d;border-radius:6px;padding:10px;opacity:.45;text-align:center">'
+        return '<div style="background:#0d1117;border:1px dashed #30363d;border-radius:2px;padding:10px;opacity:.45;text-align:center">'
           +'<div style="color:#8b949e;font-size:11px;font-weight:600;text-transform:uppercase;margin-bottom:6px">'+lbl+'</div>'
           +'<div style="color:#6e7681;font-size:13px">—</div>'
           +'<div style="color:#6e7681;font-size:10px;margin-top:4px">no data</div></div>';
@@ -35390,7 +35390,7 @@ function _pinnedCard(tk){
       var conf=h.hit_rate*Math.log(Math.max(h.n_obs,1));
       var badge=conf>2?'●●●':conf>1?'●●○':'●○○';
       var badgeCol=conf>2?'#3fb950':conf>1?'#e3b341':'#6e7681';
-      return '<div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:10px">'
+      return '<div style="background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:10px">'
         +'<div style="color:#8b949e;font-size:11px;font-weight:600;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">'
         +'<span>'+lbl+'</span>'
         +'<span style="color:'+badgeCol+';font-size:9px;letter-spacing:1px">'+badge+'</span></div>'
@@ -35489,7 +35489,7 @@ let _sortCol='edge',_sortDir=-1,_horizon='all';
 let _stFilter={sector:'',mcapMin:null,mcapMax:null,volMin:null,volMax:null,betaMin:null,betaMax:null};
 function _horizonBtn(h){
   const active=_horizon===h;
-  return`<button onclick="window._rdHorizon('${h}')" style="background:${active?'#21262d':'none'};border:1px solid ${active?'#58a6ff':'#30363d'};color:${active?'#58a6ff':'#8b949e'};padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px">${h==='all'?'All':h}</button>`;
+  return`<button onclick="window._rdHorizon('${h}')" style="background:${active?'#21262d':'none'};border:1px solid ${active?'#58a6ff':'#30363d'};color:${active?'#58a6ff':'#8b949e'};padding:3px 10px;border-radius:2px;cursor:pointer;font-size:11px">${h==='all'?'All':h}</button>`;
 }
 function _horizonBar(){return`<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:12px"><span style="color:#8b949e;font-size:12px;margin-right:4px">Horizon:</span>${['all','5d','20d','60d','120d'].map(_horizonBtn).join('')}</div>`;}
 function renderStocks(){
@@ -35531,7 +35531,7 @@ function renderStocks(){
       <td style="color:#3fb950;font-weight:600;white-space:nowrap">${pct(st.p90)}</td>
       <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
       <td style="white-space:nowrap">${betaCell}</td>
-      <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:4px;cursor:pointer;font-size:11px" title="Copy">&#x1F4CB;</button></td>
+      <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:2px;cursor:pointer;font-size:11px" title="Copy">&#x1F4CB;</button></td>
     </tr>`;
   }
   const rows=isWl
@@ -35540,13 +35540,13 @@ function renderStocks(){
   // Filter bar
   const sectors=[...new Set((S.stocks||[]).map(s=>s.sector).filter(x=>x&&x!=='Unknown'))].sort();
   const secOpts=sectors.map(s=>`<option value="${s}"${_stFilter.sector===s?' selected':''}>${s}</option>`).join('');
-  const selSt='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 8px;border-radius:6px;font-size:12px;cursor:pointer';
-  const inpSt='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 6px;border-radius:6px;font-size:12px;width:60px;text-align:center';
+  const selSt='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 8px;border-radius:2px;font-size:12px;cursor:pointer';
+  const inpSt='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 6px;border-radius:2px;font-size:12px;width:60px;text-align:center';
   const activeCount=(_stFilter.sector?1:0)
     +(_stFilter.mcapMin!=null?1:0)+(_stFilter.mcapMax!=null?1:0)
     +(_stFilter.volMin!=null?1:0)+(_stFilter.volMax!=null?1:0)
     +(_stFilter.betaMin!=null?1:0)+(_stFilter.betaMax!=null?1:0);
-  const filterBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;background:#161b22;border-radius:8px;border:1px solid #30363d">
+  const filterBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;background:#161b22;border-radius:2px;border:1px solid #30363d">
     <span style="color:#8b949e;font-size:12px;font-weight:600;white-space:nowrap">Filter:</span>
     <select onchange="window._stFilt('sector',this.value)" style="${selSt}">
       <option value="">All sectors</option>${secOpts}
@@ -35563,25 +35563,25 @@ function renderStocks(){
     <input type="number" placeholder="min" step="0.1" value="${_stFilter.betaMin??''}" style="${inpSt}" oninput="window._stFilt('betaMin',this.value!==''?+this.value:null)" title="Beta minimum"/>
     <span style="color:#6e7681;font-size:11px">–</span>
     <input type="number" placeholder="max" step="0.1" value="${_stFilter.betaMax??''}" style="${inpSt}" oninput="window._stFilt('betaMax',this.value!==''?+this.value:null)" title="Beta maximum"/>
-    ${activeCount?`<span style="color:#58a6ff;font-size:11px;margin-left:4px">${pool.length} shown</span><button onclick="window._stFiltClear()" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:''}
+    ${activeCount?`<span style="color:#58a6ff;font-size:11px;margin-left:4px">${pool.length} shown</span><button onclick="window._stFiltClear()" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:2px;cursor:pointer;font-size:11px">Clear</button>`:''}
   </div>`;
   const wlBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px">
     <span style="color:#8b949e;font-size:12px">Watchlist:</span>
     <input type="text" value="${_watchlist}" placeholder="AAPL,MSFT,NVDA…"
-      style="background:#21262d;border:1px solid ${isWl?'#58a6ff':'#30363d'};color:#f0f6fc;padding:4px 10px;border-radius:6px;font-size:12px;width:220px"
+      style="background:#21262d;border:1px solid ${isWl?'#58a6ff':'#30363d'};color:#f0f6fc;padding:4px 10px;border-radius:2px;font-size:12px;width:220px"
       oninput="window._rdWl(this.value)"/>
-    ${isWl?`<span style="font-size:11px;color:#58a6ff">${pool.length}/${wlTickers.length} matched</span><button onclick="window._rdWl('')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:'<span style="color:#6e7681;font-size:11px">paste tickers to filter to client holdings</span>'}
+    ${isWl?`<span style="font-size:11px;color:#58a6ff">${pool.length}/${wlTickers.length} matched</span><button onclick="window._rdWl('')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:2px;cursor:pointer;font-size:11px">Clear</button>`:'<span style="color:#6e7681;font-size:11px">paste tickers to filter to client holdings</span>'}
   </div>`;
   const lookupBar='<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">'
     +'<span style="color:#8b949e;font-size:12px;white-space:nowrap">Ticker lookup:</span>'
     +'<input id="rd-lookup-input" type="text" placeholder="e.g. AAPL" maxlength="8" '
-    +'style="background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:4px 10px;border-radius:6px;font-size:12px;width:110px;text-transform:uppercase" '
+    +'style="background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:4px 10px;border-radius:2px;font-size:12px;width:110px;text-transform:uppercase" '
     +'oninput="this.value=this.value.toUpperCase()" '
     +'onkeydown="if(event.key===\'Enter\'){window._rdPinTicker(this.value);this.value=\'\'}" '
     +'onfocus="this.style.borderColor=\'#58a6ff\'" onblur="this.style.borderColor=\'#30363d\'"/>'
     +'<button onclick="var i=document.getElementById(\'rd-lookup-input\');window._rdPinTicker(i.value);i.value=\'\'" '
-    +'style="background:#238636;border:none;color:#fff;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">Pin</button>'
-    +(_pinnedTickers.length?'<button onclick="window._rdClearPinned()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear all</button>':'')
+    +'style="background:#238636;border:none;color:#fff;padding:4px 12px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:600">Pin</button>'
+    +(_pinnedTickers.length?'<button onclick="window._rdClearPinned()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 8px;border-radius:2px;cursor:pointer;font-size:11px">Clear all</button>':'')
     +'<span style="color:#6e7681;font-size:11px">Pin a ticker to see its full signal card above the table</span>'
     +'</div>';
   return`<div class="card"><h2>Individual Stock Signals</h2>
@@ -35721,8 +35721,8 @@ function renderRisks(){
     <div style="font-size:42px;font-weight:700;color:${cCol};line-height:1">${cPct}<span style="font-size:20px;color:#8b949e">/100</span></div>
     <div style="flex:1;min-width:200px">
       <div style="margin-bottom:6px">${pill(cLevel)} composite across ${S.risks.length} axes</div>
-      <div style="background:#21262d;border-radius:4px;height:10px;position:relative;overflow:hidden">
-        <div style="position:absolute;left:0;top:0;height:10px;width:${cPct}%;background:${cCol};border-radius:4px"></div>
+      <div style="background:#21262d;border-radius:2px;height:10px;position:relative;overflow:hidden">
+        <div style="position:absolute;left:0;top:0;height:10px;width:${cPct}%;background:${cCol};border-radius:2px"></div>
       </div>
       <div style="color:#6e7681;font-size:12px;margin-top:6px">Top driver: <strong style="color:#c9d1d9">${maxRisk.name||"—"}</strong> (${((maxRisk.score||0)*100).toFixed(0)}%)</div>
     </div>
@@ -35730,7 +35730,7 @@ function renderRisks(){
   </div>
   <div class="card"><h2>Risk Axes & Invalidation Levels</h2>
   <p style="margin-bottom:12px;color:#8b949e">Each risk axis has an associated invalidation condition — the signal that would indicate the risk has materialized.</p>
-  ${S.risks.map(r=>`<div style="border:1px solid #30363d;border-radius:6px;padding:12px;margin-bottom:10px">
+  ${S.risks.map(r=>`<div style="border:1px solid #30363d;border-radius:2px;padding:12px;margin-bottom:10px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
       <strong>${r.name}</strong>${pill(r.level)} ${scoreBar(r.score)}
     </div>
@@ -35747,16 +35747,16 @@ function renderNarrative(){
   return`<div class="card"><h2>Plain-English Summary</h2>
   <div style="font-size:16px;font-weight:700;color:#f0f6fc;margin-bottom:12px">${n.headline||""}</div>
   <div class="grid2">
-    <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:6px;padding:14px">
+    <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:2px;padding:14px">
       <div style="color:#f85149;font-weight:700;margin-bottom:8px">Risk / Reversal</div>
       <div>${n.risk||"—"}</div>
     </div>
-    <div style="background:#0d2818;border:1px solid #238636;border-radius:6px;padding:14px">
+    <div style="background:#0d2818;border:1px solid #238636;border-radius:2px;padding:14px">
       <div style="color:#3fb950;font-weight:700;margin-bottom:8px">Constructive Read</div>
       <div>${n.constructive||"—"}</div>
     </div>
   </div>
-  <div style="margin-top:16px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px">
+  <div style="margin-top:16px;background:#161b22;border:1px solid #30363d;border-radius:2px;padding:14px">
     <div style="color:#8b949e;font-weight:700;margin-bottom:8px">In Plain English</div>
     <div>${n.plain_english||"—"}</div>
   </div>
@@ -35771,7 +35771,7 @@ function renderAnalog(){
   const dates=matches.map(function(m){return m.date;});
   const dateRange=dates.length>=2?dates[dates.length-1]+' – '+dates[0]:(dates[0]||'—');
   const isSynthetic=matches.length>0&&matches[0].synthetic;
-  const synthBadge=isSynthetic?'<span style="background:#161b22;color:#8b949e;border:1px solid #30363d;border-radius:10px;font-size:10px;padding:2px 8px;margin-left:8px">Illustrative</span>':'';
+  const synthBadge=isSynthetic?'<span style="background:#161b22;color:#8b949e;border:1px solid #30363d;border-radius:2px;font-size:10px;padding:2px 8px;margin-left:8px">Illustrative</span>':'';
 
   const matchRows=matches.map(function(m,i){
     const ret=m.spy_ret_20d||0;
@@ -35785,12 +35785,12 @@ function renderAnalog(){
       +'<td style="font-family:monospace;font-size:12px;padding:7px 8px">'+m.date+'</td>'
       +'<td style="font-size:12px;padding:7px 8px;color:#c9d1d9">'+m.regime+'</td>'
       +'<td style="text-align:right;font-weight:600;color:'+retCol+';padding:7px 8px">'+retSign+retPct+'%</td>'
-      +'<td style="text-align:center;padding:7px 4px"><span style="background:'+eqCol+'22;color:'+eqCol+';border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">'+eqLabel+'</span></td>'
+      +'<td style="text-align:center;padding:7px 4px"><span style="background:'+eqCol+'22;color:'+eqCol+';border-radius:2px;padding:2px 8px;font-size:11px;font-weight:600">'+eqLabel+'</span></td>'
       +'</tr>';
   }).join('');
 
   const matchTable=matches.length
-    ? '<div style="margin-top:20px;background:#21262d;border-radius:8px;padding:14px">'
+    ? '<div style="margin-top:20px;background:#21262d;border-radius:2px;padding:14px">'
       +'<div style="display:flex;align-items:center;margin-bottom:10px">'
       +'<span style="color:#e6edf3;font-size:13px;font-weight:600">Historical Precedents</span>'
       +synthBadge
@@ -35811,12 +35811,12 @@ function renderAnalog(){
 
   return '<div class="card"><h2>Analog Matching</h2>'
     +'<div class="grid2" style="margin-bottom:16px">'
-    +'<div style="background:#21262d;border-radius:6px;padding:12px">'
+    +'<div style="background:#21262d;border-radius:2px;padding:12px">'
     +'<div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>'
     +'<div style="font-size:28px;font-weight:700;color:#f0f6fc">'+(a.n_days||30)+'</div>'
     +'<div style="color:#6e7681;font-size:11px">excluding last '+(a.exclude_recent||30)+' days</div>'
     +'</div>'
-    +'<div style="background:#21262d;border-radius:6px;padding:12px">'
+    +'<div style="background:#21262d;border-radius:2px;padding:12px">'
     +'<div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Date Range</div>'
     +'<div style="font-size:13px;font-weight:600;color:#f0f6fc;margin-top:4px">'+dateRange+'</div>'
     +'<div style="color:#6e7681;font-size:11px">'+matches.length+' top matches shown</div>'
@@ -35853,7 +35853,7 @@ function renderMethodology(){
   <p style="margin-bottom:16px"><strong>What This Is Not:</strong> This is a tendencies report — a summary of what historically happened in similar conditions. Markets are non-stationary; past analogs do not guarantee future outcomes.</p>
   </div></div>
   <details style="margin-bottom:16px">
-    <summary style="cursor:pointer;padding:12px 16px;background:#161b22;border:1px solid #30363d;border-radius:8px;font-weight:700;color:#f0f6fc;list-style:none">&#9654; Jargon Glossary</summary>
+    <summary style="cursor:pointer;padding:12px 16px;background:#161b22;border:1px solid #30363d;border-radius:2px;font-weight:700;color:#f0f6fc;list-style:none">&#9654; Jargon Glossary</summary>
     <div style="border:1px solid #30363d;border-top:none;border-radius:0 0 8px 8px;padding:16px;background:#161b22">
     ${terms.map(([t,d])=>`<div style="margin-bottom:12px"><strong style="color:#f0f6fc">${t}</strong><div style="color:#8b949e;margin-top:2px">${d}</div></div>`).join('')}
     </div>
@@ -35978,7 +35978,7 @@ function renderAdvisor(){
   const analogDates=((S.analog&&S.analog.top_matches)||[]).slice(0,5).map(function(m){return typeof m==='string'?m:m.date;});
   const analogDatesHtml=analogDates.map(function(d,i){return '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid #21262d"><span style="color:#6e7681;font-size:11px;width:16px">'+(i+1)+'</span><span style="font-size:12px">'+d+'</span></div>';}).join('');
   const sigTitle=isFiltered?' &mdash; Watchlist ('+wlTickers.length+' tickers)':' &mdash; Top '+stocks.length+' Signals';
-  const wlClearBtn=isFiltered?'<button onclick="window._rdWl(\'\')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>':'';
+  const wlClearBtn=isFiltered?'<button onclick="window._rdWl(\'\')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:4px 8px;border-radius:2px;cursor:pointer;font-size:11px">Clear</button>':'';
   const wlNoMatch=isFiltered&&stocks.length===0?'<div style="color:#e3b341;margin-bottom:8px;font-size:12px">No signals matched. Showing all.</div>':'';
   const stockRows=stocks.map(function(st){
     const factor=FACTOR[st.sector]||'—', fc=FCOL[factor]||'#6e7681';
@@ -35992,7 +35992,7 @@ function renderAdvisor(){
     var secIconHtml='<span style="color:'+secIconCol+';font-size:11px;margin-right:5px;opacity:.7">'+secIcon+'</span>';
     return '<tr><td><div style="display:flex;align-items:center" data-ticker="'+st.ticker+'">'+logoHtml+'<div><strong>'+st.ticker+'</strong>'+nameHtml+'</div></div></td>'
       +'<td style="font-size:12px">'+secIconHtml+sector+'</td>'
-      +'<td><span style="font-size:10px;color:'+fc+';background:'+fc+'18;padding:2px 6px;border-radius:10px;white-space:nowrap">'+factor+'</span></td>'
+      +'<td><span style="font-size:10px;color:'+fc+';background:'+fc+'18;padding:2px 6px;border-radius:2px;white-space:nowrap">'+factor+'</span></td>'
       +'<td style="color:'+edgeCol+';font-weight:600">'+pct(st.edge)+'</td>'
       +'<td style="color:#6e7681;font-size:11px;white-space:nowrap">'+annEd(st.edge,st.horizon||'20d')+'</td>'
       +'<td style="color:#f85149;font-weight:600;white-space:nowrap">'+pct(st.p10)+'</td>'
@@ -36010,8 +36010,8 @@ function renderAdvisor(){
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <div><div style="font-size:16px;font-weight:700;color:#f0f6fc">Advisor View</div>${firmHtml}</div>
       <span style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
-        <a href="${csvUri}" download="signals_${S.generated}.csv" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;font-size:12px;text-decoration:none">&#x2B07; Export CSV</a>
-        <button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">Print</button>
+        <a href="${csvUri}" download="signals_${S.generated}.csv" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:2px;font-size:12px;text-decoration:none">&#x2B07; Export CSV</a>
+        <button onclick="window.print()" style="background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:5px 12px;border-radius:2px;cursor:pointer;font-size:12px">Print</button>
       </span>
     </div>
   </div>
@@ -36067,7 +36067,7 @@ function renderAdvisor(){
       <div style="display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap">
         <span style="color:#8b949e;font-size:12px">Filter watchlist:</span>
         <input id="wl-input" type="text" value="${_watchlist}" placeholder="AAPL,MSFT,NVDA..."
-          style="background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:5px 10px;border-radius:6px;font-size:12px;width:200px"
+          style="background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:5px 10px;border-radius:2px;font-size:12px;width:200px"
           oninput="window._rdWl(this.value)"/>
         ${wlClearBtn}
       </div>
@@ -36131,15 +36131,15 @@ function renderMemory(){
   }).join('');
   const mf=window._memFilter;
   const mfActive=(mf.minPersist!=null||mf.minResolved!=null);
-  const mInp='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 6px;border-radius:6px;font-size:12px;width:62px;text-align:center';
-  const filterBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#161b22;border-radius:8px;border:1px solid #30363d">
+  const mInp='background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 6px;border-radius:2px;font-size:12px;width:62px;text-align:center';
+  const filterBar=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#161b22;border-radius:2px;border:1px solid #30363d">
     <span style="color:#8b949e;font-size:12px;font-weight:600;white-space:nowrap">Filter:</span>
     <span style="color:#6e7681;font-size:12px;white-space:nowrap" title="Minimum number of scan days the ticker appeared as a signal">Min Persistence:</span>
     <input type="number" placeholder="0" min="0" step="1" value="${mf.minPersist??''}" style="${mInp}" oninput="window._memFilt('minPersist',this.value!==''?+this.value:null)"/>
     <span style="color:#6e7681;font-size:12px;white-space:nowrap" title="Minimum number of resolved signals — filter out noisy 1-sample tickers">Min Resolved:</span>
     <input type="number" placeholder="0" min="0" step="1" value="${mf.minResolved??''}" style="${mInp}" oninput="window._memFilt('minResolved',this.value!==''?+this.value:null)" title="Hide tickers with too few resolved signals to be statistically meaningful"/>
     <span style="color:#6e7681;font-size:11px;margin-left:2px">${sorted.length} of ${mem.length} shown</span>
-    ${mfActive?`<button onclick="window._memFiltClear()" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:6px;cursor:pointer;font-size:11px">Clear</button>`:''}
+    ${mfActive?`<button onclick="window._memFiltClear()" style="background:none;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:2px;cursor:pointer;font-size:11px">Clear</button>`:''}
   </div>`;
   return`<div class="card"><h2>Stock Memory — Edge Persistence Tracker</h2>
   <p style="color:#8b949e;margin-bottom:14px;font-size:12px">Tracks which stocks consistently appear as signals across multiple regime scans, and how well past signals have played out. Hover any column header for details. Click to sort.</p>
@@ -36229,7 +36229,7 @@ function renderPortfolios(){
     const p=ports[k],clr=colors[k]||'#8b949e',ret=p.return_pct||0,rc=ret>=0?'#3fb950':'#f85149';
     const cashPct=p.total_value?((p.cash/p.total_value)*100).toFixed(1):'0.0';
     const isAct=k===activeKey;
-    return`<div onclick="window._portTabFn('${k}')" style="background:${isAct?'rgba(88,166,255,.06)':'#161b22'};border:2px solid ${isAct?clr:'#30363d'};border-radius:8px;padding:14px;cursor:pointer;transition:border-color .15s">
+    return`<div onclick="window._portTabFn('${k}')" style="background:${isAct?'rgba(88,166,255,.06)':'#161b22'};border:2px solid ${isAct?clr:'#30363d'};border-radius:2px;padding:14px;cursor:pointer;transition:border-color .15s">
       <div style="font-size:11px;font-weight:700;color:${clr};margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px">${p.name}</div>
       <div style="font-size:10px;color:#6e7681;margin-bottom:10px">${p.label||''}</div>
       <div style="font-size:24px;font-weight:700;color:#f0f6fc">$${(p.total_value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</div>
@@ -36331,14 +36331,14 @@ function renderPortfolios(){
       <td style="color:${pnlClr}">${pnlStr}</td>
     </tr>`;
   }).join(''):`<tr><td colspan="7" style="color:#6e7681;text-align:center;padding:24px">No transactions yet</td></tr>`;
-  const tabBtns=keys.map(k=>{const clr=colors[k]||'#8b949e',isAct=k===activeKey;return`<button onclick="window._portTabFn('${k}')" style="background:${isAct?'#21262d':'none'};border:1px solid ${isAct?clr:'#30363d'};color:${isAct?clr:'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${isAct?700:400};transition:all .15s">${ports[k].name}</button>`;}).join('');
+  const tabBtns=keys.map(k=>{const clr=colors[k]||'#8b949e',isAct=k===activeKey;return`<button onclick="window._portTabFn('${k}')" style="background:${isAct?'#21262d':'none'};border:1px solid ${isAct?clr:'#30363d'};color:${isAct?clr:'#8b949e'};padding:5px 14px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:${isAct?700:400};transition:all .15s">${ports[k].name}</button>`;}).join('');
   const pdfHref = version==='v1' ? 'reports/v1_archive.pdf' : 'reports/v2_latest.pdf';
   const pdfLabel = version==='v1' ? '📄 v1 archive PDF' : '📄 v2 latest PDF';
-  const pdfLink = `<a href="${pdfHref}" target="_blank" rel="noopener noreferrer" style="margin-left:auto;border:1px solid #30363d;color:#8b949e;padding:5px 12px;border-radius:6px;font-size:12px;text-decoration:none">${pdfLabel}</a>`;
+  const pdfLink = `<a href="${pdfHref}" target="_blank" rel="noopener noreferrer" style="margin-left:auto;border:1px solid #30363d;color:#8b949e;padding:5px 12px;border-radius:2px;font-size:12px;text-decoration:none">${pdfLabel}</a>`;
   const verToggle = hasV1 ? `<div style="display:flex;gap:6px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
     <span style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-right:6px">Experiment</span>
-    <button onclick="window._portVerFn('v2')" style="background:${version==='v2'?'#1f6feb':'none'};border:1px solid ${version==='v2'?'#1f6feb':'#30363d'};color:${version==='v2'?'#fff':'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${version==='v2'?700:400}">v2 · Horizon Exits · LIVE</button>
-    <button onclick="window._portVerFn('v1')" style="background:${version==='v1'?'#6e7681':'none'};border:1px solid ${version==='v1'?'#6e7681':'#30363d'};color:${version==='v1'?'#fff':'#8b949e'};padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:${version==='v1'?700:400}">v1 · Quarterly Turnover · ARCHIVED</button>
+    <button onclick="window._portVerFn('v2')" style="background:${version==='v2'?'#1f6feb':'none'};border:1px solid ${version==='v2'?'#1f6feb':'#30363d'};color:${version==='v2'?'#fff':'#8b949e'};padding:5px 14px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:${version==='v2'?700:400}">v2 · Horizon Exits · LIVE</button>
+    <button onclick="window._portVerFn('v1')" style="background:${version==='v1'?'#6e7681':'none'};border:1px solid ${version==='v1'?'#6e7681':'#30363d'};color:${version==='v1'?'#fff':'#8b949e'};padding:5px 14px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:${version==='v1'?700:400}">v1 · Quarterly Turnover · ARCHIVED</button>
     ${version==='v1' ? '<span style="color:#e3b341;font-size:11px;margin-left:8px">★ Frozen Feb 23 – Jun 1 · no further updates</span>' : '<span style="color:#3fb950;font-size:11px;margin-left:8px">● Live · updates with each scan</span>'}
     ${pdfLink}
   </div>` : '';
@@ -36346,25 +36346,25 @@ function renderPortfolios(){
   return`<div class="card"><h2>Paper Portfolios — $100k Each, Simulated${headerSuffix}</h2>
   ${verToggle}
   <div class="grid3" style="margin-bottom:18px">${cards}</div>
-  <div style="background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:14px;margin-bottom:18px">
+  <div style="background:#0d1117;border:1px solid #21262d;border-radius:2px;padding:14px;margin-bottom:18px">
     <div style="font-size:11px;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Cumulative Return</div>
     <div style="margin-bottom:6px">${legend}</div>
     ${chart}
   </div>
   <div style="display:flex;gap:8px;margin-bottom:14px">${tabBtns}</div>
-  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px;margin-bottom:12px">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:14px;margin-bottom:12px">
     <div style="font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:12px">Holdings — ${port.name||activeKey} (${holdings.length} positions)</div>
     <div style="overflow-x:auto"><table style="min-width:640px">
       <tr><th>Ticker</th><th>Name</th><th>Sector</th><th title="Entry edge → today's edge for this horizon. Days held / horizon-exit threshold (1.4× trading-day horizon, e.g. 20d → 28 cal-days).">Signal</th><th>Value</th><th>P&amp;L</th><th>Price</th><th>Entered</th></tr>
       ${hRows}
     </table></div>
   </div>
-  <div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:14px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
       <div style="font-size:12px;font-weight:700;color:#f0f6fc">Full Trade Log — ${port.name||activeKey}</div>
       <div style="font-size:11px;color:#8b949e">${(port.transactions||[]).length} transactions since ${port.inception_date||'—'}</div>
     </div>
-    <div style="overflow:auto;max-height:520px;border:1px solid #21262d;border-radius:6px"><table style="min-width:500px;border-collapse:collapse">
+    <div style="overflow:auto;max-height:520px;border:1px solid #21262d;border-radius:2px"><table style="min-width:500px;border-collapse:collapse">
       <tr style="position:sticky;top:0;background:#161b22;z-index:1"><th>Date</th><th>Action</th><th>Ticker</th><th>Reason</th><th>Value</th><th>Price &times; Shares</th><th>P&amp;L</th></tr>
       ${tRows}
     </table></div>
@@ -36399,13 +36399,13 @@ function renderAnalysis(){
       <td style="font-family:monospace;font-size:12px;padding:7px 8px">${m.date}</td>
       <td style="font-size:12px;padding:7px 8px;color:#c9d1d9">${m.regime}</td>
       <td style="text-align:right;font-weight:600;color:${retCol};padding:7px 8px">${ret>=0?'+':''}${retPct}%</td>
-      <td style="text-align:center;padding:7px 4px"><span style="background:${eqCol}22;color:${eqCol};border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">${eqLabel}</span></td>
+      <td style="text-align:center;padding:7px 4px"><span style="background:${eqCol}22;color:${eqCol};border-radius:2px;padding:2px 8px;font-size:11px;font-weight:600">${eqLabel}</span></td>
     </tr>`;
   }).join('');
 
   // Only show the precedents table when we have real analog dates persisted.
   // Synthetic illustrative rows are replaced with a note explaining the gap.
-  const precedentsBlock=(matches.length&&!isSynth)?`<div style="background:#21262d;border-radius:8px;padding:14px;margin-top:4px">
+  const precedentsBlock=(matches.length&&!isSynth)?`<div style="background:#21262d;border-radius:2px;padding:14px;margin-top:4px">
     <div style="display:flex;align-items:center;margin-bottom:10px">
       <span style="color:#e6edf3;font-size:13px;font-weight:600">Historical Precedents</span>
     </div>
@@ -36418,7 +36418,7 @@ function renderAnalysis(){
         <th style="text-align:center;padding:0 4px 8px">Equities</th>
       </tr>${matchRows}
     </table>
-  </div>`:`<div style="background:#161b22;border:1px dashed #30363d;border-radius:8px;padding:14px;margin-top:4px;color:#8b949e;font-size:12px;line-height:1.6">
+  </div>`:`<div style="background:#161b22;border:1px dashed #30363d;border-radius:2px;padding:14px;margin-top:4px;color:#8b949e;font-size:12px;line-height:1.6">
     The 30 actual analog dates from today's scan are used internally to compute every stock's edge, but they aren't yet persisted into <code style="background:#21262d;padding:1px 5px;border-radius:3px;color:#c9d1d9">spy_state.json</code> for display here. The dates exist; they just don't make it to the snapshot.
   </div>`;
 
@@ -36426,7 +36426,7 @@ function renderAnalysis(){
     const w=Math.max(0,Math.min(100,((val+0.2)/0.4)*100));
     return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
       <div style="width:32px;font-size:11px;color:#8b949e;text-align:right">${label}</div>
-      <div style="flex:1;background:#21262d;border-radius:4px;height:10px;position:relative">
+      <div style="flex:1;background:#21262d;border-radius:2px;height:10px;position:relative">
         <div style="position:absolute;left:${w}%;width:2px;height:10px;border-radius:1px;background:${color};top:0"></div>
       </div>
       <div style="width:48px;font-size:11px;font-weight:600;color:${color};text-align:right">${val>=0?'+':''}${(val*100).toFixed(1)}%</div>
@@ -36443,12 +36443,12 @@ function renderAnalysis(){
 
   return`<div class="card"><h2>Analog Matching</h2>
   <div class="grid2" style="margin-bottom:16px">
-    <div style="background:#21262d;border-radius:6px;padding:12px">
+    <div style="background:#21262d;border-radius:2px;padding:12px">
       <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>
       <div style="font-size:28px;font-weight:700;color:#f0f6fc">${a.n_days||30}</div>
       <div style="color:#6e7681;font-size:11px">excluding last ${a.exclude_recent||30} days</div>
     </div>
-    <div style="background:#21262d;border-radius:6px;padding:12px">
+    <div style="background:#21262d;border-radius:2px;padding:12px">
       <div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Stock Return Distribution</div>
       ${distRow('p10',a.spy_p10||0,'#f85149')}
       ${distRow('p50',a.spy_p50||0,'#c9d1d9')}
@@ -36500,7 +36500,7 @@ function renderBubble(){
   const flipLit=latest.pct_halved>latest.pct_doubled;
   const maxUp=Math.max(...years.map(y=>y.pct_doubled))*1.15+0.5;
   const maxDn=Math.max(...years.map(y=>y.pct_halved))*1.1+0.5;
-  function tile(k,v,d,vc){return`<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px 14px;flex:1;min-width:170px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${k}</div><div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:${vc||'#f0f6fc'};font-family:monospace">${v}</div><div style="color:#8b949e;font-size:11px">${d}</div></div>`;}
+  function tile(k,v,d,vc){return`<div style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:12px 14px;flex:1;min-width:170px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${k}</div><div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:${vc||'#f0f6fc'};font-family:monospace">${v}</div><div style="color:#8b949e;font-size:11px">${d}</div></div>`;}
   function bubblePanel(rows,title){
     const W=460,H=300,T=24,B=34,L=38,R=6;
     const ih=H-T-B, y0=T+ih*maxUp/(maxUp+maxDn);
@@ -36566,14 +36566,14 @@ function renderBubble(){
       :nLit>=2?['Late-1999 profile','#e3b341','Froth is broadening and dissolution has begun. Last cycle this phase ran ~12–18 months before the flip — trim into strength, tighten the leash on speculative names.']
       :['Late-1998 profile','#3fb950','Melt-up conditions without the destruction phase. On the dot-com clock this is roughly 12–18 months before the top formed — the historical playbook says stay invested but watch marker 3 weekly: halvers rising under index highs was the earliest reliable warning.'];
     const rows=checks.map(c=>`<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #21262d">
-      <div style="flex-shrink:0;width:64px;text-align:center;padding-top:2px"><span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.5px;background:${c.lit?'rgba(248,81,73,.15)':'rgba(63,185,80,.12)'};color:${c.lit?'#f85149':'#3fb950'}">${c.lit?'LIT':'quiet'}</span></div>
+      <div style="flex-shrink:0;width:64px;text-align:center;padding-top:2px"><span style="display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:.5px;background:${c.lit?'rgba(248,81,73,.15)':'rgba(63,185,80,.12)'};color:${c.lit?'#f85149':'#3fb950'}">${c.lit?'LIT':'quiet'}</span></div>
       <div><div style="color:#f0f6fc;font-weight:600;font-size:13.5px">${c.name}</div>
       <div style="color:#c9d1d9;font-size:12.5px;font-family:monospace;margin:2px 0">${c.read}</div>
       <div style="color:#8b949e;font-size:12px;max-width:76ch">${c.why}</div></div></div>`).join('');
     return `<div class="card" style="margin-top:14px"><h3 style="color:#f0f6fc;margin-bottom:4px">What a top looks like on this clock</h3>
     <p style="color:#8b949e;font-size:12.5px;max-width:82ch">The dot-com sequence ran: <strong style="color:#c9d1d9">melt-up</strong> (doublers accelerate and broaden, 1998–99) → <strong style="color:#c9d1d9">dissolution</strong> (halvers rise while the index still makes highs, 1999) → <strong style="color:#c9d1d9">the flip</strong> (halvers overtake doublers, 2000 — the top) → <strong style="color:#c9d1d9">capitulation</strong> (no doublers, mass halving, 2002). The five markers below track that sequence against the latest year of data and update with every daily scan.</p>
     ${rows}
-    <div style="display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:12px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${verdict[1]};border-radius:6px">
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:12px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${verdict[1]};border-radius:2px">
       <div><div style="font-weight:700;color:${verdict[1]};font-size:13px">${nLit} of 5 markers lit — ${verdict[0]}</div>
       <div style="color:#8b949e;font-size:12.5px;max-width:80ch;margin-top:3px">${verdict[2]} Timing caveat: this clock had exactly one full cycle to calibrate on, analogies stretch, and today’s mega-cap concentration means the index can mask member-level damage longer than in 1999.</div></div>
     </div></div>`;
@@ -36598,7 +36598,7 @@ function renderEcon(){
     const s=ser[sid];if(!s)return"";
     const chg=s.chg_3m!=null?`${s.chg_3m>0?'+':''}${s.chg_3m}${s.unit==='%'?'pp':s.unit==='pp'?'pp':''} / 3m`:"";
     const cc=s.chg_3m>0?(sid==='BAMLH0A0HYM2'||sid==='UNRATE'||sid==='CPIAUCSL'?'#f85149':'#3fb950'):(sid==='BAMLH0A0HYM2'||sid==='UNRATE'||sid==='CPIAUCSL'?'#3fb950':'#f85149');
-    return`<div title="${TILE_HELP[sid]||''}" style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px 14px;flex:1;min-width:160px;cursor:help">
+    return`<div title="${TILE_HELP[sid]||''}" style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:12px 14px;flex:1;min-width:160px;cursor:help">
       <div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${s.label}</div>
       <div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:#f0f6fc;font-family:monospace">${s.latest}${s.unit==='%'?'%':s.unit==='pp'?'pp':s.unit==='k'?'k':''}</div>
       <div style="font-size:11px"><span style="color:${cc}">${chg}</span> <span style="color:#6e7681">· ${s.latest_date}</span></div></div>`;
@@ -36633,7 +36633,7 @@ function renderEcon(){
 }
 // "regime" is now a combined view: regime + signals + risks + econ stacked
 // (the separate Sectors and Ask tabs were retired; their renderers are unused).
-const renderers={home:renderHome,regime:()=>renderRegime()+renderSignals()+renderRisks()+renderEcon(),sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
+const renderers={home:renderHome,regime:()=>(renderRegime()+renderSignals()+renderRisks()+renderEcon()).replace(/<footer>[\s\S]*?<\/footer>/g,'')+'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
@@ -36730,7 +36730,7 @@ function _qTicker(ticker){
   var cs=(st.hit_rate||0.5)*Math.log(Math.max(st.n_obs||1,1));
   var conf=cs>1.5?'High':cs>0.8?'Med':'Low';
   var nameStr=st.name&&st.name!==st.ticker?' — '+st.name:'';
-  var logo='<img src="https://assets.parqet.com/logos/symbol/'+ticker+'?format=jpg" width="32" height="32" style="border-radius:6px;background:#fff;border:1px solid #30363d;object-fit:contain;margin-right:10px;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">';
+  var logo='<img src="https://assets.parqet.com/logos/symbol/'+ticker+'?format=jpg" width="32" height="32" style="border-radius:2px;background:#fff;border:1px solid #30363d;object-fit:contain;margin-right:10px;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">';
   var peers=S.stocks.filter(function(s){return s.sector===st.sector&&s.ticker!==st.ticker;}).sort(function(a,b){return b.edge-a.edge;}).slice(0,4);
   var peerChips=peers.map(function(p){return '<button class="rd-chip" onclick="window._rdAsk(\''+p.ticker+'\')" data-ticker="'+p.ticker+'">'+p.ticker+'</button>';}).join('');
   return '<div class="card">'+_qHead(ticker+nameStr,sec+' · '+st.horizon+' horizon')
@@ -36831,7 +36831,7 @@ function _qAnalog(){
       +'<td style="font-family:monospace;font-size:12px;padding:6px 8px">'+m.date+'</td>'
       +'<td style="font-size:12px;padding:6px 8px;color:#c9d1d9">'+m.regime+'</td>'
       +'<td style="text-align:right;font-weight:600;color:'+rc+';padding:6px 8px">'+(ret>=0?'+':'')+(ret*100).toFixed(1)+'%</td>'
-      +'<td style="text-align:center;padding:6px 4px"><span style="background:'+eqc+'22;color:'+eqc+';border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">'+eq+'</span></td>'
+      +'<td style="text-align:center;padding:6px 4px"><span style="background:'+eqc+'22;color:'+eqc+';border-radius:2px;padding:2px 8px;font-size:11px;font-weight:600">'+eq+'</span></td>'
       +'</tr>';
   }).join('');
   var tbl=matches.length?'<table style="width:100%;border-collapse:collapse;margin-top:14px">'
@@ -36850,7 +36850,7 @@ function _qNarrative(){
   var top3=S.sectors.filter(function(s){return s.name!=='Unknown';}).slice(0,3);
   var secChips=top3.map(function(s){return '<button class="rd-chip" onclick="window._rdAsk(\''+s.name+' stocks\')">'+s.name+'</button>';}).join('');
   return '<div class="card">'+_qHead(n.headline||'Market Summary','Plain-English reading of current conditions')
-    +'<div style="background:#21262d;border-radius:6px;padding:14px;margin-bottom:14px">'
+    +'<div style="background:#21262d;border-radius:2px;padding:14px;margin-bottom:14px">'
     +'<div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Bottom Line</div>'
     +'<p style="color:#c9d1d9;font-size:14px;line-height:1.75;margin:0">'+(n.plain_english||'No narrative available.')+'</p></div>'
     +'<div class="grid2"><div>'
@@ -37027,7 +37027,7 @@ function _rdRenderWishlist(){
       +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'
       +'<span style="font-size:12px;font-weight:600;color:'+(isToday?'#58a6ff':'#8b949e')+'">'+label
         +'<span style="color:#6e7681;font-weight:400;margin-left:6px">'+count+' question'+(count===1?'':'s')+'</span></span>'
-      +'<button onclick="window._rdClearDay(\''+d+'\')" style="background:none;border:1px solid #30363d;color:#6e7681;border-radius:4px;padding:1px 8px;cursor:pointer;font-size:11px">Clear day</button>'
+      +'<button onclick="window._rdClearDay(\''+d+'\')" style="background:none;border:1px solid #30363d;color:#6e7681;border-radius:2px;padding:1px 8px;cursor:pointer;font-size:11px">Clear day</button>'
       +'</div>'
       +entries.map(function(e){
         return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #21262d">'
@@ -37076,11 +37076,11 @@ function renderAsk(){
     +'<p style="color:#8b949e;font-size:13px;margin-bottom:14px">Ask about any ticker, sector, regime, risk, or outlook. Type or click a suggestion.</p>'
     +'<div style="display:flex;gap:8px;margin-bottom:12px">'
     +'<input id="rd-ask-input" type="text" placeholder="e.g. NVDA  ·  technology stocks  ·  what\'s the risk profile?" '
-    +'style="flex:1;background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:9px 14px;border-radius:8px;font-size:14px;outline:none;min-width:0" '
+    +'style="flex:1;background:#21262d;border:1px solid #30363d;color:#f0f6fc;padding:9px 14px;border-radius:2px;font-size:14px;outline:none;min-width:0" '
     +'onkeydown="if(event.key===\'Enter\')window._rdAsk(this.value)" '
     +'onfocus="this.style.borderColor=\'#58a6ff\'" onblur="this.style.borderColor=\'#30363d\'"/>'
     +'<button onclick="window._rdAsk(document.getElementById(\'rd-ask-input\').value)" '
-    +'style="background:#238636;border:none;color:#fff;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;flex-shrink:0">Ask</button>'
+    +'style="background:#238636;border:none;color:#fff;padding:9px 20px;border-radius:2px;cursor:pointer;font-size:14px;font-weight:600;flex-shrink:0">Ask</button>'
     +'</div>'
     +'<div style="display:flex;flex-wrap:wrap;gap:0">'+chipHtml+'</div></div>'
     +'<div id="rd-ask-response" style="margin-top:12px"></div>'
@@ -37089,9 +37089,9 @@ function renderAsk(){
     +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #30363d">'
     +'<h2 style="margin:0;border:none;padding:0">Daily Question Log</h2>'
     +'<div style="display:flex;gap:8px">'
-    +'<button id="rd-export-btn" onclick="window._rdExportLog()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px">Copy Log</button>'
-    +'<button onclick="window._rdDownloadLog()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px" title="Download question_log.json — save to regime-desk/data/ then run run_daily.bat">Download JSON</button>'
-    +'<button onclick="window._rdClearAll()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:12px">Clear All</button>'
+    +'<button id="rd-export-btn" onclick="window._rdExportLog()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:2px;cursor:pointer;font-size:12px">Copy Log</button>'
+    +'<button onclick="window._rdDownloadLog()" style="background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:2px;cursor:pointer;font-size:12px" title="Download question_log.json — save to regime-desk/data/ then run run_daily.bat">Download JSON</button>'
+    +'<button onclick="window._rdClearAll()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 12px;border-radius:2px;cursor:pointer;font-size:12px">Clear All</button>'
     +'</div></div>'
     +'<div id="rd-wishlist-body"></div>'
     +'</div>'
@@ -37161,7 +37161,7 @@ function renderAsk(){
     tip.innerHTML=''
       +'<div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">'
       +'<img src="https://assets.parqet.com/logos/symbol/'+ticker+'?format=jpg" width="22" height="22" '
-      +'style="border-radius:4px;background:#fff;border:1px solid #30363d;object-fit:contain;flex-shrink:0" '
+      +'style="border-radius:2px;background:#fff;border:1px solid #30363d;object-fit:contain;flex-shrink:0" '
       +'onerror="this.style.display=\'none\'" loading="lazy">'
       +'<strong style="color:#f0f6fc;font-size:14px">'+ticker+'</strong>'
       +'<span style="color:#6e7681;font-size:11px;margin-left:2px">'+sec+'</span>'
@@ -37218,7 +37218,7 @@ function renderAsk(){
     if(navigator.clipboard)navigator.clipboard.writeText(tk);
     var t=document.createElement('div');
     t.textContent='Copied '+tk;
-    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#238636;color:#fff;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,.4);pointer-events:none;transition:opacity .3s';
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#238636;color:#fff;padding:8px 16px;border-radius:2px;font-size:13px;font-weight:600;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,.4);pointer-events:none;transition:opacity .3s';
     document.body.appendChild(t);
     setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},300);},1200);
   },true);
