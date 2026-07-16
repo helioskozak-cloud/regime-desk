@@ -36017,27 +36017,28 @@ function renderHome(){
     </div>`;
   }
 
-  // ── HERO CARD (regime + change + focus + break + pulse) ──────────────────
+  // ── MORNING BRIEF (regime hero + snapshot tiles — shared dashboard look) ──
+  const heroTile=_rdHero('Regime',regime,streak>0?streak+'-day streak':'day 1 of regime',regimeCol);
+  const snapTiles=[
+    _rdTile('SPY 20d',`<span style="color:${(sp.ret_20d||0)>=0?'#3fb950':'#f85149'}">${pct(sp.ret_20d)}</span>`),
+    _rdTile('Ann. vol',`<span style="color:${annVol>22?'#e3b341':'#c9d1d9'}">${annVol.toFixed(0)}%</span>`),
+    _rdTile('60d drawdown',`<span style="color:${(sp.drawdown_60d||0)<-0.05?'#f85149':'#c9d1d9'}">${pct(sp.drawdown_60d)}</span>`),
+    _rdTile('Breadth',`<span style="color:${breadthCol}">${breadth.toFixed(0)}%</span>`,_rdMiniBar(sp.breadth,breadthCol)),
+    _rdTile('Reversal risk',`<span style="color:${revCol}">${rev.toFixed(0)}%</span>`,_rdMiniBar(sp.reversal_risk,revCol))
+  ].join('');
+  let sinceFoot='';
+  if(hist.length>=2){
+    const cur=hist[hist.length-1], prev=hist[hist.length-2];
+    const dRet5=(cur.ret_5d||0)-(prev.ret_5d||0), dRet20=(cur.ret_20d||0)-(prev.ret_20d||0);
+    const dVol=((cur.vol_20d||0)-(prev.vol_20d||0))*Math.sqrt(252), dDD=(cur.drawdown_60d||0)-(prev.drawdown_60d||0);
+    const seg=(label,delta,goodUp,fmt)=>{const good=goodUp?delta>=0:delta<=0;const col=Math.abs(delta)<0.0001?'#8b949e':(good?'#3fb950':'#f85149');const arrow=delta>0.0001?'▲':delta<-0.0001?'▼':'■';return `<span style="white-space:nowrap"><span style="color:#8b949e">${label}</span> <strong style="color:${col}">${arrow} ${fmt(delta)}</strong></span>`;};
+    const fPP=d=>(d>=0?'+':'')+(d*100).toFixed(2)+'pp', fV=d=>(d>=0?'+':'')+(d*100).toFixed(1)+'pp';
+    sinceFoot=`<strong style="color:#8b949e;text-transform:uppercase;letter-spacing:.6px;font-size:10px">Since yesterday · </strong>`+[seg('SPY 5d',dRet5,true,fPP),seg('SPY 20d',dRet20,true,fPP),seg('Vol',dVol,false,fV),seg('60d DD',dDD,true,fPP)].join('<span style="color:#484f58">&nbsp; · &nbsp;</span>');
+  }
   const heroCard=`<div class="card" style="border-left:4px solid ${regimeCol}">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:4px">
-      <h2 style="margin:0">Morning Brief</h2>
-      <span style="font-size:11px;color:#6e7681">${S.generated}</span>
-    </div>
-    <div style="background:${regimeBg};border:1px solid ${regimeBorder};border-radius:2px;padding:14px 16px;margin-bottom:14px">
-      <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px">
-        <div style="font-size:24px;font-weight:700;color:${regimeCol};line-height:1.1">${regime}</div>
-        <div style="font-size:12px;color:#8b949e">${streak>0?streak+'-day streak':'day 1 of regime'}</div>
-      </div>
-      <div style="font-size:13px;color:#c9d1d9;line-height:1.55">
-        SPY <strong style="color:${(sp.ret_20d||0)>=0?'#3fb950':'#f85149'}">${pct(sp.ret_20d)}</strong> over 20d at <strong>${annVol.toFixed(0)}% ann vol</strong> ·
-        breadth <strong style="color:${breadthCol}">${breadth.toFixed(0)}%</strong> ·
-        reversal risk <strong style="color:${revCol}">${rev.toFixed(0)}%</strong>${(sp.drawdown_60d||0)<-0.005?` · DD <strong style="color:#f85149">${pct(sp.drawdown_60d)}</strong>`:''}
-      </div>
-    </div>
-    ${changeBlock}
-    ${focusBlock}
-    ${pulseBlock}
-    ${breakBlock}
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><h2 style="margin:0">Morning Brief</h2><span style="font-size:11px;color:#6e7681">${S.generated}</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin-top:12px">${heroTile}${snapTiles}</div>
+    ${sinceFoot?`<div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.8">${sinceFoot}</div>`:''}
   </div>`;
 
   // ── PORTFOLIO ONE-LINER STRIP (read-only) ────────────────────────────────
@@ -36054,25 +36055,36 @@ function renderHome(){
     </div>
   </div>`:'';
 
-  // ── NARRATIVE (Claude-authored prose, secondary placement) ───────────────
-  const narrCard=(n.constructive||n.risk)?`<div class="card">
-    <h2>Why this setup, in plain English</h2>
-    ${n.plain_english?`<p style="margin-bottom:12px;font-size:13px;line-height:1.65;color:#c9d1d9">${n.plain_english}</p>`:''}
-    <div class="grid2">
-      <div style="background:#0d2818;border:1px solid #238636;border-radius:2px;padding:12px">
-        <div style="color:#3fb950;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Constructive</div>
-        <div style="font-size:12px;line-height:1.55;color:#c9d1d9">${n.constructive||'—'}</div>
-      </div>
-      <div style="background:#2d1515;border:1px solid #b91c1c;border-radius:2px;padding:12px">
-        <div style="color:#f85149;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Watch out for</div>
-        <div style="font-size:12px;line-height:1.55;color:#c9d1d9">${n.risk||'—'}</div>
-      </div>
-    </div>
+  // ── THREE THINGS + cross-asset pulse (own pane) ──────────────────────────
+  let pulseFoot='';
+  const _sigs=S.signals||[];
+  if(_sigs.length){
+    const bull=_sigs.filter(s=>s.signal==='bullish').length, bear=_sigs.filter(s=>s.signal==='bearish').length;
+    const total=_sigs.length, neut=total-bull-bear;
+    let verdict,vCol;
+    if(bull>=bear*2&&bull>=total*0.5){verdict='Confirmed risk-on';vCol='#3fb950';}
+    else if(bear>=bull*2&&bear>=total*0.5){verdict='Confirmed risk-off';vCol='#f85149';}
+    else if(bull>bear){verdict='Lean constructive';vCol='#e3b341';}
+    else if(bear>bull){verdict='Lean cautious';vCol='#e3b341';}
+    else{verdict='No clear confirmation';vCol='#8b949e';}
+    pulseFoot=`<strong style="color:#8b949e;text-transform:uppercase;letter-spacing:.6px;font-size:10px">Cross-asset pulse · </strong><strong style="color:${vCol};font-size:13px">${verdict}</strong> <span style="color:#8b949e;font-size:12px">— <span style="color:#3fb950">${bull} bull</span> · <span style="color:#f85149">${bear} bear</span> · ${neut} neutral / ${total} readings</span>`;
+  }
+  const focusCard=focusCards.length?`<div class="card">
+    <h2>Three Things To Look At First</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${focusCards.join('')}</div>
+    ${pulseFoot?`<div style="margin-top:12px;padding-top:9px;border-top:1px solid #30363d;line-height:1.7">${pulseFoot}</div>`:''}
+  </div>`:'';
+
+  // ── WHAT WOULD BREAK THIS VIEW (own pane) ────────────────────────────────
+  const breakCard=(worstRisk&&worstRisk.invalidation)?`<div class="card" style="border-left:4px solid #e3b341">
+    <h2>What Would Break This View</h2>
+    <div style="font-size:13px;color:#c9d1d9;line-height:1.6"><strong style="color:#f0f6fc">${worstRisk.name}</strong> tips elevated if: <em style="color:#e3b341;font-style:normal">${worstRisk.invalidation}</em></div>
   </div>`:'';
 
   return`${heroCard}
+  ${focusCard}
+  ${breakCard}
   ${portStrip}
-  ${narrCard}
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
