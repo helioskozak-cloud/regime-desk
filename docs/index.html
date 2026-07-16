@@ -36077,29 +36077,45 @@ function renderHome(){
 }
 
 // REGIME
+// ── Shared dashboard-tile primitives ────────────────────────────────────
+// The three top summary cards (Regime / Verdict / Risk) all render through
+// these so they read as one dashboard grid, not three ad-hoc layouts:
+// a colored border-left card → <h2> → [hero tile + row of metric tiles] →
+// optional context foot line.
+function _rdMiniBar(frac,col){const p=Math.max(0,Math.min(100,(frac||0)*100));return`<div style="height:4px;background:#21262d;border-radius:1px;overflow:hidden;margin-top:6px"><div style="height:4px;width:${p}%;background:${col}"></div></div>`;}
+function _rdTile(label,valHtml,barHtml,nowrap){return`<div style="flex:1;min-width:112px;background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:9px 11px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;${nowrap===false?'':'white-space:nowrap'}">${label}</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;margin-top:2px">${valHtml}</div>${barHtml||''}</div>`;}
+function _rdHero(label,valHtml,subHtml,accentCol,valCol){return`<div style="flex:1.3;min-width:150px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${accentCol};border-radius:2px;padding:9px 11px;display:flex;flex-direction:column;justify-content:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${label}</div><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:${valCol||accentCol};line-height:1.15">${valHtml}</div><div style="color:#6e7681;font-size:10px;margin-top:3px">${subHtml||''}</div></div>`;}
+function _rdSummaryCard(title,accentCol,heroHtml,tilesHtml,footHtml){return`<div class="card" style="border-left:4px solid ${accentCol}"><h2>${title}</h2><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:stretch">${heroHtml}${tilesHtml}</div>${footHtml?`<div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.6">${footHtml}</div>`:''}</div>`;}
+
 function _cardVerdict(){
-  var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}return '<div class="card" style="border-left:4px solid '+vCol+'"><h2>Trajectory Verdict</h2><div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap"><div style="font-size:22px;font-weight:700;color:'+vCol+'">'+verdict+'</div><div style="color:#8b949e;font-size:12px">last 5 vs prior 5 sessions</div></div><div style="color:#c9d1d9;font-size:13px;line-height:1.6;margin-bottom:10px">'+vDesc+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12px;padding-top:10px;border-top:1px solid #30363d"><div><span style="color:#6e7681">Return shift:</span> <strong style="color:'+(rDelta>=0?'#3fb950':'#f85149')+'">'+(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)+' pp</strong></div><div><span style="color:#6e7681">Vol shift:</span> <strong style="color:'+(vDelta<=0?'#3fb950':'#f85149')+'">'+(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)+' pp ann.</strong></div></div></div>';
+  var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}
+  var hero=_rdHero('Verdict',verdict,'last 5 vs prior 5',vCol);
+  var tiles=[
+    _rdTile('Return shift',`<span style="color:${rDelta>=0?'#3fb950':'#f85149'}">${rDelta>=0?'▲':'▼'} ${(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)} pp</span>`),
+    _rdTile('Vol shift',`<span style="color:${vDelta<=0?'#3fb950':'#f85149'}">${vDelta<=0?'▼':'▲'} ${(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)} pp</span>`),
+    _rdTile('20d return (now)',`<span style="color:${rRecent>=0?'#3fb950':'#f85149'}">${(rRecent*100).toFixed(2)}%</span>`),
+    _rdTile('Ann. vol (now)',`<span style="color:${vRecent>0.22?'#e3b341':'#c9d1d9'}">${(vRecent*100).toFixed(0)}%</span>`)
+  ].join('');
+  return _rdSummaryCard('Trajectory Verdict',vCol,hero,tiles,`<span style="color:#c9d1d9">${vDesc}</span>`);
 }
 function _cardRegimeMetrics(){
   const reg=spy.regime||"—";
   const regCol=/bull|risk[- ]?on|expansion|goldilock|calm|low[- ]?vol/i.test(reg)?'#3fb950':/bear|risk[- ]?off|contraction|stress|crisis|high[- ]?vol/i.test(reg)?'#f85149':'#58a6ff';
   const arr=v=>v>0.0005?'▲':v<-0.0005?'▼':'·';
   const rc=v=>v>0.0005?'#3fb950':v<-0.0005?'#f85149':'#8b949e';
-  const mb=(frac,col)=>{const p=Math.max(0,Math.min(100,(frac||0)*100));return `<div style="height:4px;background:#21262d;border-radius:1px;overflow:hidden;margin-top:6px"><div style="height:4px;width:${p}%;background:${col}"></div></div>`;};
-  const tile=(label,valHtml,barHtml)=>`<div style="flex:1;min-width:112px;background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:9px 11px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap">${label}</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;margin-top:2px">${valHtml}</div>${barHtml||''}</div>`;
   const r5=spy.ret_5d||0,r20=spy.ret_20d||0,vol=(spy.vol_20d||0)*Math.sqrt(252),dd=spy.drawdown_60d||0,rr=spy.reversal_risk||0,rrCol=rr>=0.5?'#f85149':rr>=0.3?'#e3b341':'#3fb950';
-  return`<div class="card"><h2>Regime Analysis</h2>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:stretch">
-    <div style="flex:1.3;min-width:150px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${regCol};border-radius:2px;padding:9px 11px;display:flex;flex-direction:column;justify-content:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px">Regime</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;color:${regCol};text-transform:uppercase;letter-spacing:.5px">${reg}</div><div style="color:#6e7681;font-size:10px;margin-top:2px">${spy.regime_streak||"—"} day streak</div></div>
-    ${tile('5d return',`<span style="color:${rc(r5)}">${arr(r5)} ${pct(r5)}</span>`)}
-    ${tile('20d return',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`)}
-    ${tile('20d vol (ann.)',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`)}
-    ${tile('60d drawdown',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`)}
-    ${tile('Breadth',`<span style="color:#3fb950">${((spy.breadth||0)*100).toFixed(0)}%</span>`,mb(spy.breadth,'#3fb950'))}
-    ${tile('Persistence',`<span style="color:#58a6ff">${((spy.persistence||0)*100).toFixed(0)}%</span>`,mb(spy.persistence,'#58a6ff'))}
-    ${tile('Reversal risk',`<span style="color:${rrCol}">${(rr*100).toFixed(0)}%</span>`,mb(rr,rrCol))}
-  </div>
-  <div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.6"><strong style="color:#8b949e">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}</div></div>`;
+  const hero=_rdHero('Regime',reg.toUpperCase(),`${spy.regime_streak||"—"} day streak`,regCol);
+  const tiles=[
+    _rdTile('5d return',`<span style="color:${rc(r5)}">${arr(r5)} ${pct(r5)}</span>`),
+    _rdTile('20d return',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`),
+    _rdTile('20d vol (ann.)',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`),
+    _rdTile('60d drawdown',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`),
+    _rdTile('Breadth',`<span style="color:#3fb950">${((spy.breadth||0)*100).toFixed(0)}%</span>`,_rdMiniBar(spy.breadth,'#3fb950')),
+    _rdTile('Persistence',`<span style="color:#58a6ff">${((spy.persistence||0)*100).toFixed(0)}%</span>`,_rdMiniBar(spy.persistence,'#58a6ff')),
+    _rdTile('Reversal risk',`<span style="color:${rrCol}">${(rr*100).toFixed(0)}%</span>`,_rdMiniBar(rr,rrCol))
+  ].join('');
+  const foot=`<strong style="color:#8b949e">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}`;
+  return _rdSummaryCard('Regime Analysis',regCol,hero,tiles,foot);
 }
 function _cardTrajectory(){
   return`<div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 20-day return and annualized realized volatility trends.</p><div class="grid2">${svgLineChart((spy.history||[]).map(d=>d.ret_20d||0),440,110,'Rolling 20d return')}${svgLineChart((spy.history||[]).map(d=>(d.vol_20d||0)*Math.sqrt(252)),440,110,'Annualized vol')}</div></div>`;
@@ -36696,18 +36712,11 @@ function _cardRiskScore(){
   const cLevel=composite>=0.65?"elevated":composite>=0.45?"moderate":"low";
   const cCol=composite>=0.65?"#f85149":composite>=0.45?"#e3b341":"#3fb950";
   const maxRisk=S.risks.reduce((a,b)=>(b.score||0)>(a.score||0)?b:a,S.risks[0]||{});
-  return`<div class="card" style="border-left:4px solid ${cCol}"><h2>Aggregate Risk Score</h2>
-  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
-    <div style="font-size:42px;font-weight:700;color:${cCol};line-height:1">${cPct}<span style="font-size:20px;color:#8b949e">/100</span></div>
-    <div style="flex:1;min-width:200px">
-      <div style="margin-bottom:6px">${pill(cLevel)} composite across ${S.risks.length} axes</div>
-      <div style="background:#21262d;border-radius:2px;height:10px;position:relative;overflow:hidden">
-        <div style="position:absolute;left:0;top:0;height:10px;width:${cPct}%;background:${cCol};border-radius:2px"></div>
-      </div>
-      <div style="color:#6e7681;font-size:12px;margin-top:6px">Top driver: <strong style="color:#c9d1d9">${maxRisk.name||"—"}</strong> (${((maxRisk.score||0)*100).toFixed(0)}%)</div>
-    </div>
-  </div>
-  </div>`;
+  const axCol=v=>v>=0.65?'#f85149':v>=0.45?'#e3b341':'#3fb950';
+  const hero=_rdHero('Composite',`${cPct}<span style="font-size:11px;color:#8b949e"> /100</span>`,cLevel.toUpperCase(),cCol);
+  const tiles=S.risks.map(r=>_rdTile(r.name,`<span style="color:${axCol(r.score||0)}">${((r.score||0)*100).toFixed(0)}%</span>`,_rdMiniBar(r.score,axCol(r.score||0)),false)).join('');
+  const foot=`${pill(cLevel)} across ${S.risks.length} axes · Top driver: <strong style="color:#c9d1d9">${maxRisk.name||"—"}</strong> (${((maxRisk.score||0)*100).toFixed(0)}%)`;
+  return _rdSummaryCard('Aggregate Risk Score',cCol,hero,tiles,foot);
 }
 function _cardRiskAxes(){
   function scoreBar(v){const pct=Math.max(0,Math.min(100,(v||0)*100));const col=pct>=65?"#f85149":pct>=45?"#e3b341":"#3fb950";
@@ -37624,10 +37633,10 @@ function renderEcon(){
 const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 const renderers={home:renderHome,regime:()=>_cardRegimeMetrics()
   +_cardVerdict()
+  +_cardRiskScore()
   +_cardTrajectory()
   +_stripFoot(renderEcon())
   +_stripFoot(renderSignals())
-  +_cardRiskScore()
   +_cardRiskAxes()
   +'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
 
