@@ -37780,14 +37780,16 @@ function renderEcon(){
 }
 // "regime" is now a combined view: regime + signals + risks + econ stacked
 // (the separate Sectors and Ask tabs were retired; their renderers are unused).
-// Combined Regime view: Verdict leads, then the FRED macro dashboard, then the
-// compact cards paired two-up (metrics|signals, risk-score|trajectory), risk
-// axes full-width. One disclaimer footer.
+// Combined Regime view, grouped by theme: the call (Verdict) → macro backdrop
+// (FRED) → market behavior (SPY Trajectory) — both chart sections run full
+// width. The two reference tables pair two-up; the risk theme (score bar
+// stretches full width, then the axes) closes it. One disclaimer footer.
 const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 const renderers={home:renderHome,regime:()=>_cardVerdict()
   +_stripFoot(renderEcon())
+  +_cardTrajectory()
   +'<div class="grid2" style="align-items:start">'+_cardRegimeMetrics()+_stripFoot(renderSignals())+'</div>'
-  +'<div class="grid2" style="align-items:start">'+_cardRiskScore()+_cardTrajectory()+'</div>'
+  +_cardRiskScore()
   +_cardRiskAxes()
   +'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
 
