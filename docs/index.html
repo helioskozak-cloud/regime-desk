@@ -35106,7 +35106,10 @@ function renderHome(){
 }
 
 // REGIME
-function renderRegime(){
+function _cardVerdict(){
+  var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}return '<div class="card" style="border-left:4px solid '+vCol+'"><h2>Trajectory Verdict</h2><div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap"><div style="font-size:22px;font-weight:700;color:'+vCol+'">'+verdict+'</div><div style="color:#8b949e;font-size:12px">last 5 vs prior 5 sessions</div></div><div style="color:#c9d1d9;font-size:13px;line-height:1.6;margin-bottom:10px">'+vDesc+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12px;padding-top:10px;border-top:1px solid #30363d"><div><span style="color:#6e7681">Return shift:</span> <strong style="color:'+(rDelta>=0?'#3fb950':'#f85149')+'">'+(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)+' pp</strong></div><div><span style="color:#6e7681">Vol shift:</span> <strong style="color:'+(vDelta<=0?'#3fb950':'#f85149')+'">'+(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)+' pp ann.</strong></div></div></div>';
+}
+function _cardRegimeMetrics(){
   return`<div class="card"><h2>Regime Analysis</h2>
   <table><tr><th>Metric</th><th>Value</th><th>Note</th></tr>
   <tr><td>Regime Label</td><td><strong>${spy.regime||"—"}</strong></td><td>Classified from SPY state vector</td></tr>
@@ -35118,11 +35121,12 @@ function renderRegime(){
   <tr><td>Breadth</td><td>${((spy.breadth||0)*100).toFixed(0)}%</td><td>Fraction of sectors with positive conditional edge</td></tr>
   <tr><td>Persistence</td><td>${((spy.persistence||0)*100).toFixed(0)}%</td><td>Fraction of analog regimes that continued for 20d+</td></tr>
   <tr><td>Reversal Risk</td><td>${((spy.reversal_risk||0)*100).toFixed(0)}%</td><td>Estimated probability of regime flip within 20d</td></tr>
-  </table><div style="color:#6e7681;font-size:12px;margin-top:10px;padding-top:8px;border-top:1px solid #30363d"><strong style="color:#8b949e">ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}</div></div>
-  <div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 20-day return and annualized realized volatility trends. Use to gauge whether momentum is accelerating or decelerating.</p><div class="grid2">${svgLineChart((spy.history||[]).map(d=>d.ret_20d||0),440,110,'Rolling 20d return')}${svgLineChart((spy.history||[]).map(d=>(d.vol_20d||0)*Math.sqrt(252)),440,110,'Annualized vol')}</div></div>
-  ${(function(){var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}return '<div class="card" style="border-left:4px solid '+vCol+'"><h2>Trajectory Verdict</h2><div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap"><div style="font-size:22px;font-weight:700;color:'+vCol+'">'+verdict+'</div><div style="color:#8b949e;font-size:12px">last 5 vs prior 5 sessions</div></div><div style="color:#c9d1d9;font-size:13px;line-height:1.6;margin-bottom:10px">'+vDesc+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12px;padding-top:10px;border-top:1px solid #30363d"><div><span style="color:#6e7681">Return shift:</span> <strong style="color:'+(rDelta>=0?'#3fb950':'#f85149')+'">'+(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)+' pp</strong></div><div><span style="color:#6e7681">Vol shift:</span> <strong style="color:'+(vDelta<=0?'#3fb950':'#f85149')+'">'+(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)+' pp ann.</strong></div></div></div>';})()}
-  <footer>Tendencies only — not investment advice.</footer>`;
+  </table><div style="color:#6e7681;font-size:12px;margin-top:10px;padding-top:8px;border-top:1px solid #30363d"><strong style="color:#8b949e">ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}</div></div>`;
 }
+function _cardTrajectory(){
+  return`<div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 20-day return and annualized realized volatility trends.</p><div class="grid2">${svgLineChart((spy.history||[]).map(d=>d.ret_20d||0),440,110,'Rolling 20d return')}${svgLineChart((spy.history||[]).map(d=>(d.vol_20d||0)*Math.sqrt(252)),440,110,'Annualized vol')}</div></div>`;
+}
+function renderRegime(){return _cardVerdict()+_cardRegimeMetrics()+_cardTrajectory();}
 
 // SECTORS — winner/loser badges + allocation delta vs SPX benchmark
 function _sectorData(){
@@ -35707,9 +35711,7 @@ function renderSignals(){
 }
 
 // RISKS
-function renderRisks(){
-  function scoreBar(v){const pct=Math.max(0,Math.min(100,(v||0)*100));const col=pct>=65?"#f85149":pct>=45?"#e3b341":"#3fb950";
-    return`<span class="score-bar"><span class="score-fill" style="width:${pct}%;background:${col}"></span></span> ${(pct).toFixed(0)}%`;}
+function _cardRiskScore(){
   const scores=S.risks.map(r=>r.score||0);
   const composite=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:0;
   const cPct=(composite*100).toFixed(0);
@@ -35727,8 +35729,12 @@ function renderRisks(){
       <div style="color:#6e7681;font-size:12px;margin-top:6px">Top driver: <strong style="color:#c9d1d9">${maxRisk.name||"—"}</strong> (${((maxRisk.score||0)*100).toFixed(0)}%)</div>
     </div>
   </div>
-  </div>
-  <div class="card"><h2>Risk Axes & Invalidation Levels</h2>
+  </div>`;
+}
+function _cardRiskAxes(){
+  function scoreBar(v){const pct=Math.max(0,Math.min(100,(v||0)*100));const col=pct>=65?"#f85149":pct>=45?"#e3b341":"#3fb950";
+    return`<span class="score-bar"><span class="score-fill" style="width:${pct}%;background:${col}"></span></span> ${(pct).toFixed(0)}%`;}
+  return`<div class="card"><h2>Risk Axes & Invalidation Levels</h2>
   <p style="margin-bottom:12px;color:#8b949e">Each risk axis has an associated invalidation condition — the signal that would indicate the risk has materialized.</p>
   ${S.risks.map(r=>`<div style="border:1px solid #30363d;border-radius:2px;padding:12px;margin-bottom:10px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
@@ -35737,9 +35743,9 @@ function renderRisks(){
     <div style="margin-bottom:4px">${r.description}</div>
     <div style="color:#6e7681;font-size:12px">Invalidation: ${r.invalidation}</div>
   </div>`).join("")}
-  </div>
-  <footer>Tendencies only — not investment advice.</footer>`;
+  </div>`;
 }
+function renderRisks(){return _cardRiskScore()+_cardRiskAxes();}
 
 // NARRATIVE — risk card shown first (fiduciary framing: disclose downside first)
 function renderNarrative(){
@@ -36633,7 +36639,16 @@ function renderEcon(){
 }
 // "regime" is now a combined view: regime + signals + risks + econ stacked
 // (the separate Sectors and Ask tabs were retired; their renderers are unused).
-const renderers={home:renderHome,regime:()=>(renderRegime()+renderSignals()+renderRisks()+renderEcon()).replace(/<footer>[\s\S]*?<\/footer>/g,'')+'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
+// Combined Regime view: Verdict leads, then the FRED macro dashboard, then the
+// compact cards paired two-up (metrics|signals, risk-score|trajectory), risk
+// axes full-width. One disclaimer footer.
+const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
+const renderers={home:renderHome,regime:()=>_cardVerdict()
+  +_stripFoot(renderEcon())
+  +'<div class="grid2" style="align-items:start">'+_cardRegimeMetrics()+_stripFoot(renderSignals())+'</div>'
+  +'<div class="grid2" style="align-items:start">'+_cardRiskScore()+_cardTrajectory()+'</div>'
+  +_cardRiskAxes()
+  +'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
