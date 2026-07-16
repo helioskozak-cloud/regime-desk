@@ -35721,8 +35721,8 @@ window.SNAPSHOT = {
 <script>
 (function(){
 const S = window.SNAPSHOT;
-const VIEWS = ["home","regime","stocks","analysis","memory","portfolios","bubble"];
-const LABELS = ["Home","Regime","Stocks","Analysis","Memory","Portfolios","Bubble"];
+const VIEWS = ["home","stocks","analysis","memory","portfolios","bubble"];
+const LABELS = ["Home","Stocks","Analysis","Memory","Portfolios","Bubble"];
 
 function renderMeeting(){
   const sp=S.spy||{}, n=S.narrative||{};
@@ -35884,164 +35884,31 @@ function distBar(p10,p25,p50,p75,p90){
 }
 
 // HOME
+// HOME — the consolidated market dashboard. Absorbed the retired Regime tab:
+// a slim daily-brief strip, then the three summary bars (Regime / Verdict /
+// Risk) → SPY Trajectory → FRED → cross-asset signals → risk axes, then the
+// paper-portfolios one-liner. One disclaimer footer.
 function renderHome(){
-  const n=S.narrative||{};
   const sp=S.spy||{};
   const hist=sp.history||[];
   const ports=S.portfolios||{};
   const portKeys=Object.keys(ports);
   const portColors={max_edge:'#58a6ff',bull_case:'#3fb950',defensive:'#e3b341'};
 
-  // ── 1. REGIME HERO ───────────────────────────────────────────────────────
-  // One-line, color-coded, scannable in <1 second.
-  const regime=sp.regime||'Unknown';
-  const streak=sp.regime_streak||0;
-  const isBull=/bull|risk.?on|expansion/i.test(regime);
-  const isBear=/bear|risk.?off|stress|correction|crash/i.test(regime);
-  const regimeCol=isBull?'#3fb950':isBear?'#f85149':'#e3b341';
-  const regimeBg=isBull?'#0d2818':isBear?'#2d1515':'#2d2615';
-  const regimeBorder=isBull?'#238636':isBear?'#b91c1c':'#9e7a18';
-  const rev=(sp.reversal_risk||0)*100;
-  const revCol=rev>50?'#f85149':rev>30?'#e3b341':'#3fb950';
-  const breadth=(sp.breadth||0)*100;
-  const breadthCol=breadth>=60?'#3fb950':breadth>=40?'#e3b341':'#f85149';
-  const annVol=(sp.vol_20d||0)*Math.sqrt(252)*100;
-
-  // ── 2. WHAT CHANGED (last vs prior session) ──────────────────────────────
-  // Pull yesterday vs day-before deltas from the 20-day history tail.
-  let changeBlock='';
-  if(hist.length>=2){
-    const cur=hist[hist.length-1], prev=hist[hist.length-2];
-    const dRet5=(cur.ret_5d||0)-(prev.ret_5d||0);
-    const dRet20=(cur.ret_20d||0)-(prev.ret_20d||0);
-    const dVol=((cur.vol_20d||0)-(prev.vol_20d||0))*Math.sqrt(252);
-    const dDD=(cur.drawdown_60d||0)-(prev.drawdown_60d||0);
-    function chip(label,delta,goodUp,fmt){
-      const good=goodUp?delta>=0:delta<=0;
-      const col=Math.abs(delta)<0.0001?'#8b949e':(good?'#3fb950':'#f85149');
-      const arrow=delta>0.0001?'▲':delta<-0.0001?'▼':'■';
-      return `<div style="background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:8px 10px;flex:1;min-width:120px">
-        <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px">${label}</div>
-        <div style="font-size:14px;font-weight:700;color:${col}">${arrow} ${fmt(delta)}</div>
-      </div>`;
-    }
-    const fmtPP=d=>(d>=0?'+':'')+(d*100).toFixed(2)+' pp';
-    const fmtVol=d=>(d>=0?'+':'')+(d*100).toFixed(1)+' pp ann';
-    changeBlock=`<div style="margin-bottom:14px">
-      <div style="font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">What shifted since yesterday</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        ${chip('SPY 5d Δ',dRet5,true,fmtPP)}
-        ${chip('SPY 20d Δ',dRet20,true,fmtPP)}
-        ${chip('Realized Vol Δ',dVol,false,fmtVol)}
-        ${chip('60d Drawdown Δ',dDD,true,fmtPP)}
-      </div>
-    </div>`;
-  }
-
-  // ── 3. THREE THINGS TO LOOK AT FIRST ─────────────────────────────────────
-  // Strongest sector, top 1-2 stocks, most elevated risk axis (with invalidation).
-  const sectors=(S.sectors||[]).filter(s=>s.name&&s.name!=='Unknown');
-  const bestSector=sectors.length?sectors.reduce((a,b)=>(b.edge||0)>(a.edge||0)?b:a):null;
-  const stocks=(S.stocks||[]).slice().sort((a,b)=>(b.edge||0)-(a.edge||0)).slice(0,2);
-  const risks=S.risks||[];
-  const worstRisk=risks.length?risks.reduce((a,b)=>(b.score||0)>(a.score||0)?b:a):null;
-
-  const focusCards=[];
-  if(bestSector){
-    const ec=(bestSector.edge||0)>=0?'#3fb950':'#f85149';
-    const bw=(bestSector.breadth||0)*100;
-    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:2px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderLeftColor='${ec}';this.style.borderColor='#30363d';this.style.borderLeftColor='${ec}'">
-      <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Strongest sector</div>
-      <div style="font-size:15px;font-weight:700;color:#f0f6fc;margin-bottom:2px">${bestSector.name}</div>
-      <div style="font-size:13px;font-weight:600;color:${ec};margin-bottom:3px">${pct(bestSector.edge)} edge</div>
-      <div style="font-size:11px;color:#8b949e">${bw.toFixed(0)}% breadth · ${bestSector.stocks||0} signal${bestSector.stocks===1?'':'s'} · ${pill(bestSector.signal||'neutral')}</div>
-    </div>`);
-  }
-  stocks.forEach(st=>{
-    const ec=(st.edge||0)>=0?'#3fb950':'#f85149';
-    const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
-    const ann=((st.edge||0)*(252/hd)*100).toFixed(0);
-    const hitPct=((st.hit_rate||0)*100).toFixed(0);
-    const logo=`<img src="https://assets.parqet.com/logos/symbol/${st.ticker}?format=jpg" width="18" height="18" style="border-radius:3px;object-fit:contain;background:#fff;border:1px solid #30363d;flex-shrink:0;vertical-align:middle;margin-right:6px" onerror="this.style.display='none'" loading="lazy">`;
-    focusCards.push(`<div onclick="location.hash='#stocks'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${ec};border-radius:2px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${ec}'" onmouseout="this.style.borderColor='#30363d'">
-      <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Top stock signal</div>
-      <div style="display:flex;align-items:center;margin-bottom:2px">${logo}<strong style="font-family:monospace;font-size:15px;color:#f0f6fc">${st.ticker}</strong><span style="margin-left:6px;font-size:11px;color:#8b949e">${st.sector&&st.sector!=='Unknown'?st.sector:''}</span></div>
-      <div style="font-size:13px;font-weight:600;color:${ec};margin-bottom:3px">${pct(st.edge)} edge <span style="color:#6e7681;font-weight:400;font-size:10px">(${ann}%/yr ${st.horizon})</span></div>
-      <div style="font-size:11px;color:#8b949e">median ${pct(st.p50)} · bull ${pct(st.p90)} · ${hitPct}% hit (n=${st.n_obs||0})</div>
-    </div>`);
-  });
-  if(worstRisk){
-    const sc=(worstRisk.score||0);
-    const rCol=sc>=0.65?'#f85149':sc>=0.45?'#e3b341':'#3fb950';
-    const rLvl=sc>=0.65?'Elevated':sc>=0.45?'Moderate':'Low';
-    focusCards.push(`<div onclick="location.hash='#regime'" style="background:#0d1117;border:1px solid #30363d;border-left:3px solid ${rCol};border-radius:2px;padding:12px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='${rCol}'" onmouseout="this.style.borderColor='#30363d'">
-      <div style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Most elevated risk</div>
-      <div style="font-size:15px;font-weight:700;color:#f0f6fc;margin-bottom:2px">${worstRisk.name}</div>
-      <div style="font-size:13px;font-weight:600;color:${rCol};margin-bottom:3px">${rLvl} · ${(sc*100).toFixed(0)}/100</div>
-      <div style="font-size:11px;color:#8b949e;line-height:1.4">${worstRisk.description||''}</div>
-    </div>`);
-  }
-  const focusBlock=focusCards.length?`<div style="margin-bottom:14px">
-    <div style="font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px">Three things to look at first</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${focusCards.join('')}</div>
-  </div>`:'';
-
-  // ── 4. WHAT COULD BREAK THIS VIEW ────────────────────────────────────────
-  // Pull invalidation condition from the most-elevated risk axis.
-  let breakBlock='';
-  if(worstRisk&&worstRisk.invalidation){
-    breakBlock=`<div style="background:#1c1812;border:1px solid #9e7a18;border-left:3px solid #e3b341;border-radius:2px;padding:10px 12px;margin-bottom:14px">
-      <div style="font-size:9px;color:#e3b341;text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-bottom:4px">What would break this view</div>
-      <div style="font-size:12px;color:#c9d1d9;line-height:1.5"><strong style="color:#f0f6fc">${worstRisk.name}</strong> tips elevated if: <em style="color:#e3b341;font-style:normal">${worstRisk.invalidation}</em></div>
-    </div>`;
-  }
-
-  // ── 5. CROSS-ASSET PULSE (one-liner agreement check) ─────────────────────
-  let pulseBlock='';
-  const sigs=S.signals||[];
-  if(sigs.length){
-    const bull=sigs.filter(s=>s.signal==='bullish').length;
-    const bear=sigs.filter(s=>s.signal==='bearish').length;
-    const neut=sigs.length-bull-bear;
-    const total=sigs.length;
-    let verdict,vCol;
-    if(bull>=bear*2&&bull>=total*0.5){verdict='Confirmed risk-on';vCol='#3fb950';}
-    else if(bear>=bull*2&&bear>=total*0.5){verdict='Confirmed risk-off';vCol='#f85149';}
-    else if(bull>bear){verdict='Lean constructive';vCol='#e3b341';}
-    else if(bear>bull){verdict='Lean cautious';vCol='#e3b341';}
-    else{verdict='No clear confirmation';vCol='#8b949e';}
-    pulseBlock=`<div onclick="location.hash='#regime'" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #30363d;border-radius:2px;margin-bottom:14px;cursor:pointer;flex-wrap:wrap">
-      <span style="font-size:9px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px">Cross-asset pulse</span>
-      <span style="font-size:13px;font-weight:700;color:${vCol}">${verdict}</span>
-      <span style="font-size:11px;color:#8b949e"><span style="color:#3fb950">${bull} bull</span> · <span style="color:#f85149">${bear} bear</span> · ${neut} neutral across ${total} readings</span>
-    </div>`;
-  }
-
-  // ── MORNING BRIEF (regime hero + snapshot tiles — shared dashboard look) ──
-  const heroTile=_rdHero('Regime',regime,streak>0?streak+'-day streak':'day 1 of regime',regimeCol);
-  const snapTiles=[
-    _rdTile('SPY 20d',`<span style="color:${(sp.ret_20d||0)>=0?'#3fb950':'#f85149'}">${pct(sp.ret_20d)}</span>`),
-    _rdTile('Ann. vol',`<span style="color:${annVol>22?'#e3b341':'#c9d1d9'}">${annVol.toFixed(0)}%</span>`),
-    _rdTile('60d drawdown',`<span style="color:${(sp.drawdown_60d||0)<-0.05?'#f85149':'#c9d1d9'}">${pct(sp.drawdown_60d)}</span>`),
-    _rdTile('Breadth',`<span style="color:${breadthCol}">${breadth.toFixed(0)}%</span>`,_rdMiniBar(sp.breadth,breadthCol)),
-    _rdTile('Reversal risk',`<span style="color:${revCol}">${rev.toFixed(0)}%</span>`,_rdMiniBar(sp.reversal_risk,revCol))
-  ].join('');
-  let sinceFoot='';
+  // Slim daily-brief strip: date + what shifted since yesterday (overnight
+  // deltas the summary bars don't otherwise surface).
+  let sinceInner='';
   if(hist.length>=2){
     const cur=hist[hist.length-1], prev=hist[hist.length-2];
     const dRet5=(cur.ret_5d||0)-(prev.ret_5d||0), dRet20=(cur.ret_20d||0)-(prev.ret_20d||0);
     const dVol=((cur.vol_20d||0)-(prev.vol_20d||0))*Math.sqrt(252), dDD=(cur.drawdown_60d||0)-(prev.drawdown_60d||0);
     const seg=(label,delta,goodUp,fmt)=>{const good=goodUp?delta>=0:delta<=0;const col=Math.abs(delta)<0.0001?'#8b949e':(good?'#3fb950':'#f85149');const arrow=delta>0.0001?'▲':delta<-0.0001?'▼':'■';return `<span style="white-space:nowrap"><span style="color:#8b949e">${label}</span> <strong style="color:${col}">${arrow} ${fmt(delta)}</strong></span>`;};
     const fPP=d=>(d>=0?'+':'')+(d*100).toFixed(2)+'pp', fV=d=>(d>=0?'+':'')+(d*100).toFixed(1)+'pp';
-    sinceFoot=`<strong style="color:#8b949e;text-transform:uppercase;letter-spacing:.6px;font-size:10px">Since yesterday · </strong>`+[seg('SPY 5d',dRet5,true,fPP),seg('SPY 20d',dRet20,true,fPP),seg('Vol',dVol,false,fV),seg('60d DD',dDD,true,fPP)].join('<span style="color:#484f58">&nbsp; · &nbsp;</span>');
+    sinceInner=`<strong style="color:#8b949e;text-transform:uppercase;letter-spacing:.6px;font-size:10px">Since yesterday · </strong>`+[seg('SPY 5d',dRet5,true,fPP),seg('SPY 20d',dRet20,true,fPP),seg('Vol',dVol,false,fV),seg('60d DD',dDD,true,fPP)].join('<span style="color:#484f58">&nbsp; · &nbsp;</span>');
   }
-  const heroCard=`<div class="card" style="border-left:4px solid ${regimeCol}">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><h2 style="margin:0">Morning Brief</h2><span style="font-size:11px;color:#6e7681">${S.generated}</span></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;margin-top:12px">${heroTile}${snapTiles}</div>
-    ${sinceFoot?`<div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.8">${sinceFoot}</div>`:''}
-  </div>`;
+  const briefStrip=`<div class="card" style="padding:10px 14px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div style="font-size:12px;line-height:1.7">${sinceInner||'<span style="color:#6e7681">Daily market brief</span>'}</div><span style="font-size:11px;color:#6e7681">${S.generated}</span></div></div>`;
 
-  // ── PORTFOLIO ONE-LINER STRIP (read-only) ────────────────────────────────
+  // Paper-portfolios one-liner (read-only).
   const portStrip=portKeys.length?`<div class="card" style="padding:12px 16px">
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;font-weight:700">Paper portfolios YTD</span>
@@ -36055,37 +35922,16 @@ function renderHome(){
     </div>
   </div>`:'';
 
-  // ── THREE THINGS + cross-asset pulse (own pane) ──────────────────────────
-  let pulseFoot='';
-  const _sigs=S.signals||[];
-  if(_sigs.length){
-    const bull=_sigs.filter(s=>s.signal==='bullish').length, bear=_sigs.filter(s=>s.signal==='bearish').length;
-    const total=_sigs.length, neut=total-bull-bear;
-    let verdict,vCol;
-    if(bull>=bear*2&&bull>=total*0.5){verdict='Confirmed risk-on';vCol='#3fb950';}
-    else if(bear>=bull*2&&bear>=total*0.5){verdict='Confirmed risk-off';vCol='#f85149';}
-    else if(bull>bear){verdict='Lean constructive';vCol='#e3b341';}
-    else if(bear>bull){verdict='Lean cautious';vCol='#e3b341';}
-    else{verdict='No clear confirmation';vCol='#8b949e';}
-    pulseFoot=`<strong style="color:#8b949e;text-transform:uppercase;letter-spacing:.6px;font-size:10px">Cross-asset pulse · </strong><strong style="color:${vCol};font-size:13px">${verdict}</strong> <span style="color:#8b949e;font-size:12px">— <span style="color:#3fb950">${bull} bull</span> · <span style="color:#f85149">${bear} bear</span> · ${neut} neutral / ${total} readings</span>`;
-  }
-  const focusCard=focusCards.length?`<div class="card">
-    <h2>Three Things To Look At First</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">${focusCards.join('')}</div>
-    ${pulseFoot?`<div style="margin-top:12px;padding-top:9px;border-top:1px solid #30363d;line-height:1.7">${pulseFoot}</div>`:''}
-  </div>`:'';
-
-  // ── WHAT WOULD BREAK THIS VIEW (own pane) ────────────────────────────────
-  const breakCard=(worstRisk&&worstRisk.invalidation)?`<div class="card" style="border-left:4px solid #e3b341">
-    <h2>What Would Break This View</h2>
-    <div style="font-size:13px;color:#c9d1d9;line-height:1.6"><strong style="color:#f0f6fc">${worstRisk.name}</strong> tips elevated if: <em style="color:#e3b341;font-style:normal">${worstRisk.invalidation}</em></div>
-  </div>`:'';
-
-  return`${heroCard}
-  ${focusCard}
-  ${breakCard}
-  ${portStrip}
-  <footer>Tendencies only — not investment advice.</footer>`;
+  return briefStrip
+    +_cardRegimeMetrics()
+    +_cardVerdict()
+    +_cardRiskScore()
+    +_cardTrajectory()
+    +_stripFoot(renderEcon())
+    +_stripFoot(renderSignals())
+    +_cardRiskAxes()
+    +portStrip
+    +'<footer>Tendencies only — not investment advice.</footer>';
 }
 
 // REGIME
@@ -37636,21 +37482,12 @@ function renderEcon(){
   <div style="color:#6e7681;font-size:11px;margin-top:8px">CPI shown as year-over-year %; payrolls as monthly change; monthly downsampling on daily series. Sources: FRED series T10Y2Y, DGS10, BAMLH0A0HYM2, CPIAUCSL, PAYEMS, UNRATE.</div>
   </div><footer>Macro context only — not investment advice.</footer>`;
 }
-// "regime" is now a combined view: regime + signals + risks + econ stacked
-// (the separate Sectors and Ask tabs were retired; their renderers are unused).
-// Combined Regime view, grouped by theme: the call (Verdict) → macro backdrop
-// (FRED) → market behavior (SPY Trajectory) — both chart sections run full
-// width. The two reference tables pair two-up; the risk theme (score bar
-// stretches full width, then the axes) closes it. One disclaimer footer.
+// The Regime tab was retired — its content (the three summary bars + SPY
+// trajectory + FRED + cross-asset signals + risk axes) now lives on Home.
+// _stripFoot drops a section's own disclaimer footer when it's embedded in a
+// larger stack (Home composes several renderers, one footer at the end).
 const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
-const renderers={home:renderHome,regime:()=>_cardRegimeMetrics()
-  +_cardVerdict()
-  +_cardRiskScore()
-  +_cardTrajectory()
-  +_stripFoot(renderEcon())
-  +_stripFoot(renderSignals())
-  +_cardRiskAxes()
-  +'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
+const renderers={home:renderHome,sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
