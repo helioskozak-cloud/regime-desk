@@ -34,6 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 .card h2{font-family:var(--mono);font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:11px;padding-bottom:7px;border-bottom:1px solid #30363d;text-transform:uppercase;letter-spacing:.8px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.grid-asym{display:grid;grid-template-columns:1fr 1.35fr;gap:12px}
 .tile{background:#161b22;border:1px solid #30363d;border-radius:2px;padding:14px;cursor:pointer;transition:border-color .15s}
 .tile:hover{border-color:#58a6ff}
 .tile h3{font-family:var(--mono);font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
@@ -51,7 +52,7 @@ tr:hover td{background:#1c2128}
 .score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:1px;vertical-align:middle;position:relative}
 .score-fill{height:6px;border-radius:1px;position:absolute;left:0;top:0}
 footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
-@media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+@media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.grid-asym{grid-template-columns:1fr}}
 @media(max-width:800px){
   body{font-size:13px}
   #topbar{padding:10px 14px !important}
@@ -37796,7 +37797,7 @@ const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 const renderers={home:renderHome,regime:()=>_cardVerdict()
   +_stripFoot(renderEcon())
   +_cardTrajectory()
-  +'<div class="grid2">'+_cardRegimeMetrics()+_stripFoot(renderSignals())+'</div>'
+  +'<div class="grid-asym">'+_cardRegimeMetrics()+_stripFoot(renderSignals())+'</div>'
   +_cardRiskScore()
   +_cardRiskAxes()
   +'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
