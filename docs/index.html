@@ -36251,18 +36251,26 @@ function _cardVerdict(){
   var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}return '<div class="card" style="border-left:4px solid '+vCol+'"><h2>Trajectory Verdict</h2><div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap"><div style="font-size:22px;font-weight:700;color:'+vCol+'">'+verdict+'</div><div style="color:#8b949e;font-size:12px">last 5 vs prior 5 sessions</div></div><div style="color:#c9d1d9;font-size:13px;line-height:1.6;margin-bottom:10px">'+vDesc+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12px;padding-top:10px;border-top:1px solid #30363d"><div><span style="color:#6e7681">Return shift:</span> <strong style="color:'+(rDelta>=0?'#3fb950':'#f85149')+'">'+(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)+' pp</strong></div><div><span style="color:#6e7681">Vol shift:</span> <strong style="color:'+(vDelta<=0?'#3fb950':'#f85149')+'">'+(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)+' pp ann.</strong></div></div></div>';
 }
 function _cardRegimeMetrics(){
-  return`<div class="card"><h2>Regime Analysis</h2>
-  <table><tr><th>Metric</th><th>Value</th><th>Note</th></tr>
-  <tr><td>Regime Label</td><td><strong>${spy.regime||"—"}</strong></td><td>Classified from SPY state vector</td></tr>
-  <tr><td>Regime Streak</td><td>${spy.regime_streak||"—"}${spy.regime_streak?" trading days":""}</td><td>Consecutive days in current regime</td></tr>
-  <tr><td>5d Return</td><td>${pct(spy.ret_5d)}</td><td>Short-term momentum</td></tr>
-  <tr><td>20d Return</td><td>${pct(spy.ret_20d)}</td><td>Medium-term trend</td></tr>
-  <tr><td>20d Volatility</td><td>${((spy.vol_20d||0)*100).toFixed(2)}%</td><td>Daily realized vol (annualizes ~${((spy.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}%)</td></tr>
-  <tr><td>60d Drawdown</td><td>${pct(spy.drawdown_60d)}</td><td>From 60-day rolling peak</td></tr>
-  <tr><td>Breadth</td><td>${((spy.breadth||0)*100).toFixed(0)}%</td><td>Fraction of sectors with positive conditional edge</td></tr>
-  <tr><td>Persistence</td><td>${((spy.persistence||0)*100).toFixed(0)}%</td><td>Fraction of analog regimes that continued for 20d+</td></tr>
-  <tr><td>Reversal Risk</td><td>${((spy.reversal_risk||0)*100).toFixed(0)}%</td><td>Estimated probability of regime flip within 20d</td></tr>
-  </table><div style="color:#6e7681;font-size:12px;margin-top:10px;padding-top:8px;border-top:1px solid #30363d"><strong style="color:#8b949e">ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}</div></div>`;
+  const reg=spy.regime||"—";
+  const regCol=/bull|risk[- ]?on|expansion|goldilock|calm|low[- ]?vol/i.test(reg)?'#3fb950':/bear|risk[- ]?off|contraction|stress|crisis|high[- ]?vol/i.test(reg)?'#f85149':'#58a6ff';
+  const arr=v=>v>0.0005?'▲':v<-0.0005?'▼':'·';
+  const rc=v=>v>0.0005?'#3fb950':v<-0.0005?'#f85149':'#8b949e';
+  const row=(label,note,valHtml)=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 2px;border-bottom:1px solid #21262d"><div><div style="font-size:13px">${label}</div><div style="color:#6e7681;font-size:10px">${note}</div></div><div style="font-family:var(--mono);font-size:14px;font-weight:600;white-space:nowrap">${valHtml}</div></div>`;
+  const bar=(label,note,frac,col)=>{const p=Math.max(0,Math.min(100,(frac||0)*100));return `<div style="padding:8px 2px;border-bottom:1px solid #21262d"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><div><div style="font-size:13px">${label}</div><div style="color:#6e7681;font-size:10px">${note}</div></div><strong style="font-family:var(--mono);color:${col}">${p.toFixed(0)}%</strong></div><div style="height:5px;background:#21262d;border-radius:1px;overflow:hidden"><div style="height:5px;width:${p}%;background:${col}"></div></div></div>`;};
+  const r5=spy.ret_5d||0,r20=spy.ret_20d||0,vol=(spy.vol_20d||0)*Math.sqrt(252),dd=spy.drawdown_60d||0,rr=spy.reversal_risk||0;
+  return`<div class="card" style="display:flex;flex-direction:column"><h2>Regime Analysis</h2>
+  <div style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${regCol};border-radius:2px;margin-bottom:6px">
+    <div style="font-family:var(--mono);font-size:16px;font-weight:700;color:${regCol};text-transform:uppercase;letter-spacing:.5px">${reg}</div>
+    <div style="color:#6e7681;font-size:11px;margin-left:auto;text-align:right">${spy.regime_streak||"—"} day streak<br>SPY state vector</div>
+  </div>
+  ${row('5-day return','short-term momentum',`<span style="color:${rc(r5)}">${arr(r5)} ${pct(r5)}</span>`)}
+  ${row('20-day return','medium-term trend',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`)}
+  ${row('20-day volatility','annualized realized',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`)}
+  ${row('60-day drawdown','from rolling peak',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`)}
+  ${bar('Breadth','sectors with positive edge',spy.breadth,'#3fb950')}
+  ${bar('Persistence','analog regimes lasting 20d+',spy.persistence,'#58a6ff')}
+  ${bar('Reversal risk','P(regime flip within 20d)',rr,rr>=0.5?'#f85149':rr>=0.3?'#e3b341':'#3fb950')}
+  <div style="margin-top:auto;padding-top:10px;color:#6e7681;font-size:12px;border-top:1px solid #30363d"><strong style="color:#8b949e">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}</div></div>`;
 }
 function _cardTrajectory(){
   return`<div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 20-day return and annualized realized volatility trends.</p><div class="grid2">${svgLineChart((spy.history||[]).map(d=>d.ret_20d||0),440,110,'Rolling 20d return')}${svgLineChart((spy.history||[]).map(d=>(d.vol_20d||0)*Math.sqrt(252)),440,110,'Annualized vol')}</div></div>`;
@@ -37788,7 +37796,7 @@ const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 const renderers={home:renderHome,regime:()=>_cardVerdict()
   +_stripFoot(renderEcon())
   +_cardTrajectory()
-  +'<div class="grid2" style="align-items:start">'+_cardRegimeMetrics()+_stripFoot(renderSignals())+'</div>'
+  +'<div class="grid2">'+_cardRegimeMetrics()+_stripFoot(renderSignals())+'</div>'
   +_cardRiskScore()
   +_cardRiskAxes()
   +'<footer>Tendencies only — not investment advice.</footer>',sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
