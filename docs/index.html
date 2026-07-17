@@ -36751,7 +36751,7 @@ function renderSectors(){
     if(!sStocks.length) return '<span style="color:#484f58">—</span>';
     return sStocks.map(st=>{
       const c=st.edge>=0?'#3fb950':'#f85149';
-      return `<span data-ticker="${st.ticker}" style="font-family:monospace;color:#c9d1d9;font-weight:600;font-size:12px">${st.ticker}</span><span style="color:${c};font-size:11px;margin:0 9px 0 3px">${st.edge>=0?'+':''}${(st.edge*100).toFixed(1)}%</span>`;
+      return `<span data-ticker="${st.ticker}" style="font-family:var(--mono);color:#c9d1d9;font-weight:600;font-size:12px">${st.ticker}</span><span style="color:${c};font-size:11px;margin:0 9px 0 3px">${st.edge>=0?'+':''}${(st.edge*100).toFixed(1)}%</span>`;
     }).join('');
   }
 
@@ -37293,7 +37293,7 @@ function renderThemes(){
 function renderSignals(){
   return`<div class="card"><h2>Cross-Asset Signals</h2>
   <table><tr><th>Asset</th><th>Ticker</th><th>Value</th><th>Signal</th><th>Context</th></tr>
-  ${S.signals.map(s=>`<tr><td>${s.name}</td><td style="font-family:monospace">${s.asset}</td>
+  ${S.signals.map(s=>`<tr><td>${s.name}</td><td style="font-family:var(--mono)">${s.asset}</td>
   <td>${s.value}</td><td>${pill(s.signal)}</td><td style="color:#8b949e">${s.context}</td></tr>`).join("")}
   </table></div>
   <footer>Tendencies only — not investment advice.</footer>`;
@@ -37370,7 +37370,7 @@ function renderAnalog(){
     const eqCol=(m.breadth||0)>0.5?'#3fb950':'#f85149';
     return '<tr style="border-top:1px solid #30363d">'
       +'<td style="color:#6e7681;text-align:center;padding:7px 4px">'+(i+1)+'</td>'
-      +'<td style="font-family:monospace;font-size:12px;padding:7px 8px">'+m.date+'</td>'
+      +'<td style="font-family:var(--mono);font-size:12px;padding:7px 8px">'+m.date+'</td>'
       +'<td style="font-size:12px;padding:7px 8px;color:#c9d1d9">'+m.regime+'</td>'
       +'<td style="text-align:right;font-weight:600;color:'+retCol+';padding:7px 8px">'+retSign+retPct+'%</td>'
       +'<td style="text-align:center;padding:7px 4px"><span style="background:'+eqCol+'22;color:'+eqCol+';border-radius:2px;padding:2px 8px;font-size:11px;font-weight:600">'+eqLabel+'</span></td>'
@@ -37715,7 +37715,7 @@ function renderMemory(){
     const rowBg=m.change_pct!=null?(m.change_pct>=0.02?'background:rgba(63,185,80,.10);':m.change_pct<=-0.02?'background:rgba(248,81,73,.10);':m.change_pct>=0.005?'background:rgba(63,185,80,.04);':m.change_pct<=-0.005?'background:rgba(248,81,73,.04);':''):'';
     const tickerCol=m.change_pct!=null?(m.change_pct>=0?'#3fb950':m.change_pct<0?'#f85149':'#c9d1d9'):'#c9d1d9';
     const logo=`<img src="https://assets.parqet.com/logos/symbol/${m.ticker}?format=jpg" width="16" height="16" style="border-radius:2px;object-fit:contain;vertical-align:middle;margin-right:6px;background:#fff;border:1px solid #30363d;flex-shrink:0" onerror="this.style.display='none'" loading="lazy">`;
-    return`<tr style="${rowBg}"><td><div style="display:inline-flex;align-items:center" data-ticker="${m.ticker}">${logo}<strong style="font-family:monospace;color:${tickerCol}">${m.ticker}</strong></div></td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${(m.name||'').replace(/"/g,'&quot;')}">${m.name||'—'}</td><td>${persBar}</td><td style="color:${ac};font-weight:600;white-space:nowrap">${alpha}</td><td style="color:${hrc};font-weight:600">${hr}</td><td style="color:#8b949e">${m.resolved_signals!=null?m.resolved_signals:'—'}</td><td style="color:${cc};font-weight:600;white-space:nowrap">${chg}</td></tr>`;
+    return`<tr style="${rowBg}"><td><div style="display:inline-flex;align-items:center" data-ticker="${m.ticker}">${logo}<strong style="font-family:var(--mono);color:${tickerCol}">${m.ticker}</strong></div></td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${(m.name||'').replace(/"/g,'&quot;')}">${m.name||'—'}</td><td>${persBar}</td><td style="color:${ac};font-weight:600;white-space:nowrap">${alpha}</td><td style="color:${hrc};font-weight:600">${hr}</td><td style="color:#8b949e">${m.resolved_signals!=null?m.resolved_signals:'—'}</td><td style="color:${cc};font-weight:600;white-space:nowrap">${chg}</td></tr>`;
   }).join('');
   const mf=window._memFilter;
   const mfActive=(mf.minPersist!=null||mf.minResolved!=null);
@@ -37822,7 +37822,7 @@ function renderPortfolios(){
       <div style="font-size:10px;color:#6e7681;margin-bottom:10px">${p.label||''}</div>
       <div style="font-size:24px;font-weight:700;color:#f0f6fc">$${(p.total_value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</div>
       <div style="font-size:13px;font-weight:600;color:${rc};margin:3px 0">${ret>=0?'+':''}${ret.toFixed(2)}% return${(function(){if(!p.inception_date)return'';var inc=new Date(p.inception_date),now=new Date(S.generated);var days=Math.max(1,Math.round((now-inc)/86400000));if(days<7)return'';var annRet=(Math.pow(1+ret/100,365/days)-1)*100;if(!isFinite(annRet)||Math.abs(annRet)>9999)return'';return' <span style="font-size:11px;color:#8b949e;font-weight:500">('+(annRet>=0?'+':'')+annRet.toFixed(1)+'%/yr)</span>';})()}</div>
-      <div style="font-size:10px;color:#6e7681;margin-top:8px;letter-spacing:.3px">SINCE <strong style="color:#c9d1d9;font-family:monospace;letter-spacing:0">${p.inception_date||'—'}</strong> · ${(p.history||[]).length} days tracked</div>
+      <div style="font-size:10px;color:#6e7681;margin-top:8px;letter-spacing:.3px">SINCE <strong style="color:#c9d1d9;font-family:var(--mono);letter-spacing:0">${p.inception_date||'—'}</strong> · ${(p.history||[]).length} days tracked</div>
       <div style="display:flex;gap:10px;margin-top:6px;font-size:11px;color:#8b949e">
         <span>${p.n_positions} positions</span><span>${cashPct}% cash</span>
       </div>
@@ -37886,7 +37886,7 @@ function renderPortfolios(){
        +`<div style="color:#6e7681;font-size:10px;letter-spacing:.3px"><strong style="color:#8b949e">${horizon}</strong> &middot; <span style="color:${daysCol}" title="days held / horizon-exit threshold">${daysHeld}/${horizonThresh}d</span></div>`
       +`</div>`;
     return`<tr>
-      <td><div style="display:flex;align-items:center">${logo}<strong style="font-family:monospace">${h.ticker||'?'}</strong></div></td>
+      <td><div style="display:flex;align-items:center">${logo}<strong style="font-family:var(--mono)">${h.ticker||'?'}</strong></div></td>
       <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c9d1d9;font-size:12px" title="${hName.replace(/"/g,'&quot;')}">${hName}</td>
       <td style="color:#8b949e;font-size:12px">${h.sector||'—'}</td>
       <td>${signalCell}</td>
@@ -37912,7 +37912,7 @@ function renderPortfolios(){
     return`<tr>
       <td style="color:#6e7681;font-size:11px">${t.date||''}</td>
       <td><span style="color:${ac};font-weight:700;font-size:11px;text-transform:uppercase">${t.action}</span></td>
-      <td><strong style="font-family:monospace">${t.ticker||'?'}</strong></td>
+      <td><strong style="font-family:var(--mono)">${t.ticker||'?'}</strong></td>
       <td style="color:#6e7681;font-size:11px">${reasonDisplay}</td>
       <td style="font-weight:600">$${(t.value||0).toLocaleString('en-US',{maximumFractionDigits:0})}</td>
       <td style="color:#8b949e;font-size:11px;white-space:nowrap">$${(t.price||0).toFixed(2)} &times; ${(t.shares||0).toFixed(2)}</td>
@@ -37984,7 +37984,7 @@ function renderAnalysis(){
     const eqCol=(m.breadth||0)>0.5?'#3fb950':'#f85149',eqLabel=(m.breadth||0)>0.5?'Up':'Down';
     return`<tr style="border-top:1px solid #30363d">
       <td style="color:#6e7681;text-align:center;padding:7px 4px">${i+1}</td>
-      <td style="font-family:monospace;font-size:12px;padding:7px 8px">${m.date}</td>
+      <td style="font-family:var(--mono);font-size:12px;padding:7px 8px">${m.date}</td>
       <td style="font-size:12px;padding:7px 8px;color:#c9d1d9">${m.regime}</td>
       <td style="text-align:right;font-weight:600;color:${retCol};padding:7px 8px">${ret>=0?'+':''}${retPct}%</td>
       <td style="text-align:center;padding:7px 4px"><span style="background:${eqCol}22;color:${eqCol};border-radius:2px;padding:2px 8px;font-size:11px;font-weight:600">${eqLabel}</span></td>
@@ -38088,7 +38088,7 @@ function renderBubble(){
   const flipLit=latest.pct_halved>latest.pct_doubled;
   const maxUp=Math.max(...years.map(y=>y.pct_doubled))*1.15+0.5;
   const maxDn=Math.max(...years.map(y=>y.pct_halved))*1.1+0.5;
-  function tile(k,v,d,vc){return`<div style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:12px 14px;flex:1;min-width:170px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${k}</div><div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:${vc||'#f0f6fc'};font-family:monospace">${v}</div><div style="color:#8b949e;font-size:11px">${d}</div></div>`;}
+  function tile(k,v,d,vc){return`<div style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:12px 14px;flex:1;min-width:170px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${k}</div><div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:${vc||'#f0f6fc'};font-family:var(--mono)">${v}</div><div style="color:#8b949e;font-size:11px">${d}</div></div>`;}
   function bubblePanel(rows,title){
     const W=460,H=300,T=24,B=34,L=38,R=6;
     const ih=H-T-B, y0=T+ih*maxUp/(maxUp+maxDn);
@@ -38156,7 +38156,7 @@ function renderBubble(){
     const rows=checks.map(c=>`<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #21262d">
       <div style="flex-shrink:0;width:64px;text-align:center;padding-top:2px"><span style="display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:.5px;background:${c.lit?'rgba(248,81,73,.15)':'rgba(63,185,80,.12)'};color:${c.lit?'#f85149':'#3fb950'}">${c.lit?'LIT':'quiet'}</span></div>
       <div><div style="color:#f0f6fc;font-weight:600;font-size:13.5px">${c.name}</div>
-      <div style="color:#c9d1d9;font-size:12.5px;font-family:monospace;margin:2px 0">${c.read}</div>
+      <div style="color:#c9d1d9;font-size:12.5px;font-family:var(--mono);margin:2px 0">${c.read}</div>
       <div style="color:#8b949e;font-size:12px;max-width:76ch">${c.why}</div></div></div>`).join('');
     return `<div class="card" style="margin-top:14px"><h3 style="color:#f0f6fc;margin-bottom:4px">What a top looks like on this clock</h3>
     <p style="color:#8b949e;font-size:12.5px;max-width:82ch">The dot-com sequence ran: <strong style="color:#c9d1d9">melt-up</strong> (doublers accelerate and broaden, 1998–99) → <strong style="color:#c9d1d9">dissolution</strong> (halvers rise while the index still makes highs, 1999) → <strong style="color:#c9d1d9">the flip</strong> (halvers overtake doublers, 2000 — the top) → <strong style="color:#c9d1d9">capitulation</strong> (no doublers, mass halving, 2002). The five markers below track that sequence against the latest year of data and update with every daily scan.</p>
@@ -38188,7 +38188,7 @@ function renderEcon(){
     const cc=s.chg_3m>0?(sid==='BAMLH0A0HYM2'||sid==='UNRATE'||sid==='CPIAUCSL'?'#f85149':'#3fb950'):(sid==='BAMLH0A0HYM2'||sid==='UNRATE'||sid==='CPIAUCSL'?'#3fb950':'#f85149');
     return`<div title="${TILE_HELP[sid]||''}" style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:12px 14px;flex:1;min-width:160px;cursor:help">
       <div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${s.label}</div>
-      <div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:#f0f6fc;font-family:monospace">${s.latest}${s.unit==='%'?'%':s.unit==='pp'?'pp':s.unit==='k'?'k':''}</div>
+      <div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:#f0f6fc;font-family:var(--mono)">${s.latest}${s.unit==='%'?'%':s.unit==='pp'?'pp':s.unit==='k'?'k':''}</div>
       <div style="font-size:11px"><span style="color:${cc}">${chg}</span> <span style="color:#6e7681">· ${s.latest_date}</span></div></div>`;
   }
   function lineChart(sid,color,zeroLine){
@@ -38447,7 +38447,7 @@ function _qAnalog(){
     var eqc=(m.breadth||0)>0.5?'#3fb950':'#f85149';
     return '<tr style="border-top:1px solid #21262d">'
       +'<td style="color:#6e7681;padding:6px 4px;text-align:center">'+(i+1)+'</td>'
-      +'<td style="font-family:monospace;font-size:12px;padding:6px 8px">'+m.date+'</td>'
+      +'<td style="font-family:var(--mono);font-size:12px;padding:6px 8px">'+m.date+'</td>'
       +'<td style="font-size:12px;padding:6px 8px;color:#c9d1d9">'+m.regime+'</td>'
       +'<td style="text-align:right;font-weight:600;color:'+rc+';padding:6px 8px">'+(ret>=0?'+':'')+(ret*100).toFixed(1)+'%</td>'
       +'<td style="text-align:center;padding:6px 4px"><span style="background:'+eqc+'22;color:'+eqc+';border-radius:2px;padding:2px 8px;font-size:11px;font-weight:600">'+eq+'</span></td>'
@@ -38487,7 +38487,7 @@ function _qSignals(){
   var bear=sigs.filter(function(s){return s.signal==='bearish';}).length;
   var rows=sigs.map(function(s){
     return '<tr><td style="padding:6px 8px;font-weight:600">'+s.name+'</td>'
-      +'<td style="font-family:monospace;font-size:12px;padding:6px 8px;color:#8b949e">'+s.asset+'</td>'
+      +'<td style="font-family:var(--mono);font-size:12px;padding:6px 8px;color:#8b949e">'+s.asset+'</td>'
       +'<td style="padding:6px 8px">'+s.value+'</td>'
       +'<td style="padding:6px 4px">'+pill(s.signal)+'</td>'
       +'<td style="color:#8b949e;font-size:12px;padding:6px 8px">'+s.context+'</td></tr>';
@@ -38797,7 +38797,7 @@ function renderAsk(){
       +'<div><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Hits</div>'
       +'<div style="color:#c9d1d9;font-size:13px">'+((st.hit_rate||0)*100).toFixed(0)+'%</div></div>'
       +'</div>'
-      +'<div style="margin-top:8px;padding-top:6px;border-top:1px solid #21262d;color:#6e7681;font-size:10px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
+      +'<div style="margin-top:8px;padding-top:6px;border-top:1px solid #21262d;color:#6e7681;font-size:10px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
       +  '<div style="color:#58a6ff">shift-click → news-desk ↗</div>'
       +'</div>';
     pos(cx,cy);
