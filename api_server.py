@@ -25,6 +25,10 @@ SIMILAR_DAY_COUNT = 30
 EXCLUDE_RECENT_DAYS = 30
 MIN_OBSERVATIONS = 5
 HORIZONS = {"5d": 5, "20d": 20, "60d": 60, "120d": 120}
+# Analog days within this many trading days are the same regime "episode" — their
+# forward windows overlap almost entirely, so the de-clustered hit trio collapses
+# each run to one episode to avoid counting the same spell many times.
+EPISODE_GAP_DAYS = 10
 
 _state = {
     "spy_df": None,
@@ -568,7 +572,7 @@ def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_hist
         if len(valid) < 10:
             continue
         baseline = float(valid["fr"].median())
-        analog_rows = valid[valid["ds"].isin(analog_dates)]
+        analog_rows = valid[valid["ds"].isin(analog_dates)].sort_index()
         n = len(analog_rows)
         if n < min_obs:
             continue
@@ -578,15 +582,40 @@ def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_hist
         pcts = np.percentile(vals, [10, 25, 50, 75, 90])
         hit = round(float((vals > 0).mean()), 3)
         hit_self = round(float((vals > baseline).mean()), 3)
-        hit_alpha = None
+        # SPY forward return aligned per analog row (for the alpha comparisons).
         if label in spy_fr_by_ds:
-            spy_aligned = spy_fr_by_ds[label].reindex(analog_rows["ds"].values).values
-            mask = ~np.isnan(spy_aligned)
-            if int(mask.sum()) >= 1:
-                hit_alpha = round(float((vals[mask] > spy_aligned[mask]).mean()), 3)
+            spy_aligned = spy_fr_by_ds[label].reindex(analog_rows["ds"].values).values.astype(float)
+        else:
+            spy_aligned = np.full(n, np.nan)
+        amask = ~np.isnan(spy_aligned)
+        hit_alpha = (round(float((vals[amask] > spy_aligned[amask]).mean()), 3)
+                     if int(amask.sum()) >= 1 else None)
+
+        # De-clustered ("episode") hit trio: adjacent analog days are the same
+        # regime spell with near-identical forward windows, so collapse runs
+        # within EPISODE_GAP_DAYS trading days into one episode, represent each
+        # by its members' median outcome, and take the hit over episodes. n_obs
+        # stays the raw analog count; n_episodes is the independent-ish sample.
+        pos = analog_rows.index.to_numpy()
+        bounds = [0] + [i for i in range(1, n) if pos[i] - pos[i - 1] > EPISODE_GAP_DAYS] + [n]
+        ep_fr, ep_alpha = [], []
+        for a_, b_ in zip(bounds[:-1], bounds[1:]):
+            ep_fr.append(float(np.median(vals[a_:b_])))
+            seg = spy_aligned[a_:b_]
+            sm = ~np.isnan(seg)
+            if int(sm.sum()):
+                ep_alpha.append(float(np.median(vals[a_:b_][sm] - seg[sm])))
+        ep_fr = np.array(ep_fr)
+        n_ep = len(ep_fr)
+        hit_dc = round(float((ep_fr > 0).mean()), 3) if n_ep else None
+        hit_self_dc = round(float((ep_fr > baseline).mean()), 3) if n_ep else None
+        hit_alpha_dc = (round(float((np.array(ep_alpha) > 0).mean()), 3)
+                        if len(ep_alpha) else None)
+
         results[label] = {
             "edge":            edge,
             "n_obs":           n,
+            "n_episodes":      n_ep,
             "p10":             round(float(pcts[0]), 4),
             "p25":             round(float(pcts[1]), 4),
             "p50":             round(float(pcts[2]), 4),
@@ -595,6 +624,9 @@ def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_hist
             "hit_rate":        hit,
             "hit_alpha":       hit_alpha,
             "hit_self":        hit_self,
+            "hit_rate_dc":     hit_dc,
+            "hit_alpha_dc":    hit_alpha_dc,
+            "hit_self_dc":     hit_self_dc,
             "vol":             round(med_vol, 4),
             "below_threshold": edge < 0.05,
             "short_history":   short_history,

@@ -238,6 +238,17 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
     # SPY's forward return to each analog date for the Hit(alpha) column.
     spy_rows = df[df["ticker"] == "SPY"]
 
+    # Episode ids for the (shared) analog dates: adjacent analog days are the
+    # same regime spell with near-identical forward windows, so runs within ~14
+    # calendar days collapse into one episode for the de-clustered hit trio.
+    EPISODE_GAP_CAL = 14
+    _sorted_analog = sorted(similar_dates)
+    ep_map, _eid = {}, 0
+    for _i, _d in enumerate(_sorted_analog):
+        if _i and (_d - _sorted_analog[_i - 1]).days > EPISODE_GAP_CAL:
+            _eid += 1
+        ep_map[_d] = _eid
+
     for label in HORIZONS:
         future_col = f"future_return_{label}"
         hf = filtered.dropna(subset=[future_col]).copy()
@@ -262,22 +273,42 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
         for tkr, grp in hf.groupby("ticker"):
             g = grp[future_col].dropna()
             base_med = baseline.get(tkr)
-            hit_self = (float((g > base_med).mean())
-                        if base_med is not None and not pd.isna(base_med) else np.nan)
+            _has_base = base_med is not None and not pd.isna(base_med)
+            hit_self = float((g > base_med).mean()) if _has_base else np.nan
             pair = grp[[future_col, "_spy_fr"]].dropna()
             hit_alpha = (float((pair[future_col] > pair["_spy_fr"]).mean())
                          if len(pair) else np.nan)
+            # De-clustered hit trio: collapse the ticker's analog rows into
+            # episodes (shared ep_map), represent each by its median outcome,
+            # and take the hit over episodes. n_episodes is the independent-ish
+            # sample size next to the raw n_obs.
+            gg = grp.dropna(subset=[future_col]).copy()
+            gg["_ep"] = gg["date"].map(ep_map)
+            ep_fr = gg.groupby("_ep")[future_col].median()
+            n_ep = int(len(ep_fr))
+            hit_dc = float((ep_fr.values > 0).mean()) if n_ep else np.nan
+            hit_self_dc = float((ep_fr.values > base_med).mean()) if (n_ep and _has_base) else np.nan
+            gpa = gg.dropna(subset=["_spy_fr"])
+            if len(gpa):
+                ep_al = (gpa[future_col] - gpa["_spy_fr"]).groupby(gpa["_ep"]).median()
+                hit_alpha_dc = float((ep_al.values > 0).mean()) if len(ep_al) else np.nan
+            else:
+                hit_alpha_dc = np.nan
             dist_records.append({
-                "ticker":    tkr,
-                "p10":       float(g.quantile(0.10)),
-                "p25":       float(g.quantile(0.25)),
-                "p50":       float(g.quantile(0.50)),
-                "p75":       float(g.quantile(0.75)),
-                "p90":       float(g.quantile(0.90)),
-                "hit_rate":  float((g > 0).mean()),
-                "hit_alpha": round(hit_alpha, 3) if not pd.isna(hit_alpha) else np.nan,
-                "hit_self":  round(hit_self, 3) if not pd.isna(hit_self) else np.nan,
-                "n_obs":     int(len(g)),
+                "ticker":       tkr,
+                "p10":          float(g.quantile(0.10)),
+                "p25":          float(g.quantile(0.25)),
+                "p50":          float(g.quantile(0.50)),
+                "p75":          float(g.quantile(0.75)),
+                "p90":          float(g.quantile(0.90)),
+                "hit_rate":     float((g > 0).mean()),
+                "hit_alpha":    round(hit_alpha, 3) if not pd.isna(hit_alpha) else np.nan,
+                "hit_self":     round(hit_self, 3) if not pd.isna(hit_self) else np.nan,
+                "hit_rate_dc":  round(hit_dc, 3) if not pd.isna(hit_dc) else np.nan,
+                "hit_alpha_dc": round(hit_alpha_dc, 3) if not pd.isna(hit_alpha_dc) else np.nan,
+                "hit_self_dc":  round(hit_self_dc, 3) if not pd.isna(hit_self_dc) else np.nan,
+                "n_obs":        int(len(g)),
+                "n_episodes":   n_ep,
             })
         dist_stats = pd.DataFrame(dist_records)
 
@@ -292,7 +323,9 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
         else:
             strong = pd.DataFrame(columns=["ticker", "edge", "horizon",
                                             "p10", "p25", "p50", "p75", "p90",
-                                            "hit_rate", "hit_alpha", "hit_self", "n_obs"])
+                                            "hit_rate", "hit_alpha", "hit_self",
+                                            "hit_rate_dc", "hit_alpha_dc", "hit_self_dc",
+                                            "n_obs", "n_episodes"])
 
         strong = strong.merge(sectors_df[["ticker","sector","industry","name"]], on="ticker", how="left")
         strong["sector"] = strong["sector"].fillna("Unknown")

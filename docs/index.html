@@ -41,6 +41,16 @@ a{color:#58a6ff;text-decoration:none}
 #popout-box{background:#161b22;border:1px solid #30363d;border-radius:2px;width:min(1200px,96vw);margin:auto;padding:18px 20px;position:relative}
 #popout-x{position:absolute;top:10px;right:12px;background:#21262d;border:1px solid #30363d;color:#c9d1d9;border-radius:2px;padding:4px 10px;cursor:pointer;font-family:var(--mono);font-size:12px}
 #popout-body svg{width:100%!important;height:auto!important;max-height:72vh}
+.econ-chart{position:relative}
+.chart-fs-btn{position:absolute;top:0;right:0;z-index:2;width:22px;height:22px;padding:0;line-height:20px;text-align:center;background:#161b22;border:1px solid #30363d;color:#8b949e;border-radius:2px;cursor:pointer;font-size:12px;opacity:.5;transition:opacity .12s,border-color .12s,color .12s}
+.econ-chart:hover .chart-fs-btn{opacity:1}
+.chart-fs-btn:hover{border-color:#58a6ff;color:#f0f6fc}
+#chartfs-ov{display:none;position:fixed;inset:0;background:#0d1117;z-index:1300;padding:2vh 2vw;flex-direction:column;align-items:center;justify-content:center}
+#chartfs-ov.on{display:flex}
+#chartfs-x{position:absolute;top:12px;right:16px;background:#21262d;border:1px solid #30363d;color:#c9d1d9;border-radius:2px;padding:6px 12px;cursor:pointer;font-family:var(--mono);font-size:12px}
+#chartfs-body{width:100%;text-align:center}
+#chartfs-body svg{width:96vw;height:auto;max-height:88vh}
+#chartfs-body>.econ-chart>div:first-child{font-size:15px;margin-bottom:14px}
 .card h2{font-family:var(--mono);font-size:12px;font-weight:700;color:#f0f6fc;margin-bottom:11px;padding-bottom:7px;border-bottom:1px solid #30363d;text-transform:uppercase;letter-spacing:.8px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
@@ -39287,7 +39297,7 @@ function renderEcon(){
     if(zeroLine!=null&&mn<0&&mx>0)g=`<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" stroke="#484f58" stroke-dasharray="3,3"/><text x="${L-5}" y="${y(0)+3}" text-anchor="end" font-size="9" fill="#6e7681">0</text>`;
     const lbls=[mx,mn].map(val=>`<text x="${L-5}" y="${y(val)+3}" text-anchor="end" font-size="9" fill="#6e7681">${val.toFixed(1)}</text>`).join("");
     const d0=hist.dates[0],d1=hist.dates[hist.dates.length-1];
-    return`<div style="flex:1;min-width:320px"><div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">${s.label} — ${_econWin}</div>
+    return`<div class="econ-chart" style="flex:1;min-width:320px"><button class="chart-fs-btn" type="button" title="Full screen">⛶</button><div style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px">${s.label} — ${_econWin}</div>
       <svg viewBox="0 0 ${W} ${H}" width="100%">${g}${lbls}
       <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.6"/>
       <circle cx="${x(v.length-1)}" cy="${y(v[v.length-1])}" r="3" fill="${color}"/>
@@ -39354,6 +39364,27 @@ route();
   }
   const obs=new MutationObserver(()=>{obs.disconnect();inject();obs.observe(main,{childList:true,subtree:true});});
   inject();obs.observe(main,{childList:true,subtree:true});
+})();
+
+// ── Per-chart full screen: a single chart alone fills the viewport (finvisible-style)
+(function(){
+  const ov=document.createElement('div');ov.id='chartfs-ov';
+  ov.innerHTML='<button id="chartfs-x" type="button">✕ Esc</button><div id="chartfs-body"></div>';
+  document.body.appendChild(ov);
+  const body=ov.querySelector('#chartfs-body');
+  const close=()=>{ov.classList.remove('on');body.innerHTML='';};
+  ov.querySelector('#chartfs-x').addEventListener('click',close);
+  ov.addEventListener('click',e=>{if(e.target===ov)close();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ov.classList.contains('on'))close();});
+  document.addEventListener('click',e=>{
+    const btn=e.target.closest('.chart-fs-btn');if(!btn)return;
+    e.stopPropagation();e.preventDefault();
+    const chart=btn.closest('.econ-chart');if(!chart)return;
+    const clone=chart.cloneNode(true);
+    clone.querySelectorAll('.chart-fs-btn').forEach(x=>x.remove());
+    clone.style.flex='none';clone.style.minWidth='0';clone.style.width='100%';
+    body.innerHTML='';body.appendChild(clone);ov.classList.add('on');
+  });
 })();
 
 // ── Ask the Dashboard — query engine ─────────────────────────────────────────
