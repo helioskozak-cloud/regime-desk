@@ -3,7 +3,7 @@ econ_scan.py — FRED macro snapshot for the #econ dashboard view (standalone,
 read-side; no V2 decision-path involvement).
 
 Pulls a small set of series from FRED's keyless fredgraph.csv endpoint and
-writes data/econ.json: per series, ~5y of monthly-downsampled history plus the
+writes data/econ.json: per series, ~1y of weekly-downsampled history plus the
 latest value and a short-window change. Fail-soft per series — a missing
 series shows as absent in the UI, never breaks the build.
 """
@@ -18,7 +18,7 @@ import requests
 ROOT = Path(__file__).parent.parent
 OUT = ROOT / "data" / "econ.json"
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}"
-YEARS = 5
+YEARS = 1   # chart display window (tactical — matches the desk's short horizons)
 
 # sid → (label, unit, transform)
 # transform: raw | yoy_pct (12m % change) | mom_diff (1m difference)
@@ -48,7 +48,11 @@ def fetch_series(sid: str) -> pd.Series | None:
 
 
 def main() -> None:
+    # Fetch a padded window (display window + 400d) so the YoY / month-over-month
+    # transforms have prior history to compute against; the chart history is
+    # trimmed back to the display window (disp_start) below.
     cutoff = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=365 * YEARS + 400))
+    disp_start = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=365 * YEARS + 15))
     out = {"as_of": str(datetime.date.today()), "series": {}}
     for sid, (label, unit, transform) in SERIES.items():
         s = fetch_series(sid)
@@ -60,9 +64,12 @@ def main() -> None:
         elif transform == "mom_diff":
             s = s.diff()
         s = s.dropna()
-        # Downsample dailies to month-end so the JSON stays small; monthly
-        # series pass through unchanged.
-        monthly = s.resample("ME").last().dropna()
+        # Weekly resolution keeps recent inflections visible on the daily series
+        # (curve, credit spread); inherently-monthly series (CPI, payrolls,
+        # unemployment) stay at their native monthly cadence. Trim to the display
+        # window so the chart shows the tactical window, not the transform buffer.
+        hist = s.resample("W").last().dropna()
+        hist = hist[hist.index >= disp_start]
         recent = s.iloc[-1]
         prev_q = s[s.index <= s.index[-1] - pd.Timedelta(days=90)]
         chg_3m = float(recent - prev_q.iloc[-1]) if len(prev_q) else None
@@ -73,8 +80,8 @@ def main() -> None:
             "latest_date": s.index[-1].date().isoformat(),
             "chg_3m": round(chg_3m, 3) if chg_3m is not None else None,
             "history": {
-                "dates": [d.date().isoformat() for d in monthly.index],
-                "values": [round(float(v), 3) for v in monthly.values],
+                "dates": [d.date().isoformat() for d in hist.index],
+                "values": [round(float(v), 3) for v in hist.values],
             },
         }
         print(f"[econ] {sid}: latest {out['series'][sid]['latest']} "
