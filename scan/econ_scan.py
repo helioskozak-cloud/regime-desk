@@ -3,9 +3,10 @@ econ_scan.py — FRED macro snapshot for the #econ dashboard view (standalone,
 read-side; no V2 decision-path involvement).
 
 Pulls a small set of series from FRED's keyless fredgraph.csv endpoint and
-writes data/econ.json: per series, ~1y of weekly-downsampled history plus the
-latest value and a short-window change. Fail-soft per series — a missing
-series shows as absent in the UI, never breaks the build.
+writes data/econ.json: per series, up to ~5y of weekly history (the dashboard
+toggles a 1y / 2y / 5y view over it, defaulting to 1y) plus the latest value
+and a short-window change. Fail-soft per series — a missing series shows as
+absent in the UI, never breaks the build.
 """
 import io
 import json
@@ -18,7 +19,7 @@ import requests
 ROOT = Path(__file__).parent.parent
 OUT = ROOT / "data" / "econ.json"
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}"
-YEARS = 1   # chart display window (tactical — matches the desk's short horizons)
+YEARS = 5   # max history stored; the dashboard toggles a 1y/2y/5y view over it
 
 # sid → (label, unit, transform)
 # transform: raw | yoy_pct (12m % change) | mom_diff (1m difference)
@@ -66,8 +67,8 @@ def main() -> None:
         s = s.dropna()
         # Weekly resolution keeps recent inflections visible on the daily series
         # (curve, credit spread); inherently-monthly series (CPI, payrolls,
-        # unemployment) stay at their native monthly cadence. Trim to the display
-        # window so the chart shows the tactical window, not the transform buffer.
+        # unemployment) stay at their native monthly cadence. Trim to the max
+        # stored window (5y); the dashboard slices 1y/2y/5y over it client-side.
         hist = s.resample("W").last().dropna()
         hist = hist[hist.index >= disp_start]
         recent = s.iloc[-1]
