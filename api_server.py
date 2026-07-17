@@ -540,9 +540,28 @@ def _ensure_spy():
 
 # ── Signal computation ────────────────────────────────────────────────────────
 
-def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_history=False):
-    """Return {label: signal_dict} for every horizon that meets min_obs."""
+def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_history=False,
+                      spy_df=None):
+    """Return {label: signal_dict} for every horizon that meets min_obs.
+
+    Each horizon carries a TRIO of hit rates over the same analog-day sample:
+      hit_rate  (Hit edge)  — share of analog days with a positive forward return.
+      hit_self              — share beating the stock's OWN all-history median
+                              forward return (the per-obs sign of `edge`).
+      hit_alpha             — share beating SPY's forward return over the SAME
+                              window measured from the SAME analog date. Requires
+                              `spy_df`; None when it can't be aligned.
+    """
     results = {}
+    # SPY forward returns per horizon, keyed by date string, so Hit(alpha) can
+    # compare each analog day's stock return to SPY's return over the same
+    # forward window from that same date.
+    spy_fr_by_ds = {}
+    if spy_df is not None:
+        spy_ds = spy_df.index.strftime("%Y-%m-%d")
+        for _lbl, _d in HORIZONS.items():
+            _fut = spy_df["close"].shift(-_d) / spy_df["close"] - 1
+            spy_fr_by_ds[_lbl] = pd.Series(_fut.values, index=spy_ds)
     for label, days in HORIZONS.items():
         future = prices["close"].shift(-days) / prices["close"] - 1
         valid = prices.assign(fr=future).dropna(subset=["fr"])
@@ -558,6 +577,13 @@ def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_hist
         edge = round(cond - baseline, 4)
         pcts = np.percentile(vals, [10, 25, 50, 75, 90])
         hit = round(float((vals > 0).mean()), 3)
+        hit_self = round(float((vals > baseline).mean()), 3)
+        hit_alpha = None
+        if label in spy_fr_by_ds:
+            spy_aligned = spy_fr_by_ds[label].reindex(analog_rows["ds"].values).values
+            mask = ~np.isnan(spy_aligned)
+            if int(mask.sum()) >= 1:
+                hit_alpha = round(float((vals[mask] > spy_aligned[mask]).mean()), 3)
         results[label] = {
             "edge":            edge,
             "n_obs":           n,
@@ -567,6 +593,8 @@ def _signal_for_dates(prices, analog_dates, ticker, med_vol, min_obs, short_hist
             "p75":             round(float(pcts[3]), 4),
             "p90":             round(float(pcts[4]), 4),
             "hit_rate":        hit,
+            "hit_alpha":       hit_alpha,
+            "hit_self":        hit_self,
             "vol":             round(med_vol, 4),
             "below_threshold": edge < 0.05,
             "short_history":   short_history,
@@ -598,13 +626,14 @@ def _compute_ticker(ticker):
     prices["ds"] = prices["date"].dt.strftime("%Y-%m-%d")
     med_vol = float(prices["volatility"].median())
 
-    horizons = _signal_for_dates(prices, analog_dates, ticker, med_vol, MIN_OBSERVATIONS)
+    horizons = _signal_for_dates(prices, analog_dates, ticker, med_vol, MIN_OBSERVATIONS,
+                                 spy_df=spy_df)
     short_history = False
     if not horizons:
         restricted = _restricted_analog_dates(spy_df, prices["date"].min())
         if restricted:
             horizons = _signal_for_dates(prices, restricted, ticker, med_vol,
-                                          min_obs=3, short_history=True)
+                                          min_obs=3, short_history=True, spy_df=spy_df)
             short_history = bool(horizons)
 
     if not horizons:
