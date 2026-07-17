@@ -234,6 +234,10 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
     all_signals = []
     all_themes  = []
 
+    # SPY rows carry the same future_return_{label} columns; used below to align
+    # SPY's forward return to each analog date for the Hit(alpha) column.
+    spy_rows = df[df["ticker"] == "SPY"]
+
     for label in HORIZONS:
         future_col = f"future_return_{label}"
         hf = filtered.dropna(subset=[future_col]).copy()
@@ -245,19 +249,35 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
         conditional = hf.groupby("ticker")[future_col].median()
         edge        = (conditional - baseline).dropna()
 
-        # Empirical distribution per ticker from the analog returns
+        # SPY's forward return at this horizon, keyed by date, so each analog
+        # observation can be compared to SPY over the SAME window (Hit alpha).
+        spy_fr_by_date = spy_rows.set_index("date")[future_col]
+        hf["_spy_fr"]  = hf["date"].map(spy_fr_by_date)
+
+        # Empirical distribution per ticker from the analog returns, plus the
+        # Hit trio (edge/alpha/self) over the same analog-day sample. Additive
+        # only — edge, hit_rate, selection and every existing column are
+        # unchanged; hit_alpha/hit_self are two new columns appended alongside.
         dist_records = []
-        for tkr, grp in hf.groupby("ticker")[future_col]:
-            g = grp.dropna()
+        for tkr, grp in hf.groupby("ticker"):
+            g = grp[future_col].dropna()
+            base_med = baseline.get(tkr)
+            hit_self = (float((g > base_med).mean())
+                        if base_med is not None and not pd.isna(base_med) else np.nan)
+            pair = grp[[future_col, "_spy_fr"]].dropna()
+            hit_alpha = (float((pair[future_col] > pair["_spy_fr"]).mean())
+                         if len(pair) else np.nan)
             dist_records.append({
-                "ticker":   tkr,
-                "p10":      float(g.quantile(0.10)),
-                "p25":      float(g.quantile(0.25)),
-                "p50":      float(g.quantile(0.50)),
-                "p75":      float(g.quantile(0.75)),
-                "p90":      float(g.quantile(0.90)),
-                "hit_rate": float((g > 0).mean()),
-                "n_obs":    int(len(g)),
+                "ticker":    tkr,
+                "p10":       float(g.quantile(0.10)),
+                "p25":       float(g.quantile(0.25)),
+                "p50":       float(g.quantile(0.50)),
+                "p75":       float(g.quantile(0.75)),
+                "p90":       float(g.quantile(0.90)),
+                "hit_rate":  float((g > 0).mean()),
+                "hit_alpha": round(hit_alpha, 3) if not pd.isna(hit_alpha) else np.nan,
+                "hit_self":  round(hit_self, 3) if not pd.isna(hit_self) else np.nan,
+                "n_obs":     int(len(g)),
             })
         dist_stats = pd.DataFrame(dist_records)
 
@@ -271,7 +291,8 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
             strong  = results[(results["edge"] >= pct_cut) & (results["edge"] >= MIN_EDGE)].copy()
         else:
             strong = pd.DataFrame(columns=["ticker", "edge", "horizon",
-                                            "p10", "p25", "p50", "p75", "p90", "hit_rate", "n_obs"])
+                                            "p10", "p25", "p50", "p75", "p90",
+                                            "hit_rate", "hit_alpha", "hit_self", "n_obs"])
 
         strong = strong.merge(sectors_df[["ticker","sector","industry","name"]], on="ticker", how="left")
         strong["sector"] = strong["sector"].fillna("Unknown")

@@ -99,6 +99,14 @@ def _load_signals_csv(path, max_stocks=100):
                 "p10": round(p10, 4), "p25": round(p25, 4), "p50": round(p50, 4),
                 "p75": round(p75, 4), "p90": round(p90, 4),
                 "hit_rate": round(_safe(row, "hit_rate", 0.5), 3),
+                # Hit trio — alpha/self are None when the feed row lacks them
+                # (older CSVs pre-dating the 2026-07-17 additive scan change).
+                "hit_alpha": (round(float(row["hit_alpha"]), 3)
+                              if "hit_alpha" in row.index and pd.notna(row.get("hit_alpha"))
+                              else None),
+                "hit_self": (round(float(row["hit_self"]), 3)
+                             if "hit_self" in row.index and pd.notna(row.get("hit_self"))
+                             else None),
                 "n_obs": n_obs,
                 "vol": vol_proxy,
                 "below_threshold": edge < 0.05,

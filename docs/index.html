@@ -37493,6 +37493,7 @@ function renderStocks(){
   function _fmtCap(v){if(v==null)return'<span style="color:#484f58">—</span>';if(v>=1e12)return(v/1e12).toFixed(1)+'T';if(v>=1e9)return(v/1e9).toFixed(1)+'B';if(v>=1e6)return Math.round(v/1e6)+'M';return Math.round(v/1e3)+'K';}
   function _fmtVol(v){if(v==null)return'<span style="color:#484f58">—</span>';if(v>=1e6)return(v/1e6).toFixed(1)+'M';if(v>=1e3)return Math.round(v/1e3)+'K';return Math.round(v);}
   function _fmtPx(v){if(v==null)return'<span style="color:#484f58">—</span>';return v>=100?v.toFixed(0):v.toFixed(2);}
+  function _fmtHit(v){if(v==null||isNaN(v))return'<span style="color:#484f58">—</span>';return(v*100).toFixed(0)+'%';}
   function stRow(st){
     const hd={'5d':5,'20d':20,'60d':60,'120d':120}[st.horizon]||20;
     const ann=(st.edge||0)*(252/hd);
@@ -37510,13 +37511,13 @@ function renderStocks(){
       <td style="color:#f85149;font-weight:600;white-space:nowrap">${pct(st.p10)}</td>
       <td style="color:#c9d1d9;font-weight:600;white-space:nowrap">${pct(st.p50)}</td>
       <td style="color:#3fb950;font-weight:600;white-space:nowrap">${pct(st.p90)}</td>
-      <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${st.n_obs}</td>
+      <td>${((st.hit_rate||0)*100).toFixed(0)}%</td><td>${_fmtHit(st.hit_alpha)}</td><td>${_fmtHit(st.hit_self)}</td><td>${st.n_obs}</td>
       <td style="white-space:nowrap">${betaCell}</td>
       <td><button onclick="navigator.clipboard&&navigator.clipboard.writeText('${st.ticker} edge:${pct(st.edge)} p50:${pct(st.p50)}')" style="background:none;border:1px solid #30363d;color:#8b949e;padding:2px 5px;border-radius:2px;cursor:pointer;font-size:11px" title="Copy">&#x1F4CB;</button></td>
     </tr>`;
   }
   const rows=isWl
-    ?wlTickers.map(tk=>{const st=pool.find(s=>s.ticker===tk);return st?stRow(st):`<tr><td><strong>${tk}</strong></td><td colspan="13" style="color:#6e7681;font-size:12px;font-style:italic">No signal data available</td></tr>`;})
+    ?wlTickers.map(tk=>{const st=pool.find(s=>s.ticker===tk);return st?stRow(st):`<tr><td><strong>${tk}</strong></td><td colspan="15" style="color:#6e7681;font-size:12px;font-style:italic">No signal data available</td></tr>`;})
     :sorted.map(stRow);
   // Filter bar
   const sectors=[...new Set((S.stocks||[]).map(s=>s.sector).filter(x=>x&&x!=='Unknown'))].sort();
@@ -37569,7 +37570,7 @@ function renderStocks(){
   ${_horizonBar()}${filterBar}${wlBar}${lookupBar}
   <div id="rd-pinned-cards"></div>
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
-  <div style="overflow-x:auto"><table style="min-width:860px"><tr>${th('ticker','Ticker','Stock symbol. The small label under each ticker is the signal horizon — 5 / 20 / 60 / 120 trading days forward.')}${th('name','Name','Company name.')}${th('sector','Sector','Regime-desk sector classification.')}${th('price','Price','Latest close price.')}${th('market_cap','Cap','Market capitalization (T / B / M / K).')}${th('avg_volume','Vol','Average daily share volume.')}${th('edge','Edge','The conditional edge: this ticker’s forward-return signal over the horizon, measured on days historically analogous to today. The value in parentheses is the annualized equivalent. Green = positive, red = negative.')}<th title="Downside case — the 10th-percentile forward return across the analog days.">Bear</th><th title="Central case — the median (50th-percentile) forward return across the analog days.">Median</th><th title="Upside case — the 90th-percentile forward return across the analog days.">Bull</th>${th('hit_rate','Hit%','Share of analog days on which the forward return was positive — the batting average of the signal.')}${th('n_obs','n','Number of analog-day observations behind the signal. Higher = more reliable.')}<th title="The ticker’s beta — sensitivity to the broad market (1.0 = moves with the market).">Beta</th><th></th></tr>
+  <div style="overflow-x:auto"><table style="min-width:860px"><tr>${th('ticker','Ticker','Stock symbol. The small label under each ticker is the signal horizon — 5 / 20 / 60 / 120 trading days forward.')}${th('name','Name','Company name.')}${th('sector','Sector','Regime-desk sector classification.')}${th('price','Price','Latest close price.')}${th('market_cap','Cap','Market capitalization (T / B / M / K).')}${th('avg_volume','Vol','Average daily share volume.')}${th('edge','Edge','The conditional edge: this ticker’s forward-return signal over the horizon, measured on days historically analogous to today. The value in parentheses is the annualized equivalent. Green = positive, red = negative.')}<th title="Downside case — the 10th-percentile forward return across the analog days.">Bear</th><th title="Central case — the median (50th-percentile) forward return across the analog days.">Median</th><th title="Upside case — the 90th-percentile forward return across the analog days.">Bull</th>${th('hit_rate','Hit%','Share of analog days on which the forward return was positive — the batting average of the signal (Hit edge).')}${th('hit_alpha','Hit (α)','Share of analog days the stock beat SPY over the same forward window. Blank until the daily feed carries it.')}${th('hit_self','Hit (self)','Share of analog days the stock beat its OWN all-history median forward return. Above 50% confirms a positive edge; below 50% flags a name that rises but by less than its own norm under today-like conditions.')}${th('n_obs','n','Number of analog-day observations behind the signal. Higher = more reliable.')}<th title="The ticker’s beta — sensitivity to the broad market (1.0 = moves with the market).">Beta</th><th></th></tr>
   ${rows.join('')}
   </table></div></div>
   <footer>Tendencies only — not investment advice. Green/red row tint = positive/negative edge in watchlist mode.</footer>`;
@@ -37938,8 +37939,8 @@ function renderAdvisor(){
   const isFiltered=stocks.length>0;
   if(!isFiltered) stocks=S.stocks.slice(0,20);
 
-  const csvData='ticker,name,sector,edge,ann_edge,p10,p25,p50,p75,p90,hit_rate,n_obs\n'
-    +stocks.map(st=>[st.ticker,`"${st.name||''}"`,st.sector,st.edge,annEd(st.edge,st.horizon||'20d'),st.p10,st.p25,st.p50,st.p75,st.p90,st.hit_rate,st.n_obs].join(',')).join('\n');
+  const csvData='ticker,name,sector,edge,ann_edge,p10,p25,p50,p75,p90,hit_rate,hit_alpha,hit_self,n_obs\n'
+    +stocks.map(st=>[st.ticker,`"${st.name||''}"`,st.sector,st.edge,annEd(st.edge,st.horizon||'20d'),st.p10,st.p25,st.p50,st.p75,st.p90,st.hit_rate,st.hit_alpha??'',st.hit_self??'',st.n_obs].join(',')).join('\n');
   const csvUri='data:text/csv;charset=utf-8,'+encodeURIComponent(csvData);
 
   const disclaimer=(S.config&&S.config.disclaimer)||
