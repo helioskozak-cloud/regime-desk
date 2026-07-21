@@ -31,9 +31,9 @@
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-2.8% (20d)",
+      "value": "-2.9% (20d)",
       "signal": "bullish",
-      "context": "20d ret -2.8% \u2014 no safe-haven premium"
+      "context": "20d ret -2.9% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -59,9 +59,9 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-12.9% (20d)",
+      "value": "-12.6% (20d)",
       "signal": "bearish",
-      "context": "20d ret -12.9% \u2014 semi weakness; growth concerns"
+      "context": "20d ret -12.6% \u2014 semi weakness; growth concerns"
     },
     {
       "name": "Russell 2000",
@@ -73,30 +73,30 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+2.3% (20d)",
-      "signal": "bullish",
-      "context": "20d ret +2.3% \u2014 copper bid = growth optimism"
+      "value": "+1.9% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.9% \u2014 copper flat"
     },
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "+0.0% (20d)",
+      "value": "-0.0% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.0% \u2014 inflation expectations contained"
+      "context": "20d ret -0.0% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-4.0% (20d)",
+      "value": "-3.9% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.0% \u2014 growth selling; value rotation"
+      "context": "20d ret -3.9% \u2014 growth selling; value rotation"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+4.9% (20d)",
+      "value": "+4.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +4.9% \u2014 financials leading; curve steepening favourable"
+      "context": "20d ret +4.8% \u2014 financials leading; curve steepening favourable"
     }
   ],
   "risks": [
@@ -124,15 +124,15 @@
     {
       "name": "Growth Slowdown",
       "level": "moderate",
-      "score": 0.45,
-      "description": "Copper 20d +2.3%, IWM -0.8%. Cyclicals constructive; growth fears not confirmed.",
+      "score": 0.47,
+      "description": "Copper 20d +1.9%, IWM -0.8%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
       "name": "Inflation Re-pricing",
       "level": "low",
       "score": 0.3,
-      "description": "TIPS 20d +0.0%. Inflation expectations contained; Fed credibility intact.",
+      "description": "TIPS 20d -0.0%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall"
     },
     {
