@@ -3,7 +3,7 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "-0.6%",
+      "value": "-0.7%",
       "signal": "bearish",
       "context": "Short-term price momentum"
     },
@@ -17,23 +17,23 @@
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-2.7% (20d)",
+      "value": "-2.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret -2.7% \u2014 sell-off = rising rates"
+      "context": "20d ret -2.8% \u2014 sell-off = rising rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "+0.1% (20d)",
+      "value": "+0.0% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.1% \u2014 stable credit"
+      "context": "20d ret +0.0% \u2014 stable credit"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "+0.8% (20d)",
+      "value": "+0.7% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.8% \u2014 no safe-haven premium"
+      "context": "20d ret +0.7% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -45,9 +45,9 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+18.3% (20d)",
+      "value": "+18.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +18.3% \u2014 energy bid; watch inflation pass-through"
+      "context": "20d ret +18.8% \u2014 energy bid; watch inflation pass-through"
     },
     {
       "name": "VIX Level",
@@ -66,16 +66,16 @@
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "-0.2% (20d)",
+      "value": "-0.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.2% \u2014 mixed breadth"
+      "context": "20d ret -0.3% \u2014 mixed breadth"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+5.3% (20d)",
+      "value": "+5.2% (20d)",
       "signal": "bullish",
-      "context": "20d ret +5.3% \u2014 copper bid = growth optimism"
+      "context": "20d ret +5.2% \u2014 copper bid = growth optimism"
     },
     {
       "name": "TIPS / Breakevens",
@@ -94,9 +94,9 @@
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+4.2% (20d)",
+      "value": "+4.0% (20d)",
       "signal": "bullish",
-      "context": "20d ret +4.2% \u2014 financials leading; curve steepening favourable"
+      "context": "20d ret +4.0% \u2014 financials leading; curve steepening favourable"
     }
   ],
   "risks": [
@@ -110,22 +110,22 @@
     {
       "name": "Credit Stress",
       "level": "moderate",
-      "score": 0.49,
-      "description": "HYG 20d +0.1%. Credit broadly constructive; no systemic signal.",
+      "score": 0.5,
+      "description": "HYG 20d +0.0%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return"
     },
     {
       "name": "Rate Re-pricing",
       "level": "elevated",
       "score": 0.72,
-      "description": "TLT 20d -2.7%. Bond sell-off = rates rising; duration assets under pressure.",
+      "description": "TLT 20d -2.8%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
     },
     {
       "name": "Growth Slowdown",
       "level": "low",
       "score": 0.35,
-      "description": "Copper 20d +5.3%, IWM -0.2%. Cyclicals constructive; growth fears not confirmed.",
+      "description": "Copper 20d +5.2%, IWM -0.3%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
