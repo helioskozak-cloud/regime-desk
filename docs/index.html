@@ -81,7 +81,7 @@ footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1p
   #topbar nav a{padding:5px 8px !important;font-size:11px !important;flex-shrink:0}
   #regime-banner{flex-wrap:wrap;padding:10px 14px !important;gap:10px !important}
   #regime-banner .stat{flex:0 0 auto;font-size:11px}
-  main{padding:14px 12px !important}
+  #main{padding:14px 12px !important}
   .card{padding:14px !important;margin-bottom:14px !important}
   .card h2{font-size:15px !important;margin-bottom:10px !important}
   table{font-size:11.5px}
@@ -103,6 +103,27 @@ footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1p
   table{font-size:11px}
   /* Horizontal scroll for big tables — they already use overflow-x:auto wrappers, but tighten */
   .card div[style*="overflow-x:auto"] table{min-width:560px !important}
+}
+/* ── Mobile optimization pass (2026-07-27) ──────────────────────────────── */
+@media(max-width:640px){
+  /* Every data table scrolls within its own width instead of overflowing the
+     page. 14 of 24 tables were NOT in an overflow-x wrapper, so wide ones
+     pushed the whole layout sideways on a phone. display:block + overflow-x is
+     the standard responsive-table pattern (columns stay aligned). */
+  #main table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;max-width:100%}
+  #main table th,#main table td{white-space:nowrap}
+  /* Thumb-friendly tap targets (no hover on touch, so bump the affordances) */
+  #topbar nav a{padding:8px 11px !important}
+  .rd-chip{display:inline-block;padding:8px 13px !important;margin:4px 3px !important}
+  .tile{padding:13px !important}
+  /* The chart pop-out / fullscreen buttons rely on :hover to appear — on touch
+     there is no hover, so keep them visible and bigger to tap. */
+  .popout-btn,.chart-fs-btn{opacity:.8 !important;width:30px !important;height:30px !important;line-height:28px !important}
+  .card:hover>.popout-btn{opacity:.8}
+  /* Sticky topbar: let it breathe vertically when the nav wraps/scrolls */
+  #topbar{height:auto !important;min-height:46px;padding-top:6px !important;padding-bottom:6px !important}
+  /* Guard against any single wide inline row (filter/chip bars) shoving the page */
+  #main .card > div{max-width:100%}
 }
 html.light body{background:#ffffff;color:#1f2328}
 html.light #topbar,html.light #regime-banner{background:#f6f8fa;border-color:#d0d7de}
