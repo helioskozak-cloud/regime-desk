@@ -1,4 +1,4 @@
-# setup_scheduled_tasks.ps1 — (re)create the self-healing scheduled tasks for the
+# setup_scheduled_tasks.ps1 - (re)create the self-healing scheduled tasks for the
 # local signal API and the Cloudflare tunnel. Run ONCE, ELEVATED:
 #   Right-click PowerShell -> "Run as administrator", then:
 #   powershell -ExecutionPolicy Bypass -File C:\Portfolizer\regime-desk\setup_scheduled_tasks.ps1
@@ -11,7 +11,7 @@
 $ErrorActionPreference = 'Stop'
 $repo = "C:\Portfolizer\regime-desk"
 
-# Must be elevated — creating tasks in the Task Scheduler root needs admin.
+# Must be elevated - creating tasks in the Task Scheduler root needs admin.
 $admin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
          ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $admin) {
@@ -62,6 +62,6 @@ if (-not $apiUp) {
     Start-ScheduledTask -TaskName "RegimeDesk-SignalAPI"
     Write-Host "[ok] API task started" -ForegroundColor Green
 } else {
-    Write-Host "[skip] API already listening on 7534 — left as-is; task manages it next logon." -ForegroundColor DarkGray
+    Write-Host "[skip] API already listening on 7534 - left as-is; task manages it next logon." -ForegroundColor DarkGray
 }
 Write-Host "`nDone. API + tunnel now self-start at every logon and self-heal on failure." -ForegroundColor Green
