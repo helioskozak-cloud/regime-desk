@@ -39089,12 +39089,21 @@ function _portMultiLine(ports,w,h){
 }
 
 function renderPortfolios(){
-  // v2 = current (live), v1 = archived original experiment
-  const portsV2=S.portfolios||{};
-  const portsV1=S.portfolios_v1||{};
-  const hasV1=Object.keys(portsV1).length>0;
-  const version=window._portVer||(Object.keys(portsV2).length?'v2':'v1');
-  const ports = version==='v1' ? portsV1 : portsV2;
+  // S.portfolios is whatever generation is LIVE right now; its version is read
+  // off the books themselves, never assumed. Older generations arrive as
+  // S.portfolios_v1 / _v2 / … as each is archived, so the cutover needs no edit
+  // here: the live book simply reports a new version and the retiring one shows
+  // up as an archive slot.
+  const portsLive=S.portfolios||{};
+  const liveVer=(function(){for(const k in portsLive){if(portsLive[k]&&portsLive[k].version)return portsLive[k].version;}return 'v2';})();
+  const archives={};
+  ['v1','v2','v3'].forEach(function(v){
+    const a=S['portfolios_'+v];
+    if(v!==liveVer && a && Object.keys(a).length) archives[v]=a;
+  });
+  const slots=[liveVer].concat(Object.keys(archives).sort().reverse());
+  const version=(window._portVer && slots.indexOf(window._portVer)>=0) ? window._portVer : liveVer;
+  const ports = version===liveVer ? portsLive : (archives[version]||{});
   const keys=Object.keys(ports);
   if(!keys.length)return`<div class="card"><h2>Paper Portfolios</h2><p style="color:#8b949e;padding:20px 0">No portfolio data yet. Run the scan or backfill to seed history.</p></div><footer>Simulated only.</footer>`;
   const colors={max_edge:'#58a6ff',bull_case:'#3fb950',defensive:'#e3b341'};
@@ -39206,17 +39215,26 @@ function renderPortfolios(){
     </tr>`;
   }).join(''):`<tr><td colspan="7" style="color:#6e7681;text-align:center;padding:24px">No transactions yet</td></tr>`;
   const tabBtns=keys.map(k=>{const clr=colors[k]||'#8b949e',isAct=k===activeKey;return`<button onclick="window._portTabFn('${k}')" style="background:${isAct?'#21262d':'none'};border:1px solid ${isAct?clr:'#30363d'};color:${isAct?clr:'#8b949e'};padding:5px 14px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:${isAct?700:400};transition:all .15s">${ports[k].name}</button>`;}).join('');
-  const pdfHref = version==='v1' ? 'reports/v1_archive.pdf' : 'reports/v2_latest.pdf';
-  const pdfLabel = version==='v1' ? '📄 v1 archive PDF' : '📄 v2 latest PDF';
+  // One PDF per generation. v1 was published once as an archive; every later
+  // generation publishes <ver>_latest.pdf on each build.
+  const pdfHref = version==='v1' ? 'reports/v1_archive.pdf' : `reports/${version}_latest.pdf`;
+  const pdfLabel = `📄 ${version} ${version===liveVer?'latest':'archive'} PDF`;
   const pdfLink = `<a href="${pdfHref}" target="_blank" rel="noopener noreferrer" style="margin-left:auto;border:1px solid #30363d;color:#8b949e;padding:5px 12px;border-radius:2px;font-size:12px;text-decoration:none">${pdfLabel}</a>`;
-  const verToggle = hasV1 ? `<div style="display:flex;gap:6px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
+  const verNames={v1:'Quarterly Turnover',v2:'Horizon Exits',v3:'Confidence-Weighted'};
+  const verBtns=slots.map(function(v){
+    const on=version===v, live=v===liveVer, bg=live?'#1f6feb':'#6e7681';
+    return `<button onclick="window._portVerFn('${v}')" style="background:${on?bg:'none'};border:1px solid ${on?bg:'#30363d'};color:${on?'#fff':'#8b949e'};padding:5px 14px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:${on?700:400}">${v} · ${verNames[v]||v} · ${live?'LIVE':'ARCHIVED'}</button>`;
+  }).join('');
+  const verNote = version===liveVer
+    ? '<span style="color:#3fb950;font-size:11px;margin-left:8px">● Live · updates with each scan</span>'
+    : `<span style="color:#e3b341;font-size:11px;margin-left:8px">★ ${version==='v1'?'Frozen Feb 23 – Jun 1':'Archived at cutover'} · no further updates</span>`;
+  const verToggle = slots.length>1 ? `<div style="display:flex;gap:6px;margin-bottom:16px;align-items:center;flex-wrap:wrap">
     <span style="color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-right:6px">Experiment</span>
-    <button onclick="window._portVerFn('v2')" style="background:${version==='v2'?'#1f6feb':'none'};border:1px solid ${version==='v2'?'#1f6feb':'#30363d'};color:${version==='v2'?'#fff':'#8b949e'};padding:5px 14px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:${version==='v2'?700:400}">v2 · Horizon Exits · LIVE</button>
-    <button onclick="window._portVerFn('v1')" style="background:${version==='v1'?'#6e7681':'none'};border:1px solid ${version==='v1'?'#6e7681':'#30363d'};color:${version==='v1'?'#fff':'#8b949e'};padding:5px 14px;border-radius:2px;cursor:pointer;font-size:12px;font-weight:${version==='v1'?700:400}">v1 · Quarterly Turnover · ARCHIVED</button>
-    ${version==='v1' ? '<span style="color:#e3b341;font-size:11px;margin-left:8px">★ Frozen Feb 23 – Jun 1 · no further updates</span>' : '<span style="color:#3fb950;font-size:11px;margin-left:8px">● Live · updates with each scan</span>'}
+    ${verBtns}
+    ${verNote}
     ${pdfLink}
   </div>` : '';
-  const headerSuffix = version==='v1' ? ' — v1 Archive' : ' — v2 Live';
+  const headerSuffix = ` — ${version} ${version===liveVer?'Live':'Archive'}`;
   return`<div class="card"><h2>Paper Portfolios — $100k Each, Simulated${headerSuffix}</h2>
   ${verToggle}
   <div class="grid3" style="margin-bottom:18px">${cards}</div>

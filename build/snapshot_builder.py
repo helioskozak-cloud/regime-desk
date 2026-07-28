@@ -446,8 +446,10 @@ def build_snapshot():
         except Exception as exc:
             print(f"[snapshot] Could not load stock_scores.csv: {exc}")
 
-    # Load paper portfolios — v2 (active) from portfolio.json, v1 (archived)
-    # from portfolio_v1.json. Both rendered in the dashboard via toggle.
+    # Load paper portfolios — the LIVE book from portfolio.json (whatever
+    # version it currently is), plus each archived generation from its own
+    # portfolio_v*.json. All rendered in the dashboard via the version toggle,
+    # which reads each book's own `version` field rather than assuming one.
     def _shape_portfolio(port: dict) -> dict:
         return {
             "name":           port.get("name", ""),
@@ -473,20 +475,27 @@ def build_snapshot():
                 port_state = json.load(f)
             portfolios = {k: _shape_portfolio(p) for k, p in port_state.items()}
             snap["portfolios"] = portfolios
-            print(f"[snapshot] Loaded {len(portfolios)} v2 portfolios")
+            _live_ver = next((p.get("version") for p in portfolios.values() if p.get("version")), "?")
+            print(f"[snapshot] Loaded {len(portfolios)} live portfolios ({_live_ver})")
         except Exception as exc:
             print(f"[snapshot] Could not load portfolio.json: {exc}")
 
-    portfolio_v1_path = DATA / "portfolio_v1.json"
-    if portfolio_v1_path.exists():
+    # Archived generations. Each appears in the snapshot only once its file
+    # exists, so portfolio_v2.json shows up on its own at the V3 cutover with
+    # no further code change — and the dashboard toggle picks it up the same
+    # way it already picks up v1.
+    for _ver in ("v1", "v2"):
+        _arch_path = DATA / f"portfolio_{_ver}.json"
+        if not _arch_path.exists():
+            continue
         try:
-            with open(portfolio_v1_path, "r", encoding="utf-8") as f:
-                port_v1 = json.load(f)
-            v1 = {k: _shape_portfolio(p) for k, p in port_v1.items()}
-            snap["portfolios_v1"] = v1
-            print(f"[snapshot] Loaded {len(v1)} v1 archived portfolios")
+            with open(_arch_path, "r", encoding="utf-8") as f:
+                _arch_state = json.load(f)
+            _arch = {k: _shape_portfolio(p) for k, p in _arch_state.items()}
+            snap[f"portfolios_{_ver}"] = _arch
+            print(f"[snapshot] Loaded {len(_arch)} {_ver} archived portfolios")
         except Exception as exc:
-            print(f"[snapshot] Could not load portfolio_v1.json: {exc}")
+            print(f"[snapshot] Could not load portfolio_{_ver}.json: {exc}")
 
     # Load bubble watch churn history (written by scan/bubble_scan.py)
     bubble_path = DATA / "bubble_watch.json"
