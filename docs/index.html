@@ -192,6 +192,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
   <div class="view" id="v-memory"></div>
   <div class="view" id="v-portfolios"></div>
   <div class="view" id="v-bubble"></div>
+  <div class="view" id="v-news"></div>
   <div class="view" id="v-econ"></div>
 </div>
 
@@ -38261,8 +38262,8 @@ const S = window.SNAPSHOT;
 // with the split, so this repo stopped writing data/portfolio.json — the tab
 // would have shown a book frozen at 2026-07-29 while presenting itself as
 // current, which is worse than not showing it at all.
-const VIEWS = ["home","analysis","bubble"];
-const LABELS = ["Home","Analysis","Bubble"];
+const VIEWS = ["home","analysis","bubble","news"];
+const LABELS = ["Home","Analysis","Bubble","News"];
 
 function renderMeeting(){
   const sp=S.spy||{}, n=S.narrative||{};
@@ -40072,7 +40073,115 @@ function renderEcon(){
 // _stripFoot drops a section's own disclaimer footer when it's embedded in a
 // larger stack (Home composes several renderers, one footer at the end).
 const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
-const renderers={home:renderHome,sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon};
+// ── News ────────────────────────────────────────────────────────────────────
+// Reads news-desk's published feed rather than duplicating its scrapers — the
+// same "one pipeline, two presentations" split PAPA uses. news-desk refreshes
+// every 5 minutes, so the strip is roughly live during the session and these
+// headlines are as fresh as its own site's.
+const _NEWS_BASE = "https://helioskozak-cloud.github.io/news-desk/data";
+let _newsCat = "all";
+let _newsDoc = null, _newsMkt = null;
+
+// Every field below comes from third-party RSS. Escaping is not optional:
+// innerHTML with an unescaped feed title is a script-injection hole that
+// someone else's CMS gets to author.
+function _nEsc(s){
+  return String(s==null?"":s).replace(/[&<>"']/g,c=>(
+    {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function _nAgo(iso){
+  const t=Date.parse(iso); if(!t)return"";
+  const m=Math.floor((Date.now()-t)/60000);
+  if(m<1)return"now"; if(m<60)return m+"m";
+  const h=Math.floor(m/60); if(h<24)return h+"h";
+  return Math.floor(h/24)+"d";
+}
+function _nNum(v,dp){
+  const n=Number(v); return isFinite(n)?n.toLocaleString("en-US",
+    {minimumFractionDigits:dp,maximumFractionDigits:dp}):"—";
+}
+
+function _newsStrip(){
+  if(!_newsMkt)return`<div style="color:#6e7681;font-size:11px;padding:4px 0">Loading quotes…</div>`;
+  const rows=Object.values(_newsMkt).sort((a,b)=>a.order-b.order);
+  if(!rows.length)return`<div style="color:#6e7681;font-size:11px;padding:4px 0">Quotes unavailable.</div>`;
+  return`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">`+rows.map(r=>{
+    const up=Number(r.change_pct)>=0, col=up?"#3fb950":"#f85149";
+    const dp=Math.abs(Number(r.price))<100?2:0;
+    return`<div style="background:#161b22;border:1px solid #30363d;border-radius:2px;padding:9px 13px;flex:1;min-width:132px">
+      <div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${_nEsc(r.label)}</div>
+      <div style="font-size:18px;font-weight:700;color:#f0f6fc;font-family:var(--mono);margin:2px 0 1px">${_nNum(r.price,dp)}</div>
+      <div style="font-size:11px;font-family:var(--mono);color:${col}">${up?"+":""}${_nNum(r.change,dp)} (${up?"+":""}${_nNum(r.change_pct,2)}%)</div>
+    </div>`;}).join("")+`</div>`;
+}
+
+function _newsList(){
+  if(!_newsDoc)return`<div style="color:#8b949e;padding:20px 0">Loading headlines…</div>`;
+  const all=_newsDoc.headlines||[];
+  const items=_newsCat==="all"?all:all.filter(h=>(h.category||"")===_newsCat);
+  if(!items.length)return`<div style="color:#8b949e;padding:20px 0">Nothing in this category right now.</div>`;
+  const SENT={positive:"#3fb950",negative:"#f85149"};
+  return items.slice(0,120).map(h=>{
+    const dot=SENT[h.sentiment]||"#6e7681";
+    let tks=[]; try{tks=Array.isArray(h.tickers)?h.tickers:JSON.parse(h.tickers||"[]");}catch(e){tks=[];}
+    const chips=tks.slice(0,6).map(t=>
+      `<span class="pill" style="background:#21262d;color:#8b949e">${_nEsc(t)}</span>`).join(" ");
+    return`<div style="padding:9px 0;border-bottom:1px solid #21262d;display:flex;gap:10px">
+      <div style="width:6px;flex:0 0 6px;padding-top:6px"><div style="width:6px;height:6px;border-radius:50%;background:${dot}"></div></div>
+      <div style="flex:1;min-width:0">
+        <a href="${_nEsc(h.link)}" target="_blank" rel="noopener noreferrer"
+           style="color:#f0f6fc;font-weight:600;font-size:13px;text-decoration:none">${_nEsc(h.title)}</a>
+        ${h.summary?`<div style="color:#8b949e;font-size:12px;margin-top:3px">${_nEsc(h.summary).slice(0,220)}</div>`:""}
+        <div style="color:#6e7681;font-size:11px;font-family:var(--mono);margin-top:4px">
+          ${_nEsc(h.source)} · ${_nAgo(h.published)} ${chips?"· "+chips:""}</div>
+      </div></div>`;}).join("");
+}
+
+function _newsPaint(){
+  const s=document.getElementById("news-strip"); if(s)s.innerHTML=_newsStrip();
+  const l=document.getElementById("news-list"); if(l)l.innerHTML=_newsList();
+  const m=document.getElementById("news-meta");
+  if(m&&_newsDoc)m.textContent=`${(_newsDoc.headlines||[]).length} headlines from `
+    +`${_newsDoc.feed_count||"?"} feeds · updated ${_nAgo(_newsDoc.generated)} ago`;
+}
+window._rdNewsCat=function(c){
+  _newsCat=c;
+  document.querySelectorAll("[data-newscat]").forEach(b=>{
+    b.style.background=b.dataset.newscat===c?"#21262d":"transparent";
+    b.style.color=b.dataset.newscat===c?"#f0f6fc":"#8b949e";});
+  _newsPaint();
+};
+
+function renderNews(){
+  const CATS=[["all","All"],["markets","Markets"],["macro","Macro"],
+              ["companies","Companies"],["crypto","Crypto"]];
+  return`<div class="card"><h2>Markets</h2><div id="news-strip">${_newsStrip()}</div></div>
+  <div class="card">
+    <h2>Headlines <span id="news-meta" style="float:right;font-weight:400;color:#6e7681;font-size:11px"></span></h2>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">${CATS.map(([v,l])=>
+      `<button data-newscat="${v}" onclick="_rdNewsCat('${v}')" style="font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid #30363d;border-radius:2px;cursor:pointer;background:${v==='all'?'#21262d':'transparent'};color:${v==='all'?'#f0f6fc':'#8b949e'}">${l}</button>`).join("")}</div>
+    <div id="news-list">${_newsList()}</div>
+  </div>
+  <footer>Headlines aggregated by <a href="https://helioskozak-cloud.github.io/news-desk/" target="_blank" rel="noopener noreferrer" style="color:#58a6ff">news-desk</a>, refreshed every ~5 minutes. Quotes are delayed. Not investment advice.</footer>`;
+}
+
+window._rd_postrender_news=function(){
+  // Fetched here rather than in renderNews because route() assigns the
+  // renderer's return value straight to innerHTML — it cannot await anything.
+  // Each feed is handled on its own so a failure of one still shows the other.
+  fetch(_NEWS_BASE+"/headlines.json",{cache:"no-store"})
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{_newsDoc=d;_newsPaint();})
+    .catch(e=>{const l=document.getElementById("news-list");
+      if(l)l.innerHTML=`<div style="color:#8b949e;padding:20px 0">Could not reach news-desk (${_nEsc(e)}). Its feed is at <a href="https://helioskozak-cloud.github.io/news-desk/" target="_blank" rel="noopener noreferrer" style="color:#58a6ff">news-desk</a>.</div>`;});
+  fetch(_NEWS_BASE+"/stocks.json",{cache:"no-store"})
+    .then(r=>r.ok?r.json():Promise.reject(r.status))
+    .then(d=>{_newsMkt=d.markets||null;_newsPaint();})
+    .catch(()=>{const s=document.getElementById("news-strip");
+      if(s)s.innerHTML=`<div style="color:#6e7681;font-size:11px;padding:4px 0">Quotes unavailable.</div>`;});
+};
+
+const renderers={home:renderHome,sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon,news:renderNews};
 
 function route(){
   const hash=(location.hash||"#home").replace("#","");
