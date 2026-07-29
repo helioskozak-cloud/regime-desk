@@ -800,12 +800,21 @@ def main():
     except Exception as exc:
         print(f"WARNING: signal memory update failed — {exc}", flush=True)
 
-    # Paper portfolios
-    try:
-        from portfolio_manager import update_portfolios
-        update_portfolios(market_signals, prices)
-    except Exception as exc:
-        print(f"WARNING: portfolio update failed — {exc}", flush=True)
+    # Paper portfolios — MOVED TO PAPA on 2026-07-29.
+    #
+    # The books now live in the private PAPA repo, which runs this same engine
+    # against the feed published above (see PAPA/scan/daily_run.py). This step
+    # is disabled rather than deleted so the history of why is legible.
+    #
+    # Do not re-enable it. data/portfolio.json is frozen at its 2026-07-29
+    # state and PAPA holds the live copy; two writers on two repos would
+    # diverge on the first day they disagree, and there would be no way to
+    # tell afterwards which book was the real one.
+    #
+    # from portfolio_manager import update_portfolios
+    # update_portfolios(market_signals, prices)
+    print("Paper portfolios: moved to PAPA 2026-07-29 — not updated here.",
+          flush=True)
 
 
 if __name__ == "__main__":

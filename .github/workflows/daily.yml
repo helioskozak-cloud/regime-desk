@@ -95,10 +95,16 @@ jobs:
           PYTHONUTF8: "1"
         run: python build/build.py
 
-      - name: Generate v2 portfolio review PDF
-        if: steps.freshness.outputs.fresh != 'true'
-        run: python build/report_v2.py
-        continue-on-error: true
+      # Paper portfolios moved to the private PAPA repo on 2026-07-29, so
+      # data/portfolio.json is frozen here. Regenerating this PDF daily would
+      # republish a "review" dated today for a book that stopped moving —
+      # the report is still correct, but its date would imply otherwise.
+      # docs/reports/v2_latest.pdf stays as last published.
+      #
+      # - name: Generate v2 portfolio review PDF
+      #   if: steps.freshness.outputs.fresh != 'true'
+      #   run: python build/report_v2.py
+      #   continue-on-error: true
 
       - name: Commit and push
         if: steps.freshness.outputs.fresh != 'true'
