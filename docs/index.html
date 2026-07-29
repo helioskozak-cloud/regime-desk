@@ -37760,8 +37760,17 @@ window.SNAPSHOT = {
 <script>
 (function(){
 const S = window.SNAPSHOT;
-const VIEWS = ["home","stocks","analysis","memory","portfolios","bubble"];
-const LABELS = ["Home","Stocks","Analysis","Memory","Portfolios","Bubble"];
+// Stocks, Memory and Portfolios moved to PAPA on 2026-07-29 and are hidden
+// here. Their renderers and their v-* containers are deliberately left in
+// place: route() only touches views listed below, so an unlisted one simply
+// never becomes active, and #stocks now falls back to Home.
+//
+// Portfolios in particular HAD to go rather than stay. The paper books moved
+// with the split, so this repo stopped writing data/portfolio.json — the tab
+// would have shown a book frozen at 2026-07-29 while presenting itself as
+// current, which is worse than not showing it at all.
+const VIEWS = ["home","analysis","bubble"];
+const LABELS = ["Home","Analysis","Bubble"];
 
 function renderMeeting(){
   const sp=S.spy||{}, n=S.narrative||{};
@@ -38368,6 +38377,10 @@ window._rd_postrender_stocks=function(){_rdRefreshPinned();};
     if(!p)return;
     var raw=p.split(',').map(function(s){return s.trim().toUpperCase();}).filter(Boolean);
     if(!raw.length)return;
+    // ?pin= renders into the Stocks view, which moved to PAPA. Without this
+    // guard the link would still "work" — pin the tickers, then drop the
+    // visitor on Home with nothing to show for it.
+    if(VIEWS.indexOf('stocks')===-1)return;
     // Force navigation to the stocks view so the user lands where the pins render
     if(location.hash!=='#stocks'){location.hash='#stocks';}
     raw.forEach(function(tk){window._rdPinTicker(tk);});
