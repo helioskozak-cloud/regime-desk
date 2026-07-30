@@ -39214,12 +39214,6 @@ window._rd_postrender_news=function(){
 // Re-run that script to re-port news-desk after it changes.
 window._ndBoot=function(){
   if(window._ndBooted)return; window._ndBooted=true;
-  try{window.switchView=switchView;}catch(e){}
-  try{window.render=render;}catch(e){}
-  try{window.clearFilters=clearFilters;}catch(e){}
-  try{window.pickTicker=pickTicker;}catch(e){}
-  try{window._pasteWatchlist=_pasteWatchlist;}catch(e){}
-  try{window.tickerClick=tickerClick;}catch(e){}
   try{
 
 // ?embed=1 — this page running inside another site's tab (regime-desk's News
@@ -39884,6 +39878,25 @@ setInterval(()=>{document.getElementById('updated').textContent = fmtUpdated(STA
   });
 })();
 
+    try{
+      if(!STATE.watchlist.length){
+        var _rdw=(localStorage.getItem('rd-watchlist')||'')
+          .split(',').map(function(s){return s.trim().toUpperCase();})
+          .filter(Boolean);
+        if(_rdw.length){
+          STATE.watchlist=_rdw;
+          STATE.holdingsSummary={filename:null,source:'regime-desk watchlist'};
+        }
+      }
+    }catch(e){console.error('news tab: watchlist seed failed',e);}
+    try{window.switchView=switchView;}catch(e){console.error('news tab: could not expose switchView',e);}
+    try{window.render=render;}catch(e){console.error('news tab: could not expose render',e);}
+    try{window.clearFilters=clearFilters;}catch(e){console.error('news tab: could not expose clearFilters',e);}
+    try{window.pickTicker=pickTicker;}catch(e){console.error('news tab: could not expose pickTicker',e);}
+    try{window._pasteWatchlist=_pasteWatchlist;}catch(e){console.error('news tab: could not expose _pasteWatchlist',e);}
+    try{window.tickerClick=tickerClick;}catch(e){console.error('news tab: could not expose tickerClick',e);}
+    var _ndMissing=["switchView", "render", "clearFilters", "pickTicker", "_pasteWatchlist", "tickerClick"].filter(function(n){return typeof window[n]!=='function';});
+    if(_ndMissing.length)console.error('news tab: handlers not exposed, inline controls will be dead:',_ndMissing);
   }catch(e){
     console.error('news tab failed to start',e);
     var c=document.getElementById('content');
