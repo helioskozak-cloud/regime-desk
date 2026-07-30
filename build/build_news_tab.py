@@ -147,6 +147,21 @@ def main() -> None:
     js = js.replace("fetch('data/", f"fetch('{FEED}/")
     js = js.replace('fetch("data/', f'fetch("{FEED}/')
 
+    # The upload UI must not offer what this build cannot read. See csv_parser
+    # below for why .xlsx is gone: SheetJS is CDN-loaded and gets stripped.
+    for before, after in [
+        ('accept=".xlsx,.xls,.csv"', 'accept=".csv,text/csv"'),
+        ("Drop .xlsx here", "Drop .csv here"),
+        ("*.xlsx</code>", "*.csv</code>"),
+        ("Looks for Symbol / Ticker",
+         "CSV only here - save an .xlsx copy as CSV first. "
+         "Looks for Symbol / Ticker"),
+    ]:
+        if before not in js:
+            sys.exit(f"expected upload-UI text not found, refusing to ship a "
+                     f"drop zone that lies about what it accepts: {before!r}")
+        js = js.replace(before, after)
+
     # These MUST be emitted after news-desk's code has run, not before it.
     #
     # The handlers are `function` declarations sitting inside the try block
@@ -163,6 +178,81 @@ def main() -> None:
         f"    try{{window.{h}={h};}}"
         f"catch(e){{console.error('news tab: could not expose {h}',e);}}"
         for h in HANDLERS)
+
+    # news-desk parses holdings files with SheetJS, which it loads from a CDN:
+    #   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/...">
+    # That tag is stripped here, because this page has to stay self-contained —
+    # so XLSX never exists and every upload sat on "SheetJS still loading, try
+    # again in a moment." forever, including .csv, since news-desk routes CSV
+    # through XLSX.read() too.
+    #
+    # Rather than inline ~900KB of third-party library into a public page, or
+    # add a CDN script to it, the merged tab parses CSV itself and gives up on
+    # .xlsx. Excel files still work on news-desk proper, where SheetJS loads.
+    # The header detection, symbol-column matching and ticker filtering below
+    # are deliberately identical to news-desk's — only the decoding differs.
+    csv_parser = r"""
+    function _ndParseCSV(text){
+      // Minimal RFC4180: quoted fields, "" escapes, newlines inside quotes.
+      if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+      var rows=[],row=[],cur='',q=false;
+      for(var i=0;i<text.length;i++){
+        var c=text[i];
+        if(q){
+          if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
+          else cur+=c;
+        }
+        else if(c==='"') q=true;
+        else if(c===',') { row.push(cur); cur=''; }
+        else if(c==='\n'){ row.push(cur); cur=''; rows.push(row); row=[]; }
+        else if(c!=='\r') cur+=c;
+      }
+      if(cur.length||row.length){ row.push(cur); rows.push(row); }
+      return rows;
+    }
+    _parseHoldings=function(file){
+      var reader=new FileReader();
+      reader.onload=function(ev){
+        try{
+          var rows=_ndParseCSV(String(ev.target.result));
+          var headerIdx=0;
+          for(var i=0;i<Math.min(rows.length,6);i++){
+            var non=rows[i].filter(function(v){
+              return String(v||'').trim().length>0; }).length;
+            if(non>=4){ headerIdx=i; break; }
+          }
+          var headers=rows[headerIdx]||[];
+          var dataRows=rows.slice(headerIdx+1);
+          var symCol=_findSymbolColumn(headers);
+          if(!symCol){
+            STATE.holdingsSummary={filename:file.name,rowCount:dataRows.length,
+              symCol:null,tickerCount:0,skipped:dataRows.length,
+              error:'No Symbol-like column found. If this was an .xlsx, save it '
+                   +'as CSV first - Excel files are not supported here.'};
+            render(); return;
+          }
+          var seen={},skipped=0,order=[];
+          for(var r=0;r<dataRows.length;r++){
+            var tk=String(dataRows[r][symCol.idx]||'').trim().toUpperCase()
+                     .replace(/\s+/g,'');
+            if(!tk) continue;
+            if(_CASH_LIKE.has(tk)){ skipped++; continue; }
+            if(!_TICKER_RE.test(tk)){ skipped++; continue; }
+            if(!seen[tk]){ seen[tk]=1; order.push(tk); }
+          }
+          STATE.watchlist=order.sort();
+          STATE.watchOnly=STATE.watchlist.length>0;
+          STATE.holdingsSummary={filename:file.name,rowCount:dataRows.length,
+            symCol:symCol.label,tickerCount:STATE.watchlist.length,
+            skipped:skipped};
+          _savePrefs(); _renderWatchUI(); render();
+        }catch(err){
+          STATE.holdingsSummary={filename:file.name,rowCount:0,error:String(err)};
+          render();
+        }
+      };
+      reader.readAsText(file);
+    };"""
 
     # MY BOOK counted 0 forever because news-desk keeps its watchlist in its own
     # store (nd-prefs-v1) while regime-desk keeps one in `rd-watchlist`. Two
@@ -207,6 +297,7 @@ def main() -> None:
         "  if(window._ndBooted)return; window._ndBooted=true;\n"
         "  try{\n"
         f"{js}\n"
+        f"{csv_parser}\n"
         f"{seed}\n"
         f"{expose}\n"
         f"{check}\n"

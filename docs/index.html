@@ -39473,11 +39473,11 @@ function _wireBookHeader(){
 function renderBookUpload(){
   return `<div class="holdings-panel">
     <h2>▸ My Book</h2>
-    <p class="lead">Drop a holdings spreadsheet (LPL <code style="color:var(--text)">Account-Investments-*.xlsx</code> or any file with a Symbol column). The tickers extracted from it become your book — this tab will then filter the feed to only show headlines mentioning those names. Files are parsed in your browser; nothing leaves your machine.</p>
+    <p class="lead">Drop a holdings spreadsheet (LPL <code style="color:var(--text)">Account-Investments-*.csv</code> or any file with a Symbol column). The tickers extracted from it become your book — this tab will then filter the feed to only show headlines mentioning those names. Files are parsed in your browser; nothing leaves your machine.</p>
     <label class="drop-zone" id="hldDrop">
-      <div class="big">⬇ Drop .xlsx here or click to choose</div>
-      <div class="sml">Looks for Symbol / Ticker / Symbol / CUSIP / ID columns</div>
-      <input type="file" id="hldFile" accept=".xlsx,.xls,.csv">
+      <div class="big">⬇ Drop .csv here or click to choose</div>
+      <div class="sml">CSV only here - save an .xlsx copy as CSV first. Looks for Symbol / Ticker / Symbol / CUSIP / ID columns</div>
+      <input type="file" id="hldFile" accept=".csv,text/csv">
     </label>
     <p class="lead" style="margin-top:16px">Or paste tickers separated by commas / spaces / newlines:</p>
     <textarea id="hldPaste" rows="3" placeholder="AAPL MSFT NVDA GOOGL META TSLA AMZN" style="width:100%;background:#0a0a0a;border:1px solid var(--border-bright);color:var(--text);padding:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;border-radius:6px"></textarea>
@@ -39878,6 +39878,68 @@ setInterval(()=>{document.getElementById('updated').textContent = fmtUpdated(STA
   });
 })();
 
+
+    function _ndParseCSV(text){
+      // Minimal RFC4180: quoted fields, "" escapes, newlines inside quotes.
+      if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+      var rows=[],row=[],cur='',q=false;
+      for(var i=0;i<text.length;i++){
+        var c=text[i];
+        if(q){
+          if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
+          else cur+=c;
+        }
+        else if(c==='"') q=true;
+        else if(c===',') { row.push(cur); cur=''; }
+        else if(c==='\n'){ row.push(cur); cur=''; rows.push(row); row=[]; }
+        else if(c!=='\r') cur+=c;
+      }
+      if(cur.length||row.length){ row.push(cur); rows.push(row); }
+      return rows;
+    }
+    _parseHoldings=function(file){
+      var reader=new FileReader();
+      reader.onload=function(ev){
+        try{
+          var rows=_ndParseCSV(String(ev.target.result));
+          var headerIdx=0;
+          for(var i=0;i<Math.min(rows.length,6);i++){
+            var non=rows[i].filter(function(v){
+              return String(v||'').trim().length>0; }).length;
+            if(non>=4){ headerIdx=i; break; }
+          }
+          var headers=rows[headerIdx]||[];
+          var dataRows=rows.slice(headerIdx+1);
+          var symCol=_findSymbolColumn(headers);
+          if(!symCol){
+            STATE.holdingsSummary={filename:file.name,rowCount:dataRows.length,
+              symCol:null,tickerCount:0,skipped:dataRows.length,
+              error:'No Symbol-like column found. If this was an .xlsx, save it '
+                   +'as CSV first - Excel files are not supported here.'};
+            render(); return;
+          }
+          var seen={},skipped=0,order=[];
+          for(var r=0;r<dataRows.length;r++){
+            var tk=String(dataRows[r][symCol.idx]||'').trim().toUpperCase()
+                     .replace(/\s+/g,'');
+            if(!tk) continue;
+            if(_CASH_LIKE.has(tk)){ skipped++; continue; }
+            if(!_TICKER_RE.test(tk)){ skipped++; continue; }
+            if(!seen[tk]){ seen[tk]=1; order.push(tk); }
+          }
+          STATE.watchlist=order.sort();
+          STATE.watchOnly=STATE.watchlist.length>0;
+          STATE.holdingsSummary={filename:file.name,rowCount:dataRows.length,
+            symCol:symCol.label,tickerCount:STATE.watchlist.length,
+            skipped:skipped};
+          _savePrefs(); _renderWatchUI(); render();
+        }catch(err){
+          STATE.holdingsSummary={filename:file.name,rowCount:0,error:String(err)};
+          render();
+        }
+      };
+      reader.readAsText(file);
+    };
     try{
       if(!STATE.watchlist.length){
         var _rdw=(localStorage.getItem('rd-watchlist')||'')
