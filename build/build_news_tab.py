@@ -67,6 +67,38 @@ HANDLERS = ["switchView", "render", "clearFilters", "pickTicker",
 GLOBAL_SELECTORS = ("html", "body", "*", ":root", "::-webkit-scrollbar",
                     "::selection", ":focus")
 
+# Appended after the ported CSS so it wins. Two separate problems, both of which
+# made the tab read as a panel dropped onto the page rather than part of it.
+#
+# COLOUR. news-desk's chrome bars hardcode #050505 and #080808 instead of using
+# its own theme variables, so the palette remap that themes everything else
+# could not reach them. They stayed near-black under regime-desk's #161b22
+# topbar. Pointed at the same variables the rest of the page uses.
+#
+# ALIGNMENT. #topbar runs full-bleed and pads its CONTENT to the centred column
+# (`padding:0 max(20px,calc((100% - 1760px)/2 + 28px))`). #v-news instead sits
+# inside #main, which is `padding:20px 28px`, so its surface was boxed inside
+# the column while every bar above it ran edge to edge. Cancelling #main's
+# padding and re-adding it to the news rows puts the surface edge to edge and
+# leaves the text on the same left margin as the topbar's.
+#
+# Deliberately not using 100vw: it includes the scrollbar and would introduce a
+# horizontal overflow to fix a cosmetic seam.
+BLEND_CSS = """
+/* --- regime-desk blend layer (build_news_tab.py) --- */
+#v-news .tabs{background:var(--panel);border-bottom-color:var(--border-bright)}
+#v-news .toolbar{background:var(--bg)}
+#v-news .grp{background:var(--bg)}
+@media (min-width:901px){
+  #v-news{margin:-20px -28px 0}
+  #v-news .tabs,#v-news .toolbar,#v-news .grp,#v-news .row,
+  #v-news .play-row{padding-left:28px;padding-right:28px}
+}
+@media (max-width:900px){
+  #v-news{margin:-14px -12px 0}
+}
+"""
+
 
 def source_html(offline: bool) -> str:
     if offline:
@@ -141,7 +173,7 @@ def main() -> None:
     markup = re.sub(r"<style[\s\S]*?</style>", "", markup)
     markup = markup.strip()
 
-    css = scope_css("\n".join(styles))
+    css = scope_css("\n".join(styles)) + BLEND_CSS
 
     js = "\n".join(scripts)
     js = js.replace("fetch('data/", f"fetch('{FEED}/")

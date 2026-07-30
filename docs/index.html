@@ -211,6 +211,19 @@ html.light footer{color:#57606a;border-color:#d0d7de}
   @media (max-width:480px){#v-news .topbar .brand span{display:none}#v-news .tab .count{display:none}#v-news .row{grid-template-columns:42px 1fr;padding:6px 8px}#v-news .row .time{font-size:10px}#v-news .play-row{grid-template-columns:42px 56px 1fr}
   }
 
+/* --- regime-desk blend layer (build_news_tab.py) --- */
+#v-news .tabs{background:var(--panel);border-bottom-color:var(--border-bright)}
+#v-news .toolbar{background:var(--bg)}
+#v-news .grp{background:var(--bg)}
+@media (min-width:901px){
+  #v-news{margin:-20px -28px 0}
+  #v-news .tabs,#v-news .toolbar,#v-news .grp,#v-news .row,
+  #v-news .play-row{padding-left:28px;padding-right:28px}
+}
+@media (max-width:900px){
+  #v-news{margin:-14px -12px 0}
+}
+
 /* @@NEWS-TAB-CSS-END@@ */
 </style>
 </head>
