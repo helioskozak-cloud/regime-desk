@@ -147,20 +147,14 @@ def main() -> None:
     js = js.replace("fetch('data/", f"fetch('{FEED}/")
     js = js.replace('fetch("data/', f'fetch("{FEED}/')
 
-    # The upload UI must not offer what this build cannot read. See csv_parser
-    # below for why .xlsx is gone: SheetJS is CDN-loaded and gets stripped.
-    for before, after in [
-        ('accept=".xlsx,.xls,.csv"', 'accept=".csv,text/csv"'),
-        ("Drop .xlsx here", "Drop .csv here"),
-        ("*.xlsx</code>", "*.csv</code>"),
-        ("Looks for Symbol / Ticker",
-         "CSV only here - save an .xlsx copy as CSV first. "
-         "Looks for Symbol / Ticker"),
-    ]:
-        if before not in js:
-            sys.exit(f"expected upload-UI text not found, refusing to ship a "
-                     f"drop zone that lies about what it accepts: {before!r}")
-        js = js.replace(before, after)
+    # The upload UI advertises .xlsx/.xls/.csv and all three work — see
+    # holdings_js below. Asserted so that if news-desk ever narrows this input,
+    # the build fails rather than silently shipping a drop zone whose accept
+    # list disagrees with what the parser can actually read.
+    if 'accept=".xlsx,.xls,.csv"' not in js:
+        sys.exit("upload input's accept list changed upstream — re-check "
+                 "holdings_js before shipping a drop zone that may lie about "
+                 "the formats it takes.")
 
     # These MUST be emitted after news-desk's code has run, not before it.
     #
@@ -182,16 +176,27 @@ def main() -> None:
     # news-desk parses holdings files with SheetJS, which it loads from a CDN:
     #   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/...">
     # That tag is stripped here, because this page has to stay self-contained —
-    # so XLSX never exists and every upload sat on "SheetJS still loading, try
+    # so XLSX never existed and every upload sat on "SheetJS still loading, try
     # again in a moment." forever, including .csv, since news-desk routes CSV
     # through XLSX.read() too.
     #
-    # Rather than inline ~900KB of third-party library into a public page, or
-    # add a CDN script to it, the merged tab parses CSV itself and gives up on
-    # .xlsx. Excel files still work on news-desk proper, where SheetJS loads.
-    # The header detection, symbol-column matching and ticker filtering below
-    # are deliberately identical to news-desk's — only the decoding differs.
-    csv_parser = r"""
+    # Three things were wrong with the obvious fixes. Restoring the CDN tag puts
+    # a third-party script on a public page and reintroduces the dependency the
+    # self-contained rule exists to remove. Inlining the library into this file
+    # roughly doubles a page that is already 1.2MB and is rewritten daily.
+    # Dropping .xlsx is not an option — LPL exports are xlsx, and that is the
+    # format the tab exists to read.
+    #
+    # So SheetJS is VENDORED at docs/vendor/xlsx.full.min.js (0.18.5, the same
+    # build news-desk used) and loaded SAME-ORIGIN and LAZILY — only when a
+    # spreadsheet is actually dropped. Nobody who never opens MY BOOK pays for
+    # it, the page itself does not grow, and there is no third-party origin in
+    # the loading path.
+    #
+    # CSV is still parsed natively below, so the common case needs no library at
+    # all. The header detection, symbol-column matching, cash-like exclusions
+    # and ticker regex are byte-for-byte news-desk's; only decoding differs.
+    holdings_js = r"""
     function _ndParseCSV(text){
       // Minimal RFC4180: quoted fields, "" escapes, newlines inside quotes.
       if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
@@ -210,11 +215,21 @@ def main() -> None:
       if(cur.length||row.length){ row.push(cur); rows.push(row); }
       return rows;
     }
-    _parseHoldings=function(file){
-      var reader=new FileReader();
-      reader.onload=function(ev){
+    // Same-origin, relative, and only fetched when a spreadsheet is dropped.
+    function _ndLoadXLSX(ok,fail){
+      if(typeof XLSX!=='undefined') return ok();
+      if(_ndLoadXLSX._pending){ _ndLoadXLSX._pending.push([ok,fail]); return; }
+      _ndLoadXLSX._pending=[[ok,fail]];
+      var s=document.createElement('script');
+      s.src='vendor/xlsx.full.min.js';
+      s.onload=function(){ var q=_ndLoadXLSX._pending||[]; _ndLoadXLSX._pending=null;
+        q.forEach(function(p){ p[0](); }); };
+      s.onerror=function(){ var q=_ndLoadXLSX._pending||[]; _ndLoadXLSX._pending=null;
+        q.forEach(function(p){ p[1](); }); };
+      document.head.appendChild(s);
+    }
+    function _ndApplyRows(rows,file){
         try{
-          var rows=_ndParseCSV(String(ev.target.result));
           var headerIdx=0;
           for(var i=0;i<Math.min(rows.length,6);i++){
             var non=rows[i].filter(function(v){
@@ -227,8 +242,7 @@ def main() -> None:
           if(!symCol){
             STATE.holdingsSummary={filename:file.name,rowCount:dataRows.length,
               symCol:null,tickerCount:0,skipped:dataRows.length,
-              error:'No Symbol-like column found. If this was an .xlsx, save it '
-                   +'as CSV first - Excel files are not supported here.'};
+              error:'No Symbol-like column found in the first sheet.'};
             render(); return;
           }
           var seen={},skipped=0,order=[];
@@ -250,6 +264,35 @@ def main() -> None:
           STATE.holdingsSummary={filename:file.name,rowCount:0,error:String(err)};
           render();
         }
+    }
+    _parseHoldings=function(file){
+      var reader=new FileReader();
+      if(/\.(xlsx|xlsm|xlsb|xls)$/i.test(file.name||'')){
+        _ndLoadXLSX(function(){
+          reader.onload=function(ev){
+            try{
+              var wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
+              var sheet=wb.Sheets[wb.SheetNames[0]];
+              _ndApplyRows(
+                XLSX.utils.sheet_to_json(sheet,{header:1,raw:true,defval:''}),
+                file);
+            }catch(err){
+              STATE.holdingsSummary={filename:file.name,rowCount:0,
+                error:'Could not read that spreadsheet: '+String(err)};
+              render();
+            }
+          };
+          reader.readAsArrayBuffer(file);
+        },function(){
+          STATE.holdingsSummary={filename:file.name,rowCount:0,
+            error:'Could not load the spreadsheet reader. Reload the page, or '
+                 +'save the file as CSV, which needs no reader.'};
+          render();
+        });
+        return;
+      }
+      reader.onload=function(ev){
+        _ndApplyRows(_ndParseCSV(String(ev.target.result)),file);
       };
       reader.readAsText(file);
     };"""
@@ -297,7 +340,7 @@ def main() -> None:
         "  if(window._ndBooted)return; window._ndBooted=true;\n"
         "  try{\n"
         f"{js}\n"
-        f"{csv_parser}\n"
+        f"{holdings_js}\n"
         f"{seed}\n"
         f"{expose}\n"
         f"{check}\n"

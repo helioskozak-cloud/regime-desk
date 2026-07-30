@@ -37,6 +37,20 @@ def validate(html: str) -> None:
     if re.search(r'<script[^>]+src\s*=', html, re.IGNORECASE):
         errors.append("External <script src=...> found — file must be self-contained")
 
+    # The News tab loads the vendored SheetJS on demand by building a <script>
+    # element, so the literal-tag check above never sees it. That is fine while
+    # the URL is same-origin — docs/vendor/ ships in this repo — and not fine
+    # the moment it points at a CDN, which is exactly the dependency the
+    # self-contained rule exists to prevent. Check the assignments themselves so
+    # the guarantee survives being routed around.
+    for src in re.findall(r"""\.src\s*=\s*['"]([^'"]+)['"]""", html):
+        if src.startswith("http://localhost"):
+            continue
+        if "://" in src or src.startswith("//"):
+            errors.append(
+                f"script/element .src set to a cross-origin URL — vendor it "
+                f"under docs/ and use a relative path instead: {src}")
+
     # fetch() to localhost is allowed (local API server). Same-origin
     # relative paths are also allowed — they resolve against the Pages
     # site origin, no third-party data flow. The cloud-tunnel discovery
