@@ -72,6 +72,29 @@ def _has_data() -> bool:
     return False
 
 
+def _report_frozen(exc: Exception) -> None:
+    """Shout when the page could not be rewritten at all.
+
+    A total rollback is indistinguishable from a quiet day: the build keeps the
+    original HTML, the commit step finds nothing staged, and the run goes green.
+    That is exactly what happened between 2026-07-29 and 07-30 — validation
+    rejected the merged News tab's fetches to news-desk, every run rolled back,
+    and the dashboard sat frozen at "generated 2026-07-29" for a full day while
+    the data underneath it kept updating. Six green runs a day, all reporting
+    success, none of them writing the page.
+
+    An ::error:: annotation surfaces on the run summary without failing the job,
+    which matters: failing here would abort before the commit step and stop the
+    scan data being committed too, turning a stale dashboard into a stalled
+    pipeline.
+    """
+    lines = [ln.strip() for ln in str(exc).splitlines() if ln.strip()]
+    detail = lines[1] if len(lines) > 1 else (lines[0] if lines else repr(exc))
+    print(f"::error title=Dashboard frozen::docs/index.html was NOT updated - "
+          f"every path rolled back, so the page keeps serving its previous "
+          f"build until this is fixed. Cause: {detail}")
+
+
 def main():
     print(f"[build] Starting build — {date.today()}")
     original_html = _read_html()
@@ -139,9 +162,11 @@ def main():
                 print("[build] Rolled back to data-only refresh")
             except Exception as exc2:
                 print(f"[build] Data-only fallback also failed — keeping original: {exc2}")
+                _report_frozen(exc2)
                 return
         else:
             print("[build] Keeping original HTML unchanged")
+            _report_frozen(exc)
             return
 
     # Step 4: Promote

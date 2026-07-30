@@ -41,8 +41,25 @@ def validate(html: str) -> None:
     # relative paths are also allowed — they resolve against the Pages
     # site origin, no third-party data flow. The cloud-tunnel discovery
     # code fetches api_endpoint.json, which is a relative path.
+    #
+    # news-desk's own data files are allowed too. The News tab was MERGED in on
+    # 2026-07-29 rather than framed, and the point of merging is that the
+    # headlines stay live — news-desk republishes them every five minutes, while
+    # this page rebuilds a few times a day. Baking them in would make the tab
+    # stale by design. build/build_news_tab.py deliberately rewrites the tab's
+    # relative fetches to these absolute URLs for that reason.
+    #
+    # This check rolled the whole build back for a full day because of it: every
+    # run since the merge failed validation, kept the original HTML, and left
+    # the dashboard frozen at 2026-07-29 while the data underneath it updated
+    # normally. Narrow allowance on purpose — this is the one origin the page is
+    # designed to read, not a general licence to fetch.
+    NEWS_DESK_DATA = "https://helioskozak-cloud.github.io/news-desk/data/"
+
     def _is_external_fetch(u: str) -> bool:
         if u.startswith("http://localhost"):
+            return False
+        if u.startswith(NEWS_DESK_DATA):
             return False
         # Relative URL — no scheme, no protocol-relative leading //
         if "://" not in u and not u.startswith("//"):
