@@ -21,5 +21,10 @@ tunnel_logs/
 build_client_deck.py
 client_deck.pdf
 
-# Test deps (jsdom / playwright) — installed per-machine, see tests/README.md
+# Test deps (jsdom / playwright) — installed per-machine, see tests/README.md.
+# `npm i jsdom playwright` writes a manifest and lockfile at the repo root as a
+# side effect. There is no npm project here to describe — the harnesses are
+# plain `node tests/*.js` — so those are install artifacts, not sources.
 node_modules/
+package.json
+package-lock.json

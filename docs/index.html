@@ -35807,7 +35807,7 @@ function renderHome(){
   const briefStrip=`<div class="card" style="padding:10px 14px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div style="font-size:12px;line-height:1.7">${sinceInner||'<span style="color:#6e7681">Daily market brief</span>'}</div><span style="font-size:11px;color:#6e7681">${S.generated}</span></div></div>`;
 
   // Paper-portfolios one-liner (read-only).
-  const portStrip=portKeys.length?`<div class="card" style="padding:12px 16px">
+  const portStrip=portKeys.length?`<div class="card" style="padding:12px 14px">
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;font-weight:700">Paper portfolios YTD</span>
       ${portKeys.map(k=>{
@@ -35841,7 +35841,7 @@ function renderHome(){
 function _rdMiniBar(frac,col){const p=Math.max(0,Math.min(100,(frac||0)*100));return`<div style="height:4px;background:#21262d;border-radius:1px;overflow:hidden;margin-top:6px"><div style="height:4px;width:${p}%;background:${col}"></div></div>`;}
 function _rdTile(label,valHtml,barHtml,nowrap){return`<div style="flex:1;min-width:112px;background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:9px 11px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;${nowrap===false?'':'white-space:nowrap'}">${label}</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;margin-top:2px">${valHtml}</div>${barHtml||''}</div>`;}
 function _rdHero(label,valHtml,subHtml,accentCol,valCol){return`<div style="flex:1.3;min-width:150px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${accentCol};border-radius:2px;padding:9px 11px;display:flex;flex-direction:column;justify-content:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${label}</div><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:${valCol||accentCol};line-height:1.15">${valHtml}</div><div style="color:#6e7681;font-size:10px;margin-top:3px">${subHtml||''}</div></div>`;}
-function _rdSummaryCard(title,accentCol,heroHtml,tilesHtml,footHtml){return`<div class="card" style="border-left:4px solid ${accentCol}"><h2>${title}</h2><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:stretch">${heroHtml}${tilesHtml}</div>${footHtml?`<div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.6">${footHtml}</div>`:''}</div>`;}
+function _rdSummaryCard(title,accentCol,heroHtml,tilesHtml,footHtml){return`<div class="card" style="border-left:4px solid ${accentCol};padding-left:11px"><h2>${title}</h2><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:stretch">${heroHtml}${tilesHtml}</div>${footHtml?`<div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.6">${footHtml}</div>`:''}</div>`;}
 
 function _cardVerdict(){
   var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}
@@ -37252,7 +37252,7 @@ function renderAnalysis(){
   </div>
   </div>
 
-  <div class="card" style="border-left:3px solid #e3b341">
+  <div class="card" style="border-left:3px solid #e3b341;padding-left:12px">
   <h2 style="color:#e3b341">Limitations</h2>
   <div style="line-height:1.65;font-size:13px;color:#c9d1d9">
     <p style="margin-bottom:8px"><strong style="color:#f0f6fc">Small samples.</strong> Five observations is the floor; many signals sit near it. Hit rates and p-percentiles from tiny samples are noisy — don't over-weight them.</p>
@@ -37352,17 +37352,17 @@ function renderBubble(){
       <div style="flex-shrink:0;width:64px;text-align:center;padding-top:2px"><span style="display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:.5px;background:${c.lit?'rgba(248,81,73,.15)':'rgba(63,185,80,.12)'};color:${c.lit?'#f85149':'#3fb950'}">${c.lit?'LIT':'quiet'}</span></div>
       <div><div style="color:#f0f6fc;font-weight:600;font-size:13.5px">${c.name}</div>
       <div style="color:#c9d1d9;font-size:12.5px;font-family:var(--mono);margin:2px 0">${c.read}</div>
-      <div style="color:#8b949e;font-size:12px;max-width:76ch">${c.why}</div></div></div>`).join('');
-    return `<div class="card" style="margin-top:14px"><h3 style="color:#f0f6fc;margin-bottom:4px">What a top looks like on this clock</h3>
-    <p style="color:#8b949e;font-size:12.5px;max-width:82ch">The dot-com sequence ran: <strong style="color:#c9d1d9">melt-up</strong> (doublers accelerate and broaden, 1998–99) → <strong style="color:#c9d1d9">dissolution</strong> (halvers rise while the index still makes highs, 1999) → <strong style="color:#c9d1d9">the flip</strong> (halvers overtake doublers, 2000 — the top) → <strong style="color:#c9d1d9">capitulation</strong> (no doublers, mass halving, 2002). The five markers below track that sequence against the latest year of data and update with every daily scan.</p>
+      <div style="color:#8b949e;font-size:12px;max-width:820px">${c.why}</div></div></div>`).join('');
+    return `<div class="card"><h3 style="color:#f0f6fc;margin-bottom:11px">What a top looks like on this clock</h3>
+    <p style="color:#8b949e;font-size:12.5px;max-width:820px">The dot-com sequence ran: <strong style="color:#c9d1d9">melt-up</strong> (doublers accelerate and broaden, 1998–99) → <strong style="color:#c9d1d9">dissolution</strong> (halvers rise while the index still makes highs, 1999) → <strong style="color:#c9d1d9">the flip</strong> (halvers overtake doublers, 2000 — the top) → <strong style="color:#c9d1d9">capitulation</strong> (no doublers, mass halving, 2002). The five markers below track that sequence against the latest year of data and update with every daily scan.</p>
     ${rows}
     <div style="display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:12px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${verdict[1]};border-radius:2px">
       <div><div style="font-weight:700;color:${verdict[1]};font-size:13px">${nLit} of 5 markers lit — ${verdict[0]}</div>
-      <div style="color:#8b949e;font-size:12.5px;max-width:80ch;margin-top:3px">${verdict[2]} Timing caveat: this clock had exactly one full cycle to calibrate on, analogies stretch, and today’s mega-cap concentration means the index can mask member-level damage longer than in 1999.</div></div>
+      <div style="color:#8b949e;font-size:12.5px;max-width:820px;margin-top:3px">${verdict[2]} Timing caveat: this clock had exactly one full cycle to calibrate on, analogies stretch, and today’s mega-cap concentration means the index can mask member-level damage longer than in 1999.</div></div>
     </div></div>`;
   })()}
-  <div class="card" style="margin-top:14px"><h3 style="color:#f0f6fc;margin-bottom:6px">Method &amp; caveats</h3>
-  <p style="color:#8b949e;font-size:12.5px;max-width:860px">${(bw.meta&&bw.meta.method)||''}. <strong style="color:#c9d1d9">Survivorship bias:</strong> ${(bw.meta&&bw.meta.survivorship_note)||'dot-com era coverage is partial — treat those bars as floors.'} The historical record puts 1999's true extremes far higher (13 large caps rose &gt;1,000%; Qualcomm +2,619%) — so the real dot-com/AI contrast is starker than charted. Data as of ${bw.as_of||S.generated}.</p></div>
+  <div class="card"><h3 style="color:#f0f6fc;margin-bottom:11px">Method &amp; caveats</h3>
+  <p style="color:#8b949e;font-size:12.5px;max-width:820px">${(bw.meta&&bw.meta.method)||''}. <strong style="color:#c9d1d9">Survivorship bias:</strong> ${(bw.meta&&bw.meta.survivorship_note)||'dot-com era coverage is partial — treat those bars as floors.'} The historical record puts 1999's true extremes far higher (13 large caps rose &gt;1,000%; Qualcomm +2,619%) — so the real dot-com/AI contrast is starker than charted. Data as of ${bw.as_of||S.generated}.</p></div>
   <footer>Breadth-extremes research view — not investment advice.</footer>`;
 }
 function renderEcon(){
