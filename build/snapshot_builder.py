@@ -533,7 +533,11 @@ def build_snapshot(ledger=None):
 
     # Merge watchlist signals from ticker_cache.json (tickers not in main scan)
     ticker_cache_path = DATA / "ticker_cache.json"
-    if ticker_cache_path.exists():
+    if not ticker_cache_path.exists():
+        # Recorded, not skipped: INPUT_CRITICALITY is the single place that
+        # decides whether an absence matters, so every input must reach it.
+        ledger.missing("ticker_cache.json")
+    else:
         try:
             with open(ticker_cache_path, "r", encoding="utf-8") as f:
                 cache = json.load(f)
