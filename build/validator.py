@@ -60,8 +60,10 @@ def validate(html: str) -> None:
     # 2026-07-29 rather than framed, and the point of merging is that the
     # headlines stay live — news-desk republishes them every five minutes, while
     # this page rebuilds a few times a day. Baking them in would make the tab
-    # stale by design. build/build_news_tab.py deliberately rewrites the tab's
-    # relative fetches to these absolute URLs for that reason.
+    # stale by design, which is why the tab fetches these two absolute URLs at
+    # runtime. (Until 2026-07-31 they were rewritten into a port of news-desk's
+    # own page by build/build_news_tab.py; the tab is now a native view that
+    # reads the same JSON, so the URLs are written literally in index.html.)
     #
     # This check rolled the whole build back for a full day because of it: every
     # run since the merge failed validation, kept the original HTML, and left
