@@ -3,99 +3,143 @@
 Branch: `news-redesign` (from `origin/main` @ `1136a76`). **Never push to main.**
 Spec: `NEWS_TAB_REDESIGN.md` (authoritative). This file is the running log.
 
-Written for someone starting cold. Last updated: 2026-07-31, run 1 (05:0x UTC).
+Written for someone starting cold. Last updated: 2026-07-31 run 1, ~05:4x UTC.
 
 ---
 
-## Status
+## Status: the native view works and is pushed
 
-**In progress.** Reconnaissance done, implementation starting.
+All seven acceptance criteria in the spec are met and tested. `docs/index.html`
+passes the validator. `build/build_news_tab.py` is deleted and no
+`@@NEWS-TAB-*@@` marker remains.
 
-## What I established before writing code (all verified in-repo)
+One thing could not be verified and one spec statement turned out to be stale —
+both below, both flagged rather than worked around.
 
-### The page's shape
-- `docs/index.html` is one 41k-line self-contained file.
-- Views are `<div class="view" id="v-NAME">` inside `#main`
-  (`max-width:1760px;padding:20px 28px`). `#v-news` is at line ~256.
-- Router: `renderers={...,news:renderNews}` → `route()` sets
-  `el.innerHTML=renderers[view]()` once (`dataset.rendered`), then calls
-  `window['_rd_postrender_'+view]()` if it exists. So the view renders exactly
-  once and any wiring must happen in the postrender hook.
-- House idiom: `.card{background:#161b22;border:1px solid #30363d;
-  border-radius:2px;padding:13px 14px;margin-bottom:12px}` + `.card h2`
-  (mono, 12px, uppercase, bottom border). Used 64×.
-- A `MutationObserver` appends a `.popout-btn` to **every** `.card` under
-  `#main`. Consequence for us: the feed must re-render into an inner
-  container, never by replacing the card's own `innerHTML`, or the pop-out
-  button gets destroyed on every poll.
-- `#rd-tip` is regime-desk's own global hover tooltip, bound to
-  `[data-ticker]` anywhere on the page. It already renders price, session
-  change (`(change_pct*100).toFixed(2)`), edge, median, hits — and it
-  `return`s early when the ticker has no SNAPSHOT entry, i.e. it is already
-  honest about coverage. So putting `data-ticker` on our symbols gives the
-  rich hover for free; the redesign's job is the *inline* numbers.
+## What shipped
 
-### The data
-- `window.SNAPSHOT.stocks` — 100 entries. `window.SNAPSHOT.all_signals` —
-  **152** entries (the spec says 142 and says all_signals has *no price*;
-  **both are now out of date**: every one of the 152 carries `price`,
-  `change_pct` and `week_closes`). all_signals is a strict superset of
-  stocks by ticker (union = 152). So the inline price map is built from
-  all_signals first, then stocks overwriting — 152 covered tickers, not 100.
-- `change_pct` units **confirmed as a fraction**, not a percent:
-  `scan/ci_scan.py:741` writes `round((curr - prev) / prev, 4)` into
-  `price_data.json`; `build/snapshot_builder.py:377` copies that straight
-  into both `stocks` and `all_signals`. Observed range in the shipped
-  snapshot: `-0.1701 … +0.2044`. Render `*100`, green `#3fb950` /
-  red `#f85149`.
-- `headlines.json` fields used: `title, link, source, published, tickers[],
-  type, sentiment, summary`; envelope also has `generated` and `ticker_names`.
+`docs/index.html` only. The News tab is now a regime-desk view that consumes
+news-desk's JSON instead of re-hosting its UI.
 
-### Egress is blocked — the one thing I could not verify
-`https://helioskozak-cloud.github.io/**` is **denied by this session's egress
-policy** (proxy answers 403 to CONNECT; confirmed in
-`$HTTPS_PROXY/__agentproxy/status` under `recentRelayFailures`). Per
-`/root/.ccr/README.md` that is an org policy denial, not something to route
-around. So I could not fetch `headlines.json` / `stocks.json` and could not
-check news-desk's own field units.
+- **Markup/CSS.** Two `.card`s — controls, then feed — on `#main`'s 1760px
+  column, in the house palette. The old scoped port (~30KB of news-desk CSS,
+  its `:root` remap, and the 07-30 "blend layer") is gone; the new block is
+  8.4KB and every rule is still prefixed `#v-news`.
+- **Row grid.** `58px | 200px | minmax(0,1fr) | 108px | 154px` —
+  time, ticker + price + session change, headline + inline summary, type,
+  source. `minmax(0,1fr)` rather than `1fr` on the headline is what stops a
+  long unbroken title forcing a horizontal scrollbar. Breakpoints at 1180px
+  (source drops under the headline) and 820px (two columns, explicit
+  placement).
+- **Inline ticker data.** Price and session change beside the symbol, no hover
+  needed. Secondary tickers become chips carrying their own % where known.
+  Symbols keep `data-ticker`, so the page-wide `#rd-tip` still gives the rich
+  hover for free.
+- **No inline `on*` attributes at all** — asserted by a test. Every control is
+  bound by delegated `addEventListener` on `#v-news`. This deletes the entire
+  07-30 Annex-B/handler-exposure trap: there is no name for markup to call, so
+  there is nothing that can silently resolve to `undefined`.
+- **Kept:** search, source filter, type filter, clear, NEWS / MY BOOK,
+  ticker click-to-filter (with an active-filter chip), `.csv` + `.xlsx`
+  holdings upload, 60s polling, untagged headlines dropped.
+- **New, small:** row expansion survives the 60s re-render; a stale/failed feed
+  turns the live dot red and says so instead of showing an empty card.
+- `window.NEWSTAB` is the tab's only global — a module object, needed because
+  the whole page script is wrapped in an IIFE and nothing inside is otherwise
+  reachable from a console or a test harness.
 
-That matters for exactly one decision: **news-desk's `stocks.json` also has a
-`change_pct`, and the ported code renders it as `change_pct.toFixed(2)+'%'`
-— i.e. news-desk treats it as already-percent, the opposite of SNAPSHOT's
-fraction.** I cannot confirm which is right without fetching the file, and
-guessing wrong is a silent 100× error — the exact failure the spec's Traps
-section is about. Decision: **inline price and session change come from
-SNAPSHOT only** (units verified in-repo). That is also literally what
-acceptance criterion #3 asks for ("a ticker with `SNAPSHOT` data shows price
-and session change"), and the spec's own Data-contracts section lists
-`headlines.json` + `window.SNAPSHOT` — not `stocks.json`. `stocks.json` is
-still fetched at runtime and used for non-numeric fields only. If a later run
-can reach the host, verify the units and widen coverage from it.
+## Two things the next run should know
 
-## Plan
+### 1. Egress is blocked here — one decision rests on it
+`https://helioskozak-cloud.github.io/**` is denied by this session's egress
+policy (proxy answers 403 to CONNECT; see `recentRelayFailures` in
+`$HTTPS_PROXY/__agentproxy/status`). Per `/root/.ccr/README.md` that is an org
+policy denial, not something to route around. So the live `headlines.json` /
+`stocks.json` were never fetched, and news-desk's own field units could not be
+checked.
 
-1. Native `renderNews()` returning regime-desk `.card` markup; wiring in
-   `_rd_postrender_news`.
-2. **No inline `on*` attributes anywhere** — event delegation on `#v-news`
-   plus direct listeners on the static control card. This deletes the entire
-   Annex B / handler-exposure trap class rather than working around it.
-3. Row grid that uses 1760px: TIME | TICKER+price+change | HEADLINE+summary
-   | TYPE | SOURCE.
-4. Keep: search, source filter, type filter, CLR, NEWS/MY BOOK, ticker
-   click-to-filter, .csv + .xlsx holdings upload (vendored SheetJS, lazy,
-   same-origin), 60s polling.
-5. Book seeding order: uploaded/pasted book (`rd-news-book`) → legacy
-   `nd-prefs-v1` → `rd-watchlist` (session-only seed).
-6. Delete `build/build_news_tab.py`, the `@@NEWS-TAB-*@@` markers, the ported
-   CSS/JS, and the blend layer — only once the native view actually works.
+That matters for exactly one decision. news-desk's `stocks.json` has a
+`change_pct`, and the code being replaced printed it as
+`change_pct.toFixed(2)+'%'` — i.e. news-desk treats it as **already percent**,
+the opposite of SNAPSHOT's fraction. Guessing wrong is a silent 100× error.
+So **all inline numbers come from `window.SNAPSHOT`**, whose units are verified
+in-repo (`scan/ci_scan.py:741` → `(curr - prev) / prev`;
+`build/snapshot_builder.py:377` copies it into both `stocks` and
+`all_signals`). `stocks.json` is still fetched at runtime and used for company
+names only.
 
-## Testing approach
+This matches acceptance #3 ("a ticker with `SNAPSHOT` data shows price and
+session change") and the spec's Data-contracts section, which lists
+`headlines.json` + `window.SNAPSHOT` and does *not* list `stocks.json`.
 
-Rendering is not evidence. Tests run the real `docs/index.html` in **jsdom**
-with `fetch` stubbed to serve a synthetic `headlines.json`, then *click*
-things and assert on resulting DOM — tabs, search, both selects, CLR, ticker
-chips, paste, CSV upload.
+**If a later run can reach the host:** check whether news-desk's `change_pct`
+is a fraction or a percent. If it is unambiguous, `stocks.json` could widen
+inline coverage beyond SNAPSHOT's 152 tickers. Until then, uncovered tickers
+correctly render bare.
+
+### 2. The spec's SNAPSHOT numbers are stale (in our favour)
+Spec says `all_signals` is 142 entries with **no price**. In the shipped
+snapshot it is **152 entries, every one carrying `price`, `change_pct` and
+`week_closes`**, and it is a strict superset of `stocks` by ticker. The price
+map is therefore built from `all_signals` first and `stocks` second (richer,
+wins on overlap) — 152 covered tickers rather than 100. Not a conflict, just an
+out-of-date document; noted so nobody "fixes" it back.
+
+## Book / watchlist resolution order
+
+The 07-30 trap was two watchlists in one page. Order, most specific first:
+
+1. `rd-news-book` — uploaded or pasted here. Persisted.
+2. `nd-prefs-v1` — a book left behind by the ported tab. Migrated once.
+3. `rd-watchlist` — regime-desk's own. Session seed, never written back.
+4. `SNAPSHOT.watchlist` — this build's. Session seed.
+
+Seeds are labelled as seeds in the UI. "Clear book" is remembered (`cleared`
+is persisted); "Replace book" only opens the upload panel, so backing out of
+it restores the seed rather than silently discarding it.
+
+## Testing — `tests/`, see `tests/README.md`
+
+Rendering is not evidence, so both harnesses drive the real `docs/index.html`
+and assert on state *after* events.
+
+- `tests/news_dom.test.js` — **80 assertions, all passing.** jsdom, `fetch`
+  stubbed with a fixture built from the page's own SNAPSHOT. Covers every
+  control by clicking it, `change_pct` sign/colour/×100, bare-symbol honesty
+  (no price element, no change element, no `0.00`, no dash), zero inline `on*`
+  attributes, `.csv` upload, `.xlsx` upload through the actual vendored
+  SheetJS (a real workbook, generated in-test), SheetJS staying unloaded until
+  a spreadsheet is dropped and then loading from a relative same-origin path,
+  book seeding, a deliberate feed outage failing loudly, and the pop-out button
+  surviving a re-render.
+- `tests/news_layout.test.js` — **36 assertions, all passing.** Real Chromium
+  (`/opt/pw-browsers/chromium`), `docs/` served over localhost, news-desk
+  fetches intercepted. Acceptance #1 at 1366 / 2560 / 1180 / 820 / 390: no
+  document-level horizontal scroll and no element escaping the viewport at any
+  of them; feed card aligns with Home's card to the pixel; a few interactions
+  repeated in a real browser as a cross-check on jsdom.
+
+Neither is wired into CI — nothing was changed under `.github/`.
+
+## Acceptance, line by line
+
+| # | Criterion | State |
+|---|---|---|
+| 1 | No horizontal scrollbar at 1366 or 2560 | Verified in Chromium, plus 1180/820/390 |
+| 2 | Every control works when clicked | Verified — every one, in jsdom and Chromium |
+| 3 | Price+change inline where SNAPSHOT has it, bare symbol where not | Verified |
+| 4 | Headlines update within ~5 min | 60s poll; re-render on new data verified. Not verified against the live host (egress blocked) |
+| 5 | Validator passes | Passes |
+| 6 | `.xlsx` and `.csv` both populate MY BOOK | Verified, real SheetJS |
+| 7 | `build_news_tab.py` and its markers gone | Done — 0 occurrences of `@@NEWS-TAB`, `_ndBoot`, `_ndMarkup` |
 
 ## Left to do
 
-- Everything below "Plan".
+Nothing blocking. If picking this up:
+
+- The units question in §1 above is the only open item, and it needs network
+  access this session did not have.
+- Nobody has looked at this in a real browser as a human. Screenshots at 1366
+  and 2560 were reviewed; a human eye on spacing would still be worth it.
+- Not touched, deliberately: `.github/workflows`, `data/`, `scan/`, any other
+  repo. No deploy was run. No PR opened.
