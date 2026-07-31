@@ -1,11 +1,19 @@
 """
 snapshot_builder.py — converts data files into a window.SNAPSHOT JS block.
 
-Reads (all optional, falls back to defaults if missing):
+Reads:
   data/market_signals.csv  — wide-format: ticker, edge, horizon, p10-p90, hit_rate, n_obs, sector, industry, name
   data/theme_summary.csv   — sector, count, avg_edge, max_edge, horizon
   data/spy_state.json      — SPY state vector written by ci_scan.py
   data/cross_asset.json    — signals + risks lists written by ci_scan.py
+
+Inputs are NOT all equal. INPUT_CRITICALITY below records, per file, whether
+losing it is a degradation the build should publish through or something it
+should refuse on, and _InputLedger turns that into a GitHub Actions ::error::
+annotation either way. Before that, every input was read under its own
+``except Exception: print(...)`` and a build that lost several of them still
+exited 0 — a dashboard quietly poorer than it should be, indistinguishable
+from a healthy run.
 
 analog_matches format (optional field in spy_state.json, written by ci_scan.py):
   [{"date": "YYYY-MM-DD", "regime": str, "spy_ret_20d": float, "breadth": float}, ...]
@@ -46,129 +54,239 @@ DEFAULTS = {
 }
 
 
+class SnapshotInputError(RuntimeError):
+    """An input the snapshot cannot do without was missing or unreadable."""
+
+
+# What the build should do when an input is not usable.
+#
+#   REQUIRED — refuse. Without it build_snapshot() returns something very close
+#              to DEFAULTS, and inject_snapshot() would then OVERWRITE the last
+#              good window.SNAPSHOT with empty tables and a "Data refresh in
+#              progress" narrative. Serving yesterday's complete data is
+#              strictly better than publishing a hollowed-out page today, so
+#              these raise and leave the previous snapshot in place.
+#   EXPECTED — proceed, but say so loudly. The dashboard loses one section; the
+#              rest of the build is still worth publishing.
+#   OPT_IN   — proceed silently. These files are absent by design, so treating
+#              their absence as a fault would make every clean run red.
+REQUIRED = "required"
+EXPECTED = "expected"
+OPT_IN = "opt-in"
+
+INPUT_CRITICALITY = {
+    # The two the dashboard is actually about: every signal table, the sector
+    # rollup, the analog percentiles and the whole narrative derive from these.
+    "market_signals.csv": REQUIRED,
+    "spy_state.json":     REQUIRED,
+
+    # Each of these backs one card or column. Losing one degrades the page;
+    # losing one is not a reason to withhold the other nine.
+    "theme_summary.csv":  EXPECTED,
+    "cross_asset.json":   EXPECTED,
+    "enrichment.json":    EXPECTED,
+    "price_data.json":    EXPECTED,
+    "stock_scores.csv":   EXPECTED,
+    "portfolio.json":     EXPECTED,
+    "portfolio_v1.json":  EXPECTED,
+    "bubble_watch.json":  EXPECTED,
+    "econ.json":          EXPECTED,
+    "watchlist.txt":      EXPECTED,
+
+    # Absent by design. ticker_cache.json is gitignored — it is written by the
+    # local watchlist run and never committed, so it is missing on every CI
+    # build. portfolio_v2.json only appears at the V3 cutover.
+    "ticker_cache.json":  OPT_IN,
+    "portfolio_v2.json":  OPT_IN,
+}
+
+
+class _InputLedger:
+    """Records every input the snapshot could not use, and decides how loudly
+    to complain about the set of them at the end of the build.
+
+    The bug this exists to kill: each input used to be read under its own
+    ``except Exception: print(...)``, so a build that lost several inputs at
+    once emitted a few [snapshot] lines, exited 0, and published a dashboard
+    quietly poorer than it should have been. Nothing downstream could tell that
+    run apart from a healthy one. Now the missing set is accumulated and
+    surfaced once, as a GitHub Actions annotation, using the same ::error::
+    pattern as _report_frozen() in build.py.
+    """
+
+    def __init__(self):
+        self.problems = []          # [(name, criticality, reason)]
+
+    def missing(self, name, reason="not found"):
+        self._record(name, reason)
+
+    def failed(self, name, exc):
+        self._record(name, f"{type(exc).__name__}: {exc}")
+
+    def _record(self, name, reason):
+        criticality = INPUT_CRITICALITY.get(name, EXPECTED)
+        print(f"[snapshot] Could not use {name}: {reason}")
+        if criticality == OPT_IN:
+            return
+        self.problems.append((name, criticality, reason))
+
+    @property
+    def degraded(self):
+        return bool(self.problems)
+
+    def _detail(self, items):
+        return "; ".join(f"{name} ({reason})" for name, _, reason in items)
+
+    def finish(self):
+        """Raise on a missing required input; shout about a degraded build.
+
+        An ::error:: annotation rather than a non-zero exit, for the same
+        reason _report_frozen() gives: failing here would abort before the
+        commit step and strand the scan data too, turning one thin dashboard
+        into a stalled pipeline.
+        """
+        required = [p for p in self.problems if p[1] == REQUIRED]
+        if required:
+            detail = self._detail(required)
+            print(f"::error title=Snapshot refused::Required input(s) "
+                  f"unusable: {detail}. Refusing to build — the dashboard "
+                  f"keeps its previous window.SNAPSHOT rather than being "
+                  f"overwritten with empty tables.")
+            raise SnapshotInputError(f"required snapshot input(s) unusable: {detail}")
+        if self.problems:
+            detail = self._detail(self.problems)
+            print(f"::error title=Snapshot degraded::Built and published with "
+                  f"{len(self.problems)} input(s) missing or unreadable, so the "
+                  f"dashboard is showing less than it should: {detail}. The page "
+                  f"itself updated — this is a data gap, not a frozen build.")
+
+
 def _load_signals_csv(path, max_stocks=100):
-    """Parse wide-format market_signals.csv into stocks and sectors lists."""
-    try:
-        import pandas as pd
-        df = pd.read_csv(path)
-        if df.empty:
-            return [], []
-        required = {"ticker", "edge", "horizon"}
-        if not required.issubset(df.columns):
-            print(f"[snapshot] signals CSV missing columns: {required - set(df.columns)}")
-            return [], []
+    """Parse wide-format market_signals.csv into stocks and sectors lists.
 
-        def _safe(row, col, default=0.0):
-            try:
-                return float(row[col]) if col in row.index else default
-            except (ValueError, TypeError):
-                return default
+    Raises rather than returning empties: this file is REQUIRED, and the caller
+    needs to tell "parsed fine, genuinely no rows" apart from "could not read
+    it" so it can refuse the build instead of publishing an empty dashboard.
+    """
+    import pandas as pd
+    df = pd.read_csv(path)
+    if df.empty:
+        raise ValueError("signals CSV parsed but contained no rows")
+    needed = {"ticker", "edge", "horizon"}
+    if not needed.issubset(df.columns):
+        # Previously returned a 2-tuple here while the caller unpacked three
+        # values, so a column-schema change surfaced as an unrelated
+        # "not enough values to unpack" ValueError.
+        raise ValueError(f"signals CSV missing columns: {sorted(needed - set(df.columns))}")
 
-        def _safe_int(row, col, default=0):
-            try:
-                return int(row[col]) if col in row.index else default
-            except (ValueError, TypeError):
-                return default
+    def _safe(row, col, default=0.0):
+        try:
+            return float(row[col]) if col in row.index else default
+        except (ValueError, TypeError):
+            return default
 
-        # One row per ticker: pick best edge across horizons
-        best = df.sort_values("edge", ascending=False).drop_duplicates("ticker")
-        all_signals = []
-        for _, row in best.iterrows():
-            n_obs = _safe_int(row, "n_obs", 5)
-            if n_obs < 4:
-                continue
-            edge = _safe(row, "edge")
-            horizon = str(row.get("horizon", "20d"))
-            h_days = int(horizon.replace("d", "")) if horizon.replace("d", "").isdigit() else 20
-            p10 = _safe(row, "p10", -0.05)
-            p25 = _safe(row, "p25", -0.01)
-            p50 = _safe(row, "p50", 0.03)
-            p75 = _safe(row, "p75", 0.08)
-            p90 = _safe(row, "p90", 0.14)
-            span = p90 - p10
-            vol_proxy = round(span / (2.56 * math.sqrt(max(1, h_days))), 4)
-            vol_proxy = max(0.005, min(0.12, vol_proxy))
-            beta_raw = row.get("beta") if "beta" in row.index else None
-            beta_val = float(beta_raw) if pd.notna(beta_raw) else None
-            all_signals.append({
-                "ticker": str(row["ticker"]),
-                "name": str(row.get("name", row["ticker"])) if pd.notna(row.get("name")) else str(row["ticker"]),
-                "sector": str(row.get("sector", "Unknown")) if pd.notna(row.get("sector")) else "Unknown",
-                "edge": round(edge, 4),
-                "horizon": horizon,
-                "p10": round(p10, 4), "p25": round(p25, 4), "p50": round(p50, 4),
-                "p75": round(p75, 4), "p90": round(p90, 4),
-                "hit_rate": round(_safe(row, "hit_rate", 0.5), 3),
-                # Hit trio — alpha/self are None when the feed row lacks them
-                # (older CSVs pre-dating the 2026-07-17 additive scan change).
-                "hit_alpha": (round(float(row["hit_alpha"]), 3)
-                              if "hit_alpha" in row.index and pd.notna(row.get("hit_alpha"))
-                              else None),
-                "hit_self": (round(float(row["hit_self"]), 3)
-                             if "hit_self" in row.index and pd.notna(row.get("hit_self"))
-                             else None),
-                "n_obs": n_obs,
-                "vol": vol_proxy,
-                "below_threshold": edge < 0.05,
-                "beta": round(beta_val, 2) if beta_val is not None else None,
-            })
+    def _safe_int(row, col, default=0):
+        try:
+            return int(row[col]) if col in row.index else default
+        except (ValueError, TypeError):
+            return default
 
-        stocks = all_signals[:max_stocks]
+    # One row per ticker: pick best edge across horizons
+    best = df.sort_values("edge", ascending=False).drop_duplicates("ticker")
+    all_signals = []
+    for _, row in best.iterrows():
+        n_obs = _safe_int(row, "n_obs", 5)
+        if n_obs < 4:
+            continue
+        edge = _safe(row, "edge")
+        horizon = str(row.get("horizon", "20d"))
+        h_days = int(horizon.replace("d", "")) if horizon.replace("d", "").isdigit() else 20
+        p10 = _safe(row, "p10", -0.05)
+        p25 = _safe(row, "p25", -0.01)
+        p50 = _safe(row, "p50", 0.03)
+        p75 = _safe(row, "p75", 0.08)
+        p90 = _safe(row, "p90", 0.14)
+        span = p90 - p10
+        vol_proxy = round(span / (2.56 * math.sqrt(max(1, h_days))), 4)
+        vol_proxy = max(0.005, min(0.12, vol_proxy))
+        beta_raw = row.get("beta") if "beta" in row.index else None
+        beta_val = float(beta_raw) if pd.notna(beta_raw) else None
+        all_signals.append({
+            "ticker": str(row["ticker"]),
+            "name": str(row.get("name", row["ticker"])) if pd.notna(row.get("name")) else str(row["ticker"]),
+            "sector": str(row.get("sector", "Unknown")) if pd.notna(row.get("sector")) else "Unknown",
+            "edge": round(edge, 4),
+            "horizon": horizon,
+            "p10": round(p10, 4), "p25": round(p25, 4), "p50": round(p50, 4),
+            "p75": round(p75, 4), "p90": round(p90, 4),
+            "hit_rate": round(_safe(row, "hit_rate", 0.5), 3),
+            # Hit trio — alpha/self are None when the feed row lacks them
+            # (older CSVs pre-dating the 2026-07-17 additive scan change).
+            "hit_alpha": (round(float(row["hit_alpha"]), 3)
+                          if "hit_alpha" in row.index and pd.notna(row.get("hit_alpha"))
+                          else None),
+            "hit_self": (round(float(row["hit_self"]), 3)
+                         if "hit_self" in row.index and pd.notna(row.get("hit_self"))
+                         else None),
+            "n_obs": n_obs,
+            "vol": vol_proxy,
+            "below_threshold": edge < 0.05,
+            "beta": round(beta_val, 2) if beta_val is not None else None,
+        })
 
-        # Build sector summary from stocks (skip unknown/unmapped)
-        sector_map = {}
-        for s in stocks:
-            sec = s["sector"]
-            if not sec or sec == "Unknown":
-                continue
-            if sec not in sector_map:
-                sector_map[sec] = {"edges": [], "stocks": 0}
-            sector_map[sec]["edges"].append(s["edge"])
-            sector_map[sec]["stocks"] += 1
+    stocks = all_signals[:max_stocks]
 
-        sectors = []
-        for name, d in sector_map.items():
-            edges = d["edges"]
-            avg_edge = sum(edges) / len(edges)
-            breadth = sum(1 for e in edges if e > 0) / len(edges)
-            signal = "bullish" if avg_edge > 0.03 else ("bearish" if avg_edge < -0.01 else "neutral")
-            sectors.append({
-                "name": name, "edge": round(avg_edge, 4),
-                "breadth": round(breadth, 3),
-                "horizon": "20d", "stocks": d["stocks"], "signal": signal
-            })
-        sectors.sort(key=lambda x: x["edge"], reverse=True)
-        return stocks, sectors, all_signals
+    # Build sector summary from stocks (skip unknown/unmapped)
+    sector_map = {}
+    for s in stocks:
+        sec = s["sector"]
+        if not sec or sec == "Unknown":
+            continue
+        if sec not in sector_map:
+            sector_map[sec] = {"edges": [], "stocks": 0}
+        sector_map[sec]["edges"].append(s["edge"])
+        sector_map[sec]["stocks"] += 1
 
-    except Exception as exc:
-        print(f"[snapshot] Could not load signals CSV: {exc}")
-        return [], [], []
+    sectors = []
+    for name, d in sector_map.items():
+        edges = d["edges"]
+        avg_edge = sum(edges) / len(edges)
+        breadth = sum(1 for e in edges if e > 0) / len(edges)
+        signal = "bullish" if avg_edge > 0.03 else ("bearish" if avg_edge < -0.01 else "neutral")
+        sectors.append({
+            "name": name, "edge": round(avg_edge, 4),
+            "breadth": round(breadth, 3),
+            "horizon": "20d", "stocks": d["stocks"], "signal": signal
+        })
+    sectors.sort(key=lambda x: x["edge"], reverse=True)
+    return stocks, sectors, all_signals
+
 
 
 def _load_theme_summary(path):
-    """Parse theme_summary.csv into themes list."""
-    try:
-        import pandas as pd
-        df = pd.read_csv(path)
-        if df.empty or "sector" not in df.columns:
-            return []
-        themes = []
-        for _, row in df.iterrows():
-            avg_edge = float(row.get("avg_edge", 0))
-            signal = "bullish" if avg_edge > 0.04 else ("bearish" if avg_edge < -0.01 else "neutral")
-            themes.append({
-                "name": str(row["sector"]),
-                "sectors": [str(row["sector"])],
-                "edge": round(avg_edge, 4),
-                "stocks": int(row.get("count", 0)),
-                "signal": signal,
-                "note": ""
-            })
-        themes.sort(key=lambda x: x["edge"], reverse=True)
-        return themes[:10]
-    except Exception as exc:
-        print(f"[snapshot] Could not load theme summary: {exc}")
+    """Parse theme_summary.csv into themes list.
+
+    Raises on an unreadable file so the caller can log it against the ledger;
+    an empty-but-valid file is not a fault and still returns [].
+    """
+    import pandas as pd
+    df = pd.read_csv(path)
+    if df.empty or "sector" not in df.columns:
         return []
+    themes = []
+    for _, row in df.iterrows():
+        avg_edge = float(row.get("avg_edge", 0))
+        signal = "bullish" if avg_edge > 0.04 else ("bearish" if avg_edge < -0.01 else "neutral")
+        themes.append({
+            "name": str(row["sector"]),
+            "sectors": [str(row["sector"])],
+            "edge": round(avg_edge, 4),
+            "stocks": int(row.get("count", 0)),
+            "signal": signal,
+            "note": ""
+        })
+    themes.sort(key=lambda x: x["edge"], reverse=True)
+    return themes[:10]
 
 
 def _classify_regime(spy):
@@ -268,7 +386,16 @@ def _synthetic_analog_matches(regime):
     ]
 
 
-def build_snapshot():
+def build_snapshot(ledger=None):
+    """Build the window.SNAPSHOT payload from data/.
+
+    Raises SnapshotInputError when an input marked REQUIRED in
+    INPUT_CRITICALITY is missing or unreadable, so the caller keeps the
+    previous snapshot instead of publishing an empty one. Anything merely
+    EXPECTED is skipped, and the whole missing set is announced once at the end
+    as a GitHub Actions ::error:: annotation.
+    """
+    ledger = ledger if ledger is not None else _InputLedger()
     snap = json.loads(json.dumps(DEFAULTS))
     snap["generated"] = str(date.today())
 
@@ -282,7 +409,21 @@ def build_snapshot():
     has_spy_json = spy_json_path.exists()
     has_cross_asset = cross_asset_path.exists()
 
+    if not has_signals:
+        ledger.missing("market_signals.csv",
+                       "not found" if not signals_path.exists()
+                       else f"only {signals_path.stat().st_size} bytes — truncated")
+    if not has_themes:
+        ledger.missing("theme_summary.csv",
+                       "not found" if not theme_path.exists()
+                       else f"only {theme_path.stat().st_size} bytes — truncated")
+    if not has_spy_json:
+        ledger.missing("spy_state.json")
+    if not has_cross_asset:
+        ledger.missing("cross_asset.json")
+
     # Load SPY state
+    spy_raw = {}
     if has_spy_json:
         try:
             with open(spy_json_path, "r", encoding="utf-8") as f:
@@ -310,7 +451,8 @@ def build_snapshot():
                 spy["regime_streak"] = streak
             print(f"[snapshot] SPY state loaded: {spy}")
         except Exception as exc:
-            print(f"[snapshot] Could not parse spy_state.json: {exc}")
+            ledger.failed("spy_state.json", exc)
+            has_spy_json = False
 
     # Populate analog comparison table
     if has_spy_json:
@@ -334,19 +476,25 @@ def build_snapshot():
 
     # Load stocks + sectors from signals CSV
     if has_signals:
-        stocks, sectors, all_signals = _load_signals_csv(signals_path)
-        if stocks:
-            snap["stocks"] = stocks
-            print(f"[snapshot] Loaded {len(stocks)} stocks")
-        if all_signals:
-            snap["all_signals"] = all_signals
-            print(f"[snapshot] Loaded {len(all_signals)} signals for lookup")
-        if sectors:
-            snap["sectors"] = sectors
+        try:
+            stocks, sectors, all_signals = _load_signals_csv(signals_path)
+        except Exception as exc:
+            ledger.failed("market_signals.csv", exc)
+        else:
+            if stocks:
+                snap["stocks"] = stocks
+                print(f"[snapshot] Loaded {len(stocks)} stocks")
+            if all_signals:
+                snap["all_signals"] = all_signals
+                print(f"[snapshot] Loaded {len(all_signals)} signals for lookup")
+            if sectors:
+                snap["sectors"] = sectors
 
     # Enrich stocks with avg_volume and market_cap
     enrichment_path = DATA / "enrichment.json"
-    if enrichment_path.exists():
+    if not enrichment_path.exists():
+        ledger.missing("enrichment.json")
+    else:
         try:
             with open(enrichment_path, "r", encoding="utf-8") as f:
                 enrichment = json.load(f)
@@ -361,11 +509,13 @@ def build_snapshot():
                     enriched_count += 1
             print(f"[snapshot] Enriched {enriched_count} stocks with volume/mcap data")
         except Exception as exc:
-            print(f"[snapshot] Could not load enrichment.json: {exc}")
+            ledger.failed("enrichment.json", exc)
 
     # Enrich stocks with recent price data for tooltip sparklines
     price_data_path = DATA / "price_data.json"
-    if price_data_path.exists():
+    if not price_data_path.exists():
+        ledger.missing("price_data.json")
+    else:
         try:
             with open(price_data_path, "r", encoding="utf-8") as f:
                 price_data = json.load(f)
@@ -379,11 +529,15 @@ def build_snapshot():
                     enriched += 1
             print(f"[snapshot] Enriched {enriched} stocks with price data")
         except Exception as exc:
-            print(f"[snapshot] Could not load price_data.json: {exc}")
+            ledger.failed("price_data.json", exc)
 
     # Merge watchlist signals from ticker_cache.json (tickers not in main scan)
     ticker_cache_path = DATA / "ticker_cache.json"
-    if ticker_cache_path.exists():
+    if not ticker_cache_path.exists():
+        # Recorded, not skipped: INPUT_CRITICALITY is the single place that
+        # decides whether an absence matters, so every input must reach it.
+        ledger.missing("ticker_cache.json")
+    else:
         try:
             with open(ticker_cache_path, "r", encoding="utf-8") as f:
                 cache = json.load(f)
@@ -397,11 +551,21 @@ def build_snapshot():
             if added:
                 print(f"[snapshot] Merged {added} watchlist ticker(s) from ticker_cache.json")
         except Exception as exc:
-            print(f"[snapshot] Could not load ticker_cache.json: {exc}")
+            ledger.failed("ticker_cache.json", exc)
 
     # Load current watchlist so the UI knows which tickers are already queued
+    #
+    # The except clause here used to carry a stray "update breadth from sector
+    # data" block, indented one level too deep. It therefore never ran on the
+    # happy path, and on the failure path it raised NameError on `sectors` —
+    # which is unbound whenever market_signals.csv did not load. Removed rather
+    # than re-homed: snap["spy"]["breadth"] has consequently always been the
+    # 0.5 default, so wiring it up now would silently change a published number.
+    # That is a product decision, not an ops fix.
     watchlist_path = DATA / "watchlist.txt"
-    if watchlist_path.exists():
+    if not watchlist_path.exists():
+        ledger.missing("watchlist.txt")
+    else:
         try:
             wl = [
                 line.strip() for line in watchlist_path.read_text(encoding="utf-8").splitlines()
@@ -409,22 +573,24 @@ def build_snapshot():
             ]
             snap["watchlist"] = wl
         except Exception as exc:
-            print(f"[snapshot] Could not load watchlist.txt: {exc}")
-            # Update breadth from sector data
-            bull = sum(1 for s in sectors if s["signal"] == "bullish")
-            snap["spy"]["breadth"] = round(bull / len(sectors), 3)
-            print(f"[snapshot] Loaded {len(sectors)} sectors, breadth={snap['spy']['breadth']}")
+            ledger.failed("watchlist.txt", exc)
 
     # Load themes
     if has_themes:
-        themes = _load_theme_summary(theme_path)
-        if themes:
-            snap["themes"] = themes
-            print(f"[snapshot] Loaded {len(themes)} themes")
+        try:
+            themes = _load_theme_summary(theme_path)
+        except Exception as exc:
+            ledger.failed("theme_summary.csv", exc)
+        else:
+            if themes:
+                snap["themes"] = themes
+                print(f"[snapshot] Loaded {len(themes)} themes")
 
     # Load stock memory scores
     scores_path = DATA / "stock_scores.csv"
-    if scores_path.exists():
+    if not scores_path.exists():
+        ledger.missing("stock_scores.csv")
+    else:
         try:
             import pandas as pd
             scores_df = pd.read_csv(scores_path)
@@ -444,7 +610,7 @@ def build_snapshot():
             snap["stock_memory"] = memory
             print(f"[snapshot] Loaded {len(memory)} stock memory scores")
         except Exception as exc:
-            print(f"[snapshot] Could not load stock_scores.csv: {exc}")
+            ledger.failed("stock_scores.csv", exc)
 
     # Load paper portfolios — the LIVE book from portfolio.json (whatever
     # version it currently is), plus each archived generation from its own
@@ -469,7 +635,9 @@ def build_snapshot():
         }
 
     portfolio_path = DATA / "portfolio.json"
-    if portfolio_path.exists():
+    if not portfolio_path.exists():
+        ledger.missing("portfolio.json")
+    else:
         try:
             with open(portfolio_path, "r", encoding="utf-8") as f:
                 port_state = json.load(f)
@@ -478,7 +646,7 @@ def build_snapshot():
             _live_ver = next((p.get("version") for p in portfolios.values() if p.get("version")), "?")
             print(f"[snapshot] Loaded {len(portfolios)} live portfolios ({_live_ver})")
         except Exception as exc:
-            print(f"[snapshot] Could not load portfolio.json: {exc}")
+            ledger.failed("portfolio.json", exc)
 
     # Archived generations. Each appears in the snapshot only once its file
     # exists, so portfolio_v2.json shows up on its own at the V3 cutover with
@@ -487,6 +655,7 @@ def build_snapshot():
     for _ver in ("v1", "v2"):
         _arch_path = DATA / f"portfolio_{_ver}.json"
         if not _arch_path.exists():
+            ledger.missing(f"portfolio_{_ver}.json")
             continue
         try:
             with open(_arch_path, "r", encoding="utf-8") as f:
@@ -495,11 +664,13 @@ def build_snapshot():
             snap[f"portfolios_{_ver}"] = _arch
             print(f"[snapshot] Loaded {len(_arch)} {_ver} archived portfolios")
         except Exception as exc:
-            print(f"[snapshot] Could not load portfolio_{_ver}.json: {exc}")
+            ledger.failed(f"portfolio_{_ver}.json", exc)
 
     # Load bubble watch churn history (written by scan/bubble_scan.py)
     bubble_path = DATA / "bubble_watch.json"
-    if bubble_path.exists():
+    if not bubble_path.exists():
+        ledger.missing("bubble_watch.json")
+    else:
         try:
             with open(bubble_path, "r", encoding="utf-8") as f:
                 bw = json.load(f)
@@ -507,11 +678,13 @@ def build_snapshot():
                 snap["bubble_watch"] = bw
                 print(f"[snapshot] Loaded bubble watch: {len(bw['years'])} year rows")
         except Exception as exc:
-            print(f"[snapshot] Could not load bubble_watch.json: {exc}")
+            ledger.failed("bubble_watch.json", exc)
 
     # Load FRED macro snapshot (written by scan/econ_scan.py)
     econ_path = DATA / "econ.json"
-    if econ_path.exists():
+    if not econ_path.exists():
+        ledger.missing("econ.json")
+    else:
         try:
             with open(econ_path, "r", encoding="utf-8") as f:
                 econ = json.load(f)
@@ -519,7 +692,7 @@ def build_snapshot():
                 snap["econ"] = econ
                 print(f"[snapshot] Loaded econ: {len(econ['series'])} series")
         except Exception as exc:
-            print(f"[snapshot] Could not load econ.json: {exc}")
+            ledger.failed("econ.json", exc)
 
     # Load cross-asset signals + risks
     if has_cross_asset:
@@ -533,7 +706,7 @@ def build_snapshot():
                 snap["risks"] = ca["risks"]
                 print(f"[snapshot] Loaded {len(snap['risks'])} risk axes")
         except Exception as exc:
-            print(f"[snapshot] Could not load cross_asset.json: {exc}")
+            ledger.failed("cross_asset.json", exc)
 
     # Build analog block from top stocks
     if snap["stocks"]:
@@ -577,6 +750,10 @@ def build_snapshot():
             f"This is based on pattern-matching — not a guarantee."
         )
 
+    # Last: refuse on a missing required input, or announce the degraded set.
+    # Deliberately after the whole build so one run reports every gap at once
+    # rather than failing on the first and hiding the rest.
+    ledger.finish()
     return snap
 
 

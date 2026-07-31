@@ -95,6 +95,25 @@ def _report_frozen(exc: Exception) -> None:
           f"build until this is fixed. Cause: {detail}")
 
 
+def _report_stale_snapshot(exc: Exception) -> None:
+    """Shout when the snapshot could not be rebuilt from data/.
+
+    Sibling of _report_frozen(). That one covers "the page did not change at
+    all"; this one covers "the page changed, but its data did not". The build
+    deliberately continues: snapshot_builder refuses rather than injecting a
+    near-empty window.SNAPSHOT, so docs/index.html keeps the LAST GOOD data
+    instead of being overwritten with empty tables. Good outcome, bad enough
+    cause that it must not pass as a green run.
+
+    An ::error:: annotation and not a non-zero exit, for the same reason
+    _report_frozen() gives: failing here aborts before the commit step and
+    strands the scan data too.
+    """
+    print(f"::error title=Snapshot not refreshed::docs/index.html was rebuilt "
+          f"but window.SNAPSHOT still holds the PREVIOUS build's data - the "
+          f"dashboard is showing stale numbers under a fresh date. Cause: {exc}")
+
+
 def main():
     print(f"[build] Starting build — {date.today()}")
     original_html = _read_html()
@@ -122,6 +141,7 @@ def main():
             print("[build] Snapshot refreshed from data/")
         except Exception as exc:
             print(f"[build] WARNING: Snapshot refresh failed — {exc}")
+            _report_stale_snapshot(exc)
     else:
         print("[build] No data files found — skipping snapshot refresh")
 
