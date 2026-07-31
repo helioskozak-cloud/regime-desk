@@ -174,57 +174,111 @@ html.light footer{color:#57606a;border-color:#d0d7de}
   .tile{background:#fff!important;border-color:#ccc!important}
 }
 
-/* @@NEWS-TAB-CSS-START@@ */
-#v-news .holdings-panel{padding:18px 16px;color:var(--text);font-family:'IBM Plex Sans',sans-serif}#v-news .holdings-panel h2{font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;font-size:14px;text-transform:uppercase;color:var(--amber);margin-bottom:6px}#v-news .holdings-panel p.lead{color:var(--muted);font-size:12px;line-height:1.55;max-width:700px;margin-bottom:14px}#v-news .drop-zone{border:2px dashed var(--border-bright);background:#0a0a0a;padding:32px;text-align:center;cursor:pointer;border-radius:6px;transition:border-color .15s,background .15s;margin-bottom:14px}#v-news .drop-zone:hover,#v-news .drop-zone.dragover{border-color:var(--amber);background:#0f0c05}#v-news .drop-zone .big{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--amber);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}#v-news .drop-zone .sml{color:var(--muted);font-size:11px}#v-news .drop-zone input[type=file]{display:none}#v-news .parse-result{background:#0a0a0a;border:1px solid var(--border);padding:12px 14px;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text)}#v-news .parse-result .ok{color:var(--green)}#v-news .parse-result .warn{color:var(--amber)}#v-news .parse-result .err{color:var(--red)}#v-news .parse-result .row{display:flex;justify-content:space-between;align-items:center;padding:2px 0}#v-news .parse-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}#v-news .parse-actions button{background:#000;border:1px solid var(--border-bright);color:var(--text);padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}#v-news .parse-actions button.primary{background:var(--amber);color:#000;border-color:var(--amber);font-weight:700}#v-news .parse-actions button:hover{border-color:var(--amber)}#v-news .ticker-grid{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px;max-height:300px;overflow-y:auto;background:#0a0a0a;border:1px solid var(--border);padding:10px;border-radius:6px}#v-news .ticker-grid .pill{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);border:1px solid #5a3a00;padding:3px 6px;text-align:center;background:#000}#v-news{--bg:#000;
-    --panel:#0a0a0a;
-    --row:#0f0f0f;
-    --row-alt:#131313;
-    --border:#1f1f1f;
-    --border-bright:#2a2a2a;
-    --text:#d4d4d4;
-    --bright:#fff;
-    --muted:#6b6b6b;
-    --dim:#3a3a3a;
-    --amber:#ff9b00;
-    --amber-soft:#ff9b0033;
-    --cyan:#00d4ff;
-    --green:#00ff7f;
-    --red:#ff3b3b;
-    --magenta:#ff5cc8;
-    --blue:#5fa8ff;
-    --yellow:#ffd84d;}#v-news{box-sizing:border-box;margin:0;padding:0}#v-news,#v-news{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',-apple-system,sans-serif;font-size:13px;line-height:1.4;overflow-x:hidden}#v-news ::-webkit-scrollbar{width:10px;height:10px}#v-news ::-webkit-scrollbar-track{background:#000}#v-news ::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:5px}#v-news ::-webkit-scrollbar-thumb:hover{background:#404040}#v-news a{color:var(--cyan);text-decoration:none}#v-news a:hover{text-decoration:underline}#v-news .topbar{position:sticky;top:0;z-index:100;background:#000;border-bottom:1px solid var(--amber);padding:6px 12px;display:flex;align-items:center;gap:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;flex-wrap:wrap}#v-news .topbar .brand{color:var(--amber);font-weight:700;letter-spacing:.15em;font-size:13px}#v-news .topbar{display:none}#v-news{--bg:#0d1117;
-    --panel:#161b22;
-    --row:#161b22;
-    --row-alt:#1c2129;
-    --border:#21262d;
-    --border-bright:#30363d;
-    --text:#c9d1d9;
-    --bright:#f0f6fc;
-    --muted:#8b949e;
-    --dim:#6e7681;}#v-news ::-webkit-scrollbar-track{background:var(--bg)}#v-news .tab.active{background:var(--panel)}#v-news .toolbar input,#v-news .toolbar select{background:var(--bg)}#v-news .grp{background:var(--bg)}#v-news .drop-zone,#v-news .parse-result{background:var(--panel)}#v-news .parse-actions button{background:var(--bg)}#v-news [style*="background:#000"]{background:var(--bg)!important}#v-news [style*="background:#0a0a0a"]{background:var(--panel)!important}#v-news .topbar .brand span{color:var(--muted);font-weight:400;letter-spacing:.05em;margin-left:6px}#v-news .topbar .clock{color:var(--green);font-weight:600;margin-left:auto}#v-news .topbar .clock .label{color:var(--muted);margin-right:6px;font-weight:400}#v-news .topbar .live{color:var(--green);display:inline-flex;align-items:center;gap:5px}#v-news .topbar .live::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-  @keyframes pulse{#v-news 0%,#v-news 100%{opacity:1}#v-news 50%{opacity:.3}}#v-news .tabs{background:#050505;border-bottom:1px solid var(--border-bright);padding:0 12px;display:flex;gap:0;font-family:'IBM Plex Mono',monospace;font-size:11px;overflow-x:auto;scrollbar-width:none}#v-news .tabs::-webkit-scrollbar{display:none}#v-news .tab{padding:9px 16px;color:var(--muted);background:none;border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;border-bottom:2px solid transparent;white-space:nowrap}#v-news .tab:hover{color:var(--text)}#v-news .tab.active{color:var(--amber);border-bottom-color:var(--amber);background:#0a0a0a}#v-news .tab .count{color:var(--muted);font-weight:400;margin-left:6px}#v-news .tab.active .count{color:var(--text)}#v-news .toolbar{background:#080808;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:11px}#v-news .toolbar input,#v-news .toolbar select{background:#000;border:1px solid var(--border-bright);color:var(--text);padding:4px 8px;border-radius:0;font-family:inherit;font-size:11px}#v-news .toolbar input[type="text"]{width:200px}#v-news .toolbar input:focus,#v-news .toolbar select:focus{border-color:var(--amber);outline:none}#v-news .toolbar .lbl{color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}#v-news .toolbar button{background:none;border:1px solid var(--border-bright);color:var(--muted);padding:4px 10px;font-family:inherit;font-size:11px;cursor:pointer}#v-news .toolbar button:hover{color:var(--amber);border-color:var(--amber)}#v-news .toolbar .spacer{margin-left:auto;color:var(--muted)}#v-news .stream{font-family:'IBM Plex Sans',sans-serif}#v-news .grp{background:#000;color:var(--amber);padding:14px 12px 4px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.15em;border-bottom:1px solid var(--border)}#v-news .row{display:grid;grid-template-columns:54px 76px 1fr 130px;gap:10px;padding:7px 12px;background:var(--row);border-bottom:1px solid var(--border);align-items:start;cursor:pointer;transition:background .08s}#v-news .row .ticks-col{display:flex;flex-direction:column;gap:2px;padding-top:0}#v-news .row .ticker-primary{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;color:var(--amber);letter-spacing:.02em;line-height:1.1;cursor:pointer}#v-news .row .ticker-primary:hover{text-shadow:0 0 6px rgba(255,155,0,.6)}#v-news .row .ticker-others{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}#v-news .row .ticker-others span{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);background:transparent;border:1px solid var(--border-bright);padding:0 4px;cursor:pointer;font-weight:600}#v-news .row .ticker-others span:hover{color:var(--amber);border-color:var(--amber-soft)}#v-news .row:nth-child(even){background:var(--row-alt)}#v-news .row:hover{background:#1a1a1a}#v-news .row .time{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:11px;padding-top:1px;white-space:nowrap}#v-news .row .ticks{display:flex;flex-wrap:wrap;gap:3px;padding-top:1px}#v-news .row .ticks .t{background:transparent;color:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;padding:1px 5px;border:1px solid var(--amber-soft);cursor:pointer}#v-news .row .ticks .t:hover{background:var(--amber-soft)}#v-news .row .title{color:var(--bright);font-size:13px;font-weight:500;line-height:1.42;min-width:0;overflow-wrap:break-word}#v-news .row .title a{color:inherit}#v-news .row .title a:hover{color:var(--amber);text-decoration:none}#v-news .row.sent-positive{box-shadow:inset 3px 0 0 #2e7d32}#v-news .row.sent-positive .title a{color:#a6f4b9}#v-news .row.sent-negative{box-shadow:inset 3px 0 0 #b73a3a}#v-news .row.sent-negative .title a{color:#ffb8b8}#v-news .play-row.sent-positive{box-shadow:inset 3px 0 0 #2e7d32}#v-news .play-row.sent-positive .body .title{color:#a6f4b9}#v-news .play-row.sent-negative{box-shadow:inset 3px 0 0 #b73a3a}#v-news .play-row.sent-negative .body .title{color:#ffb8b8}#v-news .row .meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-align:right;white-space:nowrap;padding-top:2px}#v-news .row .meta .typ{display:inline-block;color:var(--muted);text-transform:uppercase;font-weight:600;letter-spacing:.05em;padding:0 4px;border:1px solid var(--border-bright);margin-right:4px}#v-news .row .meta .src{color:var(--muted);font-weight:500}#v-news .row .summary{grid-column:2 / -1;display:none;color:var(--muted);font-size:12px;padding:6px 0 4px;line-height:1.55;border-top:1px dashed var(--border);margin-top:6px}#v-news .row.expand .summary{display:block}#v-news .typ-upgrade{color:var(--green) !important;border-color:#1f5e2e !important}#v-news .typ-downgrade{color:var(--red) !important;border-color:#5e1f1f !important}#v-news .typ-analyst{color:var(--cyan) !important;border-color:#1f4d5e !important}#v-news .typ-earnings{color:var(--yellow) !important;border-color:#5e571f !important}#v-news .typ-ma{color:var(--magenta) !important;border-color:#5e1f4d !important}#v-news .typ-fda{color:#5fff9e !important;border-color:#1f5e3e !important}#v-news .typ-legal{color:#ff7a45 !important;border-color:#5e3e1f !important}#v-news .typ-guidance{color:var(--yellow) !important;border-color:#5e571f !important}#v-news .typ-dividend{color:var(--cyan) !important;border-color:#1f4d5e !important}#v-news .typ-offering{color:#a78bfa !important;border-color:#3e1f5e !important}#v-news .typ-8k{color:#fbbf24 !important;border-color:#5e441f !important}#v-news .typ-macro{color:var(--blue) !important;border-color:#1f3e5e !important}#v-news .typ-press{color:#a78bfa !important;border-color:#3e1f5e !important}#v-news .typ-filings{color:#fbbf24 !important;border-color:#5e441f !important}#v-news .play-ticker-bar{background:#080808;color:var(--amber);padding:10px 12px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}#v-news .play-ticker-bar .lbl{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-right:8px}#v-news .play-ticker-bar .t{color:var(--amber);border:1px solid var(--amber-soft);padding:2px 8px;cursor:pointer;font-weight:700}#v-news .play-ticker-bar .t:hover{background:var(--amber-soft)}#v-news .play-ticker-bar .t.active{background:var(--amber);color:#000}#v-news .play-row{display:grid;grid-template-columns:60px 70px 1fr 90px 110px;gap:10px;padding:7px 12px;background:var(--row);border-bottom:1px solid var(--border);align-items:start;cursor:pointer}#v-news .play-row:nth-child(even){background:var(--row-alt)}#v-news .play-row:hover{background:#1a1a1a}#v-news .play-row .time{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:11px;white-space:nowrap;padding-top:1px}#v-news .play-row .ticker{font-family:'IBM Plex Mono',monospace;color:var(--amber);font-size:14px;font-weight:700;letter-spacing:.02em;padding-top:0}#v-news .play-row .multi{font-family:'IBM Plex Mono',monospace;color:var(--muted);font-size:10px;padding-top:2px}#v-news .play-row .body{min-width:0}#v-news .play-row .body .typ{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;font-weight:700;letter-spacing:.06em;padding:1px 5px;border:1px solid var(--border-bright);color:var(--muted);margin-right:6px;display:inline-block}#v-news .play-row .body .title{color:var(--bright);font-weight:500;font-size:13px;line-height:1.4}#v-news .play-row .body .title a{color:inherit}#v-news .play-row .body .title a:hover{color:var(--amber);text-decoration:none}#v-news .play-row .src{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-align:right;white-space:nowrap;padding-top:2px}#v-news .play-row .open{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-align:right;padding-top:2px}#v-news .empty{padding:60px 20px;text-align:center;color:var(--muted)}#v-news .empty h2{color:var(--text);font-weight:500;margin-bottom:8px;font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+/* ── News tab ───────────────────────────────────────────────────────────────
+   NATIVE, not a port. Everything here is regime-desk's own idiom: the feed
+   lives in .card, on the same 1760px column as every other view, in the house
+   palette. There is no #v-news variable block any more — the tab uses the
+   page's colours directly, which is why nothing needed re-theming.
 
-  @media (max-width:900px){#v-news .topbar{font-size:10px;gap:8px;padding:5px 10px;flex-wrap:wrap}#v-news .topbar .brand{font-size:12px}#v-news .topbar .clock{margin-left:auto;font-size:10px;padding:2px 6px}#v-news .tabs{padding:0 8px;gap:0}#v-news .tab{padding:8px 11px;font-size:10.5px}#v-news .toolbar{padding:6px 10px;gap:6px;flex-wrap:wrap}#v-news .toolbar input[type="text"]{width:140px;flex:1 1 140px;min-width:120px}#v-news .toolbar select{font-size:10.5px}#v-news .toolbar .lbl{font-size:9.5px}#v-news .toolbar .spacer{flex-basis:100%;margin-left:0;text-align:right;font-size:9px}
-  }
-  @media (max-width:760px){#v-news .row{grid-template-columns:48px 64px 1fr;gap:6px;padding:7px 10px}#v-news .row .meta{grid-column:1 / -1;text-align:left;display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-start}#v-news .row .ticker-primary{font-size:13px}#v-news .row .meta{font-size:10px;text-align:left;display:flex;flex-wrap:wrap;gap:6px}#v-news .row .meta .typ{margin-right:0}#v-news .row .title{font-size:12.5px;line-height:1.4}#v-news .row .summary{font-size:11.5px}#v-news .play-row{grid-template-columns:48px 60px 1fr;gap:6px;padding:6px 10px}#v-news .play-row .src,#v-news .play-row .open{grid-column:2 / -1;text-align:left}#v-news .play-row .body .title{font-size:12.5px}#v-news .play-ticker-bar{padding:8px 10px;font-size:10px}#v-news .play-ticker-bar .t{padding:1px 6px}#v-news .grp{font-size:11px;letter-spacing:.1em}#v-news body > div[id="nd-tip"]{max-width:88vw !important;font-size:11px !important}
-  }
-  @media (max-width:480px){#v-news .topbar .brand span{display:none}#v-news .tab .count{display:none}#v-news .row{grid-template-columns:42px 1fr;padding:6px 8px}#v-news .row .time{font-size:10px}#v-news .play-row{grid-template-columns:42px 56px 1fr}
-  }
+   Every selector is still prefixed #v-news. Nothing in here should be able to
+   reach another view, and a prefix costs nothing to keep.
 
-/* --- regime-desk blend layer (build_news_tab.py) --- */
-#v-news .tabs{background:var(--panel);border-bottom-color:var(--border-bright)}
-#v-news .toolbar{background:var(--bg)}
-#v-news .grp{background:var(--bg)}
-@media (min-width:901px){
-  #v-news{margin:-20px -28px 0}
-  #v-news .tabs,#v-news .toolbar,#v-news .grp,#v-news .row,
-  #v-news .play-row{padding-left:28px;padding-right:28px}
+   THE ROW GRID IS THE POINT. The old port was 54px|76px|1fr|130px, designed
+   for a narrow standalone page; stretched to 1760px it left a river of empty
+   space down the middle and floated the meta far right. Five real columns —
+   time, ticker+price+change, headline+summary, type, source — use the width
+   instead of padding it. minmax(0,1fr) on the headline (not plain 1fr) is what
+   keeps a long unbroken title from forcing a horizontal scrollbar. */
+#v-news .nd-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+#v-news .nd-tab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;background:#0d1117;border:1px solid #30363d;color:#8b949e;border-radius:2px;padding:5px 12px;cursor:pointer}
+#v-news .nd-tab:hover{color:#f0f6fc;border-color:#58a6ff}
+#v-news .nd-tab.on{background:#21262d;color:#f0f6fc;border-color:#58a6ff}
+#v-news .nd-tab .n{color:#6e7681;margin-left:6px;font-weight:400}
+#v-news .nd-tab.on .n{color:#58a6ff}
+#v-news .nd-live{display:inline-flex;align-items:center;gap:6px;margin-left:auto;font-family:var(--mono);font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.5px}
+#v-news .nd-dot{width:7px;height:7px;border-radius:50%;background:#3fb950;display:inline-block;animation:rdpulse 1.6s ease-in-out infinite}
+#v-news .nd-dot.stale{background:#f85149;animation:none}
+#v-news .nd-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#v-news .nd-lbl{font-family:var(--mono);font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.5px}
+#v-news .nd-bar input[type=text],#v-news .nd-bar select{background:#0d1117;border:1px solid #30363d;color:#c9d1d9;border-radius:2px;padding:4px 8px;font-family:var(--mono);font-size:12px;max-width:100%}
+#v-news .nd-bar input[type=text]{width:250px}
+#v-news .nd-bar input[type=text]:focus,#v-news .nd-bar select:focus{border-color:#58a6ff;outline:none}
+#v-news .nd-btn{font-family:var(--mono);font-size:11px;background:#21262d;border:1px solid #30363d;color:#8b949e;border-radius:2px;padding:4px 10px;cursor:pointer}
+#v-news .nd-btn:hover{border-color:#58a6ff;color:#f0f6fc}
+#v-news .nd-count{margin-left:auto;font-family:var(--mono);font-size:11px;color:#6e7681;white-space:nowrap}
+#v-news .nd-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+#v-news .nd-chips:empty{display:none}
+
+#v-news .nd-grp{font-family:var(--mono);font-size:10px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:1px;padding:13px 10px 5px;border-bottom:1px solid #30363d}
+#v-news .nd-feed>.nd-grp:first-child{padding-top:1px}
+#v-news .nd-row{display:grid;grid-template-columns:58px 200px minmax(0,1fr) 108px 154px;gap:14px;padding:9px 10px;border-bottom:1px solid #21262d;align-items:start;cursor:pointer;transition:background .1s}
+#v-news .nd-row:hover{background:#1c2129}
+#v-news .nd-row.pos{box-shadow:inset 2px 0 0 #238636}
+#v-news .nd-row.neg{box-shadow:inset 2px 0 0 #b62324}
+#v-news .nd-time{font-family:var(--mono);font-size:11px;color:#8b949e;white-space:nowrap;line-height:1.35;font-variant-numeric:tabular-nums}
+#v-news .nd-time i{display:block;font-style:normal;font-size:10px;color:#6e7681}
+#v-news .nd-tks{min-width:0}
+#v-news .nd-tk{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+#v-news .nd-sym{font-family:var(--mono);font-size:13px;font-weight:700;color:#f0f6fc;letter-spacing:.02em;cursor:pointer}
+#v-news .nd-sym:hover{color:#58a6ff}
+#v-news .nd-px{font-family:var(--mono);font-size:11px;color:#8b949e;font-variant-numeric:tabular-nums}
+#v-news .nd-chg{font-family:var(--mono);font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+#v-news .nd-more{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+#v-news .nd-more span{font-family:var(--mono);font-size:10px;color:#8b949e;border:1px solid #30363d;border-radius:2px;padding:0 4px;cursor:pointer;white-space:nowrap}
+#v-news .nd-more span:hover{color:#58a6ff;border-color:#58a6ff}
+#v-news .nd-more b{font-weight:600}
+#v-news .nd-hl{min-width:0}
+#v-news .nd-hl a{color:#f0f6fc;font-size:13px;font-weight:500;line-height:1.45;overflow-wrap:break-word}
+#v-news .nd-hl a:hover{color:#58a6ff;text-decoration:none}
+#v-news .nd-sum{color:#8b949e;font-size:12px;line-height:1.5;margin-top:4px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:break-word}
+#v-news .nd-row.open .nd-sum{display:block;overflow:visible}
+#v-news .nd-typcell{min-width:0}
+#v-news .nd-typ{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#8b949e;border:1px solid #30363d;border-radius:2px;padding:1px 5px;display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#v-news .nd-src{font-family:var(--mono);font-size:11px;color:#6e7681;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-top:1px}
+
+#v-news .nd-empty{padding:38px 12px;text-align:center;color:#8b949e}
+#v-news .nd-empty h3{font-family:var(--mono);font-size:13px;color:#c9d1d9;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+#v-news .nd-empty.bad h3{color:#f85149}
+
+#v-news .nd-book{padding:4px 2px 2px}
+#v-news .nd-book p{color:#8b949e;font-size:13px;line-height:1.55;max-width:820px;margin-bottom:10px}
+#v-news .nd-drop{display:block;border:1px dashed #30363d;border-radius:2px;background:#0d1117;padding:26px 16px;text-align:center;cursor:pointer;margin:12px 0}
+#v-news .nd-drop:hover,#v-news .nd-drop.over{border-color:#58a6ff;background:#161b22}
+#v-news .nd-drop input[type=file]{display:none}
+#v-news .nd-drop .big{font-family:var(--mono);font-size:12px;color:#58a6ff;text-transform:uppercase;letter-spacing:.5px}
+#v-news .nd-drop .sml{color:#6e7681;font-size:11px;margin-top:5px}
+#v-news .nd-paste{width:100%;background:#0d1117;border:1px solid #30363d;color:#c9d1d9;border-radius:2px;padding:9px;font-family:var(--mono);font-size:12px;resize:vertical}
+#v-news .nd-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+#v-news .nd-msg{font-family:var(--mono);font-size:11px;line-height:1.6;margin-top:10px;padding:9px 11px;border:1px solid #30363d;border-radius:2px;background:#0d1117;color:#8b949e}
+#v-news .nd-msg.bad{color:#f85149;border-color:#5e2626}
+#v-news .nd-msg b{color:#c9d1d9}
+#v-news .nd-bookhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:#6e7681;padding:2px 2px 9px;border-bottom:1px solid #30363d}
+#v-news .nd-bookhead b{color:#c9d1d9}
+
+/* Type badges. House palette, not news-desk's neons — same hues the rest of
+   the dashboard uses for good/bad/warn/info. */
+#v-news .nd-typ.t-upgrade,#v-news .nd-typ.t-fda{color:#3fb950;border-color:#2d5a38}
+#v-news .nd-typ.t-downgrade,#v-news .nd-typ.t-legal{color:#f85149;border-color:#5e2626}
+#v-news .nd-typ.t-earnings,#v-news .nd-typ.t-guidance,#v-news .nd-typ.t-8k,#v-news .nd-typ.t-filings{color:#e3b341;border-color:#5c4a1c}
+#v-news .nd-typ.t-analyst,#v-news .nd-typ.t-dividend,#v-news .nd-typ.t-macro{color:#58a6ff;border-color:#1f4a7a}
+#v-news .nd-typ.t-ma,#v-news .nd-typ.t-offering,#v-news .nd-typ.t-press{color:#a371f7;border-color:#432c72}
+
+/* Below ~1180px the source column is the first thing that stops earning its
+   width, so it moves under the headline rather than squeezing everything. */
+@media (max-width:1180px){
+  #v-news .nd-row{grid-template-columns:56px 186px minmax(0,1fr) 104px;gap:12px}
+  #v-news .nd-src{grid-column:2/-1;grid-row:2;padding-top:0}
 }
-@media (max-width:900px){
-  #v-news{margin:-14px -12px 0}
+@media (max-width:820px){
+  #v-news .nd-row{grid-template-columns:52px minmax(0,1fr);gap:6px 10px;padding:9px 6px}
+  #v-news .nd-time{grid-column:1;grid-row:1}
+  #v-news .nd-tks{grid-column:2;grid-row:1}
+  #v-news .nd-hl{grid-column:1/-1;grid-row:2}
+  #v-news .nd-typcell{grid-column:1/-1;grid-row:3}
+  #v-news .nd-src{grid-column:1/-1;grid-row:4}
+  #v-news .nd-bar input[type=text]{width:100%;flex:1 1 160px}
+  #v-news .nd-count{margin-left:0;flex-basis:100%}
 }
-
-/* @@NEWS-TAB-CSS-END@@ */
 </style>
 </head>
 <body>
@@ -39528,829 +39582,695 @@ function renderEcon(){
 // larger stack (Home composes several renderers, one footer at the end).
 const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 // ── News ───────────────────────────────────────────────────────────────────
-// news-desk, merged in rather than framed.
+// news-desk's DATA, rendered as a regime-desk view.
 //
-// It was an iframe first, which kept one implementation but left the view in a
-// box with its own scrollbar. This is the real merge: news-desk's markup, CSS
-// and script are ported into this page by build/build_news_tab.py, so the tab
-// is full width and scrolls with the window like every other view.
+// WHAT CHANGED AND WHY. Until 2026-07-31 this tab was news-desk's whole UI,
+// re-ported into this page by build/build_news_tab.py: its CSS scoped under
+// #v-news, its markup injected as a string, its script wrapped in a boot
+// function. That worked, and it cost three things — a row grid built for a
+// narrow standalone page (54px|76px|1fr|130px) that left a river of empty
+// space at 1760px, terminal chrome with hardcoded near-blacks the palette
+// remap could not reach, and ticker data that only appeared on hover.
 //
-// The port is GENERATED, not hand-copied. news-desk's shell changes about a
-// dozen times in two months; re-running that script re-ports it rather than
-// leaving a copy to drift.
+// It also carried a whole class of hazard that this file simply does not have:
+// CSS scoping, class collisions, a boot wrapper, handler re-exposure onto
+// window (which silently shipped `undefined` on 2026-07-30 and left every
+// control in the tab dead while the feed rendered perfectly), and a re-port
+// every time news-desk's shell changes — twelve times in sixty days.
 //
-// A collision audit ran before this: zero shared global names against
-// regime-desk's 93, zero shared element ids, and one shared class (`active`)
-// that both use only in compound selectors. The generator scopes every news
-// rule under #v-news regardless, so a future news-desk class cannot reach out.
-
-function renderNews(){
-  return window._ndMarkup || '<div style="color:#8b949e;padding:20px 0">News view not built \u2014 run build/build_news_tab.py.</div>';
-}
-
-window._rd_postrender_news=function(){
-  // Deferred: news-desk's script paints and starts timers on load, and would
-  // otherwise run against elements that do not exist until this view renders.
-  if(typeof window._ndBoot==="function")window._ndBoot();
-};
-
-// @@NEWS-TAB-JS-START@@
-// GENERATED by build/build_news_tab.py — do not edit by hand.
-// Re-run that script to re-port news-desk after it changes.
-window._ndBoot=function(){
-  if(window._ndBooted)return; window._ndBooted=true;
-  try{
-
-// ?embed=1 — this page running inside another site's tab (regime-desk's News
-// view). Only the brand bar is hidden: regime-desk supplies its own header and
-// clock, and two stacked topbars read as a bug. The tabs and toolbar stay,
-// because the search and filters are the whole reason for embedding this
-// rather than maintaining a thinner second copy of it.
+// So: consume the JSON, render it here. The feed is .card like every other
+// view, the headlines are still fetched at runtime (news-desk republishes
+// every five minutes; baking them in at build time would make the tab stale by
+// design), and there is NOT ONE inline on* attribute in this file. Every
+// control is bound with addEventListener through delegation on #v-news, so a
+// handler either exists or throws — it cannot quietly resolve to undefined.
 //
-// Runs here, immediately after <body> opens, so the class is set before the
-// topbar is parsed and it never flashes in then out.
-(function(){try{
-  if(new URLSearchParams(location.search).get('embed')==='1')
-    document.body.classList.add('nd-embed');
-}catch(e){}})();
+// PRICES COME FROM SNAPSHOT, DELIBERATELY. window.SNAPSHOT.all_signals (152
+// tickers, superset of .stocks) carries price/change_pct/week_closes, written
+// by scan/ci_scan.py as `(curr - prev) / prev` — A FRACTION OVER ONE SESSION.
+// 0.137 is +13.7%, so it renders *100. news-desk's own stocks.json also has a
+// change_pct, but its UI prints it as `change_pct.toFixed(2)+'%'` — i.e. it
+// treats the same field name as already-percent. Two conventions, one name,
+// and a wrong guess is a silent 100× error, so nothing numeric is taken from
+// stocks.json here. It is fetched and used for company names only.
+//
+// Coverage is partial by design and the tab is honest about it: a ticker with
+// no SNAPSHOT entry renders as a bare symbol. Never a 0.00, never a dash —
+// both read as "flat", which is a different claim from "not covered".
+function renderNews(){ return NEWSTAB.shell(); }
 
+window._rd_postrender_news=function(){ NEWSTAB.boot(); };
 
-const STATE = {
-  headlines: [],
-  generated: null,
-  view: 'news',          // 'news' = all headlines · 'book' = filtered to watchlist
-  topTickers: [],
-  selectedTicker: null,
-  watchlist: [],         // persisted set of tickers the user cares about
-  watchOnly: false,      // legacy — kept for the URL handoff; ignored in 2-tab world
-  holdingsSummary: null, // metadata about the last parsed holdings file
-};
+var NEWSTAB=(function(){
+  'use strict';
 
-/* localStorage helpers — keep user preferences across refreshes */
-const LS_KEY = 'nd-prefs-v1';
-function _loadPrefs(){
-  try{
-    const raw = localStorage.getItem(LS_KEY);
-    if(!raw) return;
-    const p = JSON.parse(raw);
-    if(Array.isArray(p.watchlist)) STATE.watchlist = p.watchlist.map(s => String(s).toUpperCase());
-    if(typeof p.watchOnly === 'boolean') STATE.watchOnly = p.watchOnly;
-    if(p.holdingsSummary) STATE.holdingsSummary = p.holdingsSummary;
-    // Note: STATE.view is NOT restored — page always lands on NEWS by default.
-    // BOOK is one click away if you've loaded a holdings file.
-  }catch(e){ console && console.warn && console.warn('prefs load:', e); }
-}
-function _savePrefs(){
-  try{
-    localStorage.setItem(LS_KEY, JSON.stringify({
-      watchlist: STATE.watchlist,
-      watchOnly: STATE.watchOnly,
-      holdingsSummary: STATE.holdingsSummary,
-    }));
-  }catch(e){}
-}
-_loadPrefs();
+  var DATA='https://helioskozak-cloud.github.io/news-desk/data/';
+  var POLL_MS=60000;
+  var BOOK_KEY='rd-news-book';
+  // Older than this and the feed is not live any more — say so rather than
+  // showing hours-old headlines under a green pulse.
+  var STALE_MS=20*60*1000;
 
-function tick(){
-  const now=new Date();
-  const hh=String(now.getUTCHours()).padStart(2,'0');
-  const mm=String(now.getUTCMinutes()).padStart(2,'0');
-  const ss=String(now.getUTCSeconds()).padStart(2,'0');
-  const el=document.getElementById('clock');
-  if(el) el.textContent=`${hh}:${mm}:${ss}`;
-  // ET (America/New_York — handles EDT/EST automatically)
-  const etEl=document.getElementById('clockET');
-  if(etEl){
-    const et=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
-    etEl.textContent=et;
+  var S={
+    headlines:[], generated:null, names:{}, fetchedAt:null,
+    tab:'news', q:'', src:'', typ:'', ticker:null,
+    sources:[], types:[],
+    book:[], bookLabel:null, bookSeeded:false, bookMsg:null,
+    open:{},   // headline link -> row expanded; survives the 60s re-render
+    loaded:false, failed:false, booted:false, timer:null
+  };
+
+  function esc(s){
+    return String(s==null?'':s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-}
-setInterval(tick,1000);
-tick();
+  function up(s){ return String(s==null?'':s).trim().toUpperCase(); }
+  function $(id){ return document.getElementById(id); }
+  function setText(id,txt){ var el=$(id); if(el) el.textContent=txt; }
 
-function fmtTime(iso){
-  if(!iso) return '';
-  const d=new Date(iso);
-  if(isNaN(d)) return iso;
-  const now=new Date();
-  const diffMin=(now-d)/60000;
-  const hh=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');
-  if(diffMin<1) return {hh, rel:'NOW'};
-  if(diffMin<60) return {hh, rel:Math.floor(diffMin)+'M'};
-  if(diffMin<60*8) return {hh, rel:Math.floor(diffMin/60)+'H'};
-  return {hh, rel:d.toLocaleDateString('en-US',{month:'numeric',day:'numeric'})};
-}
-
-function fmtUpdated(iso){
-  if(!iso) return 'NO DATA';
-  const d=new Date(iso);
-  const diff=(new Date()-d)/1000;
-  if(diff<60) return 'JUST NOW';
-  if(diff<3600) return Math.floor(diff/60)+'M AGO';
-  return d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'UTC'})+' UTC';
-}
-
-function escapeHtml(s){
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function groupKey(iso){
-  if(!iso) return '';
-  const d=new Date(iso);
-  const today=new Date(); today.setUTCHours(0,0,0,0);
-  const yest=new Date(today); yest.setUTCDate(yest.getUTCDate()-1);
-  const dStart=new Date(d); dStart.setUTCHours(0,0,0,0);
-  if(dStart.getTime()===today.getTime()) return 'TODAY';
-  if(dStart.getTime()===yest.getTime()) return 'YESTERDAY';
-  return d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric',timeZone:'UTC'}).toUpperCase();
-}
-
-function computeTopTickers(headlines, n=20){
-  const map = {};
-  headlines.forEach(h => (h.tickers||[]).forEach(t => { map[t] = (map[t]||0)+1; }));
-  return Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,n);
-}
-
-function applyFilters(headlines){
-  const q=document.getElementById('search').value.trim().toLowerCase();
-  const src=document.getElementById('srcFilter').value;
-  const typ=document.getElementById('typeFilter').value;
-
-  return headlines.filter(h=>{
-    if(src && h.source!==src) return false;
-    if(typ && h.type!==typ) return false;
-    if(STATE.selectedTicker && !(h.tickers||[]).includes(STATE.selectedTicker)) return false;
-    if(q){
-      const hay=(h.title+' '+(h.summary||'')+' '+(h.tickers||[]).join(' ')+' '+h.source).toLowerCase();
-      if(!hay.includes(q)) return false;
-    }
-    return true;
-  });
-}
-
-function renderStream(list){
-  // Only show headlines that have at least one extracted ticker.
-  // Anything we couldn't confidently tag is dropped.
-  const filtered = list.filter(h => (h.tickers||[]).length > 0);
-  if(!filtered.length) return '<div class="empty"><h2>NO TICKER-TAGGED HEADLINES</h2><div>The current filter set has no stories with extracted tickers. Try clearing filters or check back after the next refresh.</div></div>';
-  let html='<div class="stream">';
-  let curGroup=null;
-  filtered.forEach(h=>{
-    const g=groupKey(h.published);
-    if(g!==curGroup){curGroup=g;html+=`<div class="grp">${g}</div>`;}
-    const t=fmtTime(h.published);
-    const tickers = h.tickers || [];
-    const primary = tickers[0];
-    const others  = tickers.slice(1);
-    const ticksHtml = `<div class="ticker-primary" data-ticker="${primary}" onclick="event.stopPropagation();tickerClick(event,'${primary}')">${primary}</div>`
-      + (others.length ? `<div class="ticker-others">${others.map(tk => `<span data-ticker="${tk}" onclick="event.stopPropagation();tickerClick(event,'${tk}')">${tk}</span>`).join(' ')}</div>` : '');
-    const typ=h.type||'news';
-    html+=`<div class="row sent-${h.sentiment||'neutral'}" onclick="this.classList.toggle('expand')">
-      <div class="time">${t.hh}<br><span style="color:var(--dim);font-size:10px">${t.rel||''}</span></div>
-      <div class="ticks-col">${ticksHtml}</div>
-      <div class="title"><a href="${escapeHtml(h.link)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${escapeHtml(h.title)}</a>${h.summary?`<div class="summary">${escapeHtml(h.summary)}</div>`:''}</div>
-      <div class="meta"><span class="typ typ-${typ}">${typ}</span><br><span class="src">${escapeHtml(h.source)}</span></div>
-    </div>`;
-  });
-  html+='</div>';
-  return html;
-}
-
-function renderInPlay(list){
-  // Only headlines with tickers; sorted by recency
-  const filtered = list.filter(h => (h.tickers||[]).length > 0);
-  // Top-ticker quick-filter bar
-  const top = computeTopTickers(filtered, 20);
-  const bar = `<div class="play-ticker-bar"><span class="lbl">Most Active</span>${top.map(([t,c])=>`<span class="t ${STATE.selectedTicker===t?'active':''}" onclick="pickTicker('${t}')">${t} <span style="opacity:.6;font-weight:400">${c}</span></span>`).join('')}${STATE.selectedTicker?` <button onclick="pickTicker(null)" style="background:none;border:1px solid var(--amber);color:var(--amber);padding:2px 8px;font-family:inherit;font-size:11px;cursor:pointer;margin-left:8px">✕ ${STATE.selectedTicker}</button>`:''}</div>`;
-
-  if(!filtered.length) return bar + '<div class="empty"><h2>NO ACTIVE TICKERS</h2><div>No ticker-tagged headlines match your filters</div></div>';
-
-  let html=bar+'<div>';
-  let curGroup=null;
-  filtered.forEach(h=>{
-    const g=groupKey(h.published);
-    if(g!==curGroup){curGroup=g;html+=`<div class="grp">${g}</div>`;}
-    const t=fmtTime(h.published);
-    const primary=h.tickers[0];
-    const others=h.tickers.slice(1);
-    const typ=h.type||'news';
-    html+=`<div class="play-row sent-${h.sentiment||'neutral'}" onclick="window.open('${escapeHtml(h.link)}','_blank')">
-      <div class="time">${t.hh}<br><span style="color:var(--dim);font-size:10px">${t.rel||''}</span></div>
-      <div>
-        <div class="ticker" data-ticker="${primary}" onclick="event.stopPropagation();tickerClick(event,'${primary}')">${primary}</div>
-        ${others.length?`<div class="multi">${others.map(tk=>`<span data-ticker="${tk}" style="cursor:pointer" onclick="event.stopPropagation();tickerClick(event,'${tk}')">${tk}</span>`).join(' ')}</div>`:''}
-      </div>
-      <div class="body"><span class="typ typ-${typ}">${typ}</span><span class="title">${escapeHtml(h.title)}</span></div>
-      <div class="src">${escapeHtml(h.source)}</div>
-      <div class="open"><a href="${escapeHtml(h.link)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="color:var(--muted)">OPEN ↗</a></div>
-    </div>`;
-  });
-  html+='</div>';
-  return html;
-}
-
-function render(){
-  let list = applyFilters(STATE.headlines);
-
-  // BOOK view: only headlines mentioning at least one watchlist ticker
-  const bookList = STATE.watchlist.length
-    ? list.filter(h => (h.tickers||[]).some(t => STATE.watchlist.includes(t)))
-    : [];
-
-  // Tab counts — NEWS reflects ticker-tagged stories only (matches what renders)
-  const tickerTagged = STATE.headlines.filter(h => (h.tickers||[]).length > 0);
-  document.getElementById('count-news').textContent = tickerTagged.length;
-  document.getElementById('count-book').textContent = STATE.watchlist.length
-    ? tickerTagged.filter(h => (h.tickers||[]).some(t => STATE.watchlist.includes(t))).length
-    : 0;
-
-  const content = document.getElementById('content');
-
-  if(STATE.view === 'book'){
-    if(!STATE.watchlist.length){
-      content.innerHTML = renderBookUpload();
-      _wireHoldingsUI();
-      document.getElementById('counts').textContent = '0 / ' + tickerTagged.length + ' ticker-tagged';
-    } else {
-      const bookTagged = bookList.filter(h => (h.tickers||[]).length > 0);
-      document.getElementById('counts').textContent = bookTagged.length + ' / ' + tickerTagged.length + ' shown';
-      content.innerHTML = renderBookHeader() + renderStream(bookList);
-      _wireBookHeader();
-    }
-  } else {
-    const newsTagged = list.filter(h => (h.tickers||[]).length > 0);
-    document.getElementById('counts').textContent = newsTagged.length + ' / ' + tickerTagged.length + ' shown';
-    content.innerHTML = renderStream(list);
+  /* ── Prices ─────────────────────────────────────────────────────────────
+   * all_signals first, stocks second so the richer 100 win on overlap. A
+   * ticker is only in this map if it has a real numeric price. */
+  var _px=null;
+  function priceMap(){
+    if(_px) return _px;
+    _px={};
+    var snap=window.SNAPSHOT||{};
+    [snap.all_signals,snap.stocks].forEach(function(arr){
+      if(!arr||!arr.length) return;
+      arr.forEach(function(s){
+        if(!s||!s.ticker) return;
+        if(typeof s.price!=='number'||!isFinite(s.price)) return;
+        _px[s.ticker]={
+          price:s.price,
+          chg:(typeof s.change_pct==='number'&&isFinite(s.change_pct))?s.change_pct:null,
+          name:s.name||''
+        };
+      });
+    });
+    return _px;
   }
-}
-
-/* MY BOOK header — shown above the feed when a watchlist is loaded */
-function renderBookHeader(){
-  const s = STATE.holdingsSummary || {};
-  const fileLabel = s.filename
-    ? `loaded from <strong style="color:var(--text)">${escapeHtml(s.filename)}</strong>`
-    : 'pasted manually';
-  return `<div style="padding:10px 14px;background:#0a0a0a;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-    <span><strong style="color:var(--amber)">${STATE.watchlist.length}</strong> tickers · ${fileLabel}</span>
-    <button id="bookReload" style="background:#000;border:1px solid var(--border-bright);color:var(--text);padding:4px 10px;font-family:inherit;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer">↻ Reload holdings file</button>
-    <button id="bookClear" style="background:#000;border:1px solid var(--border-bright);color:var(--text);padding:4px 10px;font-family:inherit;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer">Clear book</button>
-  </div>`;
-}
-
-function _wireBookHeader(){
-  const reload = document.getElementById('bookReload');
-  const clear  = document.getElementById('bookClear');
-  if(reload) reload.addEventListener('click', () => {
-    // Bounce to the upload UI by clearing the watchlist temporarily
-    STATE.view = 'book';
-    STATE.holdingsSummary = null;
-    STATE.watchlist = [];
-    _savePrefs(); _renderWatchUI(); render();
-  });
-  if(clear) clear.addEventListener('click', () => clearWatchlist());
-}
-
-/* ── HOLDINGS view ─────────────────────────────────────────────────────────
- * Loads a client holdings .xlsx in the browser via SheetJS, extracts tickers
- * from a Symbol-like column, and populates the watchlist. Once loaded, the
- * stream feed (other tabs) honors the WATCH toggle to filter to those names.
- */
-function renderBookUpload(){
-  return `<div class="holdings-panel">
-    <h2>▸ My Book</h2>
-    <p class="lead">Drop a holdings spreadsheet (LPL <code style="color:var(--text)">Account-Investments-*.xlsx</code> or any file with a Symbol column). The tickers extracted from it become your book — this tab will then filter the feed to only show headlines mentioning those names. Files are parsed in your browser; nothing leaves your machine.</p>
-    <label class="drop-zone" id="hldDrop">
-      <div class="big">⬇ Drop .xlsx here or click to choose</div>
-      <div class="sml">Looks for Symbol / Ticker / Symbol / CUSIP / ID columns</div>
-      <input type="file" id="hldFile" accept=".xlsx,.xls,.csv">
-    </label>
-    <p class="lead" style="margin-top:16px">Or paste tickers separated by commas / spaces / newlines:</p>
-    <textarea id="hldPaste" rows="3" placeholder="AAPL MSFT NVDA GOOGL META TSLA AMZN" style="width:100%;background:#0a0a0a;border:1px solid var(--border-bright);color:var(--text);padding:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;border-radius:6px"></textarea>
-    <div class="parse-actions">
-      <button onclick="_pasteWatchlist()" class="primary">Load these tickers</button>
-    </div>
-  </div>`;
-}
-
-function _pasteWatchlist(){
-  const ta = document.getElementById('hldPaste');
-  if(!ta || !ta.value.trim()) return;
-  const tks = ta.value.split(/[\s,;]+/)
-    .map(s => s.trim().toUpperCase().replace(/[^A-Z0-9.]/g,''))
-    .filter(s => s && /^[A-Z]{1,5}(?:\.[A-Z]{1,2})?$/.test(s));
-  if(!tks.length){ alert('No valid tickers found.'); return; }
-  STATE.watchlist = [...new Set(tks)].sort();
-  STATE.holdingsSummary = { filename: 'pasted (' + STATE.watchlist.length + ' tickers)' };
-  _savePrefs(); _renderWatchUI(); render();
-}
-window._pasteWatchlist = _pasteWatchlist;
-
-function _wireHoldingsUI(){
-  const drop=document.getElementById('hldDrop');
-  const inp=document.getElementById('hldFile');
-  if(!drop||!inp) return;
-  inp.addEventListener('change', e => { if(e.target.files[0]) _parseHoldings(e.target.files[0]); });
-  ['dragover','dragenter'].forEach(ev=>{
-    drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('dragover'); });
-  });
-  ['dragleave','drop'].forEach(ev=>{
-    drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('dragover'); });
-  });
-  drop.addEventListener('drop', e => {
-    e.preventDefault();
-    const f = e.dataTransfer.files[0];
-    if(f) _parseHoldings(f);
-  });
-}
-
-/* Flexible column matchers — same idea as FINvisible's loaders.py */
-const _HLD_SYM_HEADERS = [
-  'symbol / cusip / id','symbol / cusip','symbol','ticker','security id','cusip'
-];
-
-function _findSymbolColumn(headers){
-  const norm = headers.map(h => String(h||'').trim().toLowerCase());
-  for(const want of _HLD_SYM_HEADERS){
-    for(let i=0;i<norm.length;i++){
-      if(norm[i] === want || norm[i].includes(want)) return {idx:i, label:headers[i]};
-    }
+  function chgHTML(chg,digits){
+    var col=chg>=0?'#3fb950':'#f85149';
+    return '<span class="nd-chg" style="color:'+col+'">'
+      +(chg>=0?'+':'')+(chg*100).toFixed(digits)+'%</span>';
   }
-  return null;
-}
 
-/* Accept the same shapes Python's normalize.looks_like_ticker accepts */
-const _TICKER_RE = /^[A-Z]{1,5}(?:\.[A-Z]{1,2})?$/;
-const _CASH_LIKE = new Set(['CASH','USD','MMF','SPAXX','VMFXX','SWVXX','FDRXX','FZFXX','VMRXX','SNSXX','MM','SWEEP','BANKDEP','INSURED','9999136']);
-
-function _parseHoldings(file){
-  if(typeof XLSX === 'undefined'){
-    alert('SheetJS still loading, try again in a moment.');
-    return;
+  /* ── Time ───────────────────────────────────────────────────────────── */
+  function fmtTime(iso){
+    if(!iso) return {hh:'',rel:''};
+    var d=new Date(iso);
+    if(isNaN(d.getTime())) return {hh:String(iso).slice(11,16),rel:''};
+    var mins=(Date.now()-d.getTime())/60000;
+    var hh=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');
+    if(mins<1) return {hh:hh,rel:'now'};
+    if(mins<60) return {hh:hh,rel:Math.floor(mins)+'m'};
+    if(mins<60*8) return {hh:hh,rel:Math.floor(mins/60)+'h'};
+    return {hh:hh,rel:d.toLocaleDateString('en-US',{month:'numeric',day:'numeric',timeZone:'UTC'})};
   }
-  const reader = new FileReader();
-  reader.onload = ev => {
+  function groupKey(iso){
+    if(!iso) return 'UNDATED';
+    var d=new Date(iso);
+    if(isNaN(d.getTime())) return 'UNDATED';
+    var today=new Date(); today.setUTCHours(0,0,0,0);
+    var yest=new Date(today.getTime()-86400000);
+    var start=new Date(d.getTime()); start.setUTCHours(0,0,0,0);
+    if(start.getTime()===today.getTime()) return 'TODAY';
+    if(start.getTime()===yest.getTime()) return 'YESTERDAY';
+    return d.toLocaleDateString('en-US',
+      {weekday:'long',month:'short',day:'numeric',timeZone:'UTC'}).toUpperCase();
+  }
+  function fmtUpdated(){
+    if(S.failed&&!S.headlines.length) return 'feed unreachable';
+    if(!S.generated) return 'connecting…';
+    var d=new Date(S.generated);
+    if(isNaN(d.getTime())) return 'updated';
+    var secs=(Date.now()-d.getTime())/1000;
+    if(secs<60) return 'updated just now';
+    if(secs<3600) return 'updated '+Math.floor(secs/60)+'m ago';
+    return 'updated '+Math.floor(secs/3600)+'h ago';
+  }
+  function stale(){
+    if(S.failed) return true;
+    if(!S.loaded) return false;   // still connecting is not the same as stale
+    if(!S.generated) return true;
+    var d=new Date(S.generated);
+    return isNaN(d.getTime())||(Date.now()-d.getTime())>STALE_MS;
+  }
+
+  /* ── The book (MY BOOK's watchlist) ──────────────────────────────────────
+   * The 07-30 trap was two watchlists in one page: news-desk persisted to
+   * nd-prefs-v1 while regime-desk keeps rd-watchlist, and MY BOOK read the
+   * empty one and showed 0 forever. Resolution order, most specific first:
+   *   1. a book uploaded or pasted HERE          (rd-news-book, persisted)
+   *   2. a book left behind by the ported tab    (nd-prefs-v1, migrated once)
+   *   3. regime-desk's own watchlist             (rd-watchlist, session seed)
+   *   4. the watchlist baked into the snapshot   (session seed)
+   * Seeds (3,4) are never written back, so "clear book" clears an uploaded
+   * list rather than fighting a value that silently reappears — and a cleared
+   * book stays cleared, which is why `cleared` is persisted. */
+  function loadBook(){
     try{
-      const data = new Uint8Array(ev.target.result);
-      const wb = XLSX.read(data, {type:'array'});
-      const sheet = wb.Sheets[wb.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(sheet, {header:1, raw:true, defval:''});
-      // Find the header row — try the first row with >= 4 useful cells
-      let headerIdx = 0;
-      for(let i=0;i<Math.min(rows.length,6);i++){
-        const non = rows[i].filter(v => String(v||'').trim().length > 0).length;
-        if(non >= 4){ headerIdx = i; break; }
+      var raw=localStorage.getItem(BOOK_KEY);
+      if(raw){
+        var p=JSON.parse(raw);
+        if(p&&Array.isArray(p.tickers)&&p.tickers.length){
+          S.book=p.tickers.map(up); S.bookLabel=p.label||null; return;
+        }
+        if(p&&p.cleared) return;
       }
-      const headers = rows[headerIdx] || [];
-      const dataRows = rows.slice(headerIdx + 1);
-      const symCol = _findSymbolColumn(headers);
-      if(!symCol){
-        STATE.holdingsSummary = { filename:file.name, rowCount:dataRows.length, symCol:null, tickerCount:0, skipped:dataRows.length, error:'No Symbol-like column found' };
+    }catch(e){}
+    try{
+      var nd=JSON.parse(localStorage.getItem('nd-prefs-v1')||'null');
+      if(nd&&Array.isArray(nd.watchlist)&&nd.watchlist.length){
+        S.book=nd.watchlist.map(up);
+        S.bookLabel=(nd.holdingsSummary&&nd.holdingsSummary.filename)||'carried over from the previous news tab';
+        saveBook(); return;
+      }
+    }catch(e){}
+    try{
+      var w=(localStorage.getItem('rd-watchlist')||'').split(',').map(up).filter(Boolean);
+      if(w.length){
+        S.book=w; S.bookLabel='regime-desk watchlist'; S.bookSeeded=true; return;
+      }
+    }catch(e){}
+    var sw=(window.SNAPSHOT||{}).watchlist;
+    if(Array.isArray(sw)&&sw.length){
+      S.book=sw.map(up); S.bookLabel="this build's watchlist"; S.bookSeeded=true;
+    }
+  }
+  function saveBook(){
+    try{
+      localStorage.setItem(BOOK_KEY,JSON.stringify({
+        tickers:S.book, label:S.bookLabel, cleared:!S.book.length
+      }));
+    }catch(e){}
+  }
+  function inBook(t){ return S.book.indexOf(t)>=0; }
+
+  /* ── Shell ─────────────────────────────────────────────────────────────
+   * Rendered once by the router. Only #nd-feed and #nd-chips are ever
+   * rewritten afterwards — never the .card itself, because the page's pop-out
+   * observer appends a .popout-btn to every card and replacing the card's
+   * innerHTML would delete it on every poll. */
+  function shell(){
+    return ''
+    +'<div class="card">'
+      +'<h2>News feed</h2>'
+      +'<div class="nd-top">'
+        +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">News <span class="n" id="nd-n-news">—</span></button>'
+        +'<button type="button" class="nd-tab" data-act="tab" data-tab="book">My book <span class="n" id="nd-n-book">—</span></button>'
+        +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span></span>'
+      +'</div>'
+      +'<div class="nd-bar">'
+        +'<span class="nd-lbl">Search</span>'
+        +'<input type="text" id="nd-q" placeholder="headline / ticker / source" autocomplete="off">'
+        +'<span class="nd-lbl">Source</span>'
+        +'<select id="nd-src"><option value="">All</option></select>'
+        +'<span class="nd-lbl">Type</span>'
+        +'<select id="nd-typ"><option value="">All</option></select>'
+        +'<button type="button" class="nd-btn" data-act="clr">Clear</button>'
+        +'<span class="nd-count" id="nd-counts">—</span>'
+      +'</div>'
+      +'<div class="nd-chips" id="nd-chips"></div>'
+    +'</div>'
+    +'<div class="card"><div class="nd-feed" id="nd-feed">'
+      +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
+    +'</div></div>'
+    +'<footer>Headlines from news-desk, refetched every minute; it republishes every five. '
+    +'Price and session change are from the latest daily scan in this page — last close over previous close, not a live quote. '
+    +'A symbol shown on its own is one this build has no price for. Not investment advice.</footer>';
+  }
+
+  /* ── Rows ───────────────────────────────────────────────────────────── */
+  function tickerCell(tks){
+    var p=priceMap(),out='',first=tks[0],d=p[first];
+    out+='<div class="nd-tk"><span class="nd-sym" data-ticker="'+esc(first)+'" data-tk="'+esc(first)+'">'+esc(first)+'</span>';
+    if(d){
+      out+='<span class="nd-px">$'+d.price.toFixed(2)+'</span>';
+      if(d.chg!=null) out+=chgHTML(d.chg,2);
+    }
+    out+='</div>';
+    var rest=tks.slice(1);
+    if(rest.length){
+      out+='<div class="nd-more">'+rest.map(function(t){
+        var q=p[t];
+        return '<span data-ticker="'+esc(t)+'" data-tk="'+esc(t)+'">'+esc(t)
+          +(q&&q.chg!=null
+            ? ' <b style="color:'+(q.chg>=0?'#3fb950':'#f85149')+'">'
+              +(q.chg>=0?'+':'')+(q.chg*100).toFixed(1)+'%</b>'
+            : '')
+          +'</span>';
+      }).join('')+'</div>';
+    }
+    return out;
+  }
+
+  function row(h){
+    var t=fmtTime(h.published);
+    var typ=String(h.type||'news');
+    var sent=h.sentiment==='positive'?' pos':(h.sentiment==='negative'?' neg':'');
+    var link=String(h.link||'');
+    var key=link||String(h.title||'');
+    // Only http(s) links become anchors — a feed is external input, and
+    // javascript: in an href would be an injection.
+    var safe=/^https?:\/\//i.test(link);
+    var title=esc(h.title||'(untitled)');
+    return '<div class="nd-row'+sent+(S.open[key]?' open':'')+'" data-key="'+esc(key)+'">'
+      +'<div class="nd-time">'+esc(t.hh)+'<i>'+esc(t.rel)+'</i></div>'
+      +'<div class="nd-tks">'+tickerCell(h.tickers)+'</div>'
+      +'<div class="nd-hl">'
+        +(safe?'<a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">'+title+'</a>':'<span style="color:#f0f6fc;font-size:13px">'+title+'</span>')
+        +(h.summary?'<div class="nd-sum">'+esc(h.summary)+'</div>':'')
+      +'</div>'
+      +'<div class="nd-typcell"><span class="nd-typ t-'+esc(typ.replace(/[^a-z0-9]/gi,''))+'">'+esc(typ)+'</span></div>'
+      +'<div class="nd-src">'+esc(h.source||'')+'</div>'
+    +'</div>';
+  }
+
+  function stream(list){
+    if(!list.length) return '';
+    var out='',grp=null;
+    list.forEach(function(h){
+      var g=groupKey(h.published);
+      if(g!==grp){ grp=g; out+='<div class="nd-grp">'+esc(g)+'</div>'; }
+      out+=row(h);
+    });
+    return out;
+  }
+
+  function empty(title,body,bad){
+    return '<div class="nd-empty'+(bad?' bad':'')+'"><h3>'+esc(title)+'</h3><div>'+body+'</div></div>';
+  }
+
+  /* ── Filtering ───────────────────────────────────────────────────────────
+   * Untagged headlines are dropped, same as the previous tab: this view is a
+   * ticker feed, and anything news-desk could not confidently tag has no row
+   * to sit in. */
+  function tagged(){
+    return S.headlines.filter(function(h){ return h.tickers&&h.tickers.length; });
+  }
+  function filtered(){
+    var q=S.q.trim().toLowerCase();
+    return tagged().filter(function(h){
+      if(S.src&&h.source!==S.src) return false;
+      if(S.typ&&h.type!==S.typ) return false;
+      if(S.ticker&&h.tickers.indexOf(S.ticker)<0) return false;
+      if(S.tab==='book'&&!h.tickers.some(inBook)) return false;
+      if(q){
+        var hay=((h.title||'')+' '+(h.summary||'')+' '+h.tickers.join(' ')+' '+(h.source||'')).toLowerCase();
+        if(hay.indexOf(q)<0) return false;
+      }
+      return true;
+    });
+  }
+
+  /* ── Render ─────────────────────────────────────────────────────────── */
+  function renderChips(){
+    var el=$('nd-chips'); if(!el) return;
+    var out='';
+    if(S.ticker) out+='<button type="button" class="rd-chip" data-act="unpick">'+esc(S.ticker)+' ✕</button>';
+    el.innerHTML=out;
+  }
+
+  function bookHeader(){
+    return '<div class="nd-bookhead">'
+      +'<span><b>'+S.book.length+'</b> ticker'+(S.book.length===1?'':'s')
+      +(S.bookLabel?' · '+esc(S.bookLabel):'')+(S.bookSeeded?' (seeded — upload or paste to replace)':'')+'</span>'
+      +'<button type="button" class="nd-btn" data-act="bookedit">Replace book</button>'
+      +'<button type="button" class="nd-btn" data-act="bookclear">Clear book</button>'
+    +'</div>';
+  }
+
+  function bookPanel(){
+    return '<div class="nd-book">'
+      +'<p>MY BOOK filters the feed to names you hold. Drop a holdings spreadsheet — an LPL '
+      +'<code>Account-Investments-*.xlsx</code> or any file with a Symbol column — or paste tickers below. '
+      +'The file is parsed in your browser; nothing leaves your machine.</p>'
+      +'<label class="nd-drop" id="nd-drop">'
+        +'<div class="big">Drop .xlsx or .csv here, or click to choose</div>'
+        +'<div class="sml">Looks for a Symbol / Ticker / Security ID / CUSIP column</div>'
+        +'<input type="file" id="nd-file" accept=".xlsx,.xls,.csv">'
+      +'</label>'
+      +'<p>Or paste tickers, separated by commas, spaces or newlines:</p>'
+      +'<textarea class="nd-paste" id="nd-paste" rows="3" placeholder="AAPL MSFT NVDA GOOGL META TSLA AMZN"></textarea>'
+      +'<div class="nd-acts"><button type="button" class="nd-btn" data-act="paste">Load these tickers</button></div>'
+      +(S.bookMsg?'<div class="nd-msg'+(S.bookMsg.bad?' bad':'')+'">'+S.bookMsg.html+'</div>':'')
+    +'</div>';
+  }
+
+  function render(){
+    var all=tagged();
+    setText('nd-n-news',String(all.length));
+    setText('nd-n-book',String(S.book.length
+      ? all.filter(function(h){ return h.tickers.some(inBook); }).length
+      : 0));
+    setText('nd-updated',fmtUpdated());
+    var dot=$('nd-dot');
+    if(dot) dot.className='nd-dot'+(stale()?' stale':'');
+    renderChips();
+
+    var feed=$('nd-feed'); if(!feed) return;
+
+    if(S.tab==='book'&&!S.book.length){
+      setText('nd-counts','no book loaded');
+      feed.innerHTML=bookPanel();
+      return;
+    }
+    if(!S.loaded&&!S.failed){
+      setText('nd-counts','—');
+      feed.innerHTML=empty('Loading','Fetching headlines from news-desk.');
+      return;
+    }
+    if(!S.headlines.length){
+      setText('nd-counts','0 headlines');
+      feed.innerHTML=empty('Feed unreachable',
+        'Could not load headlines from news-desk. It publishes at '
+        +'<a href="https://helioskozak-cloud.github.io/news-desk/" target="_blank" rel="noopener noreferrer">news-desk</a>'
+        +' — if that page is up, this is a fetch problem here and a reload should fix it.',true);
+      return;
+    }
+
+    var list=filtered();
+    setText('nd-counts',list.length+' / '+all.length+' shown');
+    var head=(S.tab==='book'?bookHeader():'');
+    feed.innerHTML=head+(list.length
+      ? stream(list)
+      : empty('Nothing matches',
+          S.tab==='book'
+            ? 'No headlines mention a name in your book right now. The feed refreshes every five minutes.'
+            : 'No headlines match these filters. Clear them to see the whole feed.'));
+  }
+
+  /* ── Loading ────────────────────────────────────────────────────────────
+   * headlines.json is the feed. stocks.json is fetched for company names
+   * only — see the units note at the top of this section. */
+  function load(){
+    var t=Date.now();
+    var head=fetch('https://helioskozak-cloud.github.io/news-desk/data/headlines.json?_t='+t)
+      .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+    var stk=fetch('https://helioskozak-cloud.github.io/news-desk/data/stocks.json?_t='+t)
+      .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+    return Promise.all([head,stk]).then(function(res){
+      var doc=res[0],stocks=res[1];
+      if(stocks&&stocks.stocks){
+        Object.keys(stocks.stocks).forEach(function(k){
+          var n=stocks.stocks[k]&&stocks.stocks[k].name;
+          if(n&&!S.names[k]) S.names[k]=n;
+        });
+      }
+      if(!doc||!Array.isArray(doc.headlines)){
+        S.failed=true;
+        console.error('news tab: headlines.json did not load or had no headlines array');
         render();
         return;
       }
-      const seen = new Set();
-      let skipped = 0;
-      for(const r of dataRows){
-        const raw = r[symCol.idx];
-        const tk = String(raw||'').trim().toUpperCase().replace(/\s+/g,'');
-        if(!tk){ continue; }
-        if(_CASH_LIKE.has(tk)){ skipped++; continue; }
-        if(!_TICKER_RE.test(tk)){ skipped++; continue; }
-        seen.add(tk);
-      }
-      STATE.watchlist = [...seen].sort();
-      STATE.watchOnly = STATE.watchlist.length > 0;
-      STATE.holdingsSummary = {
-        filename: file.name,
-        rowCount: dataRows.length,
-        symCol:   symCol.label,
-        tickerCount: STATE.watchlist.length,
-        skipped: skipped,
-      };
-      _savePrefs();
-      _renderWatchUI();
+      S.failed=false; S.loaded=true; S.fetchedAt=Date.now();
+      S.headlines=doc.headlines;
+      S.generated=doc.generated||null;
+      if(doc.ticker_names) Object.keys(doc.ticker_names).forEach(function(k){ S.names[k]=doc.ticker_names[k]; });
+      syncSelects();
       render();
-    } catch(err){
-      STATE.holdingsSummary = { filename:file.name, rowCount:0, error:String(err) };
-      render();
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-function pickTicker(t){
-  STATE.selectedTicker = (STATE.selectedTicker===t) ? null : t;
-  render();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-/* Click handler with modifier-key routing
- *   plain click  → filter the feed (existing behavior)
- *   shift+click  → open regime-desk in a new tab with the ticker pinned
- *   meta/ctrl+click → also opens regime-desk (mac/win habits)
- */
-function tickerClick(ev, t){
-  if(ev && (ev.shiftKey || ev.metaKey || ev.ctrlKey)){
-    window.open(`https://helioskozak-cloud.github.io/regime-desk/?pin=${encodeURIComponent(t)}#stocks`,
-                '_blank', 'noopener,noreferrer');
-    return;
+    });
   }
-  pickTicker(t);
-}
 
-function switchView(v){
-  STATE.view = v;
-  STATE.selectedTicker = null;
-  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active', b.dataset.view===v));
-  render();
-}
+  // Rebuilt from the feed, preserving the current choice. A filter whose
+  // option vanished is dropped rather than silently filtering everything out.
+  function syncSelects(){
+    var srcs={},typs={};
+    S.headlines.forEach(function(h){
+      if(h.source) srcs[h.source]=1;
+      if(h.type) typs[h.type]=1;
+    });
+    S.sources=Object.keys(srcs).sort();
+    S.types=Object.keys(typs).sort();
+    if(S.src&&S.sources.indexOf(S.src)<0) S.src='';
+    if(S.typ&&S.types.indexOf(S.typ)<0) S.typ='';
+    var a=$('nd-src');
+    if(a) a.innerHTML='<option value="">All</option>'+S.sources.map(function(s){
+      return '<option value="'+esc(s)+'"'+(s===S.src?' selected':'')+'>'+esc(s)+'</option>'; }).join('');
+    var b=$('nd-typ');
+    if(b) b.innerHTML='<option value="">All</option>'+S.types.map(function(s){
+      return '<option value="'+esc(s)+'"'+(s===S.typ?' selected':'')+'>'+esc(s.toUpperCase())+'</option>'; }).join('');
+  }
 
-function clearFilters(){
-  document.getElementById('search').value='';
-  document.getElementById('srcFilter').value='';
-  document.getElementById('typeFilter').value='';
-  STATE.selectedTicker = null;
-  render();
-}
+  /* ── Holdings ───────────────────────────────────────────────────────────
+   * CSV is parsed natively. .xlsx uses SheetJS VENDORED at
+   * docs/vendor/xlsx.full.min.js and loaded same-origin and lazily — never a
+   * CDN, which is the dependency the self-contained rule exists to remove,
+   * and which on 07-30 left every upload (including CSV, which news-desk also
+   * routed through XLSX.read) waiting on a library that never arrived. */
+  var TICKER_RE=/^[A-Z]{1,5}(?:\.[A-Z]{1,2})?$/;
+  var CASH_LIKE={CASH:1,USD:1,MMF:1,SPAXX:1,VMFXX:1,SWVXX:1,FDRXX:1,FZFXX:1,
+                 VMRXX:1,SNSXX:1,MM:1,SWEEP:1,BANKDEP:1,INSURED:1,'9999136':1};
+  var SYM_HEADERS=['symbol / cusip / id','symbol / cusip','symbol','ticker','security id','cusip'];
 
-/* ── Watchlist ─────────────────────────────────────────────────────────── */
-function _renderWatchUI(){
-  // Toolbar widgets removed in the 2-tab redesign; tab counts are handled in render().
-  // Kept as a no-op so existing call sites still work.
-}
-function addWatch(raw){
-  const tk = (raw||'').trim().toUpperCase().replace(/[^A-Z0-9.]/g,'');
-  if(!tk) return;
-  if(STATE.watchlist.includes(tk)) return;
-  STATE.watchlist.push(tk);
-  _savePrefs();
-  _renderWatchUI();
-  if(STATE.watchOnly) render();
-}
-function removeWatch(tk){
-  STATE.watchlist = STATE.watchlist.filter(t => t !== tk);
-  _savePrefs();
-  _renderWatchUI();
-  if(STATE.watchOnly) render();
-}
-function clearWatchlist(){
-  STATE.watchlist = [];
-  STATE.watchOnly = false;
-  _savePrefs();
-  _renderWatchUI();
-  render();
-}
-function toggleWatchOnly(){
-  STATE.watchOnly = !STATE.watchOnly;
-  _savePrefs();
-  _renderWatchUI();
-  render();
-}
-window.addWatch = addWatch;
-window.removeWatch = removeWatch;
-window.clearWatchlist = clearWatchlist;
-window.toggleWatchOnly = toggleWatchOnly;
-_renderWatchUI();
+  function findSymbolColumn(headers){
+    var norm=headers.map(function(h){ return String(h==null?'':h).trim().toLowerCase(); });
+    for(var w=0;w<SYM_HEADERS.length;w++){
+      for(var i=0;i<norm.length;i++){
+        if(norm[i]===SYM_HEADERS[w]||norm[i].indexOf(SYM_HEADERS[w])>=0)
+          return {idx:i,label:headers[i]};
+      }
+    }
+    return null;
+  }
 
-function reload(){
-  // Fetch headlines + stocks in parallel
-  Promise.all([
-    fetch('https://helioskozak-cloud.github.io/news-desk/data/headlines.json?_t='+Date.now()).then(r=>r.json()).catch(()=>null),
-    fetch('https://helioskozak-cloud.github.io/news-desk/data/stocks.json?_t='+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null),
-  ]).then(([doc, stocksDoc])=>{
-    if(stocksDoc) STATE.stocks = stocksDoc.stocks || {};
-    if(!doc){
-      document.getElementById('content').innerHTML='<div class="empty"><h2>FEED ERROR</h2><div>Could not load headlines</div></div>';
+  // Minimal RFC4180: quoted fields, "" escapes, newlines inside quotes.
+  function parseCSV(text){
+    if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+    var rows=[],r=[],cur='',q=false;
+    for(var i=0;i<text.length;i++){
+      var c=text[i];
+      if(q){
+        if(c==='"'){ if(text[i+1]==='"'){ cur+='"'; i++; } else q=false; }
+        else cur+=c;
+      }
+      else if(c==='"') q=true;
+      else if(c===','){ r.push(cur); cur=''; }
+      else if(c==='\n'){ r.push(cur); cur=''; rows.push(r); r=[]; }
+      else if(c!=='\r') cur+=c;
+    }
+    if(cur.length||r.length){ r.push(cur); rows.push(r); }
+    return rows;
+  }
+
+  function loadXLSX(ok,fail){
+    if(typeof XLSX!=='undefined') return ok();
+    if(loadXLSX._q){ loadXLSX._q.push([ok,fail]); return; }
+    loadXLSX._q=[[ok,fail]];
+    var s=document.createElement('script');
+    s.src='vendor/xlsx.full.min.js';
+    s.onload=function(){ var q=loadXLSX._q||[]; loadXLSX._q=null; q.forEach(function(p){ p[0](); }); };
+    s.onerror=function(){ var q=loadXLSX._q||[]; loadXLSX._q=null; q.forEach(function(p){ p[1](); }); };
+    document.head.appendChild(s);
+  }
+
+  function applyRows(rows,name){
+    var headerIdx=0;
+    for(var i=0;i<Math.min(rows.length,6);i++){
+      var non=(rows[i]||[]).filter(function(v){ return String(v==null?'':v).trim().length>0; }).length;
+      if(non>=4){ headerIdx=i; break; }
+    }
+    var headers=rows[headerIdx]||[];
+    var body=rows.slice(headerIdx+1);
+    var col=findSymbolColumn(headers);
+    if(!col){
+      S.bookMsg={bad:true,html:'<b>'+esc(name)+'</b> — no Symbol-like column found in the first sheet. '
+        +'Expected one of: Symbol, Ticker, Security ID, CUSIP.'};
+      render(); return;
+    }
+    var seen={},order=[],skipped=0;
+    body.forEach(function(rw){
+      var tk=up(rw[col.idx]).replace(/\s+/g,'');
+      if(!tk) return;
+      if(CASH_LIKE[tk]){ skipped++; return; }
+      if(!TICKER_RE.test(tk)){ skipped++; return; }
+      if(!seen[tk]){ seen[tk]=1; order.push(tk); }
+    });
+    if(!order.length){
+      S.bookMsg={bad:true,html:'<b>'+esc(name)+'</b> — read the <b>'+esc(String(col.label))+'</b> column but found no usable tickers in '
+        +body.length+' rows.'};
+      render(); return;
+    }
+    S.book=order.sort();
+    S.bookLabel=name; S.bookSeeded=false;
+    S.bookMsg={bad:false,html:'<b>'+esc(name)+'</b> — '+S.book.length+' tickers from the <b>'
+      +esc(String(col.label))+'</b> column of '+body.length+' rows'
+      +(skipped?', '+skipped+' cash/non-ticker rows skipped':'')+'.'};
+    saveBook();
+    render();
+  }
+
+  function readHoldings(file){
+    if(!file) return;
+    var reader=new FileReader();
+    if(/\.(xlsx|xlsm|xlsb|xls)$/i.test(file.name||'')){
+      loadXLSX(function(){
+        reader.onload=function(ev){
+          try{
+            var wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
+            applyRows(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],
+              {header:1,raw:true,defval:''}),file.name);
+          }catch(err){
+            S.bookMsg={bad:true,html:'Could not read that spreadsheet: '+esc(String(err))};
+            render();
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      },function(){
+        S.bookMsg={bad:true,html:'Could not load the spreadsheet reader. Reload the page, or save the file as CSV — CSV needs no reader.'};
+        render();
+      });
       return;
     }
-    {
-      STATE.headlines = doc.headlines || [];
-      STATE.generated = doc.generated;
-      STATE.tickerNames = doc.ticker_names || {};
-
-      const sources = [...new Set(STATE.headlines.map(h=>h.source))].sort();
-      const types = [...new Set(STATE.headlines.map(h=>h.type).filter(Boolean))].sort();
-
-      const srcSel = document.getElementById('srcFilter');
-      const curSrc = srcSel.value;
-      srcSel.innerHTML = '<option value="">All</option>'+sources.map(s=>`<option value="${escapeHtml(s)}"${s===curSrc?' selected':''}>${escapeHtml(s)}</option>`).join('');
-
-      const typSel = document.getElementById('typeFilter');
-      const curTyp = typSel.value;
-      typSel.innerHTML = '<option value="">All</option>'+types.map(t=>`<option value="${escapeHtml(t)}"${t===curTyp?' selected':''}>${escapeHtml(t.toUpperCase())}</option>`).join('');
-
-      document.getElementById('updated').textContent = fmtUpdated(STATE.generated);
-      render();
-    }
-  });
-}
-
-reload();
-setInterval(reload, 60000);
-setInterval(()=>{document.getElementById('updated').textContent = fmtUpdated(STATE.generated);}, 15000);
-
-/* URL params:
- *   ?ticker=AAPL          → search-box filter on that ticker (inbound from regime-desk)
- *   ?watchlist=AAPL,MSFT  → REPLACES the saved book and switches to BOOK tab
- *   ?watchadd=AAPL,MSFT   → APPENDS to the saved book without switching tabs
- */
-(function applyUrlParams(){
-  const params = new URLSearchParams(window.location.search);
-
-  const wlReplace = params.get('watchlist');
-  const wlAdd     = params.get('watchadd');
-  if(wlReplace !== null){
-    STATE.watchlist = wlReplace.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
-    STATE.holdingsSummary = { filename: 'URL handoff (' + STATE.watchlist.length + ' tickers)' };
-    STATE.view = 'book';
-    _savePrefs(); _renderWatchUI();
-  } else if(wlAdd){
-    const additions = wlAdd.split(',').map(s => s.trim().toUpperCase()).filter(Boolean);
-    additions.forEach(tk => { if(!STATE.watchlist.includes(tk)) STATE.watchlist.push(tk); });
-    _savePrefs(); _renderWatchUI();
-  }
-
-  const t = (params.get('ticker') || '').toUpperCase().trim();
-  if(!t && !(wlReplace !== null || wlAdd)) return;
-
-  const tryApply = () => {
-    if(!STATE.headlines.length) return setTimeout(tryApply, 200);
-    if(t){
-      const s = document.getElementById('search');
-      if(s){ s.value = t; }
-    }
-    document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.view===STATE.view));
-    render();
-    if(history.replaceState){
-      history.replaceState(null, '', location.pathname + location.hash);
-    }
-  };
-  tryApply();
-})();
-
-/* ── Ticker hover tooltip (regime-desk style) ──────────────────────────── */
-(function(){
-  const tip = document.createElement('div');
-  tip.id = 'nd-tip';
-  Object.assign(tip.style, {
-    position:'fixed', zIndex:'500', display:'none', pointerEvents:'none',
-    background:'#0a0a0a', border:'1px solid var(--amber)',
-    boxShadow:'0 8px 24px rgba(0,0,0,.7), 0 0 18px rgba(255,155,0,.18)',
-    color:'var(--text)', padding:'10px 12px', maxWidth:'320px',
-    fontFamily:'IBM Plex Sans, sans-serif', fontSize:'12px', lineHeight:'1.5',
-    borderRadius:'2px',
-  });
-  document.body.appendChild(tip);
-  let _cx=0,_cy=0;
-
-  function pos(cx,cy){
-    const tw=tip.offsetWidth||260, th=tip.offsetHeight||140;
-    let lx=cx+14, ly=cy+14;
-    if(lx+tw > window.innerWidth-8) lx = cx-tw-14;
-    if(ly+th > window.innerHeight-8) ly = cy-th-14;
-    tip.style.left=lx+'px'; tip.style.top=ly+'px';
-  }
-
-  function relTime(iso){
-    if(!iso) return '';
-    const d=new Date(iso), diff=(new Date()-d)/60000;
-    if(diff<1) return 'just now';
-    if(diff<60) return Math.floor(diff)+'m ago';
-    if(diff<60*24) return Math.floor(diff/60)+'h ago';
-    return Math.floor(diff/(60*24))+'d ago';
-  }
-
-  function sparkSVG(closes){
-    if(!closes || closes.length<2) return '';
-    const W=238, H=34;
-    const mn=Math.min(...closes), mx=Math.max(...closes), rng=(mx-mn)||1, n=closes.length;
-    const pts = closes.map((v,i) => `${((i/(n-1))*W).toFixed(1)},${(H-2-((v-mn)/rng)*(H-6)).toFixed(1)}`).join(' ');
-    const col = closes[closes.length-1] >= closes[0] ? '#3fb950' : '#f85149';
-    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block;margin-top:5px;overflow:visible">
-      <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
-  }
-
-  function priceBlock(ticker){
-    const s = (STATE.stocks||{})[ticker];
-    if(!s) return '';
-    const pc = s.change_pct >= 0 ? '#3fb950' : '#f85149';
-    const sign = s.change_pct >= 0 ? '+' : '';
-    const wkLow = s.wk_low, wkHigh = s.wk_high;
-    const wkRng = (wkHigh - wkLow) || 1;
-    const wkPos = Math.max(0, Math.min(100, ((s.price - wkLow) / wkRng) * 100));
-    const rangeBar = `<div style="margin-top:6px">
-      <div style="display:flex;justify-content:space-between;color:#6e7681;font-size:9px;margin-bottom:2px;font-family:IBM Plex Mono,monospace">
-        <span>$${wkLow.toFixed(2)}</span>
-        <span style="color:#484f58">7d range</span>
-        <span>$${wkHigh.toFixed(2)}</span>
-      </div>
-      <div style="position:relative;height:4px;background:#1c1c1c;border-radius:2px">
-        <div style="position:absolute;left:${wkPos.toFixed(0)}%;top:-2px;width:2px;height:8px;background:${pc};transform:translateX(-1px);border-radius:1px"></div>
-      </div>
-    </div>`;
-    return `<div style="border-top:1px solid #1c1c1c;border-bottom:1px solid #1c1c1c;margin:8px 0;padding:6px 0">
-      <div style="display:flex;align-items:baseline;gap:8px;font-family:IBM Plex Mono,monospace">
-        <span style="color:#f0f6fc;font-size:16px;font-weight:700">$${s.price.toFixed(2)}</span>
-        <span style="color:${pc};font-size:12px;font-weight:700">${sign}${s.change_pct.toFixed(2)}%</span>
-        <span style="color:#484f58;font-size:10px;letter-spacing:.05em">TODAY</span>
-      </div>
-      ${sparkSVG(s.week_closes)}
-      ${rangeBar}
-    </div>`;
-  }
-
-  function show(ticker, cx, cy){
-    _cx=cx; _cy=cy;
-    const headlines = (STATE.headlines||[]).filter(h => (h.tickers||[]).includes(ticker));
-    const name = (STATE.tickerNames||{})[ticker] || '';
-    const recent = headlines.slice(0, 3);
-    const total = headlines.length;
-    const latest = headlines[0];
-    const typeCounts = {};
-    headlines.forEach(h => { const t=h.type||'news'; typeCounts[t]=(typeCounts[t]||0)+1; });
-    const topTypes = Object.entries(typeCounts).sort((a,b)=>b[1]-a[1]).slice(0,3);
-
-    const recentList = recent.map(h => {
-      const t = h.type || 'news';
-      return `<div style="border-top:1px solid #1c1c1c;padding-top:6px;margin-top:6px">
-        <div style="color:var(--muted);font-size:10px;font-family:IBM Plex Mono,monospace;margin-bottom:2px">${escapeHtml(h.source)} · ${relTime(h.published)}</div>
-        <div style="color:var(--text);font-size:12px;line-height:1.4">${escapeHtml(h.title.length>90?h.title.slice(0,90)+'…':h.title)}</div>
-      </div>`;
-    }).join('');
-
-    const typeChips = topTypes.length
-      ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">'+
-          topTypes.map(([t,c])=>`<span style="font-family:IBM Plex Mono,monospace;font-size:9px;color:var(--muted);background:#181818;padding:1px 5px;border:1px solid #2a2a2a;letter-spacing:.05em;text-transform:uppercase">${t} ${c}</span>`).join('')+
-        '</div>'
-      : '';
-
-    tip.innerHTML = ''+
-      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'+
-        `<img src="https://assets.parqet.com/logos/symbol/${ticker}?format=jpg" width="26" height="26" `+
-        `style="border-radius:3px;background:#fff;border:1px solid #2a2a2a;object-fit:contain;flex-shrink:0" `+
-        `onerror="this.style.display='none'" loading="lazy">`+
-        `<strong style="color:var(--amber);font-family:IBM Plex Mono,monospace;font-size:16px;letter-spacing:.04em">${ticker}</strong>`+
-      '</div>'+
-      (name ? `<div style="color:var(--muted);font-size:11px;margin-bottom:4px">${escapeHtml(name)}</div>` : '')+
-      priceBlock(ticker)+
-      `<div style="color:var(--text);font-size:11px;font-family:IBM Plex Mono,monospace"><strong style="color:var(--amber)">${total}</strong> headline${total===1?'':'s'} in feed</div>`+
-      typeChips+
-      recentList+
-      '<div style="margin-top:8px;color:var(--muted);font-size:10px;font-family:IBM Plex Mono,monospace;letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'+
-        '<div>click → filter feed</div>'+
-        '<div style="color:#58a6ff">shift-click → regime-desk ↗</div>'+
-      '</div>';
-
-    pos(cx, cy);
-    tip.style.display = 'block';
-  }
-
-  function hide(){ tip.style.display='none'; }
-
-  document.addEventListener('mouseover', e => {
-    const el = e.target.closest && e.target.closest('[data-ticker]');
-    if(el && el.dataset.ticker) show(el.dataset.ticker, e.clientX, e.clientY);
-    else hide();
-  });
-  document.addEventListener('mousemove', e => {
-    _cx=e.clientX; _cy=e.clientY;
-    if(tip.style.display==='block') pos(_cx, _cy);
-  });
-  document.addEventListener('mouseout', e => {
-    const el = e.target.closest && e.target.closest('[data-ticker]');
-    if(el && !el.contains(e.relatedTarget)) hide();
-  });
-})();
-
-
-    function _ndParseCSV(text){
-      // Minimal RFC4180: quoted fields, "" escapes, newlines inside quotes.
-      if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
-      var rows=[],row=[],cur='',q=false;
-      for(var i=0;i<text.length;i++){
-        var c=text[i];
-        if(q){
-          if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
-          else cur+=c;
-        }
-        else if(c==='"') q=true;
-        else if(c===',') { row.push(cur); cur=''; }
-        else if(c==='\n'){ row.push(cur); cur=''; rows.push(row); row=[]; }
-        else if(c!=='\r') cur+=c;
+    reader.onload=function(ev){
+      try{ applyRows(parseCSV(String(ev.target.result)),file.name); }
+      catch(err){
+        S.bookMsg={bad:true,html:'Could not read that file: '+esc(String(err))};
+        render();
       }
-      if(cur.length||row.length){ row.push(cur); rows.push(row); }
-      return rows;
-    }
-    // Same-origin, relative, and only fetched when a spreadsheet is dropped.
-    function _ndLoadXLSX(ok,fail){
-      if(typeof XLSX!=='undefined') return ok();
-      if(_ndLoadXLSX._pending){ _ndLoadXLSX._pending.push([ok,fail]); return; }
-      _ndLoadXLSX._pending=[[ok,fail]];
-      var s=document.createElement('script');
-      s.src='vendor/xlsx.full.min.js';
-      s.onload=function(){ var q=_ndLoadXLSX._pending||[]; _ndLoadXLSX._pending=null;
-        q.forEach(function(p){ p[0](); }); };
-      s.onerror=function(){ var q=_ndLoadXLSX._pending||[]; _ndLoadXLSX._pending=null;
-        q.forEach(function(p){ p[1](); }); };
-      document.head.appendChild(s);
-    }
-    function _ndApplyRows(rows,file){
-        try{
-          var headerIdx=0;
-          for(var i=0;i<Math.min(rows.length,6);i++){
-            var non=rows[i].filter(function(v){
-              return String(v||'').trim().length>0; }).length;
-            if(non>=4){ headerIdx=i; break; }
-          }
-          var headers=rows[headerIdx]||[];
-          var dataRows=rows.slice(headerIdx+1);
-          var symCol=_findSymbolColumn(headers);
-          if(!symCol){
-            STATE.holdingsSummary={filename:file.name,rowCount:dataRows.length,
-              symCol:null,tickerCount:0,skipped:dataRows.length,
-              error:'No Symbol-like column found in the first sheet.'};
-            render(); return;
-          }
-          var seen={},skipped=0,order=[];
-          for(var r=0;r<dataRows.length;r++){
-            var tk=String(dataRows[r][symCol.idx]||'').trim().toUpperCase()
-                     .replace(/\s+/g,'');
-            if(!tk) continue;
-            if(_CASH_LIKE.has(tk)){ skipped++; continue; }
-            if(!_TICKER_RE.test(tk)){ skipped++; continue; }
-            if(!seen[tk]){ seen[tk]=1; order.push(tk); }
-          }
-          STATE.watchlist=order.sort();
-          STATE.watchOnly=STATE.watchlist.length>0;
-          STATE.holdingsSummary={filename:file.name,rowCount:dataRows.length,
-            symCol:symCol.label,tickerCount:STATE.watchlist.length,
-            skipped:skipped};
-          _savePrefs(); _renderWatchUI(); render();
-        }catch(err){
-          STATE.holdingsSummary={filename:file.name,rowCount:0,error:String(err)};
-          render();
-        }
-    }
-    _parseHoldings=function(file){
-      var reader=new FileReader();
-      if(/\.(xlsx|xlsm|xlsb|xls)$/i.test(file.name||'')){
-        _ndLoadXLSX(function(){
-          reader.onload=function(ev){
-            try{
-              var wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
-              var sheet=wb.Sheets[wb.SheetNames[0]];
-              _ndApplyRows(
-                XLSX.utils.sheet_to_json(sheet,{header:1,raw:true,defval:''}),
-                file);
-            }catch(err){
-              STATE.holdingsSummary={filename:file.name,rowCount:0,
-                error:'Could not read that spreadsheet: '+String(err)};
-              render();
-            }
-          };
-          reader.readAsArrayBuffer(file);
-        },function(){
-          STATE.holdingsSummary={filename:file.name,rowCount:0,
-            error:'Could not load the spreadsheet reader. Reload the page, or '
-                 +'save the file as CSV, which needs no reader.'};
-          render();
-        });
-        return;
-      }
-      reader.onload=function(ev){
-        _ndApplyRows(_ndParseCSV(String(ev.target.result)),file);
-      };
-      reader.readAsText(file);
     };
-    try{
-      if(!STATE.watchlist.length){
-        var _rdw=(localStorage.getItem('rd-watchlist')||'')
-          .split(',').map(function(s){return s.trim().toUpperCase();})
-          .filter(Boolean);
-        if(_rdw.length){
-          STATE.watchlist=_rdw;
-          STATE.holdingsSummary={filename:null,source:'regime-desk watchlist'};
-        }
-      }
-    }catch(e){console.error('news tab: watchlist seed failed',e);}
-    try{window.switchView=switchView;}catch(e){console.error('news tab: could not expose switchView',e);}
-    try{window.render=render;}catch(e){console.error('news tab: could not expose render',e);}
-    try{window.clearFilters=clearFilters;}catch(e){console.error('news tab: could not expose clearFilters',e);}
-    try{window.pickTicker=pickTicker;}catch(e){console.error('news tab: could not expose pickTicker',e);}
-    try{window._pasteWatchlist=_pasteWatchlist;}catch(e){console.error('news tab: could not expose _pasteWatchlist',e);}
-    try{window.tickerClick=tickerClick;}catch(e){console.error('news tab: could not expose tickerClick',e);}
-    var _ndMissing=["switchView", "render", "clearFilters", "pickTicker", "_pasteWatchlist", "tickerClick"].filter(function(n){return typeof window[n]!=='function';});
-    if(_ndMissing.length)console.error('news tab: handlers not exposed, inline controls will be dead:',_ndMissing);
-  }catch(e){
-    console.error('news tab failed to start',e);
-    var c=document.getElementById('content');
-    if(c)c.innerHTML='<div style="padding:20px;color:#8b949e">The news view failed to start. Its own site is at <a href="https://helioskozak-cloud.github.io/news-desk/" target="_blank" rel="noopener noreferrer" style="color:#58a6ff">news-desk</a>.</div>';
+    reader.readAsText(file);
   }
-};
-window._ndMarkup="<div class=\"topbar\">\n  <span class=\"brand\">NEWS-DESK <span>v0.2 \u00b7 TERMINAL</span></span>\n  <span class=\"live\" id=\"live\">LIVE</span>\n  <span class=\"muted\" id=\"updated\" style=\"color:var(--muted);font-family:'IBM Plex Mono',monospace\">\u2014</span>\n  <span class=\"clock\"><span class=\"label\">ET</span><span id=\"clockET\">\u2014</span><span class=\"label\" style=\"margin-left:14px\">UTC</span><span id=\"clock\">\u2014</span></span>\n</div>\n\n<div class=\"tabs\">\n  <button class=\"tab active\" data-view=\"news\" onclick=\"switchView('news')\">NEWS <span class=\"count\" id=\"count-news\">0</span></button>\n  <button class=\"tab\" data-view=\"book\" onclick=\"switchView('book')\">MY BOOK <span class=\"count\" id=\"count-book\">0</span></button>\n</div>\n\n<div class=\"toolbar\">\n  <span class=\"lbl\">Search</span>\n  <input type=\"text\" id=\"search\" placeholder=\"headline / ticker / source\" oninput=\"render()\">\n  <span class=\"lbl\">Source</span>\n  <select id=\"srcFilter\" onchange=\"render()\"><option value=\"\">All</option></select>\n  <span class=\"lbl\">Type</span>\n  <select id=\"typeFilter\" onchange=\"render()\"><option value=\"\">All</option></select>\n  <button onclick=\"clearFilters()\">CLR</button>\n  <span class=\"spacer\" id=\"counts\">0 / 0</span>\n</div>\n\n<div id=\"content\"></div>";
 
-// @@NEWS-TAB-JS-END@@
+  function pasteBook(){
+    var ta=$('nd-paste');
+    var raw=ta?ta.value:'';
+    var tks=String(raw||'').split(/[\s,;]+/)
+      .map(function(s){ return up(s).replace(/[^A-Z0-9.]/g,''); })
+      .filter(function(s){ return s&&TICKER_RE.test(s); });
+    if(!tks.length){
+      S.bookMsg={bad:true,html:'No valid tickers in that text. Symbols look like <b>AAPL</b> or <b>BRK.B</b>.'};
+      render(); return;
+    }
+    var uniq=[];
+    tks.forEach(function(t){ if(uniq.indexOf(t)<0) uniq.push(t); });
+    S.book=uniq.sort();
+    S.bookLabel='pasted'; S.bookSeeded=false;
+    S.bookMsg={bad:false,html:'<b>'+S.book.length+'</b> tickers loaded.'};
+    saveBook();
+    render();
+  }
+
+  /* ── Events ─────────────────────────────────────────────────────────────
+   * One delegated listener per event type on #v-news. Nothing is bound by an
+   * inline attribute and nothing is re-exposed on window, so there is no way
+   * for a control to render fine and do nothing — the 07-30 failure. */
+  function setTab(t){
+    S.tab=t; S.ticker=null; S.bookMsg=null;
+    var root=$('v-news'); if(!root) return;
+    Array.prototype.forEach.call(root.querySelectorAll('.nd-tab'),function(b){
+      b.classList.toggle('on',b.getAttribute('data-tab')===t);
+    });
+    render();
+  }
+  function pick(t){
+    S.ticker=(S.ticker===t?null:t);
+    render();
+  }
+  function clearFilters(){
+    S.q=''; S.src=''; S.typ=''; S.ticker=null;
+    var q=$('nd-q'); if(q) q.value='';
+    var a=$('nd-src'); if(a) a.value='';
+    var b=$('nd-typ'); if(b) b.value='';
+    render();
+  }
+
+  function onClick(e){
+    var t=e.target;
+    if(t.closest&&t.closest('a')) return;              // links stay links
+    var act=t.closest?t.closest('[data-act]'):null;
+    if(act){
+      var a=act.getAttribute('data-act');
+      if(a==='tab'){ setTab(act.getAttribute('data-tab')); return; }
+      if(a==='clr'){ clearFilters(); return; }
+      if(a==='unpick'){ S.ticker=null; render(); return; }
+      if(a==='paste'){ pasteBook(); return; }
+      if(a==='bookclear'||a==='bookedit'){
+        // "Clear book" is a decision and is remembered; "Replace book" only
+        // opens the upload panel, so backing out of it restores the seed on
+        // the next load instead of silently discarding it.
+        var wasSeed=S.bookSeeded;
+        S.book=[]; S.bookLabel=null; S.bookSeeded=false; S.bookMsg=null;
+        if(a==='bookclear'||!wasSeed) saveBook();
+        render(); return;
+      }
+      return;
+    }
+    // Modified clicks belong to the page-wide [data-ticker] handlers
+    // (shift → open news-desk, alt → copy symbol). Don't steal them.
+    if(e.shiftKey||e.metaKey||e.ctrlKey||e.altKey) return;
+    var tk=t.closest?t.closest('[data-tk]'):null;
+    if(tk){ pick(tk.getAttribute('data-tk')); return; }
+    var row=t.closest?t.closest('.nd-row'):null;
+    if(row){
+      var k=row.getAttribute('data-key');
+      if(S.open[k]) delete S.open[k]; else S.open[k]=1;
+      row.classList.toggle('open');
+    }
+  }
+
+  function onInput(e){
+    if(e.target&&e.target.id==='nd-q'){ S.q=e.target.value; render(); }
+  }
+  function onChange(e){
+    var el=e.target; if(!el) return;
+    if(el.id==='nd-src'){ S.src=el.value; render(); return; }
+    if(el.id==='nd-typ'){ S.typ=el.value; render(); return; }
+    if(el.id==='nd-file'){ if(el.files&&el.files[0]) readHoldings(el.files[0]); return; }
+  }
+  function onDragOver(e){
+    var d=e.target.closest?e.target.closest('#nd-drop'):null;
+    if(!d) return;
+    e.preventDefault(); d.classList.add('over');
+  }
+  function onDragLeave(e){
+    var d=e.target.closest?e.target.closest('#nd-drop'):null;
+    if(d) d.classList.remove('over');
+  }
+  function onDrop(e){
+    var d=e.target.closest?e.target.closest('#nd-drop'):null;
+    if(!d) return;
+    e.preventDefault(); d.classList.remove('over');
+    var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+    if(f) readHoldings(f);
+  }
+
+  function boot(){
+    if(S.booted) return;
+    var root=$('v-news');
+    if(!root){ console.error('news tab: #v-news is missing, cannot boot'); return; }
+    S.booted=true;
+    loadBook();
+    root.addEventListener('click',onClick);
+    root.addEventListener('input',onInput);
+    root.addEventListener('change',onChange);
+    root.addEventListener('dragover',onDragOver);
+    root.addEventListener('dragenter',onDragOver);
+    root.addEventListener('dragleave',onDragLeave);
+    root.addEventListener('drop',onDrop);
+    render();
+    load();
+    S.timer=setInterval(load,POLL_MS);
+    setInterval(function(){
+      setText('nd-updated',fmtUpdated());
+      var dot=$('nd-dot'); if(dot) dot.className='nd-dot'+(stale()?' stale':'');
+    },15000);
+  }
+
+  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,
+          _parseCSV:parseCSV,_applyRows:applyRows,_fmtTime:fmtTime,_groupKey:groupKey};
+})();
+
+// The tab's ONE global, and it is a module object rather than a pile of loose
+// handlers. This whole page script runs inside an IIFE, so nothing above is
+// reachable from the console or from a test harness without it — and driving
+// the real controls from outside is how the 07-30 "renders fine, does nothing"
+// bug would have been caught. Note what is NOT here: no handler is exposed for
+// markup to call by name, because no markup calls anything by name.
+window.NEWSTAB=NEWSTAB;
 
 const renderers={home:renderHome,sectors:renderSectors,stocks:renderStocks,signals:renderSignals,risks:renderRisks,analysis:renderAnalysis,ask:renderAsk,memory:renderMemory,portfolios:renderPortfolios,bubble:renderBubble,econ:renderEcon,news:renderNews};
 

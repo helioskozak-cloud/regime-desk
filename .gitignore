@@ -20,3 +20,6 @@ local_api_task.log
 tunnel_logs/
 build_client_deck.py
 client_deck.pdf
+
+# Test deps (jsdom / playwright) — installed per-machine, see tests/README.md
+node_modules/
