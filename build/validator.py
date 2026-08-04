@@ -3,7 +3,7 @@ validator.py — static smoke-tests for the proposed index.html.
 
 Checks:
   1. window.SNAPSHOT present
-  2. All 10 view hashes referenced
+  2. Every routable view has a mount point
   3. No external script tags (<script src=)
   4. No fetch( or XMLHttpRequest calls
   5. No ESM URL imports (import ... from 'http)
@@ -12,10 +12,13 @@ Checks:
 import re
 
 
-REQUIRED_VIEWS = [
-    "home", "regime", "sectors", "stocks", "themes",
-    "signals", "risks", "narrative", "analog", "methodology", "advisor", "meeting", "ask"
-]
+# Must track the page's own VIEWS array. Anything listed here that the page no
+# longer mounts fails validation, build.py rolls back, nothing stages, and the run
+# still goes green — so a stale entry here freezes the dashboard silently rather
+# than reporting an error. Ten renderers were deleted 2026-08-04 as unreachable;
+# this list went from thirteen names (twelve of them already dead, and missing
+# three of the four live ones) to exactly what VIEWS routes.
+REQUIRED_VIEWS = ["home", "analysis", "bubble", "news"]
 
 MIN_SIZE = 5_000
 
