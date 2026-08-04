@@ -38993,18 +38993,12 @@ function renderHome(){
   const portKeys=Object.keys(ports);
   const portColors={max_edge:'#58a6ff',bull_case:'#3fb950',defensive:'#e3b341'};
 
-  // Slim daily-brief strip: date + what shifted since yesterday (overnight
-  // deltas the summary bars don't otherwise surface).
-  let sinceInner='';
-  if(hist.length>=2){
-    const cur=hist[hist.length-1], prev=hist[hist.length-2];
-    const dRet5=(cur.ret_5d||0)-(prev.ret_5d||0), dRet20=(cur.ret_20d||0)-(prev.ret_20d||0);
-    const dVol=((cur.vol_20d||0)-(prev.vol_20d||0))*Math.sqrt(252), dDD=(cur.drawdown_60d||0)-(prev.drawdown_60d||0);
-    const seg=(label,delta,goodUp,fmt)=>{const good=goodUp?delta>=0:delta<=0;const col=Math.abs(delta)<0.0001?'#8b949e':(good?'#3fb950':'#f85149');const arrow=delta>0.0001?'▲':delta<-0.0001?'▼':'■';return `<span style="white-space:nowrap"><span style="color:#8b949e">${label}</span> <strong style="color:${col}">${arrow} ${fmt(delta)}</strong></span>`;};
-    const fPP=d=>(d>=0?'+':'')+(d*100).toFixed(2)+'pp', fV=d=>(d>=0?'+':'')+(d*100).toFixed(1)+'pp';
-    sinceInner=`<strong style="color:#8b949e;text-transform:uppercase;letter-spacing:.6px;font-size:10px">Since yesterday · </strong>`+[seg('SPY 5d',dRet5,true,fPP),seg('SPY 20d',dRet20,true,fPP),seg('Vol',dVol,false,fV),seg('60d DD',dDD,true,fPP)].join('<span style="color:#484f58">&nbsp; · &nbsp;</span>');
-  }
-  const briefStrip=`<div class="card" style="padding:10px 14px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div style="font-size:12px;line-height:1.7">${sinceInner||'<span style="color:#6e7681">Daily market brief</span>'}</div><span style="font-size:11px;color:#6e7681">${S.generated}</span></div></div>`;
+  // The daily-brief strip is gone. It was a full-width row carrying four
+  // overnight deltas and the build timestamp, sitting above a card that shows
+  // the four readings those deltas belong to — so you read a number here and
+  // its change 150px away. The deltas moved onto their own tiles in
+  // _cardRegimeMetrics and the timestamp onto that card's foot, which removes
+  // a row from the top of the page without losing anything.
 
   // Paper-portfolios one-liner (read-only).
   const portStrip=portKeys.length?`<div class="card" style="padding:12px 14px">
@@ -39020,8 +39014,7 @@ function renderHome(){
     </div>
   </div>`:'';
 
-  return briefStrip
-    +_cardRegimeMetrics()
+  return _cardRegimeMetrics()
     +_cardVerdict()
     +_cardRisk()
     +_cardTrajectory()
@@ -39060,20 +39053,52 @@ function _cardRegimeMetrics(){
   const rc=v=>v>0.0005?'#3fb950':v<-0.0005?'#f85149':'#8b949e';
   const r5=spy.ret_5d||0,r20=spy.ret_20d||0,vol=(spy.vol_20d||0)*Math.sqrt(252),dd=spy.drawdown_60d||0,rr=spy.reversal_risk||0,rrCol=rr>=0.5?'#f85149':rr>=0.3?'#e3b341':'#3fb950';
   const hero=_rdHero('Regime',reg.toUpperCase(),`${spy.regime_streak||"—"} day streak`,regCol);
+  // Overnight deltas used to be their own full-width row above this card,
+  // which meant reading a number here and its change 150px away. A delta
+  // belongs against the reading it is a delta OF, so it now sits under the
+  // tile. Only the four readings that HAVE a history series get one.
+  const _h=spy.history||[];
+  const _cur=_h[_h.length-1]||{}, _prv=_h.length>=2?_h[_h.length-2]:null;
+  const dOf=k=>_prv?((_cur[k]||0)-(_prv[k]||0)):null;
+  const dTag=(d,goodUp,mult)=>{
+    if(d===null) return '';
+    const v=d*(mult||1), flat=Math.abs(v)<0.00005;
+    const col=flat?'#6e7681':((goodUp?v>=0:v<=0)?'#3fb950':'#f85149');
+    const a=flat?'■':(v>0?'▲':'▼');
+    return`<div style="color:${col};font-size:10px;margin-top:5px;font-family:var(--mono);white-space:nowrap">${a} ${(v>=0?'+':'')+(v*100).toFixed(2)}pp <span style="color:#6e7681">1d</span></div>`;
+  };
   const tiles=[
-    _rdTile('5d return',`<span style="color:${rc(r5)}">${arr(r5)} ${pct(r5)}</span>`),
-    _rdTile('20d return',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`),
-    _rdTile('20d vol (ann.)',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`),
-    _rdTile('60d drawdown',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`),
+    _rdTile('5d return',`<span style="color:${rc(r5)}">${arr(r5)} ${pct(r5)}</span>`,dTag(dOf('ret_5d'),true)),
+    _rdTile('20d return',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`,dTag(dOf('ret_20d'),true)),
+    _rdTile('20d vol (ann.)',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`,dTag(dOf('vol_20d'),false,Math.sqrt(252))),
+    _rdTile('60d drawdown',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`,dTag(dOf('drawdown_60d'),true)),
     _rdTile('Breadth',`<span style="color:#3fb950">${((spy.breadth||0)*100).toFixed(0)}%</span>`,_rdMiniBar(spy.breadth,'#3fb950')),
     _rdTile('Persistence',`<span style="color:#58a6ff">${((spy.persistence||0)*100).toFixed(0)}%</span>`,_rdMiniBar(spy.persistence,'#58a6ff')),
     _rdTile('Reversal risk',`<span style="color:${rrCol}">${(rr*100).toFixed(0)}%</span>`,_rdMiniBar(rr,rrCol))
   ].join('');
-  const foot=`<strong style="color:#8b949e">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}`;
+  const foot=`<strong style="color:#8b949e">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}<span style="float:right;color:#6e7681">${S.generated||''}</span>`;
   return _rdSummaryCard('Regime Analysis',regCol,hero,tiles,foot);
 }
+// Four series, not two. history carries ret_5d, ret_20d, vol_20d and
+// drawdown_60d for all 20 sessions; this panel plotted half of them and
+// stretched the other half across the full width. Each svgLineChart declares a
+// 440px viewBox, so grid2 was blowing each one up to ~880px — which is what
+// "the charts do not earn their width" was describing. Four across puts them
+// back near their native size AND doubles the information, in the same height.
+//
+// auto-fit rather than repeat(4,1fr) so this degrades to 2-up and then 1-up on
+// narrow viewports instead of forcing a horizontal scrollbar.
 function _cardTrajectory(){
-  return`<div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2><p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 20-day return and annualized realized volatility trends.</p><div class="grid2">${svgLineChart((spy.history||[]).map(d=>d.ret_20d||0),440,110,'Rolling 20d return')}${svgLineChart((spy.history||[]).map(d=>(d.vol_20d||0)*Math.sqrt(252)),440,110,'Annualized vol')}</div></div>`;
+  const h=spy.history||[];
+  const chart=(vals,label)=>svgLineChart(vals,440,110,label);
+  return`<div class="card"><h2>SPY Trajectory — Last 20 Sessions</h2>
+  <p style="color:#8b949e;font-size:12px;margin-bottom:10px">Rolling 5-day and 20-day return, annualized realized volatility, and 60-day drawdown — the same four readings the summary tiles give as points, shown as paths.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px">
+    ${chart(h.map(d=>d.ret_5d||0),'Rolling 5d return')}
+    ${chart(h.map(d=>d.ret_20d||0),'Rolling 20d return')}
+    ${chart(h.map(d=>(d.vol_20d||0)*Math.sqrt(252)),'Annualized vol')}
+    ${chart(h.map(d=>d.drawdown_60d||0),'60d drawdown')}
+  </div></div>`;
 }
 
 // SECTORS — winner/loser badges + allocation delta vs SPX benchmark

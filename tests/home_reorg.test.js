@@ -69,6 +69,28 @@ setTimeout(() => {
   ['5d return', '20d return', 'Breadth', 'Persistence']
     .forEach((d) => ok(home.includes(d), 'card still carries "' + d + '"'));
 
+  // ---- criterion 5: the charts earn their width ----
+  // history carries four series; the panel used to plot two of them and
+  // stretch each 440px viewBox to ~880px. All four are plotted now.
+  console.log('\n== criterion 5: four series, not two ==');
+  // Match the chart's own <text> label, NOT a bare substring: "60d drawdown"
+  // is also a tile label in the regime card, so home.includes() passed even
+  // with the chart deleted. Caught by mutation, not by reading it.
+  ['Rolling 5d return', 'Rolling 20d return', 'Annualized vol', '60d drawdown']
+    .forEach((l) => ok(home.includes('>' + l + '</text>'), 'trajectory plots "' + l + '"'));
+  ok(!/class="grid2"[^>]*>\s*<svg/.test(home),
+    'trajectory no longer uses the 2-up grid that stretched each chart');
+
+  // ---- item 2: fewer full-width rows before the first panel ----
+  // The overnight deltas were their own row above the card showing the very
+  // readings they are deltas of. They moved onto the tiles.
+  console.log('\n== item 2: deltas sit on the reading they belong to ==');
+  ok(!/Since yesterday/i.test(home), 'the separate daily-brief strip is gone');
+  const nDeltas = (home.match(/>1d<\/span>/g) || []).length;
+  ok(nDeltas >= 4, 'four readings carry an overnight delta on their tile (' + nDeltas + ')');
+  ok(!!(w.SNAPSHOT && w.SNAPSHOT.generated) && home.includes(w.SNAPSHOT.generated),
+    'the build timestamp survived the strip removal');
+
   console.log('\n== console errors ==');
   ok(errors.length === 0, 'no page errors (' + errors.join('; ') + ')');
 
