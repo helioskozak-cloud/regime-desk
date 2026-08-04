@@ -38944,7 +38944,7 @@ document.getElementById("regime-banner").innerHTML=`
   <span class="regime-label">${spy.regime||"Unknown"}${streak>1?` <span style="color:#8b949e;font-size:11px">(${streak}d streak)</span>`:''}</span>
   <div class="stat"><span class="val">${pct(spy.ret_5d)}${sparkline(hist,'ret_5d')}</span><span class="key">SPY 5d</span></div>
   <div class="stat"><span class="val">${pct(spy.ret_20d)}${sparkline(hist,'ret_20d')}</span><span class="key">SPY 20d</span></div>
-  <div class="stat"><span class="val">${((spy.vol_20d||0)*100).toFixed(1)}%${sparkline(hist,'vol_20d')}</span><span class="key">Vol 20d</span></div>
+  <div class="stat"><span class="val">${((spy.vol_20d||0)*Math.sqrt(252)*100).toFixed(0)}%${sparkline(hist,'vol_20d')}</span><span class="key">Vol 20d (ann.)</span></div>
   <div class="stat"><span class="val">${pct(spy.drawdown_60d)}${sparkline(hist,'drawdown_60d')}</span><span class="key">Drawdown 60d</span></div>
   <div class="stat"><span class="val">${((spy.breadth||0)*100).toFixed(0)}%</span><span class="key">Breadth</span></div>
   <div class="stat"><span class="val">${((spy.persistence||0)*100).toFixed(0)}%</span><span class="key">Persistence</span></div>
