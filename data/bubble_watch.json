@@ -404,28 +404,28 @@
    "n_members": 503,
    "n_with_data": 500,
    "coverage_pct": 99.4,
-   "pct_doubled": 2.6,
-   "pct_halved": 1.0,
-   "n_doubled": 13,
-   "n_halved": 5,
-   "pct_up50": 10.0,
+   "pct_doubled": 3.0,
+   "pct_halved": 0.8,
+   "n_doubled": 15,
+   "n_halved": 4,
+   "pct_up50": 9.8,
    "pct_down30": 4.2,
-   "median_ret": 10.62,
-   "sp500_ret": 12.63,
-   "nasdaq_ret": 13.37,
+   "median_ret": 10.25,
+   "sp500_ret": 12.96,
+   "nasdaq_ret": 14.38,
    "top5": {
     "SNDK": 4.302,
-    "DELL": 2.509,
-    "STX": 2.105,
+    "DELL": 2.519,
     "MU": 2.09,
-    "INTC": 1.705
+    "STX": 2.032,
+    "INTC": 1.772
    },
    "bottom5": {
-    "CSGP": -0.56,
-    "TTD": -0.535,
-    "PODD": -0.51,
-    "INTU": -0.509,
-    "APP": -0.502
+    "TTD": -0.656,
+    "CSGP": -0.549,
+    "PODD": -0.516,
+    "INTU": -0.502,
+    "APP": -0.487
    }
   }
  ]
