@@ -402,30 +402,30 @@
    "year": 2026,
    "partial": true,
    "n_members": 503,
-   "n_with_data": 356,
-   "coverage_pct": 70.8,
-   "pct_doubled": 3.37,
-   "pct_halved": 0.56,
-   "n_doubled": 12,
-   "n_halved": 2,
-   "pct_up50": 10.67,
-   "pct_down30": 3.09,
-   "median_ret": 9.73,
-   "sp500_ret": 13.15,
-   "nasdaq_ret": 14.33,
+   "n_with_data": 501,
+   "coverage_pct": 99.6,
+   "pct_doubled": 3.59,
+   "pct_halved": 0.6,
+   "n_doubled": 18,
+   "n_halved": 3,
+   "pct_up50": 10.78,
+   "pct_down30": 3.39,
+   "median_ret": 10.4,
+   "sp500_ret": 12.89,
+   "nasdaq_ret": 14.48,
    "top5": {
-    "SNDK": 4.763,
-    "MU": 2.045,
-    "INTC": 1.736,
-    "WDC": 1.646,
-    "MRVL": 1.625
+    "SNDK": 4.755,
+    "DELL": 2.751,
+    "MU": 2.25,
+    "STX": 2.189,
+    "INTC": 1.648
    },
    "bottom5": {
+    "TTD": -0.647,
+    "CSGP": -0.547,
     "APP": -0.539,
-    "CSGP": -0.537,
-    "INTU": -0.493,
-    "BSX": -0.462,
-    "ZTS": -0.416
+    "PODD": -0.495,
+    "INTU": -0.494
    }
   }
  ]
