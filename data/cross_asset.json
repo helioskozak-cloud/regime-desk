@@ -3,14 +3,14 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "+0.4%",
+      "value": "+0.3%",
       "signal": "neutral",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "+2.4%",
+      "value": "+2.3%",
       "signal": "bullish",
       "context": "Medium-term trend strength"
     },
@@ -24,23 +24,23 @@
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "+0.2% (20d)",
+      "value": "+0.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.2% \u2014 stable credit"
+      "context": "20d ret +0.3% \u2014 stable credit"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "+8.7% (20d)",
+      "value": "+8.8% (20d)",
       "signal": "bearish",
-      "context": "20d ret +8.7% \u2014 safe-haven bid / real rates falling"
+      "context": "20d ret +8.8% \u2014 safe-haven bid / real rates falling"
     },
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "-0.5% (20d)",
+      "value": "-0.4% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.5% \u2014 dollar neutral"
+      "context": "20d ret -0.4% \u2014 dollar neutral"
     },
     {
       "name": "Crude Oil",
@@ -52,23 +52,23 @@
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "15.0",
+      "value": "14.8",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-0.4% (20d)",
+      "value": "-0.5% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.4% \u2014 semis in line"
+      "context": "20d ret -0.5% \u2014 semis in line"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "+2.4% (20d)",
-      "signal": "bullish",
-      "context": "20d ret +2.4% \u2014 small-cap breadth expanding"
+      "value": "+1.9% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.9% \u2014 mixed breadth"
     },
     {
       "name": "Copper",
@@ -103,15 +103,15 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.11,
-      "description": "VIX at 15.0. Calm regime; vol suppression in force.",
+      "score": 0.1,
+      "description": "VIX at 14.8. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
       "name": "Credit Stress",
       "level": "moderate",
-      "score": 0.48,
-      "description": "HYG 20d +0.2%. Credit broadly constructive; no systemic signal.",
+      "score": 0.47,
+      "description": "HYG 20d +0.3%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return"
     },
     {
@@ -124,8 +124,8 @@
     {
       "name": "Growth Slowdown",
       "level": "low",
-      "score": 0.3,
-      "description": "Copper 20d +4.4%, IWM +2.4%. Cyclicals constructive; growth fears not confirmed.",
+      "score": 0.31,
+      "description": "Copper 20d +4.4%, IWM +1.9%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
@@ -138,15 +138,15 @@
     {
       "name": "Dollar Headwind",
       "level": "low",
-      "score": 0.36,
-      "description": "UUP 20d -0.5%. Dollar neutral to weak; no FX drag on multinationals.",
+      "score": 0.37,
+      "description": "UUP 20d -0.4%. Dollar neutral to weak; no FX drag on multinationals.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
     },
     {
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.22,
-      "description": "SPY +2.4% / 20d with vol 0.89%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +2.3% / 20d with vol 0.89%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
     }
   ]
