@@ -73,9 +73,9 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+3.6% (20d)",
+      "value": "+5.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret +3.6% \u2014 copper bid = growth optimism"
+      "context": "20d ret +5.3% \u2014 copper bid = growth optimism"
     },
     {
       "name": "TIPS / Breakevens",
@@ -124,8 +124,8 @@
     {
       "name": "Growth Slowdown",
       "level": "low",
-      "score": 0.32,
-      "description": "Copper 20d +3.6%, IWM +2.3%. Cyclicals constructive; growth fears not confirmed.",
+      "score": 0.27,
+      "description": "Copper 20d +5.3%, IWM +2.3%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
