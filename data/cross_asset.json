@@ -17,58 +17,58 @@
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-2.7% (20d)",
+      "value": "-2.5% (20d)",
       "signal": "bullish",
-      "context": "20d ret -2.7% \u2014 sell-off = rising rates"
+      "context": "20d ret -2.5% \u2014 sell-off = rising rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "+0.5% (20d)",
+      "value": "+0.6% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.5% \u2014 stable credit"
+      "context": "20d ret +0.6% \u2014 stable credit"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "+9.1% (20d)",
+      "value": "+9.0% (20d)",
       "signal": "bearish",
-      "context": "20d ret +9.1% \u2014 safe-haven bid / real rates falling"
+      "context": "20d ret +9.0% \u2014 safe-haven bid / real rates falling"
     },
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "-0.7% (20d)",
+      "value": "-0.8% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.7% \u2014 dollar neutral"
+      "context": "20d ret -0.8% \u2014 dollar neutral"
     },
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+1.8% (20d)",
-      "signal": "neutral",
-      "context": "20d ret +1.8% \u2014 stable oil"
+      "value": "+2.1% (20d)",
+      "signal": "bullish",
+      "context": "20d ret +2.1% \u2014 stable oil"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "14.4",
+      "value": "14.2",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+5.0% (20d)",
+      "value": "+5.6% (20d)",
       "signal": "bullish",
-      "context": "20d ret +5.0% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +5.6% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "+3.5% (20d)",
+      "value": "+3.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +3.5% \u2014 small-cap breadth expanding"
+      "context": "20d ret +3.8% \u2014 small-cap breadth expanding"
     },
     {
       "name": "Copper",
@@ -87,9 +87,9 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+4.9% (20d)",
+      "value": "+5.1% (20d)",
       "signal": "bullish",
-      "context": "20d ret +4.9% \u2014 growth leadership intact"
+      "context": "20d ret +5.1% \u2014 growth leadership intact"
     },
     {
       "name": "Financials",
@@ -103,29 +103,29 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.09,
-      "description": "VIX at 14.4. Calm regime; vol suppression in force.",
+      "score": 0.08,
+      "description": "VIX at 14.2. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
       "name": "Credit Stress",
       "level": "low",
-      "score": 0.45,
-      "description": "HYG 20d +0.5%. Credit broadly constructive; no systemic signal.",
+      "score": 0.44,
+      "description": "HYG 20d +0.6%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return"
     },
     {
       "name": "Rate Re-pricing",
       "level": "elevated",
-      "score": 0.72,
-      "description": "TLT 20d -2.7%. Bond sell-off = rates rising; duration assets under pressure.",
+      "score": 0.7,
+      "description": "TLT 20d -2.5%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
     },
     {
       "name": "Growth Slowdown",
       "level": "low",
-      "score": 0.23,
-      "description": "Copper 20d +5.5%, IWM +3.5%. Cyclicals constructive; growth fears not confirmed.",
+      "score": 0.22,
+      "description": "Copper 20d +5.5%, IWM +3.8%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
@@ -139,7 +139,7 @@
       "name": "Dollar Headwind",
       "level": "low",
       "score": 0.34,
-      "description": "UUP 20d -0.7%. Dollar neutral to weak; no FX drag on multinationals.",
+      "description": "UUP 20d -0.8%. Dollar neutral to weak; no FX drag on multinationals.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
     },
     {
