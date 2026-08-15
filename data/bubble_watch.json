@@ -1,5 +1,5 @@
 {
- "as_of": "2026-08-14",
+ "as_of": "2026-08-15",
  "meta": {
   "built": "2026-07-13",
   "method": "pct of point-in-time S&P 500 members whose adjusted close doubled (>=+100%) or halved (<=-50%) over the calendar year",
@@ -402,30 +402,30 @@
    "year": 2026,
    "partial": true,
    "n_members": 503,
-   "n_with_data": 501,
-   "coverage_pct": 99.6,
-   "pct_doubled": 3.39,
-   "pct_halved": 0.6,
-   "n_doubled": 17,
-   "n_halved": 3,
-   "pct_up50": 11.18,
-   "pct_down30": 3.39,
-   "median_ret": 11.66,
+   "n_with_data": 396,
+   "coverage_pct": 78.7,
+   "pct_doubled": 3.03,
+   "pct_halved": 0.51,
+   "n_doubled": 12,
+   "n_halved": 2,
+   "pct_up50": 9.6,
+   "pct_down30": 3.79,
+   "median_ret": 10.77,
    "sp500_ret": 13.74,
    "nasdaq_ret": 15.0,
    "top5": {
-    "SNDK": 5.913,
     "DELL": 2.935,
     "STX": 2.543,
     "MU": 2.406,
-    "WDC": 1.956
+    "LITE": 1.513,
+    "HPE": 1.467
    },
    "bottom5": {
-    "TTD": -0.628,
     "APP": -0.532,
     "CSGP": -0.518,
     "PODD": -0.496,
-    "INTU": -0.473
+    "INTU": -0.473,
+    "BSX": -0.456
    }
   }
  ]
