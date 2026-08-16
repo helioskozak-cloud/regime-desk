@@ -24,9 +24,9 @@
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "+0.6% (20d)",
+      "value": "+0.4% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.6% \u2014 stable credit"
+      "context": "20d ret +0.4% \u2014 stable credit"
     },
     {
       "name": "Gold",
@@ -73,9 +73,9 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+5.5% (20d)",
+      "value": "+3.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +5.5% \u2014 copper bid = growth optimism"
+      "context": "20d ret +3.8% \u2014 copper bid = growth optimism"
     },
     {
       "name": "TIPS / Breakevens",
@@ -109,9 +109,9 @@
     },
     {
       "name": "Credit Stress",
-      "level": "low",
-      "score": 0.44,
-      "description": "HYG 20d +0.6%. Credit broadly constructive; no systemic signal.",
+      "level": "moderate",
+      "score": 0.46,
+      "description": "HYG 20d +0.4%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return"
     },
     {
@@ -124,8 +124,8 @@
     {
       "name": "Growth Slowdown",
       "level": "low",
-      "score": 0.22,
-      "description": "Copper 20d +5.5%, IWM +3.8%. Cyclicals constructive; growth fears not confirmed.",
+      "score": 0.27,
+      "description": "Copper 20d +3.8%, IWM +3.8%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
