@@ -73,16 +73,16 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+3.8% (20d)",
+      "value": "+5.5% (20d)",
       "signal": "bullish",
-      "context": "20d ret +3.8% \u2014 copper bid = growth optimism"
+      "context": "20d ret +5.5% \u2014 copper bid = growth optimism"
     },
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "-0.5% (20d)",
+      "value": "-0.9% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.5% \u2014 inflation expectations contained"
+      "context": "20d ret -0.9% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
@@ -124,15 +124,15 @@
     {
       "name": "Growth Slowdown",
       "level": "low",
-      "score": 0.27,
-      "description": "Copper 20d +3.8%, IWM +3.8%. Cyclicals constructive; growth fears not confirmed.",
+      "score": 0.22,
+      "description": "Copper 20d +5.5%, IWM +3.8%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
       "name": "Inflation Re-pricing",
       "level": "low",
-      "score": 0.26,
-      "description": "TIPS 20d -0.5%. Inflation expectations contained; Fed credibility intact.",
+      "score": 0.22,
+      "description": "TIPS 20d -0.9%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall"
     },
     {
