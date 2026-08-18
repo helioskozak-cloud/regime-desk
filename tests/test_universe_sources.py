@@ -45,21 +45,38 @@ def _sector_map_json() -> dict:
     return json.loads(SECTOR_MAP_JSON.read_text(encoding="utf-8"))
 
 
-def _sector_map_literal() -> dict:
-    src = API_SERVER.read_text(encoding="utf-8")
-    m = re.search(r"_SECTOR_MAP\s*=\s*(\{.*?\n\})", src, re.DOTALL)
-    assert m, "_SECTOR_MAP literal not found in api_server.py"
-    return ast.literal_eval(m.group(1))
+def _sector_map_from_universe() -> dict:
+    """What data/sector_map.json should contain: the universe's own sector
+    column. Since 2026-08-18 this is the ONLY source — api_server.py reads the
+    same CSV rather than carrying a duplicate literal."""
+    out = {}
+    with UNIVERSE_CSV.open(encoding="utf-8", newline="") as fh:
+        for r in csv.DictReader(fh):
+            t = str(r.get("ticker", "")).upper().strip()
+            sec = str(r.get("sector", "") or "").strip()
+            if t and sec:
+                out[t] = sec
+    return out
 
 
 # ── the published map must match its source ─────────────────────────────────
 
-def test_the_published_sector_map_matches_the_literal_it_is_exported_from():
-    """If this fails, someone edited _SECTOR_MAP and did not re-export — and
-    finvisible is fetching a stale classification."""
-    assert _sector_map_json() == _sector_map_literal(), (
-        "data/sector_map.json is out of date with api_server.py's _SECTOR_MAP. "
+def test_the_published_sector_map_matches_the_universe():
+    """The published map must be exactly the universe's sector column. If this
+    fails, the universe changed and the export did not run."""
+    assert _sector_map_json() == _sector_map_from_universe(), (
+        "data/sector_map.json is out of date with scan/universe_ci.csv. "
         "Run: python scripts/export_sector_map.py")
+
+
+def test_api_server_holds_no_second_copy_of_the_sector_map():
+    """The 343-line _SECTOR_MAP literal was a verbatim duplicate of the CSV and
+    fell 612 tickers behind it. If a literal reappears, the same drift is back."""
+    src = API_SERVER.read_text(encoding="utf-8")
+    m = re.search(r"_SECTOR_MAP\s*=\s*\{[^}]*'[A-Z]{1,5}'\s*:", src, re.DOTALL)
+    assert m is None, (
+        "api_server.py has a hardcoded _SECTOR_MAP literal again — it should "
+        "load scan/universe_ci.csv, which is the single source")
 
 
 def test_the_export_runs_in_the_daily_workflow():
@@ -79,6 +96,13 @@ def test_the_theme_map_never_contains_a_ticker_the_universe_does_not():
     drifting on its own. Currently zero, and it should stay that way."""
     stray = {k.upper() for k in _sector_map_json()} - _universe()
     assert not stray, f"themed but not in universe_ci.csv: {sorted(stray)[:20]}"
+
+
+def test_every_themed_ticker_carries_the_universe_own_sector():
+    """No consumer should ever see a theme the universe does not assert."""
+    uni_sec = _sector_map_from_universe()
+    for t, theme in _sector_map_json().items():
+        assert uni_sec.get(t) == theme, f"{t}: published {theme!r}, universe {uni_sec.get(t)!r}"
 
 
 def test_the_theme_map_is_known_to_be_incomplete():
