@@ -1,0 +1,86 @@
+name: Weekly universe refresh
+
+# Friday after the close. The universe used to be refreshed by someone
+# remembering to; it last ran 2026-01-27 and was found seven months later,
+# missing UNH, ARM, BABA, UPS and a thousand other liquid names. A manual step
+# that matters is a step that eventually does not happen.
+#
+# Friday 21:15 UTC = 17:15 ET, about 75 minutes after the close, so the day's
+# volume is settled in the data. In EST (winter) that lands at 16:15 ET, still
+# after the bell.
+on:
+  schedule:
+    - cron: "15 21 * * 5"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Report only — do not write the universe"
+        type: boolean
+        default: false
+
+concurrency:
+  group: universe-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # The size caps are NOT bypassed here. --allow-large exists for a
+      # deliberate one-time catch-up run by a human; an unattended job must not
+      # be able to reshape the universe. If the caps trip, this fails and the
+      # report says why — which is the outcome we want, because a swing that
+      # large means the input is wrong, not the market.
+      - name: Refresh the universe
+        run: |
+          python scripts/refresh_universe.py \
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+
+      # sector_map.json is DERIVED from the universe. Regenerating it here is
+      # what makes finvisible and sim-desk see new tickers at all — they fetch
+      # the map, not the CSV.
+      - name: Re-derive the sector map
+        if: github.event.inputs.dry_run != 'true'
+        run: python scripts/export_sector_map.py
+
+      # Gate the push on the same contracts the daily build is gated on. A
+      # universe change that breaks a downstream consumer must not ship.
+      - name: Validate contracts and universe invariants
+        run: |
+          pip install -q pytest
+          python -m pytest -q tests/test_contracts.py tests/test_universe_sources.py
+
+      - name: Commit and push
+        if: github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name "regime-desk-bot"
+          git config user.email "bot@regime-desk"
+          git add scan/universe_ci.csv data/sector_map.json \
+                  data/universe_refresh_report.md data/universe_screen_cache.json || true
+          if git diff --cached --quiet; then
+            echo "no universe change this week"
+            exit 0
+          fi
+          git commit -m "chore: weekly universe refresh $(date -u +%Y-%m-%d)"
+          # The daily build pushes to this branch too; rebase rather than fail.
+          git pull --rebase --autostash origin main
+          git push origin main
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Universe refresh" >> $GITHUB_STEP_SUMMARY
+          cat data/universe_refresh_report.md >> $GITHUB_STEP_SUMMARY || true
