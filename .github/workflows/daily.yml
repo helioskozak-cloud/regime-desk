@@ -117,6 +117,20 @@ jobs:
       #   run: python build/report_v2.py
       #   continue-on-error: true
 
+      # Gate the publish on the data contracts. These artifacts are read by
+      # PAPA and finvisible, which this repo cannot see; a renamed column used
+      # to leave CI green here and break both of them silently. Runs AFTER the
+      # build regenerates data/ and BEFORE the push, so a broken contract stops
+      # the publish instead of shipping it. Deliberately not continue-on-error.
+      - name: Validate published contracts
+        if: steps.freshness.outputs.fresh != 'true'
+        # pytest installed here rather than in requirements.txt: that file is
+        # the RUNTIME install for the scan and the local API, and a test runner
+        # does not belong in it.
+        run: |
+          pip install -q pytest
+          python -m pytest -q tests/test_contracts.py tests/test_universe_sources.py
+
       - name: Commit and push
         if: steps.freshness.outputs.fresh != 'true'
         run: |
