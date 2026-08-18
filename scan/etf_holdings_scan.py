@@ -11,6 +11,7 @@ Writes data/etf_holdings.json:
   {meta, funds: {T: {as_of, name?, holdings: [{t, name, w}]}},
    non_funds: {T: date}, no_data: {T: date}}
 """
+import csv
 import json
 import datetime
 import time
@@ -22,9 +23,38 @@ import yfinance as yf
 ROOT = Path(__file__).parent.parent
 OUT = ROOT / "data" / "etf_holdings.json"
 SECTOR_MAP = ROOT / "data" / "sector_map.json"
+# THE UNIVERSE IS universe_ci.csv, NOT sector_map.json.
+#
+# This scan used to walk sector_map.json, which is not a universe — it is a
+# hand-maintained ticker -> THEME labelling that happens to cover part of one.
+# 375 of the 1,755 tickers in universe_ci.csv have no theme, and 370 of those
+# have a blank sector: they are the ETFs. Nobody assigns a "theme" to QQQ,
+# because the S&P 500 is not one.
+#
+# So this scan spent weeks classifying 1,301 individual stocks as "not a fund"
+# while never once looking at QQQ, SPY, IVV, ITOT, VOO or VTI — the exact
+# tickers a fund look-through exists to see inside. It was walking the one list
+# built by excluding the things it is for.
+UNIVERSE_CSV = ROOT / "scan" / "universe_ci.csv"
 CHUNK = 75
 TIME_CAP_MIN = 12
 RECHECK_NO_DATA_DAYS = 30
+
+
+def load_universe() -> set[str]:
+    """Every ticker regime-desk screens. Falls back to the theme map only if the
+    CSV is unreadable — a smaller universe is better than no run, but the
+    fallback is the old bug, so it says so out loud."""
+    try:
+        with UNIVERSE_CSV.open(encoding="utf-8", newline="") as fh:
+            rows = list(csv.DictReader(fh))
+        tickers = {str(r["ticker"]).upper().strip() for r in rows if r.get("ticker")}
+        if tickers:
+            return tickers
+    except Exception as exc:
+        print(f"[etf] WARNING: could not read {UNIVERSE_CSV.name} ({exc}); "
+              f"falling back to sector_map.json, which omits ~375 ETFs", flush=True)
+    return {str(t).upper() for t in json.loads(SECTOR_MAP.read_text(encoding="utf-8"))}
 
 
 def load_state() -> dict:
@@ -55,8 +85,7 @@ def pick_chunk(state: dict, universe: list[str]) -> list[str]:
 
 def main() -> None:
     state = load_state()
-    themes = json.loads(SECTOR_MAP.read_text(encoding="utf-8"))
-    universe = sorted({str(t).upper() for t in themes})
+    universe = sorted(load_universe())
     todo = pick_chunk(state, universe)
     today = datetime.date.today().isoformat()
     deadline = time.monotonic() + TIME_CAP_MIN * 60

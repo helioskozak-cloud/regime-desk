@@ -83,6 +83,17 @@ jobs:
         run: python scan/econ_scan.py
         continue-on-error: true
 
+      # data/sector_map.json is a derived artifact — a manual export of the
+      # _SECTOR_MAP literal in api_server.py, which finvisible fetches. Its own
+      # docstring said "run manually whenever _SECTOR_MAP changes", i.e. it
+      # stayed correct only because someone remembered. Regenerating it every
+      # run makes drift impossible instead of merely detectable; it is a no-op
+      # on days the literal has not changed.
+      - name: Export sector map
+        if: steps.freshness.outputs.fresh != 'true'
+        run: python scripts/export_sector_map.py
+        continue-on-error: true
+
       - name: ETF holdings rolling scan
         if: steps.freshness.outputs.fresh != 'true'
         run: python scan/etf_holdings_scan.py
