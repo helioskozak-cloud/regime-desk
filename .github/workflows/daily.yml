@@ -129,7 +129,7 @@ jobs:
         # does not belong in it.
         run: |
           pip install -q pytest
-          python -m pytest -q tests/test_contracts.py tests/test_universe_sources.py
+          python -m pytest -q tests/test_contracts.py tests/test_universe_sources.py tests/test_econ_curve.py
 
       - name: Commit and push
         if: steps.freshness.outputs.fresh != 'true'

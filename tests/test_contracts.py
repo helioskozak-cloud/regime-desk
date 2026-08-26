@@ -7,7 +7,8 @@ raw.githubusercontent to two independent consumers that this repo cannot see:
                 data/stock_scores.csv, data/cross_asset.json
     finvisible  data/market_signals.csv, data/sector_map.json,
                 data/theme_summary.csv, data/signal_log.csv,
-                data/stock_scores.csv, data/etf_holdings.json
+                data/stock_scores.csv, data/etf_holdings.json,
+                data/econ.json  (the Treasury curve, for the fixed-income panel)
     sim-desk    data/sector_map.json
 
 They read DIFFERENT columns of the same files. finvisible needs `hit_alpha` and
@@ -80,6 +81,13 @@ CONTRACTS = {
 JSON_CONTRACTS = {
     "data/cross_asset.json": {"PAPA": ["signals", "risks"]},
     "data/etf_holdings.json": {"finvisible": ["meta", "funds"]},
+    # finvisible's fixed-income panel reads the Treasury curve: the `points`
+    # cross-section for the curve chart, and the DAILY `history` to regress a
+    # bond fund's returns against yield changes and get an empirical duration.
+    # A top-level key check is not enough for this one — see the shape test
+    # below, because the history arrays have to stay index-aligned or the
+    # regression silently pairs a fund return with the wrong day's yield.
+    "data/econ.json": {"finvisible": ["as_of", "curve"]},
 }
 
 
@@ -150,9 +158,74 @@ def test_the_contract_covers_every_file_a_consumer_fetches():
     consumed = {
         "scan/universe_ci.csv", "data/market_signals.csv", "data/stock_scores.csv",
         "data/cross_asset.json", "data/sector_map.json", "data/theme_summary.csv",
-        "data/signal_log.csv", "data/etf_holdings.json",
+        "data/signal_log.csv", "data/etf_holdings.json", "data/econ.json",
     }
     covered = set(CONTRACTS) | set(JSON_CONTRACTS) | {"data/sector_map.json",
                                                       "data/signal_log.csv"}
     missing = consumed - covered
     assert not missing, f"consumed downstream but not under contract: {sorted(missing)}"
+
+
+# ── the Treasury curve block ────────────────────────────────────────────────
+# Added 2026-08-26 with the fixed-income panel. finvisible consumes this and,
+# per the note at the top of this file, degrades QUIETLY — so a shape change
+# here shows up as a blank panel with no stated reason, not as an error.
+
+def _curve():
+    obj = json.loads((ROOT / "data/econ.json").read_text(encoding="utf-8"))
+    assert "curve" in obj, "data/econ.json lost its curve block, read by finvisible"
+    return obj["curve"]
+
+
+def test_curve_points_carry_every_field_finvisible_plots():
+    for p in _curve()["points"]:
+        for k in ("sid", "label", "years", "yield"):
+            assert k in p, f"curve point {p.get('sid', p)} is missing {k!r}"
+        assert isinstance(p["years"], (int, float)) and p["years"] > 0
+        assert isinstance(p["yield"], (int, float))
+
+
+def test_curve_tenors_are_ordered_short_to_long():
+    """finvisible plots points in array order without sorting. Out-of-order
+    tenors would draw a curve that zig-zags rather than one that is wrong in an
+    obvious way, which is worse."""
+    yrs = [p["years"] for p in _curve()["points"]]
+    assert yrs == sorted(yrs), f"curve tenors are not ascending: {yrs}"
+    assert len(set(yrs)) == len(yrs), f"curve has duplicate maturities: {yrs}"
+
+
+def test_curve_history_is_index_aligned():
+    """THE assertion that matters. Every tenor's value array is positionally
+    zipped against `dates` to build the yield-change series the duration
+    regression consumes. One short array shifts a fund's returns against the
+    wrong days and produces a confident, wrong duration."""
+    h = _curve()["history"]
+    n = len(h["dates"])
+    assert n > 0, "curve history has no dates"
+    for sid, vals in h["values"].items():
+        assert len(vals) == n, (
+            f"curve history {sid} has {len(vals)} values against {n} dates — "
+            f"positional zip would misalign every observation after the gap")
+
+
+def test_curve_history_dates_are_unique_and_ascending():
+    d = _curve()["history"]["dates"]
+    assert d == sorted(d), "curve history dates are not ascending"
+    assert len(set(d)) == len(d), "curve history has duplicate dates"
+
+
+def test_curve_history_covers_every_published_tenor():
+    c = _curve()
+    pts = {p["sid"] for p in c["points"]}
+    hist = set(c["history"]["values"])
+    assert pts <= hist, f"tenors on the curve with no history: {pts - hist}"
+
+
+def test_curve_gaps_are_null_not_forward_filled():
+    """A forward-filled yield becomes a ZERO yield CHANGE, which is what the
+    regression actually eats — it would quietly bias every duration toward
+    zero. Missing observations must stay null."""
+    for sid, vals in _curve()["history"]["values"].items():
+        for v in vals:
+            assert v is None or isinstance(v, (int, float)), (
+                f"curve history {sid} holds a non-numeric, non-null value: {v!r}")
