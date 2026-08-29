@@ -1,12 +1,13 @@
-# Universe refresh — 2026-08-21
+# Universe refresh — 2026-08-29
 
-- universe before: **3,235**
-- currently listed: 12,751
-- additions clearing $15,000,000/day: **1**
+- universe before: **3,236**
+- currently listed: 12,756
+- additions clearing $15,000,000/day: **2**
 - removals (absent from listings AND no recent price): **0**
 
 ## Added
 
 | ticker | avg $ vol (21d) |
 |---|---:|
-| LYNX | $71,008,200 |
+| IPHXU | $82,837,234 |
+| XLAB | $29,497,457 |
