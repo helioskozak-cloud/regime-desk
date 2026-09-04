@@ -17,9 +17,9 @@
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-0.1% (20d)",
+      "value": "-0.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.1% \u2014 range-bound rates"
+      "context": "20d ret -0.3% \u2014 range-bound rates"
     },
     {
       "name": "High-Yield Credit",
@@ -31,51 +31,51 @@
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "+2.1% (20d)",
-      "signal": "bearish",
-      "context": "20d ret +2.1% \u2014 safe-haven bid / real rates falling"
+      "value": "+1.9% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.9% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "-0.1% (20d)",
+      "value": "-0.0% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.1% \u2014 dollar neutral"
+      "context": "20d ret -0.0% \u2014 dollar neutral"
     },
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+19.6% (20d)",
+      "value": "+20.7% (20d)",
       "signal": "bullish",
-      "context": "20d ret +19.6% \u2014 energy bid; watch inflation pass-through"
+      "context": "20d ret +20.7% \u2014 energy bid; watch inflation pass-through"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "14.1",
+      "value": "14.0",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-2.9% (20d)",
+      "value": "-3.0% (20d)",
       "signal": "bearish",
-      "context": "20d ret -2.9% \u2014 semi weakness; growth concerns"
+      "context": "20d ret -3.0% \u2014 semi weakness; growth concerns"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "-1.9% (20d)",
+      "value": "-2.0% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.9% \u2014 mixed breadth"
+      "context": "20d ret -2.0% \u2014 mixed breadth"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+0.1% (20d)",
+      "value": "-0.1% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.1% \u2014 copper flat"
+      "context": "20d ret -0.1% \u2014 copper flat"
     },
     {
       "name": "TIPS / Breakevens",
@@ -104,7 +104,7 @@
       "name": "Volatility Regime",
       "level": "low",
       "score": 0.07,
-      "description": "VIX at 14.1. Calm regime; vol suppression in force.",
+      "description": "VIX at 14.0. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
     },
     {
@@ -117,15 +117,15 @@
     {
       "name": "Rate Re-pricing",
       "level": "moderate",
-      "score": 0.51,
-      "description": "TLT 20d -0.1%. Bond sell-off = rates rising; duration assets under pressure.",
+      "score": 0.52,
+      "description": "TLT 20d -0.3%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
     },
     {
       "name": "Growth Slowdown",
       "level": "moderate",
-      "score": 0.55,
-      "description": "Copper 20d +0.1%, IWM -1.9%. Cyclical indicators softening.",
+      "score": 0.56,
+      "description": "Copper 20d -0.1%, IWM -2.0%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum"
     },
     {
@@ -138,8 +138,8 @@
     {
       "name": "Dollar Headwind",
       "level": "low",
-      "score": 0.39,
-      "description": "UUP 20d -0.1%. Dollar neutral to weak; no FX drag on multinationals.",
+      "score": 0.4,
+      "description": "UUP 20d -0.0%. Dollar neutral to weak; no FX drag on multinationals.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
     },
     {
