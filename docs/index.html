@@ -85,6 +85,31 @@ tr:hover td{background:#1c2128}
 .dist-med{position:absolute;width:2px;height:10px;background:#f0f6fc}
 .score-bar{display:inline-block;width:60px;height:6px;background:#21262d;border-radius:1px;vertical-align:middle;position:relative}
 .score-fill{height:6px;border-radius:1px;position:absolute;left:0;top:0}
+/* ── risk axis meters ────────────────────────────────────────────────────
+   One line per axis, and the meter is the point of it. A bare score is a
+   scalar with an ambitious name: 0.59 means nothing until you know it is the
+   top of where credit stress has been living for three months. So the track
+   carries the 90-day range it has occupied, the 30-day range inside that, the
+   thresholds where the level changes, and a marker for today.
+   Sized so all seven axes plus the summary tiles clear the fold. */
+.rax{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid #21262d}
+.rax:last-of-type{border-bottom:0}
+.rax-name{width:158px;flex:0 0 158px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rax-meter{position:relative;flex:1 1 auto;min-width:120px;height:12px;background:#21262d;border-radius:2px}
+.rax-b90{position:absolute;top:0;height:12px;border-radius:2px;opacity:.22}
+.rax-b30{position:absolute;top:0;height:12px;border-radius:2px;opacity:.5}
+.rax-tick{position:absolute;top:0;width:1px;height:12px;background:#484f58}
+/* TODAY IS WHITE, not the axis colour. Drawn in the same colour as the bands
+   it sits inside, the marker vanished exactly where it matters most: an axis
+   pinned at the top of its own range. */
+.rax-now{position:absolute;top:-3px;width:3px;height:18px;border-radius:1px;background:#f0f6fc;box-shadow:0 0 0 1px #0d1117}
+.rax-rng{flex:0 0 auto;width:96px;text-align:right;font-family:var(--mono);font-size:11px;color:#8b949e;white-space:nowrap}
+.rax-val{flex:0 0 auto;width:46px;text-align:right;font-family:var(--mono);font-weight:700}
+@media(max-width:800px){.rax-rng{display:none}.rax-name{width:118px;flex:0 0 118px}}
+html.light .rax{border-color:#eaeef2}
+html.light .rax-meter{background:#eaeef2}
+html.light .rax-tick{background:#afb8c1}
+html.light .rax-now{background:#1f2328;box-shadow:0 0 0 1px #ffffff}
 footer{text-align:center;padding:20px;color:#484f58;font-size:11px;border-top:1px solid #21262d;margin-top:24px}
 @media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.grid-asym{grid-template-columns:1fr}}
 @media(max-width:800px){
@@ -52228,16 +52253,63 @@ function _cardRisk(){
     _rdTile('Low',`<span style="color:${nAt('low')?'#3fb950':'#8b949e'}">${nAt('low')}</span>`,'',false),
     _rdTile('Top driver',`<span style="color:${axCol(maxRisk.score||0)};font-size:13px">${maxRisk.name||'—'}</span>`,_rdMiniBar(maxRisk.score,axCol(maxRisk.score||0)),false)
   ].join('');
-  function scoreBar(v){const pct=Math.max(0,Math.min(100,(v||0)*100));const col=axCol(v||0);
-    return`<span class="score-bar"><span class="score-fill" style="width:${pct}%;background:${col}"></span></span> <span style="font-family:var(--mono);font-weight:700;color:${col}">${pct.toFixed(0)}%</span>`;}
-  const rows=risks.map(r=>`<div style="border:1px solid #30363d;border-left:3px solid ${axCol(r.score||0)};border-radius:2px;padding:11px 12px;margin-bottom:8px">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;flex-wrap:wrap">
-      <strong>${r.name}</strong>${pill(r.level)} ${scoreBar(r.score)}
-    </div>
-    <div style="margin-bottom:4px">${r.description}</div>
-    <div style="color:#6e7681;font-size:12px">Invalidation: ${r.invalidation}</div>
-  </div>`).join('');
-  const foot=`${pill(cLevel)} across ${risks.length} axes · each row shows the reading and the condition that would say the risk has arrived.`;
+  // ── ONE LINE PER AXIS, WITH A REAL METER ────────────────────────────────
+  //
+  // Owner, 2026-09-11: "fit them all on one line again with an actual meter for
+  // the metric and a 30 and 90 day range for each metric" — and, separately,
+  // that the first screen only reached Rate Re-pricing. Both are the same fault:
+  // seven three-line blocks cannot fit above the fold, so the card that is meant
+  // to be read at a glance was something you scrolled through.
+  //
+  // The meter is the honest part. A score of 59 is not high or low until you
+  // know where this axis has been: the faint band is its 90-day range, the solid
+  // band the last 30 days, the two grey ticks are the 45 and 65 thresholds where
+  // the level changes, and the bright marker is today. An axis pinned at the top
+  // of its own 90-day range is a different statement from the same number
+  // sitting mid-range, and that difference is the whole reason to draw a bar.
+  //
+  // The description and the invalidation condition move to the row's tooltip.
+  // They were never the thing being scanned for; they are what you check once a
+  // row has caught your eye.
+  const TH_MOD=45, TH_ELEV=65;
+  function meter(r){
+    const col=axCol(r.score||0);
+    const pct=Math.max(0,Math.min(100,(r.score||0)*100));
+    // A RANGE WE DO NOT HAVE IS DRAWN AS NOTHING, never as a zero-width band at
+    // today's value — that would read as "this has not moved in three months",
+    // which is the opposite of "it could not be measured".
+    const has30=r.range30&&typeof r.range30.lo==="number";
+    const has90=r.range90&&typeof r.range90.lo==="number";
+    const band=(rg,cls)=>{
+      if(!rg)return"";
+      const lo=Math.max(0,Math.min(100,rg.lo*100)),hi=Math.max(0,Math.min(100,rg.hi*100));
+      return`<span class="${cls}" style="left:${lo}%;width:${Math.max(1.2,hi-lo)}%;background:${col}"></span>`;
+    };
+    return`<span class="rax-meter">
+      ${has90?band(r.range90,"rax-b90"):""}
+      ${has30?band(r.range30,"rax-b30"):""}
+      <span class="rax-tick" style="left:${TH_MOD}%"></span>
+      <span class="rax-tick" style="left:${TH_ELEV}%"></span>
+      <span class="rax-now" style="left:calc(${pct}% - 1.5px)"></span>
+    </span>`;
+  }
+  const rngTxt=rg=>rg&&typeof rg.lo==="number"
+    ?`${(rg.lo*100).toFixed(0)}–${(rg.hi*100).toFixed(0)}`
+    :`<span style="color:#484f58">n/a</span>`;
+  const rows=risks.map(r=>{
+    const col=axCol(r.score||0);
+    const tip=`${r.name} — ${r.description} Invalidation: ${r.invalidation}`
+      .replace(/"/g,"&quot;");
+    return`<div class="rax" title="${tip}">
+      <span class="rax-name" style="color:${col}">${r.name}</span>
+      ${meter(r)}
+      <span class="rax-rng">30d ${rngTxt(r.range30)}</span>
+      <span class="rax-rng">90d ${rngTxt(r.range90)}</span>
+      <span class="rax-val" style="color:${col}">${((r.score||0)*100).toFixed(0)}</span>
+    </div>`;
+  }).join('');
+  const anyRange=risks.some(r=>r.range90&&typeof r.range90.lo==="number");
+  const foot=`${pill(cLevel)} across ${risks.length} axes · bar is 0–100; solid band is the last 30 days, faint band the last 90, grey ticks the 45 and 65 level thresholds, bright mark today. ${anyRange?"":"Ranges are unavailable in this snapshot and are shown as n/a rather than guessed. "}Hover a row for the reading and the condition that would say the risk has arrived.`;
   return`<div class="card" style="border-left:4px solid ${cCol};padding-left:11px"><h2>Risk Axes</h2>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin-bottom:12px">${hero}${tiles}</div>
   ${rows}

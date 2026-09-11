@@ -418,8 +418,13 @@ def compute_cross_asset(spy_state: dict) -> dict:
     Returns dict with 'signals' and 'risks' lists.
     """
     print("Downloading cross-asset tickers ...", flush=True)
+    # SPY RIDES ALONG BUT IS NOT A CROSS-ASSET SIGNAL. The complacency axis is a
+    # function of SPY's own return and realised vol, and the 30/90-day ranges
+    # below need those AS SERIES rather than as today's two scalars. The signal
+    # loop iterates CROSS_ASSET, so adding SPY to the download adds a column and
+    # not a row.
     tickers = list(CROSS_ASSET.keys())
-    prices_raw = _download_batch(tickers, "1y")
+    prices_raw = _download_batch(tickers + ["SPY"], "1y")
     if prices_raw.empty:
         return {"signals": [], "risks": []}
 
@@ -502,22 +507,102 @@ def compute_cross_asset(spy_state: dict) -> dict:
         if score >= 0.45: return "moderate"
         return "low"
 
-    # Volatility regime risk
-    vol_score = min(1.0, max(0.0, (vix_val - 12) / 28))
-    # Credit stress: HYG falling = stress rising
-    credit_score = min(1.0, max(0.0, 0.5 - hyg_r20 * 10))
-    # Rate re-pricing: TLT selling off = rates rising
-    rate_score = min(1.0, max(0.0, 0.5 - tlt_r20 * 8))
-    # Growth slowdown: copper + small caps weak
     iwm_r20 = asset_data["IWM"]["r20"] if "IWM" in asset_data else 0.0
-    growth_score = min(1.0, max(0.0, 0.5 - (cper_r20 + iwm_r20) * 3))
-    # Inflation re-pricing: TIP rising
-    infl_score = min(1.0, max(0.0, 0.3 + tip_r20 * 8))
-    # Dollar headwind: UUP rising
-    dollar_score = min(1.0, max(0.0, 0.4 + uup_r20 * 8))
-    # Complacency: large rally + suppressed vol = setup for mean reversion
-    vol_suppress_bonus = max(0.0, (0.015 - min(0.015, spy_vol)) / 0.015) * 0.3
-    complacency_score  = min(1.0, max(0.0, spy_r20 * 4 + vol_suppress_bonus))
+
+    # ── EVERY AXIS AS A SERIES, NOT A SCALAR ─────────────────────────────────
+    #
+    # Owner, 2026-09-11: "an actual meter for the metric and a 30 and 90 day
+    # range for each metric."
+    #
+    # A score of 0.21 tells you nothing until you know whether 0.21 is the
+    # quiet end of where this axis has been living or the top of its range. The
+    # formulas below are the SAME formulas the headline scores use, evaluated
+    # against the price history that was downloaded anyway - so the range is
+    # derived from today's data rather than accumulated over three months of
+    # waiting, and it can never drift away from the number it brackets.
+    #
+    # Written once, as functions of a series, and then applied to the last
+    # value for "now". Two copies of a formula is how the bar ends up bracketing
+    # a number it did not compute.
+    def _clip(x):
+        return x.clip(lower=0.0, upper=1.0)
+
+    def _r20(ticker):
+        """20-session return series for a ticker, or None if it did not download."""
+        if ticker not in asset_data:
+            return None
+        s_ = asset_data[ticker]["s"]
+        return s_ / s_.shift(20) - 1.0
+
+    _vix_s  = asset_data["^VIX"]["s"] if "^VIX" in asset_data else None
+    _hyg_s  = _r20("HYG")
+    _tlt_s  = _r20("TLT")
+    _cper_s = _r20("CPER")
+    _iwm_s  = _r20("IWM")
+    _tip_s  = _r20("TIP")
+    _uup_s  = _r20("UUP")
+
+    _spy_px = prices_raw["SPY"].dropna() if "SPY" in prices_raw.columns else None
+    if _spy_px is not None and len(_spy_px) > 25:
+        _spy_r20_s = _spy_px / _spy_px.shift(20) - 1.0
+        _spy_vol_s = _spy_px.pct_change().rolling(20).std()
+    else:
+        _spy_r20_s = _spy_vol_s = None
+
+    def _complacency(r20_s, vol_s):
+        bonus = ((0.015 - vol_s.clip(upper=0.015)) / 0.015).clip(lower=0.0) * 0.3
+        return _clip(r20_s * 4 + bonus)
+
+    # name -> series of that axis's score, or None when the input is missing.
+    # MISSING IS None, NEVER A FLAT LINE. A range drawn from an absent input
+    # would read as "this axis has not moved in three months", which is the
+    # opposite of "we could not measure it".
+    score_series = {
+        "Volatility Regime":   _clip((_vix_s - 12) / 28) if _vix_s is not None else None,
+        "Credit Stress":       _clip(0.5 - _hyg_s * 10) if _hyg_s is not None else None,
+        "Rate Re-pricing":     _clip(0.5 - _tlt_s * 8) if _tlt_s is not None else None,
+        "Growth Slowdown":     (_clip(0.5 - (_cper_s + _iwm_s) * 3)
+                                if _cper_s is not None and _iwm_s is not None else None),
+        "Inflation Re-pricing": _clip(0.3 + _tip_s * 8) if _tip_s is not None else None,
+        "Dollar Headwind":     _clip(0.4 + _uup_s * 8) if _uup_s is not None else None,
+        "Complacency Risk":    (_complacency(_spy_r20_s, _spy_vol_s)
+                                if _spy_r20_s is not None else None),
+    }
+
+    def _ranges(name):
+        """{'range30':…, 'range90':…, 'n':…} for an axis, or {} if not measurable."""
+        s_ = score_series.get(name)
+        if s_ is None:
+            return {}
+        s_ = s_.dropna()
+        if len(s_) < 25:
+            # Fewer than five weeks is not a range, it is a rumour.
+            return {}
+        w30, w90 = s_.tail(30), s_.tail(90)
+        return {
+            "range30": {"lo": round(float(w30.min()), 3), "hi": round(float(w30.max()), 3)},
+            "range90": {"lo": round(float(w90.min()), 3), "hi": round(float(w90.max()), 3)},
+            "n90": int(len(w90)),
+        }
+
+    # Today's readings, taken from the same series wherever one exists, so the
+    # headline and the bar around it cannot disagree.
+    def _now(name, fallback):
+        s_ = score_series.get(name)
+        if s_ is None:
+            return fallback
+        s_ = s_.dropna()
+        return round(float(s_.iloc[-1]), 2) if len(s_) else fallback
+
+    vol_score         = _now("Volatility Regime", min(1.0, max(0.0, (vix_val - 12) / 28)))
+    credit_score      = _now("Credit Stress", min(1.0, max(0.0, 0.5 - hyg_r20 * 10)))
+    rate_score        = _now("Rate Re-pricing", min(1.0, max(0.0, 0.5 - tlt_r20 * 8)))
+    growth_score      = _now("Growth Slowdown", min(1.0, max(0.0, 0.5 - (cper_r20 + iwm_r20) * 3)))
+    infl_score        = _now("Inflation Re-pricing", min(1.0, max(0.0, 0.3 + tip_r20 * 8)))
+    dollar_score      = _now("Dollar Headwind", min(1.0, max(0.0, 0.4 + uup_r20 * 8)))
+    _vol_suppress     = max(0.0, (0.015 - min(0.015, spy_vol)) / 0.015) * 0.3
+    complacency_score = _now("Complacency Risk",
+                             min(1.0, max(0.0, spy_r20 * 4 + _vol_suppress)))
 
     risks = [
         {
@@ -525,49 +610,56 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "level": _level(vol_score),
             "score": round(vol_score, 2),
             "description": f"VIX at {vix_val:.1f}. {'Elevated fear; tails wider than normal.' if vol_score>0.5 else 'Calm regime; vol suppression in force.'}",
-            "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions"
+            "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
+            **_ranges("Volatility Regime"),
         },
         {
             "name": "Credit Stress",
             "level": _level(credit_score),
             "score": round(credit_score, 2),
             "description": f"HYG 20d {hyg_r20*100:+.1f}%. {'Spread widening signals funding stress.' if credit_score>0.5 else 'Credit broadly constructive; no systemic signal.'}",
-            "invalidation": "HYG recovers to 20d positive return"
+            "invalidation": "HYG recovers to 20d positive return",
+            **_ranges("Credit Stress"),
         },
         {
             "name": "Rate Re-pricing",
             "level": _level(rate_score),
             "score": round(rate_score, 2),
             "description": f"TLT 20d {tlt_r20*100:+.1f}%. {'Bond sell-off = rates rising; duration assets under pressure.' if rate_score>0.5 else 'Rates stable to falling; supportive for equities.'}",
-            "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range"
+            "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
+            **_ranges("Rate Re-pricing"),
         },
         {
             "name": "Growth Slowdown",
             "level": _level(growth_score),
             "score": round(growth_score, 2),
             "description": f"Copper 20d {cper_r20*100:+.1f}%, IWM {iwm_r20*100:+.1f}%. {'Cyclical indicators softening.' if growth_score>0.5 else 'Cyclicals constructive; growth fears not confirmed.'}",
-            "invalidation": "Copper and IWM both sustain positive 20d momentum"
+            "invalidation": "Copper and IWM both sustain positive 20d momentum",
+            **_ranges("Growth Slowdown"),
         },
         {
             "name": "Inflation Re-pricing",
             "level": _level(infl_score),
             "score": round(infl_score, 2),
             "description": f"TIPS 20d {tip_r20*100:+.1f}%. {'Breakevens rising; inflation expectations not anchored.' if infl_score>0.5 else 'Inflation expectations contained; Fed credibility intact.'}",
-            "invalidation": "TIPS underperform nominal treasuries; breakevens fall"
+            "invalidation": "TIPS underperform nominal treasuries; breakevens fall",
+            **_ranges("Inflation Re-pricing"),
         },
         {
             "name": "Dollar Headwind",
             "level": _level(dollar_score),
             "score": round(dollar_score, 2),
             "description": f"UUP 20d {uup_r20*100:+.1f}%. {'Strong dollar compresses EM earnings and commodity prices.' if dollar_score>0.5 else 'Dollar neutral to weak; no FX drag on multinationals.'}",
-            "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative"
+            "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative",
+            **_ranges("Dollar Headwind"),
         },
         {
             "name": "Complacency Risk",
             "level": _level(complacency_score),
             "score": round(complacency_score, 2),
             "description": f"SPY +{spy_r20*100:.1f}% / 20d with vol {spy_vol*100:.2f}%/day. {'Extended rally with suppressed vol — historically precedes sharp corrections.' if complacency_score>0.5 else 'Risk/return balance reasonable; no excess complacency signal.'}",
-            "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%"
+            "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
+            **_ranges("Complacency Risk"),
         },
     ]
 

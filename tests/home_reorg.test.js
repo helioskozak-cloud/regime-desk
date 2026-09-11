@@ -52,7 +52,38 @@ setTimeout(() => {
 
   ok(home.length > 0, 'Home rendered');
   ok(nAxes > 0, 'snapshot has risk axes (' + nAxes + ')');
-  ok(nInval === nAxes, 'every axis shows an invalidation (' + nInval + '/' + nAxes + ')');
+  ok(nInval === nAxes, 'every axis carries an invalidation (' + nInval + '/' + nAxes + ')');
+
+  // ── criterion 2b: one line per axis, with a meter and its two ranges ──────
+  //
+  // Owner, 2026-09-11: "fit them all on one line again with an actual meter for
+  // the metric and a 30 and 90 day range for each metric", and separately that
+  // the first screen stopped at Rate Re-pricing. Seven three-line blocks cannot
+  // clear the fold, so the card meant to be read at a glance had become one you
+  // scrolled. The invalidation moved to the row's tooltip rather than being
+  // dropped, which is why the count above still has to match.
+  console.log('\n== criterion 2b: one line per axis, meter and ranges ==');
+  const rows = Array.from(w.document.querySelectorAll('#v-home .rax'));
+  ok(rows.length === nAxes, 'one row per axis (' + rows.length + '/' + nAxes + ')');
+  ok(rows.every((r) => /Invalidation:/.test(r.getAttribute('title') || '')),
+     'every row keeps its invalidation, on the row itself');
+  ok(rows.every((r) => r.querySelector('.rax-meter') && r.querySelector('.rax-now')),
+     'every row draws a meter with a marker for today');
+  ok(rows.every((r) => (r.textContent.match(/30d/g) || []).length === 1
+                    && (r.textContent.match(/90d/g) || []).length === 1),
+     'every row states a 30-day and a 90-day range');
+
+  // A RANGE WE DO NOT HAVE MUST BE DRAWN AS NOTHING. A zero-width band parked at
+  // today's value reads as "this axis has not moved in three months", which is
+  // the opposite of "it could not be measured" — the suite's oldest bug shape.
+  const axes = (w.SNAPSHOT && w.SNAPSHOT.risks) || [];
+  const withRange = axes.filter((a) => a.range90 && typeof a.range90.lo === 'number').length;
+  const drawn = rows.filter((r) => r.querySelector('.rax-b90')).length;
+  const naShown = rows.filter((r) => /n\/a/.test(r.textContent)).length;
+  ok(drawn === withRange,
+     'bands are drawn only where a range exists (' + drawn + '/' + withRange + ')');
+  ok(naShown === nAxes - withRange,
+     'a missing range reads as n/a, never as a flat band (' + naShown + ')');
   ok(/<h2>Risk Axes<\/h2>/.test(home), 'the merged Risk Axes card is on Home');
   ok(!/Aggregate Risk Score/.test(home), 'the separate Aggregate Risk Score card is gone');
   ok(!/Invalidation Levels/.test(home), 'the separate Invalidation card is gone');
