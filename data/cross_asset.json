@@ -73,9 +73,9 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-4.2% (20d)",
+      "value": "-4.4% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.2% \u2014 copper weak = growth concerns"
+      "context": "20d ret -4.4% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
@@ -176,11 +176,11 @@
       "name": "Growth Slowdown",
       "level": "elevated",
       "score": 0.8,
-      "description": "Copper 20d -4.2%, IWM -5.6%. Cyclical indicators softening.",
+      "description": "Copper 20d -4.4%, IWM -5.6%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "-9.9%",
+        "input_value": "-10.0%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,
@@ -188,11 +188,11 @@
       },
       "range30": {
         "lo": 0.13,
-        "hi": 0.796
+        "hi": 0.8
       },
       "range90": {
         "lo": 0.0,
-        "hi": 0.796
+        "hi": 0.8
       },
       "n90": 90
     },
