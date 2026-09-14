@@ -372,9 +372,9 @@ window.SNAPSHOT = {
     "vol_20d": 0.00552,
     "drawdown_60d": -0.0201,
     "regime": "Neutral",
-    "breadth": 0.5,
-    "persistence": 0.5,
-    "reversal_risk": 0.25,
+    "breadth": null,
+    "persistence": null,
+    "reversal_risk": null,
     "explain": {
       "regime": {
         "result": "Neutral",
@@ -480,67 +480,21 @@ window.SNAPSHOT = {
         ],
         "fallback": "Neutral",
         "fell_through": true
+      }
+    },
+    "measures": {
+      "breadth": {
+        "value": null,
+        "reason": "not in this scan's output yet"
+      },
+      "persistence": {
+        "value": null,
+        "reason": "not in this scan's output yet"
       },
       "reversal": {
-        "result": 0.25,
-        "rules": [
-          {
-            "result": 0.7,
-            "conditions": [
-              {
-                "key": "vol_20d",
-                "op": ">",
-                "threshold": 0.025,
-                "value": 0.00552,
-                "met": false
-              },
-              {
-                "key": "ret_20d",
-                "op": "<",
-                "threshold": 0.0,
-                "value": -0.01816,
-                "met": true
-              }
-            ],
-            "fired": false,
-            "shadowed": false
-          },
-          {
-            "result": 0.5,
-            "conditions": [
-              {
-                "key": "vol_20d",
-                "op": ">",
-                "threshold": 0.02,
-                "value": 0.00552,
-                "met": false
-              }
-            ],
-            "fired": false,
-            "shadowed": false
-          },
-          {
-            "result": 0.35,
-            "conditions": [
-              {
-                "key": "ret_20d",
-                "op": "abs<",
-                "threshold": 0.01,
-                "value": -0.01816,
-                "met": false
-              }
-            ],
-            "fired": false,
-            "shadowed": false
-          }
-        ],
-        "fallback": 0.25,
-        "fell_through": true
-      },
-      "unmeasured": [
-        "breadth",
-        "persistence"
-      ]
+        "value": null,
+        "reason": "not in this scan's output yet"
+      }
     },
     "history": [
       {
@@ -13577,6 +13531,114 @@ window.SNAPSHOT = {
         129.99,
         133.74
       ]
+    },
+    {
+      "ticker": "ADBE",
+      "name": "ADBE",
+      "sector": "Unknown",
+      "edge": -0.0038,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.034,
+      "p25": -0.0209,
+      "p50": -0.0026,
+      "p75": 0.0167,
+      "p90": 0.0412,
+      "hit_rate": 0.4,
+      "vol": 0.0132,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "TSLA",
+      "name": "TSLA",
+      "sector": "Unknown",
+      "edge": 0.0091,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0682,
+      "p25": -0.0312,
+      "p50": 0.0114,
+      "p75": 0.0355,
+      "p90": 0.0722,
+      "hit_rate": 0.533,
+      "vol": 0.035,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVDA",
+      "sector": "Unknown",
+      "edge": -0.0169,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0467,
+      "p25": -0.035,
+      "p50": -0.0045,
+      "p75": 0.0445,
+      "p90": 0.0864,
+      "hit_rate": 0.467,
+      "vol": 0.0272,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "CIFR",
+      "name": "CIFR",
+      "sector": "Unknown",
+      "edge": -0.0065,
+      "horizon": "5d",
+      "n_obs": 26,
+      "p10": -0.1448,
+      "p25": -0.063,
+      "p50": -0.0085,
+      "p75": 0.074,
+      "p90": 0.1321,
+      "hit_rate": 0.346,
+      "vol": 0.0446,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "ANRO",
+      "name": "ANRO",
+      "sector": "Unknown",
+      "edge": -0.0568,
+      "horizon": "5d",
+      "n_obs": 20,
+      "p10": -0.1157,
+      "p25": -0.0927,
+      "p50": -0.0482,
+      "p75": 0.0227,
+      "p90": 0.1045,
+      "hit_rate": 0.4,
+      "vol": 0.0343,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": true
+    },
+    {
+      "ticker": "JNJ",
+      "name": "JNJ",
+      "sector": "Unknown",
+      "edge": 0.0039,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0176,
+      "p25": -0.0078,
+      "p50": 0.0057,
+      "p75": 0.0245,
+      "p90": 0.0391,
+      "hit_rate": 0.633,
+      "vol": 0.0098,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
     }
   ],
   "watchlist": [
@@ -47408,7 +47470,7 @@ window.SNAPSHOT = {
   "narrative": {
     "headline": "Neutral regime \u2014 Communication Services, Biotech leading",
     "constructive": "Analog matching finds neutral conditions historically favor Communication Services, Biotech, Technology with positive conditional edge.",
-    "risk": "No strongly negative sector signals. Reversal risk estimated at 25%.",
+    "risk": "No strongly negative sector signals. ",
     "plain_english": "The market is in a neutral phase. Historical analogs suggest Communication Services, Biotech tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   },
   "portfolios_v1": {
@@ -52197,11 +52259,11 @@ function _cardVerdict(){
 // SAME table the classifier walks, so the highlighted rule and the label on
 // the card cannot disagree.
 //
-// TWO TILES WERE NEVER MEASURED. Breadth and Persistence have shown 50% since
-// they were added because nothing computes them: 0.5 is the builder's default,
-// and the block that was meant to fill breadth never ran (see the note in
-// snapshot_builder.py). They now read "not measured" rather than presenting a
-// placeholder as a reading.
+// BREADTH, PERSISTENCE AND REVERSAL ARE MEASURED BY THE SCAN (2026-09-14).
+// Until that day the first two were a hardcoded 0.5 and the third a four-step
+// lookup shown as a percentage. They now come from scan/regime_measures.py via
+// spy.measures, each with the evidence behind it, and each can be null — which
+// renders as "not measured" with the scan's reason, never as a middling value.
 const RD_KEY={
   ret_20d:['SPY 20-day return',v=>pct(v)],
   drawdown_60d:['SPY 60-day drawdown',v=>pct(v)],
@@ -52248,10 +52310,17 @@ function _cardRegimeMetrics(){
   const regCol=/bull|risk[- ]?on|expansion|goldilock|calm|low[- ]?vol/i.test(reg)?'#3fb950':/bear|risk[- ]?off|contraction|stress|crisis|high[- ]?vol/i.test(reg)?'#f85149':'#58a6ff';
   const arr=v=>v>0.0005?'▲':v<-0.0005?'▼':'·';
   const rc=v=>v>0.0005?'#3fb950':v<-0.0005?'#f85149':'#8b949e';
-  const r5=spy.ret_5d||0,r20=spy.ret_20d||0,vol=(spy.vol_20d||0)*Math.sqrt(252),dd=spy.drawdown_60d||0,rr=spy.reversal_risk||0,rrCol=rr>=0.5?'#f85149':rr>=0.3?'#e3b341':'#3fb950';
+  const r5=spy.ret_5d||0,r20=spy.ret_20d||0,vol=(spy.vol_20d||0)*Math.sqrt(252),dd=spy.drawdown_60d||0;
   const EX=(spy.explain||{});
-  const exR=EX.regime, exV=EX.reversal;
-  const unmeasured=new Set(EX.unmeasured||[]);
+  const exR=EX.regime;
+  const M=spy.measures||{};
+  const mB=M.breadth||{value:null,reason:'not in this snapshot'};
+  const mP=M.persistence||{value:null,reason:'not in this snapshot'};
+  const mR=M.reversal||{value:null,reason:'not in this snapshot'};
+  const has=m=>m&&typeof m.value==='number';
+  const p0=v=>(v*100).toFixed(0)+'%';
+  // An ordinal, for "14th percentile".
+  const nth=n=>{const t=n%100;return n+(t>=11&&t<=13?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th'));};
   const hero=_rdHero('Regime',reg.toUpperCase(),`${spy.regime_streak||"—"} day streak`,regCol,null,'why-regime');
   // Overnight deltas used to be their own full-width row above this card,
   // which meant reading a number here and its change 150px away. A delta
@@ -52273,9 +52342,21 @@ function _cardRegimeMetrics(){
     _rdTile('20d return',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`,dTag(dOf('ret_20d'),true),undefined,'why-r20'),
     _rdTile('20d vol (ann.)',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`,dTag(dOf('vol_20d'),false,Math.sqrt(252)),undefined,'why-vol'),
     _rdTile('60d drawdown',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`,dTag(dOf('drawdown_60d'),true),undefined,'why-dd'),
-    _rdTile('Breadth',unmeasured.has('breadth')?nm:`<span style="color:#3fb950">${((spy.breadth||0)*100).toFixed(0)}%</span>`,unmeasured.has('breadth')?'':_rdMiniBar(spy.breadth,'#3fb950'),undefined,'why-breadth'),
-    _rdTile('Persistence',unmeasured.has('persistence')?nm:`<span style="color:#58a6ff">${((spy.persistence||0)*100).toFixed(0)}%</span>`,unmeasured.has('persistence')?'':_rdMiniBar(spy.persistence,'#58a6ff'),undefined,'why-persist'),
-    _rdTile('Reversal risk',`<span style="color:${rrCol}">${(rr*100).toFixed(0)}%</span>`,_rdMiniBar(rr,rrCol),undefined,'why-rev')
+    // Breadth is coloured by where it sits in its OWN three-year history —
+    // bottom fifth red, top fifth green — rather than by a fixed level, which
+    // would be an invented threshold on a number with no natural one.
+    _rdTile('Breadth',has(mB)
+      ?`<span style="color:${mB.pct_rank<0.2?'#f85149':mB.pct_rank>0.8?'#3fb950':'#c9d1d9'}">${p0(mB.value)}</span>`
+      :nm,
+      has(mB)?`<div style="color:#6e7681;font-size:10px;margin-top:5px;white-space:nowrap">${nth(Math.round(mB.pct_rank*100))} pctile, 3y</div>`:'',undefined,'why-breadth'),
+    _rdTile('Persistence',has(mP)
+      ?`<span style="color:#c9d1d9">${p0(mP.value)}</span>`:nm,
+      has(mP)?`<div style="color:#6e7681;font-size:10px;margin-top:5px;white-space:nowrap">${typeof mP.base_rate==='number'?'any day: '+p0(mP.base_rate):'still '+mP.label+' in '+mP.horizon+'d'}</div>`:'',undefined,'why-persist'),
+    // Reversal is never coloured on its own: 37% is only alarming or calming
+    // against the any-day rate, so the comparison is printed instead.
+    _rdTile('Reversal risk',has(mR)
+      ?`<span style="color:#c9d1d9">${p0(mR.value)}</span>`:nm,
+      has(mR)&&typeof mR.base_rate==='number'?`<div style="color:#6e7681;font-size:10px;margin-top:5px;white-space:nowrap">any day: ${p0(mR.base_rate)}</div>`:'',undefined,'why-rev')
   ].join('');
   const foot=`<strong style="color:#8b949e">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}<span style="float:right;color:#6e7681">${S.generated||''}</span>`;
 
@@ -52284,7 +52365,7 @@ function _cardRegimeMetrics(){
   const near=exR?_rdNearest(exR):null;
   const nearTxt=near?`<p style="margin-top:9px"><b>Closest other label: ${near.r.result}.</b> It needs ${near.unmet.map(c=>{const k=RD_KEY[c.key]||[c.key,String];return`${k[0]} to move from <span class="rd-num">${k[1](c.value)}</span> to ${c.op==='>'?'above':'below'} <span class="rd-num">${k[1](c.threshold)}</span>`;}).join(', and ')}.</p>`:'';
   const feeds=key=>exR?_rdFeeds(exR,key):[];
-  const feedsTxt=key=>{const f=feeds(key);return f.length?`<h4>Where it counts</h4><p>It feeds ${f.length===1?'one regime rule':f.length+' regime rules'}: ${f.join('; ')}.${key!=='drawdown_60d'&&exV&&exV.rules.some(r=>r.conditions.some(c=>c.key===key))?' It also sets Reversal risk.':''}</p>`:`<h4>Where it counts</h4><p>No regime rule uses it. It is one of the four numbers the analog matcher compares against history, and it is the fastest read on direction on this card.</p>`;};
+  const feedsTxt=key=>{const f=feeds(key);return f.length?`<h4>Where it counts</h4><p>It feeds ${f.length===1?'one regime rule':f.length+' regime rules'}: ${f.join('; ')}.</p>`:`<h4>Where it counts</h4><p>No regime rule uses it. It is one of the four numbers the analog matcher compares against history, and it is the fastest read on direction on this card.</p>`;};
   const panels=
     _rdPanel('why-regime',`
       <h4>What this is</h4>
@@ -52302,16 +52383,73 @@ function _cardRegimeMetrics(){
    +_rdPanel('why-dd',`
       <h4>What this measures</h4><p>How far SPY sits below its highest close of the last 60 sessions. Zero means it is at that high.</p>
       ${feedsTxt('drawdown_60d')}`)
-   +_rdPanel('why-breadth',unmeasured.has('breadth')
-      ?`<h4>Not measured</h4><p>This tile read <b>50%</b> for as long as it has existed, and that number was never a reading. Nothing computes market breadth for this card: 50% is the snapshot builder's default, and the code meant to fill it in never ran. It now says so instead of showing the placeholder.</p><p style="color:#8b949e">What it was meant to show: the share of stocks taking part in the move, so a rally carried by a handful of names reads differently from a broad one.</p>`
-      :`<h4>What this measures</h4><p>The share of stocks taking part in the move.</p>`)
-   +_rdPanel('why-persist',unmeasured.has('persistence')
-      ?`<h4>Not measured</h4><p>Same as Breadth: this has always read <b>50%</b> because nothing computes it. It is the builder's default, not a reading, and it now says so.</p><p style="color:#8b949e">Not to be confused with the per-stock persistence on the Stock Memory screen, which is real and is a different thing.</p>`
-      :`<h4>What this measures</h4><p>How long the current regime tends to last.</p>`)
-   +_rdPanel('why-rev',`
-      <h4>What this is</h4>
-      <p>A <b>four-step lookup, not a probability</b>. The percentage makes it look like a measured chance of a reversal; it can only ever read <span class="rd-num">25%</span>, <span class="rd-num">35%</span>, <span class="rd-num">50%</span> or <span class="rd-num">70%</span>, depending on which of these fits first.</p>
-      ${exV?_rdLadder(exV,x=>(x*100).toFixed(0)+'%'):noEx}`);
+   +_rdPanel('why-breadth',`
+      <h4>What this measures</h4>
+      <p>How many stocks are taking part. Specifically: the share of the names in the scan universe that closed above their own 50-day average. A market can rise on a handful of giants while most stocks fall; this is the number that tells those apart.</p>
+      ${has(mB)?`
+      <h4>What it is reading</h4>
+      <div class="rax-sum">
+        <span class="rax-chip">above their 50-day average: <b>${p0(mB.value)}</b> of <b>${mB.n.toLocaleString()}</b> names</span>
+        <span class="rax-chip">last 30 sessions: <b>${p0(mB.range30.lo)}–${p0(mB.range30.hi)}</b></span>
+        <span class="rax-chip">last 90: <b>${p0(mB.range90.lo)}–${p0(mB.range90.hi)}</b></span>
+      </div>
+      <h4>Whether that is high or low</h4>
+      <p>Lower than on <span class="rd-num">${(100-Math.round(mB.pct_rank*100))}%</span> of the <span class="rd-num">${mB.days}</span> sessions in the last three years — the <b>${nth(Math.round(mB.pct_rank*100))} percentile</b>.</p>
+      <p style="color:#8b949e">One bias, stated: the history is measured on today's universe. Names that were delisted along the way are not in it, and survivors spent more time above their averages, so past readings lean a little high and today's rank a little low.</p>`
+      :`<h4>Not measured</h4><p>${mB.reason||'No reading in this snapshot.'}</p>`}`)
+   +_rdPanel('why-persist',`
+      <h4>What this measures</h4>
+      <p>How often the regime on this card has stuck. Of every past session that carried today's label, the share that still carried it ${mP.horizon||20} sessions later. It answers "will this still say ${spy.regime||'the same thing'} in a month" from what actually happened, not from a guess.</p>
+      ${has(mP)?`
+      <h4>What it is reading</h4>
+      <div class="rax-sum">
+        <span class="rax-chip">still ${mP.label} ${mP.horizon} sessions later: <b>${mP.held}</b> of <b>${mP.days}</b> past sessions</span>
+        <span class="rax-chip">separate spells: <b>${mP.spells}</b></span>
+        ${mP.median_spell!=null?`<span class="rax-chip">typical spell: <b>${mP.median_spell}</b> sessions</span>`:''}
+        <span class="rax-chip">this spell so far: <b>${mP.streak}</b> sessions</span>
+      </div>
+      ${typeof mP.base_rate==='number'?(()=>{
+        const n=Math.max(1,mP.spells), se=Math.sqrt(Math.max(0.0001,mP.base_rate*(1-mP.base_rate))/n), gap=mP.value-mP.base_rate;
+        return `<h4>Against the odds of picking any session</h4>
+        <p>${mP.label} is the label ${mP.horizon} sessions on for <span class="rd-num">${p0(mP.base_rate)}</span> of all sessions, whatever they started as. ${
+          Math.abs(gap)<se
+            ?`So a ${mP.label} session staying ${mP.label} ${p0(mP.value)} of the time is <b>no stickier than that, within the noise</b> of ${n} spells (about ±${Math.round(se*100)} points). A label this common will usually still be on the card a month from now simply because it usually is.`
+            :gap>0?`So ${mP.label} is <b>genuinely sticky</b>: ${Math.round(gap*100)} points above that, beyond the ±${Math.round(se*100)} points of noise in ${n} spells.`
+            :`So ${mP.label} is <b>less sticky than a random session</b>: ${Math.round(-gap*100)} points below, beyond the ±${Math.round(se*100)} points of noise in ${n} spells.`}</p>`;})():''}
+      <p>${mP.median_spell!=null&&mP.streak>mP.median_spell
+          ?`This spell has already run longer than a typical ${mP.label} spell.`
+          :mP.median_spell!=null?`This spell is still inside the length a typical ${mP.label} spell runs.`:''}</p>
+      <p style="color:#8b949e">"Still ${mP.label} later" counts a session even if the label dipped out and came back in between. Neighbouring sessions are not independent — forty days in one long spell are nearer one observation than forty — which is why the spell count sits beside the day count, and why a rate resting on fewer than three spells is withheld.</p>`
+      :`<h4>Not measured</h4><p>${mP.reason||'No reading in this snapshot.'}</p>`}`)
+   +_rdPanel('why-rev',(()=>{
+      if(!has(mR)) return `<h4>What this measures</h4>
+        <p>How often SPY's next 20 sessions have gone the opposite way to its last 20, from days like today.</p>
+        <h4>Not measured</h4><p>${mR.reason||'No reading in this snapshot.'}</p>`;
+      // The honest yardstick for "is this different from any day": one
+      // standard error, on the number of SEPARATE episodes rather than the
+      // number of days, because neighbouring analog days share most of their
+      // forward window and are not independent draws.
+      const n=Math.max(1,mR.episodes||mR.analogs);
+      const se=Math.sqrt(Math.max(0.0001,mR.base_rate*(1-mR.base_rate))/n);
+      const gap=mR.value-mR.base_rate;
+      const verdict=Math.abs(gap)<se
+        ?`<b>no clear difference from any day.</b> ${Math.round(Math.abs(gap)*100)<1?'The two rates are within a point of each other':'The '+Math.round(Math.abs(gap)*100)+'-point gap is smaller than the noise'} — ${n} episodes carry about ±${Math.round(se*100)} points of noise.`
+        :gap>0?`<b>reversals have been more common from states like today</b> — ${Math.round(gap*100)} points above any day, beyond the ±${Math.round(se*100)} points of noise in ${n} episodes.`
+        :`<b>reversals have been less common from states like today</b> — ${Math.round(-gap*100)} points below any day, beyond the ±${Math.round(se*100)} points of noise in ${n} episodes.`;
+      const dirn=mR.trailing_20d<0?'down':'up', opp=mR.trailing_20d<0?'up':'down';
+      return `
+      <h4>What this measures</h4>
+      <p>From days like today, how often did the trend flip? SPY is ${dirn} over its last 20 sessions. Of the <b>30 past days most like today</b> — the same analog days the stock signals are built from — this counts how many saw SPY's <b>next</b> 20 sessions go ${opp} instead.</p>
+      <h4>What it is reading</h4>
+      <div class="rax-sum">
+        <span class="rax-chip">days like today that reversed: <b>${mR.reversed}</b> of <b>${mR.analogs}</b> → <b>${p0(mR.value)}</b></span>
+        <span class="rax-chip">separate episodes: <b>${mR.episodes}</b></span>
+        <span class="rax-chip">any day in 3 years: <b>${mR.base_reversed}</b> of <b>${mR.base_days}</b> → <b>${p0(mR.base_rate)}</b></span>
+      </div>
+      <h4>So</h4>
+      <p>Compared with any day, ${verdict}</p>
+      <p style="color:#8b949e">This replaced a four-step lookup that could only ever read 25, 35, 50 or 70 and was shown as though it were a probability.</p>`;
+    })());
   return _rdSummaryCard('Regime Analysis',regCol,hero,tiles,foot,panels);
 }
 // Four series, not two. history carries ret_5d, ret_20d, vol_20d and
@@ -54416,8 +54554,12 @@ function _qRegime(){
     +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">SPY 20-day</td><td style="text-align:right;color:'+ec20+';font-weight:600">'+pct(spy.ret_20d)+'</td></tr>'
     +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">Realized vol</td><td style="text-align:right;font-weight:600">'+((spy.vol_20d||0)*100).toFixed(2)+'%/day</td></tr>'
     +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">60d drawdown</td><td style="text-align:right;font-weight:600">'+pct(spy.drawdown_60d)+'</td></tr>'
-    +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">Breadth</td><td style="text-align:right;font-weight:600">'+((spy.breadth||0)*100).toFixed(0)+'% bullish</td></tr>'
-    +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">Reversal risk</td><td style="text-align:right">'+pill(spy.reversal_risk>0.5?'elevated':spy.reversal_risk>0.3?'moderate':'low',((spy.reversal_risk||0)*100).toFixed(0)+'%')+'</td></tr>'
+    // Was "N% bullish" off a hardcoded 0.5. Now the measured share above the
+    // 50-day average, or an explicit not-measured.
+    +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">Breadth</td><td style="text-align:right;font-weight:600">'+(typeof spy.breadth==='number'?(spy.breadth*100).toFixed(0)+'% above 50-day avg':'<span style="color:#6e7681">not measured</span>')+'</td></tr>'
+    // No pill: the old elevated/moderate/low bands sat on a lookup table. The
+    // measured rate means something only beside its any-day rate.
+    +'<tr><td style="color:#8b949e;font-size:12px;padding:5px 0">Reversal risk</td><td style="text-align:right;font-weight:600">'+((spy.measures&&spy.measures.reversal&&typeof spy.measures.reversal.value==='number')?(spy.measures.reversal.value*100).toFixed(0)+'% <span style="color:#6e7681;font-weight:400">vs '+(spy.measures.reversal.base_rate*100).toFixed(0)+'% any day</span>':'<span style="color:#6e7681">not measured</span>')+'</td></tr>'
     +'</table></div>'
     +'<div style="color:#c9d1d9;font-size:13px;line-height:1.7">'+(interp[regime]||n.plain_english||'')+'</div>'
     +'</div>'+chartHtml

@@ -17,6 +17,9 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
+sys.path.insert(0, str(Path(__file__).parent))
+import regime_measures as rm  # noqa: E402  (rules + card measurements, shared with build/)
+
 warnings.filterwarnings("ignore")
 
 ROOT      = Path(__file__).parent.parent
@@ -185,23 +188,12 @@ def run_scan(df: pd.DataFrame, sectors_df: pd.DataFrame) -> tuple[pd.DataFrame, 
     print(f"\nSPY state: ret5={today.return_5:.4f} ret20={today.return_20:.4f} "
           f"vol={today.volatility:.4f} dd={today.drawdown:.4f}", flush=True)
 
-    def distance(row):
-        vec = row[["return_5", "return_20", "volatility", "drawdown"]].values.astype(float)
-        return np.linalg.norm(vec - current_vector)
-
     # Z-score normalise each feature across SPY history so all four dimensions
-    # contribute equally regardless of their raw scale.
-    FEATURES = ["return_5", "return_20", "volatility", "drawdown"]
-    feature_mean = spy[FEATURES].mean()
-    feature_std  = spy[FEATURES].std().replace(0, 1)
-    spy_norm     = (spy[FEATURES] - feature_mean) / feature_std
-    current_norm = (pd.Series(dict(zip(FEATURES, current_vector))) - feature_mean) / feature_std
-
-    spy["distance"] = np.linalg.norm(
-        spy_norm.values - current_norm.values, axis=1
-    )
-    historical = spy.iloc[:-EXCLUDE_RECENT_DAYS]
-    similar_days = historical.nsmallest(SIMILAR_DAY_COUNT, "distance")
+    # contribute equally regardless of their raw scale, then take the closest
+    # SIMILAR_DAY_COUNT past sessions. Lives in regime_measures.analog_days so the
+    # Regime card's Reversal figure is measured on exactly these days; the code
+    # moved verbatim and tests/test_regime_rules.py pins it against the original.
+    similar_days = rm.analog_days(spy, SIMILAR_DAY_COUNT, EXCLUDE_RECENT_DAYS)
     similar_dates = set(similar_days["date"])
     print(f"Found {len(similar_dates)} analog dates", flush=True)
 
@@ -990,6 +982,35 @@ def main():
         }
         for _, r in history_rows.iterrows()
     ]
+
+    # ── the Regime card's measurements ──────────────────────────────────────
+    # Owner, 2026-09-14: "build breadth and persistence", and rebuild Reversal
+    # Risk as a measured number. All three need years of data that exist only
+    # here, so they are computed here and the builder only displays them. Each
+    # is isolated: one failing must not cost the scan its other outputs, and a
+    # failure publishes as not-measured with the reason, never as a default.
+    spy_hist = spy_df.dropna(subset=["return_5", "return_20", "volatility", "drawdown"]) \
+                     .reset_index(drop=True)
+    labels = rm.label_history(spy_hist)
+    spy_state["regime_streak"] = rm.regime_streak(labels)
+    measures = {}
+    try:
+        measures["breadth"] = rm.summarize_breadth(rm.breadth_series(prices))
+    except Exception as exc:
+        measures["breadth"] = {"value": None, "reason": f"failed: {exc}"}
+    try:
+        measures["persistence"] = rm.persistence(labels)
+    except Exception as exc:
+        measures["persistence"] = {"value": None, "reason": f"failed: {exc}"}
+    try:
+        analogs = rm.analog_days(spy_hist, SIMILAR_DAY_COUNT, EXCLUDE_RECENT_DAYS)
+        measures["reversal"] = rm.reversal(spy_hist, analogs)
+    except Exception as exc:
+        measures["reversal"] = {"value": None, "reason": f"failed: {exc}"}
+    spy_state["measures"] = measures
+    for k, m in measures.items():
+        print(f"  {k}: {m.get('value')} {m.get('reason', '')}", flush=True)
+
     (DATA_DIR / "spy_state.json").write_text(json.dumps(spy_state, indent=2))
 
     # Cross-asset signals + risk axes

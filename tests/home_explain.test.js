@@ -92,18 +92,88 @@ setTimeout(() => {
     'the fired rule is the label on the card (' + spy.regime + ')', text(fired[0]).slice(0, 60));
   ok(/label, not a forecast/.test(text(regimePanel)), 'the panel says the regime is a label, not a forecast');
 
-  // Breadth and Persistence were never computed. They must not show 50%.
-  for (const [id, label] of [['why-breadth', 'Breadth'], ['why-persist', 'Persistence']]) {
+  // ── Breadth, Persistence, Reversal: measured, or honestly not ──────────
+  //
+  // Until 2026-09-14 the first two were a hardcoded 0.5 and the third a
+  // four-step lookup. The page has to render two worlds correctly: a snapshot
+  // whose scan has not produced the measurements yet, and one where it has.
+  console.log('\n== the three measured tiles ==');
+
+  // Re-render Home against edited snapshot values. Views cache their HTML on
+  // first render (data-rendered), so the cache is cleared and the router fired.
+  const rerender = (measures) => {
+    spy.measures = measures;
+    home.removeAttribute('data-rendered');
+    w.dispatchEvent(new w.HashChangeEvent('hashchange'));
+  };
+  const saved = JSON.parse(JSON.stringify(spy.measures || null));
+
+  // World 1: nothing measured. Every tile says so, with the scan's reason.
+  rerender({
+    breadth: { value: null, reason: 'only 12 names measurable on the latest session' },
+    persistence: { value: null, reason: 'only 9 past sessions in 1 spell of Neutral in the history' },
+    reversal: { value: null, reason: 'only 4 analog days have a finished 20-session window' },
+  });
+  for (const [id, reason] of [['why-breadth', '12 names'], ['why-persist', '1 spell'], ['why-rev', '4 analog days']]) {
     const tile = home.querySelector(`[data-why="${id}"]`);
-    ok(/not measured/.test(text(tile)) && !/50%/.test(text(tile)),
-      `${label} tile says "not measured" instead of a placeholder 50%`, text(tile));
-    ok(/never a reading|not a reading/.test(text(d.getElementById(id))),
-      `${label} panel explains the old 50% was never a reading`);
+    ok(/not measured/.test(text(tile)) && !/\d%/.test(text(tile)),
+      `${id}: an unmeasured value reads "not measured", never a percentage`, text(tile));
+    ok(text(d.getElementById(id)).includes(reason), `${id}: the panel gives the scan's reason`);
   }
 
-  const rev = text(d.getElementById('why-rev'));
-  ok(/not a probability/.test(rev), 'Reversal risk panel says it is a lookup, not a probability');
-  ok(['25%', '35%', '50%', '70%'].every((v) => rev.includes(v)), 'and names all four values it can take');
+  // World 2: measured, with today's real figures from the 2026-09-14 scan.
+  const REAL = {
+    breadth: { value: 0.402, n: 3010, n_typical: 3006, days: 703, ma: 50, pct_rank: 0.1422,
+      range30: { lo: 0.3672, hi: 0.6963 }, range90: { lo: 0.3672, hi: 0.7169 } },
+    persistence: { value: 0.8589, label: 'Neutral', horizon: 20, days: 567, held: 487, spells: 34,
+      median_spell: 8, streak: 12, base_rate: 0.80, history_sessions: 732 },
+    reversal: { value: 0.3667, horizon: 20, analogs: 30, reversed: 11, episodes: 8,
+      base_days: 712, base_reversed: 259, base_rate: 0.3638, trailing_20d: -0.0186 },
+  };
+  rerender(REAL);
+  const tB = text(home.querySelector('[data-why="why-breadth"]'));
+  ok(/40%/.test(tB) && /14th pctile/.test(tB), 'Breadth tile shows 40% and its 14th percentile', tB);
+  const pB = text(d.getElementById('why-breadth'));
+  ok(/3,010 names/.test(pB) && /37%–70%/.test(pB), 'Breadth panel shows the name count and 30-day range');
+  ok(/Lower than on 86%/.test(pB), 'Breadth panel turns the percentile into a sentence', pB.slice(0, 400));
+  ok(/delisted/.test(pB), 'Breadth panel states the survivorship lean');
+
+  const tP = text(home.querySelector('[data-why="why-persist"]'));
+  ok(/86%/.test(tP) && /any day: 80%/.test(tP), 'Persistence tile shows 86% beside its 80% base rate', tP);
+  const pP = text(d.getElementById('why-persist'));
+  ok(/487 of 567/.test(pP) && /34/.test(pP), 'Persistence panel shows sessions and spells');
+  // 86% vs 80% on 34 spells: one standard error is ~6.9 points, the gap 5.9.
+  ok(/no stickier than that, within the noise/.test(pP),
+    'a common label is NOT called sticky when the gap is inside the noise', pP.slice(0, 600));
+  ok(/already run longer than a typical Neutral spell/.test(pP), 'today\'s 12-session spell is compared with the typical 8');
+
+  const tR = text(home.querySelector('[data-why="why-rev"]'));
+  ok(/37%/.test(tR) && /any day: 36%/.test(tR), 'Reversal tile shows 37% beside 36% any day', tR);
+  const pR = text(d.getElementById('why-rev'));
+  ok(/11 of 30/.test(pR) && /259 of 712/.test(pR), 'Reversal panel shows both counts');
+  ok(/no clear difference from any day/.test(pR) && /within a point/.test(pR),
+    'a 0.3-point gap reads as no difference, without printing "0-point gap"', pR.slice(0, 700));
+  ok(/go up instead/.test(pR), 'SPY is down over 20 sessions, so a reversal means going up');
+  ok(!/0-point/.test(pR), 'never prints the awkward "0-point gap"');
+
+  // The verdict flips when the gap clears the noise, in either direction.
+  rerender({ ...REAL,
+    persistence: { ...REAL.persistence, value: 0.97, base_rate: 0.60 },
+    reversal: { ...REAL.reversal, value: 0.70, reversed: 21, base_rate: 0.36 } });
+  ok(/genuinely sticky/.test(text(d.getElementById('why-persist'))), 'a gap beyond the noise is called sticky');
+  ok(/reversals have been more common/.test(text(d.getElementById('why-rev'))), 'a reversal rate well above any day says so');
+  rerender({ ...REAL, reversal: { ...REAL.reversal, value: 0.05, reversed: 2, base_rate: 0.40 } });
+  ok(/reversals have been less common/.test(text(d.getElementById('why-rev'))), 'and well below any day says that');
+
+  // Noise is judged on SEPARATE EPISODES, not analog days. 50% vs 36% is a
+  // 14-point gap: inside the ~17 points of noise in 8 episodes, but outside the
+  // ~9 points you would claim by pretending 30 overlapping days were 30 draws.
+  rerender({ ...REAL, reversal: { ...REAL.reversal, value: 0.50, reversed: 15, episodes: 8, base_rate: 0.36 } });
+  ok(/no clear difference from any day/.test(text(d.getElementById('why-rev'))),
+    'a 14-point gap on 8 episodes is still called noise — overlapping days are not independent');
+
+  // Put the page back as it was published.
+  rerender(saved);
 
   // ── the nearest-label bug, pinned ────────────────────────────────────────
   // A 20-day return of -2.3% is 2.7pp above the -5% Pullback line and 7.3pp

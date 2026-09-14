@@ -32,7 +32,7 @@ DEFAULTS = {
     "generated": str(date.today()),
     "spy": {
         "ret_5d": 0.0, "ret_20d": 0.0, "vol_20d": 0.015, "drawdown_60d": 0.0,
-        "regime": "Unknown", "breadth": 0.5, "persistence": 0.5, "reversal_risk": 0.3
+        "regime": "Unknown", "breadth": None, "persistence": None, "reversal_risk": None
     },
     "sectors": [], "stocks": [], "all_signals": [], "watchlist": [], "themes": [], "signals": [], "risks": [],
     "analog": {
@@ -289,95 +289,29 @@ def _load_theme_summary(path):
     return themes[:10]
 
 
-# ── THE REGIME RULES, WRITTEN ONCE ──────────────────────────────────────────
+# ── THE REGIME RULES ────────────────────────────────────────────────────────
 #
-# Owner, 2026-09-14, asking for a click-into explanation on the Regime Analysis
-# card: "I don't know what they all mean." The card said NEUTRAL and nothing on
-# screen said why, or what it would take to say anything else.
+# Moved to scan/regime_measures.py on 2026-09-14, because the daily scan now
+# applies them to three years of SPY history to measure Persistence and the
+# regime streak. One table, two importers; see that module's docstring.
 #
-# The classifier used to be a ladder of if-statements, which cannot explain
-# itself. It is now a TABLE, read top to bottom, first match wins, and both the
-# classifier and the explainer walk the same table. An explainer with its own
-# copy of the thresholds would be the first thing to disagree with the label it
-# explains, the day anyone tuned a number.
-#
-# Defaults are the ones the old function used for a missing key, and they are
-# kept exactly: changing one would silently relabel history and reset the
-# regime streak that is computed by re-classifying every past session.
-_REGIME_DEFAULTS = {"ret_20d": 0.0, "drawdown_60d": 0.0, "vol_20d": 0.015}
+# The underscore names are kept as aliases: tests and older callers use them.
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scan"))
+import regime_measures as _rm  # noqa: E402
 
-# (label, [(key, op, threshold), ...]) — every condition must hold.
-REGIME_RULES = [
-    ("High Volatility", [("vol_20d", ">", 0.025)]),
-    ("Deep Correction", [("drawdown_60d", "<", -0.15)]),
-    ("Correction",      [("drawdown_60d", "<", -0.08), ("ret_20d", "<", 0.0)]),
-    ("Recovery",        [("drawdown_60d", "<", -0.05), ("ret_20d", ">", 0.0)]),
-    ("Bull Trend",      [("ret_20d", ">", 0.05)]),
-    ("Pullback",        [("ret_20d", "<", -0.05)]),
-]
-REGIME_FALLBACK = "Neutral"
+REGIME_DEFAULTS = _rm.REGIME_DEFAULTS
+REGIME_RULES = _rm.REGIME_RULES
+REGIME_FALLBACK = _rm.REGIME_FALLBACK
+_holds = _rm.holds
+_first_match = _rm.first_match
+_classify_regime = _rm.classify_regime
+_explain_rules = _rm.explain_rules
 
-# Reversal risk is a four-step LOOKUP, not an estimated probability. It is shown
-# as a percentage on the card, which reads like one, so the explainer says so.
-REVERSAL_RULES = [
-    (0.70, [("vol_20d", ">", 0.025), ("ret_20d", "<", 0.0)]),
-    (0.50, [("vol_20d", ">", 0.02)]),
-    (0.35, [("ret_20d", "abs<", 0.01)]),
-]
-REVERSAL_FALLBACK = 0.25
-
-
-def _val(spy, key):
-    v = spy.get(key, _REGIME_DEFAULTS[key])
-    return _REGIME_DEFAULTS[key] if v is None else float(v)
-
-
-def _holds(x, op, t):
-    if op == ">":
-        return x > t
-    if op == "<":
-        return x < t
-    if op == "abs<":
-        return abs(x) < t
-    raise ValueError(f"unknown operator {op!r}")
-
-
-def _first_match(spy, rules, fallback):
-    for out, conds in rules:
-        if all(_holds(_val(spy, k), op, t) for k, op, t in conds):
-            return out
-    return fallback
-
-
-def _classify_regime(spy):
-    """Derive regime label from SPY state. First matching rule in REGIME_RULES."""
-    return _first_match(spy, REGIME_RULES, REGIME_FALLBACK)
-
-
-def _classify_reversal_risk(spy):
-    return _first_match(spy, REVERSAL_RULES, REVERSAL_FALLBACK)
-
-
-def _explain_rules(spy, rules, fallback):
-    """Every rule, each condition against today's reading, and which one fired.
-
-    Returns the raw numbers and lets the page format them. `fired` is computed by
-    the same _first_match the classifier uses, so the highlighted rule and the
-    published label cannot disagree.
-    """
-    result = _first_match(spy, rules, fallback)
-    out, fired_seen = [], False
-    for label, conds in rules:
-        cs = [{"key": k, "op": op, "threshold": t, "value": _val(spy, k),
-               "met": _holds(_val(spy, k), op, t)} for k, op, t in conds]
-        is_fired = (not fired_seen) and all(c["met"] for c in cs)
-        fired_seen = fired_seen or is_fired
-        out.append({"result": label, "conditions": cs, "fired": is_fired,
-                    # A rule that would have matched but sits below the one that
-                    # fired. Worth showing: it is the label waiting underneath.
-                    "shadowed": (not is_fired) and all(c["met"] for c in cs)})
-    return {"result": result, "rules": out, "fallback": fallback,
-            "fell_through": not fired_seen}
+# Reversal risk USED to be a four-step lookup here (25/35/50/70), shown on the
+# card as a percentage. Owner, 2026-09-14, on learning that: "i hate it". It is
+# now measured by the scan on the signal engine's own analog days — see
+# regime_measures.reversal — and this file only displays it.
 
 
 _ANALOG_LIBRARY = {
@@ -433,6 +367,20 @@ _ANALOG_LIBRARY = {
     ],
 }
 _ANALOG_LIBRARY["Unknown"] = _ANALOG_LIBRARY["Neutral"]
+
+
+def _reversal_sentence(spy):
+    """The narrative's reversal line, from the MEASURED figure or not at all.
+
+    This used to read "Reversal risk estimated at N%" off a four-step lookup,
+    with a silent 0.3 default when even that was missing — a placeholder printed
+    as an estimate. With no measurement, the sentence is left out.
+    """
+    r = (spy.get("measures") or {}).get("reversal") or {}
+    if not isinstance(r.get("value"), (int, float)) or not isinstance(r.get("base_rate"), (int, float)):
+        return ""
+    return (f"From days like today, SPY's next {r.get('horizon', 20)} sessions reversed "
+            f"{r['value']*100:.0f}% of the time, against {r['base_rate']*100:.0f}% on any day.")
 
 
 def _synthetic_analog_matches(regime):
@@ -493,23 +441,45 @@ def build_snapshot(ledger=None):
             spy["vol_20d"] = round(float(spy_raw.get("vol_20d", 0.015)), 5)
             spy["drawdown_60d"] = round(float(spy_raw.get("drawdown_60d", 0)), 5)
             spy["regime"] = _classify_regime(spy)
-            spy["reversal_risk"] = _classify_reversal_risk(spy)
             spy["explain"] = {
                 "regime": _explain_rules(spy, REGIME_RULES, REGIME_FALLBACK),
-                "reversal": _explain_rules(spy, REVERSAL_RULES, REVERSAL_FALLBACK),
-                # Breadth and persistence on the Regime card have never been
-                # measured: see the note further down this file on the stray
-                # breadth block. They sit at the 0.5 default. Published as a
-                # fact so the page can say so instead of explaining a
-                # placeholder as though it were a reading.
-                "unmeasured": ["breadth", "persistence"],
             }
+
+            # ── the scan's measurements ─────────────────────────────────────
+            # Breadth, persistence and reversal are MEASURED by the scan, which
+            # has the price history for it. A snapshot from before 2026-09-14
+            # has no `measures` block, and that must read as not measured —
+            # never as the 0.5 placeholders these fields held until then.
+            m = spy_raw.get("measures") or {}
+            missing = {"value": None, "reason": "not in this scan's output yet"}
+            breadth = m.get("breadth") or dict(missing)
+            persist = m.get("persistence") or dict(missing)
+            rev = m.get("reversal") or dict(missing)
+
+            # Persistence is a base rate FOR A LABEL. If the scan labelled
+            # today differently from this builder (inputs are rounded on the
+            # way into spy_state.json, so a reading sitting exactly on a
+            # threshold can land either side), the rate belongs to the wrong
+            # regime and is withheld rather than printed under this one.
+            if persist.get("value") is not None and persist.get("label") != spy["regime"]:
+                persist = dict(persist, value=None,
+                               reason=(f"the scan measured {persist.get('label')} but "
+                                       f"this card reads {spy['regime']}"))
+
+            spy["measures"] = {"breadth": breadth, "persistence": persist, "reversal": rev}
+            spy["breadth"] = breadth.get("value")
+            spy["persistence"] = persist.get("value")
+            spy["reversal_risk"] = rev.get("value")
             # Sparkline history
             if spy_raw.get("history"):
                 spy["history"] = spy_raw["history"]
-            # Regime streak: count consecutive trailing days with same regime
+            # Regime streak. The scan counts it over three years; this 20-row
+            # fallback silently capped every older regime at a 20-day streak,
+            # so it is only used for a snapshot that predates the scan's count.
             hist = spy_raw.get("history", [])
-            if hist:
+            if spy_raw.get("regime_streak") is not None and persist.get("label") == spy["regime"]:
+                spy["regime_streak"] = int(spy_raw["regime_streak"])
+            elif hist:
                 current = spy["regime"]
                 streak = 1
                 for h in reversed(hist[:-1]):
@@ -811,7 +781,7 @@ def build_snapshot(ledger=None):
         )
         snap["narrative"]["risk"] = (
             f"Sectors showing negative edge: {', '.join(bot_sectors)}. " if bot_sectors else "No strongly negative sector signals. "
-        ) + f"Reversal risk estimated at {spy.get('reversal_risk', 0.3)*100:.0f}%."
+        ) + _reversal_sentence(spy)
         snap["narrative"]["plain_english"] = (
             f"The market is in a {regime.lower()} phase. "
             f"Historical analogs suggest {', '.join(top_sectors[:2]) or 'mixed results'} "

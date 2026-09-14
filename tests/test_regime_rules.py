@@ -35,18 +35,6 @@ def _old_regime(spy):
     return "Neutral"
 
 
-def _old_reversal(spy):
-    vol = spy.get("vol_20d", 0.015)
-    r20 = spy.get("ret_20d", 0)
-    if vol > 0.025 and r20 < 0:
-        return 0.7
-    if vol > 0.02:
-        return 0.5
-    if abs(r20) < 0.01:
-        return 0.35
-    return 0.25
-
-
 # Every threshold, plus a hair either side of it, plus exactly on it. Exactly-on
 # is where a > that became a >= would hide.
 EPS = 1e-6
@@ -68,26 +56,17 @@ def test_the_table_labels_every_state_exactly_as_the_old_ladder():
     assert not mismatches, f"{len(mismatches)} states relabelled, e.g. {mismatches[:3]}"
 
 
-def test_reversal_risk_is_unchanged_on_every_state():
-    mismatches = [s for s in _grid()
-                  if sb._classify_reversal_risk(s) != _old_reversal(s)]
-    assert not mismatches, f"{len(mismatches)} states changed, e.g. {mismatches[:3]}"
-
-
 def test_missing_keys_default_exactly_as_before():
     """A history row missing a key must classify the same, or the streak moves."""
     for partial in ({}, {"ret_20d": -0.06}, {"vol_20d": 0.03},
                     {"drawdown_60d": -0.09, "ret_20d": -0.01}):
         assert sb._classify_regime(partial) == _old_regime(partial), partial
-        assert sb._classify_reversal_risk(partial) == _old_reversal(partial), partial
 
 
 def test_the_grid_actually_reaches_every_label():
     """Without this the equivalence test could pass by never visiting a branch."""
     seen = {sb._classify_regime(s) for s in _grid()}
     assert seen == {label for label, _ in sb.REGIME_RULES} | {sb.REGIME_FALLBACK}
-    seen_rr = {sb._classify_reversal_risk(s) for s in _grid()}
-    assert seen_rr == {v for v, _ in sb.REVERSAL_RULES} | {sb.REVERSAL_FALLBACK}
 
 
 # ── the explainer ────────────────────────────────────────────────────────────
