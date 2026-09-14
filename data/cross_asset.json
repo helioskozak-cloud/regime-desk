@@ -17,16 +17,16 @@
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-0.5% (20d)",
+      "value": "-0.7% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.5% \u2014 range-bound rates"
+      "context": "20d ret -0.7% \u2014 range-bound rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "-0.9% (20d)",
+      "value": "-0.8% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.9% \u2014 stable credit"
+      "context": "20d ret -0.8% \u2014 stable credit"
     },
     {
       "name": "Gold",
@@ -38,16 +38,16 @@
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "+0.2% (20d)",
+      "value": "+0.1% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.2% \u2014 dollar neutral"
+      "context": "20d ret +0.1% \u2014 dollar neutral"
     },
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+24.7% (20d)",
+      "value": "+22.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret +24.7% \u2014 energy bid; watch inflation pass-through"
+      "context": "20d ret +22.3% \u2014 energy bid; watch inflation pass-through"
     },
     {
       "name": "VIX Level",
@@ -59,44 +59,44 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-7.6% (20d)",
+      "value": "-7.1% (20d)",
       "signal": "bearish",
-      "context": "20d ret -7.6% \u2014 semi weakness; growth concerns"
+      "context": "20d ret -7.1% \u2014 semi weakness; growth concerns"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "-5.3% (20d)",
+      "value": "-5.4% (20d)",
       "signal": "bearish",
-      "context": "20d ret -5.3% \u2014 small caps lagging; risk-off rotation"
+      "context": "20d ret -5.4% \u2014 small caps lagging; risk-off rotation"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-4.2% (20d)",
+      "value": "-4.0% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.2% \u2014 copper weak = growth concerns"
+      "context": "20d ret -4.0% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "-0.8% (20d)",
+      "value": "-0.9% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.8% \u2014 inflation expectations contained"
+      "context": "20d ret -0.9% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-2.9% (20d)",
+      "value": "-2.6% (20d)",
       "signal": "bearish",
-      "context": "20d ret -2.9% \u2014 growth selling; value rotation"
+      "context": "20d ret -2.6% \u2014 growth selling; value rotation"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "-1.5% (20d)",
-      "signal": "neutral",
-      "context": "20d ret -1.5% \u2014 financials lagging"
+      "value": "-2.2% (20d)",
+      "signal": "bearish",
+      "context": "20d ret -2.2% \u2014 financials lagging"
     }
   ],
   "risks": [
@@ -127,12 +127,12 @@
     {
       "name": "Credit Stress",
       "level": "moderate",
-      "score": 0.59,
-      "description": "HYG 20d -0.9%. Spread widening signals funding stress.",
+      "score": 0.58,
+      "description": "HYG 20d -0.8%. Spread widening signals funding stress.",
       "invalidation": "HYG recovers to 20d positive return",
       "explain": {
         "input_label": "HYG 20-day return",
-        "input_value": "-0.9%",
+        "input_value": "-0.8%",
         "moderate_at": "+0.5%",
         "elevated_at": "-1.5%",
         "input_rises": false,
@@ -151,12 +151,12 @@
     {
       "name": "Rate Re-pricing",
       "level": "moderate",
-      "score": 0.54,
-      "description": "TLT 20d -0.5%. Bond sell-off = rates rising; duration assets under pressure.",
+      "score": 0.55,
+      "description": "TLT 20d -0.7%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
       "explain": {
         "input_label": "TLT 20-day return",
-        "input_value": "-0.5%",
+        "input_value": "-0.7%",
         "moderate_at": "+0.6%",
         "elevated_at": "-1.9%",
         "input_rises": false,
@@ -175,12 +175,12 @@
     {
       "name": "Growth Slowdown",
       "level": "elevated",
-      "score": 0.79,
-      "description": "Copper 20d -4.2%, IWM -5.3%. Cyclical indicators softening.",
+      "score": 0.78,
+      "description": "Copper 20d -4.0%, IWM -5.4%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "-9.6%",
+        "input_value": "-9.4%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,
@@ -188,23 +188,23 @@
       },
       "range30": {
         "lo": 0.13,
-        "hi": 0.788
+        "hi": 0.782
       },
       "range90": {
         "lo": 0.0,
-        "hi": 0.788
+        "hi": 0.782
       },
       "n90": 90
     },
     {
       "name": "Inflation Re-pricing",
       "level": "low",
-      "score": 0.23,
-      "description": "TIPS 20d -0.8%. Inflation expectations contained; Fed credibility intact.",
+      "score": 0.22,
+      "description": "TIPS 20d -0.9%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall",
       "explain": {
         "input_label": "TIP 20-day return",
-        "input_value": "-0.8%",
+        "input_value": "-0.9%",
         "moderate_at": "+1.9%",
         "elevated_at": "+4.4%",
         "input_rises": true,
@@ -223,12 +223,12 @@
     {
       "name": "Dollar Headwind",
       "level": "low",
-      "score": 0.42,
-      "description": "UUP 20d +0.2%. Dollar neutral to weak; no FX drag on multinationals.",
+      "score": 0.41,
+      "description": "UUP 20d +0.1%. Dollar neutral to weak; no FX drag on multinationals.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative",
       "explain": {
         "input_label": "UUP 20-day return",
-        "input_value": "+0.2%",
+        "input_value": "+0.1%",
         "moderate_at": "+0.6%",
         "elevated_at": "+3.1%",
         "input_rises": true,
@@ -259,7 +259,7 @@
         "note": "Held at today's realised volatility; the vol half of this axis adds up to 30 points on its own when SPY is moving less than 1.5% a day."
       },
       "range30": {
-        "lo": 0.115,
+        "lo": 0.117,
         "hi": 0.354
       },
       "range90": {
