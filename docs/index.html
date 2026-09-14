@@ -52922,7 +52922,7 @@ function _cardRisk(){
     </div>${why(r)}`;
   }).join('');
   const anyRange=risks.some(r=>r.range90&&typeof r.range90.lo==="number");
-  const foot=`${pill(cLevel)} across ${risks.length} axes · bar is 0–100; solid band is the last 30 days, faint band the last 90, grey ticks the 45 and 65 level thresholds, bright mark today. ${anyRange?"":"Ranges are unavailable in this snapshot and are shown as n/a rather than guessed. "}Hover a row for the reading and the condition that would say the risk has arrived.`;
+  const foot=`${pill(cLevel)} across ${risks.length} axes · bar is 0–100; solid band is the last 30 days, faint band the last 90, grey ticks the 45 and 65 level thresholds, bright mark today. ${anyRange?"":"Ranges are unavailable in this snapshot and are shown as n/a rather than guessed. "}Click any row, or any tile above, for what it measures and what would move it.`;
   return`<div class="card" style="border-left:4px solid ${cCol};padding-left:11px"><h2>Risk Axes</h2>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin-bottom:12px">${hero}${tiles}</div>
   ${rows}
