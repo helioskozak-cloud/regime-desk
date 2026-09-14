@@ -107,6 +107,25 @@ tr:hover td{background:#1c2128}
 .rax-val{flex:0 0 auto;width:46px;text-align:right;font-family:var(--mono);font-weight:700}
 @media(max-width:800px){.rax-rng{display:none}.rax-name{width:118px;flex:0 0 118px}}
 .rax{cursor:pointer}
+.rd-exp{cursor:pointer;transition:border-color .12s}
+.rd-exp:hover{border-color:#6e7681!important}
+.rd-exp[aria-expanded="true"]{border-color:#58a6ff!important;box-shadow:0 0 0 1px #58a6ff}
+.rd-hint{color:#6e7681;font-size:9.5px;margin-top:5px;letter-spacing:.3px;text-transform:uppercase}
+.rd-exp[aria-expanded="true"] .rd-hint{color:#58a6ff}
+.rd-why{border-bottom:0;padding:12px 0 0 0}
+.rd-why .rax-why-in{margin-left:0}
+.rax-chip.met{border-color:#3fb950}
+.rd-rule{padding:7px 10px;margin:0 0 5px 0;border-radius:4px;border:1px solid #21262d;opacity:.62}
+.rd-rule.fired{opacity:1;border-color:#58a6ff;background:#0d1117}
+.rd-rule.shadowed{opacity:.9;border-style:dashed}
+.rd-rule-n{display:inline-block;width:18px;color:#6e7681;font-family:var(--mono);font-size:11px}
+.rd-tag{margin-left:8px;font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:#58a6ff;font-weight:700}
+.rd-tag.dim{color:#8b949e}
+.rd-num{font-family:var(--mono);font-weight:700;color:#f0f6fc}
+.rd-charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:6px}
+html.light .rd-rule{border-color:#eaeef2}
+html.light .rd-rule.fired{background:#ffffff;border-color:#0969da}
+html.light .rd-num{color:#1f2328}
 .rax-chev{flex:0 0 auto;width:14px;text-align:center;color:#6e7681;font-size:10px;user-select:none}
 .rax[aria-expanded="true"] .rax-chev{color:#f0f6fc}
 .rax-why{padding:2px 0 14px 0;border-bottom:1px solid #21262d;font-size:12.5px;line-height:1.65;color:#c9d1d9}
@@ -356,6 +375,173 @@ window.SNAPSHOT = {
     "breadth": 0.5,
     "persistence": 0.5,
     "reversal_risk": 0.25,
+    "explain": {
+      "regime": {
+        "result": "Neutral",
+        "rules": [
+          {
+            "result": "High Volatility",
+            "conditions": [
+              {
+                "key": "vol_20d",
+                "op": ">",
+                "threshold": 0.025,
+                "value": 0.00568,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": "Deep Correction",
+            "conditions": [
+              {
+                "key": "drawdown_60d",
+                "op": "<",
+                "threshold": -0.15,
+                "value": -0.02449,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": "Correction",
+            "conditions": [
+              {
+                "key": "drawdown_60d",
+                "op": "<",
+                "threshold": -0.08,
+                "value": -0.02449,
+                "met": false
+              },
+              {
+                "key": "ret_20d",
+                "op": "<",
+                "threshold": 0.0,
+                "value": -0.02256,
+                "met": true
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": "Recovery",
+            "conditions": [
+              {
+                "key": "drawdown_60d",
+                "op": "<",
+                "threshold": -0.05,
+                "value": -0.02449,
+                "met": false
+              },
+              {
+                "key": "ret_20d",
+                "op": ">",
+                "threshold": 0.0,
+                "value": -0.02256,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": "Bull Trend",
+            "conditions": [
+              {
+                "key": "ret_20d",
+                "op": ">",
+                "threshold": 0.05,
+                "value": -0.02256,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": "Pullback",
+            "conditions": [
+              {
+                "key": "ret_20d",
+                "op": "<",
+                "threshold": -0.05,
+                "value": -0.02256,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          }
+        ],
+        "fallback": "Neutral",
+        "fell_through": true
+      },
+      "reversal": {
+        "result": 0.25,
+        "rules": [
+          {
+            "result": 0.7,
+            "conditions": [
+              {
+                "key": "vol_20d",
+                "op": ">",
+                "threshold": 0.025,
+                "value": 0.00568,
+                "met": false
+              },
+              {
+                "key": "ret_20d",
+                "op": "<",
+                "threshold": 0.0,
+                "value": -0.02256,
+                "met": true
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": 0.5,
+            "conditions": [
+              {
+                "key": "vol_20d",
+                "op": ">",
+                "threshold": 0.02,
+                "value": 0.00568,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": 0.35,
+            "conditions": [
+              {
+                "key": "ret_20d",
+                "op": "abs<",
+                "threshold": 0.01,
+                "value": -0.02256,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          }
+        ],
+        "fallback": 0.25,
+        "fell_through": true
+      },
+      "unmeasured": [
+        "breadth",
+        "persistence"
+      ]
+    },
     "history": [
       {
         "ret_5d": -0.00047,
@@ -51851,11 +52037,6 @@ function distBar(p10,p25,p50,p75,p90){
 // Risk) → SPY Trajectory → FRED → cross-asset signals → risk axes, then the
 // paper-portfolios one-liner. One disclaimer footer.
 function renderHome(){
-  const sp=S.spy||{};
-  const hist=sp.history||[];
-  const ports=S.portfolios||{};
-  const portKeys=Object.keys(ports);
-  const portColors={max_edge:'#58a6ff',bull_case:'#3fb950',defensive:'#e3b341'};
 
   // The daily-brief strip is gone. It was a full-width row carrying four
   // overnight deltas and the build timestamp, sitting above a card that shows
@@ -51864,8 +52045,23 @@ function renderHome(){
   // _cardRegimeMetrics and the timestamp onto that card's foot, which removes
   // a row from the top of the page without losing anything.
 
-  // Paper-portfolios one-liner (read-only).
-  const portStrip=portKeys.length?`<div class="card" style="padding:12px 14px">
+  // Owner, 2026-09-14: "I never look past these three dashboards." Home is
+  // now exactly those three. The SPY trajectory charts moved INTO the
+  // Trajectory Verdict panel (they are the paths of the numbers it compares);
+  // the macro strip, the stock-signal strip and the paper-portfolio strip moved
+  // to the Analysis tab, so nothing was deleted and nothing is unreachable.
+  return _cardRegimeMetrics()
+    +_cardVerdict()
+    +_cardRisk()
+    +'<footer>Tendencies only — not investment advice.</footer>';
+}
+
+// Paper-portfolios one-liner (read-only). Lived on Home until 2026-09-14.
+function _portStrip(){
+  const ports=S.portfolios||{};
+  const portKeys=Object.keys(ports);
+  const portColors={max_edge:'#58a6ff',bull_case:'#3fb950',defensive:'#e3b341'};
+  return portKeys.length?`<div class="card" style="padding:12px 14px">
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <span style="font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.6px;font-weight:700">Paper portfolios YTD</span>
       ${portKeys.map(k=>{
@@ -51877,15 +52073,6 @@ function renderHome(){
       }).join('')}
     </div>
   </div>`:'';
-
-  return _cardRegimeMetrics()
-    +_cardVerdict()
-    +_cardRisk()
-    +_cardTrajectory()
-    +_stripFoot(renderEcon())
-    +_stripFoot(renderSignals())
-    +portStrip
-    +'<footer>Tendencies only — not investment advice.</footer>';
 }
 
 // REGIME
@@ -51895,28 +52082,166 @@ function renderHome(){
 // a colored border-left card → <h2> → [hero tile + row of metric tiles] →
 // optional context foot line.
 function _rdMiniBar(frac,col){const p=Math.max(0,Math.min(100,(frac||0)*100));return`<div style="height:4px;background:#21262d;border-radius:1px;overflow:hidden;margin-top:6px"><div style="height:4px;width:${p}%;background:${col}"></div></div>`;}
-function _rdTile(label,valHtml,barHtml,nowrap){return`<div style="flex:1;min-width:112px;background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:9px 11px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;${nowrap===false?'':'white-space:nowrap'}">${label}</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;margin-top:2px">${valHtml}</div>${barHtml||''}</div>`;}
-function _rdHero(label,valHtml,subHtml,accentCol,valCol){return`<div style="flex:1.3;min-width:150px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${accentCol};border-radius:2px;padding:9px 11px;display:flex;flex-direction:column;justify-content:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${label}</div><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:${valCol||accentCol};line-height:1.15">${valHtml}</div><div style="color:#6e7681;font-size:10px;margin-top:3px">${subHtml||''}</div></div>`;}
-function _rdSummaryCard(title,accentCol,heroHtml,tilesHtml,footHtml){return`<div class="card" style="border-left:4px solid ${accentCol};padding-left:11px"><h2>${title}</h2><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:stretch">${heroHtml}${tilesHtml}</div>${footHtml?`<div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.6">${footHtml}</div>`:''}</div>`;}
+// A tile or hero that owns an explainer panel carries data-why; the delegated
+// handler at the foot of the page opens it. One open at a time, page-wide.
+function _rdWhyAttrs(id){return id?` class="rd-exp" role="button" tabindex="0" aria-expanded="false" aria-controls="${id}" data-why="${id}"`:'';}
+function _rdPanel(id,html){return`<div class="rax-why rd-why" id="${id}" hidden><div class="rax-why-in">${html}</div></div>`;}
+function _rdTile(label,valHtml,barHtml,nowrap,whyId){return`<div${_rdWhyAttrs(whyId)} style="flex:1;min-width:112px;background:#0d1117;border:1px solid #30363d;border-radius:2px;padding:9px 11px"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px;${nowrap===false?'':'white-space:nowrap'}">${label}</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;margin-top:2px">${valHtml}</div>${barHtml||''}${whyId?'<div class="rd-hint">what is this &#9656;</div>':''}</div>`;}
+function _rdHero(label,valHtml,subHtml,accentCol,valCol,whyId){return`<div${_rdWhyAttrs(whyId)} style="flex:1.3;min-width:150px;background:#0d1117;border:1px solid #30363d;border-left:3px solid ${accentCol};border-radius:2px;padding:9px 11px;display:flex;flex-direction:column;justify-content:center"><div style="color:#6e7681;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${label}</div><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:${valCol||accentCol};line-height:1.15">${valHtml}</div><div style="color:#6e7681;font-size:10px;margin-top:3px">${subHtml||''}</div>${whyId?'<div class="rd-hint">why this label &#9656;</div>':''}</div>`;}
+function _rdSummaryCard(title,accentCol,heroHtml,tilesHtml,footHtml,panelsHtml){return`<div class="card" style="border-left:4px solid ${accentCol};padding-left:11px"><h2>${title}</h2><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:stretch">${heroHtml}${tilesHtml}</div>${panelsHtml||''}${footHtml?`<div style="margin-top:10px;padding-top:9px;color:#6e7681;font-size:12px;border-top:1px solid #30363d;line-height:1.6">${footHtml}</div>`:''}</div>`;}
+
+// ── TRAJECTORY VERDICT ───────────────────────────────────────────────────
+//
+// Owner, 2026-09-14: wanted the same click-into explanation the Risk Axes got.
+// The verdict was an if-ladder buried in one line, which cannot explain itself,
+// so it is now a table read top to bottom, first match wins, and the label and
+// the explainer walk the same table.
+//
+// ONE BRANCH WAS WRONG AND IS FIXED HERE. The old ladder's final `else` caught
+// every case of flat returns with vol moving 2pp or more IN EITHER DIRECTION,
+// and labelled all of it "Vol Compression — vol falling". Flat returns with vol
+// RISING 2pp was therefore published as compression. That case is now its own
+// row, Vol Expansion; every other state labels exactly as before.
+const TV_R=0.005, TV_V=0.02;
+const TV_RULES=[
+  {name:'Goldilocks',col:'#3fb950',when:'return shift above +0.5pp and vol falling',
+   test:(r,v)=>r>TV_R&&v<0,
+   desc:'Returns improving while vol falls — the strongest possible setup. Lean into risk.'},
+  {name:'Bullish but Choppy',col:'#e3b341',when:'return shift above +0.5pp, vol flat or rising',
+   test:(r,v)=>r>TV_R&&v>=0,
+   desc:'Returns rising but vol expanding — trend intact, expect drawdowns within it.'},
+  {name:'Stable',col:'#58a6ff',when:'return shift within ±0.5pp and vol shift within ±2pp',
+   test:(r,v)=>Math.abs(r)<=TV_R&&Math.abs(v)<TV_V,
+   desc:'Momentum and vol stable — regime continuation most likely.'},
+  {name:'Deteriorating',col:'#f85149',when:'return shift below −0.5pp and vol rising',
+   test:(r,v)=>r<-TV_R&&v>0,
+   desc:'Returns falling and vol rising — classic regime-change warning. Trim risk.'},
+  {name:'Losing Momentum',col:'#e3b341',when:'return shift below −0.5pp, vol flat or falling',
+   test:(r,v)=>r<-TV_R,
+   desc:'Returns rolling over while vol contained — watch for trend break.'},
+  {name:'Vol Expansion',col:'#e3b341',when:'return shift within ±0.5pp, vol up 2pp or more',
+   test:(r,v)=>v>=TV_V,
+   desc:'Vol rising without a move in returns — the market is getting jumpier before it has picked a direction.'},
+  {name:'Vol Compression',col:'#58a6ff',when:'return shift within ±0.5pp, vol down 2pp or more',
+   test:()=>true,
+   desc:'Vol falling without momentum gain — coiling phase; direction undetermined.'},
+];
+function _tvVerdict(r,v){for(const x of TV_RULES){if(x.test(r,v))return x;}return TV_RULES[TV_RULES.length-1];}
 
 function _cardVerdict(){
-  var h=spy.history||[];if(h.length<6)return'';var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;var verdict,vCol,vDesc;if(rDelta>0.005&&vDelta<0){verdict='Goldilocks';vCol='#3fb950';vDesc='Returns improving while vol falls — the strongest possible setup. Lean into risk.';}else if(rDelta>0.005&&vDelta>=0){verdict='Bullish but Choppy';vCol='#e3b341';vDesc='Returns rising but vol expanding — trend intact, expect drawdowns within it.';}else if(rDelta<=0.005&&rDelta>=-0.005&&Math.abs(vDelta)<0.02){verdict='Stable';vCol='#58a6ff';vDesc='Momentum and vol stable — regime continuation most likely.';}else if(rDelta<-0.005&&vDelta>0){verdict='Deteriorating';vCol='#f85149';vDesc='Returns falling and vol rising — classic regime-change warning. Trim risk.';}else if(rDelta<-0.005){verdict='Losing Momentum';vCol='#e3b341';vDesc='Returns rolling over while vol contained — watch for trend break.';}else{verdict='Vol Compression';vCol='#58a6ff';vDesc='Vol falling without momentum gain — coiling phase; direction undetermined.';}
-  var hero=_rdHero('Verdict',verdict,'last 5 vs prior 5',vCol);
+  var h=spy.history||[];if(h.length<6)return'';
+  var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));
+  function avg(arr,k){return arr.reduce(function(a,b){return a+(b[k]||0);},0)/(arr.length||1);}
+  var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');
+  var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);
+  var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;
+  var hit=_tvVerdict(rDelta,vDelta);
+  var verdict=hit.name,vCol=hit.col,vDesc=hit.desc;
+  var WHY='why-verdict';
+  var hero=_rdHero('Verdict',verdict,'last 5 vs prior 5',vCol,null,WHY);
   var tiles=[
-    _rdTile('Return shift',`<span style="color:${rDelta>=0?'#3fb950':'#f85149'}">${rDelta>=0?'▲':'▼'} ${(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)} pp</span>`),
-    _rdTile('Vol shift',`<span style="color:${vDelta<=0?'#3fb950':'#f85149'}">${vDelta<=0?'▼':'▲'} ${(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)} pp</span>`),
-    _rdTile('20d return (now)',`<span style="color:${rRecent>=0?'#3fb950':'#f85149'}">${(rRecent*100).toFixed(2)}%</span>`),
-    _rdTile('Ann. vol (now)',`<span style="color:${vRecent>0.22?'#e3b341':'#c9d1d9'}">${(vRecent*100).toFixed(0)}%</span>`)
+    _rdTile('Return shift',`<span style="color:${rDelta>=0?'#3fb950':'#f85149'}">${rDelta>=0?'▲':'▼'} ${(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)} pp</span>`,'',undefined,WHY),
+    _rdTile('Vol shift',`<span style="color:${vDelta<=0?'#3fb950':'#f85149'}">${vDelta<=0?'▼':'▲'} ${(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)} pp</span>`,'',undefined,WHY),
+    _rdTile('20d return (now)',`<span style="color:${rRecent>=0?'#3fb950':'#f85149'}">${(rRecent*100).toFixed(2)}%</span>`,'',undefined,WHY),
+    _rdTile('Ann. vol (now)',`<span style="color:${vRecent>0.22?'#e3b341':'#c9d1d9'}">${(vRecent*100).toFixed(0)}%</span>`,'',undefined,WHY)
   ].join('');
-  return _rdSummaryCard('Trajectory Verdict',vCol,hero,tiles,`<span style="color:#c9d1d9">${vDesc}</span>`);
+
+  // How far each shift sits from a line that would change the label. The vol
+  // line that matters depends on the return shift: inside ±0.5pp the vol
+  // boundaries are ±2pp; outside it the only vol boundary is zero.
+  var rDist=Math.min(Math.abs(rDelta-TV_R),Math.abs(rDelta+TV_R))*100;
+  var vDist=(Math.abs(rDelta)<=TV_R?Math.min(Math.abs(vDelta-TV_V),Math.abs(vDelta+TV_V)):Math.abs(vDelta))*100;
+  var pp=function(x,d){return(x>=0?'+':'')+(x*100).toFixed(d)+'pp';};
+  var ladder=TV_RULES.map(function(x,i){
+    var on=x===hit;
+    return `<div class="rd-rule ${on?'fired':''}"><span class="rd-rule-n">${i+1}</span><b style="color:${x.col}">${x.name}</b>${on?'<span class="rd-tag">this one</span>':''}<div style="font-size:12px;color:#8b949e;margin-top:2px">${x.when}</div></div>`;
+  }).join('');
+  var chart=function(vals,label){return svgLineChart(vals,440,110,label);};
+  var panel=_rdPanel(WHY,`
+    <h4>What this compares</h4>
+    <p>Not where the market is — that is Regime Analysis, above. This asks whether the trend is <b>getting better or wearing out</b>. It averages SPY's 20-day return over the last 5 sessions and compares it with the 5 before that, and does the same for volatility.</p>
+    <h4>The two numbers it is built from</h4>
+    <div class="rax-sum">
+      <span class="rax-chip">20-day return: last 5 <b>${(rRecent*100).toFixed(2)}%</b> vs prior 5 <b>${(rPrior*100).toFixed(2)}%</b> → <b>${pp(rDelta,2)}</b></span>
+      <span class="rax-chip">Volatility: last 5 <b>${(vRecent*100).toFixed(1)}%</b> vs prior 5 <b>${(vPrior*100).toFixed(1)}%</b> → <b>${pp(vDelta,1)}</b></span>
+    </div>
+    <p>A return shift only counts once it passes ±0.5pp. A vol shift counts on direction alone, except when returns are flat — then it has to move 2pp either way to matter.</p>
+    <h4>The rules, read top to bottom — the first one that fits is the label</h4>
+    ${ladder}
+    <p style="margin-top:9px">The return shift is <span class="rd-num">${rDist.toFixed(2)}pp</span> from a line that would change this verdict, and the vol shift <span class="rd-num">${vDist.toFixed(1)}pp</span>.</p>
+    <h4>The last 20 sessions, as paths</h4>
+    <div class="rd-charts">
+      ${chart(h.map(function(d){return d.ret_5d||0;}),'Rolling 5d return')}
+      ${chart(h.map(function(d){return d.ret_20d||0;}),'Rolling 20d return')}
+      ${chart(h.map(function(d){return (d.vol_20d||0)*Math.sqrt(252);}),'Annualized vol')}
+      ${chart(h.map(function(d){return d.drawdown_60d||0;}),'60d drawdown')}
+    </div>`);
+  return _rdSummaryCard('Trajectory Verdict',vCol,hero,tiles,`<span style="color:#c9d1d9">${vDesc}</span>`,panel);
 }
+// ── REGIME ANALYSIS ──────────────────────────────────────────────────────
+//
+// Owner, 2026-09-14: same click-into explanation as the Risk Axes. Every tile
+// now opens a panel, and the regime label opens the rule ladder that produced
+// it. The ladder is published by the snapshot builder (spy.explain) from the
+// SAME table the classifier walks, so the highlighted rule and the label on
+// the card cannot disagree.
+//
+// TWO TILES WERE NEVER MEASURED. Breadth and Persistence have shown 50% since
+// they were added because nothing computes them: 0.5 is the builder's default,
+// and the block that was meant to fill breadth never ran (see the note in
+// snapshot_builder.py). They now read "not measured" rather than presenting a
+// placeholder as a reading.
+const RD_KEY={
+  ret_20d:['SPY 20-day return',v=>pct(v)],
+  drawdown_60d:['SPY 60-day drawdown',v=>pct(v)],
+  vol_20d:['SPY volatility, annualized',v=>((v||0)*Math.sqrt(252)*100).toFixed(0)+'%'],
+};
+function _rdCond(c){
+  const k=RD_KEY[c.key]||[c.key,v=>String(v)];
+  const op=c.op==='>'?'above':c.op==='<'?'below':'within ±';
+  const thr=c.threshold===0?'0%':c.op==='abs<'?k[1](c.threshold).replace('+',''):k[1](c.threshold);
+  return`<span class="rax-chip ${c.met?'met':''}">${k[0]} ${op} <b>${thr}</b> · now <b>${k[1](c.value)}</b> ${c.met?'&#10003;':'&#10007;'}</span>`;
+}
+function _rdLadder(ex,fmt){
+  const rows=ex.rules.map((r,i)=>`<div class="rd-rule ${r.fired?'fired':''} ${r.shadowed?'shadowed':''}">
+    <span class="rd-rule-n">${i+1}</span><b>${fmt(r.result)}</b>${r.fired?'<span class="rd-tag">this one</span>':r.shadowed?'<span class="rd-tag dim">also true, but outranked</span>':''}
+    <div class="rax-sum" style="margin:5px 0 0 0">${r.conditions.map(_rdCond).join('')}</div></div>`).join('');
+  return rows+`<div class="rd-rule ${ex.fell_through?'fired':''}"><span class="rd-rule-n">${ex.rules.length+1}</span><b>${fmt(ex.fallback)}</b>${ex.fell_through?'<span class="rd-tag">this one</span>':''}<div style="font-size:12px;color:#8b949e;margin-top:2px">if none of the rules above fit</div></div>`;
+}
+// The unfired rule needing the least movement to fire, in percentage points.
+// Vol is measured in annualized points so it is on the same scale as the tile.
+function _rdNearest(ex){
+  const scale=c=>c.key==='vol_20d'?Math.sqrt(252)*100:100;
+  let best=null;
+  ex.rules.forEach(r=>{
+    if(r.fired)return;
+    const unmet=r.conditions.filter(c=>!c.met);
+    // SIGNED distance in the direction the condition needs. An earlier version
+    // compared absolute values, so a 20-day return of -2.3% scored as 2.7pp
+    // from BOTH +5% and -5%, and named Bull Trend as the nearest label when it
+    // was 7.3pp away. Caught by reading the rendered panel, not by a test.
+    const need=c=>c.op==='>'?c.threshold-c.value:c.op==='<'?c.value-c.threshold:Math.abs(c.value)-c.threshold;
+    const gap=unmet.reduce((a,c)=>a+Math.max(0,need(c))*scale(c),0);
+    if(!best||gap<best.gap)best={r,unmet,gap};
+  });
+  return best;
+}
+// Which rules a reading feeds, straight off the published table.
+function _rdFeeds(ex,key){
+  return ex.rules.filter(r=>r.conditions.some(c=>c.key===key))
+    .map(r=>{const c=r.conditions.find(x=>x.key===key);return`${r.result} (${(RD_KEY[key]||[key,String])[1](c.threshold).replace('+','')} ${c.op==='>'?'or above':c.op==='<'?'or below':''})`;});
+}
+
 function _cardRegimeMetrics(){
   const reg=spy.regime||"—";
   const regCol=/bull|risk[- ]?on|expansion|goldilock|calm|low[- ]?vol/i.test(reg)?'#3fb950':/bear|risk[- ]?off|contraction|stress|crisis|high[- ]?vol/i.test(reg)?'#f85149':'#58a6ff';
   const arr=v=>v>0.0005?'▲':v<-0.0005?'▼':'·';
   const rc=v=>v>0.0005?'#3fb950':v<-0.0005?'#f85149':'#8b949e';
   const r5=spy.ret_5d||0,r20=spy.ret_20d||0,vol=(spy.vol_20d||0)*Math.sqrt(252),dd=spy.drawdown_60d||0,rr=spy.reversal_risk||0,rrCol=rr>=0.5?'#f85149':rr>=0.3?'#e3b341':'#3fb950';
-  const hero=_rdHero('Regime',reg.toUpperCase(),`${spy.regime_streak||"—"} day streak`,regCol);
+  const EX=(spy.explain||{});
+  const exR=EX.regime, exV=EX.reversal;
+  const unmeasured=new Set(EX.unmeasured||[]);
+  const hero=_rdHero('Regime',reg.toUpperCase(),`${spy.regime_streak||"—"} day streak`,regCol,null,'why-regime');
   // Overnight deltas used to be their own full-width row above this card,
   // which meant reading a number here and its change 150px away. A delta
   // belongs against the reading it is a delta OF, so it now sits under the
@@ -51931,17 +52256,52 @@ function _cardRegimeMetrics(){
     const a=flat?'■':(v>0?'▲':'▼');
     return`<div style="color:${col};font-size:10px;margin-top:5px;font-family:var(--mono);white-space:nowrap">${a} ${(v>=0?'+':'')+(v*100).toFixed(2)}pp <span style="color:#6e7681">1d</span></div>`;
   };
+  const nm=`<span style="color:#6e7681;font-size:13px">not measured</span>`;
   const tiles=[
-    _rdTile('5d return',`<span style="color:${rc(r5)}">${arr(r5)} ${pct(r5)}</span>`,dTag(dOf('ret_5d'),true)),
-    _rdTile('20d return',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`,dTag(dOf('ret_20d'),true)),
-    _rdTile('20d vol (ann.)',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`,dTag(dOf('vol_20d'),false,Math.sqrt(252))),
-    _rdTile('60d drawdown',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`,dTag(dOf('drawdown_60d'),true)),
-    _rdTile('Breadth',`<span style="color:#3fb950">${((spy.breadth||0)*100).toFixed(0)}%</span>`,_rdMiniBar(spy.breadth,'#3fb950')),
-    _rdTile('Persistence',`<span style="color:#58a6ff">${((spy.persistence||0)*100).toFixed(0)}%</span>`,_rdMiniBar(spy.persistence,'#58a6ff')),
-    _rdTile('Reversal risk',`<span style="color:${rrCol}">${(rr*100).toFixed(0)}%</span>`,_rdMiniBar(rr,rrCol))
+    _rdTile('5d return',`<span style="color:${rc(r5)}">${arr(r5)} ${pct(r5)}</span>`,dTag(dOf('ret_5d'),true),undefined,'why-r5'),
+    _rdTile('20d return',`<span style="color:${rc(r20)}">${arr(r20)} ${pct(r20)}</span>`,dTag(dOf('ret_20d'),true),undefined,'why-r20'),
+    _rdTile('20d vol (ann.)',`<span style="color:${vol>0.22?'#e3b341':'#c9d1d9'}">${(vol*100).toFixed(0)}%</span>`,dTag(dOf('vol_20d'),false,Math.sqrt(252)),undefined,'why-vol'),
+    _rdTile('60d drawdown',`<span style="color:${dd<-0.05?'#f85149':'#c9d1d9'}">${pct(dd)}</span>`,dTag(dOf('drawdown_60d'),true),undefined,'why-dd'),
+    _rdTile('Breadth',unmeasured.has('breadth')?nm:`<span style="color:#3fb950">${((spy.breadth||0)*100).toFixed(0)}%</span>`,unmeasured.has('breadth')?'':_rdMiniBar(spy.breadth,'#3fb950'),undefined,'why-breadth'),
+    _rdTile('Persistence',unmeasured.has('persistence')?nm:`<span style="color:#58a6ff">${((spy.persistence||0)*100).toFixed(0)}%</span>`,unmeasured.has('persistence')?'':_rdMiniBar(spy.persistence,'#58a6ff'),undefined,'why-persist'),
+    _rdTile('Reversal risk',`<span style="color:${rrCol}">${(rr*100).toFixed(0)}%</span>`,_rdMiniBar(rr,rrCol),undefined,'why-rev')
   ].join('');
   const foot=`<strong style="color:#8b949e">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}<span style="float:right;color:#6e7681">${S.generated||''}</span>`;
-  return _rdSummaryCard('Regime Analysis',regCol,hero,tiles,foot);
+
+  // ---- the panels ----
+  const noEx=`<p style="color:#8b949e">The rule-by-rule breakdown is not in this snapshot. It fills in on the next daily build.</p>`;
+  const near=exR?_rdNearest(exR):null;
+  const nearTxt=near?`<p style="margin-top:9px"><b>Closest other label: ${near.r.result}.</b> It needs ${near.unmet.map(c=>{const k=RD_KEY[c.key]||[c.key,String];return`${k[0]} to move from <span class="rd-num">${k[1](c.value)}</span> to ${c.op==='>'?'above':'below'} <span class="rd-num">${k[1](c.threshold)}</span>`;}).join(', and ')}.</p>`:'';
+  const feeds=key=>exR?_rdFeeds(exR,key):[];
+  const feedsTxt=key=>{const f=feeds(key);return f.length?`<h4>Where it counts</h4><p>It feeds ${f.length===1?'one regime rule':f.length+' regime rules'}: ${f.join('; ')}.${key!=='drawdown_60d'&&exV&&exV.rules.some(r=>r.conditions.some(c=>c.key===key))?' It also sets Reversal risk.':''}</p>`:`<h4>Where it counts</h4><p>No regime rule uses it. It is one of the four numbers the analog matcher compares against history, and it is the fastest read on direction on this card.</p>`;};
+  const panels=
+    _rdPanel('why-regime',`
+      <h4>What this is</h4>
+      <p>A <b>label, not a forecast</b>. Three readings — SPY's 20-day return, its 60-day drawdown and its volatility — are checked against the rules below from the top. The first rule that fits names the regime. It has held for <span class="rd-num">${spy.regime_streak||'—'}</span> session${spy.regime_streak===1?'':'s'}: that is how many of the latest sessions in a row classify the same way.</p>
+      ${exR?`<h4>The rules, top to bottom</h4>${_rdLadder(exR,x=>x)}${nearTxt}`:noEx}`)
+   +_rdPanel('why-r5',`
+      <h4>What this measures</h4><p>How far SPY has moved over the last 5 trading sessions. The fastest reading on the card, and the noisiest.</p>
+      ${feedsTxt('ret_5d')}`)
+   +_rdPanel('why-r20',`
+      <h4>What this measures</h4><p>How far SPY has moved over the last 20 trading sessions — about a month. The main trend reading on the card.</p>
+      ${feedsTxt('ret_20d')}`)
+   +_rdPanel('why-vol',`
+      <h4>What this measures</h4><p>How much SPY has been swinging day to day over the last 20 sessions, scaled up to a yearly figure so it reads like an options-market volatility. Around 15% is ordinary; above about 22% it is shaded amber.</p>
+      ${feedsTxt('vol_20d')}`)
+   +_rdPanel('why-dd',`
+      <h4>What this measures</h4><p>How far SPY sits below its highest close of the last 60 sessions. Zero means it is at that high.</p>
+      ${feedsTxt('drawdown_60d')}`)
+   +_rdPanel('why-breadth',unmeasured.has('breadth')
+      ?`<h4>Not measured</h4><p>This tile read <b>50%</b> for as long as it has existed, and that number was never a reading. Nothing computes market breadth for this card: 50% is the snapshot builder's default, and the code meant to fill it in never ran. It now says so instead of showing the placeholder.</p><p style="color:#8b949e">What it was meant to show: the share of stocks taking part in the move, so a rally carried by a handful of names reads differently from a broad one.</p>`
+      :`<h4>What this measures</h4><p>The share of stocks taking part in the move.</p>`)
+   +_rdPanel('why-persist',unmeasured.has('persistence')
+      ?`<h4>Not measured</h4><p>Same as Breadth: this has always read <b>50%</b> because nothing computes it. It is the builder's default, not a reading, and it now says so.</p><p style="color:#8b949e">Not to be confused with the per-stock persistence on the Stock Memory screen, which is real and is a different thing.</p>`
+      :`<h4>What this measures</h4><p>How long the current regime tends to last.</p>`)
+   +_rdPanel('why-rev',`
+      <h4>What this is</h4>
+      <p>A <b>four-step lookup, not a probability</b>. The percentage makes it look like a measured chance of a reversal; it can only ever read <span class="rd-num">25%</span>, <span class="rd-num">35%</span>, <span class="rd-num">50%</span> or <span class="rd-num">70%</span>, depending on which of these fits first.</p>
+      ${exV?_rdLadder(exV,x=>(x*100).toFixed(0)+'%'):noEx}`);
+  return _rdSummaryCard('Regime Analysis',regCol,hero,tiles,foot,panels);
 }
 // Four series, not two. history carries ret_5d, ret_20d, vol_20d and
 // drawdown_60d for all 20 sessions; this panel plotted half of them and
@@ -53063,6 +53423,9 @@ function renderAnalysis(){
     ${terms.map(([t,d])=>`<div style="margin-bottom:10px"><strong style="color:#f0f6fc">${t}:</strong> <span style="color:#8b949e;font-size:12px">${d}</span></div>`).join('')}
   </div>
   </div>
+  ${_portStrip()}
+  ${_stripFoot(renderEcon())}
+  ${_stripFoot(renderSignals())}
   <footer>Tendencies only — not investment advice.</footer>`;
 }
 
@@ -54545,7 +54908,7 @@ window._rdAsk=function(q){
     document.querySelectorAll('.rax-why').forEach(function(w){
       if(w!==except) w.hidden=true;
     });
-    document.querySelectorAll('.rax[data-why]').forEach(function(r){
+    document.querySelectorAll('[data-why]').forEach(function(r){
       var w=document.getElementById(r.dataset.why);
       r.setAttribute('aria-expanded', w && !w.hidden ? 'true' : 'false');
       var c=r.querySelector('.rax-chev');
@@ -54563,12 +54926,12 @@ window._rdAsk=function(q){
     closeAll(w);
   }
   document.addEventListener('click',function(e){
-    var row=e.target.closest && e.target.closest('.rax[data-why]');
+    var row=e.target.closest && e.target.closest('[data-why]');
     if(row) toggle(row);
   });
   document.addEventListener('keydown',function(e){
     if(e.key!=='Enter'&&e.key!==' ') return;
-    var row=e.target.closest && e.target.closest('.rax[data-why]');
+    var row=e.target.closest && e.target.closest('[data-why]');
     if(!row) return;
     e.preventDefault();
     toggle(row);

@@ -289,36 +289,95 @@ def _load_theme_summary(path):
     return themes[:10]
 
 
+# ── THE REGIME RULES, WRITTEN ONCE ──────────────────────────────────────────
+#
+# Owner, 2026-09-14, asking for a click-into explanation on the Regime Analysis
+# card: "I don't know what they all mean." The card said NEUTRAL and nothing on
+# screen said why, or what it would take to say anything else.
+#
+# The classifier used to be a ladder of if-statements, which cannot explain
+# itself. It is now a TABLE, read top to bottom, first match wins, and both the
+# classifier and the explainer walk the same table. An explainer with its own
+# copy of the thresholds would be the first thing to disagree with the label it
+# explains, the day anyone tuned a number.
+#
+# Defaults are the ones the old function used for a missing key, and they are
+# kept exactly: changing one would silently relabel history and reset the
+# regime streak that is computed by re-classifying every past session.
+_REGIME_DEFAULTS = {"ret_20d": 0.0, "drawdown_60d": 0.0, "vol_20d": 0.015}
+
+# (label, [(key, op, threshold), ...]) — every condition must hold.
+REGIME_RULES = [
+    ("High Volatility", [("vol_20d", ">", 0.025)]),
+    ("Deep Correction", [("drawdown_60d", "<", -0.15)]),
+    ("Correction",      [("drawdown_60d", "<", -0.08), ("ret_20d", "<", 0.0)]),
+    ("Recovery",        [("drawdown_60d", "<", -0.05), ("ret_20d", ">", 0.0)]),
+    ("Bull Trend",      [("ret_20d", ">", 0.05)]),
+    ("Pullback",        [("ret_20d", "<", -0.05)]),
+]
+REGIME_FALLBACK = "Neutral"
+
+# Reversal risk is a four-step LOOKUP, not an estimated probability. It is shown
+# as a percentage on the card, which reads like one, so the explainer says so.
+REVERSAL_RULES = [
+    (0.70, [("vol_20d", ">", 0.025), ("ret_20d", "<", 0.0)]),
+    (0.50, [("vol_20d", ">", 0.02)]),
+    (0.35, [("ret_20d", "abs<", 0.01)]),
+]
+REVERSAL_FALLBACK = 0.25
+
+
+def _val(spy, key):
+    v = spy.get(key, _REGIME_DEFAULTS[key])
+    return _REGIME_DEFAULTS[key] if v is None else float(v)
+
+
+def _holds(x, op, t):
+    if op == ">":
+        return x > t
+    if op == "<":
+        return x < t
+    if op == "abs<":
+        return abs(x) < t
+    raise ValueError(f"unknown operator {op!r}")
+
+
+def _first_match(spy, rules, fallback):
+    for out, conds in rules:
+        if all(_holds(_val(spy, k), op, t) for k, op, t in conds):
+            return out
+    return fallback
+
+
 def _classify_regime(spy):
-    """Derive regime label from SPY state."""
-    r20 = spy.get("ret_20d", 0)
-    dd = spy.get("drawdown_60d", 0)
-    vol = spy.get("vol_20d", 0.015)
-    if vol > 0.025:
-        return "High Volatility"
-    if dd < -0.15:
-        return "Deep Correction"
-    if dd < -0.08 and r20 < 0:
-        return "Correction"
-    if dd < -0.05 and r20 > 0:
-        return "Recovery"
-    if r20 > 0.05:
-        return "Bull Trend"
-    if r20 < -0.05:
-        return "Pullback"
-    return "Neutral"
+    """Derive regime label from SPY state. First matching rule in REGIME_RULES."""
+    return _first_match(spy, REGIME_RULES, REGIME_FALLBACK)
 
 
 def _classify_reversal_risk(spy):
-    vol = spy.get("vol_20d", 0.015)
-    r20 = spy.get("ret_20d", 0)
-    if vol > 0.025 and r20 < 0:
-        return 0.7
-    if vol > 0.02:
-        return 0.5
-    if abs(r20) < 0.01:
-        return 0.35
-    return 0.25
+    return _first_match(spy, REVERSAL_RULES, REVERSAL_FALLBACK)
+
+
+def _explain_rules(spy, rules, fallback):
+    """Every rule, each condition against today's reading, and which one fired.
+
+    Returns the raw numbers and lets the page format them. `fired` is computed by
+    the same _first_match the classifier uses, so the highlighted rule and the
+    published label cannot disagree.
+    """
+    result = _first_match(spy, rules, fallback)
+    out, fired_seen = [], False
+    for label, conds in rules:
+        cs = [{"key": k, "op": op, "threshold": t, "value": _val(spy, k),
+               "met": _holds(_val(spy, k), op, t)} for k, op, t in conds]
+        is_fired = (not fired_seen) and all(c["met"] for c in cs)
+        fired_seen = fired_seen or is_fired
+        out.append({"result": label, "conditions": cs, "fired": is_fired,
+                    # A rule that would have matched but sits below the one that
+                    # fired. Worth showing: it is the label waiting underneath.
+                    "shadowed": (not is_fired) and all(c["met"] for c in cs)})
+    return {"result": result, "rules": out, "fallback": fallback,
+            "fell_through": not fired_seen}
 
 
 _ANALOG_LIBRARY = {
@@ -435,6 +494,16 @@ def build_snapshot(ledger=None):
             spy["drawdown_60d"] = round(float(spy_raw.get("drawdown_60d", 0)), 5)
             spy["regime"] = _classify_regime(spy)
             spy["reversal_risk"] = _classify_reversal_risk(spy)
+            spy["explain"] = {
+                "regime": _explain_rules(spy, REGIME_RULES, REGIME_FALLBACK),
+                "reversal": _explain_rules(spy, REVERSAL_RULES, REVERSAL_FALLBACK),
+                # Breadth and persistence on the Regime card have never been
+                # measured: see the note further down this file on the stray
+                # breadth block. They sit at the 0.5 default. Published as a
+                # fact so the page can say so instead of explaining a
+                # placeholder as though it were a reading.
+                "unmeasured": ["breadth", "persistence"],
+            }
             # Sparkline history
             if spy_raw.get("history"):
                 spy["history"] = spy_raw["history"]
