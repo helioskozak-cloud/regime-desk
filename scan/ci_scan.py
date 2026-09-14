@@ -604,6 +604,10 @@ def compute_cross_asset(spy_state: dict) -> dict:
     complacency_score = _now("Complacency Risk",
                              min(1.0, max(0.0, spy_r20 * 4 + _vol_suppress)))
 
+    # Each axis carries its live reading and the condition that would invalidate
+    # it. What the axis MEASURES is caption copy and lives with the view, in
+    # docs/index.html (AX_MEASURES) — add an axis here, add its caption there,
+    # or the tooltip falls back to this description.
     risks = [
         {
             "name": "Volatility Regime",

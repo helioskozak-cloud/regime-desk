@@ -52250,6 +52250,42 @@ function _cardRisk(){
   // The description and the invalidation condition move to the row's tooltip.
   // They were never the thing being scanned for; they are what you check once a
   // row has caught your eye.
+  // ── WHAT EACH AXIS ACTUALLY MEASURES ────────────────────────────────────
+  //
+  // Owner, 2026-09-14: the tooltip should say what is being measured here,
+  // not recite the metrics. The metrics were never missing — VIX, HYG, TLT,
+  // CPER, IWM, TIP, UUP and SPY are all published in full in the Cross-Asset
+  // panel — so a tooltip repeating them was the same reading answered twice,
+  // and it crowded out the one thing this card could not tell you: what
+  // question the axis is asking.
+  //
+  // This is caption copy, not data. It never changes with a snapshot, so it
+  // lives in the view and renders whatever the build produced. An axis added
+  // upstream without a caption here falls back to its description rather than
+  // opening a blank tooltip.
+  const AX_MEASURES={
+    "Volatility Regime":
+      "How much movement the options market is pricing into the coming month. "+
+      "High readings mean protection is expensive and the tails are being quoted wider than normal.",
+    "Credit Stress":
+      "Whether lenders are still willing to fund the weaker end of the borrower stack. "+
+      "High yield is where funding stress surfaces first, usually while equities are still marking fine.",
+    "Rate Re-pricing":
+      "Whether the long end is moving against duration. This is the axis that hits long-duration "+
+      "equity and the bond sleeve at the same time, which is why it rarely shows up as diversification.",
+    "Growth Slowdown":
+      "Whether the cyclical, domestically-levered end of the market is confirming a growth scare or denying one. "+
+      "Copper and small caps re-price ahead of the macro prints they are supposedly reacting to.",
+    "Inflation Re-pricing":
+      "Whether inflation expectations are drifting off anchor. Read from breakeven behaviour rather than "+
+      "realised CPI, so it moves before the print rather than after it.",
+    "Dollar Headwind":
+      "Whether FX is working for or against overseas earnings and dollar-priced commodities. "+
+      "A strong dollar is a translation drag on multinational revenue and a direct headwind to commodity exposure.",
+    "Complacency Risk":
+      "Whether the market has been rising while pricing less risk, not more. "+
+      "It is the one axis where the benign-looking reading is the warning."
+  };
   const TH_MOD=45, TH_ELEV=65;
   function meter(r){
     const col=axCol(r.score||0);
@@ -52277,7 +52313,7 @@ function _cardRisk(){
     :`<span style="color:#484f58">n/a</span>`;
   const rows=risks.map(r=>{
     const col=axCol(r.score||0);
-    const tip=`${r.name} — ${r.description} Invalidation: ${r.invalidation}`
+    const tip=`${r.name} — ${AX_MEASURES[r.name]||r.description}\n\nInvalidation: ${r.invalidation}`
       .replace(/"/g,"&quot;");
     return`<div class="rax" title="${tip}">
       <span class="rax-name" style="color:${col}">${r.name}</span>
