@@ -47,8 +47,14 @@ setTimeout(() => {
   const home = vhome ? vhome.innerHTML : '';
 
   console.log('\n== criterion 2: reading and invalidation together ==');
-  const nAxes = ((w.SNAPSHOT && w.SNAPSHOT.risks) || []).length;
-  const nInval = (home.match(/Invalidation:/g) || []).length;
+  const snapAxes = (w.SNAPSHOT && w.SNAPSHOT.risks) || [];
+  const nAxes = snapAxes.length;
+  // The CONDITION, not the label. It used to be counted by matching the literal
+  // "Invalidation:" prefix, which broke on 2026-09-14 when the explainer panel
+  // relabelled it "What would say the risk has passed" — while still carrying
+  // every condition. Counting the prefix was testing the wording; checking each
+  // axis's own text is testing the criterion.
+  const nInval = snapAxes.filter((r) => r.invalidation && home.includes(r.invalidation)).length;
 
   ok(home.length > 0, 'Home rendered');
   ok(nAxes > 0, 'snapshot has risk axes (' + nAxes + ')');
@@ -62,11 +68,22 @@ setTimeout(() => {
   // clear the fold, so the card meant to be read at a glance had become one you
   // scrolled. The invalidation moved to the row's tooltip rather than being
   // dropped, which is why the count above still has to match.
+  //
+  // Then on 2026-09-14 it moved again, from the tooltip into a panel the row
+  // opens — owner: "this has just become a screen of numbers and I don't know
+  // what they all mean." A tooltip can hold one sentence; the panel holds the
+  // reading, the arithmetic and the thresholds as well. The criterion is
+  // unchanged and still enforced: reading and invalidation on the same screen,
+  // one axis to a row.
   console.log('\n== criterion 2b: one line per axis, meter and ranges ==');
   const rows = Array.from(w.document.querySelectorAll('#v-home .rax'));
   ok(rows.length === nAxes, 'one row per axis (' + rows.length + '/' + nAxes + ')');
-  ok(rows.every((r) => /Invalidation:/.test(r.getAttribute('title') || '')),
-     'every row keeps its invalidation, on the row itself');
+  ok(rows.every((r) => {
+    const panel = w.document.getElementById(r.dataset.why || '');
+    return panel && /What would say the risk has passed/.test(panel.innerHTML);
+  }), 'every row owns a panel carrying its invalidation');
+  ok(rows.every((r) => r.dataset.why && r.getAttribute('aria-controls') === r.dataset.why),
+     'every row is wired to the panel it claims to control');
   ok(rows.every((r) => r.querySelector('.rax-meter') && r.querySelector('.rax-now')),
      'every row draws a meter with a marker for today');
   ok(rows.every((r) => (r.textContent.match(/30d/g) || []).length === 1

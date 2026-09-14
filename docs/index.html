@@ -106,6 +106,24 @@ tr:hover td{background:#1c2128}
 .rax-rng{flex:0 0 auto;width:96px;text-align:right;font-family:var(--mono);font-size:11px;color:#8b949e;white-space:nowrap}
 .rax-val{flex:0 0 auto;width:46px;text-align:right;font-family:var(--mono);font-weight:700}
 @media(max-width:800px){.rax-rng{display:none}.rax-name{width:118px;flex:0 0 118px}}
+.rax{cursor:pointer}
+.rax-chev{flex:0 0 auto;width:14px;text-align:center;color:#6e7681;font-size:10px;user-select:none}
+.rax[aria-expanded="true"] .rax-chev{color:#f0f6fc}
+.rax-why{padding:2px 0 14px 0;border-bottom:1px solid #21262d;font-size:12.5px;line-height:1.65;color:#c9d1d9}
+.rax-why-in{margin-left:172px;padding:11px 13px;background:#161b22;border-radius:5px;border-left:3px solid #30363d}
+.rax-why h4{margin:0 0 5px 0;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#6e7681;font-weight:600}
+.rax-why p{margin:0 0 11px 0}
+.rax-why p:last-child{margin-bottom:0}
+.rax-sum{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 11px 0}
+.rax-chip{font-family:var(--mono);font-size:11.5px;padding:4px 8px;border-radius:4px;background:#0d1117;border:1px solid #30363d;white-space:nowrap}
+.rax-chip b{font-weight:700}
+.rax-chip.past{border-color:#f85149;color:#ffa198}
+.rax-chip.next{border-color:#e3b341}
+@media(max-width:800px){.rax-why-in{margin-left:0}}
+html.light .rax-why{border-color:#eaeef2;color:#3a4149}
+html.light .rax-why-in{background:#f6f8fa;border-left-color:#d0d7de}
+html.light .rax-chip{background:#ffffff;border-color:#d0d7de}
+html.light .rax-chip.past{border-color:#cf222e;color:#a40e26}
 html.light .rax{border-color:#eaeef2}
 html.light .rax-meter{background:#eaeef2}
 html.light .rax-tick{background:#afb8c1}
@@ -13251,6 +13269,114 @@ window.SNAPSHOT = {
         95.57,
         96.5
       ]
+    },
+    {
+      "ticker": "ADBE",
+      "name": "ADBE",
+      "sector": "Unknown",
+      "edge": -0.0038,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.034,
+      "p25": -0.0209,
+      "p50": -0.0026,
+      "p75": 0.0167,
+      "p90": 0.0412,
+      "hit_rate": 0.4,
+      "vol": 0.0132,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "TSLA",
+      "name": "TSLA",
+      "sector": "Unknown",
+      "edge": 0.0091,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0682,
+      "p25": -0.0312,
+      "p50": 0.0114,
+      "p75": 0.0355,
+      "p90": 0.0722,
+      "hit_rate": 0.533,
+      "vol": 0.035,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVDA",
+      "sector": "Unknown",
+      "edge": -0.0169,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0467,
+      "p25": -0.035,
+      "p50": -0.0045,
+      "p75": 0.0445,
+      "p90": 0.0864,
+      "hit_rate": 0.467,
+      "vol": 0.0272,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "CIFR",
+      "name": "CIFR",
+      "sector": "Unknown",
+      "edge": -0.0065,
+      "horizon": "5d",
+      "n_obs": 26,
+      "p10": -0.1448,
+      "p25": -0.063,
+      "p50": -0.0085,
+      "p75": 0.074,
+      "p90": 0.1321,
+      "hit_rate": 0.346,
+      "vol": 0.0446,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
+    },
+    {
+      "ticker": "ANRO",
+      "name": "ANRO",
+      "sector": "Unknown",
+      "edge": -0.0568,
+      "horizon": "5d",
+      "n_obs": 20,
+      "p10": -0.1157,
+      "p25": -0.0927,
+      "p50": -0.0482,
+      "p75": 0.0227,
+      "p90": 0.1045,
+      "hit_rate": 0.4,
+      "vol": 0.0343,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": true
+    },
+    {
+      "ticker": "JNJ",
+      "name": "JNJ",
+      "sector": "Unknown",
+      "edge": 0.0039,
+      "horizon": "5d",
+      "n_obs": 30,
+      "p10": -0.0176,
+      "p25": -0.0078,
+      "p50": 0.0057,
+      "p75": 0.0245,
+      "p90": 0.0391,
+      "hit_rate": 0.633,
+      "vol": 0.0098,
+      "below_threshold": true,
+      "from_watchlist": true,
+      "short_history": false
     }
   ],
   "watchlist": [
@@ -13383,51 +13509,51 @@ window.SNAPSHOT = {
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-1.1% (20d)",
+      "value": "-0.7% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.1% \u2014 range-bound rates"
+      "context": "20d ret -0.7% \u2014 range-bound rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "-1.0% (20d)",
+      "value": "-0.9% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.0% \u2014 stable credit"
+      "context": "20d ret -0.9% \u2014 stable credit"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-2.4% (20d)",
+      "value": "-2.1% (20d)",
       "signal": "bullish",
-      "context": "20d ret -2.4% \u2014 no safe-haven premium"
+      "context": "20d ret -2.1% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "+0.4% (20d)",
+      "value": "+0.2% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.4% \u2014 dollar neutral"
+      "context": "20d ret +0.2% \u2014 dollar neutral"
     },
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+25.6% (20d)",
+      "value": "+24.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +25.6% \u2014 energy bid; watch inflation pass-through"
+      "context": "20d ret +24.8% \u2014 energy bid; watch inflation pass-through"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "17.6",
+      "value": "17.0",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-8.4% (20d)",
+      "value": "-7.4% (20d)",
       "signal": "bearish",
-      "context": "20d ret -8.4% \u2014 semi weakness; growth concerns"
+      "context": "20d ret -7.4% \u2014 semi weakness; growth concerns"
     },
     {
       "name": "Russell 2000",
@@ -13446,32 +13572,40 @@ window.SNAPSHOT = {
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "-1.0% (20d)",
+      "value": "-0.8% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.0% \u2014 inflation expectations contained"
+      "context": "20d ret -0.8% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-3.9% (20d)",
+      "value": "-2.9% (20d)",
       "signal": "bearish",
-      "context": "20d ret -3.9% \u2014 growth selling; value rotation"
+      "context": "20d ret -2.9% \u2014 growth selling; value rotation"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "-1.2% (20d)",
+      "value": "-1.6% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.2% \u2014 financials lagging"
+      "context": "20d ret -1.6% \u2014 financials lagging"
     }
   ],
   "risks": [
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.2,
-      "description": "VIX at 17.6. Calm regime; vol suppression in force.",
+      "score": 0.18,
+      "description": "VIX at 17.0. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
+      "explain": {
+        "input_label": "VIX",
+        "input_value": "17.0",
+        "moderate_at": "24.6",
+        "elevated_at": "30.2",
+        "input_rises": true,
+        "note": null
+      },
       "range30": {
         "lo": 0.08,
         "hi": 0.209
@@ -13485,12 +13619,20 @@ window.SNAPSHOT = {
     {
       "name": "Credit Stress",
       "level": "moderate",
-      "score": 0.6,
-      "description": "HYG 20d -1.0%. Spread widening signals funding stress.",
+      "score": 0.59,
+      "description": "HYG 20d -0.9%. Spread widening signals funding stress.",
       "invalidation": "HYG recovers to 20d positive return",
+      "explain": {
+        "input_label": "HYG 20-day return",
+        "input_value": "-0.9%",
+        "moderate_at": "+0.5%",
+        "elevated_at": "-1.5%",
+        "input_rises": false,
+        "note": null
+      },
       "range30": {
         "lo": 0.368,
-        "hi": 0.596
+        "hi": 0.595
       },
       "range90": {
         "lo": 0.368,
@@ -13501,9 +13643,17 @@ window.SNAPSHOT = {
     {
       "name": "Rate Re-pricing",
       "level": "moderate",
-      "score": 0.59,
-      "description": "TLT 20d -1.1%. Bond sell-off = rates rising; duration assets under pressure.",
+      "score": 0.55,
+      "description": "TLT 20d -0.7%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
+      "explain": {
+        "input_label": "TLT 20-day return",
+        "input_value": "-0.7%",
+        "moderate_at": "+0.6%",
+        "elevated_at": "-1.9%",
+        "input_rises": false,
+        "note": null
+      },
       "range30": {
         "lo": 0.406,
         "hi": 0.774
@@ -13520,22 +13670,38 @@ window.SNAPSHOT = {
       "score": 0.8,
       "description": "Copper 20d -4.5%, IWM -5.4%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
+      "explain": {
+        "input_label": "Copper + Russell 2000, 20-day returns added",
+        "input_value": "-9.9%",
+        "moderate_at": "+1.7%",
+        "elevated_at": "-5.0%",
+        "input_rises": false,
+        "note": null
+      },
       "range30": {
         "lo": 0.13,
-        "hi": 0.8
+        "hi": 0.798
       },
       "range90": {
         "lo": 0.0,
-        "hi": 0.8
+        "hi": 0.798
       },
       "n90": 90
     },
     {
       "name": "Inflation Re-pricing",
       "level": "low",
-      "score": 0.22,
-      "description": "TIPS 20d -1.0%. Inflation expectations contained; Fed credibility intact.",
+      "score": 0.23,
+      "description": "TIPS 20d -0.8%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall",
+      "explain": {
+        "input_label": "TIP 20-day return",
+        "input_value": "-0.8%",
+        "moderate_at": "+1.9%",
+        "elevated_at": "+4.4%",
+        "input_rises": true,
+        "note": null
+      },
       "range30": {
         "lo": 0.201,
         "hi": 0.361
@@ -13549,12 +13715,20 @@ window.SNAPSHOT = {
     {
       "name": "Dollar Headwind",
       "level": "low",
-      "score": 0.43,
-      "description": "UUP 20d +0.4%. Dollar neutral to weak; no FX drag on multinationals.",
+      "score": 0.42,
+      "description": "UUP 20d +0.2%. Dollar neutral to weak; no FX drag on multinationals.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative",
+      "explain": {
+        "input_label": "UUP 20-day return",
+        "input_value": "+0.2%",
+        "moderate_at": "+0.6%",
+        "elevated_at": "+3.1%",
+        "input_rises": true,
+        "note": null
+      },
       "range30": {
         "lo": 0.21,
-        "hi": 0.429
+        "hi": 0.423
       },
       "range90": {
         "lo": 0.21,
@@ -13565,11 +13739,19 @@ window.SNAPSHOT = {
     {
       "name": "Complacency Risk",
       "level": "low",
-      "score": 0.09,
-      "description": "SPY +-2.3% / 20d with vol 0.57%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "score": 0.11,
+      "description": "SPY -2.3% / 20d with vol 0.57%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
+      "explain": {
+        "input_label": "SPY 20-day return",
+        "input_value": "-2.3%",
+        "moderate_at": "+6.6%",
+        "elevated_at": "+11.6%",
+        "input_rises": true,
+        "note": "Held at today's realised volatility; the vol half of this axis adds up to 30 points on its own when SPY is moving less than 1.5% a day."
+      },
       "range30": {
-        "lo": 0.094,
+        "lo": 0.113,
         "hi": 0.354
       },
       "range90": {
@@ -52311,17 +52493,73 @@ function _cardRisk(){
   const rngTxt=rg=>rg&&typeof rg.lo==="number"
     ?`${(rg.lo*100).toFixed(0)}–${(rg.hi*100).toFixed(0)}`
     :`<span style="color:#484f58">n/a</span>`;
+  // ---- CLICK AN AXIS TO SEE HOW ITS NUMBER WAS MADE ----------------------
+  //
+  // Owner, 2026-09-14: "this has just become a screen of numbers and I don't
+  // know what they all mean." The gap is not the finance - it is that nothing
+  // on screen connected a VIX of 17.0 to a score of 18.
+  //
+  // So the panel shows the reading, then INVERTS the formula. "Volatility
+  // Regime 18" is inert; "VIX is 17.0, and it would take 24.6 to turn this
+  // amber" is the same fact with a handle on it. Those thresholds are solved
+  // upstream from each axis's own function rather than written down here, so
+  // this panel cannot promise a colour change the meter does not make.
+  //
+  // A line already crossed is marked as crossed, never described as something
+  // that might happen. Growth Slowdown sits at 80 with its inputs at -9.9%
+  // against a -5.0% trigger; printing "red at -5.0%" without saying "you are
+  // past it" reads as a warning about the future instead of a description of
+  // now - the wrong way round for the one axis currently elevated.
+  function why(r){
+    const e=r.explain||{}, sc=(r.score||0), has=e.input_value!=null;
+    const chip=(lab,val,cls)=>`<span class="rax-chip ${cls||''}">${lab} <b>${val}</b></span>`;
+    let chips="";
+    if(has){
+      chips+=chip(e.input_label+":", e.input_value);
+      // Past vs upcoming is read off the SCORE, never by comparing the
+      // formatted strings: the input can run in either direction, and "-1.5%"
+      // against "+0.5%" is not a comparison string order knows how to make.
+      if(e.moderate_at!=null) chips+=chip("amber at", e.moderate_at, sc>=TH_MOD/100?"past":"next");
+      if(e.elevated_at!=null) chips+=chip("red at", e.elevated_at, sc>=TH_ELEV/100?"past":"next");
+    }
+    const dirn=e.input_rises===false?"falls to":"reaches";
+    const state=!has?""
+      : sc>=TH_ELEV/100 ? `Both lines are already behind it. This axis is <b>elevated now</b>, not heading there.`
+      : sc>=TH_MOD/100 ? `Past the amber line already. It turns red when ${e.input_label} ${dirn} ${e.elevated_at}.`
+      : `Below both lines. It turns amber when ${e.input_label} ${dirn} ${e.moderate_at}.`;
+    const r90=r.range90, r30=r.range30;
+    const rng=(r90&&typeof r90.lo==="number")
+      ? `<h4>Whether that is high for this axis</h4><p>Over 90 days it has run
+         ${(r90.lo*100).toFixed(0)}-${(r90.hi*100).toFixed(0)}; over 30,
+         ${(r30&&typeof r30.lo==="number")?`${(r30.lo*100).toFixed(0)}-${(r30.hi*100).toFixed(0)}`
+           :"too little history to say"}. Today is ${(sc*100).toFixed(0)}.</p>` : "";
+    return `<div class="rax-why" id="why-${r.name.replace(/\W+/g,'')}" hidden>
+      <div class="rax-why-in">
+        <h4>What this measures</h4><p>${AX_MEASURES[r.name]||r.description}</p>
+        ${has?`<h4>What it is reading, and what would move it</h4>
+          <div class="rax-sum">${chips}</div>
+          <p>${state}${e.note?` <span style="color:#8b949e">${e.note}</span>`:""}</p>`:""}
+        ${rng}
+        <h4>Today, in words</h4><p>${r.description}</p>
+        <h4>What would say the risk has passed</h4><p>${r.invalidation}</p>
+      </div>
+    </div>`;
+  }
+
   const rows=risks.map(r=>{
     const col=axCol(r.score||0);
-    const tip=`${r.name} — ${AX_MEASURES[r.name]||r.description}\n\nInvalidation: ${r.invalidation}`
+    const tip=`${r.name} — ${AX_MEASURES[r.name]||r.description}\n\nClick the row for how this number is made.`
       .replace(/"/g,"&quot;");
-    return`<div class="rax" title="${tip}">
+    const id="why-"+r.name.replace(/\W+/g,'');
+    return`<div class="rax" title="${tip}" role="button" tabindex="0"
+        aria-expanded="false" aria-controls="${id}" data-why="${id}">
       <span class="rax-name" style="color:${col}">${r.name}</span>
       ${meter(r)}
       <span class="rax-rng">30d ${rngTxt(r.range30)}</span>
       <span class="rax-rng">90d ${rngTxt(r.range90)}</span>
       <span class="rax-val" style="color:${col}">${((r.score||0)*100).toFixed(0)}</span>
-    </div>`;
+      <span class="rax-chev">&#9654;</span>
+    </div>${why(r)}`;
   }).join('');
   const anyRange=risks.some(r=>r.range90&&typeof r.range90.lo==="number");
   const foot=`${pill(cLevel)} across ${risks.length} axes · bar is 0–100; solid band is the last 30 days, faint band the last 90, grey ticks the 45 and 65 level thresholds, bright mark today. ${anyRange?"":"Ranges are unavailable in this snapshot and are shown as n/a rather than guessed. "}Hover a row for the reading and the condition that would say the risk has arrived.`;
@@ -54288,6 +54526,53 @@ window._rdAsk=function(q){
     setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},300);},1200);
   },true);
 })();
+})();
+
+/* Risk-axis explainer: open the panel under a row.
+ *
+ * Delegated on `document` rather than bound per row, because the Risk Axes card
+ * is re-rendered as a string every time the view changes and per-row listeners
+ * would be lost with the nodes that carried them.
+ *
+ * `hidden` rather than style.display: the page's reset carries
+ * [hidden]{display:none!important}, and a panel toggled by inline style would
+ * be re-shown by any later class change. One row open at a time — this is a
+ * comparison card, and three panels open push the other axes off the screen,
+ * which is the fault the one-line-per-axis rebuild existed to fix.
+ */
+(function(){
+  function closeAll(except){
+    document.querySelectorAll('.rax-why').forEach(function(w){
+      if(w!==except) w.hidden=true;
+    });
+    document.querySelectorAll('.rax[data-why]').forEach(function(r){
+      var w=document.getElementById(r.dataset.why);
+      r.setAttribute('aria-expanded', w && !w.hidden ? 'true' : 'false');
+      var c=r.querySelector('.rax-chev');
+      if(c) c.innerHTML = (w && !w.hidden) ? '&#9660;' : '&#9654;';
+    });
+  }
+  function toggle(row){
+    var w=document.getElementById(row.dataset.why);
+    if(!w) return;
+    w.hidden=!w.hidden;
+    // closeAll(w) covers both directions: when w is now open it is the one row
+    // spared, and when it is now closed sparing it changes nothing because it
+    // is already hidden. A mutation replacing a `wasOpen?null:w` ternary here
+    // changed no behaviour at all, which is how the branch was found to be dead.
+    closeAll(w);
+  }
+  document.addEventListener('click',function(e){
+    var row=e.target.closest && e.target.closest('.rax[data-why]');
+    if(row) toggle(row);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    var row=e.target.closest && e.target.closest('.rax[data-why]');
+    if(!row) return;
+    e.preventDefault();
+    toggle(row);
+  });
 })();
 </script>
 <div id="rd-tip"></div>

@@ -502,9 +502,13 @@ def compute_cross_asset(spy_state: dict) -> dict:
     spy_vol   = spy_state["vol_20d"]
     spy_r20   = spy_state["ret_20d"]
 
+    # Named, because the explainer solves for exactly these and a second copy
+    # would let the panel promise a colour change the meter does not make.
+    TH_MODERATE, TH_ELEVATED = 0.45, 0.65
+
     def _level(score):
-        if score >= 0.65: return "elevated"
-        if score >= 0.45: return "moderate"
+        if score >= TH_ELEVATED: return "elevated"
+        if score >= TH_MODERATE: return "moderate"
         return "low"
 
     iwm_r20 = asset_data["IWM"]["r20"] if "IWM" in asset_data else 0.0
@@ -525,7 +529,16 @@ def compute_cross_asset(spy_state: dict) -> dict:
     # value for "now". Two copies of a formula is how the bar ends up bracketing
     # a number it did not compute.
     def _clip(x):
-        return x.clip(lower=0.0, upper=1.0)
+        """Clamp to 0-1, for a Series or a bare number.
+
+        The same axis lambdas are applied to both a price history and today's
+        single reading, so this has to accept either. A scalar-only or
+        Series-only clip would force two copies of every formula.
+        """
+        try:
+            return x.clip(lower=0.0, upper=1.0)
+        except (AttributeError, TypeError):
+            return min(1.0, max(0.0, float(x)))
 
     def _r20(ticker):
         """20-session return series for a ticker, or None if it did not download."""
@@ -557,14 +570,42 @@ def compute_cross_asset(spy_state: dict) -> dict:
     # MISSING IS None, NEVER A FLAT LINE. A range drawn from an absent input
     # would read as "this axis has not moved in three months", which is the
     # opposite of "we could not measure it".
+    # ── ONE FORMULA PER AXIS, WRITTEN ONCE ──────────────────────────────────
+    #
+    # Each axis is a straight line from ONE reading to a 0-1 score, before
+    # clipping. Keeping the unclipped form named means three things can be
+    # derived from it instead of restated:
+    #
+    #   the SERIES  -> today's score and its 30/90-day range,
+    #   the SCALAR  -> the fallback when a series did not download,
+    #   the INVERSE -> the reading that would put this axis exactly on the
+    #                  moderate or elevated threshold.
+    #
+    # That last one is the point of the explainer panel. "Volatility Regime: 20"
+    # says nothing on its own; "VIX is 17.6, and it would take 24.6 to reach
+    # amber" is the same fact with a handle on it. Writing that threshold as a
+    # constant would be a second copy of the formula, and the first thing to go
+    # stale the day a divisor changes.
+    AXIS_RAW = {
+        "Volatility Regime":    lambda vix:    (vix - 12) / 28,
+        "Credit Stress":        lambda hyg:    0.5 - hyg * 10,
+        "Rate Re-pricing":      lambda tlt:    0.5 - tlt * 8,
+        "Growth Slowdown":      lambda cp_iwm: 0.5 - cp_iwm * 3,
+        "Inflation Re-pricing": lambda tip:    0.3 + tip * 8,
+        "Dollar Headwind":      lambda uup:    0.4 + uup * 8,
+    }
+
+    def _axis(name, x):
+        return _clip(AXIS_RAW[name](x))
+
     score_series = {
-        "Volatility Regime":   _clip((_vix_s - 12) / 28) if _vix_s is not None else None,
-        "Credit Stress":       _clip(0.5 - _hyg_s * 10) if _hyg_s is not None else None,
-        "Rate Re-pricing":     _clip(0.5 - _tlt_s * 8) if _tlt_s is not None else None,
-        "Growth Slowdown":     (_clip(0.5 - (_cper_s + _iwm_s) * 3)
+        "Volatility Regime":   _axis("Volatility Regime", _vix_s) if _vix_s is not None else None,
+        "Credit Stress":       _axis("Credit Stress", _hyg_s) if _hyg_s is not None else None,
+        "Rate Re-pricing":     _axis("Rate Re-pricing", _tlt_s) if _tlt_s is not None else None,
+        "Growth Slowdown":     (_axis("Growth Slowdown", _cper_s + _iwm_s)
                                 if _cper_s is not None and _iwm_s is not None else None),
-        "Inflation Re-pricing": _clip(0.3 + _tip_s * 8) if _tip_s is not None else None,
-        "Dollar Headwind":     _clip(0.4 + _uup_s * 8) if _uup_s is not None else None,
+        "Inflation Re-pricing": _axis("Inflation Re-pricing", _tip_s) if _tip_s is not None else None,
+        "Dollar Headwind":     _axis("Dollar Headwind", _uup_s) if _uup_s is not None else None,
         "Complacency Risk":    (_complacency(_spy_r20_s, _spy_vol_s)
                                 if _spy_r20_s is not None else None),
     }
@@ -583,6 +624,67 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "range30": {"lo": round(float(w30.min()), 3), "hi": round(float(w30.max()), 3)},
             "range90": {"lo": round(float(w90.min()), 3), "hi": round(float(w90.max()), 3)},
             "n90": int(len(w90)),
+        }
+
+    # ── THE EXPLAINER: WHAT FED THIS, AND WHAT WOULD MOVE IT ────────────────
+    #
+    # Owner, 2026-09-14: "this has just become a screen of numbers and I don't
+    # know what they all mean." The missing link is not the definition of VIX —
+    # it is that nothing on screen connects a VIX of 17.6 to a score of 20.
+    #
+    # So each axis carries the reading it was computed from, the rule in one
+    # sentence, and the two levels that reading would have to reach to change
+    # the axis's colour. The thresholds are SOLVED from the axis's own function,
+    # never written down: two probes define the line, because every axis is
+    # linear before clipping.
+    AXIS_INPUT = {
+        "Volatility Regime":    ("VIX", "level"),
+        "Credit Stress":        ("HYG 20-day return", "pct"),
+        "Rate Re-pricing":      ("TLT 20-day return", "pct"),
+        "Growth Slowdown":      ("Copper + Russell 2000, 20-day returns added", "pct"),
+        "Inflation Re-pricing": ("TIP 20-day return", "pct"),
+        "Dollar Headwind":      ("UUP 20-day return", "pct"),
+        "Complacency Risk":     ("SPY 20-day return", "pct"),
+    }
+
+    def _fmt_input(kind, x):
+        if x is None:
+            return None
+        return f"{x:.1f}" if kind == "level" else f"{x * 100:+.1f}%"
+
+    def _solve(raw, target):
+        """The input that puts `raw` exactly on `target`. Linear, so two probes."""
+        y0, y1 = float(raw(0.0)), float(raw(1.0))
+        slope = y1 - y0
+        if abs(slope) < 1e-12:
+            return None
+        return (target - y0) / slope
+
+    def _explain(name, value):
+        """What fed this axis, and what the feed would have to do to move it."""
+        label, kind = AXIS_INPUT.get(name, (None, None))
+        if label is None:
+            return {}
+        if name == "Complacency Risk":
+            # Two inputs, and the vol half is a bonus that is flat once vol is
+            # below 1.5%/day. Inverting on SPY's return with today's vol held
+            # fixed is the honest reduction, and it is said so on screen rather
+            # than presented as the whole rule.
+            raw = lambda r20: r20 * 4 + _vol_suppress
+        else:
+            raw = AXIS_RAW[name]
+        mod, elev = _solve(raw, TH_MODERATE), _solve(raw, TH_ELEVATED)
+        # Which way is bad? Derived, not asserted: probe the function.
+        rising = float(raw(1.0)) > float(raw(0.0))
+        return {
+            "input_label": label,
+            "input_value": _fmt_input(kind, value),
+            "moderate_at": _fmt_input(kind, mod),
+            "elevated_at": _fmt_input(kind, elev),
+            "input_rises": rising,
+            "note": ("Held at today's realised volatility; the vol half of this "
+                     "axis adds up to 30 points on its own when SPY is moving "
+                     "less than 1.5% a day.") if name == "Complacency Risk" else None,
         }
 
     # Today's readings, taken from the same series wherever one exists, so the
@@ -615,6 +717,7 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "score": round(vol_score, 2),
             "description": f"VIX at {vix_val:.1f}. {'Elevated fear; tails wider than normal.' if vol_score>0.5 else 'Calm regime; vol suppression in force.'}",
             "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
+            "explain": _explain("Volatility Regime", vix_val),
             **_ranges("Volatility Regime"),
         },
         {
@@ -623,6 +726,7 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "score": round(credit_score, 2),
             "description": f"HYG 20d {hyg_r20*100:+.1f}%. {'Spread widening signals funding stress.' if credit_score>0.5 else 'Credit broadly constructive; no systemic signal.'}",
             "invalidation": "HYG recovers to 20d positive return",
+            "explain": _explain("Credit Stress", hyg_r20),
             **_ranges("Credit Stress"),
         },
         {
@@ -631,6 +735,7 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "score": round(rate_score, 2),
             "description": f"TLT 20d {tlt_r20*100:+.1f}%. {'Bond sell-off = rates rising; duration assets under pressure.' if rate_score>0.5 else 'Rates stable to falling; supportive for equities.'}",
             "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
+            "explain": _explain("Rate Re-pricing", tlt_r20),
             **_ranges("Rate Re-pricing"),
         },
         {
@@ -639,6 +744,7 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "score": round(growth_score, 2),
             "description": f"Copper 20d {cper_r20*100:+.1f}%, IWM {iwm_r20*100:+.1f}%. {'Cyclical indicators softening.' if growth_score>0.5 else 'Cyclicals constructive; growth fears not confirmed.'}",
             "invalidation": "Copper and IWM both sustain positive 20d momentum",
+            "explain": _explain("Growth Slowdown", cper_r20 + iwm_r20),
             **_ranges("Growth Slowdown"),
         },
         {
@@ -647,6 +753,7 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "score": round(infl_score, 2),
             "description": f"TIPS 20d {tip_r20*100:+.1f}%. {'Breakevens rising; inflation expectations not anchored.' if infl_score>0.5 else 'Inflation expectations contained; Fed credibility intact.'}",
             "invalidation": "TIPS underperform nominal treasuries; breakevens fall",
+            "explain": _explain("Inflation Re-pricing", tip_r20),
             **_ranges("Inflation Re-pricing"),
         },
         {
@@ -655,14 +762,16 @@ def compute_cross_asset(spy_state: dict) -> dict:
             "score": round(dollar_score, 2),
             "description": f"UUP 20d {uup_r20*100:+.1f}%. {'Strong dollar compresses EM earnings and commodity prices.' if dollar_score>0.5 else 'Dollar neutral to weak; no FX drag on multinationals.'}",
             "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative",
+            "explain": _explain("Dollar Headwind", uup_r20),
             **_ranges("Dollar Headwind"),
         },
         {
             "name": "Complacency Risk",
             "level": _level(complacency_score),
             "score": round(complacency_score, 2),
-            "description": f"SPY +{spy_r20*100:.1f}% / 20d with vol {spy_vol*100:.2f}%/day. {'Extended rally with suppressed vol — historically precedes sharp corrections.' if complacency_score>0.5 else 'Risk/return balance reasonable; no excess complacency signal.'}",
+            "description": f"SPY {spy_r20*100:+.1f}% / 20d with vol {spy_vol*100:.2f}%/day. {'Extended rally with suppressed vol — historically precedes sharp corrections.' if complacency_score>0.5 else 'Risk/return balance reasonable; no excess complacency signal.'}",
             "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
+            "explain": _explain("Complacency Risk", spy_r20),
             **_ranges("Complacency Risk"),
         },
     ]
