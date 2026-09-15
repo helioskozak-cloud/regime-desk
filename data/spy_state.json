@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.01171,
-  "ret_20d": -0.02029,
-  "vol_20d": 0.00558,
-  "drawdown_60d": -0.02686,
+  "ret_5d": -0.01119,
+  "ret_20d": -0.01978,
+  "vol_20d": 0.00556,
+  "drawdown_60d": -0.02634,
   "history": [
     {
       "ret_5d": -0.00404,
@@ -119,29 +119,29 @@
       "drawdown_60d": -0.02185
     },
     {
-      "ret_5d": -0.01171,
-      "ret_20d": -0.02029,
-      "vol_20d": 0.00558,
-      "drawdown_60d": -0.02686
+      "ret_5d": -0.01119,
+      "ret_20d": -0.01978,
+      "vol_20d": 0.00556,
+      "drawdown_60d": -0.02634
     }
   ],
   "regime_streak": 13,
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3010,
+      "n": 3009,
       "n_typical": 3007,
-      "days": 703,
-      "value": 0.3382,
+      "days": 702,
+      "value": 0.3393,
       "range30": {
-        "lo": 0.3382,
+        "lo": 0.3393,
         "hi": 0.6963
       },
       "range90": {
-        "lo": 0.3382,
+        "lo": 0.3393,
         "hi": 0.6963
       },
-      "pct_rank": 0.0853,
+      "pct_rank": 0.0855,
       "history": [
         0.6198,
         0.6362,
@@ -162,31 +162,31 @@
         0.3672,
         0.4117,
         0.391,
-        0.3382
+        0.3393
       ]
     },
     "persistence": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 569,
-      "held": 487,
-      "base_rate": 0.7978,
+      "days": 568,
+      "held": 486,
+      "base_rate": 0.7975,
       "spells": 33,
       "median_spell": 8.0,
       "streak": 13,
-      "history_sessions": 732,
-      "value": 0.8559
+      "history_sessions": 731,
+      "value": 0.8556
     },
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 14,
+      "reversed": 13,
       "episodes": 9,
-      "base_days": 712,
-      "base_reversed": 259,
-      "base_rate": 0.3638,
-      "trailing_20d": -0.02029,
-      "value": 0.4667
+      "base_days": 711,
+      "base_reversed": 258,
+      "base_rate": 0.3629,
+      "trailing_20d": -0.01978,
+      "value": 0.4333
     }
   }
 }
