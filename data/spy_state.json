@@ -1,15 +1,9 @@
 {
-  "ret_5d": -0.01119,
-  "ret_20d": -0.01978,
-  "vol_20d": 0.00556,
-  "drawdown_60d": -0.02634,
+  "ret_5d": -0.00386,
+  "ret_20d": -0.01042,
+  "vol_20d": 0.00544,
+  "drawdown_60d": -0.02369,
   "history": [
-    {
-      "ret_5d": -0.00404,
-      "ret_20d": 0.02562,
-      "vol_20d": 0.0086,
-      "drawdown_60d": -0.01341
-    },
     {
       "ret_5d": -0.00444,
       "ret_20d": 0.02897,
@@ -123,27 +117,32 @@
       "ret_20d": -0.01978,
       "vol_20d": 0.00556,
       "drawdown_60d": -0.02634
+    },
+    {
+      "ret_5d": -0.00386,
+      "ret_20d": -0.01042,
+      "vol_20d": 0.00544,
+      "drawdown_60d": -0.02369
     }
   ],
-  "regime_streak": 13,
+  "regime_streak": 14,
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3009,
+      "n": 2837,
       "n_typical": 3007,
-      "days": 702,
-      "value": 0.3393,
+      "days": 703,
+      "value": 0.3581,
       "range30": {
-        "lo": 0.3393,
+        "lo": 0.3411,
         "hi": 0.6963
       },
       "range90": {
-        "lo": 0.3393,
+        "lo": 0.3411,
         "hi": 0.6963
       },
-      "pct_rank": 0.0855,
+      "pct_rank": 0.1053,
       "history": [
-        0.6198,
         0.6362,
         0.582,
         0.6045,
@@ -161,31 +160,32 @@
         0.4361,
         0.3672,
         0.4117,
-        0.391,
-        0.3393
+        0.3909,
+        0.3411,
+        0.3581
       ]
     },
     "persistence": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 568,
-      "held": 486,
-      "base_rate": 0.7975,
+      "days": 569,
+      "held": 487,
+      "base_rate": 0.7978,
       "spells": 33,
       "median_spell": 8.0,
-      "streak": 13,
-      "history_sessions": 731,
-      "value": 0.8556
+      "streak": 14,
+      "history_sessions": 732,
+      "value": 0.8559
     },
     "reversal": {
       "horizon": 20,
       "analogs": 30,
       "reversed": 13,
-      "episodes": 9,
-      "base_days": 711,
-      "base_reversed": 258,
-      "base_rate": 0.3629,
-      "trailing_20d": -0.01978,
+      "episodes": 11,
+      "base_days": 712,
+      "base_reversed": 259,
+      "base_rate": 0.3638,
+      "trailing_20d": -0.01042,
       "value": 0.4333
     }
   }
