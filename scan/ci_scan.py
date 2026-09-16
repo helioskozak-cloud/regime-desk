@@ -1026,6 +1026,36 @@ def main():
     except Exception as exc:
         print(f"WARNING: signal memory update failed — {exc}", flush=True)
 
+    # ── THE ENGINE GRADES ITSELF ────────────────────────────────────────────
+    #
+    # Written AFTER update_signal_memory so today's newly resolved outcomes are
+    # already in the log. Owner, 2026-09-16: the posted edge overstates realized
+    # return by roughly 3.5x and loses to SPY about 70% of the time, and nothing
+    # on the dashboard said so. Now the dashboard says so, from the engine's own
+    # record, and every consumer gets the ratio attached to the number.
+    #
+    # Never fatal: a scan that produced signals must still publish them if the
+    # scorecard cannot be built.
+    try:
+        import signal_calibration as _sigcal
+        _rows = []
+        _outcomes = DATA_DIR / "signal_outcomes.csv"
+        if _outcomes.exists():
+            _df = pd.read_csv(_outcomes)
+            _rows = _df.to_dict("records")
+        _sheet = _sigcal.scorecard(_rows)
+        (DATA_DIR / "signal_calibration.json").write_text(json.dumps(_sheet, indent=2))
+        _hz = _sheet.get("horizons", {})
+        print(f"Calibration: {_sheet['resolved']} resolved, "
+              f"{len(_hz)} horizon(s) measured, "
+              f"beat rate {(_sheet.get('beat_rate') or 0) * 100:.1f}%", flush=True)
+        for _h, _c in sorted(_hz.items()):
+            print(f"  {_h:>5}: posted {_c['predicted_mean'] * 100:6.2f}% -> "
+                  f"realized {_c['realized_mean'] * 100:6.2f}% (x{_c['ratio']:.2f}), "
+                  f"n={_c['n']}", flush=True)
+    except Exception as exc:
+        print(f"WARNING: signal calibration failed — {exc}", flush=True)
+
     # Paper portfolios — MOVED TO PAPA on 2026-07-29.
     #
     # The books now live in the private PAPA repo, which runs this same engine
