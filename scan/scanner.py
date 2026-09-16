@@ -203,3 +203,36 @@ def composite(rows: dict[str, dict],
             continue
         out[ticker] = float(sum(got) / len(got))
     return out
+
+
+def table(prices, volumes=None, bench: str = "SPY", min_bars: int = 260):
+    """Score a whole price panel at its last bar. Returns a DataFrame indexed
+    by ticker with every feature plus `composite`, best first.
+
+    Lives here rather than inline in ci_scan so it can be tested: the daily job
+    calls exactly the function the tests exercise.
+
+    A ticker with fewer than `min_bars` of history is ABSENT from the result,
+    never present with a zero — the same rule every feature above follows.
+    """
+    import pandas as _pd
+    if bench not in prices.columns:
+        raise ValueError(f"no {bench} column to measure strength against")
+    b = prices[bench].dropna()
+    if len(b) < min_bars:
+        raise ValueError(f"{bench} has {len(b)} bars, need {min_bars}")
+    rows = {}
+    for t in prices.columns:
+        s = prices[t].dropna()
+        if len(s) < min_bars:
+            continue
+        v = None
+        if volumes is not None and t in getattr(volumes, "columns", []):
+            v = volumes[t].dropna()
+        rows[t] = features(s, b, v)
+    if not rows:
+        return _pd.DataFrame()
+    out = _pd.DataFrame.from_dict(rows, orient="index")
+    out.index.name = "ticker"
+    out["composite"] = _pd.Series(composite(rows))
+    return out[out["composite"].notna()].sort_values("composite", ascending=False)

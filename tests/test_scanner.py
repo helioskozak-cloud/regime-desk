@@ -206,3 +206,56 @@ def test_a_downtrend_with_a_hot_month_outranks_a_grinding_riser_on_1m():
     assert rs_faller > rs_grinder
     # ...while the six-month picture still favours the grinder.
     assert sc.relative_strength(series(faller), bench, sc.HALF_YEAR) <            sc.relative_strength(grinder, bench, sc.HALF_YEAR)
+
+
+# ── the published table ──────────────────────────────────────────────────────
+
+def panel(n_tickers=30, n_bars=400, seed=5):
+    rng = np.random.default_rng(seed)
+    idx = pd.bdate_range("2023-01-02", periods=n_bars)
+    data = {"SPY": trend(n_bars, daily=0.0006, noise=0.008, seed=100).values}
+    for i in range(n_tickers):
+        data[f"T{i}"] = trend(n_bars, daily=float(rng.normal(0.0008, 0.0015)),
+                              noise=0.02, seed=i).values
+    return pd.DataFrame(data, index=idx)
+
+
+def test_table_scores_the_panel_best_first():
+    t = sc.table(panel())
+    assert not t.empty
+    assert "composite" in t.columns
+    assert list(t["composite"]) == sorted(t["composite"], reverse=True)
+    assert t["composite"].between(0, 1).all()
+
+
+def test_a_ticker_without_enough_history_is_absent_from_the_table():
+    """Not present with a zero, not ranked last — absent. A name the scanner
+    cannot measure is one it has no opinion about."""
+    p = panel()
+    p["NEWCO"] = np.nan
+    p.iloc[-30:, p.columns.get_loc("NEWCO")] = 50.0
+    t = sc.table(p)
+    assert "NEWCO" not in t.index
+    assert "T0" in t.index
+
+
+def test_the_table_refuses_to_run_without_a_benchmark():
+    """Every strength figure is benchmark-relative. Silently falling back to
+    raw returns would reintroduce the exact bias this module exists to remove,
+    and nothing downstream would be able to tell."""
+    p = panel().drop(columns=["SPY"])
+    try:
+        sc.table(p)
+    except ValueError as e:
+        assert "SPY" in str(e)
+    else:
+        raise AssertionError("scored a panel with no benchmark")
+
+
+def test_the_table_moves_when_a_new_bar_arrives():
+    p = panel()
+    today = sc.table(p)
+    yesterday = sc.table(p.iloc[:-1])
+    common = [t for t in today.index if t in yesterday.index]
+    moved = sum(1 for t in common if today.loc[t, "composite"] != yesterday.loc[t, "composite"])
+    assert moved > len(common) * 0.5, "most scores should change on a new bar"

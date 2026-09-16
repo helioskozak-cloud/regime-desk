@@ -917,6 +917,29 @@ def main():
     print("Running scan ...", flush=True)
     market_signals, theme_summary = run_scan(df, sectors_df)
 
+    # ── B4: WHAT EVERY NAME IS DOING NOW ────────────────────────────────────
+    #
+    # Published as its own file, alongside the conditional signals rather than
+    # mixed into them. They answer different questions and the walk-forward
+    # test (scan/validate.py) says so plainly: over 2021-2025 the conditional
+    # rule lost to a random draw at two of three horizons, while the scanner
+    # composite was positive at all three. Blending them was WORSE than the
+    # scanner alone at 60 days, so nothing here blends.
+    #
+    # PAPA consumes this to run its V5 books. Never fatal: a scan that produced
+    # signals must still publish them if the scanner cannot be built.
+    try:
+        import scanner as _scan
+        _out = _scan.table(prices, volumes)
+        if _out.empty:
+            print("WARNING: scanner scored nothing — not written", flush=True)
+        else:
+            _out.reset_index().to_csv(DATA_DIR / "scanner.csv", index=False)
+            print(f"Scanner: scored {len(_out)} of {len(prices.columns)} tickers "
+                  f"(top: {', '.join(_out.index[:5])})", flush=True)
+    except Exception as exc:
+        print(f"WARNING: scanner failed — {exc}", flush=True)
+
     # Save outputs
     market_signals.to_csv(DATA_DIR / "market_signals.csv", index=False)
     theme_summary.to_csv(DATA_DIR / "theme_summary.csv",  index=False)
