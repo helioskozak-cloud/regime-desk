@@ -47,6 +47,17 @@ FULL_INPUTS = {
                                    "holdings": {}, "history": [], "transactions": []}},
     "bubble_watch.json": {"years": [{"year": 1999, "doubled": 10, "halved": 2}]},
     "econ.json": {"series": {"CPI": [1, 2, 3]}},
+    # The engine's own report card (scan/signal_calibration.py). Must carry a
+    # non-empty "horizons", because the loader treats an unmeasured scorecard
+    # as absent rather than publishing a panel of zeros.
+    "signal_calibration.json": {
+        "resolved": 6886, "first_run": "2026-02-23", "last_run": "2026-09-09",
+        "beat_rate": 0.30,
+        "horizons": {"20d": {"horizon": "20d", "n": 3522, "predicted_mean": 0.0963,
+                             "realized_mean": 0.0293, "ratio": 0.30, "beat_rate": 0.339,
+                             "correlation": -0.082, "realized_p10": -0.16}},
+        "note": "research statistic, not for picking",
+    },
     "watchlist.txt": "AAA\n# a comment\nZZZ\n",
 }
 
