@@ -1,0 +1,170 @@
+"""B3 — the walk-forward harness. If any of these fail, every number the
+backtest produces is worthless, so they are the first thing to run."""
+import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scan"))
+
+import validate as v  # noqa: E402
+
+
+def synth(n=900, seed=0, tickers=("SPY", "AAA", "BBB", "CCC")):
+    """Deterministic price panel with business-day dates."""
+    rng = np.random.default_rng(seed)
+    idx = pd.bdate_range("2020-01-01", periods=n)
+    data = {}
+    for i, t in enumerate(tickers):
+        steps = rng.normal(0.0005 + i * 0.0002, 0.012, n)
+        data[t] = 100 * np.cumprod(1 + steps)
+    return pd.DataFrame(data, index=idx)
+
+
+# ── the property everything else depends on ──────────────────────────────────
+
+def test_a_decision_cannot_see_a_bar_that_has_not_happened():
+    """THE TEST THAT MAKES THE BACKTEST MEAN ANYTHING. Building candidates on
+    a frame that ends at the decision date must give exactly the same answer as
+    building them on a frame that runs years past it. If future bars leak in,
+    every alpha this harness reports is fiction."""
+    closes = synth(900)
+    as_of = closes.index[600]
+    feats_full = v.market_features(closes["SPY"])
+
+    truncated = closes.loc[:as_of]
+    feats_trunc = v.market_features(truncated["SPY"])
+
+    a = v.build_candidates(closes, feats_full, as_of, horizon=20)
+    b = v.build_candidates(truncated, feats_trunc, as_of, horizon=20)
+
+    assert not a.table.empty and not b.table.empty
+    pd.testing.assert_frame_equal(
+        a.table.sort_index(), b.table.sort_index(), check_exact=False, rtol=1e-9)
+
+
+def test_every_analog_day_has_a_finished_outcome_by_the_decision_date():
+    """An analog day 40 sessions back has no 120-day forward return yet.
+    Including it mixes a partial outcome into the evidence — silently, because
+    a partial window still produces a number."""
+    closes = synth(900)
+    feats = v.market_features(closes["SPY"])
+    as_of = closes.index[700]
+    as_of_pos = list(feats.index).index(as_of)
+    for horizon in (20, 60, 120):
+        dates = v.analog_dates(feats, as_of, horizon)
+        pos = {d: i for i, d in enumerate(feats.index)}
+        assert all(pos[d] + horizon <= as_of_pos for d in dates), \
+            f"an analog day's {horizon}-day window had not finished"
+
+
+def test_the_recent_window_is_excluded():
+    closes = synth(900)
+    feats = v.market_features(closes["SPY"])
+    as_of = feats.index[-1]
+    dates = v.analog_dates(feats, as_of, horizon=5, exclude_recent=30)
+    assert all(d <= feats.index[-31] for d in dates)
+
+
+def test_realised_reads_exactly_the_horizon_ahead():
+    """A fencepost here would score every rule against the wrong window."""
+    idx = pd.bdate_range("2021-01-01", periods=50)
+    closes = pd.DataFrame({"SPY": np.arange(100.0, 150.0), "AAA": np.arange(100.0, 150.0)}, index=idx)
+    as_of = idx[10]
+    got = v.realised(closes, as_of, horizon=5, tickers=["AAA"])
+    # price[15] / price[10] - 1 = 115/110 - 1
+    assert abs(float(got["AAA"]) - (115.0 / 110.0 - 1)) < 1e-12
+
+
+def test_no_outcome_when_the_horizon_runs_off_the_end():
+    """The last as-of dates have no future to be scored against; returning a
+    number there would invent one."""
+    closes = synth(300)
+    assert v.realised(closes, closes.index[-3], horizon=20, tickers=["AAA"]).empty
+
+
+# ── the candidate table ──────────────────────────────────────────────────────
+
+def test_excess_is_conditional_minus_that_stocks_own_baseline():
+    """The null is the stock's ordinary forward return, not zero. In a rising
+    market almost everything beats zero, which is how the live screen made
+    +20.7% at 120 days and still lost to SPY 78% of the time."""
+    closes = synth(900)
+    feats = v.market_features(closes["SPY"])
+    c = v.build_candidates(closes, feats, closes.index[600], horizon=20)
+    assert not c.table.empty
+    recomputed = c.table["cond"] - c.table["uncond"]
+    pd.testing.assert_series_equal(c.table["excess"], recomputed, check_names=False)
+
+
+def test_a_ticker_with_too_little_history_is_left_out_not_zeroed():
+    closes = synth(900)
+    closes["NEWCO"] = np.nan
+    closes.iloc[-40:, closes.columns.get_loc("NEWCO")] = 50.0
+    feats = v.market_features(closes["SPY"])
+    c = v.build_candidates(closes, feats, closes.index[600], horizon=20)
+    assert "NEWCO" not in c.table.index
+
+
+def test_episodes_collapse_adjacent_days():
+    """Thirty analog days that sit in three clusters are three pieces of
+    evidence, not thirty."""
+    days = pd.DatetimeIndex(
+        list(pd.bdate_range("2021-01-04", periods=5))
+        + list(pd.bdate_range("2022-06-01", periods=5))
+        + list(pd.bdate_range("2023-11-01", periods=5)))
+    assert v.episodes(days) == 3
+    assert v.episodes(pd.DatetimeIndex([])) == 0
+
+
+# ── the rules ────────────────────────────────────────────────────────────────
+
+def table(n=50, seed=1):
+    rng = np.random.default_rng(seed)
+    idx = [f"T{i}" for i in range(n)]
+    return pd.DataFrame({
+        "cond": rng.normal(0.05, 0.03, n),
+        "uncond": rng.normal(0.02, 0.01, n),
+        "spread": rng.uniform(0.05, 0.4, n),
+        "n_obs": rng.integers(6, 30, n),
+    }, index=idx).assign(excess=lambda d: d["cond"] - d["uncond"])
+
+
+def test_legacy_and_excess_disagree_about_what_to_buy():
+    """If they agreed the comparison would be pointless — the whole question is
+    whether subtracting the baseline changes the answer."""
+    t = table()
+    assert set(v.rule_legacy(t, None, 10)) != set(v.rule_excess(t, None, 10))
+
+
+def test_the_fdr_rule_is_allowed_to_buy_nothing():
+    """A day with nothing distinguishable from luck must produce an empty list,
+    not a top three. This is the behaviour the live engine never had."""
+    t = table()
+    t["spread"] = 5.0          # enormous dispersion: nothing is significant
+    t["n_obs"] = 6
+    assert v.rule_shrunk_fdr(t, None, 10) == []
+
+
+def test_the_control_draws_from_the_same_universe():
+    """Any rule that cannot beat this is not a rule."""
+    t = table()
+    picks = v.rule_random(t, None, 10, seed=3)
+    assert len(picks) == 10
+    assert all(p in t.index for p in picks)
+    assert picks != v.rule_random(t, None, 10, seed=4)
+
+
+def test_rules_that_need_the_scanner_abstain_without_it():
+    """Absent scanner scores must mean "no opinion", never "buy anything"."""
+    t = table()
+    assert v.rule_scanner(t, None, 10) == []
+    assert v.rule_combined(t, pd.Series(dtype=float), 10) == []
+
+
+def test_summary_reports_nothing_rather_than_zero_when_a_rule_never_fired():
+    r = v.RunResult("x", 20, [0, 0], [float("nan"), float("nan")], [])
+    s = r.summary()
+    assert s["runs"] == 0
+    assert s["mean_alpha"] is None and s["beat_rate"] is None
