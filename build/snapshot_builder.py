@@ -42,6 +42,9 @@ DEFAULTS = {
         "top_dates": [], "top_matches": [], "regime_context": "No analog data available."
     },
     "stock_memory": [],
+    # NULL, not an empty object: "not measured" and "measured at zero error"
+    # are different claims and the page renders them differently.
+    "calibration": None,
     "portfolios": {},
     "bubble_watch": {},
     "econ": {},
@@ -91,6 +94,10 @@ INPUT_CRITICALITY = {
     "portfolio_v1.json":  EXPECTED,
     "bubble_watch.json":  EXPECTED,
     "econ.json":          EXPECTED,
+    # The engine's own report card. EXPECTED rather than REQUIRED: a dashboard
+    # with no calibration is a dashboard that cannot warn, which is bad, but
+    # withholding the whole page over it would be worse.
+    "signal_calibration.json": EXPECTED,
     "watchlist.txt":      EXPECTED,
 
     # Absent by design. ticker_cache.json is gitignored — it is written by the
@@ -732,6 +739,32 @@ def build_snapshot(ledger=None):
                 print(f"[snapshot] Loaded econ: {len(econ['series'])} series")
         except Exception as exc:
             ledger.failed("econ.json", exc)
+
+    # ── THE ENGINE'S REPORT CARD ────────────────────────────────────────────
+    #
+    # Owner, 2026-09-16, on realising the daily page is a historical study and
+    # not a market snapshot. The posted edge overstates realized return by
+    # roughly 3.5x and loses to SPY about 70% of the time; the dashboard now
+    # publishes that from the engine's own resolved log, beside the numbers it
+    # applies to. Written by scan/signal_calibration.py during the daily scan.
+    cal_path = DATA / "signal_calibration.json"
+    if not cal_path.exists():
+        ledger.missing("signal_calibration.json")
+    else:
+        try:
+            with open(cal_path, "r", encoding="utf-8") as f:
+                cal = json.load(f)
+            # An empty log yields a scorecard with nothing measured. Publishing
+            # that as a calibration would put an authoritative-looking panel of
+            # zeros on the page; absent is the honest state.
+            if cal.get("horizons"):
+                snap["calibration"] = cal
+                print(f"[snapshot] Loaded calibration: {cal.get('resolved')} resolved, "
+                      f"{len(cal['horizons'])} horizons")
+            else:
+                ledger.missing("signal_calibration.json")
+        except Exception as exc:
+            ledger.failed("signal_calibration.json", exc)
 
     # Load cross-asset signals + risks
     if has_cross_asset:

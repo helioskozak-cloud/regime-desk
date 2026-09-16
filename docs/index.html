@@ -53632,7 +53632,54 @@ function renderStocks(){
     +(_pinnedTickers.length?'<button onclick="window._rdClearPinned()" style="background:none;border:1px solid #30363d;color:#6e7681;padding:4px 8px;border-radius:2px;cursor:pointer;font-size:11px">Clear all</button>':'')
     +'<span style="color:#6e7681;font-size:11px">Pin a ticker to see its full signal card above the table</span>'
     +'</div>';
-  return`<div class="card"><h2>Individual Stock Signals</h2>
+/* WHAT HAS A POSTED EDGE ACTUALLY BEEN WORTH?
+   Owner, 2026-09-16: "I was under the impression that I'm looking at a market
+   snapshot when I refresh this page daily... I thought they were looking for
+   stocks that performed well in certain market conditions but now im not so
+   sure."
+
+   The engine has logged and resolved 6,886 of its own predictions. They
+   overstate realized return by about 3.5x and lose to SPY roughly 70% of the
+   time. That belongs on the same screen as the numbers it applies to, not in a
+   conversation — so this sits directly above the signal table, and every edge
+   in that table can be read through it.
+
+   Absent when unmeasured. A panel of zeros would read as a feed with no error,
+   which is the opposite of the point. */
+function _rdCalPanel(){
+  const c = S.calibration;
+  if (!c || !c.horizons) return '';
+  const order = ['5d','20d','60d','120d'];
+  const hs = order.filter(h => c.horizons[h]).map(h => c.horizons[h]);
+  if (!hs.length) return '';
+  const pct = v => (v * 100).toFixed(1) + '%';
+  const cells = hs.map(h => {
+    const good = h.ratio >= 0.9;
+    const col = h.ratio < 0 ? '#f85149' : h.ratio < 0.5 ? '#d29922' : '#3fb950';
+    return '<div style="flex:1 1 150px;min-width:140px;background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:8px 10px">'
+      + '<div style="color:#7d8590;font-size:10px;text-transform:uppercase;letter-spacing:.06em">' + h.horizon + ' horizon</div>'
+      + '<div style="font-size:18px;font-weight:700;color:' + col + '">&times;' + h.ratio.toFixed(2) + '</div>'
+      + '<div style="color:#7d8590;font-size:11px">posted ' + pct(h.predicted_mean) + ' &rarr; <b style="color:#c9d1d9">' + pct(h.realized_mean) + '</b></div>'
+      + '<div style="color:#7d8590;font-size:11px">beat SPY ' + (h.beat_rate * 100).toFixed(0) + '% &middot; worst decile ' + pct(h.realized_p10) + '</div>'
+      + '<div style="color:#484f58;font-size:10px">n=' + h.n + '</div>'
+      + '</div>';
+  }).join('');
+  return '<div style="background:#161b22;border:1px solid #30363d;border-left:3px solid #d29922;border-radius:8px;padding:12px 14px;margin:0 0 14px">'
+    + '<div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:8px">'
+    + '<b style="font-size:13px">How good have these numbers been?</b>'
+    + '<span style="color:#7d8590;font-size:11px">measured on ' + c.resolved.toLocaleString() + ' of this engine\'s own predictions, '
+    + (c.first_run || '') + ' to ' + (c.last_run || '') + ' &mdash; it beat SPY in <b style="color:#c9d1d9">'
+    + ((c.beat_rate || 0) * 100).toFixed(0) + '%</b> of them</span></div>'
+    + '<div style="display:flex;gap:8px;flex-wrap:wrap">' + cells + '</div>'
+    + '<div style="color:#7d8590;font-size:11px;margin-top:9px;max-width:92ch">'
+    + 'Multiply an edge below by its horizon\'s factor to get what edges like it have actually delivered. '
+    + 'The gap is not an arithmetic error: a posted edge is the mean of about ten independent historical episodes, '
+    + 'selected as the best of roughly 7,800 candidates, so the winners are largely the names whose small samples got luckiest. '
+    + '<b style="color:#d29922">This table is a research statistic, not a buy list</b> &mdash; it is built to review names you already hold, '
+    + 'not to choose new ones.</div></div>';
+}
+
+  return`<div class="card"><h2>Individual Stock Signals</h2>${_rdCalPanel()}
   ${_horizonBar()}${filterBar}${wlBar}${lookupBar}
   <div id="rd-pinned-cards"></div>
   <p style="margin-bottom:12px;color:#8b949e">${isWl?`Watchlist mode — ${wlTickers.length} ticker${wlTickers.length!==1?'s':''}. `:''}${!isWl?sorted.length+' signals shown':''}.${_horizon!=='all'?' Horizon: '+_horizon+'.':''} Click headers to sort.</p>
