@@ -238,6 +238,21 @@ def test_a_ticker_without_enough_history_is_absent_from_the_table():
     assert "NEWCO" not in t.index
     assert "T0" in t.index
 
+    # THE CASE THAT ACTUALLY TESTS THE GUARD. Thirty bars is so short that
+    # composite() drops the name anyway for missing features, so removing the
+    # min_bars check changed nothing and the mutant survived. A name with ~120
+    # bars is the real boundary: it HAS rs_1m, rs_3m, above_50d and
+    # range_pos_20d — four features, enough for composite() to score it — but
+    # it has no 6-month strength and no 200-day average, so a full year of
+    # context does not exist and it must not be ranked against names that have
+    # one.
+    p2 = panel()
+    p2["YOUNGCO"] = np.nan
+    p2.iloc[-120:, p2.columns.get_loc("YOUNGCO")] = trend(120, daily=0.004).values
+    young = sc.features(p2["YOUNGCO"].dropna(), p2["SPY"].dropna())
+    assert sum(1 for f in sc.COMPOSITE_FEATURES if young[f] is not None) >= 4,         "fixture must be long enough for composite() to score it"
+    assert "YOUNGCO" not in sc.table(p2).index
+
 
 def test_the_table_refuses_to_run_without_a_benchmark():
     """Every strength figure is benchmark-relative. Silently falling back to
