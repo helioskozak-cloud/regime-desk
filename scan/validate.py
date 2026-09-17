@@ -60,6 +60,32 @@ DECISION RULES, fixed now:
   * Run parameters are the B3 run's: 900-name universe, 40 dates at 20d and
     60d, 36 at 120d, same local database. No rerun on other parameters to
     rescue a result; if one is ever done, it is reported beside this one.
+
+B5 / B6 — RESULTS, 2026-09-17 (data/validation_b5b6_*.json)
+-----------------------------------------------------------
+Paired alpha vs the random control, and average pick beta (control ~1.06).
+The pre-existing rules reproduce the B3 run to the basis point.
+
+                          20d      60d     120d    pick beta
+  legacy                -0.96%   +1.46%   -0.14%   1.51/1.31/0.84
+  legacy beta-neutral   -0.38%   -0.31%   -1.40%   1.00/0.86/0.40
+  excess beta-neutral   -0.11%   +0.70%   +3.50%   0.96/0.99/1.03
+  scanner               +1.04%   +2.88%   +5.56%   0.98/1.07/0.95
+  scanner beta-neutral  +0.34%   +3.48%   +4.00%   0.72/0.72/0.65
+  blend beta-neutral    +0.08%   -0.79%   +2.96%   1.03/1.04/1.05
+
+  B5: FINDING, for the scanner only. Positive vs control at all three
+      horizons after neutralisation (t 0.87 / 2.40 / 1.47, overlapping
+      windows, indicative). Legacy's 60d +1.46% does not survive it: that
+      was beta.
+  B6: FAILS. Negative vs control at 60d, and below neutral scanner at all
+      three horizons. Not considered for a future generation.
+
+  DISCLOSED, NOT RERUN: bucket neutralisation is not beta matching. Neutral
+  scanner's picks average beta ~0.7, because inside each bucket it prefers
+  the calmer names. It beat the control while carrying LESS market risk,
+  which strengthens rather than explains the result; a beta-MATCHED variant
+  is a different rule and would need its own pre-registration.
 """
 from __future__ import annotations
 
