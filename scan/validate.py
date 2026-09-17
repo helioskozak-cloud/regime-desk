@@ -32,6 +32,34 @@ the live engine exposed the problem:
 The rules being compared are deliberately plain, and none of their parameters
 is fitted here. Fitting on the same history that judges the result is exactly
 how a +53% edge came to deliver +20%.
+
+B5 / B6 — PRE-REGISTERED 2026-09-17, BEFORE EITHER WAS RUN
+-----------------------------------------------------------
+B5, BETA NEUTRALISATION. The old feed's top edge quartile carried beta 1.32
+against 0.97 at the bottom: ranking on a forward return partly ranks on beta.
+At each as-of date every candidate gets a trailing beta to SPY from the
+BETA_WINDOW (252) daily returns ending at the decision date — no later bar —
+and candidates are split into N_BUCKETS (5) equal-count beta buckets. A
+neutralised rule takes the top N_PICK / N_BUCKETS names by its own score
+INSIDE EACH bucket. Applied, unchanged otherwise, to legacy, excess and the
+scanner. Every rule's average pick beta is recorded, so whether neutralising
+did anything is measured rather than assumed.
+
+B6, THE BLEND, ONLY AFTER B5. Score = scanner percentile rank + excess
+percentile rank (each across that date's candidates, equal weight, nothing
+fitted), picked within the same beta buckets.
+
+DECISION RULES, fixed now:
+  * B5 is a finding if a neutralised rule's paired alpha vs the random control
+    is positive at all three horizons (20/60/120).
+  * B6 earns consideration for a future generation only if it is positive vs
+    the control at ALL THREE horizons AND beats neutralised scanner, paired on
+    the same dates, at AT LEAST TWO of three. The un-neutralised blend posted
+    the table's best cell and a negative neighbour; one strong cell is not
+    enough, and the bar is set before the numbers exist so it cannot move.
+  * Run parameters are the B3 run's: 900-name universe, 40 dates at 20d and
+    60d, 36 at 120d, same local database. No rerun on other parameters to
+    rescue a result; if one is ever done, it is reported beside this one.
 """
 from __future__ import annotations
 
@@ -51,6 +79,8 @@ ANALOG_N = 30
 EXCLUDE_RECENT = 30
 MIN_EPISODES = 5
 EPISODE_GAP_DAYS = 14
+BETA_WINDOW = 252
+N_BUCKETS = 5
 
 
 # ── data ─────────────────────────────────────────────────────────────────────
@@ -178,6 +208,53 @@ def build_candidates(closes: pd.DataFrame, feats: pd.DataFrame,
     return Candidates(as_of, horizon, table, len(dates), episodes(dates))
 
 
+# ── beta, as of a date (B5) ──────────────────────────────────────────────────
+
+def trailing_beta(closes: pd.DataFrame, as_of: pd.Timestamp, tickers,
+                  window: int = BETA_WINDOW) -> pd.Series:
+    """Beta to SPY over the `window` daily returns ending AT `as_of`.
+
+    Reads nothing after the decision date. A ticker with fewer than 80% of the
+    window's returns is left out (NaN), never assigned a beta of 1."""
+    past = closes.loc[:as_of].iloc[-(window + 1):]
+    rets = past.pct_change().iloc[1:]
+    if BENCH not in rets.columns:
+        return pd.Series(dtype=float)
+    b = rets[BENCH]
+    out = {}
+    for t in tickers:
+        if t not in rets.columns:
+            continue
+        pair = pd.concat([rets[t], b], axis=1).dropna()
+        if len(pair) < 0.8 * window:
+            continue
+        var = pair.iloc[:, 1].var()
+        if not var or var != var:
+            continue
+        out[t] = float(pair.iloc[:, 0].cov(pair.iloc[:, 1]) / var)
+    return pd.Series(out, dtype=float)
+
+
+def within_beta_buckets(score: pd.Series, beta: pd.Series, n: int,
+                        buckets: int = N_BUCKETS) -> list[str]:
+    """Top n // buckets names by `score` inside each equal-count beta bucket.
+
+    Names with no score or no beta cannot be placed and are left out. Fewer
+    than two names per bucket: abstain, rather than fill from one end."""
+    s = score.dropna()
+    bt = beta.dropna()
+    common = s.index.intersection(bt.index)
+    if len(common) < buckets * 2 or n < buckets:
+        return []
+    labels = pd.qcut(bt.loc[common].rank(method="first"), buckets, labels=False)
+    per = n // buckets
+    picks: list[str] = []
+    for k in range(buckets):
+        members = labels.index[labels == k]
+        picks += list(s.loc[members].nlargest(per).index)
+    return picks
+
+
 # ── outcomes ─────────────────────────────────────────────────────────────────
 
 def realised(closes: pd.DataFrame, as_of: pd.Timestamp, horizon: int,
@@ -200,6 +277,7 @@ class RunResult:
     picks_per_date: list[int]
     alpha: list[float]
     dates: list[pd.Timestamp]
+    pick_beta: list[float] = field(default_factory=list)
 
     def summary(self) -> dict:
         a = np.array([x for x in self.alpha if x == x])
@@ -218,6 +296,8 @@ class RunResult:
             # Across as-of dates, which overlap; treat as indicative, not exact.
             "t": float(a.mean() / se) if se and se == se and se > 0 else None,
             "avg_picks": float(picks.mean()) if len(picks) else 0.0,
+            "avg_pick_beta": (float(np.nanmean(self.pick_beta))
+                              if any(x == x for x in self.pick_beta) else None),
         }
 
 
@@ -278,6 +358,39 @@ def rule_combined(tab: pd.DataFrame, scan: pd.Series | None, n: int = N_PICK) ->
     return list(strong.nlargest(n, "excess").index)
 
 
+def _beta_col(tab: pd.DataFrame) -> pd.Series:
+    return tab["beta"] if "beta" in tab.columns else pd.Series(dtype=float)
+
+
+def rule_legacy_bn(tab: pd.DataFrame, scan: pd.Series | None, n: int = N_PICK) -> list[str]:
+    """B5: legacy's score, picked within beta buckets."""
+    return within_beta_buckets(tab["cond"], _beta_col(tab), n)
+
+
+def rule_excess_bn(tab: pd.DataFrame, scan: pd.Series | None, n: int = N_PICK) -> list[str]:
+    """B5: excess, picked within beta buckets."""
+    return within_beta_buckets(tab["excess"], _beta_col(tab), n)
+
+
+def rule_scanner_bn(tab: pd.DataFrame, scan: pd.Series | None, n: int = N_PICK) -> list[str]:
+    """B5: the scanner composite, picked within beta buckets."""
+    if scan is None or scan.empty:
+        return []
+    return within_beta_buckets(scan.reindex(tab.index), _beta_col(tab), n)
+
+
+def rule_blend_bn(tab: pd.DataFrame, scan: pd.Series | None, n: int = N_PICK) -> list[str]:
+    """B6: scanner rank + excess rank, equal weight, within beta buckets."""
+    if scan is None or scan.empty:
+        return []
+    sc = scan.reindex(tab.index)
+    both = sc.notna() & tab["excess"].notna()
+    if not both.any():
+        return []
+    score = sc[both].rank(pct=True) + tab.loc[both, "excess"].rank(pct=True)
+    return within_beta_buckets(score, _beta_col(tab), n)
+
+
 def rule_random(tab: pd.DataFrame, scan: pd.Series | None, n: int = N_PICK,
                 seed: int = 0) -> list[str]:
     """THE CONTROL. Any rule that cannot beat drawing names out of the same hat
@@ -295,6 +408,10 @@ RULES = {
     "shrunk+FDR": rule_shrunk_fdr,
     "scanner": rule_scanner,
     "combined": rule_combined,
+    "legacy beta-neutral": rule_legacy_bn,
+    "excess beta-neutral": rule_excess_bn,
+    "scanner beta-neutral": rule_scanner_bn,
+    "blend beta-neutral": rule_blend_bn,
     "random (control)": rule_random,
 }
 
@@ -333,6 +450,7 @@ def walk_forward(closes: pd.DataFrame, horizon: int, as_of_dates: list[pd.Timest
                 print(f"  {as_of.date()}: no candidates", flush=True)
             continue
         scan = scanner_scores(closes, as_of, list(cands.table.index))
+        cands.table["beta"] = trailing_beta(closes, as_of, list(cands.table.index))
         bench_fwd = realised(closes, as_of, horizon, [BENCH])
         if bench_fwd.empty:
             continue
@@ -345,6 +463,8 @@ def walk_forward(closes: pd.DataFrame, horizon: int, as_of_dates: list[pd.Timest
             res = results[name]
             res.picks_per_date.append(len(picks))
             res.dates.append(as_of)
+            res.pick_beta.append(float(cands.table["beta"].reindex(picks).mean())
+                                 if picks else float("nan"))
             if not picks:
                 res.alpha.append(float("nan"))
                 line.append(f"{name}: none")

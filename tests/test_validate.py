@@ -168,3 +168,72 @@ def test_summary_reports_nothing_rather_than_zero_when_a_rule_never_fired():
     s = r.summary()
     assert s["runs"] == 0
     assert s["mean_alpha"] is None and s["beat_rate"] is None
+
+
+
+# ── B5 / B6: beta neutralisation ────────────────────────────────────────────
+
+def test_trailing_beta_cannot_see_a_bar_after_the_decision():
+    closes = synth(n=700, tickers=("SPY", "AAA", "BBB"))
+    as_of = closes.index[500]
+    a = v.trailing_beta(closes, as_of, ["AAA", "BBB"])
+    b = v.trailing_beta(closes.loc[:as_of], as_of, ["AAA", "BBB"])
+    pd.testing.assert_series_equal(a, b)
+
+
+def test_trailing_beta_recovers_a_known_beta():
+    rng = np.random.default_rng(1)
+    idx = pd.bdate_range("2020-01-01", periods=400)
+    m = rng.normal(0.0004, 0.01, 400)
+    closes = pd.DataFrame({
+        "SPY": 100 * np.cumprod(1 + m),
+        "HI": 100 * np.cumprod(1 + 2.0 * m + rng.normal(0, 0.001, 400)),
+        "LO": 100 * np.cumprod(1 + 0.5 * m + rng.normal(0, 0.001, 400)),
+    }, index=idx)
+    beta = v.trailing_beta(closes, idx[-1], ["HI", "LO"])
+    assert abs(beta["HI"] - 2.0) < 0.1 and abs(beta["LO"] - 0.5) < 0.1
+
+
+def test_a_short_history_gets_no_beta_rather_than_one():
+    closes = synth(n=700, tickers=("SPY", "AAA"))
+    closes.loc[closes.index[:650], "AAA"] = np.nan
+    assert "AAA" not in v.trailing_beta(closes, closes.index[-1], ["AAA"]).index
+
+
+def test_neutral_picks_are_spread_evenly_across_beta_buckets():
+    """The point of B5: a score that tracks beta must not get to buy only the
+    top bucket."""
+    idx = [f"T{i}" for i in range(100)]
+    beta = pd.Series(np.linspace(0.2, 2.0, 100), index=idx)
+    score = beta.copy()                      # score IS beta: the worst case
+    picks = v.within_beta_buckets(score, beta, 20)
+    assert len(picks) == 20
+    buckets = pd.qcut(beta.rank(method="first"), 5, labels=False)
+    assert buckets.reindex(picks).value_counts().to_dict() == {k: 4 for k in range(5)}
+    # and the un-neutralised top 20 would all have come from one bucket
+    assert buckets.reindex(score.nlargest(20).index).nunique() == 1
+
+
+def test_neutral_rules_abstain_without_beta_or_scanner():
+    t = table()
+    assert v.rule_excess_bn(t, None, 10) == []          # no beta column
+    t["beta"] = np.linspace(0.5, 1.5, len(t))
+    assert len(v.rule_excess_bn(t, None, 10)) == 10
+    assert v.rule_scanner_bn(t, None, 10) == []
+    assert v.rule_blend_bn(t, pd.Series(dtype=float), 10) == []
+
+
+def test_the_blend_uses_both_ranks():
+    t = table()
+    t["beta"] = 1.0 + np.arange(len(t)) * 0.0      # one flat beta: buckets by order only
+    t["beta"] = np.linspace(0.5, 1.5, len(t))
+    scan = pd.Series(np.linspace(0, 1, len(t)), index=t.index)
+    only_scan = set(v.rule_scanner_bn(t, scan, 10))
+    only_excess = set(v.rule_excess_bn(t, scan, 10))
+    blend = set(v.rule_blend_bn(t, scan, 10))
+    assert blend != only_scan or blend != only_excess
+
+
+def test_summary_reports_average_pick_beta():
+    r = v.RunResult("x", 20, [20, 20], [0.01, 0.02], [], pick_beta=[1.2, 0.8])
+    assert abs(r.summary()["avg_pick_beta"] - 1.0) < 1e-12

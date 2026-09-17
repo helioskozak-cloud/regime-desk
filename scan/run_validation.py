@@ -68,7 +68,7 @@ def main() -> int:
     print("\n" + "=" * 78)
     print(f"WALK-FORWARD RESULT — horizon {args.horizon} bars, alpha vs SPY")
     print("=" * 78)
-    print(f"{'rule':<24}{'runs':>5}{'vs SPY':>9}{'vs random':>11}{'beat':>7}{'t':>7}{'picks':>7}")
+    print(f"{'rule':<24}{'runs':>5}{'vs SPY':>9}{'vs random':>11}{'beat':>7}{'t':>7}{'picks':>7}{'beta':>6}")
 
     # VERSUS THE CONTROL, ON THE SAME DATES. Every rule here is negative
     # against SPY, because an equal-weighted basket of these names simply
@@ -93,7 +93,8 @@ def main() -> int:
         print(f"{name:<24}{s['runs']:>5}{s['mean_alpha'] * 100:>8.2f}%{vr}"
               f"{s['beat_rate'] * 100:>6.0f}%"
               f"{(s['t'] if s['t'] is not None else float('nan')):>7.2f}"
-              f"{s['avg_picks']:>7.1f}")
+              f"{s['avg_picks']:>7.1f}"
+              f"{(s['avg_pick_beta'] if s['avg_pick_beta'] is not None else float('nan')):>6.2f}")
 
     out = {
         "horizon": args.horizon,
