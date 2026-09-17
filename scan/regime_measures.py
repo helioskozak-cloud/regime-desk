@@ -228,6 +228,65 @@ def analog_days(spy: pd.DataFrame, n: int, exclude_recent: int) -> pd.DataFrame:
     return historical.nsmallest(n, "distance")
 
 
+def analog_episode_ids(dates) -> dict:
+    """date -> episode id, clustering analog days the way run_scan does.
+
+    Adjacent analog days are one regime spell with overlapping forward windows,
+    so a new episode starts only when the gap to the previous analog day exceeds
+    EPISODE_GAP_CAL calendar days. Mirrors run_scan's ep_map exactly (sorted
+    dates, strict >), which tests/test_regime_measures.py pins."""
+    ordered = sorted(pd.to_datetime(list(dates)))
+    out, eid = {}, 0
+    for i, d in enumerate(ordered):
+        if i and (d - ordered[i - 1]).days > EPISODE_GAP_CAL:
+            eid += 1
+        out[d] = eid
+    return out
+
+
+def analog_days_payload(analogs: pd.DataFrame, as_of) -> dict:
+    """data/analog_days.json — today's analog days, published (2026-09-17).
+
+    finvisible's book-level stress test runs a household's CURRENT positions
+    forward from each past spell that looked like today. It needs the same days
+    the signals are conditioned on, not a second implementation of "a day like
+    today" that could quietly disagree — so the days are published from here.
+
+    Each episode carries an `anchor`: its CLOSEST day to today by distance. A
+    spell of eight adjacent analog days is one piece of evidence, and running a
+    book forward from all eight would count it eight times."""
+    a = analogs.copy()
+    a["date"] = pd.to_datetime(a["date"])
+    ep = analog_episode_ids(a["date"])
+    a["episode"] = a["date"].map(ep)
+    days = [{"date": d.strftime("%Y-%m-%d"), "distance": round(float(x), 4), "episode": int(e)}
+            for d, x, e in sorted(zip(a["date"], a["distance"], a["episode"]))]
+    episodes = []
+    for eid, g in a.groupby("episode"):
+        anchor = g.loc[g["distance"].idxmin()]
+        episodes.append({
+            "episode": int(eid),
+            "first": g["date"].min().strftime("%Y-%m-%d"),
+            "last": g["date"].max().strftime("%Y-%m-%d"),
+            "n_days": int(len(g)),
+            "anchor": anchor["date"].strftime("%Y-%m-%d"),
+            "anchor_distance": round(float(anchor["distance"]), 4),
+        })
+    return {
+        "as_of": pd.Timestamp(as_of).strftime("%Y-%m-%d"),
+        "features": ANALOG_FEATURES,
+        "episode_gap_days": EPISODE_GAP_CAL,
+        "n_days": len(days),
+        "n_episodes": len(episodes),
+        "days": days,
+        "episodes": sorted(episodes, key=lambda e: e["first"]),
+        "note": ("The past SPY sessions closest to today on 5- and 20-day return, "
+                 "20-day volatility and drawdown from the 60-day high — the same days "
+                 "market_signals.csv is conditioned on. Episodes collapse adjacent "
+                 "days; each episode's anchor is its closest day."),
+    }
+
+
 # ── REVERSAL ─────────────────────────────────────────────────────────────────
 
 REVERSAL_HORIZON = 20

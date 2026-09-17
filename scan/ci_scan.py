@@ -1029,7 +1029,18 @@ def main():
         analogs = rm.analog_days(spy_hist, SIMILAR_DAY_COUNT, EXCLUDE_RECENT_DAYS)
         measures["reversal"] = rm.reversal(spy_hist, analogs)
     except Exception as exc:
+        analogs = None
         measures["reversal"] = {"value": None, "reason": f"failed: {exc}"}
+    # Today's analog days, for finvisible's book-level stress test. Written only
+    # when they were computed; a stale file from yesterday is removed rather than
+    # left to describe a different day (its as_of would say so, but a reader
+    # that skips the date should find nothing, not the wrong days).
+    _analog_path = DATA_DIR / "analog_days.json"
+    if analogs is not None and len(analogs):
+        _analog_path.write_text(json.dumps(
+            rm.analog_days_payload(analogs, spy_hist["date"].iloc[-1]), indent=2))
+    elif _analog_path.exists():
+        _analog_path.unlink()
     spy_state["measures"] = measures
     for k, m in measures.items():
         print(f"  {k}: {m.get('value')} {m.get('reason', '')}", flush=True)

@@ -240,3 +240,47 @@ def test_analog_days_are_exactly_the_days_run_scan_used_to_pick(seed):
     new = rm.analog_days(spy, 30, 30)
     assert list(old["date"]) == list(new["date"])
     assert np.allclose(old["distance"].values, new["distance"].values)
+
+
+# ── published analog days (finvisible's stress test reads these) ────────────
+
+def _analog_spy_frame(n=800, seed=3):
+    rng = np.random.default_rng(seed)
+    close = 100 * np.exp(np.cumsum(rng.normal(0.0003, 0.01, n)))
+    df = pd.DataFrame({"date": pd.bdate_range("2023-01-02", periods=n), "close": close})
+    s = df["close"]
+    df["return_5"] = s.pct_change(5)
+    df["return_20"] = s.pct_change(20)
+    df["volatility"] = s.pct_change().rolling(20).std()
+    df["drawdown"] = s / s.rolling(60, min_periods=1).max() - 1
+    return df.dropna().reset_index(drop=True)
+
+
+def test_episode_ids_match_run_scans_own_clustering():
+    """run_scan builds ep_map inline; the published episodes must be the same
+    partition or the stress test runs on different evidence than the signals."""
+    spy = _analog_spy_frame()
+    analogs = rm.analog_days(spy, 30, 30)
+    dates = sorted(pd.to_datetime(analogs["date"]))
+    # run_scan's loop, verbatim in substance
+    ep_map, eid = {}, 0
+    for i, d in enumerate(dates):
+        if i and (d - dates[i - 1]).days > 14:
+            eid += 1
+        ep_map[d] = eid
+    assert rm.analog_episode_ids(analogs["date"]) == ep_map
+
+
+def test_payload_has_one_anchor_per_episode_and_it_is_the_closest_day():
+    spy = _analog_spy_frame()
+    analogs = rm.analog_days(spy, 30, 30)
+    p = rm.analog_days_payload(analogs, spy["date"].iloc[-1])
+    assert p["n_days"] == 30 == len(p["days"])
+    assert p["n_episodes"] == len(p["episodes"]) == len({d["episode"] for d in p["days"]})
+    for e in p["episodes"]:
+        members = [d for d in p["days"] if d["episode"] == e["episode"]]
+        assert e["n_days"] == len(members)
+        assert e["anchor_distance"] == min(d["distance"] for d in members)
+        assert e["first"] <= e["anchor"] <= e["last"]
+    # Nothing from the excluded recent month can be an analog.
+    assert max(d["date"] for d in p["days"]) < spy["date"].iloc[-30].strftime("%Y-%m-%d")
