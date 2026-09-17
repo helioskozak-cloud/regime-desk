@@ -1,8 +1,8 @@
 {
-  "ret_5d": 0.00665,
-  "ret_20d": -0.00805,
-  "vol_20d": 0.00611,
-  "drawdown_60d": -0.0193,
+  "ret_5d": 0.00629,
+  "ret_20d": -0.0084,
+  "vol_20d": 0.00607,
+  "drawdown_60d": -0.01964,
   "history": [
     {
       "ret_5d": -0.01964,
@@ -119,20 +119,20 @@
       "drawdown_60d": -0.03063
     },
     {
-      "ret_5d": 0.00665,
-      "ret_20d": -0.00805,
-      "vol_20d": 0.00611,
-      "drawdown_60d": -0.0193
+      "ret_5d": 0.00629,
+      "ret_20d": -0.0084,
+      "vol_20d": 0.00607,
+      "drawdown_60d": -0.01964
     }
   ],
   "regime_streak": 15,
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3012,
+      "n": 3011,
       "n_typical": 3008,
       "days": 704,
-      "value": 0.3712,
+      "value": 0.367,
       "range30": {
         "lo": 0.3089,
         "hi": 0.6963
@@ -141,7 +141,7 @@
         "lo": 0.3089,
         "hi": 0.6963
       },
-      "pct_rank": 0.1222,
+      "pct_rank": 0.1179,
       "history": [
         0.582,
         0.6045,
@@ -162,7 +162,7 @@
         0.3909,
         0.3411,
         0.3089,
-        0.3712
+        0.367
       ]
     },
     "persistence": {
@@ -180,13 +180,13 @@
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 11,
-      "episodes": 15,
+      "reversed": 12,
+      "episodes": 14,
       "base_days": 713,
       "base_reversed": 260,
       "base_rate": 0.3647,
-      "trailing_20d": -0.00805,
-      "value": 0.3667
+      "trailing_20d": -0.0084,
+      "value": 0.4
     }
   }
 }
