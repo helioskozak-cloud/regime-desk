@@ -347,3 +347,19 @@ def test_nearest_beta_falls_back_to_the_next_free_name_and_counts_it():
     matched, baskets, short = v.nearest_beta_baskets(picks, beta, draws=5, k=1, seed=0)
     for b in baskets:
         assert len(set(b)) == len(b) == 2
+
+
+# ── B7c: spliced series ──────────────────────────────────────────────────────
+
+def test_a_spliced_series_is_found_and_a_real_spike_is_not():
+    """CHRD's shape: a dead equity at cents stitched to new shares at $21.
+    AMC's squeeze (+300% in a day) is real and must survive the screen."""
+    idx = pd.bdate_range("2021-01-01", periods=6)
+    closes = pd.DataFrame({
+        "SPY":  [100, 101, 102, 101, 103, 104],
+        "CHRD": [0.07, 0.06, 21.16, 21.5, 22.0, 22.4],   # +35,000%
+        "DFSC": [10.0, 10.1, 0.30, 0.31, 0.30, 0.29],    # -97%
+        "AMC":  [5.0, 5.2, 20.8, 15.0, 14.0, 13.0],      # +300%, real
+        "DOWN": [10.0, 5.5, 5.4, 5.3, 5.2, 5.1],         # -45%, real
+    }, index=idx)
+    assert v.spliced_tickers(closes) == ["CHRD", "DFSC"]

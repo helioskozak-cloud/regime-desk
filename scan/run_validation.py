@@ -54,6 +54,8 @@ def main() -> int:
                     help="B7: also score this rule against a beta-matched control (repeatable)")
     ap.add_argument("--match-method", choices=["decile", "nearest"], default="decile",
                     help="B7 = decile, B7b = nearest")
+    ap.add_argument("--drop-splices", action="store_true",
+                    help="B7c: remove tickers with an impossible one-day move before the walk")
     args = ap.parse_args()
 
     tickers = universe(args.universe, args.universe_rev)
@@ -62,6 +64,11 @@ def main() -> int:
     print(f"Loading {len(tickers)} tickers from {v.DB.name} ...", flush=True)
     closes = v.load_closes(tickers)
     closes = closes.dropna(axis=1, thresh=400)
+    dropped = []
+    if args.drop_splices:
+        dropped = [t for t in v.spliced_tickers(closes) if t != v.BENCH]
+        closes = closes.drop(columns=dropped)
+        print(f"  removed as spliced series: {', '.join(dropped) or 'none'}", flush=True)
     print(f"  {closes.shape[1]} tickers with usable history, "
           f"{closes.index.min().date()} -> {closes.index.max().date()}", flush=True)
     if v.BENCH not in closes.columns:
@@ -126,6 +133,7 @@ def main() -> int:
         "horizon": args.horizon,
         "universe_rev": args.universe_rev,
         "match_method": args.match_method if args.matched else None,
+        "dropped_as_spliced": dropped,
         "as_of_dates": [str(d.date()) for d in as_of_dates],
         "universe": int(closes.shape[1]),
         "results": rows,

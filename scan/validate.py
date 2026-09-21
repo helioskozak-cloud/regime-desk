@@ -185,6 +185,34 @@ distorts beta, not the B5 result. Nine other names have a one-day move
 beyond +300% / -90% in this panel; most are real (AMC, DJT), DFSC is
 another splice. Fixing the data, or screening such names, is a change to
 the harness and needs the owner's decision and a fresh pre-registration.
+
+B7c — B7b ON A PANEL WITH SPLICED SERIES REMOVED. PRE-REGISTERED 2026-09-21
+---------------------------------------------------------------------------
+Owner, 2026-09-21: "try again then", to the plain-words proposal: drop
+stocks whose price history has an impossible one-day jump, more than
++1,000% or less than -95%, rerun everything on the cleaned list, report once.
+
+THE SCREEN, fixed now: before any rule sees the panel, every ticker with a
+close-to-close move above SPLICE_UP (+1,000%) or below SPLICE_DOWN (-95%) on
+any day of the loaded history is removed from it entirely — candidates,
+betas, picks, controls and outcomes alike. It is data cleaning, applied to
+the whole panel before the walk begins, not a rule, and it looks at the
+full history on purpose: a series spliced from two different securities is
+wrong at every date, including the outcome windows that cross the splice.
+Expected by the B7b diagnosis to remove CHRD and DFSC and nothing else; the
+names actually removed are printed and recorded, whatever they turn out to be.
+
+EVERYTHING ELSE IS B7b: nearest-beta control (NEAREST_K 10), 200 draws, the
+same seeds, the same 0.05 validity check, the same decision rule (a rule is
+a finding if positive vs its matched control at 20, 60 and 120 days; each of
+"scanner" and "scanner beta-neutral" judged on its own), B5's parameters and
+universe (cb2d56a). The plain-control table is reported again on the cleaned
+panel beside B5's, since removing names changes it; the reproduction check
+applies to the UNCLEANED run, which B7 and B7b already passed.
+
+THIS IS THE LAST RUN OF THIS QUESTION. If B7c's matching fails its check,
+the question is closed as not answerable with this harness; if it passes,
+its verdict is the answer, pass or fail.
 """
 from __future__ import annotations
 
@@ -209,6 +237,8 @@ N_BUCKETS = 5
 BETA_DECILES = 10       # B7
 MATCHED_DRAWS = 200     # B7
 NEAREST_K = 10          # B7b
+SPLICE_UP = 10.0        # B7c: +1,000% in one day
+SPLICE_DOWN = -0.95     # B7c: -95% in one day
 
 
 # ── data ─────────────────────────────────────────────────────────────────────
@@ -334,6 +364,15 @@ def build_candidates(closes: pd.DataFrame, feats: pd.DataFrame,
     table["excess"] = table["cond"] - table["uncond"]
     table = table[table["n_obs"] >= MIN_EPISODES].dropna(subset=["cond", "uncond"])
     return Candidates(as_of, horizon, table, len(dates), episodes(dates))
+
+
+def spliced_tickers(closes: pd.DataFrame, up: float = SPLICE_UP,
+                    down: float = SPLICE_DOWN) -> list[str]:
+    """B7c: tickers whose history has a one-day move no real security makes,
+    the signature of two securities stitched into one series."""
+    r = closes.pct_change(fill_method=None)
+    bad = ((r > up) | (r < down)).any()
+    return sorted(bad[bad].index)
 
 
 # ── beta, as of a date (B5) ──────────────────────────────────────────────────
