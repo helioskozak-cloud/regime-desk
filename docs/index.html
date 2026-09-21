@@ -52573,14 +52573,21 @@ const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 // tickers, superset of .stocks) carries price/change_pct/week_closes, written
 // by scan/ci_scan.py as `(curr - prev) / prev` — A FRACTION OVER ONE SESSION.
 // 0.137 is +13.7%, so it renders *100. news-desk's own stocks.json also has a
-// change_pct, but its UI prints it as `change_pct.toFixed(2)+'%'` — i.e. it
-// treats the same field name as already-percent. Two conventions, one name,
-// and a wrong guess is a silent 100× error, so nothing numeric is taken from
-// stocks.json here. It is fetched and used for company names only.
+// change_pct, and it is a PERCENT (checked against the live file 2026-09-21:
+// AAPL 336.13 -> 339.24 carried change_pct 0.93). Two conventions, one name,
+// and a wrong guess is a silent 100x error.
 //
-// Coverage is partial by design and the tab is honest about it: a ticker with
-// no SNAPSHOT entry renders as a bare symbol. Never a 0.00, never a dash —
-// both read as "flat", which is a different claim from "not covered".
+// NEWS-DESK PRICES AS A FALLBACK (owner, 2026-09-21). Only 15 of news-desk's
+// ~135 priced tickers are in SNAPSHOT, so most headline tickers rendered bare.
+// A ticker SNAPSHOT does not cover now takes news-desk's price, and its session
+// change is DERIVED as price / prev_close - 1 — unit-free by construction — so
+// news-desk's change_pct is never read at all and the 100x question cannot
+// arise. No prev_close: the price shows, the change does not. SNAPSHOT still
+// wins wherever it has the ticker, so every other tab and this one agree.
+//
+// Coverage stays honest: a ticker neither source prices renders as a bare
+// symbol. Never a 0.00, never a dash — both read as "flat", which is a
+// different claim from "not covered".
 function renderNews(){ return NEWSTAB.shell(); }
 
 window._rd_postrender_news=function(){ NEWSTAB.boot(); };
@@ -52597,6 +52604,7 @@ var NEWSTAB=(function(){
 
   var S={
     headlines:[], generated:null, names:{}, fetchedAt:null,
+    nd:{}, ndAsOf:null,   // news-desk quotes, the fallback price source
     tab:'news', q:'', src:'', typ:'', ticker:null,
     sources:[], types:[],
     book:[], bookLabel:null, bookSeeded:false, bookMsg:null,
@@ -52629,11 +52637,33 @@ var NEWSTAB=(function(){
         _px[s.ticker]={
           price:s.price,
           chg:(typeof s.change_pct==='number'&&isFinite(s.change_pct))?s.change_pct:null,
-          name:s.name||''
+          name:s.name||'', src:'scan'
         };
       });
     });
+    // Then news-desk, only where SNAPSHOT has nothing.
+    Object.keys(S.nd).forEach(function(t){
+      if(!_px[t]) _px[t]=S.nd[t];
+    });
     return _px;
+  }
+  /* news-desk's stocks.json -> {TICKER: {price, chg, src}}. Accepts the live
+   * shape ({stocks:[{ticker,...}]}) and a keyed one ({stocks:{TICKER:{...}}}).
+   * chg is price/prev_close - 1, never change_pct: see the units note above. */
+  function ndQuotes(doc){
+    var out={}, raw=doc&&doc.stocks;
+    if(!raw) return out;
+    var list=Array.isArray(raw) ? raw
+      : Object.keys(raw).map(function(k){ return Object.assign({ticker:k}, raw[k]||{}); });
+    list.forEach(function(x){
+      if(!x) return;
+      var t=up(x.ticker);
+      var px=x.price, prev=x.prev_close;
+      if(!t||typeof px!=='number'||!isFinite(px)||px<=0) return;
+      var chg=(typeof prev==='number'&&isFinite(prev)&&prev>0) ? px/prev-1 : null;
+      out[t]={price:px, chg:chg, name:x.name||'', src:'news-desk'};
+    });
+    return out;
   }
   function chgHTML(chg,digits){
     var col=chg>=0?'#3fb950':'#f85149';
@@ -52763,8 +52793,8 @@ var NEWSTAB=(function(){
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
     +'<footer>Headlines from news-desk, refetched every minute; it republishes every five. '
-    +'Price and session change are from the latest daily scan in this page — last close over previous close, not a live quote. '
-    +'A symbol shown on its own is one this build has no price for. Not investment advice.</footer>';
+    +'Price and session change come from this page\u2019s latest daily scan where it covers the ticker, and otherwise from news-desk\u2019s quote file, refreshed every few minutes (hover a price to see which). '
+    +'A symbol shown on its own is one neither source prices. Not investment advice.</footer>';
   }
 
   /* ── Rows ───────────────────────────────────────────────────────────── */
@@ -52772,7 +52802,9 @@ var NEWSTAB=(function(){
     var p=priceMap(),out='',first=tks[0],d=p[first];
     out+='<div class="nd-tk"><span class="nd-sym" data-ticker="'+esc(first)+'" data-tk="'+esc(first)+'">'+esc(first)+'</span>';
     if(d){
-      out+='<span class="nd-px">$'+d.price.toFixed(2)+'</span>';
+      out+='<span class="nd-px" title="'+(d.src==='news-desk'
+        ? 'From news-desk\u2019s quote file, refreshed every few minutes'
+        : 'From this page\u2019s latest daily scan: last close over previous close')+'">$'+d.price.toFixed(2)+'</span>';
       if(d.chg!=null) out+=chgHTML(d.chg,2);
     }
     out+='</div>';
@@ -52939,8 +52971,11 @@ var NEWSTAB=(function(){
     return Promise.all([head,stk]).then(function(res){
       var doc=res[0],stocks=res[1];
       if(stocks&&stocks.stocks){
-        Object.keys(stocks.stocks).forEach(function(k){
-          var n=stocks.stocks[k]&&stocks.stocks[k].name;
+        S.nd=ndQuotes(stocks);
+        S.ndAsOf=stocks.generated||null;
+        _px=null;   // rebuilt with the new fallback quotes
+        Object.keys(S.nd).forEach(function(k){
+          var n=S.nd[k].name;
           if(n&&!S.names[k]) S.names[k]=n;
         });
       }
