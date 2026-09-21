@@ -1,8 +1,8 @@
 {
-  "ret_5d": 0.01781,
-  "ret_20d": 0.01137,
-  "vol_20d": 0.00654,
-  "drawdown_60d": -0.00444,
+  "ret_5d": 0.0189,
+  "ret_20d": 0.01246,
+  "vol_20d": 0.00666,
+  "drawdown_60d": -0.00337,
   "history": [
     {
       "ret_5d": -0.01191,
@@ -119,10 +119,10 @@
       "drawdown_60d": -0.01838
     },
     {
-      "ret_5d": 0.01781,
-      "ret_20d": 0.01137,
-      "vol_20d": 0.00654,
-      "drawdown_60d": -0.00444
+      "ret_5d": 0.0189,
+      "ret_20d": 0.01246,
+      "vol_20d": 0.00666,
+      "drawdown_60d": -0.00337
     }
   ],
   "regime_streak": 17,
@@ -132,7 +132,7 @@
       "n": 3211,
       "n_typical": 3202,
       "days": 703,
-      "value": 0.3877,
+      "value": 0.388,
       "range30": {
         "lo": 0.3192,
         "hi": 0.6884
@@ -162,7 +162,7 @@
         0.3192,
         0.3788,
         0.3525,
-        0.3877
+        0.388
       ]
     },
     "persistence": {
@@ -180,13 +180,13 @@
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 11,
-      "episodes": 11,
+      "reversed": 9,
+      "episodes": 10,
       "base_days": 712,
       "base_reversed": 257,
       "base_rate": 0.361,
-      "trailing_20d": 0.01137,
-      "value": 0.3667
+      "trailing_20d": 0.01246,
+      "value": 0.3
     }
   }
 }
