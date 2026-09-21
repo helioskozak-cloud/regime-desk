@@ -213,6 +213,33 @@ applies to the UNCLEANED run, which B7 and B7b already passed.
 THIS IS THE LAST RUN OF THIS QUESTION. If B7c's matching fails its check,
 the question is closed as not answerable with this harness; if it passes,
 its verdict is the answer, pass or fail.
+
+B7c — RESULT, 2026-09-21 (data/validation_b7c_*.json): VALID. BOTH PASS.
+------------------------------------------------------------------------
+Removed as spliced: CHRD, DFSC (exactly the two expected). The matching
+check passed at every horizon (average beta, picks / control, all within
+0.02). Mean return vs the beta-matched control:
+
+                          20d      60d     120d    beta picks/control
+  scanner                +0.99%   +2.81%   +3.53%   1.34/1.33 1.33/1.31 1.38/1.36
+  scanner beta-neutral   +0.52%   +3.13%   +3.80%   1.07/1.07 1.08/1.08 1.08/1.08
+  (t 1.12/1.69/1.21 and 0.62/1.98/1.30: indicative, windows overlap.
+   20d is positive but weak for both.)
+
+  VERDICT: a FINDING for both rules. Their edge over random picks is not
+  market exposure; with the control carrying the same beta, the scanner
+  still wins at 20, 60 and 120 days. V5 carries on unchanged.
+
+CORRECTION TO B5, found by this run. B5's "neutral scanner's picks average
+beta ~0.7 ... it beat the control while carrying LESS market risk" was an
+artefact of the CHRD splice: one pick at beta -24 to -115 on four 2021
+dates dragged the average. On the cleaned panel neutral scanner's picks
+run beta ~1.08, the same as the random control, and the plain scanner's
+~1.35, a little HOTTER than it. The B5 verdicts stand; that sentence does
+not. The cleaned plain table also moves (scanner vs plain random at 120d
++2.77%, from +5.56%, mostly because DFSC's spliced outcomes had been
+dragging the random control); the beta-matched figures above are the ones
+that answer the question.
 """
 from __future__ import annotations
 
