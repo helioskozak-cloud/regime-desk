@@ -163,6 +163,28 @@ rule is chosen for its matching, which B7's failure is about, and both runs
 are reported side by side. No further variant after this one: if B7b's
 matching also fails its check, the question is reported as not answerable
 with this harness.
+
+B7b — RESULT, 2026-09-21 (data/validation_b7b_*.json): NOT VALID.
+------------------------------------------------------------------
+Plain results reproduce B5 again. The matching check FAILED as written
+(average beta, picks / control: scanner 0.98/1.32, 1.07/1.30, 0.95/1.35;
+neutral 0.72/1.07, 0.72/1.07, 0.65/1.07). Per the rule above, the question
+is NOT ANSWERABLE WITH THIS HARNESS AS IT STANDS, and no B7b number is read
+as a result.
+
+WHAT BROKE IT (diagnosed after the run, reported, not acted on): one bad
+price series. CHRD's history splices the pre-bankruptcy equity ($0.06) onto
+the new shares ($21.16) on 2020-11-20, a +25,733% "day". Inside the 252-day
+beta window that gives CHRD a beta of -24 to -115 on every 2021 date, and
+the scanner picked it on four of them. Nothing trades near beta -100, so no
+stand-in can match it, and one such pick drags a 20-name average by ~5.
+On the other dates the nearest-beta control matched to within ~0.04.
+CHRD's FORWARD returns are real (the new equity), and its whole effect on
+the scanner's mean paired return is ~0.2 points at 120d — the splice
+distorts beta, not the B5 result. Nine other names have a one-day move
+beyond +300% / -90% in this panel; most are real (AMC, DJT), DFSC is
+another splice. Fixing the data, or screening such names, is a change to
+the harness and needs the owner's decision and a fresh pre-registration.
 """
 from __future__ import annotations
 
