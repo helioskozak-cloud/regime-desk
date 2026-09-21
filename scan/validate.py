@@ -86,6 +86,52 @@ The pre-existing rules reproduce the B3 run to the basis point.
   the calmer names. It beat the control while carrying LESS market risk,
   which strengthens rather than explains the result; a beta-MATCHED variant
   is a different rule and would need its own pre-registration.
+
+B7 — BETA-MATCHED CONTROL. PRE-REGISTERED 2026-09-21, BEFORE IT WAS RUN
+-----------------------------------------------------------------------
+Owner, 2026-09-21: "go ahead" on the rule below, as written to him in plain
+words: the scanner has to beat equally-calm random picks at all three time
+frames, and no reruns if it fails.
+
+THE QUESTION. B5's control is a plain random draw (beta ~1.06); neutral
+scanner's picks ran ~0.7. The score is raw return, so part of any gap is
+market exposure, not selection, and which way it cuts depends on the path of
+the market over 2021-2025. B7 removes it by giving the control the SAME beta
+profile as the picks.
+
+THE MATCHED CONTROL, fixed now:
+  * On each as-of date, candidates with a trailing beta (the B5 beta, no bar
+    after the decision) are split into BETA_DECILES (10) equal-count deciles.
+  * For each pick, one stand-in is drawn at random from the same decile,
+    never a pick and never twice in one draw. If a decile has fewer non-pick
+    names than it needs, the draw for that decile is made WITH replacement
+    and counted in `short_deciles`, not dropped.
+  * The control's return is the mean over MATCHED_DRAWS (200) such baskets,
+    seeded per date: the expected return of a beta-matched random basket,
+    not one noisy draw.
+  * Picks with no beta cannot be matched and leave the pick basket too, so
+    both sides are names-with-beta only. Counted per date.
+  * Paired score per date = pick basket mean - matched control mean, both
+    over the same horizon from the same close. Matched-control beta and pick
+    beta are both recorded; if their averages differ by more than 0.05 at any
+    horizon the matching failed and the run is reported as not valid.
+
+RULES TESTED: "scanner" (the plain composite, what V5's Max Edge ranks on)
+and "scanner beta-neutral" (B5's rule). Each is judged on its own.
+
+DECISION RULES, fixed now:
+  * A rule is a B7 FINDING if its mean paired score vs the matched control is
+    positive at all three horizons (20/60/120). Anything else is a FAIL.
+  * Pass: its edge is selection, not market exposure; V5 carries on unchanged.
+    Fail: its edge is largely lower market exposure; the V5 book(s) ranking on
+    it are described as a low-volatility tilt and judged as one.
+  * Run parameters are B5's exactly: the first 900 names of universe_ci.csv
+    AS OF cb2d56a (the file was refreshed 2026-09-18), 40 dates at 20d and
+    60d, 36 at 120d, the same local database. Before any B7 number is read,
+    the plain-control results for both rules must reproduce B5's to the basis
+    point; if they do not, the run is invalid and that is reported instead.
+  * No rerun on other parameters to rescue a result. t-statistics are printed
+    as before and remain indicative: the as-of windows overlap.
 """
 from __future__ import annotations
 
@@ -107,6 +153,8 @@ MIN_EPISODES = 5
 EPISODE_GAP_DAYS = 14
 BETA_WINDOW = 252
 N_BUCKETS = 5
+BETA_DECILES = 10       # B7
+MATCHED_DRAWS = 200     # B7
 
 
 # ── data ─────────────────────────────────────────────────────────────────────
@@ -281,6 +329,39 @@ def within_beta_buckets(score: pd.Series, beta: pd.Series, n: int,
     return picks
 
 
+def beta_matched_baskets(picks: list[str], beta: pd.Series, draws: int = MATCHED_DRAWS,
+                         deciles: int = BETA_DECILES, seed: int = 0):
+    """B7: random baskets with the same beta-decile profile as `picks`.
+
+    Returns (matched_picks, baskets, short): the picks that had a beta (the
+    only ones that can be matched), `draws` stand-in baskets each as long as
+    matched_picks, and how many deciles had to be drawn with replacement.
+    Uses only the betas passed in, which are as-of-date betas."""
+    bt = beta.dropna()
+    matched = [p for p in picks if p in bt.index]
+    if not matched or len(bt) < deciles * 2:
+        return matched, [], 0
+    labels = pd.qcut(bt.rank(method="first"), deciles, labels=False)
+    pickset = set(picks)
+    need: dict[int, int] = {}
+    for p in matched:
+        need[int(labels[p])] = need.get(int(labels[p]), 0) + 1
+    pools = {k: [t for t in labels.index[labels == k] if t not in pickset] for k in need}
+    short = sum(1 for k, n in need.items() if len(pools[k]) < n)
+    rng = np.random.default_rng(seed)
+    baskets = []
+    for _ in range(draws):
+        b: list[str] = []
+        for k, n in need.items():
+            pool = pools[k]
+            if not pool:
+                continue
+            take = rng.choice(len(pool), size=n, replace=len(pool) < n)
+            b += [pool[i] for i in take]
+        baskets.append(b)
+    return matched, baskets, short
+
+
 # ── outcomes ─────────────────────────────────────────────────────────────────
 
 def realised(closes: pd.DataFrame, as_of: pd.Timestamp, horizon: int,
@@ -304,6 +385,12 @@ class RunResult:
     alpha: list[float]
     dates: list[pd.Timestamp]
     pick_beta: list[float] = field(default_factory=list)
+    # B7, filled only for rules named in walk_forward(matched_for=...)
+    matched: list[float] = field(default_factory=list)       # pick mean - matched mean
+    matched_pick_beta: list[float] = field(default_factory=list)
+    matched_ctrl_beta: list[float] = field(default_factory=list)
+    matched_unbeta: list[int] = field(default_factory=list)  # picks with no beta
+    matched_short: list[int] = field(default_factory=list)
 
     def summary(self) -> dict:
         a = np.array([x for x in self.alpha if x == x])
@@ -324,6 +411,23 @@ class RunResult:
             "avg_picks": float(picks.mean()) if len(picks) else 0.0,
             "avg_pick_beta": (float(np.nanmean(self.pick_beta))
                               if any(x == x for x in self.pick_beta) else None),
+            **self._matched_summary(),
+        }
+
+    def _matched_summary(self) -> dict:
+        m = np.array([x for x in self.matched if x == x])
+        if len(m) == 0:
+            return {}
+        se = m.std(ddof=1) / np.sqrt(len(m)) if len(m) > 1 else float("nan")
+        return {
+            "vs_matched": float(m.mean()),
+            "vs_matched_n": int(len(m)),
+            "vs_matched_beat_rate": float((m > 0).mean()),
+            "vs_matched_t": float(m.mean() / se) if se and se == se and se > 0 else None,
+            "matched_pick_beta": float(np.nanmean(self.matched_pick_beta)),
+            "matched_ctrl_beta": float(np.nanmean(self.matched_ctrl_beta)),
+            "matched_unbeta_picks": int(sum(self.matched_unbeta)),
+            "matched_short_deciles": int(sum(self.matched_short)),
         }
 
 
@@ -461,9 +565,34 @@ def scanner_scores(closes: pd.DataFrame, as_of: pd.Timestamp,
     return pd.Series(sc.composite(rows))
 
 
+def _score_matched(res: RunResult, closes: pd.DataFrame, as_of: pd.Timestamp,
+                   horizon: int, picks: list[str], beta: pd.Series, seed: int) -> None:
+    """B7: this date's picks against their beta-matched random baskets."""
+    matched, baskets, short = beta_matched_baskets(picks, beta, seed=seed)
+    res.matched_unbeta.append(len(picks) - len(matched))
+    res.matched_short.append(short)
+    if not matched or not baskets:
+        res.matched.append(float("nan"))
+        res.matched_pick_beta.append(float("nan"))
+        res.matched_ctrl_beta.append(float("nan"))
+        return
+    names = sorted(set(matched) | {t for b in baskets for t in b})
+    fwd = realised(closes, as_of, horizon, names)
+    pick_ret = fwd.reindex(matched).dropna()
+    ctrl = [fwd.reindex(b).dropna().mean() for b in baskets]
+    ctrl = [c for c in ctrl if c == c]
+    if pick_ret.empty or not ctrl:
+        res.matched.append(float("nan"))
+    else:
+        res.matched.append(float(pick_ret.mean()) - float(np.mean(ctrl)))
+    res.matched_pick_beta.append(float(beta.reindex(matched).mean()))
+    res.matched_ctrl_beta.append(float(np.mean([beta.reindex(b).mean() for b in baskets])))
+
+
 def walk_forward(closes: pd.DataFrame, horizon: int, as_of_dates: list[pd.Timestamp],
                  rules: dict = None, n_pick: int = N_PICK,
-                 verbose: bool = True) -> dict[str, RunResult]:
+                 verbose: bool = True,
+                 matched_for: tuple = ()) -> dict[str, RunResult]:
     """Run every rule at every as-of date and score it against SPY."""
     rules = rules or RULES
     feats = market_features(closes[BENCH])
@@ -502,6 +631,9 @@ def walk_forward(closes: pd.DataFrame, horizon: int, as_of_dates: list[pd.Timest
             a = float(got.mean()) - spy_ret
             res.alpha.append(a)
             line.append(f"{name}: {a * 100:+5.1f}")
+            if name in matched_for:
+                _score_matched(res, closes, as_of, horizon, picks,
+                               cands.table["beta"], seed=10_000 + i)
         if verbose:
             print(" | ".join(line), flush=True)
     return results

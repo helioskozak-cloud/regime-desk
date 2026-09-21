@@ -21,10 +21,21 @@ import validate as v  # noqa: E402
 ROOT = Path(__file__).parent.parent
 
 
-def universe(limit: int) -> list[str]:
-    """The CI universe, which is what the engine actually trades."""
+def universe(limit: int, rev: str | None = None) -> list[str]:
+    """The CI universe, which is what the engine actually trades.
+
+    `rev` reads the file as of a git commit instead of the working copy. The
+    universe is refreshed weekly, so reproducing an earlier run (B7 reproduces
+    B5, cb2d56a) needs the list that run actually used."""
     f = Path(__file__).parent / "universe_ci.csv"
-    df = pd.read_csv(f)
+    if rev:
+        import io
+        import subprocess
+        raw = subprocess.run(["git", "show", f"{rev}:scan/universe_ci.csv"],
+                             cwd=ROOT, capture_output=True, text=True, check=True).stdout
+        df = pd.read_csv(io.StringIO(raw))
+    else:
+        df = pd.read_csv(f)
     col = "ticker" if "ticker" in df.columns else df.columns[0]
     names = [str(t).strip().upper() for t in df[col].dropna()]
     names = [n for n in names if n and n.isalpha()]
@@ -37,9 +48,13 @@ def main() -> int:
     ap.add_argument("--dates", type=int, default=24)
     ap.add_argument("--universe", type=int, default=900)
     ap.add_argument("--out", default=str(ROOT / "data" / "validation.json"))
+    ap.add_argument("--universe-rev", default=None,
+                    help="read universe_ci.csv as of this git commit (reproducing a past run)")
+    ap.add_argument("--matched", action="append", default=[],
+                    help="B7: also score this rule against a beta-matched control (repeatable)")
     args = ap.parse_args()
 
-    tickers = universe(args.universe)
+    tickers = universe(args.universe, args.universe_rev)
     if v.BENCH not in tickers:
         tickers.append(v.BENCH)
     print(f"Loading {len(tickers)} tickers from {v.DB.name} ...", flush=True)
@@ -63,7 +78,8 @@ def main() -> int:
     print(f"{len(as_of_dates)} as-of dates, horizon {args.horizon} bars "
           f"({as_of_dates[0].date()} -> {as_of_dates[-1].date()})\n", flush=True)
 
-    results = v.walk_forward(closes, args.horizon, as_of_dates)
+    results = v.walk_forward(closes, args.horizon, as_of_dates,
+                             matched_for=tuple(args.matched))
 
     print("\n" + "=" * 78)
     print(f"WALK-FORWARD RESULT — horizon {args.horizon} bars, alpha vs SPY")
@@ -96,8 +112,16 @@ def main() -> int:
               f"{s['avg_picks']:>7.1f}"
               f"{(s['avg_pick_beta'] if s['avg_pick_beta'] is not None else float('nan')):>6.2f}")
 
+    for s in rows:
+        if "vs_matched" in s:
+            print(f"B7 {s['rule']:<22} vs matched {s['vs_matched'] * 100:+6.2f}%  "
+                  f"beat {s['vs_matched_beat_rate'] * 100:3.0f}%  t {s['vs_matched_t'] or float('nan'):5.2f}  "
+                  f"beta picks {s['matched_pick_beta']:.2f} / control {s['matched_ctrl_beta']:.2f}  "
+                  f"unbeta {s['matched_unbeta_picks']}  short {s['matched_short_deciles']}")
+
     out = {
         "horizon": args.horizon,
+        "universe_rev": args.universe_rev,
         "as_of_dates": [str(d.date()) for d in as_of_dates],
         "universe": int(closes.shape[1]),
         "results": rows,

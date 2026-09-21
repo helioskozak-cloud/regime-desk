@@ -237,3 +237,69 @@ def test_the_blend_uses_both_ranks():
 def test_summary_reports_average_pick_beta():
     r = v.RunResult("x", 20, [20, 20], [0.01, 0.02], [], pick_beta=[1.2, 0.8])
     assert abs(r.summary()["avg_pick_beta"] - 1.0) < 1e-12
+
+
+# ── B7: the beta-matched control ─────────────────────────────────────────────
+
+def _betas(n=100):
+    return pd.Series(np.linspace(0.2, 2.0, n), index=[f"T{i:03d}" for i in range(n)])
+
+
+def test_matched_baskets_copy_the_picks_beta_profile_exactly():
+    """THE PROPERTY B7 RESTS ON. Every stand-in comes from its pick's beta
+    decile, so the control carries the picks' market exposure by construction."""
+    beta = _betas()
+    picks = ["T000", "T001", "T050", "T098", "T099"]
+    matched, baskets, short = v.beta_matched_baskets(picks, beta, draws=50, seed=1)
+    labels = pd.qcut(beta.rank(method="first"), v.BETA_DECILES, labels=False)
+    want = sorted(labels[p] for p in picks)
+    assert matched == picks and short == 0 and len(baskets) == 50
+    for b in baskets:
+        assert sorted(labels[t] for t in b) == want
+        assert not set(b) & set(picks), "a pick stood in for itself"
+        assert len(set(b)) == len(b), "a name drawn twice in one basket"
+    mean_ctrl = np.mean([beta.reindex(b).mean() for b in baskets])
+    assert abs(mean_ctrl - beta.reindex(picks).mean()) < 0.05
+
+
+def test_a_pick_with_no_beta_leaves_both_sides():
+    beta = _betas()
+    matched, baskets, _ = v.beta_matched_baskets(["T010", "NOBETA"], beta, draws=5, seed=0)
+    assert matched == ["T010"]
+    assert all(len(b) == 1 for b in baskets)
+
+
+def test_matched_draws_are_reproducible_and_seed_dependent():
+    beta = _betas()
+    a = v.beta_matched_baskets(["T020", "T060"], beta, draws=10, seed=7)[1]
+    b = v.beta_matched_baskets(["T020", "T060"], beta, draws=10, seed=7)[1]
+    c = v.beta_matched_baskets(["T020", "T060"], beta, draws=10, seed=8)[1]
+    assert a == b and a != c
+
+
+def test_a_decile_too_small_is_drawn_with_replacement_and_counted():
+    beta = _betas(20)                       # two names per decile
+    picks = ["T000"]                        # decile 0 has one other name
+    _, baskets, short = v.beta_matched_baskets(picks, beta, draws=3, seed=0)
+    assert short == 0 and all(b == ["T001"] for b in baskets)
+    picks = ["T000", "T001"]                # decile 0 now has none left
+    matched, baskets, short = v.beta_matched_baskets(picks, beta, draws=3, seed=0)
+    assert matched == picks and baskets == [[], [], []] and short == 1
+
+
+def test_the_matched_score_is_pick_mean_minus_matched_mean():
+    """End to end on a synthetic panel: with every name's forward return known,
+    the recorded score must equal the arithmetic on those returns."""
+    closes = synth(700, tickers=("SPY",) + tuple(f"T{i:03d}" for i in range(40)))
+    as_of = closes.index[500]
+    beta = v.trailing_beta(closes, as_of, [c for c in closes.columns if c != "SPY"])
+    # One pick from each of four different deciles, so every pick has spare
+    # names beside it (the top four by beta would fill their decile alone).
+    picks = list(beta.sort_values().index[[2, 12, 22, 32]])
+    res = v.RunResult("x", 20, [], [], [])
+    v._score_matched(res, closes, as_of, 20, picks, beta, seed=3)
+    matched, baskets, _ = v.beta_matched_baskets(picks, beta, seed=3)
+    fwd = v.realised(closes, as_of, 20, sorted(set(closes.columns)))
+    want = fwd.reindex(matched).mean() - np.mean([fwd.reindex(b).mean() for b in baskets])
+    assert res.matched[0] == res.matched[0], "no score recorded"
+    assert abs(res.matched[0] - want) < 1e-12
