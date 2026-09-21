@@ -4,7 +4,7 @@ build.py — daily orchestrator for the self-evolving Regime Desk dashboard.
 Flow:
   1. Read current docs/index.html
   2. Refresh window.SNAPSHOT from data/ (skip cleanly if no data)
-  3. Call improver to apply one patch (skip if API key missing)
+  3. (retired 2026-09-21) the Claude-API improver — see below
   4. Validate proposed HTML
   5. Archive old HTML to history/
   6. Atomically promote new HTML
@@ -145,21 +145,14 @@ def main():
     else:
         print("[build] No data files found — skipping snapshot refresh")
 
-    # Step 2: Improve via Claude API
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
-    if api_key:
-        try:
-            from improver import improve
-            improved_html, patch_note = improve(working_html)
-            working_html = improved_html
-            improved = True
-            note = patch_note
-            print(f"[build] Improvement applied: {patch_note}")
-        except Exception as exc:
-            print(f"[build] WARNING: Improvement failed — {exc}")
-            note = f"improvement failed: {type(exc).__name__}"
-    else:
-        print("[build] ANTHROPIC_API_KEY not set — skipping improvement")
+    # Step 2 was the self-improver (build/improver.py), which asked Claude for
+    # one patch per run and published it to the live page unreviewed. RETIRED
+    # 2026-09-21 by the owner. Its last successful patch was 2026-06-22; the
+    # 436 runs after that failed (the page outgrew the request, then the API
+    # account ran out of credit), its prompt still described ten views the page
+    # no longer has, and every change since June was made by hand and tested.
+    # improver.py is kept for reference, not called. Reviving it would need a
+    # new prompt, a smaller payload, and a pull request instead of a push.
 
     # Step 3: Validate
     try:

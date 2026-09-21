@@ -1,6 +1,7 @@
 # Wishlist
 
-Items for the daily improvement agent to implement — one per run. Move to Done when applied.
+Ideas for the dashboard. The daily improvement agent that used to read this was
+retired on 2026-09-21; items here are now built by hand.
 
 ## Pending
 

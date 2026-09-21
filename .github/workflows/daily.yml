@@ -101,8 +101,9 @@ jobs:
 
       - name: Run build
         if: steps.freshness.outputs.fresh != 'true'
+        # No ANTHROPIC_API_KEY: the build no longer calls the API (improver
+        # retired 2026-09-21, see build/build.py).
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PYTHONUTF8: "1"
         run: python build/build.py
 
