@@ -52,6 +52,8 @@ def main() -> int:
                     help="read universe_ci.csv as of this git commit (reproducing a past run)")
     ap.add_argument("--matched", action="append", default=[],
                     help="B7: also score this rule against a beta-matched control (repeatable)")
+    ap.add_argument("--match-method", choices=["decile", "nearest"], default="decile",
+                    help="B7 = decile, B7b = nearest")
     args = ap.parse_args()
 
     tickers = universe(args.universe, args.universe_rev)
@@ -79,7 +81,8 @@ def main() -> int:
           f"({as_of_dates[0].date()} -> {as_of_dates[-1].date()})\n", flush=True)
 
     results = v.walk_forward(closes, args.horizon, as_of_dates,
-                             matched_for=tuple(args.matched))
+                             matched_for=tuple(args.matched),
+                             match_method=args.match_method)
 
     print("\n" + "=" * 78)
     print(f"WALK-FORWARD RESULT — horizon {args.horizon} bars, alpha vs SPY")
@@ -122,6 +125,7 @@ def main() -> int:
     out = {
         "horizon": args.horizon,
         "universe_rev": args.universe_rev,
+        "match_method": args.match_method if args.matched else None,
         "as_of_dates": [str(d.date()) for d in as_of_dates],
         "universe": int(closes.shape[1]),
         "results": rows,

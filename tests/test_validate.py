@@ -303,3 +303,47 @@ def test_the_matched_score_is_pick_mean_minus_matched_mean():
     want = fwd.reindex(matched).mean() - np.mean([fwd.reindex(b).mean() for b in baskets])
     assert res.matched[0] == res.matched[0], "no score recorded"
     assert abs(res.matched[0] - want) < 1e-12
+
+
+# ── B7b: the nearest-beta control ────────────────────────────────────────────
+
+def test_nearest_beta_stand_ins_sit_right_beside_their_pick():
+    """B7b's point: a calm pick inside a wide band gets a calm stand-in. The
+    decile control failed exactly here, so this is the property to pin."""
+    beta = _betas(200)
+    picks = ["T190", "T100", "T010"]
+    matched, baskets, short = v.nearest_beta_baskets(picks, beta, draws=40, seed=2)
+    assert matched == picks and short == 0 and len(baskets) == 40
+    step = beta.iloc[1] - beta.iloc[0]
+    for b in baskets:
+        assert not set(b) & set(picks) and len(set(b)) == len(b)
+    for j, p in enumerate(picks):
+        # every stand-in drawn for this pick is within the k nearest
+        gaps = [abs(beta[x] - beta[p]) for x in (v.nearest_beta_baskets([p], beta, draws=40, seed=2)[1][i][0] for i in range(40))]
+        assert max(gaps) <= (v.NEAREST_K / 2 + 1) * step + 1e-9
+    mean_ctrl = np.mean([beta.reindex(b).mean() for b in baskets])
+    assert abs(mean_ctrl - beta.reindex(picks).mean()) < 0.05
+
+
+def test_nearest_beta_fixes_the_case_decile_matching_got_wrong():
+    """The B7 failure, reproduced: a skewed top band where the pick is the
+    calmest member. Decile matching hands it a much jumpier stand-in; nearest
+    matching does not."""
+    beta = pd.Series(list(np.linspace(0.5, 1.5, 90)) + list(np.linspace(1.6, 4.0, 10)),
+                     index=[f"T{i:03d}" for i in range(100)])
+    pick = ["T090"]                          # beta 1.6, calmest of the top decile
+    _, dec, _ = v.beta_matched_baskets(pick, beta, draws=100, seed=0)
+    _, near, _ = v.nearest_beta_baskets(pick, beta, draws=100, seed=0)
+    gap = lambda bs: abs(np.mean([beta[b[0]] for b in bs]) - beta["T090"])
+    assert gap(dec) > 0.5
+    # Not zero: this fixture has a hole in the betas right beside the pick, so
+    # even the nearest names sit ~0.1 away. Real betas are continuous.
+    assert gap(near) < gap(dec) / 4
+
+
+def test_nearest_beta_falls_back_to_the_next_free_name_and_counts_it():
+    beta = _betas(12)
+    picks = [f"T{i:03d}" for i in range(0, 12, 6)]
+    matched, baskets, short = v.nearest_beta_baskets(picks, beta, draws=5, k=1, seed=0)
+    for b in baskets:
+        assert len(set(b)) == len(b) == 2

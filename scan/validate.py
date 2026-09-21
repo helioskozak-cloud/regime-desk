@@ -132,6 +132,37 @@ DECISION RULES, fixed now:
     point; if they do not, the run is invalid and that is reported instead.
   * No rerun on other parameters to rescue a result. t-statistics are printed
     as before and remain indicative: the as-of windows overlap.
+
+B7 — RESULT, 2026-09-21 (data/validation_b7_*.json): NOT VALID.
+-----------------------------------------------------------------
+The plain-control results reproduce B5 to the basis point (scanner +1.04 /
++2.88 / +5.56%, neutral scanner +0.34 / +3.48 / +4.00%). The matching FAILED
+its own check at every horizon, so no B7 number is read as a result:
+
+                          matched beta: picks / control
+  scanner                 0.98/1.32   1.07/1.29   0.95/1.33
+  scanner beta-neutral    0.72/1.06   0.72/1.05   0.65/1.05
+
+WHY. Decile bands are wide in the tails (the top decile spans beta ~1.6 to
+~4), and the scanner prefers the calmest names inside any band, as B5 found
+with buckets. A random name from the same decile is therefore jumpier than
+the pick it stands in for. Decile matching cannot fix a preference that
+operates WITHIN the bin. The question stays open; B7b below asks it again.
+
+B7b — NEAREST-BETA CONTROL. PRE-REGISTERED 2026-09-21, BEFORE IT WAS RUN
+------------------------------------------------------------------------
+Identical to B7 in every respect except how a stand-in is chosen: for each
+pick, one name drawn at random from the NEAREST_K (10) non-pick candidates
+whose as-of beta is closest to the pick's, never twice in one basket (if all
+ten are taken, the next nearest free name). Same 200 draws, same seeds,
+same rules, same parameters, same validity check (average control beta
+within 0.05 of average pick beta at every horizon), same decision rule
+(positive vs the matched control at 20, 60 and 120 days, each rule judged
+on its own). B7's invalid numbers were seen before this was written; this
+rule is chosen for its matching, which B7's failure is about, and both runs
+are reported side by side. No further variant after this one: if B7b's
+matching also fails its check, the question is reported as not answerable
+with this harness.
 """
 from __future__ import annotations
 
@@ -155,6 +186,7 @@ BETA_WINDOW = 252
 N_BUCKETS = 5
 BETA_DECILES = 10       # B7
 MATCHED_DRAWS = 200     # B7
+NEAREST_K = 10          # B7b
 
 
 # ── data ─────────────────────────────────────────────────────────────────────
@@ -358,6 +390,38 @@ def beta_matched_baskets(picks: list[str], beta: pd.Series, draws: int = MATCHED
                 continue
             take = rng.choice(len(pool), size=n, replace=len(pool) < n)
             b += [pool[i] for i in take]
+        baskets.append(b)
+    return matched, baskets, short
+
+
+def nearest_beta_baskets(picks: list[str], beta: pd.Series, draws: int = MATCHED_DRAWS,
+                         k: int = NEAREST_K, seed: int = 0):
+    """B7b: each pick's stand-in is drawn from the k non-picks nearest in beta.
+
+    Same return shape as beta_matched_baskets; `short` counts picks whose k
+    nearest were all already used in some basket and fell back to the next
+    nearest free name."""
+    bt = beta.dropna()
+    matched = [p for p in picks if p in bt.index]
+    others = bt.drop(index=[p for p in picks if p in bt.index])
+    if not matched or len(others) < k:
+        return matched, [], 0
+    order = {p: list((others - bt[p]).abs().sort_values(kind="mergesort").index) for p in matched}
+    rng = np.random.default_rng(seed)
+    baskets, short = [], 0
+    for _ in range(draws):
+        used: set[str] = set()
+        b: list[str] = []
+        for i in rng.permutation(len(matched)):
+            p = matched[i]
+            near = [t for t in order[p][:k] if t not in used]
+            if near:
+                t = near[rng.integers(len(near))]
+            else:
+                short += 1
+                t = next(x for x in order[p] if x not in used)
+            used.add(t)
+            b.append(t)
         baskets.append(b)
     return matched, baskets, short
 
@@ -566,9 +630,11 @@ def scanner_scores(closes: pd.DataFrame, as_of: pd.Timestamp,
 
 
 def _score_matched(res: RunResult, closes: pd.DataFrame, as_of: pd.Timestamp,
-                   horizon: int, picks: list[str], beta: pd.Series, seed: int) -> None:
-    """B7: this date's picks against their beta-matched random baskets."""
-    matched, baskets, short = beta_matched_baskets(picks, beta, seed=seed)
+                   horizon: int, picks: list[str], beta: pd.Series, seed: int,
+                   method: str = "decile") -> None:
+    """B7 / B7b: this date's picks against their beta-matched random baskets."""
+    maker = nearest_beta_baskets if method == "nearest" else beta_matched_baskets
+    matched, baskets, short = maker(picks, beta, seed=seed)
     res.matched_unbeta.append(len(picks) - len(matched))
     res.matched_short.append(short)
     if not matched or not baskets:
@@ -592,7 +658,8 @@ def _score_matched(res: RunResult, closes: pd.DataFrame, as_of: pd.Timestamp,
 def walk_forward(closes: pd.DataFrame, horizon: int, as_of_dates: list[pd.Timestamp],
                  rules: dict = None, n_pick: int = N_PICK,
                  verbose: bool = True,
-                 matched_for: tuple = ()) -> dict[str, RunResult]:
+                 matched_for: tuple = (),
+                 match_method: str = "decile") -> dict[str, RunResult]:
     """Run every rule at every as-of date and score it against SPY."""
     rules = rules or RULES
     feats = market_features(closes[BENCH])
@@ -633,7 +700,8 @@ def walk_forward(closes: pd.DataFrame, horizon: int, as_of_dates: list[pd.Timest
             line.append(f"{name}: {a * 100:+5.1f}")
             if name in matched_for:
                 _score_matched(res, closes, as_of, horizon, picks,
-                               cands.table["beta"], seed=10_000 + i)
+                               cands.table["beta"], seed=10_000 + i,
+                               method=match_method)
         if verbose:
             print(" | ".join(line), flush=True)
     return results
