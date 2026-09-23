@@ -132,7 +132,7 @@ const resetBook = async () => {
   eq('covered ticker shows price inline (no hover)', upCell.querySelector('.nd-px').textContent, wantPx);
   const wantChg = '+' + (FIXTURE.pxMap[up].change_pct * 100).toFixed(2) + '%';
   eq('change_pct rendered *100 as one-session %', upCell.querySelector('.nd-chg').textContent, wantChg);
-  ok('positive change is green #3fb950', /3fb950/.test(upCell.querySelector('.nd-chg').getAttribute('style')));
+  ok('positive change is green #3fae6a', /3fae6a/.test(upCell.querySelector('.nd-chg').getAttribute('style')));
   ok('sanity: that is a percent, not a fraction printed raw',
     Math.abs(parseFloat(wantChg) - FIXTURE.pxMap[up].change_pct * 100) < 1e-9);
 
@@ -143,7 +143,7 @@ const resetBook = async () => {
   ok('uncovered ticker shows no 0.00 / dash', !/0\.00|—|--/.test(bare.textContent), bare.textContent);
 
   const downCell = rows()[2].querySelector('.nd-tks');
-  ok('negative change is red #f85149', /f85149/.test(downCell.querySelector('.nd-chg').getAttribute('style')));
+  ok('negative change is red #e5484d', /e5484d/.test(downCell.querySelector('.nd-chg').getAttribute('style')));
   eq('negative change value', downCell.querySelector('.nd-chg').textContent,
     (FIXTURE.pxMap[down].change_pct * 100).toFixed(2) + '%');
 
