@@ -11,10 +11,10 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1117'/%3E%3Cg fill='%2358a6ff'%3E%3Crect x='5.5' y='18' width='6' height='9' rx='1.5'/%3E%3Crect x='13' y='11' width='6' height='16' rx='1.5'/%3E%3Crect x='20.5' y='5' width='6' height='22' rx='1.5'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--sans:'IBM Plex Sans',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:'IBM Plex Mono',ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+:root{--sans:'Geist',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:'Geist Mono',ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
 body{background:#050505;color:#c9c9c9;font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:#5b9dff;text-decoration:none}
 /* The bar stays full-bleed so its background spans the screen, but its
@@ -367,6 +367,24 @@ body{font-size:13px}
 .stat .key,.tile .sub{letter-spacing:var(--track)}
 html.light .card h2::before{background:#0969da}
 html.light #topbar{background:#f6f8fa!important}
+
+/* ── PAPA's layout, carried over (owner, 2026-09-23) ─────────────────────────
+   Use the whole width, keep rows tight, and put the space BETWEEN panels. */
+#main{max-width:none;padding:16px 24px}
+#topbar,#regime-banner{padding-left:24px!important;padding-right:24px!important}
+.card{padding:16px 18px;margin-bottom:16px}
+th{padding:5px 8px}
+td{padding:4px 8px}
+/* Analysis was seven cards in one column. On a wide screen the three short
+   prose cards sit three across and the two data panels side by side; the
+   order is fixed by renderAnalysis, so position is a stable handle. */
+@media(min-width:1400px){
+  #v-analysis.active{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:16px;align-items:start}
+  #v-analysis.active>*{grid-column:1/-1}
+  #v-analysis.active>.card{margin-bottom:16px}
+  #v-analysis.active>.card:nth-child(2),#v-analysis.active>.card:nth-child(3),#v-analysis.active>.card:nth-child(4){grid-column:span 2}
+  #v-analysis.active>.card:nth-child(6),#v-analysis.active>.card:nth-child(7){grid-column:span 3}
+}
 </style>
 </head>
 <body>
