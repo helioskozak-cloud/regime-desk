@@ -1,15 +1,9 @@
 {
-  "ret_5d": 0.01756,
-  "ret_20d": 0.00946,
-  "vol_20d": 0.00681,
-  "drawdown_60d": -0.00924,
+  "ret_5d": 0.02078,
+  "ret_20d": 0.00497,
+  "vol_20d": 0.00684,
+  "drawdown_60d": -0.01049,
   "history": [
-    {
-      "ret_5d": -0.00201,
-      "ret_20d": 0.03381,
-      "vol_20d": 0.00837,
-      "drawdown_60d": -0.01539
-    },
     {
       "ret_5d": -0.00387,
       "ret_20d": 0.0502,
@@ -119,43 +113,49 @@
       "drawdown_60d": -0.00316
     },
     {
-      "ret_5d": 0.01756,
-      "ret_20d": 0.00946,
-      "vol_20d": 0.00681,
-      "drawdown_60d": -0.00924
+      "ret_5d": 0.02365,
+      "ret_20d": 0.0155,
+      "vol_20d": 0.00664,
+      "drawdown_60d": -0.00332
+    },
+    {
+      "ret_5d": 0.02078,
+      "ret_20d": 0.00497,
+      "vol_20d": 0.00684,
+      "drawdown_60d": -0.01049
     }
   ],
-  "regime_streak": 18,
+  "regime_streak": 19,
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 7,
+      "n": 319,
       "n_typical": 3202,
-      "days": 701,
+      "days": 703,
       "value": null,
-      "reason": "only 7 names measurable on the latest session"
+      "reason": "the latest session measured 319 names against a typical 3202 \u2014 it had not finished loading"
     },
     "persistence": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 568,
-      "held": 488,
-      "base_rate": 0.8003,
+      "days": 569,
+      "held": 489,
+      "base_rate": 0.8006,
       "spells": 33,
       "median_spell": 8.0,
-      "streak": 18,
-      "history_sessions": 731,
-      "value": 0.8592
+      "streak": 19,
+      "history_sessions": 732,
+      "value": 0.8594
     },
     "reversal": {
       "horizon": 20,
       "analogs": 30,
       "reversed": 12,
-      "episodes": 13,
-      "base_days": 711,
+      "episodes": 15,
+      "base_days": 712,
       "base_reversed": 255,
-      "base_rate": 0.3586,
-      "trailing_20d": 0.00946,
+      "base_rate": 0.3581,
+      "trailing_20d": 0.00497,
       "value": 0.4
     }
   }
