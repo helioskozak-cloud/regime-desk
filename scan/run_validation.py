@@ -56,13 +56,21 @@ def main() -> int:
                     help="B7 = decile, B7b = nearest")
     ap.add_argument("--drop-splices", action="store_true",
                     help="B7c: remove tickers with an impossible one-day move before the walk")
+    ap.add_argument("--db", choices=["raw", "clean"], default="raw",
+                    help="raw = data/market_data.db as filled (the pre-registered default); "
+                         "clean = data/market_data_clean.db, deduplicated with the 16 broken "
+                         "series from SPLICE_REVIEW_2026-09-23 repaired (scan/repair_db.py)")
     args = ap.parse_args()
+    db = v.DB if args.db == "raw" else v.DB.with_name("market_data_clean.db")
+    if not db.exists():
+        print(f"ABORT: {db} not found" + (" — run scan/repair_db.py" if args.db == "clean" else ""))
+        return 1
 
     tickers = universe(args.universe, args.universe_rev)
     if v.BENCH not in tickers:
         tickers.append(v.BENCH)
-    print(f"Loading {len(tickers)} tickers from {v.DB.name} ...", flush=True)
-    closes = v.load_closes(tickers)
+    print(f"Loading {len(tickers)} tickers from {db.name} ...", flush=True)
+    closes = v.load_closes(tickers, db=db)
     closes = closes.dropna(axis=1, thresh=400)
     dropped = []
     if args.drop_splices:
@@ -132,6 +140,9 @@ def main() -> int:
     out = {
         "horizon": args.horizon,
         "universe_rev": args.universe_rev,
+        # Which copy of the prices a result came from, so a raw and a clean
+        # run can never be compared without it being said.
+        "db": args.db,
         "match_method": args.match_method if args.matched else None,
         "dropped_as_spliced": dropped,
         "as_of_dates": [str(d.date()) for d in as_of_dates],
