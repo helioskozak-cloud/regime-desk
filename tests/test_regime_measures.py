@@ -284,3 +284,24 @@ def test_payload_has_one_anchor_per_episode_and_it_is_the_closest_day():
         assert e["first"] <= e["anchor"] <= e["last"]
     # Nothing from the excluded recent month can be an analog.
     assert max(d["date"] for d in p["days"]) < spy["date"].iloc[-30].strftime("%Y-%m-%d")
+
+
+# ── analog forward returns ──────────────────────────────────────────────────
+
+def test_analog_forward_reads_spy_not_a_stock_cross_section():
+    # Steady +0.1%/session: every finished 20-session window returns the same.
+    closes = [100 * 1.001 ** i for i in range(300)]
+    spy = _spy_frame(closes)
+    analogs = spy.iloc[10:40]
+    r = rm.analog_forward(spy, analogs)
+    want = round(1.001 ** 20 - 1, 4)
+    assert r["analogs"] == 30 and r["horizon"] == 20
+    assert r["value"]["p10"] == r["value"]["p50"] == r["value"]["p90"] == want
+    assert r["base"]["p50"] == want and r["base_days"] == len(spy) - 20
+
+
+def test_analog_forward_withholds_when_windows_have_not_finished():
+    closes = list(100 * np.exp(np.cumsum(np.random.default_rng(5).normal(0, 0.01, 300))))
+    spy = _spy_frame(closes)
+    r = rm.analog_forward(spy, spy.tail(30))
+    assert r["analogs"] == 10 and r["value"] is None and "finished" in r["reason"]

@@ -348,6 +348,42 @@ def reversal(spy: pd.DataFrame, analogs: pd.DataFrame,
     return out
 
 
+# ── ANALOG FORWARD RETURNS ───────────────────────────────────────────────────
+
+ANALOG_FWD_HORIZON = 20
+ANALOG_FWD_MIN = 20
+
+
+def analog_forward(spy: pd.DataFrame, analogs: pd.DataFrame,
+                   horizon: int = ANALOG_FWD_HORIZON) -> dict:
+    """SPY's next `horizon` sessions after each analog day, p10..p90.
+
+    Added 2026-09-24. The Analysis tab's distribution tile had been reading the
+    medians of the top 30 stocks BY EDGE — a cross-section selected for being
+    high, at mixed horizons — so it showed p50 +73% under a caption about
+    analog days. This is the number the caption describes, with the same
+    percentiles over every day as the base it has to be read against.
+    """
+    spy = spy.reset_index(drop=True)
+    fwd = spy["close"].shift(-horizon) / spy["close"] - 1
+    by_date = dict(zip(pd.to_datetime(spy["date"]), fwd))
+    vals = [by_date.get(d) for d in pd.to_datetime(analogs["date"])]
+    vals = np.array([v for v in vals if v is not None and pd.notna(v)], dtype=float)
+    base = fwd.dropna().to_numpy(dtype=float)
+
+    def pct(a):
+        return {f"p{q}": round(float(np.percentile(a, q)), 4) for q in (10, 25, 50, 75, 90)}
+
+    out = {"horizon": horizon, "analogs": int(len(vals)), "base_days": int(len(base)),
+           "base": pct(base) if len(base) else None}
+    if len(vals) < ANALOG_FWD_MIN:
+        out["value"] = None
+        out["reason"] = f"only {len(vals)} analog days have a finished {horizon}-session window"
+    else:
+        out["value"] = pct(vals)
+    return out
+
+
 # ── BREADTH ──────────────────────────────────────────────────────────────────
 
 BREADTH_MA = 50

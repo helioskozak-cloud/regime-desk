@@ -37,8 +37,10 @@ DEFAULTS = {
     "sectors": [], "stocks": [], "all_signals": [], "watchlist": [], "themes": [], "signals": [], "risks": [],
     "analog": {
         "n_days": 30, "exclude_recent": 30,
-        "spy_p10": -0.03, "spy_p25": 0.01, "spy_p50": 0.05,
-        "spy_p75": 0.10, "spy_p90": 0.17,
+        # NULL until the scan measures them: these held made-up numbers
+        # (-3% / +5% / +17%) that rendered as a real distribution.
+        "spy_p10": None, "spy_p25": None, "spy_p50": None,
+        "spy_p75": None, "spy_p90": None, "spy_fwd": None,
         "top_dates": [], "top_matches": [], "regime_context": "No analog data available."
     },
     "stock_memory": [],
@@ -780,25 +782,24 @@ def build_snapshot(ledger=None):
         except Exception as exc:
             ledger.failed("cross_asset.json", exc)
 
-    # Build analog block from top stocks
+    # SPY's forward-return distribution across the analog days, as MEASURED by
+    # the scan (spy_state.analog_forward). Until 2026-09-24 this was built here
+    # from the p50s of the top 30 stocks by edge — a cross-section selected for
+    # being high, at mixed horizons — and read p50 +73% under an "across analog
+    # days" caption. No block (a pre-09-24 scan) leaves the fields null.
+    fwd = spy_raw.get("analog_forward") or {}
+    snap["analog"]["spy_fwd"] = fwd or None
+    for q in (10, 25, 50, 75, 90):
+        v = (fwd.get("value") or {}).get(f"p{q}")
+        snap["analog"][f"spy_p{q}"] = v
     if snap["stocks"]:
-        vals = [s["p50"] for s in snap["stocks"][:30]]
-        if vals:
-            vals_sorted = sorted(vals)
-            n = len(vals_sorted)
-            def pctile(p): return vals_sorted[max(0, min(n-1, int(p * n)))]
-            snap["analog"]["spy_p10"] = round(pctile(0.1), 4)
-            snap["analog"]["spy_p25"] = round(pctile(0.25), 4)
-            snap["analog"]["spy_p50"] = round(pctile(0.5), 4)
-            snap["analog"]["spy_p75"] = round(pctile(0.75), 4)
-            snap["analog"]["spy_p90"] = round(pctile(0.9), 4)
-            spy = snap["spy"]
-            snap["analog"]["regime_context"] = (
-                f"Current SPY state (ret5={spy['ret_5d']*100:+.1f}%, "
-                f"ret20={spy['ret_20d']*100:+.1f}%, vol={spy['vol_20d']*100:.1f}%, "
-                f"dd={spy['drawdown_60d']*100:.1f}%) matched to {snap['analog']['n_days']} analog days. "
-                f"Regime classified as: {spy['regime']}."
-            )
+        spy = snap["spy"]
+        snap["analog"]["regime_context"] = (
+            f"Current SPY state (ret5={spy['ret_5d']*100:+.1f}%, "
+            f"ret20={spy['ret_20d']*100:+.1f}%, vol={spy['vol_20d']*100:.1f}%, "
+            f"dd={spy['drawdown_60d']*100:.1f}%) matched to {snap['analog']['n_days']} analog days. "
+            f"Regime classified as: {spy['regime']}."
+        )
 
     # Build narrative from sector signals (exclude Unknown)
     if snap["sectors"]:

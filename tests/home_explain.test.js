@@ -246,8 +246,11 @@ setTimeout(() => {
     const acards = [...a.querySelectorAll('.card > h2')].map((h) => h.textContent);
     ok(acards.some((t) => /Macro dashboard/.test(t)), 'the macro dashboard is on Analysis', JSON.stringify(acards));
     ok(acards.some((t) => /Cross-Asset Signals/.test(t)), 'the cross-asset signals are on Analysis');
-    const hasPorts = Object.keys(w.SNAPSHOT.portfolios || {}).length > 0;
-    ok(!hasPorts || /Paper portfolios YTD/.test(text(a)), 'the paper-portfolio strip is on Analysis');
+    // Books moved to PAPA 2026-07-29; a frozen "YTD" strip read as live (removed 2026-09-24).
+    ok(!/Paper portfolios YTD/.test(text(a)), 'no frozen paper-portfolio strip on Analysis');
+    ok(/SPY next \d+ sessions, from the analog days/.test(text(a)),
+      'the analog distribution tile says what it measures');
+    ok(!/Stock Return Distribution/.test(text(a)), 'the old top-30-stocks tile is gone');
     ok((text(a).match(/not investment advice/g) || []).length === 1,
       'embedded sections do not stack their own disclaimer footers');
 

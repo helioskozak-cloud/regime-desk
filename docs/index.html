@@ -12629,11 +12629,12 @@ window.SNAPSHOT = {
   "analog": {
     "n_days": 30,
     "exclude_recent": 30,
-    "spy_p10": 0.4136,
-    "spy_p25": 0.4708,
-    "spy_p50": 0.7289,
-    "spy_p75": 0.9539,
-    "spy_p90": 1.2033,
+    "spy_p10": null,
+    "spy_p25": null,
+    "spy_p50": null,
+    "spy_p75": null,
+    "spy_p90": null,
+    "spy_fwd": null,
     "top_dates": [],
     "top_matches": [
       {
@@ -50815,24 +50816,8 @@ function renderHome(){
     +'<footer>Tendencies only — not investment advice.</footer>';
 }
 
-// Paper-portfolios one-liner (read-only). Lived on Home until 2026-09-14.
-function _portStrip(){
-  const ports=S.portfolios||{};
-  const portKeys=Object.keys(ports);
-  const portColors={max_edge:'#5b9dff',bull_case:'#3fae6a',defensive:'#d4a72c'};
-  return portKeys.length?`<div class="card" style="padding:12px 14px">
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-      <span style="font-size:10px;color:#6f6f6f;text-transform:uppercase;letter-spacing:.6px;font-weight:700">Paper portfolios YTD</span>
-      ${portKeys.map(k=>{
-        const p=ports[k],clr=portColors[k]||'#8f8f8f',ret=p.return_pct||0,rc=ret>=0?'#3fae6a':'#e5484d';
-        return `<a href="#portfolios" style="text-decoration:none;display:inline-flex;align-items:baseline;gap:4px;padding:3px 9px;background:#050505;border:1px solid ${clr}55;border-radius:4px">
-          <span style="font-size:11px;font-weight:600;color:${clr}">${p.name}</span>
-          <span style="font-size:13px;font-weight:700;color:${rc}">${ret>=0?'+':''}${ret.toFixed(2)}%</span>
-        </a>`;
-      }).join('')}
-    </div>
-  </div>`:'';
-}
+// The 'Paper portfolios YTD' strip was removed from Analysis 2026-09-24: the
+// books moved to PAPA on 2026-07-29 and its numbers had been frozen since.
 
 // REGIME
 // ── Shared dashboard-tile primitives ────────────────────────────────────
@@ -52243,7 +52228,13 @@ function renderAnalysis(){
     The 30 actual analog dates from today's scan are used internally to compute every stock's edge, but they aren't yet persisted into <code style="background:#141414;padding:1px 5px;border-radius:3px;color:#c9c9c9">spy_state.json</code> for display here. The dates exist; they just don't make it to the snapshot.
   </div>`;
 
+  // SPY's own next-20-session return from each analog day, measured by the
+  // scan (2026-09-24). Until then this tile read the top 30 stocks' medians.
+  // Null = not measured, shown as such — never a bar at zero.
+  const fwd=a.spy_fwd||{},fwdBase=fwd.base||null,fwdOk=a.spy_p50!=null;
+  const _pc1=v=>`${v>=0?'+':''}${(v*100).toFixed(1)}%`;
   const distRow=(label,val,color)=>{
+    if(val==null)return`<div style="display:flex;gap:10px;margin-bottom:6px;font-size:11px;color:#6f6f6f"><div style="width:32px;text-align:right">${label}</div><div>not measured</div></div>`;
     const w=Math.max(0,Math.min(100,((val+0.2)/0.4)*100));
     return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
       <div style="width:32px;font-size:11px;color:#8f8f8f;text-align:right">${label}</div>
@@ -52259,7 +52250,7 @@ function renderAnalysis(){
     ["Analog","A historical day whose SPY state is closest to today's, by Euclidean distance after z-score normalization across 4 dimensions."],
     ["Hit Rate","Fraction of resolved signals where the actual return matched or beat the predicted edge."],
     ["Breadth","Fraction of stocks in a sector with positive conditional edge. High breadth means widespread participation, not a few outliers."],
-    ["p10 / p50 / p90","The 10th, 50th, and 90th percentile of forward returns across analog days. p50 is the typical outcome; p10/p90 bound the distribution."],
+    ["p10 / p50 / p90","On a stock row: the 10th, 50th and 90th percentile of that stock's forward returns across the analog days. On the analog tile: the same for SPY over the next 20 sessions, set against every day in the history."],
   ];
 
   return`<div class="card"><h2>Analog Matching</h2>
@@ -52270,10 +52261,13 @@ function renderAnalysis(){
       <div style="color:#6f6f6f;font-size:11px">excluding last ${a.exclude_recent||30} days</div>
     </div>
     <div style="background:#141414;border-radius:4px;padding:12px">
-      <div style="color:#8f8f8f;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Stock Return Distribution</div>
-      ${distRow('p10',a.spy_p10||0,'#e5484d')}
-      ${distRow('p50',a.spy_p50||0,'#c9c9c9')}
-      ${distRow('p90',a.spy_p90||0,'#3fae6a')}
+      <div style="color:#8f8f8f;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">SPY next ${fwd.horizon||20} sessions, from the analog days</div>
+      ${distRow('p10',a.spy_p10,'#e5484d')}
+      ${distRow('p50',a.spy_p50,'#c9c9c9')}
+      ${distRow('p90',a.spy_p90,'#3fae6a')}
+      <div style="color:#6f6f6f;font-size:11px;margin-top:6px;line-height:1.5">${fwdOk
+        ?`${fwd.analogs} analog days.${fwdBase?` Any day since the data starts: p10 ${_pc1(fwdBase.p10)} · p50 ${_pc1(fwdBase.p50)} · p90 ${_pc1(fwdBase.p90)} (${fwd.base_days} days).`:''}`
+        :(fwd.reason?`Not measured: ${fwd.reason}.`:'Not measured yet — the next daily scan publishes it.')}</div>
     </div>
   </div>
   <div style="font-size:12px;color:#8f8f8f;margin-bottom:14px">${a.regime_context||''}</div>
@@ -52305,7 +52299,6 @@ function renderAnalysis(){
     ${terms.map(([t,d])=>`<div style="margin-bottom:10px"><strong style="color:#f2f2f2">${t}:</strong> <span style="color:#8f8f8f;font-size:12px">${d}</span></div>`).join('')}
   </div>
   </div>
-  ${_portStrip()}
   ${_stripFoot(renderEcon())}
   ${_stripFoot(renderSignals())}
   <footer>Tendencies only — not investment advice.</footer>`;
@@ -53457,7 +53450,7 @@ function _qAnalog(){
     +matchRows+'</table>'+synthNote:'';
   return '<div class="card">'+_qHead('Historical Analogs',(a.n_days||30)+' similar days matched · excluding last '+(a.exclude_recent||30)+' days')
     +'<div style="margin-bottom:14px"><div style="color:#8f8f8f;font-size:12px;margin-bottom:6px">SPY Forward 20d Distribution across analog days</div>'
-    +distBar(a.spy_p10||0,a.spy_p25||0,a.spy_p50||0,a.spy_p75||0,a.spy_p90||0)+'</div>'
+    +(a.spy_p50!=null?distBar(a.spy_p10,a.spy_p25,a.spy_p50,a.spy_p75,a.spy_p90):'<div style="color:#6f6f6f;font-size:12px">Not measured yet.</div>')+'</div>'
     +'<div style="color:#8f8f8f;font-size:12px;margin-bottom:8px">'+(a.regime_context||'')+'</div>'
     +tbl+_qChips(['What regime are we in?','Show risk profile','Top stocks right now'])+'</div>';
 }

@@ -1041,6 +1041,14 @@ def main():
             rm.analog_days_payload(analogs, spy_hist["date"].iloc[-1]), indent=2))
     elif _analog_path.exists():
         _analog_path.unlink()
+    # SPY's own forward returns from those days — the Analysis tab's
+    # distribution tile. Kept out of `measures` (it is not a Regime-card tile).
+    try:
+        spy_state["analog_forward"] = (rm.analog_forward(spy_hist, analogs)
+                                       if analogs is not None and len(analogs)
+                                       else {"value": None, "reason": "no analog days"})
+    except Exception as exc:
+        spy_state["analog_forward"] = {"value": None, "reason": f"failed: {exc}"}
     spy_state["measures"] = measures
     for k, m in measures.items():
         print(f"  {k}: {m.get('value')} {m.get('reason', '')}", flush=True)
