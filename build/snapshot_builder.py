@@ -47,7 +47,6 @@ DEFAULTS = {
     # NULL, not an empty object: "not measured" and "measured at zero error"
     # are different claims and the page renders them differently.
     "calibration": None,
-    "portfolios": {},
     "bubble_watch": {},
     "econ": {},
     "narrative": {
@@ -92,8 +91,6 @@ INPUT_CRITICALITY = {
     "enrichment.json":    EXPECTED,
     "price_data.json":    EXPECTED,
     "stock_scores.csv":   EXPECTED,
-    "portfolio.json":     EXPECTED,
-    "portfolio_v1.json":  EXPECTED,
     "bubble_watch.json":  EXPECTED,
     "econ.json":          EXPECTED,
     # The engine's own report card. EXPECTED rather than REQUIRED: a dashboard
@@ -104,9 +101,8 @@ INPUT_CRITICALITY = {
 
     # Absent by design. ticker_cache.json is gitignored — it is written by the
     # local watchlist run and never committed, so it is missing on every CI
-    # build. portfolio_v2.json only appears at the V3 cutover.
+    # build.
     "ticker_cache.json":  OPT_IN,
-    "portfolio_v2.json":  OPT_IN,
 }
 
 
@@ -660,59 +656,10 @@ def build_snapshot(ledger=None):
         except Exception as exc:
             ledger.failed("stock_scores.csv", exc)
 
-    # Load paper portfolios — the LIVE book from portfolio.json (whatever
-    # version it currently is), plus each archived generation from its own
-    # portfolio_v*.json. All rendered in the dashboard via the version toggle,
-    # which reads each book's own `version` field rather than assuming one.
-    def _shape_portfolio(port: dict) -> dict:
-        return {
-            "name":           port.get("name", ""),
-            "label":          port.get("label", ""),
-            "sort_col":       port.get("sort_col", "edge"),
-            "inception_date": port.get("inception_date", ""),
-            "archive_date":   port.get("archive_date", ""),
-            "version":        port.get("version", "v1"),
-            "initial_cash":   port.get("initial_cash", 100000),
-            "cash":           round(port.get("cash", 0), 2),
-            "n_positions":    len(port.get("holdings", {})),
-            "holdings":       [{"ticker": k, **v} for k, v in port.get("holdings", {}).items()],
-            "history":        port.get("history", [])[-180:],
-            "transactions":   port.get("transactions", [])[-500:],
-            "return_pct":     port["history"][-1]["return_pct"] if port.get("history") else 0.0,
-            "total_value":    port["history"][-1]["total_value"] if port.get("history") else port.get("initial_cash", 100000),
-        }
-
-    portfolio_path = DATA / "portfolio.json"
-    if not portfolio_path.exists():
-        ledger.missing("portfolio.json")
-    else:
-        try:
-            with open(portfolio_path, "r", encoding="utf-8") as f:
-                port_state = json.load(f)
-            portfolios = {k: _shape_portfolio(p) for k, p in port_state.items()}
-            snap["portfolios"] = portfolios
-            _live_ver = next((p.get("version") for p in portfolios.values() if p.get("version")), "?")
-            print(f"[snapshot] Loaded {len(portfolios)} live portfolios ({_live_ver})")
-        except Exception as exc:
-            ledger.failed("portfolio.json", exc)
-
-    # Archived generations. Each appears in the snapshot only once its file
-    # exists, so portfolio_v2.json shows up on its own at the V3 cutover with
-    # no further code change — and the dashboard toggle picks it up the same
-    # way it already picks up v1.
-    for _ver in ("v1", "v2"):
-        _arch_path = DATA / f"portfolio_{_ver}.json"
-        if not _arch_path.exists():
-            ledger.missing(f"portfolio_{_ver}.json")
-            continue
-        try:
-            with open(_arch_path, "r", encoding="utf-8") as f:
-                _arch_state = json.load(f)
-            _arch = {k: _shape_portfolio(p) for k, p in _arch_state.items()}
-            snap[f"portfolios_{_ver}"] = _arch
-            print(f"[snapshot] Loaded {len(_arch)} {_ver} archived portfolios")
-        except Exception as exc:
-            ledger.failed(f"portfolio_{_ver}.json", exc)
+    # Paper portfolios are NOT loaded. The books moved to PAPA on 2026-07-29
+    # and data/portfolio*.json have been frozen since; the hidden #portfolios
+    # view that read them was removed 2026-09-24 (owner). The files stay in
+    # data/ untouched.
 
     # Load bubble watch churn history (written by scan/bubble_scan.py)
     bubble_path = DATA / "bubble_watch.json"

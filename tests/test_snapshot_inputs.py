@@ -159,7 +159,7 @@ OPT_IN_INPUTS = [n for n, c in INPUT_CRITICALITY.items() if c == OPT_IN]
 
 @pytest.mark.parametrize("name", OPT_IN_INPUTS)
 def test_absent_opt_in_input_is_not_a_fault(data_dir, capsys, name):
-    """ticker_cache.json is gitignored and portfolio_v2.json does not exist yet;
+    """ticker_cache.json is gitignored (absent on every CI build);
     if either coloured a run red, every clean build would be red."""
     assert not (data_dir / name).exists()
 
