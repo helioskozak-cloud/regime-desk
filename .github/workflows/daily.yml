@@ -140,5 +140,20 @@ jobs:
           git add docs/index.html docs/reports/v2_latest.pdf changelog.json history/ data/ || true
           git diff --cached --quiet && echo "No changes to commit" || \
             git commit -m "chore: daily build $(date -u +%Y-%m-%d)"
-          git pull --rebase origin main
+          BUILD=$(git rev-parse HEAD)
+          # A push can land on main while a scan runs. On 2026-09-24 a
+          # docs/index.html change pushed at 09:35 conflicted with this build's
+          # page at 09:36, the rebase failed, and the whole scan was thrown
+          # away: PAPA found no signals at 10:00 and did not trade. The scan's
+          # DATA is the part that matters and nothing else writes it, so on a
+          # conflict keep that data and rebuild the page on top of main.
+          if ! git pull --rebase origin main; then
+            echo "::warning title=Rebuilt after a conflict::main moved during the scan; rebuilding the page on top of it"
+            git rebase --abort
+            git reset -q --hard origin/main
+            git checkout "$BUILD" -- data/
+            python build/build.py
+            git add docs/index.html changelog.json history/ data/ || true
+            git commit -m "chore: daily build $(date -u +%Y-%m-%d) (rebuilt on main after a conflict)"
+          fi
           git push
