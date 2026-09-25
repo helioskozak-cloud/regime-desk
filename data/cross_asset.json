@@ -10,7 +10,7 @@
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "+0.3%",
+      "value": "+0.2%",
       "signal": "neutral",
       "context": "Medium-term trend strength"
     },
@@ -59,9 +59,9 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+6.0% (20d)",
+      "value": "+6.1% (20d)",
       "signal": "bullish",
-      "context": "20d ret +6.0% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +6.1% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
@@ -73,9 +73,9 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+1.5% (20d)",
+      "value": "+1.6% (20d)",
       "signal": "neutral",
-      "context": "20d ret +1.5% \u2014 copper flat"
+      "context": "20d ret +1.6% \u2014 copper flat"
     },
     {
       "name": "TIPS / Breakevens",
@@ -87,9 +87,9 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+3.4% (20d)",
+      "value": "+3.5% (20d)",
       "signal": "bullish",
-      "context": "20d ret +3.4% \u2014 growth leadership intact"
+      "context": "20d ret +3.5% \u2014 growth leadership intact"
     },
     {
       "name": "Financials",
@@ -151,7 +151,7 @@
     {
       "name": "Rate Re-pricing",
       "level": "elevated",
-      "score": 0.86,
+      "score": 0.87,
       "description": "TLT 20d -4.6%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
       "explain": {
@@ -164,23 +164,23 @@
       },
       "range30": {
         "lo": 0.406,
-        "hi": 0.865
+        "hi": 0.869
       },
       "range90": {
         "lo": 0.148,
-        "hi": 0.865
+        "hi": 0.869
       },
       "n90": 90
     },
     {
       "name": "Growth Slowdown",
       "level": "moderate",
-      "score": 0.63,
-      "description": "Copper 20d +1.5%, IWM -5.7%. Cyclical indicators softening.",
+      "score": 0.62,
+      "description": "Copper 20d +1.6%, IWM -5.7%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "-4.2%",
+        "input_value": "-4.1%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,
@@ -247,12 +247,12 @@
     {
       "name": "Complacency Risk",
       "level": "low",
-      "score": 0.17,
-      "description": "SPY +0.3% / 20d with vol 0.68%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "score": 0.18,
+      "description": "SPY +0.2% / 20d with vol 0.68%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
-        "input_value": "+0.3%",
+        "input_value": "+0.2%",
         "moderate_at": "+7.1%",
         "elevated_at": "+12.1%",
         "input_rises": true,
