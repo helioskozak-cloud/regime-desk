@@ -103,7 +103,7 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.15,
+      "score": 0.14,
       "description": "VIX at 16.1. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
       "explain": {
@@ -253,7 +253,7 @@
       "explain": {
         "input_label": "SPY 20-day return",
         "input_value": "-0.2%",
-        "moderate_at": "+7.3%",
+        "moderate_at": "+7.2%",
         "elevated_at": "+12.2%",
         "input_rises": true,
         "note": "Held at today's realised volatility; the vol half of this axis adds up to 30 points on its own when SPY is moving less than 1.5% a day."
