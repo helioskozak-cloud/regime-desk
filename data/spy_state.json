@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.00736,
-  "ret_20d": 0.00048,
-  "vol_20d": 0.00686,
-  "drawdown_60d": -0.01049,
+  "ret_5d": -0.01028,
+  "ret_20d": -0.00247,
+  "vol_20d": 0.007,
+  "drawdown_60d": -0.01341,
   "history": [
     {
       "ret_5d": 0.00469,
@@ -119,30 +119,30 @@
       "drawdown_60d": -0.00593
     },
     {
-      "ret_5d": -0.00736,
-      "ret_20d": 0.00048,
-      "vol_20d": 0.00686,
-      "drawdown_60d": -0.01049
+      "ret_5d": -0.01028,
+      "ret_20d": -0.00247,
+      "vol_20d": 0.007,
+      "drawdown_60d": -0.01341
     }
   ],
   "regime_streak": 22,
   "analog_forward": {
     "horizon": 20,
     "analogs": 30,
-    "base_days": 712,
+    "base_days": 711,
     "base": {
       "p10": -0.0283,
-      "p25": -0.0013,
-      "p50": 0.0211,
+      "p25": -0.0017,
+      "p50": 0.021,
       "p75": 0.038,
-      "p90": 0.0537
+      "p90": 0.0536
     },
     "value": {
-      "p10": -0.0103,
-      "p25": 0.0011,
-      "p50": 0.0233,
-      "p75": 0.035,
-      "p90": 0.0536
+      "p10": -0.0361,
+      "p25": -0.0069,
+      "p50": 0.0223,
+      "p75": 0.0404,
+      "p90": 0.0537
     }
   },
   "measures": {
@@ -150,17 +150,17 @@
       "ma": 50,
       "n": 3213,
       "n_typical": 3206,
-      "days": 703,
-      "value": 0.2991,
+      "days": 702,
+      "value": 0.2835,
       "range30": {
-        "lo": 0.2991,
+        "lo": 0.2835,
         "hi": 0.6633
       },
       "range90": {
-        "lo": 0.2991,
+        "lo": 0.2835,
         "hi": 0.6887
       },
-      "pct_rank": 0.0612,
+      "pct_rank": 0.0499,
       "history": [
         0.5234,
         0.4772,
@@ -181,31 +181,31 @@
         0.3303,
         0.3112,
         0.3293,
-        0.2991
+        0.2835
       ]
     },
     "persistence": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 568,
+      "days": 567,
       "held": 491,
-      "base_rate": 0.8048,
+      "base_rate": 0.8059,
       "spells": 33,
       "median_spell": 8.0,
       "streak": 22,
-      "history_sessions": 732,
-      "value": 0.8644
+      "history_sessions": 731,
+      "value": 0.866
     },
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 6,
-      "episodes": 11,
-      "base_days": 712,
+      "reversed": 10,
+      "episodes": 10,
+      "base_days": 711,
       "base_reversed": 252,
-      "base_rate": 0.3539,
-      "trailing_20d": 0.00048,
-      "value": 0.2
+      "base_rate": 0.3544,
+      "trailing_20d": -0.00247,
+      "value": 0.3333
     }
   }
 }
