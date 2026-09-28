@@ -103,7 +103,7 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.14,
+      "score": 0.15,
       "description": "VIX at 16.1. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
       "explain": {
@@ -140,11 +140,11 @@
       },
       "range30": {
         "lo": 0.368,
-        "hi": 0.724
+        "hi": 0.723
       },
       "range90": {
         "lo": 0.368,
-        "hi": 0.724
+        "hi": 0.723
       },
       "n90": 90
     },
