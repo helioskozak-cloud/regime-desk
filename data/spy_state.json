@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.01112,
-  "ret_20d": -0.00048,
-  "vol_20d": 0.00696,
-  "drawdown_60d": -0.0144,
+  "ret_5d": -0.01187,
+  "ret_20d": -0.00124,
+  "vol_20d": 0.00697,
+  "drawdown_60d": -0.01515,
   "history": [
     {
       "ret_5d": -0.00539,
@@ -119,22 +119,22 @@
       "drawdown_60d": -0.01333
     },
     {
-      "ret_5d": -0.01112,
-      "ret_20d": -0.00048,
-      "vol_20d": 0.00696,
-      "drawdown_60d": -0.0144
+      "ret_5d": -0.01187,
+      "ret_20d": -0.00124,
+      "vol_20d": 0.00697,
+      "drawdown_60d": -0.01515
     }
   ],
   "regime_streak": 23,
   "analog_forward": {
     "horizon": 20,
     "analogs": 30,
-    "base_days": 712,
+    "base_days": 711,
     "base": {
       "p10": -0.0283,
-      "p25": -0.0015,
+      "p25": -0.0017,
       "p50": 0.021,
-      "p75": 0.038,
+      "p75": 0.0379,
       "p90": 0.0536
     },
     "value": {
@@ -148,19 +148,19 @@
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3212,
+      "n": 3213,
       "n_typical": 3207,
-      "days": 703,
-      "value": 0.2715,
+      "days": 702,
+      "value": 0.2751,
       "range30": {
-        "lo": 0.2715,
+        "lo": 0.2751,
         "hi": 0.6348
       },
       "range90": {
-        "lo": 0.2715,
+        "lo": 0.2751,
         "hi": 0.6885
       },
-      "pct_rank": 0.0427,
+      "pct_rank": 0.047,
       "history": [
         0.4774,
         0.5123,
@@ -180,31 +180,31 @@
         0.3305,
         0.3111,
         0.3295,
-        0.2835,
-        0.2715
+        0.2838,
+        0.2751
       ]
     },
     "persistence": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 568,
+      "days": 567,
       "held": 492,
-      "base_rate": 0.8062,
+      "base_rate": 0.8073,
       "spells": 33,
       "median_spell": 8.0,
       "streak": 23,
-      "history_sessions": 732,
-      "value": 0.8662
+      "history_sessions": 731,
+      "value": 0.8677
     },
     "reversal": {
       "horizon": 20,
       "analogs": 30,
       "reversed": 10,
       "episodes": 10,
-      "base_days": 712,
-      "base_reversed": 253,
-      "base_rate": 0.3553,
-      "trailing_20d": -0.00048,
+      "base_days": 711,
+      "base_reversed": 252,
+      "base_rate": 0.3544,
+      "trailing_20d": -0.00124,
       "value": 0.3333
     }
   }
