@@ -26688,10 +26688,12 @@ function renderHome(){
 
   // Owner, 2026-09-14: "I never look past these three dashboards." Home is
   // now exactly those three. The SPY trajectory charts moved INTO the
-  // Trajectory Verdict panel (they are the paths of the numbers it compares);
+  // Momentum Shift panel (renamed from Trajectory Verdict 2026-10-01; they are
+  // the paths of the numbers it compares);
   // the macro strip, the stock-signal strip and the paper-portfolio strip moved
   // to the Analysis tab, so nothing was deleted and nothing is unreachable.
   return _cardRegimeMetrics()
+    +_cardNextRegime()
     +_cardVerdict()
     +_cardRisk()
     +'<footer>Tendencies only — not investment advice.</footer>';
@@ -26753,6 +26755,49 @@ const TV_RULES=[
 ];
 function _tvVerdict(r,v){for(const x of TV_RULES){if(x.test(r,v))return x;}return TV_RULES[TV_RULES.length-1];}
 
+
+// ── WHERE IT GOES NEXT ───────────────────────────────────────────────────
+// Owner, 2026-10-01: the card says what the regime is and whether the trend is
+// about to break, but not what the next regime most likely is. Two views from
+// the scan (scan/regime_measures.py): by LABEL over SPY since 1993, and by the
+// 30 ANALOG days the signal engine uses. Every share sits beside its any-day
+// base rate, because a common regime is "next" often for no reason but being
+// common. A base rate, not a forecast.
+function _cardNextRegime(){
+  const M=spy.measures||{};
+  const L=M.next_regime||{value:null,reason:'not in this snapshot'};
+  const A=M.analog_next||{value:null,reason:'not in this snapshot'};
+  const p0=v=>(v*100).toFixed(0)+'%';
+  const col=lab=>/bull|recovery/i.test(lab)?'#3fae6a':/correction|high vol|pullback/i.test(lab)?'#e5484d':'#5b9dff';
+  const lift=(sh,b)=>!b?'':sh>b*1.25?'<span style="color:#3fae6a">▲</span>':sh<b*0.8?'<span style="color:#6f6f6f">▼</span>':'<span style="color:#6f6f6f">·</span>';
+  const table=(m,title,sub)=>{
+    if(!m.rows||!m.rows.length) return`<div style="flex:1;min-width:280px"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${title}</div><p style="color:#8f8f8f;margin-top:6px">Not measured: ${m.reason||'no data'}.</p></div>`;
+    const rows=m.rows.map(r=>`<tr><td style="padding:3px 8px 3px 0;color:${col(r.label)};white-space:nowrap">${r.label}</td>
+      <td style="width:45%;padding:3px 8px 3px 0"><div style="height:6px;background:#141414;border-radius:1px"><div style="height:6px;width:${Math.max(1,r.share*100)}%;background:${col(r.label)}"></div></div></td>
+      <td style="text-align:right;font-family:var(--mono);padding:3px 6px 3px 0">${p0(r.share)}</td>
+      <td style="text-align:right;font-family:var(--mono);color:#6f6f6f;padding:3px 6px 3px 0">${p0(r.base_rate)}</td>
+      <td style="text-align:center">${lift(r.share,r.base_rate)}</td></tr>`).join('');
+    return`<div style="flex:1;min-width:280px"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${title}</div>
+      <div style="color:#6f6f6f;font-size:11px;margin:3px 0 6px">${sub}</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:#6f6f6f;font-size:10px"><td></td><td></td><td style="text-align:right;padding-right:6px">in ${m.horizon||20}d</td><td style="text-align:right;padding-right:6px">any day</td><td></td></tr>${rows}</table>
+      ${m.value===null&&m.reason?`<div style="color:#d4a72c;font-size:11px;margin-top:6px">Too thin to call: ${m.reason}.</div>`:''}</div>`;
+  };
+  const top=L.value||A.value;
+  const topRow=(L.rows||[]).find(r=>r.label===L.value)||(A.rows||[]).find(r=>r.label===A.value);
+  const hero=_rdHero(`Most likely in ${L.horizon||20} sessions`,top?top.toUpperCase():'—',
+    topRow?`${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`:(L.reason||''),
+    top?col(top):'#5b9dff',null,null);
+  const leave=(L.rows||[]).filter(r=>r.label!==L.label);
+  const leaveSum=leave.reduce((a,r)=>a+r.share,0);
+  const leaveTxt=leave.length?`If it leaves ${L.label} (${p0(leaveSum)} of the time), it has gone to ${leave.slice(0,2).map(r=>`${r.label} ${p0(r.share/leaveSum)}`).join(', ')}.`:'';
+  const body=`<div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:12px">
+    ${table(L,'By label',`Every past session labelled ${L.label||'like today'}${L.since?' since '+L.since.slice(0,4):''}: ${L.days||0} sessions in ${L.spells||0} separate spells${L.note?' · '+L.note:''}.`)}
+    ${table(A,'By analog days',`The ${A.analogs||0} past sessions most like today on 5d and 20d return, vol and drawdown (3 years), the same days the stock signals use.`)}
+  </div>`;
+  const foot=`${leaveTxt} ▲ more often than on any day, ▼ less. Overlapping days are not independent; the spell count is the real sample size. A base rate, not a forecast.`;
+  return _rdSummaryCard('Where It Goes Next',top?col(top):'#5b9dff',hero,'',foot,body);
+}
+
 function _cardVerdict(){
   var h=spy.history||[];if(h.length<6)return'';
   var n=h.length;var recent=h.slice(Math.max(0,n-5));var prior=h.slice(Math.max(0,n-10),Math.max(0,n-5));
@@ -26801,7 +26846,7 @@ function _cardVerdict(){
       ${chart(h.map(function(d){return (d.vol_20d||0)*Math.sqrt(252);}),'Annualized vol')}
       ${chart(h.map(function(d){return d.drawdown_60d||0;}),'60d drawdown')}
     </div>`);
-  return _rdSummaryCard('Trajectory Verdict',vCol,hero,tiles,`<span style="color:#c9c9c9">${vDesc}</span>`,panel);
+  return _rdSummaryCard('Momentum Shift',vCol,hero,tiles,`<span style="color:#c9c9c9">${vDesc}</span>`,panel);
 }
 // ── REGIME ANALYSIS ──────────────────────────────────────────────────────
 //

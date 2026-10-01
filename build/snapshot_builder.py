@@ -471,7 +471,17 @@ def build_snapshot(ledger=None):
                                reason=(f"the scan measured {persist.get('label')} but "
                                        f"this card reads {spy['regime']}"))
 
-            spy["measures"] = {"breadth": breadth, "persistence": persist, "reversal": rev}
+            # Where it goes next (2026-10-01): the by-label view is for a LABEL,
+            # so it gets the same guard as Persistence; the analog view is not.
+            nxt = m.get("next_regime") or dict(missing)
+            if nxt.get("rows") and nxt.get("label") != spy["regime"]:
+                nxt = dict(nxt, value=None, rows=[],
+                           reason=(f"the scan measured {nxt.get('label')} but "
+                                   f"this card reads {spy['regime']}"))
+            anx = m.get("analog_next") or dict(missing)
+
+            spy["measures"] = {"breadth": breadth, "persistence": persist, "reversal": rev,
+                               "next_regime": nxt, "analog_next": anx}
             spy["breadth"] = breadth.get("value")
             spy["persistence"] = persist.get("value")
             spy["reversal_risk"] = rev.get("value")

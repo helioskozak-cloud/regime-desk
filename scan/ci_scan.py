@@ -1021,16 +1021,42 @@ def main():
         measures["breadth"] = rm.summarize_breadth(rm.breadth_series(prices))
     except Exception as exc:
         measures["breadth"] = {"value": None, "reason": f"failed: {exc}"}
+    # The LONG SPY history (2026-10-01): Persistence and Where It Goes Next
+    # count past spells of today's regime, and three years hold only a handful
+    # of the rarer ones. One extra download, SPY only, back to its 1993 launch.
+    # If it fails, both fall back to the three years above and say so.
+    long_labels, long_dates, long_note = labels, spy_hist["date"], "3-year history (long SPY pull failed)"
     try:
-        measures["persistence"] = rm.persistence(labels)
+        _ls = _download_batch(["SPY"], "max")
+        _lf = compute_features(_ls)
+        _lf = _lf[_lf["ticker"] == "SPY"].sort_values("date").reset_index(drop=True)
+        if len(_lf) > len(spy_hist):
+            long_labels, long_dates = rm.label_history(_lf), _lf["date"]
+            long_note = None
+    except Exception as exc:
+        long_note = f"3-year history (long SPY pull failed: {exc})"
+    try:
+        measures["persistence"] = rm.persistence(long_labels)
     except Exception as exc:
         measures["persistence"] = {"value": None, "reason": f"failed: {exc}"}
+    try:
+        measures["next_regime"] = rm.next_regime(long_labels, long_dates)
+        if long_note:
+            measures["next_regime"]["note"] = long_note
+    except Exception as exc:
+        measures["next_regime"] = {"value": None, "reason": f"failed: {exc}"}
     try:
         analogs = rm.analog_days(spy_hist, SIMILAR_DAY_COUNT, EXCLUDE_RECENT_DAYS)
         measures["reversal"] = rm.reversal(spy_hist, analogs)
     except Exception as exc:
         analogs = None
         measures["reversal"] = {"value": None, "reason": f"failed: {exc}"}
+    try:
+        measures["analog_next"] = (rm.analog_next_regime(spy_hist, labels, analogs)
+                                   if analogs is not None and len(analogs)
+                                   else {"value": None, "reason": "no analog days"})
+    except Exception as exc:
+        measures["analog_next"] = {"value": None, "reason": f"failed: {exc}"}
     # Today's analog days, for finvisible's book-level stress test. Written only
     # when they were computed; a stale file from yesterday is removed rather than
     # left to describe a different day (its as_of would say so, but a reader

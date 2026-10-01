@@ -53,8 +53,8 @@ setTimeout(() => {
   // ── the three dashboards, and only those ─────────────────────────────────
   console.log('\n== Home is the three dashboards ==');
   const cards = [...home.querySelectorAll('.card > h2')].map((h) => h.textContent);
-  ok(JSON.stringify(cards) === JSON.stringify(['Regime Analysis', 'Trajectory Verdict', 'Risk Axes']),
-    'Home carries exactly Regime Analysis, Trajectory Verdict, Risk Axes', JSON.stringify(cards));
+  ok(JSON.stringify(cards) === JSON.stringify(['Regime Analysis', 'Where It Goes Next', 'Momentum Shift', 'Risk Axes']),
+    'Home carries Regime Analysis, Where It Goes Next, Momentum Shift, Risk Axes', JSON.stringify(cards));
 
   // ── nothing deleted: the rest is one tab away ────────────────────────────
   // Checked BEFORE any click, while Analysis is still unrendered; it is
@@ -229,7 +229,7 @@ setTimeout(() => {
   // The label on the card is the rule the panel highlights.
   const vPanel = d.getElementById('why-verdict');
   const vFired = [...vPanel.querySelectorAll('.rd-rule.fired')];
-  const heroLabel = text(home.querySelector('.card:nth-of-type(2) [data-why="why-verdict"]'));
+  const heroLabel = text(home.querySelector('[data-why="why-verdict"]'));  // by its panel, not its position (a card was added above it 2026-10-01)
   ok(vFired.length === 1, 'exactly one verdict rule is marked');
   ok(vFired[0] && heroLabel.includes(text(vFired[0].querySelector('b'))),
     'the highlighted verdict rule is the label on the card', text(vFired[0] && vFired[0].querySelector('b')));

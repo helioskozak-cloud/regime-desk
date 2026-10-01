@@ -443,3 +443,87 @@ def summarize_breadth(bs: pd.DataFrame) -> dict:
         history=[round(float(x), 4) for x in ok["share"].tail(20)],
     )
     return out
+
+
+# ── WHERE IT GOES NEXT ───────────────────────────────────────────────────────
+#
+# Owner, 2026-10-01: the card says what the regime is now and (Momentum Shift)
+# whether the trend is about to break, "but nothing to really tell us what the
+# next most likely regime is". Persistence already asks "was it still this
+# regime 20 sessions later"; this is the rest of that row: which regime it was
+# in instead, beside how common each regime is on any day. Two views:
+#
+#   by label   every past session labelled like today, over the LONG SPY
+#              history (back to 1993) so the rarer regimes have spells to count
+#   by analog  the 30 analog days the signal engine uses, which match today's
+#              whole state rather than its label
+#
+# A base rate, not a forecast. Overlapping days are not independent, so the
+# spell count travels with the numbers and a thin row is withheld.
+
+NEXT_HORIZON = PERSIST_HORIZON
+NEXT_MIN_DAYS = PERSIST_MIN_DAYS
+NEXT_MIN_SPELLS = PERSIST_MIN_SPELLS
+NEXT_MIN_ANALOGS = 20
+
+
+def _dist(labels_after: list[str]) -> dict[str, float]:
+    n = len(labels_after)
+    out: dict[str, float] = {}
+    for lab in labels_after:
+        out[lab] = out.get(lab, 0) + 1
+    return {k: v / n for k, v in out.items()} if n else {}
+
+
+def next_regime(labels: pd.Series, dates=None, horizon: int = NEXT_HORIZON) -> dict:
+    """Distribution of the regime `horizon` sessions after every past session
+    that carried today's label, beside the same distribution over ALL sessions."""
+    labs = list(labels) if labels is not None else []
+    if len(labs) <= horizon:
+        return {"value": None, "reason": "no regime history"}
+    today = labs[-1]
+    after = [labs[i + horizon] for i in range(len(labs) - horizon) if labs[i] == today]
+    every = [labs[i + horizon] for i in range(len(labs) - horizon)]
+    share, base = _dist(after), _dist(every)
+    runs = _runs(labs)
+    spells = sum(1 for lab, _ in runs if lab == today)
+    rows = sorted(({"label": k, "share": round(v, 4), "n": int(round(v * len(after))),
+                    "base_rate": round(base.get(k, 0.0), 4)} for k, v in share.items()),
+                  key=lambda r: -r["share"])
+    out = {"label": today, "horizon": horizon, "days": len(after), "spells": spells,
+           "history_sessions": len(labs), "rows": rows}
+    if dates is not None and len(dates):
+        out["since"] = str(pd.Timestamp(list(dates)[0]).date())
+    if len(after) < NEXT_MIN_DAYS or spells < NEXT_MIN_SPELLS:
+        out["value"] = None
+        out["reason"] = (f"only {len(after)} past sessions in {spells} spell"
+                         f"{'' if spells == 1 else 's'} of {today}")
+    else:
+        out["value"] = rows[0]["label"]
+    return out
+
+
+def analog_next_regime(spy: pd.DataFrame, labels: pd.Series, analogs: pd.DataFrame,
+                       horizon: int = NEXT_HORIZON) -> dict:
+    """The regime each analog day was in `horizon` sessions later. `spy` and
+    `labels` are aligned row for row (the scan's 3-year frame)."""
+    spy = spy.reset_index(drop=True)
+    labs = list(labels)
+    pos = {pd.Timestamp(d): i for i, d in enumerate(pd.to_datetime(spy["date"]))}
+    after = []
+    for d in pd.to_datetime(analogs["date"]):
+        i = pos.get(pd.Timestamp(d))
+        if i is not None and i + horizon < len(labs):
+            after.append(labs[i + horizon])
+    every = [labs[i + horizon] for i in range(len(labs) - horizon)]
+    share, base = _dist(after), _dist(every)
+    rows = sorted(({"label": k, "share": round(v, 4), "n": int(round(v * len(after))),
+                    "base_rate": round(base.get(k, 0.0), 4)} for k, v in share.items()),
+                  key=lambda r: -r["share"])
+    out = {"horizon": horizon, "analogs": len(after), "rows": rows}
+    if len(after) < NEXT_MIN_ANALOGS:
+        out["value"] = None
+        out["reason"] = f"only {len(after)} analog days have a finished {horizon}-session window"
+    else:
+        out["value"] = rows[0]["label"]
+    return out

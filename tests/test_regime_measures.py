@@ -305,3 +305,53 @@ def test_analog_forward_withholds_when_windows_have_not_finished():
     spy = _spy_frame(closes)
     r = rm.analog_forward(spy, spy.tail(30))
     assert r["analogs"] == 10 and r["value"] is None and "finished" in r["reason"]
+
+
+# ── where it goes next (2026-10-01) ─────────────────────────────────────────
+
+def _spells(pattern, reps):
+    out = []
+    for _ in range(reps):
+        for lab, n in pattern:
+            out += [lab] * n
+    return pd.Series(out)
+
+
+def test_next_regime_rows_are_shares_beside_base_rates():
+    # Pullback (30) -> Recovery (30) -> Bull (60), repeated: from a Pullback
+    # day, 20 sessions on is still Pullback for the first 10 and Recovery after.
+    labs = _spells([("Pullback", 30), ("Recovery", 30), ("Bull Trend", 60)], 6)
+    labs = pd.concat([labs, pd.Series(["Pullback"] * 5)], ignore_index=True)
+    out = rm.next_regime(labs, horizon=20)
+    shares = {r["label"]: r["share"] for r in out["rows"]}
+    assert out["label"] == "Pullback"
+    assert sum(shares.values()) == pytest.approx(1.0, abs=1e-3)
+    assert shares["Recovery"] > shares["Pullback"]
+    assert out["value"] == "Recovery"
+    bull = next(r for r in out["rows"] if r.get("label") == "Recovery")
+    assert 0 < bull["base_rate"] < 1
+
+
+def test_next_regime_is_withheld_on_too_few_spells():
+    labs = _spells([("Neutral", 200)], 1)
+    labs = pd.concat([labs, pd.Series(["Deep Correction"] * 50)], ignore_index=True)
+    out = rm.next_regime(labs, horizon=20)
+    assert out["value"] is None and "spell" in out["reason"]
+
+
+def test_analog_next_regime_reads_the_label_twenty_sessions_on():
+    n = 300
+    spy = pd.DataFrame({"date": pd.bdate_range("2024-01-01", periods=n)})
+    labs = pd.Series(["Neutral"] * n)
+    labs.iloc[120:200] = "Bull Trend"
+    analogs = spy.iloc[100:130]                        # 30 days; +20 lands in 120..149
+    out = rm.analog_next_regime(spy, labs, analogs, horizon=20)
+    assert out["analogs"] == 30 and out["value"] == "Bull Trend"
+    assert out["rows"][0]["share"] == pytest.approx(1.0)
+
+
+def test_analog_next_regime_skips_days_without_a_finished_window():
+    n = 100
+    spy = pd.DataFrame({"date": pd.bdate_range("2024-01-01", periods=n)})
+    out = rm.analog_next_regime(spy, pd.Series(["Neutral"] * n), spy.iloc[90:], horizon=20)
+    assert out["analogs"] == 0 and out["value"] is None
