@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.00312,
-  "ret_20d": -0.003,
-  "vol_20d": 0.00647,
-  "drawdown_60d": -0.00904,
+  "ret_5d": -0.00222,
+  "ret_20d": -0.00209,
+  "vol_20d": 0.00653,
+  "drawdown_60d": -0.00814,
   "history": [
     {
       "ret_5d": 0.00109,
@@ -119,39 +119,39 @@
       "drawdown_60d": -0.01542
     },
     {
-      "ret_5d": -0.00312,
-      "ret_20d": -0.003,
-      "vol_20d": 0.00647,
-      "drawdown_60d": -0.00904
+      "ret_5d": -0.00222,
+      "ret_20d": -0.00209,
+      "vol_20d": 0.00653,
+      "drawdown_60d": -0.00814
     }
   ],
   "regime_streak": 26,
   "analog_forward": {
     "horizon": 20,
     "analogs": 30,
-    "base_days": 714,
+    "base_days": 713,
     "base": {
       "p10": -0.0282,
-      "p25": -0.0019,
-      "p50": 0.0209,
+      "p25": -0.0021,
+      "p50": 0.0208,
       "p75": 0.0378,
-      "p90": 0.0533
+      "p90": 0.0528
     },
     "value": {
-      "p10": -0.0334,
+      "p10": -0.0326,
       "p25": -0.0094,
-      "p50": 0.0159,
-      "p75": 0.0335,
-      "p90": 0.0444
+      "p50": 0.0175,
+      "p75": 0.0359,
+      "p90": 0.046
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3212,
+      "n": 3210,
       "n_typical": 3208,
-      "days": 705,
-      "value": 0.2902,
+      "days": 704,
+      "value": 0.2938,
       "range30": {
         "lo": 0.254,
         "hi": 0.6156
@@ -160,7 +160,7 @@
         "lo": 0.254,
         "hi": 0.6884
       },
-      "pct_rank": 0.061,
+      "pct_rank": 0.0639,
       "history": [
         0.5409,
         0.4994,
@@ -181,7 +181,7 @@
         0.2758,
         0.254,
         0.2631,
-        0.2902
+        0.2938
       ]
     },
     "persistence": {
@@ -253,11 +253,11 @@
       "horizon": 20,
       "analogs": 30,
       "reversed": 8,
-      "episodes": 9,
-      "base_days": 714,
-      "base_reversed": 255,
-      "base_rate": 0.3571,
-      "trailing_20d": -0.003,
+      "episodes": 11,
+      "base_days": 713,
+      "base_reversed": 254,
+      "base_rate": 0.3562,
+      "trailing_20d": -0.00209,
       "value": 0.2667
     },
     "analog_next": {
@@ -268,13 +268,13 @@
           "label": "Neutral",
           "share": 0.8667,
           "n": 26,
-          "base_rate": 0.8081
+          "base_rate": 0.8093
         },
         {
           "label": "Bull Trend",
           "share": 0.1,
           "n": 3,
-          "base_rate": 0.1218
+          "base_rate": 0.1206
         },
         {
           "label": "Correction",
