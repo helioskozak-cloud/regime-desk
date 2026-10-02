@@ -8,41 +8,41 @@
       "horizon": "120d",
       "n": 782,
       "predicted_mean": 0.5536938964194371,
-      "realized_mean": 0.21826903196930947,
-      "ratio": 0.39420523394024404,
+      "realized_mean": 0.21825660997442456,
+      "ratio": 0.39418279917084303,
       "beat_rate": 0.21099744245524296,
-      "correlation": 0.05574478007883087,
+      "correlation": 0.05570415926695004,
       "realized_p10": -0.260084
     },
     "20d": {
       "horizon": "20d",
       "n": 4570,
       "predicted_mean": 0.09390332932166291,
-      "realized_mean": 0.016419878336980248,
-      "ratio": 0.17485938417299848,
+      "realized_mean": 0.01641189934354476,
+      "ratio": 0.1747744138796859,
       "beat_rate": 0.2949671772428884,
-      "correlation": -0.04447489764619882,
+      "correlation": -0.044626197652801784,
       "realized_p10": -0.16220149999999997
     },
     "5d": {
       "horizon": "5d",
       "n": 575,
       "predicted_mean": 0.0687042469565218,
-      "realized_mean": -0.007070838260869569,
-      "ratio": -0.10291704769494406,
+      "realized_mean": -0.0070205043478260894,
+      "ratio": -0.10218443049479728,
       "beat_rate": 0.18956521739130436,
-      "correlation": -0.027572953879894408,
+      "correlation": -0.027900621845684617,
       "realized_p10": -0.11417759999999999
     },
     "60d": {
       "horizon": "60d",
       "n": 3304,
       "predicted_mean": 0.19381869158595727,
-      "realized_mean": 0.036458650121065465,
-      "ratio": 0.1881069871163396,
+      "realized_mean": 0.03647475786924948,
+      "ratio": 0.18819009441652934,
       "beat_rate": 0.2705811138014528,
-      "correlation": 0.10672735543134436,
-      "realized_p10": -0.2551264
+      "correlation": 0.10670052238675708,
+      "realized_p10": -0.2548528
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
