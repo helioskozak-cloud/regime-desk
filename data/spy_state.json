@@ -1,15 +1,9 @@
 {
-  "ret_5d": -0.00222,
-  "ret_20d": -0.00209,
-  "vol_20d": 0.00653,
-  "drawdown_60d": -0.00814,
+  "ret_5d": 0.00654,
+  "ret_20d": 0.00304,
+  "vol_20d": 0.00647,
+  "drawdown_60d": -0.00687,
   "history": [
-    {
-      "ret_5d": 0.00109,
-      "ret_20d": -0.00397,
-      "vol_20d": 0.00511,
-      "drawdown_60d": -0.00989
-    },
     {
       "ret_5d": -0.00142,
       "ret_20d": -0.00915,
@@ -123,35 +117,41 @@
       "ret_20d": -0.00209,
       "vol_20d": 0.00653,
       "drawdown_60d": -0.00814
+    },
+    {
+      "ret_5d": 0.00654,
+      "ret_20d": 0.00304,
+      "vol_20d": 0.00647,
+      "drawdown_60d": -0.00687
     }
   ],
-  "regime_streak": 26,
+  "regime_streak": 27,
   "analog_forward": {
     "horizon": 20,
     "analogs": 30,
-    "base_days": 713,
+    "base_days": 712,
     "base": {
-      "p10": -0.0282,
+      "p10": -0.0283,
       "p25": -0.0021,
-      "p50": 0.0208,
-      "p75": 0.0378,
-      "p90": 0.0528
+      "p50": 0.0206,
+      "p75": 0.0374,
+      "p90": 0.0526
     },
     "value": {
-      "p10": -0.0326,
-      "p25": -0.0094,
-      "p50": 0.0175,
-      "p75": 0.0359,
-      "p90": 0.046
+      "p10": -0.0505,
+      "p25": -0.0207,
+      "p50": -0.0019,
+      "p75": 0.0125,
+      "p90": 0.0305
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3212,
+      "n": 2968,
       "n_typical": 3207,
-      "days": 704,
-      "value": 0.2936,
+      "days": 703,
+      "value": 0.3022,
       "range30": {
         "lo": 0.254,
         "hi": 0.6154
@@ -160,9 +160,8 @@
         "lo": 0.254,
         "hi": 0.6883
       },
-      "pct_rank": 0.0639,
+      "pct_rank": 0.0725,
       "history": [
-        0.5407,
         0.4992,
         0.4437,
         0.3743,
@@ -181,32 +180,33 @@
         0.2755,
         0.254,
         0.2631,
-        0.2936
+        0.2936,
+        0.3022
       ]
     },
     "persistence": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 6137,
-      "held": 5140,
+      "days": 6138,
+      "held": 5141,
       "base_rate": 0.7274,
       "spells": 426,
       "median_spell": 4.0,
-      "streak": 26,
-      "history_sessions": 8457,
-      "value": 0.8375
+      "streak": 27,
+      "history_sessions": 8458,
+      "value": 0.8376
     },
     "next_regime": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 6137,
+      "days": 6138,
       "spells": 426,
-      "history_sessions": 8457,
+      "history_sessions": 8458,
       "rows": [
         {
           "label": "Neutral",
-          "share": 0.8375,
-          "n": 5140,
+          "share": 0.8376,
+          "n": 5141,
           "base_rate": 0.7274
         },
         {
@@ -252,13 +252,13 @@
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 8,
-      "episodes": 11,
-      "base_days": 713,
-      "base_reversed": 254,
-      "base_rate": 0.3562,
-      "trailing_20d": -0.00209,
-      "value": 0.2667
+      "reversed": 10,
+      "episodes": 10,
+      "base_days": 712,
+      "base_reversed": 253,
+      "base_rate": 0.3553,
+      "trailing_20d": 0.00304,
+      "value": 0.3333
     },
     "analog_next": {
       "horizon": 20,
@@ -268,19 +268,19 @@
           "label": "Neutral",
           "share": 0.8667,
           "n": 26,
-          "base_rate": 0.8093
+          "base_rate": 0.8118
+        },
+        {
+          "label": "Pullback",
+          "share": 0.1,
+          "n": 3,
+          "base_rate": 0.0154
         },
         {
           "label": "Bull Trend",
-          "share": 0.1,
-          "n": 3,
-          "base_rate": 0.1206
-        },
-        {
-          "label": "Correction",
           "share": 0.0333,
           "n": 1,
-          "base_rate": 0.0196
+          "base_rate": 0.118
         }
       ],
       "value": "Neutral"
