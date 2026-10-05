@@ -1,8 +1,8 @@
 {
-  "ret_5d": 0.00654,
-  "ret_20d": 0.00304,
-  "vol_20d": 0.00647,
-  "drawdown_60d": -0.00687,
+  "ret_5d": 0.01041,
+  "ret_20d": 0.0069,
+  "vol_20d": 0.00656,
+  "drawdown_60d": -0.00306,
   "history": [
     {
       "ret_5d": -0.00142,
@@ -119,10 +119,10 @@
       "drawdown_60d": -0.00814
     },
     {
-      "ret_5d": 0.00654,
-      "ret_20d": 0.00304,
-      "vol_20d": 0.00647,
-      "drawdown_60d": -0.00687
+      "ret_5d": 0.01041,
+      "ret_20d": 0.0069,
+      "vol_20d": 0.00656,
+      "drawdown_60d": -0.00306
     }
   ],
   "regime_streak": 27,
@@ -139,19 +139,19 @@
     },
     "value": {
       "p10": -0.0505,
-      "p25": -0.0207,
-      "p50": -0.0019,
-      "p75": 0.0125,
-      "p90": 0.0305
+      "p25": -0.0109,
+      "p50": 0.0007,
+      "p75": 0.0232,
+      "p90": 0.035
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 2968,
+      "n": 3211,
       "n_typical": 3207,
       "days": 703,
-      "value": 0.3022,
+      "value": 0.3195,
       "range30": {
         "lo": 0.254,
         "hi": 0.6154
@@ -160,7 +160,7 @@
         "lo": 0.254,
         "hi": 0.6883
       },
-      "pct_rank": 0.0725,
+      "pct_rank": 0.0839,
       "history": [
         0.4992,
         0.4437,
@@ -181,7 +181,7 @@
         0.254,
         0.2631,
         0.2936,
-        0.3022
+        0.3195
       ]
     },
     "persistence": {
@@ -252,13 +252,13 @@
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 10,
+      "reversed": 14,
       "episodes": 10,
       "base_days": 712,
       "base_reversed": 253,
       "base_rate": 0.3553,
-      "trailing_20d": 0.00304,
-      "value": 0.3333
+      "trailing_20d": 0.0069,
+      "value": 0.4667
     },
     "analog_next": {
       "horizon": 20,
@@ -266,8 +266,8 @@
       "rows": [
         {
           "label": "Neutral",
-          "share": 0.8667,
-          "n": 26,
+          "share": 0.9,
+          "n": 27,
           "base_rate": 0.8118
         },
         {
@@ -275,12 +275,6 @@
           "share": 0.1,
           "n": 3,
           "base_rate": 0.0154
-        },
-        {
-          "label": "Bull Trend",
-          "share": 0.0333,
-          "n": 1,
-          "base_rate": 0.118
         }
       ],
       "value": "Neutral"
