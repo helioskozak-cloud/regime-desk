@@ -13,8 +13,14 @@ labels below are a copy; change both together):
   13D (+/A)     activist stake; 13G is passive and left out
   S-1/S-3/424B5 registered offering, possible dilution
 Periodic 10-K/10-Q are left out: across 1,700 names they are a calendar, not
-news. Form 4 insider trades are left out for now: parsing every one in the
-universe is hundreds of documents a day.
+news.
+
+FORM 4 (2026-10-06, roadmap item E): OPEN-MARKET buys (code P) and sells (S)
+by insiders of universe companies, per ticker over the same window. Grants,
+exercises, tax withholding and gifts are compensation mechanics and left out.
+About 2,200 Form 4s a week, so each accession is parsed ONCE and carried in the
+output file; a daily run only parses what is new. A sale can still be a 10b5-1
+plan sale; a buy almost never is, which is why buys are the screen.
 
 Identity: SEC fair-access needs a name + email on every request. It comes from
 the EDGAR_IDENTITY env var (a repo secret in CI) and is never written here —
@@ -55,6 +61,109 @@ ACTIVIST = {"SC 13D", "SC 13D/A", "SCHEDULE 13D", "SCHEDULE 13D/A"}
 OFFERING = {"S-1", "S-3", "S-3ASR", "424B5"}
 EIGHT_K = {"8-K", "8-K/A"}
 FORMS = sorted(LATE | ACTIVIST | OFFERING | EIGHT_K)
+
+
+MAX_FORM4_PARSE = 2500      # per run; anything beyond waits for tomorrow, logged
+
+
+def role(position) -> str:
+    """A Form 4 title collapsed to a word (same rules as finvisible/filings.py)."""
+    p = str(position or "").lower()
+    words = p.replace(",", " ").split()
+    if "chief executive" in p or "ceo" in words:
+        return "CEO"
+    if "chief financial" in p or "cfo" in words:
+        return "CFO"
+    if "10%" in p:
+        return "10% owner"
+    if "director" in p and not any(w in p for w in ("officer", "president", "vp", "chief")):
+        return "director"
+    return "officer" if p else "insider"
+
+
+def _form4(cik: int, company: str, date_: str, acc: str) -> dict | None:
+    """{owner, role, buy, sell} for one Form 4, or None when the filing is not
+    an insider trade IN this company (a filer listed as reporting owner of
+    someone else's stock, e.g. a holding company buying another issuer)."""
+    from edgar import Filing
+    o = Filing(cik=cik, company=company, form="4", filing_date=date_, accession_no=acc).obj()
+    try:
+        if int(getattr(o.issuer, "cik", 0) or 0) != int(cik):
+            return None
+    except Exception:                                   # noqa: BLE001
+        return None
+    s = o.get_ownership_summary()
+    buy = sum(float(t.value_numeric or 0) for t in s.transactions if t.code == "P")
+    sell = sum(float(t.value_numeric or 0) for t in s.transactions if t.code == "S")
+    owner = str(getattr(s, "reporting_owner_name", None) or getattr(s, "insider_name", None) or "")
+    return {"owner": owner, "role": role(getattr(s, "position", "")), "buy": round(buy),
+            "sell": round(sell)}
+
+
+def insiders(identity: str, since: str, today: str, meta: dict, cik2tk: dict,
+             prev: dict) -> tuple[list[dict], dict]:
+    """(per-ticker insider rows, parsed-accession cache for the window)."""
+    from edgar import get_filings
+    idx = get_filings(form="4", filing_date=f"{since}:{today}").to_pandas()
+    cache, todo = {}, []
+    for r in idx.itertuples():
+        tks = [t for t in cik2tk.get(int(r.cik), []) if t in meta]
+        if not tks:
+            continue
+        acc = str(r.accession_number)
+        if acc in prev:
+            cache[acc] = prev[acc]
+        elif acc not in cache and len(todo) < MAX_FORM4_PARSE:
+            todo.append((int(r.cik), str(r.company), str(r.filing_date)[:10], acc, tks[0]))
+    parsed = len(todo)
+
+    def one(job):
+        cik, company, d, acc, tk = job
+        time.sleep(0.3)                  # 3 workers x ~3 requests/s: under SEC's 10/s
+        try:
+            x = _form4(cik, company, d, acc)
+        except Exception as exc:                        # noqa: BLE001
+            return acc, ("rate" if "429" in str(exc) else "error")
+        return acc, (None if x is None else {**x, "ticker": tk, "date": d})
+
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=3) as ex:
+        for i, (acc, x) in enumerate(ex.map(one, todo), start=1):
+            if x == "rate":
+                print("[filings] SEC rate limit during Form 4s; unparsed ones wait for tomorrow")
+                continue
+            if x != "error":
+                cache[acc] = x
+            if i % 250 == 0:
+                print(f"[filings] Form 4: {i} of {parsed} parsed", flush=True)
+    if parsed >= MAX_FORM4_PARSE:
+        print(f"[filings] parsed the {MAX_FORM4_PARSE}-Form-4 cap; the rest wait for tomorrow")
+    agg: dict[str, dict] = {}
+    for acc, x in cache.items():
+        if not x or not (x["buy"] or x["sell"]):
+            continue
+        a = agg.setdefault(x["ticker"], {"buy": 0, "sell": 0, "buyers": set(), "roles": set(),
+                                         "last_buy": "", "n_sell": 0})
+        if x["buy"]:
+            a["buy"] += x["buy"]
+            a["buyers"].add(x["owner"] or acc)
+            a["roles"].add(x["role"])
+            a["last_buy"] = max(a["last_buy"], x["date"])
+        if x["sell"]:
+            a["sell"] += x["sell"]
+            a["n_sell"] += 1
+    rows = []
+    for tk, a in agg.items():
+        if not a["buy"]:
+            continue
+        name, sector = meta[tk]
+        rows.append({"ticker": tk, "name": name, "sector": sector, "buy": a["buy"],
+                     "buyers": len(a["buyers"]), "roles": sorted(a["roles"]),
+                     "last_buy": a["last_buy"], "sell": a["sell"], "n_sell": a["n_sell"]})
+    rows.sort(key=lambda r: (-r["buyers"], -r["buy"]))
+    print(f"[filings] Form 4: {parsed} parsed this run, {len(cache)} in the window, "
+          f"{len(rows)} names with open-market buying")
+    return rows, cache
 
 
 def _url(cik: int, acc: str) -> str:
@@ -103,7 +212,7 @@ def _items(cik: int, since: str, identity: str) -> dict[str, list[str]]:
     return out
 
 
-def scan(identity: str, today: datetime.date | None = None) -> dict:
+def scan(identity: str, today: datetime.date | None = None, prev: dict | None = None) -> dict:
     from edgar import set_identity, get_filings
     set_identity(identity)
     today = today or datetime.date.today()
@@ -113,6 +222,13 @@ def scan(identity: str, today: datetime.date | None = None) -> dict:
 
     idx = get_filings(form=FORMS, filing_date=f"{since}:{today.isoformat()}").to_pandas()
     cik2tk = _tickers(identity)
+    try:
+        ins, f4cache = insiders(identity, since, today.isoformat(), meta, cik2tk,
+                                (prev or {}).get("form4_cache", {}))
+    except Exception as exc:                            # noqa: BLE001
+        # Insider rows are extra; a failure keeps yesterday's rather than losing the 8-Ks.
+        print(f"[filings] Form 4 step failed ({type(exc).__name__}); keeping the last insider rows")
+        ins, f4cache = (prev or {}).get("insiders", []), (prev or {}).get("form4_cache", {})
     rows = []
     for r in idx.itertuples():
         tks = [t for t in cik2tk.get(int(r.cik), []) if t in meta]
@@ -139,7 +255,8 @@ def scan(identity: str, today: datetime.date | None = None) -> dict:
     out.sort(key=lambda e: e["date"], reverse=True)   # newest first...
     out.sort(key=lambda e: e["rank"])                  # ...within each rank (stable)
     return {"as_of": today.isoformat(), "window_days": WINDOW_DAYS,
-            "universe": len(meta), "n": len(out), "filings": out}
+            "universe": len(meta), "n": len(out), "filings": out,
+            "insiders": ins, "form4_cache": f4cache}
 
 
 def main() -> int:
@@ -148,7 +265,11 @@ def main() -> int:
         print("[filings] SKIPPED: EDGAR_IDENTITY is not set; keeping the last file")
         return 0
     try:
-        blob = scan(identity)
+        prev = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
+    except Exception:                                   # noqa: BLE001
+        prev = {}
+    try:
+        blob = scan(identity, prev=prev)
     except Exception as exc:                           # noqa: BLE001
         print(f"[filings] FAILED ({type(exc).__name__}: {exc}); keeping the last file")
         return 0
