@@ -245,11 +245,16 @@ setTimeout(() => {
     const a = d.getElementById('v-analysis');
     const acards = [...a.querySelectorAll('.card > h2')].map((h) => h.textContent);
     ok(acards.some((t) => /Macro dashboard/.test(t)), 'the macro dashboard is on Analysis', JSON.stringify(acards));
-    ok(acards.some((t) => /Cross-Asset Signals/.test(t)), 'the cross-asset signals are on Analysis');
+    // Analysis became the Methods appendix 2026-10-06: the cross-asset table and
+    // the analog tile were dropped; Home's own explanations are lifted in.
+    ok(!acards.some((t) => /Cross-Asset Signals/.test(t)), 'the cross-asset table is gone from Methods');
+    ok(['Regime Analysis', 'Momentum Shift', 'Risk Axes'].every((t) => acards.includes(t)),
+      'Methods has a section per Home card', JSON.stringify(acards));
+    ok(a.querySelectorAll('details.md-item').length >= 10 && /The rules, top to bottom/.test(text(a)),
+      "Methods carries Home's own what-is-this text");
     // Books moved to PAPA 2026-07-29; a frozen "YTD" strip read as live (removed 2026-09-24).
     ok(!/Paper portfolios YTD/.test(text(a)), 'no frozen paper-portfolio strip on Analysis');
-    ok(/SPY next \d+ sessions, from the analog days/.test(text(a)),
-      'the analog distribution tile says what it measures');
+    ok(!/aren't yet persisted/.test(text(a)), 'the analog tile placeholder is gone');
     ok(!/Stock Return Distribution/.test(text(a)), 'the old top-30-stocks tile is gone');
     ok((text(a).match(/not investment advice/g) || []).length === 1,
       'embedded sections do not stack their own disclaimer footers');

@@ -379,12 +379,18 @@ td{padding:4px 8px}
    prose cards sit three across and the two data panels side by side; the
    order is fixed by renderAnalysis, so position is a stable handle. */
 @media(min-width:1400px){
-  #v-analysis.active{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:16px;align-items:start}
-  #v-analysis.active>*{grid-column:1/-1}
+  #v-analysis.active{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px;align-items:start}
+  #v-analysis.active>*{grid-column:auto}
+  #v-analysis.active>.wide,#v-analysis.active>footer{grid-column:1/-1}
   #v-analysis.active>.card{margin-bottom:16px}
-  #v-analysis.active>.card:nth-child(2),#v-analysis.active>.card:nth-child(3),#v-analysis.active>.card:nth-child(4){grid-column:span 2}
-  #v-analysis.active>.card:nth-child(6),#v-analysis.active>.card:nth-child(7){grid-column:span 3}
 }
+#v-analysis .md-item{border-top:1px solid #2e2e2e;padding:7px 0}
+#v-analysis .md-item summary{cursor:pointer;color:#c9c9c9;font-size:13px}
+#v-analysis .md-body{color:#8f8f8f;font-size:12.5px;padding:6px 0 2px 14px;max-width:880px}
+#v-analysis .md-body>*{margin-left:0!important;padding-left:0!important;border-left:0!important;width:auto!important;grid-column:1/-1!important}
+#v-analysis .card p{color:#8f8f8f;font-size:12.5px;max-width:880px;margin:6px 0}
+#nav a#nav-analysis{color:#6f6f6f;font-size:11px;letter-spacing:.4px;padding-right:12px;margin-right:6px;border-right:1px solid #2e2e2e}
+#nav a#nav-analysis.active,#nav a#nav-analysis:hover{color:#c9c9c9}
 </style>
 </head>
 <body>
@@ -801,7 +807,7 @@ window.SNAPSHOT = {
     },
     {
       "name": "Biotech",
-      "edge": 0.4769,
+      "edge": 0.4768,
       "breadth": 1.0,
       "horizon": "20d",
       "stocks": 4,
@@ -14331,6 +14337,1061 @@ window.SNAPSHOT = {
         }
       },
       {
+        "spx": [
+          [
+            "2026-01-02",
+            6858.47
+          ],
+          [
+            "2026-01-05",
+            6902.05
+          ],
+          [
+            "2026-01-06",
+            6944.82
+          ],
+          [
+            "2026-01-07",
+            6920.93
+          ],
+          [
+            "2026-01-08",
+            6921.46
+          ],
+          [
+            "2026-01-09",
+            6966.28
+          ],
+          [
+            "2026-01-12",
+            6977.27
+          ],
+          [
+            "2026-01-13",
+            6963.74
+          ],
+          [
+            "2026-01-14",
+            6926.6
+          ],
+          [
+            "2026-01-15",
+            6944.47
+          ],
+          [
+            "2026-01-16",
+            6940.01
+          ],
+          [
+            "2026-01-20",
+            6796.86
+          ],
+          [
+            "2026-01-21",
+            6875.62
+          ],
+          [
+            "2026-01-22",
+            6913.35
+          ],
+          [
+            "2026-01-23",
+            6915.61
+          ],
+          [
+            "2026-01-26",
+            6950.23
+          ],
+          [
+            "2026-01-27",
+            6978.6
+          ],
+          [
+            "2026-01-28",
+            6978.03
+          ],
+          [
+            "2026-01-29",
+            6969.01
+          ],
+          [
+            "2026-01-30",
+            6939.03
+          ],
+          [
+            "2026-02-02",
+            6976.44
+          ],
+          [
+            "2026-02-03",
+            6917.81
+          ],
+          [
+            "2026-02-04",
+            6882.72
+          ],
+          [
+            "2026-02-05",
+            6798.4
+          ],
+          [
+            "2026-02-06",
+            6932.3
+          ],
+          [
+            "2026-02-09",
+            6964.82
+          ],
+          [
+            "2026-02-10",
+            6941.81
+          ],
+          [
+            "2026-02-11",
+            6941.47
+          ],
+          [
+            "2026-02-12",
+            6832.76
+          ],
+          [
+            "2026-02-13",
+            6836.17
+          ],
+          [
+            "2026-02-17",
+            6843.22
+          ],
+          [
+            "2026-02-18",
+            6881.31
+          ],
+          [
+            "2026-02-19",
+            6861.89
+          ],
+          [
+            "2026-02-20",
+            6909.51
+          ],
+          [
+            "2026-02-23",
+            6837.75
+          ],
+          [
+            "2026-02-24",
+            6890.07
+          ],
+          [
+            "2026-02-25",
+            6946.13
+          ],
+          [
+            "2026-02-26",
+            6908.86
+          ],
+          [
+            "2026-02-27",
+            6878.88
+          ],
+          [
+            "2026-03-02",
+            6881.62
+          ],
+          [
+            "2026-03-03",
+            6816.63
+          ],
+          [
+            "2026-03-04",
+            6869.5
+          ],
+          [
+            "2026-03-05",
+            6830.71
+          ],
+          [
+            "2026-03-06",
+            6740.02
+          ],
+          [
+            "2026-03-09",
+            6795.99
+          ],
+          [
+            "2026-03-10",
+            6781.48
+          ],
+          [
+            "2026-03-11",
+            6775.8
+          ],
+          [
+            "2026-03-12",
+            6672.62
+          ],
+          [
+            "2026-03-13",
+            6632.19
+          ],
+          [
+            "2026-03-16",
+            6699.38
+          ],
+          [
+            "2026-03-17",
+            6716.09
+          ],
+          [
+            "2026-03-18",
+            6624.7
+          ],
+          [
+            "2026-03-19",
+            6606.49
+          ],
+          [
+            "2026-03-20",
+            6506.48
+          ],
+          [
+            "2026-03-23",
+            6581.0
+          ],
+          [
+            "2026-03-24",
+            6556.37
+          ],
+          [
+            "2026-03-25",
+            6591.9
+          ],
+          [
+            "2026-03-26",
+            6477.16
+          ],
+          [
+            "2026-03-27",
+            6368.85
+          ],
+          [
+            "2026-03-30",
+            6343.72
+          ],
+          [
+            "2026-03-31",
+            6528.52
+          ],
+          [
+            "2026-04-01",
+            6575.32
+          ],
+          [
+            "2026-04-02",
+            6582.69
+          ],
+          [
+            "2026-04-06",
+            6611.83
+          ],
+          [
+            "2026-04-07",
+            6616.85
+          ],
+          [
+            "2026-04-08",
+            6782.81
+          ],
+          [
+            "2026-04-09",
+            6824.66
+          ],
+          [
+            "2026-04-10",
+            6816.89
+          ],
+          [
+            "2026-04-13",
+            6886.24
+          ],
+          [
+            "2026-04-14",
+            6967.38
+          ],
+          [
+            "2026-04-15",
+            7022.95
+          ],
+          [
+            "2026-04-16",
+            7041.28
+          ],
+          [
+            "2026-04-17",
+            7126.06
+          ],
+          [
+            "2026-04-20",
+            7109.14
+          ],
+          [
+            "2026-04-21",
+            7064.01
+          ],
+          [
+            "2026-04-22",
+            7137.9
+          ],
+          [
+            "2026-04-23",
+            7108.4
+          ],
+          [
+            "2026-04-24",
+            7165.08
+          ],
+          [
+            "2026-04-27",
+            7173.91
+          ],
+          [
+            "2026-04-28",
+            7138.8
+          ],
+          [
+            "2026-04-29",
+            7135.95
+          ],
+          [
+            "2026-04-30",
+            7209.01
+          ],
+          [
+            "2026-05-01",
+            7230.12
+          ],
+          [
+            "2026-05-04",
+            7200.75
+          ],
+          [
+            "2026-05-05",
+            7259.22
+          ],
+          [
+            "2026-05-06",
+            7365.12
+          ],
+          [
+            "2026-05-07",
+            7337.11
+          ],
+          [
+            "2026-05-08",
+            7398.93
+          ],
+          [
+            "2026-05-11",
+            7412.84
+          ],
+          [
+            "2026-05-12",
+            7400.96
+          ],
+          [
+            "2026-05-13",
+            7444.25
+          ],
+          [
+            "2026-05-14",
+            7501.24
+          ],
+          [
+            "2026-05-15",
+            7408.5
+          ],
+          [
+            "2026-05-18",
+            7403.05
+          ],
+          [
+            "2026-05-19",
+            7353.61
+          ],
+          [
+            "2026-05-20",
+            7432.97
+          ],
+          [
+            "2026-05-21",
+            7445.72
+          ],
+          [
+            "2026-05-22",
+            7473.47
+          ],
+          [
+            "2026-05-26",
+            7519.12
+          ],
+          [
+            "2026-05-27",
+            7520.36
+          ],
+          [
+            "2026-05-28",
+            7563.63
+          ],
+          [
+            "2026-05-29",
+            7580.06
+          ],
+          [
+            "2026-06-01",
+            7599.96
+          ],
+          [
+            "2026-06-02",
+            7609.78
+          ],
+          [
+            "2026-06-03",
+            7553.68
+          ],
+          [
+            "2026-06-04",
+            7584.31
+          ],
+          [
+            "2026-06-05",
+            7383.74
+          ],
+          [
+            "2026-06-08",
+            7405.73
+          ],
+          [
+            "2026-06-09",
+            7386.65
+          ],
+          [
+            "2026-06-10",
+            7266.99
+          ],
+          [
+            "2026-06-11",
+            7394.3
+          ],
+          [
+            "2026-06-12",
+            7431.46
+          ],
+          [
+            "2026-06-15",
+            7554.29
+          ],
+          [
+            "2026-06-16",
+            7511.35
+          ],
+          [
+            "2026-06-17",
+            7420.1
+          ],
+          [
+            "2026-06-18",
+            7500.58
+          ],
+          [
+            "2026-06-22",
+            7472.79
+          ],
+          [
+            "2026-06-23",
+            7365.46
+          ],
+          [
+            "2026-06-24",
+            7358.22
+          ],
+          [
+            "2026-06-25",
+            7357.49
+          ],
+          [
+            "2026-06-26",
+            7354.02
+          ],
+          [
+            "2026-06-29",
+            7440.43
+          ],
+          [
+            "2026-06-30",
+            7499.36
+          ],
+          [
+            "2026-07-01",
+            7483.23
+          ],
+          [
+            "2026-07-02",
+            7483.24
+          ],
+          [
+            "2026-07-06",
+            7537.43
+          ],
+          [
+            "2026-07-07",
+            7503.85
+          ],
+          [
+            "2026-07-08",
+            7482.71
+          ],
+          [
+            "2026-07-09",
+            7543.64
+          ],
+          [
+            "2026-07-10",
+            7575.39
+          ],
+          [
+            "2026-07-13",
+            7515.34
+          ],
+          [
+            "2026-07-14",
+            7543.59
+          ],
+          [
+            "2026-07-15",
+            7572.4
+          ],
+          [
+            "2026-07-16",
+            7533.77
+          ],
+          [
+            "2026-07-17",
+            7457.69
+          ],
+          [
+            "2026-07-20",
+            7443.28
+          ],
+          [
+            "2026-07-21",
+            7509.2
+          ],
+          [
+            "2026-07-22",
+            7498.96
+          ],
+          [
+            "2026-07-23",
+            7408.3
+          ],
+          [
+            "2026-07-24",
+            7411.98
+          ],
+          [
+            "2026-07-27",
+            7413.18
+          ],
+          [
+            "2026-07-28",
+            7428.78
+          ],
+          [
+            "2026-07-29",
+            7316.15
+          ],
+          [
+            "2026-07-30",
+            7437.63
+          ],
+          [
+            "2026-07-31",
+            7489.72
+          ],
+          [
+            "2026-08-03",
+            7600.5
+          ],
+          [
+            "2026-08-04",
+            7736.52
+          ],
+          [
+            "2026-08-05",
+            7723.55
+          ],
+          [
+            "2026-08-06",
+            7709.96
+          ],
+          [
+            "2026-08-07",
+            7757.64
+          ],
+          [
+            "2026-08-10",
+            7753.11
+          ],
+          [
+            "2026-08-11",
+            7728.2
+          ],
+          [
+            "2026-08-12",
+            7748.5
+          ],
+          [
+            "2026-08-13",
+            7798.99
+          ],
+          [
+            "2026-08-14",
+            7785.76
+          ],
+          [
+            "2026-08-17",
+            7745.06
+          ],
+          [
+            "2026-08-18",
+            7691.76
+          ],
+          [
+            "2026-08-19",
+            7707.98
+          ],
+          [
+            "2026-08-20",
+            7641.16
+          ],
+          [
+            "2026-08-21",
+            7674.37
+          ],
+          [
+            "2026-08-24",
+            7652.86
+          ],
+          [
+            "2026-08-25",
+            7677.28
+          ],
+          [
+            "2026-08-26",
+            7675.7
+          ],
+          [
+            "2026-08-27",
+            7730.99
+          ],
+          [
+            "2026-08-28",
+            7711.76
+          ],
+          [
+            "2026-08-31",
+            7686.14
+          ],
+          [
+            "2026-09-01",
+            7631.47
+          ],
+          [
+            "2026-09-02",
+            7666.6
+          ],
+          [
+            "2026-09-03",
+            7747.71
+          ],
+          [
+            "2026-09-04",
+            7718.6
+          ],
+          [
+            "2026-09-08",
+            7673.52
+          ],
+          [
+            "2026-09-09",
+            7636.36
+          ],
+          [
+            "2026-09-10",
+            7591.7
+          ],
+          [
+            "2026-09-11",
+            7656.98
+          ],
+          [
+            "2026-09-14",
+            7619.98
+          ],
+          [
+            "2026-09-15",
+            7585.73
+          ],
+          [
+            "2026-09-16",
+            7551.81
+          ],
+          [
+            "2026-09-17",
+            7637.76
+          ],
+          [
+            "2026-09-18",
+            7650.5
+          ],
+          [
+            "2026-09-21",
+            7764.7
+          ],
+          [
+            "2026-09-22",
+            7764.64
+          ],
+          [
+            "2026-09-23",
+            7706.03
+          ],
+          [
+            "2026-09-24",
+            7704.13
+          ],
+          [
+            "2026-09-25",
+            7743.41
+          ],
+          [
+            "2026-09-28",
+            7683.69
+          ],
+          [
+            "2026-09-29",
+            7670.84
+          ],
+          [
+            "2026-09-30",
+            7651.54
+          ],
+          [
+            "2026-10-01",
+            7666.45
+          ],
+          [
+            "2026-10-02",
+            7722.72
+          ],
+          [
+            "2026-10-05",
+            7773.95
+          ],
+          [
+            "2026-10-06",
+            7832.96
+          ]
+        ],
+        "path": [
+          {
+            "date": "2026-01-02",
+            "pct_doubled": 0.0,
+            "pct_halved": 0.0,
+            "median_ret": 0.8,
+            "sp500_ret": 0.19
+          },
+          {
+            "date": "2026-01-09",
+            "pct_doubled": 0.0,
+            "pct_halved": 0.0,
+            "median_ret": 2.66,
+            "sp500_ret": 1.76
+          },
+          {
+            "date": "2026-01-16",
+            "pct_doubled": 0.0,
+            "pct_halved": 0.0,
+            "median_ret": 3.83,
+            "sp500_ret": 1.38
+          },
+          {
+            "date": "2026-01-23",
+            "pct_doubled": 0.0,
+            "pct_halved": 0.0,
+            "median_ret": 3.29,
+            "sp500_ret": 1.02
+          },
+          {
+            "date": "2026-01-30",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": 3.59,
+            "sp500_ret": 1.37
+          },
+          {
+            "date": "2026-02-06",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": 6.11,
+            "sp500_ret": 1.27
+          },
+          {
+            "date": "2026-02-13",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": 7.56,
+            "sp500_ret": -0.14
+          },
+          {
+            "date": "2026-02-20",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": 7.81,
+            "sp500_ret": 0.94
+          },
+          {
+            "date": "2026-02-27",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": 8.17,
+            "sp500_ret": 0.49
+          },
+          {
+            "date": "2026-03-06",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": 3.46,
+            "sp500_ret": -1.54
+          },
+          {
+            "date": "2026-03-13",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": -0.82,
+            "sp500_ret": -3.12
+          },
+          {
+            "date": "2026-03-20",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": -3.2,
+            "sp500_ret": -4.95
+          },
+          {
+            "date": "2026-03-27",
+            "pct_doubled": 0.2,
+            "pct_halved": 0.0,
+            "median_ret": -3.49,
+            "sp500_ret": -6.96
+          },
+          {
+            "date": "2026-04-02",
+            "pct_doubled": 0.4,
+            "pct_halved": 0.0,
+            "median_ret": -0.62,
+            "sp500_ret": -3.84
+          },
+          {
+            "date": "2026-04-10",
+            "pct_doubled": 0.6,
+            "pct_halved": 0.0,
+            "median_ret": 1.88,
+            "sp500_ret": -0.42
+          },
+          {
+            "date": "2026-04-17",
+            "pct_doubled": 0.8,
+            "pct_halved": 0.0,
+            "median_ret": 4.64,
+            "sp500_ret": 4.1
+          },
+          {
+            "date": "2026-04-24",
+            "pct_doubled": 1.6,
+            "pct_halved": 0.0,
+            "median_ret": 3.71,
+            "sp500_ret": 4.67
+          },
+          {
+            "date": "2026-05-01",
+            "pct_doubled": 1.6,
+            "pct_halved": 0.0,
+            "median_ret": 4.11,
+            "sp500_ret": 5.62
+          },
+          {
+            "date": "2026-05-08",
+            "pct_doubled": 2.79,
+            "pct_halved": 0.2,
+            "median_ret": 3.55,
+            "sp500_ret": 8.08
+          },
+          {
+            "date": "2026-05-15",
+            "pct_doubled": 2.79,
+            "pct_halved": 0.2,
+            "median_ret": 1.54,
+            "sp500_ret": 8.22
+          },
+          {
+            "date": "2026-05-22",
+            "pct_doubled": 2.99,
+            "pct_halved": 0.2,
+            "median_ret": 5.01,
+            "sp500_ret": 9.17
+          },
+          {
+            "date": "2026-05-29",
+            "pct_doubled": 2.79,
+            "pct_halved": 0.2,
+            "median_ret": 4.36,
+            "sp500_ret": 10.73
+          },
+          {
+            "date": "2026-06-05",
+            "pct_doubled": 2.99,
+            "pct_halved": 0.2,
+            "median_ret": 5.44,
+            "sp500_ret": 7.86
+          },
+          {
+            "date": "2026-06-12",
+            "pct_doubled": 3.79,
+            "pct_halved": 0.6,
+            "median_ret": 7.5,
+            "sp500_ret": 8.56
+          },
+          {
+            "date": "2026-06-18",
+            "pct_doubled": 4.39,
+            "pct_halved": 1.0,
+            "median_ret": 5.6,
+            "sp500_ret": 9.57
+          },
+          {
+            "date": "2026-06-26",
+            "pct_doubled": 3.79,
+            "pct_halved": 1.2,
+            "median_ret": 8.97,
+            "sp500_ret": 7.43
+          },
+          {
+            "date": "2026-07-02",
+            "pct_doubled": 2.79,
+            "pct_halved": 0.6,
+            "median_ret": 10.57,
+            "sp500_ret": 9.32
+          },
+          {
+            "date": "2026-07-10",
+            "pct_doubled": 3.19,
+            "pct_halved": 0.6,
+            "median_ret": 9.67,
+            "sp500_ret": 10.66
+          },
+          {
+            "date": "2026-07-17",
+            "pct_doubled": 2.4,
+            "pct_halved": 0.8,
+            "median_ret": 9.43,
+            "sp500_ret": 8.94
+          },
+          {
+            "date": "2026-07-24",
+            "pct_doubled": 2.4,
+            "pct_halved": 0.8,
+            "median_ret": 10.04,
+            "sp500_ret": 8.28
+          },
+          {
+            "date": "2026-07-31",
+            "pct_doubled": 2.2,
+            "pct_halved": 0.8,
+            "median_ret": 9.77,
+            "sp500_ret": 9.41
+          },
+          {
+            "date": "2026-08-07",
+            "pct_doubled": 2.99,
+            "pct_halved": 0.8,
+            "median_ret": 11.12,
+            "sp500_ret": 13.32
+          },
+          {
+            "date": "2026-08-14",
+            "pct_doubled": 3.39,
+            "pct_halved": 0.6,
+            "median_ret": 11.66,
+            "sp500_ret": 13.74
+          },
+          {
+            "date": "2026-08-21",
+            "pct_doubled": 2.59,
+            "pct_halved": 0.6,
+            "median_ret": 10.66,
+            "sp500_ret": 12.11
+          },
+          {
+            "date": "2026-08-28",
+            "pct_doubled": 2.99,
+            "pct_halved": 0.8,
+            "median_ret": 10.88,
+            "sp500_ret": 12.65
+          },
+          {
+            "date": "2026-09-04",
+            "pct_doubled": 2.79,
+            "pct_halved": 0.8,
+            "median_ret": 9.35,
+            "sp500_ret": 12.75
+          },
+          {
+            "date": "2026-09-11",
+            "pct_doubled": 2.79,
+            "pct_halved": 1.4,
+            "median_ret": 7.42,
+            "sp500_ret": 11.85
+          },
+          {
+            "date": "2026-09-18",
+            "pct_doubled": 3.19,
+            "pct_halved": 1.4,
+            "median_ret": 6.28,
+            "sp500_ret": 11.76
+          },
+          {
+            "date": "2026-09-25",
+            "pct_doubled": 3.59,
+            "pct_halved": 1.4,
+            "median_ret": 5.85,
+            "sp500_ret": 13.12
+          },
+          {
+            "date": "2026-10-02",
+            "pct_doubled": 4.39,
+            "pct_halved": 1.8,
+            "median_ret": 4.18,
+            "sp500_ret": 12.81
+          },
+          {
+            "date": "2026-10-06",
+            "pct_doubled": 4.19,
+            "pct_halved": 1.8,
+            "median_ret": 5.62,
+            "sp500_ret": 14.42
+          }
+        ],
         "year": 2026,
         "partial": true,
         "n_members": 503,
@@ -14342,19 +15403,19 @@ window.SNAPSHOT = {
         "n_halved": 9,
         "pct_up50": 10.78,
         "pct_down30": 6.19,
-        "median_ret": 5.6,
-        "sp500_ret": 14.41,
-        "nasdaq_ret": 18.98,
+        "median_ret": 5.62,
+        "sp500_ret": 14.42,
+        "nasdaq_ret": 18.99,
         "top5": {
-          "SNDK": 6.059,
-          "MRNA": 5.447,
-          "DELL": 3.606,
+          "SNDK": 6.061,
+          "MRNA": 5.446,
+          "DELL": 3.609,
           "MU": 2.743,
-          "MRVL": 2.376
+          "MRVL": 2.37
         },
         "bottom5": {
           "CTVA": -0.793,
-          "TTD": -0.684,
+          "TTD": -0.683,
           "FICO": -0.596,
           "APP": -0.586,
           "CSGP": -0.583
@@ -25249,8 +26310,10 @@ const S = window.SNAPSHOT;
 //
 // Portfolios was then removed outright on 2026-09-24 (owner) — renderer,
 // container and the frozen books in the snapshot. The books live in PAPA.
-const VIEWS = ["home","analysis","bubble","news"];
-const LABELS = ["Home","Analysis","Bubble","News"];
+// Methods (view id "analysis", so old #analysis links still land) is an
+// appendix: last in key order, drawn first in the nav, set apart (2026-10-06).
+const VIEWS = ["home","bubble","news","analysis"];
+const LABELS = ["Home","Bubble","News","Methods"];
 
 
 // Theme persistence
@@ -25263,7 +26326,7 @@ function pill(s,label){return`<span class="pill ${pillClass(s)}">${label||s}</sp
 
 // Topbar nav
 const nav=document.getElementById("nav");
-VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textContent=LABELS[i];a.id="nav-"+v;nav.appendChild(a);});
+VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textContent=LABELS[i];a.id="nav-"+v;if(v==="analysis")nav.prepend(a);else nav.appendChild(a);});
 
 // Dark/light toggle button
 const themeBtn=document.createElement('button');
@@ -26575,118 +27638,74 @@ window._memFiltClear=function(){
 
 
 // ANALYSIS — combined narrative, analog matching, methodology
+// ── Methods (was Analysis) ───────────────────────────────────────────────
+// Owner, 2026-10-06: "move the analysis tab ... its not really part of the
+// workflow, more of an appendix ... rebuild the analysis tab around what the
+// home tab actually does now, thats mostly old dreck."
+//
+// So this is an appendix, reached from the far left of the nav, and its core
+// is HOME'S OWN EXPLANATIONS: renderHome() is rendered off-screen and every
+// "what is this / why this label" panel is lifted out, card by card. Nothing
+// here restates Home in its own words, so the two cannot drift apart — the
+// fault the old tab had (its Breadth glossary entry described a sector-edge
+// measure Home stopped using; its analog tile promised dates that were never
+// persisted).
+//
+// Dropped with the rebuild: that analog tile, and the cross-asset table
+// (renderSignals), whose BULLISH/BEARISH labels Home's Risk axes superseded.
+// The FRED tiles stay at the bottom as reference inputs.
 function renderAnalysis(){
-  const a=S.analog||{};
-  const matches=a.top_matches||[];
-  const isSynth=matches.length>0&&matches[0].synthetic;
-
-  const matchRows=matches.map((m,i)=>{
-    const ret=m.spy_ret_20d||0,retPct=(ret*100).toFixed(1),retCol=ret>=0?'#3fae6a':'#e5484d';
-    const eqCol=(m.breadth||0)>0.5?'#3fae6a':'#e5484d',eqLabel=(m.breadth||0)>0.5?'Up':'Down';
-    return`<tr style="border-top:1px solid #2e2e2e">
-      <td style="color:#6f6f6f;text-align:center;padding:7px 4px">${i+1}</td>
-      <td style="font-family:var(--mono);font-size:12px;padding:7px 8px">${m.date}</td>
-      <td style="font-size:12px;padding:7px 8px;color:#c9c9c9">${m.regime}</td>
-      <td style="text-align:right;font-weight:600;color:${retCol};padding:7px 8px">${ret>=0?'+':''}${retPct}%</td>
-      <td style="text-align:center;padding:7px 4px"><span style="background:${eqCol}22;color:${eqCol};border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">${eqLabel}</span></td>
-    </tr>`;
-  }).join('');
-
-  // Only show the precedents table when we have real analog dates persisted.
-  // Synthetic illustrative rows are replaced with a note explaining the gap.
-  const precedentsBlock=(matches.length&&!isSynth)?`<div style="background:#141414;border-radius:4px;padding:14px;margin-top:4px">
-    <div style="display:flex;align-items:center;margin-bottom:10px">
-      <span style="color:#e6e6e6;font-size:13px;font-weight:600">Historical Precedents</span>
-    </div>
-    <table style="width:100%;border-collapse:collapse">
-      <tr style="color:#8f8f8f;font-size:10px;text-transform:uppercase;letter-spacing:.5px">
-        <th style="width:28px;text-align:center;padding:0 4px 8px">#</th>
-        <th style="text-align:left;padding:0 8px 8px">Date</th>
-        <th style="text-align:left;padding:0 8px 8px">Regime</th>
-        <th style="text-align:right;padding:0 8px 8px">SPY +20d</th>
-        <th style="text-align:center;padding:0 4px 8px">Equities</th>
-      </tr>${matchRows}
-    </table>
-  </div>`:`<div style="background:#0e0e0e;border:1px dashed #2e2e2e;border-radius:4px;padding:14px;margin-top:4px;color:#8f8f8f;font-size:12px;line-height:1.6">
-    The 30 actual analog dates from today's scan are used internally to compute every stock's edge, but they aren't yet persisted into <code style="background:#141414;padding:1px 5px;border-radius:3px;color:#c9c9c9">spy_state.json</code> for display here. The dates exist; they just don't make it to the snapshot.
-  </div>`;
-
-  // SPY's own next-20-session return from each analog day, measured by the
-  // scan (2026-09-24). Until then this tile read the top 30 stocks' medians.
-  // Null = not measured, shown as such — never a bar at zero.
-  const fwd=a.spy_fwd||{},fwdBase=fwd.base||null,fwdOk=a.spy_p50!=null;
-  const _pc1=v=>`${v>=0?'+':''}${(v*100).toFixed(1)}%`;
-  const distRow=(label,val,color)=>{
-    if(val==null)return`<div style="display:flex;gap:10px;margin-bottom:6px;font-size:11px;color:#6f6f6f"><div style="width:32px;text-align:right">${label}</div><div>not measured</div></div>`;
-    const w=Math.max(0,Math.min(100,((val+0.2)/0.4)*100));
-    return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div style="width:32px;font-size:11px;color:#8f8f8f;text-align:right">${label}</div>
-      <div style="flex:1;background:#141414;border-radius:4px;height:10px;position:relative">
-        <div style="position:absolute;left:${w}%;width:2px;height:10px;border-radius:1px;background:${color};top:0"></div>
-      </div>
-      <div style="width:48px;font-size:11px;font-weight:600;color:${color};text-align:right">${val>=0?'+':''}${(val*100).toFixed(1)}%</div>
-    </div>`;
+  const box=document.createElement('div');
+  try{box.innerHTML=renderHome();}catch(e){box.innerHTML='';}
+  const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const cards=[...box.querySelectorAll('.card')].map(c=>{
+    const h=c.querySelector('h2,h3'); const title=h?h.textContent.trim():'';
+    const seen=new Set(), items=[];
+    c.querySelectorAll('[data-why]').forEach(t=>{
+      const id=t.dataset.why; if(seen.has(id))return; seen.add(id);
+      const panel=box.querySelector('#'+CSS.escape(id)); if(!panel)return;
+      const lab=t.querySelector('div'), txt=lab?lab.textContent.trim():'';
+      const human=id.replace(/^why-/,'').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^./,c=>c.toUpperCase());
+      items.push({label:txt&&txt.length<40?txt:human,html:panel.innerHTML});
+    });
+    return{title,items};
+  }).filter(c=>c.title);
+  // The one Home card with no "what is this" panels explains itself inline;
+  // its method is stated here instead.
+  const ownText={
+    'Where It Goes Next':`<p>Two base rates for the label the market carries 20 sessions from now. <strong>By label</strong>: every past session since 1993 that carried today's regime label, and what label it carried 20 sessions later; the spell count beside it is the real sample size, because overlapping days are not independent. <strong>By analog days</strong>: the 30 past sessions most like today on SPY's 5-day and 20-day return, 20-day volatility and 60-day drawdown (z-scored, nearest by Euclidean distance, 3-year window, the last 30 days excluded) — the same analog days the stock signals use, below. ▲/▼ mark a label more or less likely than on any day. A base rate, not a forecast.</p>`,
   };
-
-  const terms=[
-    ["Edge","Conditional median return minus unconditional baseline. How much better a stock performs in analog conditions vs any random day."],
-    ["Analog","A historical day whose SPY state is closest to today's, by Euclidean distance after z-score normalization across 4 dimensions."],
-    ["Hit Rate","Fraction of resolved signals where the actual return matched or beat the predicted edge."],
-    ["Breadth","Fraction of stocks in a sector with positive conditional edge. High breadth means widespread participation, not a few outliers."],
-    ["p10 / p50 / p90","On a stock row: the 10th, 50th and 90th percentile of that stock's forward returns across the analog days. On the analog tile: the same for SPY over the next 20 sessions, set against every day in the history."],
-  ];
-
-  return`<div class="card"><h2>Analog Matching</h2>
-  <div class="grid2" style="margin-bottom:16px">
-    <div style="background:#141414;border-radius:4px;padding:12px">
-      <div style="color:#8f8f8f;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Analog Days Found</div>
-      <div style="font-size:28px;font-weight:700;color:#f2f2f2">${a.n_days||30}</div>
-      <div style="color:#6f6f6f;font-size:11px">excluding last ${a.exclude_recent||30} days</div>
-    </div>
-    <div style="background:#141414;border-radius:4px;padding:12px">
-      <div style="color:#8f8f8f;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">SPY next ${fwd.horizon||20} sessions, from the analog days</div>
-      ${distRow('p10',a.spy_p10,'#e5484d')}
-      ${distRow('p50',a.spy_p50,'#c9c9c9')}
-      ${distRow('p90',a.spy_p90,'#3fae6a')}
-      <div style="color:#6f6f6f;font-size:11px;margin-top:6px;line-height:1.5">${fwdOk
-        ?`${fwd.analogs} analog days.${fwdBase?` Any day since the data starts: p10 ${_pc1(fwdBase.p10)} · p50 ${_pc1(fwdBase.p50)} · p90 ${_pc1(fwdBase.p90)} (${fwd.base_days} days).`:''}`
-        :(fwd.reason?`Not measured: ${fwd.reason}.`:'Not measured yet — the next daily scan publishes it.')}</div>
-    </div>
+  const homeCards=cards.map(c=>`<div class="card"><h2>${esc(c.title)}</h2>
+    ${ownText[c.title]||''}
+    ${c.items.map(it=>`<details class="md-item"><summary>${esc(it.label)}</summary><div class="md-body">${it.html}</div></details>`).join('')}
+    ${!c.items.length&&!ownText[c.title]?'<p style="color:#8f8f8f">This card has no written method yet.</p>':''}
+  </div>`).join('');
+  return`<div class="card wide"><h2>Methods — how each Home card is built</h2>
+  <p style="color:#8f8f8f;font-size:13px;max-width:880px">An appendix, not a step in the workflow. Each Home card below with its own explanations, the same text Home opens under "what is this" — click a line to expand. Then how the stock signals work, and their limits.</p></div>
+  ${homeCards}
+  <div class="card wide"><h2>Stock signals — the analog engine</h2>
+    <p><strong>1 · State vector.</strong> Today's market as 4 numbers: SPY 5-day return, 20-day return, 20-day realized volatility, 60-day drawdown.</p>
+    <p><strong>2 · Analog matching.</strong> Z-score each dimension, then take the 30 past days closest to today by Euclidean distance. The most recent 30 days are excluded so today cannot match itself.</p>
+    <p><strong>3 · Conditional returns.</strong> For every stock, what happened over the next 5 / 20 / 60 / 120 sessions after each analog day: a distribution, not a point forecast.</p>
+    <p><strong>4 · Edge.</strong> Conditional median minus unconditional median. Kept only with edge ≥ 5% and at least 5 observations.</p>
+    <p><strong>Eligibility.</strong> 20-day realized vol above 5%/day is excluded. Per LPL compliance, names priced under $5 today, or under $5 on more than 10% of trailing closes, are removed. Leveraged and inverse products are filtered by name.</p>
   </div>
-  <div style="font-size:12px;color:#8f8f8f;margin-bottom:14px">${a.regime_context||''}</div>
-  ${precedentsBlock}
+  <div class="card wide"><h2 style="color:#d4a72c">Limitations</h2>
+    <p><strong>Small samples.</strong> Five observations is the floor and many signals sit near it; hit rates and percentiles from tiny samples are noisy.</p>
+    <p><strong>Regime shifts.</strong> A 3-year lookback can miss structural change (rate regime, AI capex, the dollar). When the state has no real historical twin, analog matching breaks.</p>
+    <p><strong>No causation.</strong> Co-occurrence, not mechanism.</p>
+    <p><strong>Tendencies, not forecasts.</strong> A 60% hit rate is six in ten in history, not a guarantee.</p>
+    <p><strong>Bubble Watch</strong> has its own method and survivorship caveats at the foot of the Bubble tab.</p>
   </div>
-
-  <div class="card"><h2>How This Works — Methodology</h2>
-  <div style="line-height:1.7;font-size:13px;color:#c9c9c9">
-    <p style="margin-bottom:10px"><strong style="color:#f2f2f2">1 · State vector.</strong> Reduce today's market to 4 numbers: SPY 5-day return, 20-day return, 20-day realized volatility, and 60-day drawdown.</p>
-    <p style="margin-bottom:10px"><strong style="color:#f2f2f2">2 · Analog matching.</strong> Z-score each dimension across all SPY history, then pick the 30 historical days closest to today by Euclidean distance. The most recent 30 days are excluded so we don't match today to itself.</p>
-    <p style="margin-bottom:10px"><strong style="color:#f2f2f2">3 · Conditional returns.</strong> For every stock, look at what happened over the next 5 / 20 / 60 / 120 trading days following each analog. That produces a distribution of forward returns, not a point forecast.</p>
-    <p style="margin-bottom:10px"><strong style="color:#f2f2f2">4 · Edge.</strong> <code style="background:#141414;padding:1px 5px;border-radius:3px">edge = conditional median − unconditional median</code>. Only signals with edge ≥ 5% and at least 5 observations are kept.</p>
-    <p style="margin-bottom:6px"><strong style="color:#f2f2f2">Eligibility filters.</strong> Stocks with 20-day realized vol above 5% / day are excluded. Per LPL compliance, stocks priced under $5 today — or with more than 10% of their trailing closes under $5 — are removed. Leveraged and inverse products are filtered out by name.</p>
+  <div class="card wide"><h2>Glossary</h2>
+    <p><strong>Edge</strong> — conditional median return minus the unconditional median: how much better a stock did after analog days than after any day.</p>
+    <p><strong>Analog day</strong> — a past session whose SPY state is closest to today's after z-scoring the 4 dimensions above.</p>
+    <p><strong>p10 / p50 / p90</strong> — the 10th, 50th and 90th percentile of forward returns across the analog days.</p>
+    <p><strong>Spell</strong> — an unbroken run of sessions carrying one regime label; the honest sample size for the label base rates.</p>
   </div>
-  </div>
-
-  <div class="card" style="border-left:3px solid #d4a72c;padding-left:12px">
-  <h2 style="color:#d4a72c">Limitations</h2>
-  <div style="line-height:1.65;font-size:13px;color:#c9c9c9">
-    <p style="margin-bottom:8px"><strong style="color:#f2f2f2">Small samples.</strong> Five observations is the floor; many signals sit near it. Hit rates and p-percentiles from tiny samples are noisy — don't over-weight them.</p>
-    <p style="margin-bottom:8px"><strong style="color:#f2f2f2">Regime shifts.</strong> A 3-year lookback can miss structural changes (rate regime, AI capex cycle, dollar trends). When the world genuinely changes, analog matching breaks because the new state has no real historical twin.</p>
-    <p style="margin-bottom:8px"><strong style="color:#f2f2f2">No causation.</strong> Pattern matching describes co-occurrence, not mechanism. If a stock historically ran in similar setups, the model doesn't know <em>why</em>.</p>
-    <p style="margin-bottom:0"><strong style="color:#f2f2f2">Tendencies, not forecasts.</strong> A 60% hit rate means the same setup paid off 6 out of 10 times in history. That's an edge, not a guarantee.</p>
-  </div>
-  </div>
-
-  <div class="card"><h2>Glossary</h2>
-  <div>
-    ${terms.map(([t,d])=>`<div style="margin-bottom:10px"><strong style="color:#f2f2f2">${t}:</strong> <span style="color:#8f8f8f;font-size:12px">${d}</span></div>`).join('')}
-  </div>
-  </div>
-  ${_stripFoot(renderEcon())}
-  ${_stripFoot(renderSignals())}
-  <footer>Tendencies only — not investment advice.</footer>`;
+  <div class="wide">${_stripFoot(renderEcon())}</div>
+  <footer>Methods appendix — not investment advice.</footer>`;
 }
-
 function renderBubble(){
   const bw=S.bubble_watch||{};
   const years=bw.years||[];
@@ -26701,31 +27720,78 @@ function renderBubble(){
   const maxUp=Math.max(...years.map(y=>y.pct_doubled))*1.15+0.5;
   const maxDn=Math.max(...years.map(y=>y.pct_halved))*1.1+0.5;
   function tile(k,v,d,vc){return`<div style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:12px 14px;flex:1;min-width:170px"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${k}</div><div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:${vc||'#f2f2f2'};font-family:var(--mono)">${v}</div><div style="color:#8f8f8f;font-size:11px">${d}</div></div>`;}
-  function bubblePanel(rows,title){
-    const W=460,H=300,T=24,B=34,L=38,R=6;
-    const ih=H-T-B, y0=T+ih*maxUp/(maxUp+maxDn);
-    const yUp=v=>y0-(v/maxUp)*(y0-T), yDn=v=>y0+(v/maxDn)*(H-B-y0);
-    const step=(W-L-R)/rows.length, bwid=Math.min(24,step*0.46);
-    let s='';
-    [5,-5,-10].forEach(g=>{if(g>0&&g>maxUp)return;if(g<0&&-g>maxDn)return;
-      const gy=g>=0?yUp(g):yDn(-g);
-      s+=`<line x1="${L}" x2="${W-R}" y1="${gy}" y2="${gy}" stroke="#141414"/><text x="${L-5}" y="${gy+3.5}" text-anchor="end" font-size="9.5" fill="#6f6f6f">${g>0?'+':''}${g}%</text>`;});
-    rows.forEach((d,i)=>{
-      const cx=L+step*(i+0.5);
-      const tipTop=Object.entries(d.top5||{}).slice(0,3).map(([t,r])=>`${t} ${r>=0?'+':''}${Math.round(r*100)}%`).join(', ');
-      const tipBot=Object.entries(d.bottom5||{}).slice(0,3).map(([t,r])=>`${t} ${Math.round(r*100)}%`).join(', ');
-      const tip=`${d.year}${d.partial?' YTD':''} — doubled: ${d.n_doubled} (${d.pct_doubled}%) · halved: ${d.n_halved} (${d.pct_halved}%)\nS&amp;P ${d.sp500_ret>0?'+':''}${d.sp500_ret}% · median member ${d.median_ret>0?'+':''}${d.median_ret}% · coverage ${d.coverage_pct}%\nTop: ${tipTop}\nBottom: ${tipBot}`;
-      const gap=(d.sp500_ret-d.median_ret);
-      s+=`<g><title>${tip}</title>`;
-      if(d.pct_doubled>0)s+=`<rect x="${(cx-bwid/2).toFixed(1)}" y="${yUp(d.pct_doubled).toFixed(1)}" width="${bwid.toFixed(1)}" height="${(y0-yUp(d.pct_doubled)).toFixed(1)}" rx="2.5" fill="#5b9dff"/>`;
-      if(d.pct_halved>0)s+=`<rect x="${(cx-bwid/2).toFixed(1)}" y="${(y0+1).toFixed(1)}" width="${bwid.toFixed(1)}" height="${(yDn(d.pct_halved)-y0-1).toFixed(1)}" rx="2.5" fill="#e5484d"/>`;
-      if(d.pct_doubled>=2.5)s+=`<text x="${cx}" y="${yUp(d.pct_doubled)-4}" text-anchor="middle" font-size="9.5" fill="#8f8f8f">${d.pct_doubled.toFixed(1)}</text>`;
-      if(d.pct_halved>=4)s+=`<text x="${cx}" y="${yDn(d.pct_halved)+11}" text-anchor="middle" font-size="9.5" fill="#8f8f8f">${d.pct_halved.toFixed(1)}</text>`;
-      s+=`<text x="${cx}" y="${H-20}" text-anchor="middle" font-size="10" fill="#8f8f8f">${String(d.year).slice(2)}${d.partial?'*':''}</text>`;
-      s+=`<text x="${cx}" y="${H-8}" text-anchor="middle" font-size="8.5" fill="#6f6f6f">Δ${Math.abs(gap).toFixed(0)}</text>`;
-      s+=`<rect x="${(cx-step/2).toFixed(1)}" y="${T}" width="${step.toFixed(1)}" height="${ih}" fill="transparent"/></g>`;});
-    s+=`<line x1="${L}" x2="${W-R}" y1="${y0}" y2="${y0}" stroke="#4a4a4a" stroke-width="1.5"/>`;
-    return`<div style="flex:1;min-width:320px"><div style="text-align:center;color:#8f8f8f;font-size:11px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">${title}</div><svg viewBox="0 0 ${W} ${H}" width="100%" role="img">${s}</svg></div>`;
+  // THE FIVE MARKERS, defined once (2026-10-06). The checklist below, the five
+  // small charts and the S&P chart's "first lit" dates all read their trigger
+  // from here, so a threshold cannot be changed in one place and not the others.
+  const MK=[
+    {n:1,short:'Doubling mania',unit:'%',thr:4,thrTxt:'≥4% doubled',
+     val:r=>r.pct_doubled,lit:r=>r.pct_doubled>=4},
+    {n:2,short:'Two-sided churn',unit:'%',thr:0.6*churn99,thrTxt:`≥60% of 1999 (${(0.6*churn99).toFixed(1)}%)`,
+     val:r=>r.pct_doubled+r.pct_halved,lit:r=>(r.pct_doubled+r.pct_halved)>=0.6*churn99},
+    {n:3,short:'Destruction under highs',unit:'%',thr:3,thrTxt:'≥3% halved, index up',
+     val:r=>r.pct_halved,lit:r=>r.pct_halved>=3&&r.sp500_ret>0,dim:r=>!(r.sp500_ret>0)},
+    {n:4,short:'Extreme narrowness',unit:' pts',thr:15,thrTxt:'index − median ≥15 pts',
+     val:r=>r.sp500_ret-r.median_ret,lit:r=>(r.sp500_ret-r.median_ret)>=15},
+    {n:5,short:'The flip',unit:' pts',thr:0,thrTxt:'halved > doubled',
+     val:r=>r.pct_halved-r.pct_doubled,lit:r=>r.pct_halved>r.pct_doubled},
+  ];
+  const CH=(t,svg,note)=>`<div style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:10px 12px;min-width:0">
+    <div style="color:#c9c9c9;font-size:11px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px">${t}</div>${svg}
+    <div style="color:#6f6f6f;font-size:11px;margin-top:4px">${note}</div></div>`;
+  // One marker by year, both eras side by side with a gap between them. Bars
+  // over the trigger are red; the dashed line is the trigger itself.
+  function markerChart(m){
+    const W=420,H=190,T=14,B=24,L=34,R=6,gapCols=0.8;
+    const cols=dotcom.length+ai.length+gapCols, step=(W-L-R)/cols, bw=Math.min(18,step*0.6);
+    const vals=[...dotcom,...ai].map(m.val);
+    const hi=Math.max(m.thr,...vals,0), lo=Math.min(0,...vals);
+    const pad=(hi-lo)*0.12||1, top=hi+pad, bot=lo<0?lo-pad*0.5:0;
+    const y=v=>T+(top-v)/(top-bot)*(H-T-B);
+    const x=(i,era)=>L+step*(i+0.5+(era?dotcom.length+gapCols:0));
+    let s=`<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" stroke="#4a4a4a"/>`;
+    s+=`<line x1="${L}" x2="${W-R}" y1="${y(m.thr)}" y2="${y(m.thr)}" stroke="#d4a72c" stroke-dasharray="4,3"/>`;
+    s+=`<text x="${L-4}" y="${y(m.thr)+3}" text-anchor="end" font-size="9" fill="#d4a72c">${+m.thr.toFixed(1)}</text>`;
+    if(m.thr!==0)s+=`<text x="${L-4}" y="${y(0)+3}" text-anchor="end" font-size="9" fill="#6f6f6f">0</text>`;
+    [[dotcom,0],[ai,1]].forEach(([rows,era])=>rows.forEach((r,i)=>{
+      const v=m.val(r), cx=x(i,era), lit=m.lit(r), dim=m.dim&&m.dim(r);
+      const fill=lit?'#e5484d':dim?'#2e2e2e':'#5b9dff';
+      const y1=y(Math.max(v,0)), h=Math.max(1,Math.abs(y(v)-y(0)));
+      s+=`<g><title>${r.year}${r.partial?' YTD':''}: ${v>=0&&m.unit===' pts'?'+':''}${v.toFixed(1)}${m.unit}${lit?' · LIT':''}${dim?' · index down, does not count':''}</title>`;
+      s+=`<rect x="${(cx-bw/2).toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${fill}"/>`;
+      s+=`<text x="${cx}" y="${H-8}" text-anchor="middle" font-size="9" fill="${r.partial?'#f2f2f2':'#8f8f8f'}">${String(r.year).slice(2)}${r.partial?'*':''}</text></g>`;
+    }));
+    const now=latest, lit=m.lit(now);
+    return CH(`${m.n} · ${m.short}`,`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img">${s}</svg>`,
+      `<span style="color:${lit?'#e5484d':'#3fae6a'};font-weight:600">${lit?'LIT':'not lit'}</span> · ${now.year}${now.partial?' YTD':''} ${m.val(now).toFixed(1)}${m.unit} · trigger ${m.thrTxt} · 95–02 | 21–now`);
+  }
+  // THE S&P THIS YEAR, each marker numbered where it FIRST lit, in the order
+  // they lit (owner, 2026-10-06). Read off the weekly path bubble_scan.py
+  // writes; a marker that has lit and since gone dark says so.
+  function spxChart(){
+    const px=(latest.spx||[]), path=(latest.path||[]);
+    if(px.length<5)return CH(`S&amp;P 500 · ${latest.year}`,`<div style="color:#8f8f8f;font-size:12px;padding:40px 0;text-align:center">This year's S&amp;P path arrives with the next daily scan.</div>`,'');
+    const W=420,H=190,T=14,B=24,L=40,R=8;
+    const v=px.map(p=>p[1]), mn=Math.min(...v), mx=Math.max(...v), rg=(mx-mn)||1;
+    const t0=Date.parse(px[0][0]), t1=Date.parse(px[px.length-1][0]);
+    const x=d=>L+(Date.parse(d)-t0)/((t1-t0)||1)*(W-L-R), y=val=>T+(1-(val-mn)/rg)*(H-T-B);
+    const at=d=>{let c=px[0][1];for(const p of px){if(p[0]>d)break;c=p[1];}return c;};
+    const first=MK.map(m=>{const hit=path.find(p=>m.lit(p));if(!hit)return null;
+      const nowLit=m.lit(path[path.length-1]);return{m,date:hit.date,nowLit};}).filter(Boolean)
+      .sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:a.m.n-b.m.n);
+    let s=`<polyline points="${px.map(p=>`${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(' ')}" fill="none" stroke="#c9c9c9" stroke-width="1.5"/>`;
+    s+=[mx,mn].map(val=>`<text x="${L-5}" y="${y(val)+3}" text-anchor="end" font-size="9" fill="#6f6f6f">${Math.round(val).toLocaleString()}</text>`).join('');
+    ['01','04','07','10'].forEach(mo=>{const d=`${latest.year}-${mo}-01`;if(Date.parse(d)<t0||Date.parse(d)>t1)return;
+      s+=`<text x="${x(d)}" y="${H-8}" text-anchor="middle" font-size="9" fill="#6f6f6f">${['Jan','Apr','Jul','Oct'][(+mo-1)/3]}</text>`;});
+    first.forEach((f,i)=>{const cx=x(f.date), cy=y(at(f.date)), col=f.nowLit?'#e5484d':'#8f8f8f';
+      s+=`<g><title>#${i+1} ${f.m.short} first lit ${f.date}${f.nowLit?' — still lit':' — since gone dark'}</title>
+        <line x1="${cx}" x2="${cx}" y1="${cy+6}" y2="${H-B}" stroke="${col}" stroke-dasharray="2,2" opacity=".6"/>
+        <circle cx="${cx}" cy="${cy}" r="7" fill="#0e0e0e" stroke="${col}" stroke-width="1.5"/>
+        <text x="${cx}" y="${cy+3.5}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${col}">${i+1}</text></g>`;});
+    const chg=v[v.length-1]/v[0]-1;
+    const legend=first.length?first.map((f,i)=>`<span style="color:${f.nowLit?'#e5484d':'#8f8f8f'}">${i+1}</span> = marker ${f.m.n} ${f.m.short}, ${f.date.slice(5).replace('-','/')}${f.nowLit?'':' (dark now)'}`).join(' · ')
+      :'no marker has lit this year';
+    return CH(`S&amp;P 500 · ${latest.year} · ${chg>=0?'+':''}${(chg*100).toFixed(1)}% since first close`,`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img">${s}</svg>`,
+      `${legend}. Weekly readings, so a date is the week it was first seen.`);
   }
   return`<div class="card"><h2>Bubble Watch — equity dissolution, dot-com era vs AI era</h2>
   <p style="color:#8f8f8f;font-size:13px;max-width:820px">Share of S&amp;P 500 members (point-in-time membership) that <strong style="color:#5b9dff">doubled</strong> (≥+100%) or <strong style="color:#e5484d">halved</strong> (≤−50%) each calendar year. The dot-com signature was two-sided churn — both rising together under a rising tape. The 2000 top-marker was <strong>the flip</strong>: halvers overtaking doublers while the index was only −10%.</p>
@@ -26735,29 +27801,29 @@ function renderBubble(){
     ${tile('The flip (halved &gt; doubled)',flipLit?'LIT':'Not lit',flipLit?'the 2000 top-marker condition is active':'printed only in 2000–02 and 2022',flipLit?'#e5484d':'#3fae6a')}
     ${tile('Two-sided churn vs 1999',`${churnRatio}%`,'doubled+halved share relative to 1999 peak',churnRatio>=80?'#e5484d':churnRatio>=50?'#d4a72c':'#3fae6a')}
   </div>
-  <div style="display:flex;gap:22px;flex-wrap:wrap">
-    ${bubblePanel(dotcom,'Dot-com era · 1995–2002')}
-    ${bubblePanel(ai,'AI era · 2021–now')}
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:12px">
+    ${spxChart()}
+    ${MK.map(markerChart).join("")}
   </div>
-  <div style="color:#6f6f6f;font-size:11px;margin-top:6px">Hover a column for counts, coverage and the names at the extremes. Δn under each year = index return minus median member return, in points — the "narrowness" of the advance (1999: Δ20, the median stock lost money while the index rose 19.5%). * = partial year.</div>
+  <div style="color:#6f6f6f;font-size:11px;margin-top:6px">One chart per marker in the checklist below, dot-com years (95–02) on the left of each, AI era (21–now) on the right; red = over the trigger, dashed amber = the trigger. Hover a bar for the reading. Grey on marker 3 = a year the index fell, which the marker does not count. * = partial year; dot-com bars are survivor floors.</div>
   </div>
   ${(()=>{
     const gap=latest.sp500_ret-latest.median_ret;
     const churnPk=peak99?(peak99.pct_doubled+peak99.pct_halved):9.37;
     const checks=[
-      {name:'1 · Doubling mania',lit:latest.pct_doubled>=4,
+      {name:'1 · Doubling mania',lit:MK[0].lit(latest),
        read:`${latest.pct_doubled}% of members doubled${latest.partial?' so far this year':''} (trigger ≥4%; 1999 printed 5.8% even in survivor-limited data)`,
        why:'The melt-up phase: speculative doubling spreads beyond one theme. Watch both the level and the breadth — 2026’s doublers are one trade (AI memory/storage), where 1999’s spanned tech, telecom and retail.'},
-      {name:'2 · Two-sided churn',lit:(latest.pct_doubled+latest.pct_halved)>=0.6*churnPk,
+      {name:'2 · Two-sided churn',lit:MK[1].lit(latest),
        read:`churn ${(latest.pct_doubled+latest.pct_halved).toFixed(1)}% vs 1999 peak ${churnPk.toFixed(1)}% — ${churnRatio}% of the way (trigger ≥60%)`,
        why:'The dissolution signature: doublers AND halvers elevated together under a rising tape. This is what made 1998–99 different from a healthy bull.'},
-      {name:'3 · Destruction under highs',lit:latest.pct_halved>=3&&latest.sp500_ret>0,
+      {name:'3 · Destruction under highs',lit:MK[2].lit(latest),
        read:`${latest.pct_halved}% halved with the index ${latest.sp500_ret>0?'up':'down'} ${Math.abs(latest.sp500_ret).toFixed(1)}% (trigger: ≥3% halved while the index is positive — 1999 printed 3.6%)`,
        why:'The single most reliable tell last time: casualties mounting while the index still makes highs. Red bars rising on the right panel before the tape breaks.'},
-      {name:'4 · Extreme narrowness',lit:gap>=15,
+      {name:'4 · Extreme narrowness',lit:MK[3].lit(latest),
        read:`index-minus-median gap ${gap>=0?'+':''}${gap.toFixed(1)} pts (trigger ≥15; 1999 hit 20 — the median stock fell while the index rose)`,
        why:'A handful of names carrying everything. Elevated 2023–25 (8–12 pts) but never 1999-extreme; a jump past 15 with the other markers lighting is late-stage.'},
-      {name:'5 · The flip',lit:flipLit,
+      {name:'5 · The flip',lit:MK[4].lit(latest),
        read:flipLit?'halvers now exceed doublers — the 2000 condition is ACTIVE':`doublers still exceed halvers (${latest.pct_doubled}% vs ${latest.pct_halved}%)`,
        why:'The top-marker itself: in 2000 halvers overtook doublers while the S&amp;P was only −10%. By the time this lights, the top is usually in — it confirms rather than predicts.'},
     ];
