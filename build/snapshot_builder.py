@@ -48,6 +48,7 @@ DEFAULTS = {
     # are different claims and the page renders them differently.
     "calibration": None,
     "bubble_watch": {},
+    "filings": {},
     "econ": {},
     "narrative": {
         "headline": "Data refresh in progress",
@@ -92,6 +93,7 @@ INPUT_CRITICALITY = {
     "price_data.json":    EXPECTED,
     "stock_scores.csv":   EXPECTED,
     "bubble_watch.json":  EXPECTED,
+    "filings.json":       EXPECTED,
     "econ.json":          EXPECTED,
     # The engine's own report card. EXPECTED rather than REQUIRED: a dashboard
     # with no calibration is a dashboard that cannot warn, which is bad, but
@@ -684,6 +686,20 @@ def build_snapshot(ledger=None):
                 print(f"[snapshot] Loaded bubble watch: {len(bw['years'])} year rows")
         except Exception as exc:
             ledger.failed("bubble_watch.json", exc)
+
+    # Market-wide SEC filings for the Filings tab (scan/filings_scan.py)
+    fil_path = DATA / "filings.json"
+    if not fil_path.exists():
+        ledger.missing("filings.json")
+    else:
+        try:
+            with open(fil_path, "r", encoding="utf-8") as f:
+                fil = json.load(f)
+            if fil.get("filings"):
+                snap["filings"] = fil
+                print(f"[snapshot] Loaded filings: {len(fil['filings'])} rows as of {fil.get('as_of')}")
+        except Exception as exc:
+            ledger.failed("filings.json", exc)
 
     # Load FRED macro snapshot (written by scan/econ_scan.py)
     econ_path = DATA / "econ.json"

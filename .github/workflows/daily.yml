@@ -83,6 +83,19 @@ jobs:
         run: python scan/econ_scan.py
         continue-on-error: true
 
+      # Market-wide SEC filings (Filings tab). edgartools is pinned here, not in
+      # requirements.txt, so the API server's deploy does not carry it. The SEC
+      # identity is a secret: this repo is public.
+      - name: SEC filings scan
+        if: steps.freshness.outputs.fresh != 'true'
+        env:
+          EDGAR_IDENTITY: ${{ secrets.EDGAR_IDENTITY }}
+          PYTHONUTF8: "1"
+        run: |
+          pip install -q edgartools==5.59.1
+          python scan/filings_scan.py
+        continue-on-error: true
+
       # data/sector_map.json is a derived artifact — a manual export of the
       # _SECTOR_MAP literal in api_server.py, which finvisible fetches. Its own
       # docstring said "run manually whenever _SECTOR_MAP changes", i.e. it
