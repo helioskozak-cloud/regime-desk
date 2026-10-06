@@ -46,6 +46,10 @@ FULL_INPUTS = {
     "portfolio_v1.json": {"book": {"name": "Book v1", "version": "v1", "cash": 500.0,
                                    "holdings": {}, "history": [], "transactions": []}},
     "bubble_watch.json": {"years": [{"year": 1999, "doubled": 10, "halved": 2}]},
+    "filings.json": {"as_of": "2026-10-06", "window_days": 7, "universe": 2, "n": 1,
+                     "filings": [{"ticker": "AAA", "name": "A", "sector": "Tech", "date": "2026-10-05",
+                                  "form": "8-K", "kind": "8-K", "rank": 1, "what": "4.01 auditor change",
+                                  "url": "https://www.sec.gov/"}]},
     "econ.json": {"series": {"CPI": [1, 2, 3]}},
     # The engine's own report card (scan/signal_calibration.py). Must carry a
     # non-empty "horizons", because the loader treats an unmeasured scorecard
