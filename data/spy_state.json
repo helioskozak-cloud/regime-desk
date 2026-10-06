@@ -1,9 +1,15 @@
 {
-  "ret_5d": 0.01204,
-  "ret_20d": 0.00852,
-  "vol_20d": 0.00663,
-  "drawdown_60d": -0.00145,
+  "ret_5d": -0.00222,
+  "ret_20d": -0.00209,
+  "vol_20d": 0.00653,
+  "drawdown_60d": -0.00814,
   "history": [
+    {
+      "ret_5d": 0.00109,
+      "ret_20d": -0.00397,
+      "vol_20d": 0.00511,
+      "drawdown_60d": -0.00989
+    },
     {
       "ret_5d": -0.00142,
       "ret_20d": -0.00915,
@@ -117,96 +123,60 @@
       "ret_20d": -0.00209,
       "vol_20d": 0.00653,
       "drawdown_60d": -0.00814
-    },
-    {
-      "ret_5d": 0.01204,
-      "ret_20d": 0.00852,
-      "vol_20d": 0.00663,
-      "drawdown_60d": -0.00145
     }
   ],
-  "regime_streak": 27,
+  "regime_streak": 26,
   "analog_forward": {
     "horizon": 20,
     "analogs": 30,
-    "base_days": 711,
+    "base_days": 710,
     "base": {
       "p10": -0.0283,
       "p25": -0.0021,
-      "p50": 0.0205,
-      "p75": 0.0373,
+      "p50": 0.0206,
+      "p75": 0.0374,
       "p90": 0.0526
     },
     "value": {
-      "p10": -0.0584,
-      "p25": -0.0087,
-      "p50": 0.0029,
-      "p75": 0.0253,
-      "p90": 0.038
+      "p10": -0.0326,
+      "p25": -0.0094,
+      "p50": 0.0175,
+      "p75": 0.0359,
+      "p90": 0.046
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3210,
-      "n_typical": 3207,
-      "days": 702,
-      "value": 0.3171,
-      "range30": {
-        "lo": 0.254,
-        "hi": 0.6154
-      },
-      "range90": {
-        "lo": 0.254,
-        "hi": 0.6883
-      },
-      "pct_rank": 0.0812,
-      "history": [
-        0.4992,
-        0.4437,
-        0.3743,
-        0.4172,
-        0.3973,
-        0.3502,
-        0.319,
-        0.3786,
-        0.353,
-        0.3872,
-        0.3908,
-        0.3301,
-        0.3107,
-        0.3291,
-        0.2833,
-        0.2755,
-        0.254,
-        0.2631,
-        0.2936,
-        0.3171
-      ]
+      "n": 25,
+      "n_typical": 3206,
+      "days": 701,
+      "value": null,
+      "reason": "only 25 names measurable on the latest session"
     },
     "persistence": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 6138,
-      "held": 5141,
+      "days": 6137,
+      "held": 5140,
       "base_rate": 0.7274,
       "spells": 426,
       "median_spell": 4.0,
-      "streak": 27,
-      "history_sessions": 8458,
-      "value": 0.8376
+      "streak": 26,
+      "history_sessions": 8457,
+      "value": 0.8375
     },
     "next_regime": {
       "label": "Neutral",
       "horizon": 20,
-      "days": 6138,
+      "days": 6137,
       "spells": 426,
-      "history_sessions": 8458,
+      "history_sessions": 8457,
       "rows": [
         {
           "label": "Neutral",
-          "share": 0.8376,
-          "n": 5141,
+          "share": 0.8375,
+          "n": 5140,
           "base_rate": 0.7274
         },
         {
@@ -252,13 +222,13 @@
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 14,
+      "reversed": 8,
       "episodes": 11,
-      "base_days": 711,
-      "base_reversed": 253,
-      "base_rate": 0.3558,
-      "trailing_20d": 0.00852,
-      "value": 0.4667
+      "base_days": 710,
+      "base_reversed": 252,
+      "base_rate": 0.3549,
+      "trailing_20d": -0.00209,
+      "value": 0.2667
     },
     "analog_next": {
       "horizon": 20,
@@ -266,27 +236,21 @@
       "rows": [
         {
           "label": "Neutral",
-          "share": 0.8333,
-          "n": 25,
-          "base_rate": 0.8129
+          "share": 0.8667,
+          "n": 26,
+          "base_rate": 0.8127
         },
         {
-          "label": "Pullback",
+          "label": "Bull Trend",
           "share": 0.1,
           "n": 3,
-          "base_rate": 0.0155
+          "base_rate": 0.1169
         },
         {
           "label": "Correction",
           "share": 0.0333,
           "n": 1,
           "base_rate": 0.0197
-        },
-        {
-          "label": "Bull Trend",
-          "share": 0.0333,
-          "n": 1,
-          "base_rate": 0.1167
         }
       ],
       "value": "Neutral"
