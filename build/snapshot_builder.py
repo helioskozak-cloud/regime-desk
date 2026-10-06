@@ -49,6 +49,7 @@ DEFAULTS = {
     "calibration": None,
     "bubble_watch": {},
     "filings": {},
+    "releases": {},
     "econ": {},
     "narrative": {
         "headline": "Data refresh in progress",
@@ -94,6 +95,7 @@ INPUT_CRITICALITY = {
     "stock_scores.csv":   EXPECTED,
     "bubble_watch.json":  EXPECTED,
     "filings.json":       EXPECTED,
+    "releases.json":      EXPECTED,
     "econ.json":          EXPECTED,
     # The engine's own report card. EXPECTED rather than REQUIRED: a dashboard
     # with no calibration is a dashboard that cannot warn, which is bad, but
@@ -686,6 +688,20 @@ def build_snapshot(ledger=None):
                 print(f"[snapshot] Loaded bubble watch: {len(bw['years'])} year rows")
         except Exception as exc:
             ledger.failed("bubble_watch.json", exc)
+
+    # Macro release dates for the banner (scan/release_calendar.py)
+    rel_path = DATA / "releases.json"
+    if not rel_path.exists():
+        ledger.missing("releases.json")
+    else:
+        try:
+            with open(rel_path, "r", encoding="utf-8") as f:
+                rel = json.load(f)
+            if rel.get("releases") or rel.get("missing"):
+                snap["releases"] = rel
+                print(f"[snapshot] Loaded releases: {len(rel.get('releases', []))}")
+        except Exception as exc:
+            ledger.failed("releases.json", exc)
 
     # Market-wide SEC filings for the Filings tab (scan/filings_scan.py)
     fil_path = DATA / "filings.json"
