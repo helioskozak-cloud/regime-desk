@@ -83,6 +83,11 @@ jobs:
         run: python scan/econ_scan.py
         continue-on-error: true
 
+      - name: Release calendar
+        if: steps.freshness.outputs.fresh != 'true'
+        run: python scan/release_calendar.py
+        continue-on-error: true
+
       # Market-wide SEC filings (Filings tab). edgartools is pinned here, not in
       # requirements.txt, so the API server's deploy does not carry it. The SEC
       # identity is a secret: this repo is public.
