@@ -5040,7 +5040,7 @@
    "ticker": "GME",
    "name": "GameStop Corp.",
    "sector": "Consumer Discretionary",
-   "buy": 17338810,
+   "buy": 27902606,
    "buyers": 2,
    "roles": [
     "CEO",
@@ -5049,6 +5049,19 @@
    "last_buy": "2026-10-02",
    "sell": 452699,
    "n_sell": 2
+  },
+  {
+   "ticker": "PAM",
+   "name": "Pampa Energia S.A.",
+   "sector": "Industrials",
+   "buy": 7521317,
+   "buyers": 2,
+   "roles": [
+    "officer"
+   ],
+   "last_buy": "2026-10-02",
+   "sell": 0,
+   "n_sell": 0
   },
   {
    "ticker": "XENE",
@@ -5128,19 +5141,6 @@
    "last_buy": "2026-09-29",
    "sell": 52644,
    "n_sell": 1
-  },
-  {
-   "ticker": "PAM",
-   "name": "Pampa Energia S.A.",
-   "sector": "Industrials",
-   "buy": 5564817,
-   "buyers": 1,
-   "roles": [
-    "officer"
-   ],
-   "last_buy": "2026-10-02",
-   "sell": 0,
-   "n_sell": 0
   },
   {
    "ticker": "ORCL",
@@ -5351,6 +5351,19 @@
    "n_sell": 0
   },
   {
+   "ticker": "TPL",
+   "name": "Texas Pacific Land Corporation",
+   "sector": "Energy",
+   "buy": 2044,
+   "buyers": 1,
+   "roles": [
+    "10% owner"
+   ],
+   "last_buy": "2026-10-01",
+   "sell": 0,
+   "n_sell": 0
+  },
+  {
    "ticker": "SUNB",
    "name": "Sunbelt Rentals Holdings, Inc.",
    "sector": "Industrials",
@@ -5360,19 +5373,6 @@
     "officer"
    ],
    "last_buy": "2026-10-05",
-   "sell": 0,
-   "n_sell": 0
-  },
-  {
-   "ticker": "TPL",
-   "name": "Texas Pacific Land Corporation",
-   "sector": "Energy",
-   "buy": 1364,
-   "buyers": 1,
-   "roles": [
-    "10% owner"
-   ],
-   "last_buy": "2026-10-01",
    "sell": 0,
    "n_sell": 0
   }
@@ -25273,6 +25273,1174 @@
    "buy": 0,
    "sell": 396894,
    "ticker": "DFTX",
+   "date": "2026-09-29"
+  },
+  "0000821189-26-000193": {
+   "owner": "Ezra Y Yacob",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EOG",
+   "date": "2026-09-29"
+  },
+  "0000821189-26-000195": {
+   "owner": "Michael P Donaldson",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EOG",
+   "date": "2026-09-29"
+  },
+  "0000821189-26-000197": {
+   "owner": "Laura B. Distefano",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EOG",
+   "date": "2026-09-29"
+  },
+  "0000821189-26-000199": {
+   "owner": "Jeffrey R. Leitzell",
+   "role": "officer",
+   "buy": 0,
+   "sell": 1270974,
+   "ticker": "EOG",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063840": {
+   "owner": "Harley Miller",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EQPT",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063841": {
+   "owner": "Damian Giangiacomo",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EQPT",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063842": {
+   "owner": "Bryan W Hill",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EQPT",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063844": {
+   "owner": "Naveen Bhatia",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EQPT",
+   "date": "2026-09-29"
+  },
+  "0001474432-26-000096": {
+   "owner": "John Colgrove",
+   "role": "officer",
+   "buy": 0,
+   "sell": 12463098,
+   "ticker": "P",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407928": {
+   "owner": "Irial Finan",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "FBIN",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407942": {
+   "owner": "Peter G Clifford",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "FBIN",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063835": {
+   "owner": "Pradheepa Raman",
+   "role": "officer",
+   "buy": 0,
+   "sell": 104740,
+   "ticker": "GFS",
+   "date": "2026-09-29"
+  },
+  "0000921895-26-002670": {
+   "owner": "Ryan Cohen",
+   "role": "CEO",
+   "buy": 10563796,
+   "sell": 0,
+   "ticker": "GME",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407578": {
+   "owner": "Raymond Joabar",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407599": {
+   "owner": "Patricia Anne Huska",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407601": {
+   "owner": "Paul G Abbott",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407603": {
+   "owner": "Andrew George Crawley",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407616": {
+   "owner": "Evan Konwiser",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407619": {
+   "owner": "Christopher Van Vliet",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407622": {
+   "owner": "Eric J. Bock",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407630": {
+   "owner": "Karen A Williams",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407641": {
+   "owner": "Faisal Saoud F.Q. Al-Thani",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407644": {
+   "owner": "Ugo Arzani",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407647": {
+   "owner": "James Peter Bush",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407656": {
+   "owner": "Alexander Drummond",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407681": {
+   "owner": "Eric M. Hart",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407685": {
+   "owner": "OHara Michael Gregory",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407690": {
+   "owner": "Susan F Ward",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407692": {
+   "owner": "John Edward Pelant",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407695": {
+   "owner": "Kathleen A Winters",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GBTG",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111608": {
+   "owner": "Hui Jin",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HTHT",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407335": {
+   "owner": "Ian K. Walsh",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HLIO",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407336": {
+   "owner": "Laura D Brown",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HLIO",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407338": {
+   "owner": "Douglas Britt",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HLIO",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407339": {
+   "owner": "Cary Chenanda",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HLIO",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407385": {
+   "owner": "Alexander Schuetz",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HLIO",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407477": {
+   "owner": "Diana Sacchi",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HLIO",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-405896": {
+   "owner": "Yongdong Peng",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 84552003,
+   "ticker": "BEKE",
+   "date": "2026-09-29"
+  },
+  "0001578700-26-000009": {
+   "owner": "Ann E. Dunwoody",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "KFRC",
+   "date": "2026-09-29"
+  },
+  "0000921895-26-002680": {
+   "owner": "Smith Jeffrey C",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "KVUE",
+   "date": "2026-09-29"
+  },
+  "0001944048-26-000145": {
+   "owner": "Richard E Allison JR",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "KVUE",
+   "date": "2026-09-29"
+  },
+  "0001944048-26-000146": {
+   "owner": "Meredith Stevens",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "KVUE",
+   "date": "2026-09-29"
+  },
+  "0001754181-26-000013": {
+   "owner": "Victor Perlroth",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "KOD",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407935": {
+   "owner": "Brian T. Powl",
+   "role": "officer",
+   "buy": 0,
+   "sell": 345036,
+   "ticker": "KURA",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407936": {
+   "owner": "Thomas James Doyle",
+   "role": "officer",
+   "buy": 0,
+   "sell": 48361,
+   "ticker": "KURA",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407937": {
+   "owner": "Mollie Leoni",
+   "role": "officer",
+   "buy": 0,
+   "sell": 440237,
+   "ticker": "KURA",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407938": {
+   "owner": "Kathleen Ford",
+   "role": "officer",
+   "buy": 0,
+   "sell": 111931,
+   "ticker": "KURA",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407939": {
+   "owner": "Teresa Brophy Bair",
+   "role": "officer",
+   "buy": 0,
+   "sell": 88618,
+   "ticker": "KURA",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007997": {
+   "owner": "J W Marriott JR",
+   "role": "10% owner",
+   "buy": 0,
+   "sell": 1232313,
+   "ticker": "MAR",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007999": {
+   "owner": "Deborah Marriott Harrison",
+   "role": "director",
+   "buy": 0,
+   "sell": 1232313,
+   "ticker": "MAR",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-008000": {
+   "owner": "David S Marriott",
+   "role": "director",
+   "buy": 0,
+   "sell": 1232313,
+   "ticker": "MAR",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063831": {
+   "owner": "Harish Jayabalan",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MIAX",
+   "date": "2026-09-29"
+  },
+  "0002089244-26-000007": {
+   "owner": "Jeremy Michael Patten",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MOD",
+   "date": "2026-09-29"
+  },
+  "0001622058-26-000020": {
+   "owner": "August J. Troendle",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 1589941,
+   "ticker": "MEDP",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063825": {
+   "owner": "Vicki A. Hollub",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "OXY",
+   "date": "2026-09-29"
+  },
+  "0002080717-26-000013": {
+   "owner": "William Carroll Murphy Goodwin",
+   "role": "officer",
+   "buy": 0,
+   "sell": 66367,
+   "ticker": "OKLO",
+   "date": "2026-09-29"
+  },
+  "0002146828-26-000008": {
+   "owner": "John Hanson",
+   "role": "officer",
+   "buy": 0,
+   "sell": 41129,
+   "ticker": "OKLO",
+   "date": "2026-09-29"
+  },
+  "0002147680-26-000012": {
+   "owner": "Alexandra Renner",
+   "role": "officer",
+   "buy": 0,
+   "sell": 41129,
+   "ticker": "OKLO",
+   "date": "2026-09-29"
+  },
+  "0001695028-26-000010": {
+   "owner": "Dominic Piscitelli",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 181258,
+   "ticker": "ORIC",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007984": {
+   "owner": "Cyrus Taraporevala",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFE",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007985": {
+   "owner": "James C Smith",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFE",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007986": {
+   "owner": "James Quincey",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFE",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007987": {
+   "owner": "Shantanu Narayen",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFE",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007988": {
+   "owner": "Joseph Echevarria",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFE",
+   "date": "2026-09-29"
+  },
+  "0001225208-26-007989": {
+   "owner": "Mortimer J Buckley",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFE",
+   "date": "2026-09-29"
+  },
+  "0001140361-26-038036": {
+   "owner": "Han Kyung Park",
+   "role": "officer",
+   "buy": 0,
+   "sell": 288515,
+   "ticker": "PLAB",
+   "date": "2026-09-29"
+  },
+  "0001512662-26-000005": {
+   "owner": "Todd A. Everett",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PBI",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000184": {
+   "owner": "Deanna D Strable-Soethout",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000186": {
+   "owner": "Roger C Hochschild",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000188": {
+   "owner": "Scott Mills",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000190": {
+   "owner": "Amy Christine Friedrich",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000192": {
+   "owner": "Kathleen B Kay",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000194": {
+   "owner": "Kamal Bhatia",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000196": {
+   "owner": "Joel Pitz",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000198": {
+   "owner": "Kenneth A. Mccullum",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000200": {
+   "owner": "Christopher J Littlefield",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000202": {
+   "owner": "Wee Yee Cheong",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000206": {
+   "owner": "Vivek Agrawal",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000207": {
+   "owner": "Timothy W. Brown",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000208": {
+   "owner": "Alfredo Rivera",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000213": {
+   "owner": "Miller Jocelyn Carter",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000214": {
+   "owner": "Elizabeth H Mitchell",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000215": {
+   "owner": "Clare Stack Richer",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000216": {
+   "owner": "Blair Pickerell",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000221": {
+   "owner": "Diane C Nordin",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000222": {
+   "owner": "Claudio Muruzabal",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000223": {
+   "owner": "Mary E. Beams",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001126328-26-000224": {
+   "owner": "Jonathan Auerbach",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFG",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063864": {
+   "owner": "Jonathan Dobres",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 10054,
+   "ticker": "PGY",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063865": {
+   "owner": "Sanjiv Das",
+   "role": "officer",
+   "buy": 0,
+   "sell": 243672,
+   "ticker": "PGY",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063879": {
+   "owner": "Cory Vieira",
+   "role": "officer",
+   "buy": 0,
+   "sell": 36977,
+   "ticker": "PGY",
+   "date": "2026-09-29"
+  },
+  "0002028917-26-000003": {
+   "owner": "Gustavo Mariani",
+   "role": "officer",
+   "buy": 1956500,
+   "sell": 0,
+   "ticker": "PAM",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407729": {
+   "owner": "Chasity D Grosh",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PFGC",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111916": {
+   "owner": "Tiancheng Lou",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PONY",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111919": {
+   "owner": "Luyi Mo",
+   "role": "officer",
+   "buy": 0,
+   "sell": 88265,
+   "ticker": "PONY",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111924": {
+   "owner": "Ning Zhang",
+   "role": "officer",
+   "buy": 0,
+   "sell": 110279,
+   "ticker": "PONY",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111926": {
+   "owner": "Haojun Wang",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 97684,
+   "ticker": "PONY",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111595": {
+   "owner": "Andrew Y Yan",
+   "role": "director",
+   "buy": 0,
+   "sell": 3008,
+   "ticker": "QFIN",
+   "date": "2026-09-29"
+  },
+  "0000950142-26-002623": {
+   "owner": "James E Harris",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RXO",
+   "date": "2026-09-29"
+  },
+  "0001969082-26-000011": {
+   "owner": "Jeff Cislini",
+   "role": "officer",
+   "buy": 0,
+   "sell": 158600,
+   "ticker": "RVMD",
+   "date": "2026-09-29"
+  },
+  "0001676522-26-000006": {
+   "owner": "Iole Lucchese",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "SCHL",
+   "date": "2026-09-29"
+  },
+  "0001721541-26-000006": {
+   "owner": "Paul Hukkanen",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "SCHL",
+   "date": "2026-09-29"
+  },
+  "0001799461-26-000009": {
+   "owner": "Sasha Quinton",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "SCHL",
+   "date": "2026-09-29"
+  },
+  "0002072552-26-000004": {
+   "owner": "Chris Lick",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "SCHL",
+   "date": "2026-09-29"
+  },
+  "0001895101-26-000020": {
+   "owner": "Adam Eltoukhy",
+   "role": "officer",
+   "buy": 0,
+   "sell": 285433,
+   "ticker": "IOT",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-405898": {
+   "owner": "Yanjun Wang",
+   "role": "officer",
+   "buy": 0,
+   "sell": 218697,
+   "ticker": "SE",
+   "date": "2026-09-29"
+  },
+  "0001932678-26-000002": {
+   "owner": "Julie M. Williams",
+   "role": "officer",
+   "buy": 0,
+   "sell": 204518,
+   "ticker": "SWX",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-407759": {
+   "owner": "Giovanni Spitale",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "SARO",
+   "date": "2026-09-29"
+  },
+  "0001569789-26-000015": {
+   "owner": "Philip Andrew Smith",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 3694888,
+   "ticker": "SNEX",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063883": {
+   "owner": "Nazar M. Khan",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WULF",
+   "date": "2026-09-29"
+  },
+  "0001010270-26-000002": {
+   "owner": "Jennifer M Johnson",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TMO",
+   "date": "2026-09-29"
+  },
+  "0001214212-26-000002": {
+   "owner": "Scott M Sperling",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TMO",
+   "date": "2026-09-29"
+  },
+  "0001333760-26-000003": {
+   "owner": "Karen S Lynch",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TMO",
+   "date": "2026-09-29"
+  },
+  "0001580693-26-000002": {
+   "owner": "Dion J Weisler",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TMO",
+   "date": "2026-09-29"
+  },
+  "0001710268-26-000003": {
+   "owner": "Alexandra R. Keith",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TMO",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000899": {
+   "owner": "Masashi Asakura",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000900": {
+   "owner": "Kumi Fujisawa",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000901": {
+   "owner": "Takahiro Imura",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000902": {
+   "owner": "Kenta Kon",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000903": {
+   "owner": "Shigeaki Okamoto",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000904": {
+   "owner": "George Cunningham Olcott",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000905": {
+   "owner": "Hiromi Osada",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000906": {
+   "owner": "Masahiko Oshima",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000907": {
+   "owner": "Takefumi Shiga",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000908": {
+   "owner": "Shigeki Tomoyama",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0000947871-26-000909": {
+   "owner": "Tatsuro Ueda",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TM",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111947": {
+   "owner": "Stephen Robertson",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TH",
+   "date": "2026-09-29"
+  },
+  "0002113721-26-000018": {
+   "owner": "Thomas Edward Schoenherr",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 873885,
+   "ticker": "TEM",
+   "date": "2026-09-29"
+  },
+  "0001437749-26-031424": {
+   "owner": "HORIZON KINETICS ASSET MANAGEMENT LLC",
+   "role": "10% owner",
+   "buy": 340,
+   "sell": 0,
+   "ticker": "TPL",
+   "date": "2026-09-29"
+  },
+  "0001437749-26-031441": {
+   "owner": "HORIZON KINETICS ASSET MANAGEMENT LLC",
+   "role": "10% owner",
+   "buy": 340,
+   "sell": 0,
+   "ticker": "TPL",
+   "date": "2026-09-29"
+  },
+  "0001106578-26-000151": {
+   "owner": "Martine A Rothblatt",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 4568106,
+   "ticker": "UTHR",
+   "date": "2026-09-29"
+  },
+  "0000103379-26-000125": {
+   "owner": "Richard Carucci",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VFC",
+   "date": "2026-09-29"
+  },
+  "0000103379-26-000127": {
+   "owner": "Matthew J Shattock",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VFC",
+   "date": "2026-09-29"
+  },
+  "0000103379-26-000129": {
+   "owner": "Mark Samuel Hoplamazian",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VFC",
+   "date": "2026-09-29"
+  },
+  "0000812011-26-000059": {
+   "owner": "William Rock",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MTN",
+   "date": "2026-09-29"
+  },
+  "0000812011-26-000060": {
+   "owner": "Gregory Jon Sullivan",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MTN",
+   "date": "2026-09-29"
+  },
+  "0000812011-26-000061": {
+   "owner": "Lynanne Kunkel",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MTN",
+   "date": "2026-09-29"
+  },
+  "0000812011-26-000062": {
+   "owner": "Angela A Korch",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MTN",
+   "date": "2026-09-29"
+  },
+  "0000812011-26-000063": {
+   "owner": "Robert A Katz",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MTN",
+   "date": "2026-09-29"
+  },
+  "0000812011-26-000064": {
+   "owner": "Nathan Mark Gronberg",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MTN",
+   "date": "2026-09-29"
+  },
+  "0000812011-26-000065": {
+   "owner": "Julie A. Dececco",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MTN",
+   "date": "2026-09-29"
+  },
+  "0001236185-26-000008": {
+   "owner": "Charles E Phillips JR",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VZ",
+   "date": "2026-09-29"
+  },
+  "0001193125-26-406248": {
+   "owner": "MCCONNELL JOHN P/OH",
+   "role": "10% owner",
+   "buy": 0,
+   "sell": 2567544,
+   "ticker": "WOR",
+   "date": "2026-09-29"
+  },
+  "0001628280-26-063858": {
+   "owner": "Jonathan Truppman",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WING",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111944": {
+   "owner": "Stephen Robertson",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TH",
+   "date": "2026-09-29"
+  },
+  "0001104659-26-111946": {
+   "owner": "Stephen Robertson",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TH",
    "date": "2026-09-29"
   }
  }
