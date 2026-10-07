@@ -56728,39 +56728,6 @@ function renderBubble(){
     const path=(latest.ttm_path||[]).map(p=>({d:p.date,k:composite(p)})).filter(p=>p.k);
     const peak=path.reduce((a,p)=>!a||p.k.c>a.k.c?p:a,null);
     const flip=MK[4].lit(NOW);
-    // ── the strip: one lane per marker on a 1995–2002 axis ──
-    const W=1600,H=176,L=24,R=24,X0=1996.5,X1=2002;
-    const x=c=>L+(c-X0)/(X1-X0)*(W-L-R), AX=128;
-    let s='';
-    [[1996.5,1997.5,'1995–97 · before the melt-up','#121212'],[1997.5,1999.5,'1998–99 · melt-up, then dissolution','#1c170b'],
-     [1999.5,2000.5,'2000 · the flip, the top','#241010'],[2000.5,2002,'2001–02 · the unwind','#121212']]
-      .forEach(([a,b,t,f])=>{s+=`<rect x="${x(a)}" y="14" width="${x(b)-x(a)}" height="${AX-14}" fill="${f}"/><text x="${(x(a)+x(b))/2}" y="10" text-anchor="middle" font-size="10" fill="#8f8f8f">${t}</text>`;});
-    s+=`<line x1="${x(X0)}" x2="${x(X1)}" y1="${AX}" y2="${AX}" stroke="#4a4a4a"/>`;
-    for(let yr=Math.ceil(X0);yr<=X1;yr++)s+=`<line x1="${x(yr)}" x2="${x(yr)}" y1="${AX}" y2="${AX+4}" stroke="#4a4a4a"/><text x="${x(yr)}" y="${AX+16}" text-anchor="middle" font-size="10" fill="#c9c9c9" font-family="var(--mono)">${yr}</text>`;
-    s+=`<line x1="${x(2000)}" x2="${x(2000)}" y1="16" y2="${AX}" stroke="${flip?'#e5484d':'#6f6f6f'}" stroke-dasharray="3,3"/>
-      <text x="${x(2000)+5}" y="${AX-6}" font-size="10" fill="${flip?'#e5484d':'#8f8f8f'}">5 · flip ${flip?'LIT':'not lit: still before 2000'}</text>`;
-    MK.slice(0,4).forEach((m,i)=>{const k=clock(m,NOW), ly=30+i*21;
-      s+=`<text x="${x(X0)+4}" y="${ly+4}" font-size="10" fill="#6f6f6f">${m.short}</text>`;
-      if(!k){s+=`<text x="${x(1998)}" y="${ly+4}" font-size="10" fill="#6f6f6f">not counted: index down over the window</text>`;return;}
-      const cx=x(k.c), lit=m.lit(NOW);
-      s+=`<g><title>${m.n} · ${m.short}: ${k.v.toFixed(1)}${m.unit} over the ${nowLbl} → ${clockTxt(k)}</title>
-        <line x1="${cx}" x2="${cx}" y1="${ly+8}" y2="${AX}" stroke="${lit?'#e5484d':'#5b9dff'}" opacity=".25"/>
-        <circle cx="${cx}" cy="${ly}" r="8" fill="#0e0e0e" stroke="${lit?'#e5484d':'#5b9dff'}" stroke-width="1.5"/>
-        <text x="${cx}" y="${ly+3.5}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${lit?'#e5484d':'#5b9dff'}">${m.n}</text>
-        ${k.past?`<text x="${cx+12}" y="${ly+4}" font-size="10" fill="#e5484d">past 1999 →</text>`:''}</g>`;});
-    s+=`<rect x="${x(now.lo)}" y="${AX-3}" width="${Math.max(2,x(now.hi)-x(now.lo))}" height="6" rx="3" fill="#f2f2f2" opacity=".35"/>
-      <path d="M${x(now.c)} ${AX+22} l-7 10 h14 z" fill="#f2f2f2"/><text x="${x(now.c)}" y="${AX+44}" text-anchor="middle" font-size="10.5" font-weight="700" fill="#f2f2f2">now</text>`;
-    if(peak&&peak.k.c-now.c>0.12)s+=`<g><title>This year's high: ${clockTxt(peak.k)}, 12 months to ${peak.d}</title><path d="M${x(peak.k.c)} ${AX+22} l-6 10 h12 z" fill="none" stroke="#d4a72c"/><text x="${x(peak.k.c)}" y="${AX+44}" text-anchor="middle" font-size="10" fill="#d4a72c">high ${peak.d.slice(5).replace('-','/')}</text></g>`;
-    const strip=`<div style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H+8}" width="100%" style="min-width:640px" role="img">${s}</svg></div>`;
-    const rows=MK.slice(0,4).map(m=>{const k=clock(m,NOW);
-      const y98=LEG.find(r=>r.year===1998), y99=LEG.find(r=>r.year===1999);
-      return`<tr style="border-top:1px solid #1d1d1d"><td style="padding:5px 8px;color:#c9c9c9;white-space:nowrap">${m.n} · ${m.short}</td>
-        <td style="padding:5px 8px;text-align:right;font-family:var(--mono);color:#f2f2f2">${m.val(NOW).toFixed(1)}${m.unit}</td>
-        <td style="padding:5px 8px;text-align:right;font-family:var(--mono);color:#8f8f8f">${y98?m.val(y98).toFixed(1):'—'}</td>
-        <td style="padding:5px 8px;text-align:right;font-family:var(--mono);color:#8f8f8f">${y99?m.val(y99).toFixed(1):'—'}</td>
-        <td style="padding:5px 8px;color:${k&&k.c>=1998?'#d4a72c':'#c9c9c9'};font-weight:600">${clockTxt(k)}</td></tr>`;}).join('');
-    const table=`<table style="width:100%;border-collapse:collapse;font-size:12.5px"><thead><tr style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px"><th style="text-align:left;padding:4px 8px">Marker</th><th style="text-align:right;padding:4px 8px">Now · ${nowLbl}</th><th style="text-align:right;padding:4px 8px">1998</th><th style="text-align:right;padding:4px 8px">1999</th><th style="text-align:left;padding:4px 8px">Reads like</th></tr></thead><tbody>${rows}</tbody></table>`;
-
     // ── the timeline: AI-era readings, on the dot-com clock, by calendar date ──
     const annual=ai.filter(r=>!r.partial).map(r=>({d:`${r.year}-12-31`,yr:r.year,k:composite(r),bear:!(r.sp500_ret>0),sp:r.sp500_ret})).filter(p=>p.k);
     const pts=[...annual.filter(p=>!p.bear),...(path.length?path:[{d:(latest.ttm||{}).date||S.generated,k:now}])];
@@ -56794,17 +56761,129 @@ function renderBubble(){
     const verdict=`<p style="color:#c9c9c9;font-size:13px;max-width:900px;line-height:1.55;margin:10px 0 0"><strong style="color:#f2f2f2">Now: ${clockTxt(now)}.</strong> ${(()=>{const ks=MK.slice(0,4).map(m=>({m,k:clock(m,NOW)})).filter(o=>o.k).sort((p,q)=>p.k.c-q.k.c);const lo=ks[0],hi=ks[ks.length-1];return lo.m===hi.m?'':`The furthest along is ${hi.m.short.toLowerCase()} (${clockTxt(hi.k)}); the least is ${lo.m.short.toLowerCase()} (${clockTxt(lo.k)}).`;})()} The flip (marker 5) ${flip?'<span style="color:#e5484d">has printed</span>':'has not printed, so on this clock we are still before 2000'}.${peak&&peak.k.c-now.c>0.12?` This year's high came in the 12 months to ${peak.d.slice(5).replace('-','/')}, at ${clockTxt(peak.k)}; it has cooled since.`:''}</p>
       <p style="color:#c9c9c9;font-size:13px;max-width:900px;line-height:1.55;margin:8px 0 0"><strong style="color:#f2f2f2">The timeline is not the same shape.</strong> The dot-com run went from 1995 to 1999 readings in four straight years. The AI era ${flat.length?`read ${clockTxt({c:Math.max(...flat.map(p=>p.k.c))})} or lower for ${flat.length} of its full years (${flat.map(p=>p.yr).join(', ')})`:'has few full years to read'}${annual.some(p=>p.bear)?`, and had a bear market in ${annual.filter(p=>p.bear).map(p=>p.yr).join(', ')} that the dot-com run never had before its top`:''}. ${pace!=null?`In ${new Date(nowT).getUTCFullYear()} it has moved ${(now.c-first.k.c).toFixed(1)} dot-com years since January, ${paceTxt}.`:''} ${t1999?`At dot-com pace from here, the 12-month readings reach 1999's level around ${mon(t1999)} and the flip year's around ${mon(t2000)}.`:`The readings are already at 1999's level; at dot-com pace, the flip year's level is around ${mon(t2000)}.`} In the dot-com run, the 12 months to December 1999 ended three months before the March 2000 top.</p>`;
 
-    return`<div class="card"><h3 style="color:#f2f2f2;margin-bottom:6px">Where this sits on the dot-com clock</h3>
-      <p style="color:#8f8f8f;font-size:12.5px;max-width:900px">Each marker's reading over the ${nowLbl}, placed on the dot-com run-up: the year whose full-year reading it matches. The dot-com rows are full calendar years, so the like-for-like reading now is the trailing 12 months, not year-to-date. The checklist below reads the same 12 months.</p>
-      ${strip}
-      <div style="display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start;margin-top:6px">
-        <div style="flex:1 1 440px;min-width:0">${table}</div>
-        <div style="flex:1.2 1 440px;min-width:0">${verdict}</div>
-      </div></div>
-      <div class="card"><h3 style="color:#f2f2f2;margin-bottom:6px">Is the timeline running like the dot-com one?</h3>
-      <p style="color:#8f8f8f;font-size:12.5px;max-width:900px">The AI era's readings on the dot-com clock, by date. Dots are full calendar years (plotted at year end); the line through ${new Date(nowT).getUTCFullYear()} is the trailing 12 months, week by week, with the shaded band the spread across markers 1–4. Dashed amber is the dot-com run's own pace from today: one dot-com year per calendar year.</p>
+    // Moved to the top of the tab (owner, 2026-10-07: "I really like the 'is the
+    // timeline running' one, that might go at the top"), with the answer in words.
+    return`<div class="card"><h3 style="color:#f2f2f2;margin-bottom:6px">Is the timeline running like the dot-com one?</h3>
+      <p style="color:#8f8f8f;font-size:12.5px;max-width:900px">The AI era's readings on the dot-com clock, by date: the dot-com year whose full-year readings today's 12-month readings match (the median of markers 1–4). Dots are full calendar years (plotted at year end); the line through ${new Date(nowT).getUTCFullYear()} is the trailing 12 months, week by week, with the shaded band the spread across the four markers. Dashed amber is the dot-com run's own pace from today: one dot-com year per calendar year.</p>
       ${timeline}
-      <div style="color:#6f6f6f;font-size:11px;margin-top:6px">Read the dates as a pace check, not a forecast: one cycle to calibrate on, annual dot-com data, and the dot-com rows are survivor floors. Their true 1998–99 readings were higher, which would put today EARLIER on this clock, not later.</div></div>`;
+      ${verdict}
+      <div style="color:#6f6f6f;font-size:11px;margin-top:8px">Read the dates as a pace check, not a forecast: one cycle to calibrate on, annual dot-com data, and the dot-com rows are survivor floors. Their true 1998–99 readings were higher, which would put today EARLIER on this clock, not later.</div></div>`
+      + boardCard();
+  }
+  // ── THE MARKER BOARD (owner, 2026-10-07) ────────────────────────────────
+  // "a better graphical representation for each of these that gives the user a
+  // feeling for how close we are to that phase and how fast we are moving in
+  // that direction." One row per marker on ONE shared dot-com-clock axis, so
+  // rows compare at a glance:
+  //   dot    where the 12-month reading sits on the dot-com run-up
+  //   trail  the last 13 weekly readings, fading with age (rises AND cool-offs)
+  //   arrow  the 13-week pace, carried 3 months forward: long = fast,
+  //          pointing left = backing away
+  //   tick   where the marker lights (its trigger, on the same clock)
+  // The flip is a yes/no, so its row uses its own scale: the gap between
+  // halvers and doublers closing toward zero. The full by-year history and
+  // why each marker matters open under its row; nothing was removed.
+  const WHY=[
+    'The melt-up phase: speculative doubling spreads beyond one theme. Watch both the level and the breadth — 2026’s doublers are one trade (AI memory/storage), where 1999’s spanned tech, telecom and retail.',
+    'The dissolution signature: doublers AND halvers elevated together under a rising tape. This is what made 1998–99 different from a healthy bull.',
+    'The most reliable tell last time: casualties mounting while the index still makes highs. Not counted in a 12-month window where the index fell.',
+    'A handful of names carrying everything. Elevated 2023–25 (8–12 pts) but never 1999-extreme; a jump past 15 with the other markers lighting is late-stage.',
+    'The top-marker itself: in 2000 halvers overtook doublers while the S&amp;P was only −10%. By the time this lights, the top is usually in — it confirms rather than predicts.',
+  ];
+  function clockV(m,v){
+    const vals=LEG.map(m.val), pk=vals[vals.length-1];
+    if(v>=pk)return{c:1999,past:true,v};
+    let c=null;
+    for(let i=0;i<vals.length-1;i++){const a=vals[i],b=vals[i+1];
+      if(a!==b&&v>=Math.min(a,b)&&v<=Math.max(a,b))c=LEG[i].year+(v-a)/(b-a);}
+    if(c==null)c=LEG[vals.indexOf(Math.min(...vals))].year;
+    return{c,past:false,v};
+  }
+  // Least-squares slope of y over time, per month. Fewer than 4 points is not a pace.
+  function perMonth(pts){
+    if(pts.length<4)return null;
+    const n=pts.length, mt=pts.reduce((a,p)=>a+p.t,0)/n, my=pts.reduce((a,p)=>a+p.y,0)/n;
+    const den=pts.reduce((a,p)=>a+(p.t-mt)**2,0);
+    return den?pts.reduce((a,p)=>a+(p.t-mt)*(p.y-my),0)/den*30.44*864e5:null;
+  }
+  function boardCard(){
+    const recent=(latest.ttm_path||[]).slice(-14);            // 13 weekly moves
+    const W=1200,H=50,L=10,R=10,X0=1996.8,X1=2000.4,MID=27;
+    const x=c=>L+(Math.max(X0,Math.min(X1,c))-X0)/(X1-X0)*(W-L-R);
+    const BANDS=[[X0,1997.5,'#121212'],[1997.5,1999.5,'#1c170b'],[1999.5,X1,'#241010']];
+    const back=()=>BANDS.map(([a,b,f])=>`<rect x="${x(a)}" y="6" width="${x(b)-x(a)}" height="${H-12}" fill="${f}"/>`).join('')
+      +[1997,1998,1999,2000].map(yr=>`<line x1="${x(yr)}" x2="${x(yr)}" y1="6" y2="${H-6}" stroke="#2a2a2a"/>`).join('');
+    const arrowDefs=`<defs>${[['a','#d4a72c'],['g','#3fae6a']].map(([k,c])=>`<marker id="bb-ah-${k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${c}"/></marker>`).join('')}</defs>`;
+    const svgWrap=s=>`<div style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:640px;display:block" role="img">${arrowDefs}${s}</svg></div>`;
+    const axis=`<div style="overflow-x:auto"><svg viewBox="0 0 ${W} 30" width="100%" style="min-width:640px;display:block">
+      ${[[X0,1997.5,'1995–97 · before the melt-up'],[1997.5,1999.5,'1998–99 · melt-up, then dissolution'],[1999.5,X1,'2000 · the flip']].map(([a,b,t])=>`<text x="${(x(a)+x(b))/2}" y="11" text-anchor="middle" font-size="10.5" fill="#8f8f8f">${t}</text>`).join('')}
+      ${[1997,1998,1999,2000].map(yr=>`<text x="${x(yr)}" y="27" text-anchor="middle" font-size="11" fill="#c9c9c9" font-family="var(--mono)">${yr}</text>`).join('')}</svg></div>`;
+    const pill=lit=>`<span style="display:inline-block;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.5px;background:${lit?'rgba(248,81,73,.15)':'rgba(63,185,80,.12)'};color:${lit?'#e5484d':'#3fae6a'}">${lit?'LIT':'quiet'}</span>`;
+    const paceWords=(sl,unitTxt)=>sl==null?'not enough weeks to read a pace':Math.abs(sl)<0.02?'barely moving':sl>0?`moving forward ${unitTxt}`:`backing away ${unitTxt}`;
+    const etaWords=(dist,sl,what)=>{
+      if(dist<=0)return`at ${what} now`;
+      if(sl==null||sl<0.02)return`not heading for ${what}`;
+      const mo=dist/sl;return mo>36?`${what}: over 3 years at this pace`:`${what} in ~${Math.max(1,Math.round(mo))} month${Math.round(mo)<=1?'':'s'} at this pace`;
+    };
+    const row=(m,svg,head,lines)=>`<details class="bb-row"><summary>
+        <div style="flex:0 0 215px;min-width:0">${pill(m.lit(NOW))} <b style="color:#f2f2f2;font-size:13px">${m.n} · ${m.short}</b><div style="color:#8f8f8f;font-size:11.5px;margin-top:3px;font-family:var(--mono)">${head}</div></div>
+        <div style="flex:1 1 420px;min-width:0">${svg}</div>
+        <div style="flex:0 1 250px;min-width:0;font-size:12px;line-height:1.5;color:#c9c9c9">${lines}</div></summary>
+      <div style="padding:2px 0 14px"><p style="color:#8f8f8f;font-size:12px;max-width:820px;margin:0 0 8px">${WHY[m.n-1]}</p>${markerChart(m,true)}</div></details>`;
+
+    const rows=MK.map(m=>{
+      if(m.n===5){
+        // THE FLIP: halved minus doubled, flips at 0. Own scale, same reading.
+        const g=m.val(NOW), tr=recent.map(p=>({t:tms(p.date),y:m.val(p)}));
+        const sl=perMonth(tr);                                  // pts per month; + = closing
+        const vs=[g,...tr.map(o=>o.y)], lo=Math.min(-6,Math.min(...vs)-0.5), hi=Math.max(1.5,Math.max(...vs)+0.5);
+        const gx=v=>L+(Math.max(lo,Math.min(hi,v))-lo)/(hi-lo)*(W-L-R);
+        let s=`<rect x="${L}" y="6" width="${gx(0)-L}" height="${H-12}" fill="#121212"/><rect x="${gx(0)}" y="6" width="${W-R-gx(0)}" height="${H-12}" fill="#241010"/>`;
+        s+=`<line x1="${gx(0)}" x2="${gx(0)}" y1="4" y2="${H-4}" stroke="#e5484d" stroke-dasharray="3,3"/><text x="${gx(0)+4}" y="15" font-size="10" fill="#e5484d">flips</text><text x="${L+4}" y="15" font-size="10" fill="#8f8f8f">own scale: halved − doubled, pts</text>`;
+        for(let t=Math.ceil(lo);t<=Math.floor(hi);t+=2)s+=`<text x="${gx(t)}" y="${H-1}" text-anchor="middle" font-size="9" fill="#6f6f6f">${t>0?'+':''}${t}</text>`;
+        s+=`<polyline points="${tr.map(o=>`${gx(o.y).toFixed(1)},${MID}`).join(' ')}" fill="none" stroke="#5b9dff" stroke-opacity=".25"/>`;
+        tr.forEach((o,i)=>{s+=`<circle cx="${gx(o.y).toFixed(1)}" cy="${MID}" r="2.6" fill="#5b9dff" opacity="${(0.15+0.6*i/Math.max(1,tr.length-1)).toFixed(2)}"/>`;});
+        if(sl!=null&&Math.abs(sl)>=0.02)s+=`<line x1="${gx(g)}" y1="${MID}" x2="${gx(g+sl*3)}" y2="${MID}" stroke="${sl>0?'#d4a72c':'#3fae6a'}" stroke-width="2" marker-end="url(#bb-ah-${sl>0?'a':'g'})"/>`;
+        s+=`<g><title>halved − doubled over the ${nowLbl}: ${g>=0?'+':''}${g.toFixed(1)} pts</title><circle cx="${gx(g)}" cy="${MID}" r="8" fill="#0e0e0e" stroke="${m.lit(NOW)?'#e5484d':'#5b9dff'}" stroke-width="1.6"/><text x="${gx(g)}" y="${MID+3.5}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${m.lit(NOW)?'#e5484d':'#5b9dff'}">5</text></g>`;
+        const flipped=m.lit(NOW);
+        return row(m,svgWrap(s),`halved ${NOW.pct_halved}% · doubled ${NOW.pct_doubled}%`,
+          `<b>${flipped?'<span style="color:#e5484d">Flipped</span>: halvers ahead':`Not flipped: doublers ahead by ${(-g).toFixed(1)} pts`}</b><br>
+           ${sl==null?'not enough weeks to read a pace':Math.abs(sl)<0.02?'gap barely moving':sl>0?`gap closing ${sl.toFixed(2)} pts a month`:`gap widening ${(-sl).toFixed(2)} pts a month`}<br>
+           <span style="color:#8f8f8f">${flipped?'the 2000 condition':etaWords(-g,sl,'flips')}</span>`);
+      }
+      const k=clock(m,NOW);
+      const head=`${m.val(NOW).toFixed(1)}${m.unit} · lights ${m.thrTxt.replace(/^≥/,'at ')}`;
+      if(!k)return row(m,svgWrap(back()+`<text x="${W/2}" y="${MID+4}" text-anchor="middle" font-size="11" fill="#8f8f8f">not counted: the index fell over the ${nowLbl}</text>`),head,'<span style="color:#8f8f8f">not counted this window</span>');
+      const tr=recent.map(p=>({t:tms(p.date),k:clock(m,p)})).filter(o=>o.k);
+      const sl=perMonth(tr.map(o=>({t:o.t,y:o.k.c})));            // dot-com years per month
+      const thr=clockV(m,m.thr), lit=m.lit(NOW), col=lit?'#e5484d':'#5b9dff';
+      let s=back();
+      s+=`<line x1="${x(thr.c)}" x2="${x(thr.c)}" y1="4" y2="${H-4}" stroke="#d4a72c" stroke-dasharray="3,3"/><text x="${x(thr.c)+4}" y="15" font-size="10" fill="#d4a72c">lights</text>`;
+      s+=`<polyline points="${tr.map(o=>`${x(o.k.c).toFixed(1)},${MID}`).join(' ')}" fill="none" stroke="${col}" stroke-opacity=".25"/>`;
+      tr.forEach((o,i)=>{s+=`<circle cx="${x(o.k.c).toFixed(1)}" cy="${MID}" r="2.6" fill="${col}" opacity="${(0.15+0.6*i/Math.max(1,tr.length-1)).toFixed(2)}"/>`;});
+      if(sl!=null&&Math.abs(sl)>=0.02)s+=`<line x1="${x(k.c)}" y1="${MID}" x2="${x(k.c+sl*3)}" y2="${MID}" stroke="${sl>0?'#d4a72c':'#3fae6a'}" stroke-width="2" marker-end="url(#bb-ah-${sl>0?'a':'g'})"/>`;
+      s+=`<g><title>${m.n} · ${m.short}: ${k.v.toFixed(1)}${m.unit} over the ${nowLbl} → ${clockTxt(k)}</title><circle cx="${x(k.c)}" cy="${MID}" r="8" fill="#0e0e0e" stroke="${col}" stroke-width="1.6"/><text x="${x(k.c)}" y="${MID+3.5}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${col}">${m.n}</text></g>`;
+      if(k.past)s+=`<text x="${x(k.c)+12}" y="${MID+4}" font-size="10" fill="#e5484d">past 1999 →</text>`;
+      const target=lit?1999:thr.c, what=lit?"1999's level":'lights';
+      return row(m,svgWrap(s),head,
+        `reads <b>${clockTxt(k)}</b><br>
+         ${paceWords(sl,sl==null?'':`${Math.abs(sl*12).toFixed(1)} dot-com years a year`)}<br>
+         <span style="color:#8f8f8f">${k.past?'at or past 1999 already':etaWords(target-k.c,sl,what)}</span>`);
+    }).join('');
+
+    const nLit=MK.filter(m=>m.lit(NOW)).length, cnow=composite(NOW);
+    const vb=nLit>=4?['#e5484d','This is the configuration that marked the top last time.']
+      :nLit>=2?['#d4a72c','Froth broadening and dissolution begun. Last cycle, this stretch ran 12–18 months before the flip.']
+      :['#3fae6a','Melt-up conditions without the destruction phase. Last cycle, that was 12–18 months before the top.'];
+    return`<div class="card"><h3 style="color:#f2f2f2;margin-bottom:6px">How close is each marker, and how fast is it moving?</h3>
+      <style>.bb-row>summary{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;cursor:pointer;list-style:none;padding:9px 0;border-top:1px solid #1d1d1d}.bb-row>summary::-webkit-details-marker{display:none}.bb-row>summary:hover{background:#0b0b0b}</style>
+      <p style="color:#8f8f8f;font-size:12.5px;max-width:900px">The dot-com sequence ran <strong style="color:#c9c9c9">melt-up</strong> (doublers broaden, 1998–99) → <strong style="color:#c9c9c9">dissolution</strong> (halvers rise under index highs, 1999) → <strong style="color:#c9c9c9">the flip</strong> (halvers overtake doublers, 2000 — the top) → capitulation (2002). Each row places one marker on that clock over the ${nowLbl}: <b style="color:#c9c9c9">the dot</b> is where it reads now, <b style="color:#c9c9c9">the faded trail</b> is the last 13 weeks, <b style="color:#c9c9c9">the arrow</b> is the 13-week pace carried 3 months forward (amber forward, green backing away), <b style="color:#d4a72c">the amber tick</b> is where it lights. Click a row for its full history and why it matters.</p>
+      <div style="display:flex;gap:12px;align-items:flex-start;margin:8px 0 10px;padding:10px 12px;background:#050505;border:1px solid #2e2e2e;border-left:3px solid ${vb[0]};border-radius:4px">
+        <div><div style="font-weight:700;color:${vb[0]};font-size:13px">${nLit} of 5 lit · the clock reads ${clockTxt(cnow)}</div>
+        <div style="color:#8f8f8f;font-size:12.5px;max-width:820px;margin-top:3px">${vb[1]} One cycle to calibrate on, and today’s mega-cap concentration can hide member-level damage longer than in 1999.</div></div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center"><div style="flex:0 0 215px"></div><div style="flex:1 1 420px;min-width:0">${axis}</div><div style="flex:0 1 250px"></div></div>
+      ${rows}
+    </div>`;
   }
   const CH=(t,svg,note)=>`<div style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:10px 12px;min-width:0">
     ${t?`<div style="color:#c9c9c9;font-size:11px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px">${t}</div>`:''}${svg}
@@ -56879,48 +56958,8 @@ function renderBubble(){
   </div>
   </div>
   ${clockCards()}
-  ${(()=>{
-    const gap=NOW.sp500_ret-NOW.median_ret;
-    const churnPk=peak99?(peak99.pct_doubled+peak99.pct_halved):9.37;
-    const checks=[
-      {name:'1 · Doubling mania',lit:MK[0].lit(NOW),
-       read:`${NOW.pct_doubled}% of members doubled over the ${nowLbl} (trigger ≥4%; 1999 printed 5.8% even in survivor-limited data)`,
-       why:'The melt-up phase: speculative doubling spreads beyond one theme. Watch both the level and the breadth — 2026’s doublers are one trade (AI memory/storage), where 1999’s spanned tech, telecom and retail.'},
-      {name:'2 · Two-sided churn',lit:MK[1].lit(NOW),
-       read:`churn ${(NOW.pct_doubled+NOW.pct_halved).toFixed(1)}% vs 1999 peak ${churnPk.toFixed(1)}% — ${churnRatio}% of the way (trigger ≥60%)`,
-       why:'The dissolution signature: doublers AND halvers elevated together under a rising tape. This is what made 1998–99 different from a healthy bull.'},
-      {name:'3 · Destruction under highs',lit:MK[2].lit(NOW),
-       read:`${NOW.pct_halved}% halved with the index ${NOW.sp500_ret>0?'up':'down'} ${Math.abs(NOW.sp500_ret).toFixed(1)}% (trigger: ≥3% halved while the index is positive — 1999 printed 3.6%)`,
-       why:'The single most reliable tell last time: casualties mounting while the index still makes highs. Red bars rising on the right panel before the tape breaks.'},
-      {name:'4 · Extreme narrowness',lit:MK[3].lit(NOW),
-       read:`index-minus-median gap ${gap>=0?'+':''}${gap.toFixed(1)} pts (trigger ≥15; 1999 hit 20 — the median stock fell while the index rose)`,
-       why:'A handful of names carrying everything. Elevated 2023–25 (8–12 pts) but never 1999-extreme; a jump past 15 with the other markers lighting is late-stage.'},
-      {name:'5 · The flip',lit:MK[4].lit(NOW),
-       read:flipLit?'halvers now exceed doublers — the 2000 condition is ACTIVE':`doublers still exceed halvers (${NOW.pct_doubled}% vs ${NOW.pct_halved}%)`,
-       why:'The top-marker itself: in 2000 halvers overtook doublers while the S&amp;P was only −10%. By the time this lights, the top is usually in — it confirms rather than predicts.'},
-    ];
-    const nLit=checks.filter(c=>c.lit).length;
-    const verdict=nLit>=4?['2000-top profile','#e5484d','The clock has struck — this configuration marked the actual top last time. Defensive positioning conversations are overdue.']
-      :nLit>=2?['Late-1999 profile','#d4a72c','Froth is broadening and dissolution has begun. Last cycle this phase ran ~12–18 months before the flip — trim into strength, tighten the leash on speculative names.']
-      :['Late-1998 profile','#3fae6a','Melt-up conditions without the destruction phase. On the dot-com clock this is roughly 12–18 months before the top formed — the historical playbook says stay invested but watch marker 3 weekly: halvers rising under index highs was the earliest reliable warning.'];
-    const rows=checks.map((c,i)=>`<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #141414">
-      <div style="flex-shrink:0;width:64px;text-align:center;padding-top:2px"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.5px;background:${c.lit?'rgba(248,81,73,.15)':'rgba(63,185,80,.12)'};color:${c.lit?'#e5484d':'#3fae6a'}">${c.lit?'LIT':'quiet'}</span></div>
-      <div style="flex:1;min-width:0"><div style="color:#f2f2f2;font-weight:600;font-size:13.5px">${c.name}</div>
-      <div style="color:#c9c9c9;font-size:12.5px;font-family:var(--mono);margin:2px 0">${c.read}</div>
-      <div style="color:#8f8f8f;font-size:12px;max-width:820px">${c.why}</div>
-      <div style="margin-top:8px">${markerChart(MK[i],true)}</div></div></div>`).join('');
-    return `<div class="card"><h3 style="color:#f2f2f2;margin-bottom:11px">What a top looks like on this clock</h3>
-    <p style="color:#8f8f8f;font-size:12.5px;max-width:820px">The dot-com sequence ran: <strong style="color:#c9c9c9">melt-up</strong> (doublers accelerate and broaden, 1998–99) → <strong style="color:#c9c9c9">dissolution</strong> (halvers rise while the index still makes highs, 1999) → <strong style="color:#c9c9c9">the flip</strong> (halvers overtake doublers, 2000 — the top) → <strong style="color:#c9c9c9">capitulation</strong> (no doublers, mass halving, 2002). The five markers below track that sequence against the latest year of data and update with every daily scan.</p>
-    <div style="color:#6f6f6f;font-size:11px;margin:4px 0 2px">Under each marker: its reading by year, dot-com (95–02) left, AI era (21–now) right. Red = over the trigger, dashed amber = the trigger, grey on marker 3 = a year the index fell (not counted). * = this year so far; dot-com bars are survivor floors. Hover a bar for the reading.</div>
-    <div style="display:flex;gap:12px;align-items:flex-start;margin:8px 0 10px;padding:12px;background:#050505;border:1px solid #2e2e2e;border-left:3px solid ${verdict[1]};border-radius:4px">
-      <div><div style="font-weight:700;color:${verdict[1]};font-size:13px">${nLit} of 5 markers lit — ${verdict[0]}</div>
-      <div style="color:#8f8f8f;font-size:12.5px;max-width:820px;margin-top:3px">${verdict[2]} Timing caveat: this clock had exactly one full cycle to calibrate on, analogies stretch, and today’s mega-cap concentration means the index can mask member-level damage longer than in 1999.</div></div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,600px),1fr));column-gap:28px">
-    ${rows}
-    <div style="padding:10px 0;border-top:1px solid #141414"><div style="color:#f2f2f2;font-weight:600;font-size:13.5px">S&amp;P 500 this year: when each marker lit</div><div style="color:#8f8f8f;font-size:12px;margin:2px 0 8px">Each number is a marker, at the week it first crossed its trigger, in the order they lit.</div>${spxChart(true)}</div>
-    </div></div>`;
-  })()}
+  <div class="card"><h3 style="color:#f2f2f2;margin-bottom:4px">S&amp;P 500 this year: when each marker lit</h3>
+    <div style="color:#8f8f8f;font-size:12px;margin:2px 0 8px">Each number is a marker, at the week it first crossed its trigger on the 12-month reading, in the order they lit.</div>${spxChart(false)}</div>
   <div class="card"><h3 style="color:#f2f2f2;margin-bottom:11px">Method &amp; caveats</h3>
   <p style="color:#8f8f8f;font-size:12.5px;max-width:820px">${(bw.meta&&bw.meta.method)||''}. <strong style="color:#c9c9c9">Survivorship bias:</strong> ${(bw.meta&&bw.meta.survivorship_note)||'dot-com era coverage is partial — treat those bars as floors.'} The historical record puts 1999's true extremes far higher (13 large caps rose &gt;1,000%; Qualcomm +2,619%) — so the real dot-com/AI contrast is starker than charted. Data as of ${bw.as_of||S.generated}.</p></div>
   <footer>Breadth-extremes research view — not investment advice.</footer>`;

@@ -14,7 +14,8 @@ const path = require('path');
 const { JSDOM } = require('jsdom');
 
 const REPO = path.resolve(__dirname, '..');
-const html = fs.readFileSync(path.join(REPO, 'docs/index.html'), 'utf8');
+// CRLF-tolerant: a Windows checkout (core.autocrlf) must not fail on line endings (2026-10-07).
+const html = fs.readFileSync(path.join(REPO, 'docs/index.html'), 'utf8').replace(/\r\n/g, '\n');
 
 let pass = 0, fail = 0;
 const ok = (name, cond, extra) => {
