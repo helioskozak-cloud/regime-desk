@@ -10,30 +10,30 @@
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "+2.1%",
+      "value": "+2.2%",
       "signal": "bullish",
       "context": "Medium-term trend strength"
     },
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-5.3% (20d)",
+      "value": "-5.2% (20d)",
       "signal": "bullish",
-      "context": "20d ret -5.3% \u2014 sell-off = rising rates"
+      "context": "20d ret -5.2% \u2014 sell-off = rising rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "-1.9% (20d)",
+      "value": "-1.8% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.9% \u2014 spread widening = credit stress"
+      "context": "20d ret -1.8% \u2014 spread widening = credit stress"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-6.7% (20d)",
+      "value": "-6.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret -6.7% \u2014 no safe-haven premium"
+      "context": "20d ret -6.8% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -59,9 +59,9 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+8.9% (20d)",
+      "value": "+8.8% (20d)",
       "signal": "bullish",
-      "context": "20d ret +8.9% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +8.8% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
@@ -127,12 +127,12 @@
     {
       "name": "Credit Stress",
       "level": "elevated",
-      "score": 0.69,
-      "description": "HYG 20d -1.9%. Spread widening signals funding stress.",
+      "score": 0.68,
+      "description": "HYG 20d -1.8%. Spread widening signals funding stress.",
       "invalidation": "HYG recovers to 20d positive return",
       "explain": {
         "input_label": "HYG 20-day return",
-        "input_value": "-1.9%",
+        "input_value": "-1.8%",
         "moderate_at": "+0.5%",
         "elevated_at": "-1.5%",
         "input_rises": false,
@@ -152,11 +152,11 @@
       "name": "Rate Re-pricing",
       "level": "elevated",
       "score": 0.92,
-      "description": "TLT 20d -5.3%. Bond sell-off = rates rising; duration assets under pressure.",
+      "description": "TLT 20d -5.2%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
       "explain": {
         "input_label": "TLT 20-day return",
-        "input_value": "-5.3%",
+        "input_value": "-5.2%",
         "moderate_at": "+0.6%",
         "elevated_at": "-1.9%",
         "input_rises": false,
@@ -236,11 +236,11 @@
       },
       "range30": {
         "lo": 0.287,
-        "hi": 0.702
+        "hi": 0.703
       },
       "range90": {
         "lo": 0.21,
-        "hi": 0.702
+        "hi": 0.703
       },
       "n90": 90
     },
@@ -248,11 +248,11 @@
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.26,
-      "description": "SPY +2.1% / 20d with vol 0.65%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +2.2% / 20d with vol 0.65%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
-        "input_value": "+2.1%",
+        "input_value": "+2.2%",
         "moderate_at": "+7.0%",
         "elevated_at": "+12.0%",
         "input_rises": true,

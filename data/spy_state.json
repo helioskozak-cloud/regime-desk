@@ -1,8 +1,8 @@
 {
-  "ret_5d": 0.01866,
-  "ret_20d": 0.0215,
-  "vol_20d": 0.0065,
-  "drawdown_60d": -0.00286,
+  "ret_5d": 0.01913,
+  "ret_20d": 0.02197,
+  "vol_20d": 0.00649,
+  "drawdown_60d": -0.0024,
   "history": [
     {
       "ret_5d": -0.00958,
@@ -119,10 +119,10 @@
       "drawdown_60d": 0.0
     },
     {
-      "ret_5d": 0.01866,
-      "ret_20d": 0.0215,
-      "vol_20d": 0.0065,
-      "drawdown_60d": -0.00286
+      "ret_5d": 0.01913,
+      "ret_20d": 0.02197,
+      "vol_20d": 0.00649,
+      "drawdown_60d": -0.0024
     }
   ],
   "regime_streak": 2,
@@ -132,35 +132,35 @@
       "regime": "Calm Uptrend",
       "spy_ret_20d": 0.051,
       "breadth": 0.7839,
-      "distance": 0.1708
+      "distance": 0.1709
     },
     {
       "date": "2025-08-14",
       "regime": "Calm Uptrend",
       "spy_ret_20d": 0.0193,
-      "breadth": 0.6911,
-      "distance": 0.2033
+      "breadth": 0.691,
+      "distance": 0.1776
     },
     {
       "date": "2025-06-25",
       "regime": "Calm Uptrend",
       "spy_ret_20d": 0.045,
-      "breadth": 0.7444,
-      "distance": 0.263
+      "breadth": 0.7443,
+      "distance": 0.2432
     },
     {
       "date": "2024-03-22",
       "regime": "Calm Uptrend",
       "spy_ret_20d": -0.0412,
-      "breadth": 0.7234,
-      "distance": 0.3147
+      "breadth": 0.7233,
+      "distance": 0.2887
     },
     {
-      "date": "2026-01-09",
+      "date": "2025-12-26",
       "regime": "Calm Uptrend",
-      "spy_ret_20d": -0.0002,
-      "breadth": 0.7547,
-      "distance": 0.3319
+      "spy_ret_20d": 0.0075,
+      "breadth": 0.6795,
+      "distance": 0.3336
     }
   ],
   "analog_forward": {
@@ -176,9 +176,9 @@
     },
     "value": {
       "p10": -0.0423,
-      "p25": 0.0029,
-      "p50": 0.0231,
-      "p75": 0.0373,
+      "p25": 0.006,
+      "p50": 0.0244,
+      "p75": 0.0384,
       "p90": 0.0456
     }
   },
@@ -188,7 +188,7 @@
       "n": 3205,
       "n_typical": 3201,
       "days": 703,
-      "value": 0.292,
+      "value": 0.2911,
       "range30": {
         "lo": 0.253,
         "hi": 0.614
@@ -197,20 +197,20 @@
         "lo": 0.253,
         "hi": 0.6879
       },
-      "pct_rank": 0.0626,
+      "pct_rank": 0.0612,
       "history": [
-        0.3736,
-        0.4166,
-        0.3969,
-        0.3494,
+        0.3732,
+        0.4163,
+        0.3966,
+        0.3491,
         0.3178,
         0.3776,
-        0.3522,
-        0.3862,
-        0.3901,
-        0.3293,
-        0.3101,
-        0.3279,
+        0.3519,
+        0.3859,
+        0.3898,
+        0.329,
+        0.3098,
+        0.3276,
         0.2824,
         0.2746,
         0.253,
@@ -218,20 +218,20 @@
         0.293,
         0.3171,
         0.32,
-        0.292
+        0.2911
       ]
     },
     "persistence": {
       "label": "Calm Uptrend",
       "horizon": 20,
-      "days": 3251,
+      "days": 3250,
       "held": 1527,
-      "base_rate": 0.3838,
+      "base_rate": 0.3836,
       "spells": 595,
       "median_spell": 3.0,
       "streak": 2,
       "history_sessions": 8460,
-      "value": 0.4697
+      "value": 0.4698
     },
     "momentum_scale": {
       "sessions": 8451,
@@ -253,26 +253,26 @@
     "next_regime": {
       "label": "Calm Uptrend",
       "horizon": 20,
-      "days": 3251,
+      "days": 3250,
       "spells": 595,
       "history_sessions": 8460,
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.4697,
+          "share": 0.4698,
           "n": 1527,
-          "base_rate": 0.3838
+          "base_rate": 0.3836
         },
         {
           "label": "Range",
           "share": 0.2335,
           "n": 759,
-          "base_rate": 0.1661
+          "base_rate": 0.1662
         },
         {
           "label": "Drifting Lower",
-          "share": 0.1799,
-          "n": 585,
+          "share": 0.1797,
+          "n": 584,
           "base_rate": 0.1327
         },
         {
@@ -324,13 +324,13 @@
     "reversal": {
       "horizon": 20,
       "analogs": 30,
-      "reversed": 7,
-      "episodes": 9,
+      "reversed": 6,
+      "episodes": 8,
       "base_days": 712,
       "base_reversed": 255,
       "base_rate": 0.3581,
-      "trailing_20d": 0.0215,
-      "value": 0.2333
+      "trailing_20d": 0.02197,
+      "value": 0.2
     },
     "analog_next": {
       "horizon": 20,
@@ -338,14 +338,14 @@
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.5333,
-          "n": 16,
+          "share": 0.5667,
+          "n": 17,
           "base_rate": 0.5084
         },
         {
           "label": "Range",
-          "share": 0.2333,
-          "n": 7,
+          "share": 0.2,
+          "n": 6,
           "base_rate": 0.1728
         },
         {
