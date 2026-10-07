@@ -49,6 +49,7 @@ DEFAULTS = {
     "calibration": None,
     "bubble_watch": {},
     "filings": {},
+    "earnings": {},
     "releases": {},
     "econ": {},
     "narrative": {
@@ -95,6 +96,7 @@ INPUT_CRITICALITY = {
     "stock_scores.csv":   EXPECTED,
     "bubble_watch.json":  EXPECTED,
     "filings.json":       EXPECTED,
+    "earnings.json":      EXPECTED,
     "releases.json":      EXPECTED,
     "econ.json":          EXPECTED,
     # The engine's own report card. EXPECTED rather than REQUIRED: a dashboard
@@ -716,6 +718,23 @@ def build_snapshot(ledger=None):
                 print(f"[snapshot] Loaded filings: {len(fil['filings'])} rows as of {fil.get('as_of')}")
         except Exception as exc:
             ledger.failed("filings.json", exc)
+
+    # Universe earnings calendar, this week and next (scan/earnings_scan.py).
+    # Loaded when at least one day was read: an empty list over read days is
+    # "nobody in the universe reports", which the page states as such.
+    ern_path = DATA / "earnings.json"
+    if not ern_path.exists():
+        ledger.missing("earnings.json")
+    else:
+        try:
+            with open(ern_path, "r", encoding="utf-8") as f:
+                ern = json.load(f)
+            if ern.get("days_read"):
+                snap["earnings"] = ern
+                print(f"[snapshot] Loaded earnings: {len(ern.get('earnings', []))} reporters "
+                      f"{ern.get('start')} to {ern.get('end')}")
+        except Exception as exc:
+            ledger.failed("earnings.json", exc)
 
     # Load FRED macro snapshot (written by scan/econ_scan.py)
     econ_path = DATA / "econ.json"
