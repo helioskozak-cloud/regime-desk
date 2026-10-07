@@ -90,13 +90,40 @@ def _path(px: pd.DataFrame, idx: pd.DataFrame, base: pd.Series, ibase: pd.Series
     return spx, path
 
 
+def _ttm(pf: pd.DataFrame, ix: pd.Series, d: pd.Timestamp, both: list[str]) -> dict | None:
+    """The marker inputs over the 12 months to `d` (owner, 2026-10-07: "what
+    point in the dot-com bubble does this look like"). The dot-com rows are
+    full calendar years; a year-to-date reading in October covers nine months
+    and reads low against them. A trailing 12-month window is the like-for-like
+    comparison. Same member set as the year row (current members, so names
+    that halved and left the index are missing: the halved share is a floor)."""
+    then = d - pd.Timedelta(days=365)
+    b0, l = pf.loc[:then, both], pf.loc[:d, both]
+    i0, il = ix.loc[:then].dropna(), ix.loc[:d].dropna()
+    if b0.empty or i0.empty:
+        return None
+    b0, l = b0.iloc[-1], l.iloc[-1]
+    ok = b0.notna() & l.notna() & (b0 > 0)
+    r = l[ok] / b0[ok] - 1.0
+    if len(r) < 100:
+        return None
+    return {"date": d.strftime("%Y-%m-%d"), "from": b0.name.strftime("%Y-%m-%d"),
+            "n": int(len(r)),
+            "pct_doubled": round(100 * float((r >= 1.0).mean()), 2),
+            "pct_halved": round(100 * float((r <= -0.5).mean()), 2),
+            "median_ret": round(100 * float(r.median()), 2),
+            "sp500_ret": round(100 * float(il.iloc[-1] / i0.iloc[-1] - 1.0), 2)}
+
+
 def _year_row(members: list[str], year: int) -> dict:
     """Compute the doubled/halved row for `year` from prior-year-end to latest close.
 
     DAILY closes since 2026-10-06 (was monthly): the year path needs them, and
     the prior year's last daily close is the same base the monthly bar closed on.
     """
-    start = f"{year - 1}-12-01"
+    # From December two years back: the trailing 12-month readings for every
+    # week of this year need a base a year before each of them.
+    start = f"{year - 2}-12-01"
     px = yf.download(members, start=start, interval="1d",
                      auto_adjust=True, threads=True, progress=False)["Close"]
     px = px.dropna(axis=1, how="all")
@@ -116,7 +143,17 @@ def _year_row(members: list[str], year: int) -> dict:
     except Exception as exc:       # the path is extra; never lose the year row over it
         print(f"[bubble] year path failed ({exc}); shipping the row without it")
         spx, path = [], []
+    try:
+        pf, ix = px.ffill(), idx["^GSPC"].ffill()
+        cur = pf.loc[pf.index.year == year]
+        weeks = sorted(set(cur.groupby(cur.index.to_period("W")).tail(1).index) | {cur.index[-1]})
+        ttm_path = [t for t in (_ttm(pf, ix, d, both) for d in weeks) if t]
+    except Exception as exc:       # extra, like the path
+        print(f"[bubble] 12-month readings failed ({exc}); shipping the row without them")
+        ttm_path = []
     return {
+        "ttm": ttm_path[-1] if ttm_path else None,
+        "ttm_path": ttm_path,
         "spx": spx,
         "path": path,
         "year": year,
@@ -154,6 +191,10 @@ def main() -> None:
         out["years"] = [y for y in out["years"] if y["year"] != year] + [row]
         print(f"[bubble] {year} YTD: {row['n_doubled']} doubled ({row['pct_doubled']}%), "
               f"{row['n_halved']} halved ({row['pct_halved']}%), coverage {row['coverage_pct']}%")
+        if row.get("ttm"):
+            t = row["ttm"]
+            print(f"[bubble] 12 months to {t['date']}: {t['pct_doubled']}% doubled, "
+                  f"{t['pct_halved']}% halved, index {t['sp500_ret']}% vs median {t['median_ret']}%")
     except Exception as exc:
         print(f"[bubble] current-year computation failed ({exc}); shipping static history only")
 
