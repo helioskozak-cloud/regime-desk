@@ -53,6 +53,11 @@ FULL_INPUTS = {
                      "filings": [{"ticker": "AAA", "name": "A", "sector": "Tech", "date": "2026-10-05",
                                   "form": "8-K", "kind": "8-K", "rank": 1, "what": "4.01 auditor change",
                                   "url": "https://www.sec.gov/"}]},
+    "earnings.json": {"as_of": "2026-10-07", "start": "2026-10-05", "end": "2026-10-16",
+                      "universe": 2, "days_read": ["2026-10-05"], "days_failed": [], "n": 1,
+                      "earnings": [{"date": "2026-10-08", "ticker": "AAA", "name": "A",
+                                    "sector": "Tech", "time": "pre", "eps": 1.1, "n_est": 4,
+                                    "eps_ly": 0.9, "mcap": 2e9, "quarter": "Sep/2026"}]},
     "econ.json": {"series": {"CPI": [1, 2, 3]}},
     # The engine's own report card (scan/signal_calibration.py). Must carry a
     # non-empty "horizons", because the loader treats an unmeasured scorecard

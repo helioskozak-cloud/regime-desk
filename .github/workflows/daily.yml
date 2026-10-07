@@ -101,6 +101,14 @@ jobs:
           python scan/filings_scan.py
         continue-on-error: true
 
+      # Universe earnings calendar, this week and next (Filings tab, Earnings
+      # view). Nasdaq's public calendar answers a runner only with browser
+      # headers (probed 2026-10-07); the scan sends them.
+      - name: Earnings calendar
+        if: steps.freshness.outputs.fresh != 'true'
+        run: python scan/earnings_scan.py
+        continue-on-error: true
+
       # data/sector_map.json is a derived artifact — a manual export of the
       # _SECTOR_MAP literal in api_server.py, which finvisible fetches. Its own
       # docstring said "run manually whenever _SECTOR_MAP changes", i.e. it
