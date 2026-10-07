@@ -10,7 +10,7 @@
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "+2.2%",
+      "value": "+2.1%",
       "signal": "bullish",
       "context": "Medium-term trend strength"
     },
@@ -59,23 +59,23 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+8.8% (20d)",
+      "value": "+8.9% (20d)",
       "signal": "bullish",
-      "context": "20d ret +8.8% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +8.9% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "-4.1% (20d)",
+      "value": "-4.2% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.1% \u2014 small caps lagging; risk-off rotation"
+      "context": "20d ret -4.2% \u2014 small caps lagging; risk-off rotation"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-2.9% (20d)",
+      "value": "-3.0% (20d)",
       "signal": "bearish",
-      "context": "20d ret -2.9% \u2014 copper weak = growth concerns"
+      "context": "20d ret -3.0% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
@@ -87,9 +87,9 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+5.8% (20d)",
+      "value": "+5.9% (20d)",
       "signal": "bullish",
-      "context": "20d ret +5.8% \u2014 growth leadership intact"
+      "context": "20d ret +5.9% \u2014 growth leadership intact"
     },
     {
       "name": "Financials",
@@ -175,12 +175,12 @@
     {
       "name": "Growth Slowdown",
       "level": "elevated",
-      "score": 0.71,
-      "description": "Copper 20d -2.9%, IWM -4.1%. Cyclical indicators softening.",
+      "score": 0.72,
+      "description": "Copper 20d -3.0%, IWM -4.2%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "-7.1%",
+        "input_value": "-7.2%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,
@@ -248,11 +248,11 @@
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.26,
-      "description": "SPY +2.2% / 20d with vol 0.65%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +2.1% / 20d with vol 0.65%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
-        "input_value": "+2.2%",
+        "input_value": "+2.1%",
         "moderate_at": "+7.0%",
         "elevated_at": "+12.0%",
         "input_rises": true,
