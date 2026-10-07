@@ -42,8 +42,9 @@ const rerender = async () => { delete win.document.getElementById('v-bubble').da
   const y98 = years.find(y => y.year === 1998), y99 = years.find(y => y.year === 1999);
 
   console.log('\nOn the real snapshot:');
-  ok('the clock card renders', /Where this sits on the dot-com clock/.test(text()));
-  ok('the timeline card renders', /Is the timeline running like the dot-com one\?/.test(text()));
+  ok('the marker board renders', /How close is each marker, and how fast is it moving\?/.test(text()));
+  ok('the timeline card renders, first after the header', /Is the timeline running like the dot-com one\?/.test(text()) && text().indexOf('Is the timeline running') < text().indexOf('How close is each marker'));
+  ok('five board rows, each with its history inside', win.document.querySelectorAll('#v-bubble details.bb-row').length === 5);
   ok('every marker chart carries a "now" line note', (text().match(/Dotted line = now/g) || []).length === 5,
      (text().match(/Dotted line = now/g) || []).length);
   ok('the reading is the trailing 12 months when the scan wrote one',
@@ -64,7 +65,21 @@ const rerender = async () => { delete win.document.getElementById('v-bubble').da
   latest.ttm = Object.assign(pick(y99), { pct_doubled: 1, pct_halved: 6 });
   latest.ttm_path = [latest.ttm];
   await rerender();
-  ok('halvers over doublers shows the flip as printed', /5 · flip LIT/.test(text()));
+  ok('halvers over doublers shows the flip as printed', /Flipped: halvers ahead/.test(text()));
+  // PACE: a narrowness gap widening week by week reads as moving toward its
+  // trigger with a time; the same path reversed reads as backing away.
+  const wk = i => new Date(Date.UTC(2026, 6, 6) + i * 7 * 864e5).toISOString().slice(0, 10);
+  const mk = (i, gap) => ({ date: wk(i), from: wk(i - 52), n: 500, pct_doubled: 3, pct_halved: 1,
+                            median_ret: 10 - gap, sp500_ret: 10 });
+  latest.ttm_path = Array.from({ length: 14 }, (_, i) => mk(i, 6 + i * 0.3));
+  latest.ttm = latest.ttm_path[13];
+  await rerender();
+  const row4 = () => [...win.document.querySelectorAll('#v-bubble details.bb-row')][3].textContent.replace(/\s+/g, ' ');
+  ok('a widening gap reads "moving forward" with a time to light', /moving forward/.test(row4()) && /lights in ~\d+ months? at this pace/.test(row4()), row4().slice(0, 300));
+  latest.ttm_path = Array.from({ length: 14 }, (_, i) => mk(i, 12 - i * 0.3));
+  latest.ttm = latest.ttm_path[13];
+  await rerender();
+  ok('a narrowing gap reads "backing away"', /backing away/.test(row4()) && /not heading for lights/.test(row4()), row4().slice(0, 300));
   latest.ttm = saved; latest.ttm_path = savedPath;
 
   ok('no page errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
