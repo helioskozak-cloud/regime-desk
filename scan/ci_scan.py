@@ -1017,8 +1017,10 @@ def main():
     labels = rm.label_history(spy_hist)
     spy_state["regime_streak"] = rm.regime_streak(labels)
     measures = {}
+    _bs = None
     try:
-        measures["breadth"] = rm.summarize_breadth(rm.breadth_series(prices))
+        _bs = rm.breadth_series(prices)
+        measures["breadth"] = rm.summarize_breadth(_bs)
     except Exception as exc:
         measures["breadth"] = {"value": None, "reason": f"failed: {exc}"}
     # The LONG SPY history (2026-10-01): Persistence and Where It Goes Next
@@ -1040,6 +1042,13 @@ def main():
     except Exception as exc:
         measures["persistence"] = {"value": None, "reason": f"failed: {exc}"}
     try:
+        _mframe = _lf if long_note is None else spy_hist
+        measures["momentum_scale"] = rm.momentum_scale(_mframe)
+        if long_note:
+            measures["momentum_scale"]["note"] = long_note
+    except Exception as exc:
+        measures["momentum_scale"] = {"value": None, "reason": f"failed: {exc}"}
+    try:
         measures["next_regime"] = rm.next_regime(long_labels, long_dates)
         if long_note:
             measures["next_regime"]["note"] = long_note
@@ -1057,6 +1066,17 @@ def main():
                                    else {"value": None, "reason": "no analog days"})
     except Exception as exc:
         measures["analog_next"] = {"value": None, "reason": f"failed: {exc}"}
+    # The Analog panel's five rows: the real closest episodes (2026-10-07),
+    # replacing the builder's hardcoded illustrative list.
+    try:
+        if analogs is not None and len(analogs):
+            _bshare = None
+            if _bs is not None:
+                _ok = _bs[_bs["n"] >= rm.BREADTH_MIN_NAMES]["share"]
+                _bshare = pd.Series(_ok.values, index=pd.to_datetime(_ok.index))
+            spy_state["analog_matches"] = rm.analog_matches(spy_hist, labels, analogs, _bshare)
+    except Exception as exc:
+        print(f"[scan] analog matches failed: {exc}")
     # Today's analog days, for finvisible's book-level stress test. Written only
     # when they were computed; a stale file from yesterday is removed rather than
     # left to describe a different day (its as_of would say so, but a reader

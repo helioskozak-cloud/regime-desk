@@ -325,61 +325,6 @@ _explain_rules = _rm.explain_rules
 # regime_measures.reversal — and this file only displays it.
 
 
-_ANALOG_LIBRARY = {
-    # regime → list of (date, regime_label, spy_ret_20d, breadth)
-    "Bull Trend": [
-        ("2024-01-19", "Bull Trend",     0.043, 0.72),
-        ("2023-11-14", "Bull Trend",     0.071, 0.68),
-        ("2021-04-06", "Bull Trend",     0.041, 0.74),
-        ("2019-11-15", "Bull Trend",     0.035, 0.66),
-        ("2024-07-05", "Pullback",      -0.028, 0.38),
-    ],
-    "Neutral": [
-        ("2024-05-10", "Neutral",        0.018, 0.55),
-        ("2023-06-16", "Neutral",        0.025, 0.58),
-        ("2022-08-12", "High Volatility",-0.082, 0.31),
-        ("2021-09-03", "Neutral",        0.012, 0.52),
-        ("2024-02-23", "Bull Trend",     0.047, 0.70),
-    ],
-    "Correction": [
-        ("2022-09-30", "Correction",    -0.034, 0.37),
-        ("2020-10-28", "Correction",     0.085, 0.64),
-        ("2023-03-13", "Recovery",       0.062, 0.61),
-        ("2022-06-16", "Correction",    -0.051, 0.29),
-        ("2018-12-24", "Deep Correction",0.146, 0.77),
-    ],
-    "Deep Correction": [
-        ("2022-06-16", "Correction",    -0.051, 0.29),
-        ("2020-03-23", "Deep Correction",0.312, 0.81),
-        ("2018-12-24", "Deep Correction",0.146, 0.77),
-        ("2020-10-28", "Correction",     0.085, 0.64),
-        ("2022-09-30", "Correction",    -0.034, 0.37),
-    ],
-    "Recovery": [
-        ("2020-04-24", "Recovery",       0.078, 0.73),
-        ("2023-01-06", "Recovery",       0.061, 0.65),
-        ("2022-10-14", "Recovery",       0.118, 0.74),
-        ("2020-06-05", "Bull Trend",     0.045, 0.68),
-        ("2019-01-04", "Recovery",       0.055, 0.69),
-    ],
-    "High Volatility": [
-        ("2022-01-24", "High Volatility",0.054, 0.62),
-        ("2020-03-13", "High Volatility",-0.119, 0.22),
-        ("2018-12-21", "High Volatility",0.112, 0.71),
-        ("2023-03-10", "High Volatility",0.038, 0.57),
-        ("2020-02-28", "High Volatility",-0.086, 0.27),
-    ],
-    "Pullback": [
-        ("2023-10-27", "Pullback",       0.091, 0.74),
-        ("2024-04-19", "Pullback",       0.054, 0.63),
-        ("2022-03-08", "Correction",    -0.018, 0.44),
-        ("2021-12-03", "Pullback",       0.073, 0.68),
-        ("2023-08-18", "Pullback",       0.032, 0.56),
-    ],
-}
-_ANALOG_LIBRARY["Unknown"] = _ANALOG_LIBRARY["Neutral"]
-
-
 def _reversal_sentence(spy):
     """The narrative's reversal line, from the MEASURED figure or not at all.
 
@@ -392,16 +337,6 @@ def _reversal_sentence(spy):
         return ""
     return (f"From days like today, SPY's next {r.get('horizon', 20)} sessions reversed "
             f"{r['value']*100:.0f}% of the time, against {r['base_rate']*100:.0f}% on any day.")
-
-
-def _synthetic_analog_matches(regime):
-    """Return 5 illustrative historical analog rows for the given regime."""
-    rows = _ANALOG_LIBRARY.get(regime, _ANALOG_LIBRARY["Neutral"])
-    return [
-        {"date": d, "regime": r, "spy_ret_20d": round(ret, 4),
-         "breadth": round(b, 2), "synthetic": True}
-        for d, r, ret, b in rows
-    ]
 
 
 def build_snapshot(ledger=None):
@@ -487,7 +422,8 @@ def build_snapshot(ledger=None):
             anx = m.get("analog_next") or dict(missing)
 
             spy["measures"] = {"breadth": breadth, "persistence": persist, "reversal": rev,
-                               "next_regime": nxt, "analog_next": anx}
+                               "next_regime": nxt, "analog_next": anx,
+                               "momentum_scale": m.get("momentum_scale") or dict(missing)}
             spy["breadth"] = breadth.get("value")
             spy["persistence"] = persist.get("value")
             spy["reversal_risk"] = rev.get("value")
@@ -519,20 +455,27 @@ def build_snapshot(ledger=None):
         try:
             real_matches = spy_raw.get("analog_matches", [])
             if real_matches:
+                # Breadth and the forward return can be unmeasured (None):
+                # carried as None, never as a 0.5 or a 0.
                 snap["analog"]["top_matches"] = [
                     {"date": m["date"], "regime": m.get("regime", "Unknown"),
-                     "spy_ret_20d": round(float(m["spy_ret_20d"]), 4),
-                     "breadth": round(float(m.get("breadth", 0.5)), 2),
+                     "spy_ret_20d": (None if m.get("spy_ret_20d") is None
+                                     else round(float(m["spy_ret_20d"]), 4)),
+                     "breadth": (None if m.get("breadth") is None
+                                 else round(float(m["breadth"]), 2)),
                      "synthetic": False}
                     for m in real_matches[:5]
                 ]
             else:
-                snap["analog"]["top_matches"] = _synthetic_analog_matches(snap["spy"]["regime"])
+                # NO INVENTED ROWS (2026-10-07). This used to fall back to a
+                # hardcoded "illustrative" list of dates and returns; with no
+                # measured analogs the panel now says so instead.
+                snap["analog"]["top_matches"] = []
         except Exception as exc:
             print(f"[snapshot] Could not build analog matches: {exc}")
-            snap["analog"]["top_matches"] = _synthetic_analog_matches(snap["spy"]["regime"])
+            snap["analog"]["top_matches"] = []
     else:
-        snap["analog"]["top_matches"] = _synthetic_analog_matches(snap["spy"]["regime"])
+        snap["analog"]["top_matches"] = []
 
     # Load stocks + sectors from signals CSV
     if has_signals:

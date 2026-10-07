@@ -62,8 +62,16 @@ REGIME_RULES = [
     ("Recovery",        [("drawdown_60d", "<", -0.05), ("ret_20d", ">", 0.0)]),
     ("Bull Trend",      [("ret_20d", ">", 0.05)]),
     ("Pullback",        [("ret_20d", "<", -0.05)]),
+    # THE OLD "NEUTRAL", SPLIT (owner, 2026-10-07, Q39 = a). It caught 73% of
+    # sessions since 1993, so it said almost nothing: a calm grind at the highs
+    # and a choppy drift lower both read "Neutral". The six rules above are
+    # untouched; only what fell through them is now named by what it is.
+    # 22% annualized = 0.22 / sqrt(252) daily.
+    ("Elevated Volatility", [("vol_20d", ">", 0.22 / 252 ** 0.5)]),
+    ("Calm Uptrend",    [("ret_20d", ">", 0.01)]),
+    ("Drifting Lower",  [("ret_20d", "<", -0.01)]),
 ]
-REGIME_FALLBACK = "Neutral"
+REGIME_FALLBACK = "Range"
 
 
 def _val(state, key):
@@ -143,6 +151,39 @@ def regime_streak(labels: pd.Series) -> int | None:
     if labels is None or len(labels) == 0:
         return None
     return _runs(list(labels))[-1][1]
+
+
+# ── MOMENTUM SHIFT SCALE ─────────────────────────────────────────────────────
+#
+# The Momentum Shift card compares the last 5 sessions' average 20-day return
+# (and volatility) with the 5 before. Until 2026-10-07 a fixed ±0.5pp line
+# decided "Goldilocks" — a median-sized move read as "the strongest possible
+# setup". Size is now read against SPY's own history: the same 5-vs-5 shift on
+# every session since 1993, as percentiles of its absolute value.
+
+MOMENTUM_WINDOW = 5
+
+
+def momentum_shifts(spy: pd.DataFrame, w: int = MOMENTUM_WINDOW) -> pd.DataFrame:
+    """Per session: the 5-vs-5 shift in 20-day return and in annualized vol."""
+    r = spy["return_20"].astype(float)
+    v = spy["volatility"].astype(float) * np.sqrt(252)
+    rd = r.rolling(w).mean() - r.shift(w).rolling(w).mean()
+    vd = v.rolling(w).mean() - v.shift(w).rolling(w).mean()
+    return pd.DataFrame({"ret_shift": rd, "vol_shift": vd}).dropna()
+
+
+def momentum_scale(spy: pd.DataFrame) -> dict:
+    """Percentiles of |shift| over the history, for sizing today's."""
+    m = momentum_shifts(spy)
+    if len(m) < 250:
+        return {"value": None, "reason": f"only {len(m)} sessions of history"}
+    qs = (40, 50, 80, 95)
+    out = {"sessions": int(len(m)), "window": MOMENTUM_WINDOW,
+           "ret": {f"p{q}": round(float(np.percentile(m["ret_shift"].abs(), q)), 5) for q in qs},
+           "vol": {f"p{q}": round(float(np.percentile(m["vol_shift"].abs(), q)), 5) for q in qs}}
+    out["value"] = True
+    return out
 
 
 # ── PERSISTENCE ──────────────────────────────────────────────────────────────
@@ -285,6 +326,43 @@ def analog_days_payload(analogs: pd.DataFrame, as_of) -> dict:
                  "market_signals.csv is conditioned on. Episodes collapse adjacent "
                  "days; each episode's anchor is its closest day."),
     }
+
+
+def analog_matches(spy: pd.DataFrame, labels: pd.Series, analogs: pd.DataFrame,
+                   breadth: pd.Series | None = None, n: int = 5,
+                   horizon: int = 20) -> list[dict]:
+    """The `n` closest analog EPISODES, one row each at its closest day: the
+    date, the regime label it carried, SPY's next `horizon` sessions, and
+    breadth that day when measured (else None).
+
+    2026-10-07: the builder fell back to a hardcoded list of "illustrative"
+    rows because nothing wrote these, so the Analog panel showed invented
+    dates and returns. These are the real days the signals are conditioned on.
+    """
+    spy = spy.reset_index(drop=True)
+    labs = list(labels)
+    dates = pd.to_datetime(spy["date"])
+    pos = {pd.Timestamp(d): i for i, d in enumerate(dates)}
+    fwd = spy["close"].shift(-horizon) / spy["close"] - 1
+    a = analogs.copy()
+    a["date"] = pd.to_datetime(a["date"])
+    ep = analog_episode_ids(a["date"])
+    a["episode"] = a["date"].map(ep)
+    anchors = a.loc[a.groupby("episode")["distance"].idxmin()].nsmallest(n, "distance")
+    out = []
+    for _, r in anchors.iterrows():
+        i = pos.get(pd.Timestamp(r["date"]))
+        if i is None:
+            continue
+        f = fwd.iloc[i]
+        b = None
+        if breadth is not None:
+            bv = breadth.get(pd.Timestamp(r["date"]))
+            b = None if bv is None or pd.isna(bv) else round(float(bv), 4)
+        out.append({"date": pd.Timestamp(r["date"]).strftime("%Y-%m-%d"), "regime": labs[i],
+                    "spy_ret_20d": None if pd.isna(f) else round(float(f), 4),
+                    "breadth": b, "distance": round(float(r["distance"]), 4)})
+    return out
 
 
 # ── REVERSAL ─────────────────────────────────────────────────────────────────

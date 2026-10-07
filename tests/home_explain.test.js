@@ -195,44 +195,36 @@ setTimeout(() => {
     n && n.r.result);
   ok(n && Math.abs(n.gap - 2.7) < 0.01, 'and the gap is 2.7pp (' + (n && n.gap.toFixed(2)) + ')');
 
-  // ── Trajectory Verdict: same labels as before, one branch fixed ──────────
-  console.log('\n== Trajectory Verdict ==');
+  // ── Momentum Shift: direction + size against SPY's own history ───────────
+  // Owner, 2026-10-07 (Q39 = a): the seven named states ("Goldilocks"…) on
+  // fixed lines were replaced by direction and size read against every 5-vs-5
+  // shift since 1993. These pin the banding and the no-scale fallback.
+  console.log('\n== Momentum Shift ==');
   const tv = lift('const TV_R=0.005', 'function _cardVerdict(){', '_tvVerdict');
-  // The pre-2026-09-14 ladder, verbatim, as the reference.
-  const oldLadder = (rDelta, vDelta) => {
-    if (rDelta > 0.005 && vDelta < 0) return 'Goldilocks';
-    if (rDelta > 0.005 && vDelta >= 0) return 'Bullish but Choppy';
-    if (rDelta <= 0.005 && rDelta >= -0.005 && Math.abs(vDelta) < 0.02) return 'Stable';
-    if (rDelta < -0.005 && vDelta > 0) return 'Deteriorating';
-    if (rDelta < -0.005) return 'Losing Momentum';
-    return 'Vol Compression';
-  };
-  const E = 1e-7;
-  const rs = [-0.05, -0.005 - E, -0.005, -0.005 + E, 0, 0.005 - E, 0.005, 0.005 + E, 0.05];
-  const vs = [-0.1, -0.02 - E, -0.02, -0.02 + E, -E, 0, E, 0.02 - E, 0.02, 0.02 + E, 0.1];
-  let same = 0, changed = [], wrongFix = [];
-  for (const r of rs) for (const v of vs) {
-    const was = oldLadder(r, v), now = tv(r, v).name;
-    // The ONE deliberate change: flat returns with vol up 2pp or more used to be
-    // called compression. Everything else must be identical.
-    const isFixedCase = Math.abs(r) <= 0.005 && v >= 0.02;
-    if (isFixedCase) { if (now !== 'Vol Expansion') wrongFix.push([r, v, now]); }
-    else if (was === now) same++;
-    else changed.push([r, v, was, now]);
+  const scale = { value: true, sessions: 8000,
+    ret: { p40: 0.004, p50: 0.005, p80: 0.011, p95: 0.02 },
+    vol: { p40: 0.006, p50: 0.008, p80: 0.018, p95: 0.035 } };
+  const cases = [
+    [0.002, 0, 'Flat', null], [0.008, -0.01, 'Improving', 'typical'], [0.015, 0, 'Improving', 'large'],
+    [0.03, 0, 'Improving', 'extreme'], [-0.008, 0.02, 'Fading', 'typical'],
+    [-0.025, 0.04, 'Fading', 'extreme'],
+  ];
+  for (const [r, v, name, size] of cases) {
+    const x = tv(r, v, scale);
+    ok(x.name === name && x.size === size, `return shift ${r} reads ${name}${size ? ' · ' + size : ''}`, JSON.stringify(x));
   }
-  ok(changed.length === 0, 'every other state labels exactly as the old ladder (' + same + ' checked)',
-    JSON.stringify(changed.slice(0, 3)));
-  ok(wrongFix.length === 0, 'flat returns with vol RISING 2pp now reads Vol Expansion, not Compression',
-    JSON.stringify(wrongFix.slice(0, 3)));
-  ok(tv(0, -0.03).name === 'Vol Compression', 'flat returns with vol FALLING 2pp still reads Vol Compression');
+  ok(tv(0.008, -0.004, scale).vol === 'steady', 'a vol move under its 40th percentile reads steady');
+  ok(tv(0.008, -0.01, scale).vol === 'easing' && tv(0.008, 0.01, scale).vol === 'rising', 'vol easing / rising by sign');
+  ok(tv(0.008, -0.01, null).size === null && tv(0.008, -0.01, null).name === 'Improving' && !tv(0.008, -0.01, null).measured,
+    'with no history scale, direction falls back to the ±0.5pp line and size is NOT invented');
+  ok(tv(0.003, 0, null).name === 'Flat', 'no scale: inside ±0.5pp reads Flat');
+  ok(!/lean into risk|trim risk/i.test(Object.values(tv(0.03, -0.05, scale)).join(' ')), 'no advice in the description');
 
-  // The label on the card is the rule the panel highlights.
   const vPanel = d.getElementById('why-verdict');
-  const vFired = [...vPanel.querySelectorAll('.rd-rule.fired')];
-  const heroLabel = text(home.querySelector('[data-why="why-verdict"]'));  // by its panel, not its position (a card was added above it 2026-10-01)
-  ok(vFired.length === 1, 'exactly one verdict rule is marked');
-  ok(vFired[0] && heroLabel.includes(text(vFired[0].querySelector('b'))),
-    'the highlighted verdict rule is the label on the card', text(vFired[0] && vFired[0].querySelector('b')));
+  const heroLabel = text(home.querySelector('[data-why="why-verdict"]'));
+  ok(!/Goldilocks/.test(home.textContent), 'the word Goldilocks is gone from Home');
+  ok(/How big is it\?/.test(vPanel.textContent), 'the panel explains the size against history');
+  ok(/Improving|Fading|Flat/.test(heroLabel), 'the card shows a direction', heroLabel);
 
   // The trajectory charts moved INTO this panel rather than off the site.
   ['Rolling 5d return', 'Rolling 20d return', 'Annualized vol', '60d drawdown']

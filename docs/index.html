@@ -421,13 +421,13 @@ window.SNAPSHOT = {
     "ret_20d": 0.01987,
     "vol_20d": 0.00656,
     "drawdown_60d": -0.00445,
-    "regime": "Neutral",
+    "regime": "Calm Uptrend",
     "breadth": 0.3014,
-    "persistence": 0.8376,
+    "persistence": null,
     "reversal_risk": 0.2333,
     "explain": {
       "regime": {
-        "result": "Neutral",
+        "result": "Calm Uptrend",
         "rules": [
           {
             "result": "High Volatility",
@@ -526,10 +526,52 @@ window.SNAPSHOT = {
             ],
             "fired": false,
             "shadowed": false
+          },
+          {
+            "result": "Elevated Volatility",
+            "conditions": [
+              {
+                "key": "vol_20d",
+                "op": ">",
+                "threshold": 0.013858697343671664,
+                "value": 0.00656,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
+          },
+          {
+            "result": "Calm Uptrend",
+            "conditions": [
+              {
+                "key": "ret_20d",
+                "op": ">",
+                "threshold": 0.01,
+                "value": 0.01987,
+                "met": true
+              }
+            ],
+            "fired": true,
+            "shadowed": false
+          },
+          {
+            "result": "Drifting Lower",
+            "conditions": [
+              {
+                "key": "ret_20d",
+                "op": "<",
+                "threshold": -0.01,
+                "value": 0.01987,
+                "met": false
+              }
+            ],
+            "fired": false,
+            "shadowed": false
           }
         ],
-        "fallback": "Neutral",
-        "fell_through": true
+        "fallback": "Range",
+        "fell_through": false
       }
     },
     "measures": {
@@ -581,7 +623,8 @@ window.SNAPSHOT = {
         "median_spell": 4.0,
         "streak": 29,
         "history_sessions": 8460,
-        "value": 0.8376
+        "value": null,
+        "reason": "the scan measured Neutral but this card reads Calm Uptrend"
       },
       "reversal": {
         "horizon": 20,
@@ -600,52 +643,10 @@ window.SNAPSHOT = {
         "days": 6140,
         "spells": 426,
         "history_sessions": 8460,
-        "rows": [
-          {
-            "label": "Neutral",
-            "share": 0.8376,
-            "n": 5143,
-            "base_rate": 0.7275
-          },
-          {
-            "label": "Bull Trend",
-            "share": 0.0826,
-            "n": 507,
-            "base_rate": 0.1049
-          },
-          {
-            "label": "Correction",
-            "share": 0.042,
-            "n": 258,
-            "base_rate": 0.0661
-          },
-          {
-            "label": "Pullback",
-            "share": 0.022,
-            "n": 135,
-            "base_rate": 0.0201
-          },
-          {
-            "label": "High Volatility",
-            "share": 0.0077,
-            "n": 47,
-            "base_rate": 0.0262
-          },
-          {
-            "label": "Recovery",
-            "share": 0.0059,
-            "n": 36,
-            "base_rate": 0.0395
-          },
-          {
-            "label": "Deep Correction",
-            "share": 0.0023,
-            "n": 14,
-            "base_rate": 0.0158
-          }
-        ],
+        "rows": [],
         "since": "1993-03-01",
-        "value": "Neutral"
+        "value": null,
+        "reason": "the scan measured Neutral but this card reads Calm Uptrend"
       },
       "analog_next": {
         "horizon": 20,
@@ -677,6 +678,10 @@ window.SNAPSHOT = {
           }
         ],
         "value": "Neutral"
+      },
+      "momentum_scale": {
+        "value": null,
+        "reason": "not in this scan's output yet"
       }
     },
     "history": [
@@ -801,7 +806,7 @@ window.SNAPSHOT = {
         "drawdown_60d": -0.00445
       }
     ],
-    "regime_streak": 29
+    "regime_streak": 2
   },
   "sectors": [
     {
@@ -13585,44 +13590,8 @@ window.SNAPSHOT = {
       }
     },
     "top_dates": [],
-    "top_matches": [
-      {
-        "date": "2024-05-10",
-        "regime": "Neutral",
-        "spy_ret_20d": 0.018,
-        "breadth": 0.55,
-        "synthetic": true
-      },
-      {
-        "date": "2023-06-16",
-        "regime": "Neutral",
-        "spy_ret_20d": 0.025,
-        "breadth": 0.58,
-        "synthetic": true
-      },
-      {
-        "date": "2022-08-12",
-        "regime": "High Volatility",
-        "spy_ret_20d": -0.082,
-        "breadth": 0.31,
-        "synthetic": true
-      },
-      {
-        "date": "2021-09-03",
-        "regime": "Neutral",
-        "spy_ret_20d": 0.012,
-        "breadth": 0.52,
-        "synthetic": true
-      },
-      {
-        "date": "2024-02-23",
-        "regime": "Bull Trend",
-        "spy_ret_20d": 0.047,
-        "breadth": 0.7,
-        "synthetic": true
-      }
-    ],
-    "regime_context": "Current SPY state (ret5=+1.7%, ret20=+2.0%, vol=0.7%, dd=-0.4%) matched to 30 analog days. Regime classified as: Neutral."
+    "top_matches": [],
+    "regime_context": "Current SPY state (ret5=+1.7%, ret20=+2.0%, vol=0.7%, dd=-0.4%) matched to 30 analog days. Regime classified as: Calm Uptrend."
   },
   "stock_memory": [
     {
@@ -54962,10 +54931,10 @@ window.SNAPSHOT = {
     }
   },
   "narrative": {
-    "headline": "Neutral regime \u2014 Industrials, Healthcare leading",
-    "constructive": "Analog matching finds neutral conditions historically favor Industrials, Healthcare, Utilities with positive conditional edge.",
+    "headline": "Calm Uptrend regime \u2014 Industrials, Healthcare leading",
+    "constructive": "Analog matching finds calm uptrend conditions historically favor Industrials, Healthcare, Utilities with positive conditional edge.",
     "risk": "No strongly negative sector signals. From days like today, SPY's next 20 sessions reversed 23% of the time, against 36% on any day.",
-    "plain_english": "The market is in a neutral phase. Historical analogs suggest Industrials, Healthcare tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
+    "plain_english": "The market is in a calm uptrend phase. Historical analogs suggest Industrials, Healthcare tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   }
 };
 </script>
@@ -55153,43 +55122,41 @@ function _rdTile(label,valHtml,barHtml,nowrap,whyId){return`<div${_rdWhyAttrs(wh
 function _rdHero(label,valHtml,subHtml,accentCol,valCol,whyId){return`<div${_rdWhyAttrs(whyId)} style="flex:1.3;min-width:150px;background:#050505;border:1px solid #2e2e2e;border-left:3px solid ${accentCol};border-radius:4px;padding:9px 11px;display:flex;flex-direction:column;justify-content:center"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${label}</div><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:${valCol||accentCol};line-height:1.15">${valHtml}</div><div style="color:#6f6f6f;font-size:10px;margin-top:3px">${subHtml||''}</div>${whyId?'<div class="rd-hint">why this label &#9656;</div>':''}</div>`;}
 function _rdSummaryCard(title,accentCol,heroHtml,tilesHtml,footHtml,panelsHtml){return`<div class="card" style="border-left:4px solid ${accentCol};padding-left:11px"><h2>${title}</h2><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:stretch">${heroHtml}${tilesHtml}</div>${panelsHtml||''}${footHtml?`<div style="margin-top:10px;padding-top:9px;color:#6f6f6f;font-size:12px;border-top:1px solid #2e2e2e;line-height:1.6">${footHtml}</div>`:''}</div>`;}
 
-// ── TRAJECTORY VERDICT ───────────────────────────────────────────────────
+const TV_R=0.005;   // the direction line, used ONLY when the history scale is missing
+// ── MOMENTUM SHIFT, SIZED (owner, 2026-10-07, Q39 = a) ─────────────────────
 //
-// Owner, 2026-09-14: wanted the same click-into explanation the Risk Axes got.
-// The verdict was an if-ladder buried in one line, which cannot explain itself,
-// so it is now a table read top to bottom, first match wins, and the label and
-// the explainer walk the same table.
-//
-// ONE BRANCH WAS WRONG AND IS FIXED HERE. The old ladder's final `else` caught
-// every case of flat returns with vol moving 2pp or more IN EITHER DIRECTION,
-// and labelled all of it "Vol Compression — vol falling". Flat returns with vol
-// RISING 2pp was therefore published as compression. That case is now its own
-// row, Vol Expansion; every other state labels exactly as before.
-const TV_R=0.005, TV_V=0.02;
-const TV_RULES=[
-  {name:'Goldilocks',col:'#3fae6a',when:'return shift above +0.5pp and vol falling',
-   test:(r,v)=>r>TV_R&&v<0,
-   desc:'Returns improving while vol falls — the strongest possible setup. Lean into risk.'},
-  {name:'Bullish but Choppy',col:'#d4a72c',when:'return shift above +0.5pp, vol flat or rising',
-   test:(r,v)=>r>TV_R&&v>=0,
-   desc:'Returns rising but vol expanding — trend intact, expect drawdowns within it.'},
-  {name:'Stable',col:'#5b9dff',when:'return shift within ±0.5pp and vol shift within ±2pp',
-   test:(r,v)=>Math.abs(r)<=TV_R&&Math.abs(v)<TV_V,
-   desc:'Momentum and vol stable — regime continuation most likely.'},
-  {name:'Deteriorating',col:'#e5484d',when:'return shift below −0.5pp and vol rising',
-   test:(r,v)=>r<-TV_R&&v>0,
-   desc:'Returns falling and vol rising — classic regime-change warning. Trim risk.'},
-  {name:'Losing Momentum',col:'#d4a72c',when:'return shift below −0.5pp, vol flat or falling',
-   test:(r,v)=>r<-TV_R,
-   desc:'Returns rolling over while vol contained — watch for trend break.'},
-  {name:'Vol Expansion',col:'#d4a72c',when:'return shift within ±0.5pp, vol up 2pp or more',
-   test:(r,v)=>v>=TV_V,
-   desc:'Vol rising without a move in returns — the market is getting jumpier before it has picked a direction.'},
-  {name:'Vol Compression',col:'#5b9dff',when:'return shift within ±0.5pp, vol down 2pp or more',
-   test:()=>true,
-   desc:'Vol falling without momentum gain — coiling phase; direction undetermined.'},
-];
-function _tvVerdict(r,v){for(const x of TV_RULES){if(x.test(r,v))return x;}return TV_RULES[TV_RULES.length-1];}
+// Until today seven named states ("Goldilocks", "Deteriorating"…) were decided
+// by fixed lines: any return shift past +0.5pp with vol down at all read
+// "Goldilocks — the strongest possible setup. Lean into risk." On 10-07 that
+// was a median-sized move with vol down 0.4pp. Now the card says the direction
+// and how big the move is against SPY's OWN history: every 5-vs-5 shift since
+// 1993 (scan/regime_measures.py momentum_scale). Under the 40th percentile of
+// |shift| is flat; 40th-80th typical; 80th-95th large; above that extreme.
+// No advice in the descriptions: this page is public.
+function _msSize(x,q){if(!q)return null;const a=Math.abs(x);return a<q.p40?'flat':a<q.p80?'typical':a<q.p95?'large':'extreme';}
+function _msBand(x,q){if(!q)return null;const a=Math.abs(x);
+  return a<q.p40?'below the 40th percentile':a<q.p50?'40th–50th percentile':a<q.p80?'50th–80th percentile':a<q.p95?'80th–95th percentile':'above the 95th percentile';}
+const MS_DESC={
+  'Improving|easing':'The trend is firming and the swings are shrinking.',
+  'Improving|steady':'The trend is firming; swings about the same.',
+  'Improving|rising':'The trend is firming, with bigger swings along the way.',
+  'Fading|rising':'The trend is weakening and the swings are growing — the pairing that has come before regime changes.',
+  'Fading|steady':'The trend is weakening quietly; swings about the same.',
+  'Fading|easing':'The trend is weakening while the swings shrink — a drift rather than a break.',
+  'Flat|rising':'Little change in trend, but the swings are growing.',
+  'Flat|easing':'Little change in trend; the swings are shrinking.',
+  'Flat|steady':'Little change in trend or in swings.',
+};
+function _tvVerdict(r,v,scale){
+  const q=scale&&scale.value?scale:null;
+  const rs=q?_msSize(r,q.ret):(Math.abs(r)<=TV_R?'flat':null);
+  const vs=q?_msSize(v,q.vol):(Math.abs(v)<0.02?'flat':null);
+  const name=rs==='flat'?'Flat':r>0?'Improving':'Fading';
+  const vol=vs==='flat'?'steady':v<0?'easing':'rising';
+  return{name,size:rs==='flat'?null:rs,vol,measured:!!q,
+         col:name==='Improving'?'#3fae6a':name==='Fading'?'#e5484d':'#5b9dff',
+         desc:MS_DESC[name+'|'+vol]};
+}
 
 
 // ── WHERE IT GOES NEXT ───────────────────────────────────────────────────
@@ -55204,7 +55171,7 @@ function _cardNextRegime(){
   const L=M.next_regime||{value:null,reason:'not in this snapshot'};
   const A=M.analog_next||{value:null,reason:'not in this snapshot'};
   const p0=v=>(v*100).toFixed(0)+'%';
-  const col=lab=>/bull|recovery/i.test(lab)?'#3fae6a':/correction|high vol|pullback/i.test(lab)?'#e5484d':'#5b9dff';
+  const col=lab=>/bull|uptrend|recovery/i.test(lab)?'#3fae6a':/correction|high vol|pullback/i.test(lab)?'#e5484d':/drifting|elevated/i.test(lab)?'#d4a72c':'#5b9dff';
   const lift=(sh,b)=>!b?'':sh>b*1.25?'<span style="color:#3fae6a">▲</span>':sh<b*0.8?'<span style="color:#6f6f6f">▼</span>':'<span style="color:#6f6f6f">·</span>';
   const table=(m,title,sub)=>{
     if(!m.rows||!m.rows.length) return`<div style="flex:1;min-width:280px"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px">${title}</div><p style="color:#8f8f8f;margin-top:6px">Not measured: ${m.reason||'no data'}.</p></div>`;
@@ -55220,8 +55187,13 @@ function _cardNextRegime(){
   };
   const top=L.value||A.value;
   const topRow=(L.rows||[]).find(r=>r.label===L.value)||(A.rows||[]).find(r=>r.label===A.value);
-  const hero=_rdHero(`Most likely in ${L.horizon||20} sessions`,top?top.toUpperCase():'—',
-    topRow?`${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`:(L.reason||''),
+  // "NEUTRAL" above and "NEUTRAL" here read as two signals agreeing (owner,
+  // 2026-10-07). When the likeliest label in 20 sessions is today's, this card
+  // says how often it STAYS, rather than printing the label a second time.
+  const stays=top&&L.label&&top===L.label;
+  const hero=_rdHero(`In ${L.horizon||20} sessions`,!top?'—':stays&&topRow?`STAYS · ${p0(topRow.share)}`:top.toUpperCase(),
+    topRow?(stays?`still ${top} on ${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`
+                 :`${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`):(L.reason||''),
     top?col(top):'#5b9dff',null,null);
   const leave=(L.rows||[]).filter(r=>r.label!==L.label);
   const leaveSum=leave.reduce((a,r)=>a+r.share,0);
@@ -55241,27 +55213,21 @@ function _cardVerdict(){
   var rRecent=avg(recent,'ret_20d'),rPrior=avg(prior,'ret_20d');
   var vRecent=avg(recent,'vol_20d')*Math.sqrt(252),vPrior=avg(prior,'vol_20d')*Math.sqrt(252);
   var rDelta=rRecent-rPrior,vDelta=vRecent-vPrior;
-  var hit=_tvVerdict(rDelta,vDelta);
-  var verdict=hit.name,vCol=hit.col,vDesc=hit.desc;
+  var MSC=(spy.measures||{}).momentum_scale;
+  var hit=_tvVerdict(rDelta,vDelta,MSC);
+  var verdict=hit.name+(hit.size?' · '+hit.size:''),vCol=hit.col,vDesc=hit.desc;
   var WHY='why-verdict';
-  var hero=_rdHero('Verdict',verdict,'last 5 vs prior 5',vCol,null,WHY);
+  var hero=_rdHero('Trend',verdict,(hit.measured?'':'size not measured · ')+'vol '+hit.vol+' · last 5 vs prior 5',vCol,null,WHY);
   var tiles=[
     _rdTile('Return shift',`<span style="color:${rDelta>=0?'#3fae6a':'#e5484d'}">${rDelta>=0?'▲':'▼'} ${(rDelta>=0?'+':'')+(rDelta*100).toFixed(2)} pp</span>`,'',undefined,WHY),
     _rdTile('Vol shift',`<span style="color:${vDelta<=0?'#3fae6a':'#e5484d'}">${vDelta<=0?'▼':'▲'} ${(vDelta>=0?'+':'')+(vDelta*100).toFixed(1)} pp</span>`,'',undefined,WHY),
-    _rdTile('20d return (now)',`<span style="color:${rRecent>=0?'#3fae6a':'#e5484d'}">${(rRecent*100).toFixed(2)}%</span>`,'',undefined,WHY),
-    _rdTile('Ann. vol (now)',`<span style="color:${vRecent>0.22?'#d4a72c':'#c9c9c9'}">${(vRecent*100).toFixed(0)}%</span>`,'',undefined,WHY)
+    _rdTile('20d return, 5-day avg',`<span style="color:${rRecent>=0?'#3fae6a':'#e5484d'}">${(rRecent*100).toFixed(2)}%</span>`,'',undefined,WHY),
+    _rdTile('Ann. vol, 5-day avg',`<span style="color:${vRecent>0.22?'#d4a72c':'#c9c9c9'}">${(vRecent*100).toFixed(0)}%</span>`,'',undefined,WHY)
   ].join('');
 
-  // How far each shift sits from a line that would change the label. The vol
-  // line that matters depends on the return shift: inside ±0.5pp the vol
-  // boundaries are ±2pp; outside it the only vol boundary is zero.
-  var rDist=Math.min(Math.abs(rDelta-TV_R),Math.abs(rDelta+TV_R))*100;
-  var vDist=(Math.abs(rDelta)<=TV_R?Math.min(Math.abs(vDelta-TV_V),Math.abs(vDelta+TV_V)):Math.abs(vDelta))*100;
   var pp=function(x,d){return(x>=0?'+':'')+(x*100).toFixed(d)+'pp';};
-  var ladder=TV_RULES.map(function(x,i){
-    var on=x===hit;
-    return `<div class="rd-rule ${on?'fired':''}"><span class="rd-rule-n">${i+1}</span><b style="color:${x.col}">${x.name}</b>${on?'<span class="rd-tag">this one</span>':''}<div style="font-size:12px;color:#8f8f8f;margin-top:2px">${x.when}</div></div>`;
-  }).join('');
+  var q=MSC&&MSC.value?MSC:null;
+  var band=function(x,qq,d){return qq?`<span class="rd-num">${pp(x,d)}</span> is ${_msBand(x,qq)} of all 5-vs-5 shifts since 1993 (flat under ${(qq.p40*100).toFixed(d)}pp, typical to ${(qq.p80*100).toFixed(d)}pp, large to ${(qq.p95*100).toFixed(d)}pp, extreme beyond)`:'not sized: the history scale is not in this snapshot';};
   var chart=function(vals,label){return svgLineChart(vals,440,110,label);};
   var panel=_rdPanel(WHY,`
     <h4>What this compares</h4>
@@ -55271,10 +55237,9 @@ function _cardVerdict(){
       <span class="rax-chip">20-day return: last 5 <b>${(rRecent*100).toFixed(2)}%</b> vs prior 5 <b>${(rPrior*100).toFixed(2)}%</b> → <b>${pp(rDelta,2)}</b></span>
       <span class="rax-chip">Volatility: last 5 <b>${(vRecent*100).toFixed(1)}%</b> vs prior 5 <b>${(vPrior*100).toFixed(1)}%</b> → <b>${pp(vDelta,1)}</b></span>
     </div>
-    <p>A return shift only counts once it passes ±0.5pp. A vol shift counts on direction alone, except when returns are flat — then it has to move 2pp either way to matter.</p>
-    <h4>The rules, read top to bottom — the first one that fits is the label</h4>
-    ${ladder}
-    <p style="margin-top:9px">The return shift is <span class="rd-num">${rDist.toFixed(2)}pp</span> from a line that would change this verdict, and the vol shift <span class="rd-num">${vDist.toFixed(1)}pp</span>.</p>
+    <h4>How big is it?</h4>
+    <p>Size is read against SPY's own history${q?` (${q.sessions.toLocaleString()} sessions)`:''}, not a fixed line. Return shift: ${band(rDelta,q&&q.ret,2)}. Vol shift: ${band(vDelta,q&&q.vol,1)}.</p>
+    <p>So the label is <b style="color:${vCol}">${verdict}</b>, vol <b>${hit.vol}</b>: ${vDesc}${q?'':' Without the scale, direction is read off a ±0.5pp line and size is left blank.'}</p>
     <h4>The last 20 sessions, as paths</h4>
     <div class="rd-charts">
       ${chart(h.map(function(d){return d.ret_5d||0;}),'Rolling 5d return')}
@@ -55340,7 +55305,7 @@ function _rdFeeds(ex,key){
 
 function _cardRegimeMetrics(){
   const reg=spy.regime||"—";
-  const regCol=/bull|risk[- ]?on|expansion|goldilock|calm|low[- ]?vol/i.test(reg)?'#3fae6a':/bear|risk[- ]?off|contraction|stress|crisis|high[- ]?vol/i.test(reg)?'#e5484d':'#5b9dff';
+  const regCol=/bull|uptrend|recovery/i.test(reg)?'#3fae6a':/correction|high vol|pullback/i.test(reg)?'#e5484d':/drifting|elevated/i.test(reg)?'#d4a72c':'#5b9dff';
   const arr=v=>v>0.0005?'▲':v<-0.0005?'▼':'·';
   const rc=v=>v>0.0005?'#3fae6a':v<-0.0005?'#e5484d':'#8f8f8f';
   const r5=spy.ret_5d||0,r20=spy.ret_20d||0,vol=(spy.vol_20d||0)*Math.sqrt(252),dd=spy.drawdown_60d||0;
@@ -55354,7 +55319,11 @@ function _cardRegimeMetrics(){
   const p0=v=>(v*100).toFixed(0)+'%';
   // An ordinal, for "14th percentile".
   const nth=n=>{const t=n%100;return n+(t>=11&&t<=13?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th'));};
-  const hero=_rdHero('Regime',reg.toUpperCase(),`${spy.regime_streak||"—"} day streak`,regCol,null,'why-regime');
+  // NARROW (2026-10-07, Q39 = a): breadth in the bottom fifth of its own three
+  // years is the most unusual reading on this card, and the label never saw it.
+  // A tag, not part of the label: breadth has 3 years of history, the label 33.
+  const narrow=has(mB)&&mB.pct_rank<0.2;
+  const hero=_rdHero('Regime',reg.toUpperCase()+(narrow?' · NARROW':''),`${spy.regime_streak||"—"} day streak${narrow?' · breadth in the bottom fifth of 3 years':''}`,regCol,null,'why-regime');
   // Overnight deltas used to be their own full-width row above this card,
   // which meant reading a number here and its change 150px away. A delta
   // belongs against the reading it is a delta OF, so it now sits under the
@@ -57697,7 +57666,7 @@ function _qRegime(){
   var ec5=spy.ret_5d>=0?'#3fae6a':'#e5484d';
   var ec20=spy.ret_20d>=0?'#3fae6a':'#e5484d';
   var streakTxt=spy.regime_streak?spy.regime_streak+'-day streak':'';
-  var interp={'Bull Trend':'Momentum tends to persist. Sector leaders typically outperform; breadth is key.','Correction':'Caution warranted — downside risk elevated, though recoveries can be swift.','Deep Correction':'Significant drawdown underway. High volatility likely before stabilization.','Recovery':'Risk assets historically favored as breadth improves from a low.','High Volatility':'Position sizing and risk management are the priority right now.','Pullback':'Short-term pullback within a broader trend — often a re-entry opportunity.','Neutral':'No strong directional signal. Sector selection matters more than macro exposure.'};
+  var interp={'Bull Trend':'Momentum tends to persist. Sector leaders typically outperform; breadth is key.','Correction':'Caution warranted — downside risk elevated, though recoveries can be swift.','Deep Correction':'Significant drawdown underway. High volatility likely before stabilization.','Recovery':'Risk assets historically favored as breadth improves from a low.','High Volatility':'Position sizing and risk management are the priority right now.','Pullback':'Short-term pullback within a broader trend — often a re-entry opportunity.','Neutral':'No strong directional signal. Sector selection matters more than macro exposure.','Calm Uptrend':'A steady climb with ordinary volatility: no rule above it fired, and the 20-day return is above +1%.','Drifting Lower':'A slow slide without a drawdown deep enough to call a correction.','Range':'The 20-day return is within ±1%: no trend either way.','Elevated Volatility':'Swings above 22% annualized without a trend or drawdown large enough for another label.'};
   var chartHtml=ret20.length>1?svgLineChart(ret20,420,90,'SPY rolling 20-day return — last 20 sessions'):'';
   return '<div class="card">'+_qHead(regime+' Regime',streakTxt)
     +'<div class="grid2" style="margin-bottom:14px">'
@@ -57820,18 +57789,19 @@ function _qRisk(){
 function _qAnalog(){
   var a=S.analog||{};
   var matches=a.top_matches||[];
-  var isSynth=matches.length>0&&matches[0].synthetic;
-  var synthNote=isSynth?'<div style="color:#6f6f6f;font-size:11px;margin-top:8px">Illustrative examples.</div>':'';
+  // Real analog episodes only since 2026-10-07; the hardcoded "illustrative"
+  // rows are gone. An unmeasured return or breadth prints a dash, not a value.
+  var synthNote='';
   var matchRows=matches.map(function(m,i){
-    var ret=m.spy_ret_20d||0;
-    var rc=ret>=0?'#3fae6a':'#e5484d';
-    var eq=(m.breadth||0)>0.5?'Up':'Down';
-    var eqc=(m.breadth||0)>0.5?'#3fae6a':'#e5484d';
+    var ret=m.spy_ret_20d, hasR=typeof ret==='number', hasB=typeof m.breadth==='number';
+    var rc=!hasR?'#6f6f6f':ret>=0?'#3fae6a':'#e5484d';
+    var eq=!hasB?'—':m.breadth>0.5?'Up':'Down';
+    var eqc=!hasB?'#6f6f6f':m.breadth>0.5?'#3fae6a':'#e5484d';
     return '<tr style="border-top:1px solid #141414">'
       +'<td style="color:#6f6f6f;padding:6px 4px;text-align:center">'+(i+1)+'</td>'
       +'<td style="font-family:var(--mono);font-size:12px;padding:6px 8px">'+m.date+'</td>'
       +'<td style="font-size:12px;padding:6px 8px;color:#c9c9c9">'+m.regime+'</td>'
-      +'<td style="text-align:right;font-weight:600;color:'+rc+';padding:6px 8px">'+(ret>=0?'+':'')+(ret*100).toFixed(1)+'%</td>'
+      +'<td style="text-align:right;font-weight:600;color:'+rc+';padding:6px 8px">'+(hasR?(ret>=0?'+':'')+(ret*100).toFixed(1)+'%':'—')+'</td>'
       +'<td style="text-align:center;padding:6px 4px"><span style="background:'+eqc+'22;color:'+eqc+';border-radius:4px;padding:2px 8px;font-size:11px;font-weight:600">'+eq+'</span></td>'
       +'</tr>';
   }).join('');
