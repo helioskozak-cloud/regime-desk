@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-06",
+ "as_of": "2026-10-07",
  "meta": {
   "built": "2026-07-13",
   "method": "pct of point-in-time S&P 500 members whose adjusted close doubled (>=+100%) or halved (<=-50%) over the calendar year",
@@ -1163,6 +1163,10 @@
     [
      "2026-10-06",
      7818.93
+    ],
+    [
+     "2026-10-07",
+     7772.01
     ]
    ],
    "path": [
@@ -1447,11 +1451,11 @@
      "sp500_ret": 12.81
     },
     {
-     "date": "2026-10-06",
-     "pct_doubled": 4.4,
+     "date": "2026-10-07",
+     "pct_doubled": 4.2,
      "pct_halved": 1.8,
-     "median_ret": 5.66,
-     "sp500_ret": 14.22
+     "median_ret": 4.77,
+     "sp500_ret": 13.53
     }
    ],
    "year": 2026,
@@ -1459,28 +1463,28 @@
    "n_members": 503,
    "n_with_data": 500,
    "coverage_pct": 99.4,
-   "pct_doubled": 4.4,
+   "pct_doubled": 4.2,
    "pct_halved": 1.8,
-   "n_doubled": 22,
+   "n_doubled": 21,
    "n_halved": 9,
-   "pct_up50": 10.6,
+   "pct_up50": 10.0,
    "pct_down30": 6.4,
-   "median_ret": 5.66,
-   "sp500_ret": 14.22,
-   "nasdaq_ret": 18.75,
+   "median_ret": 4.77,
+   "sp500_ret": 13.53,
+   "nasdaq_ret": 17.75,
    "top5": {
-    "SNDK": 5.995,
-    "MRNA": 5.357,
-    "DELL": 3.602,
-    "MU": 2.665,
-    "MRVL": 2.382
+    "SNDK": 5.849,
+    "MRNA": 5.297,
+    "DELL": 3.59,
+    "MU": 2.554,
+    "MRVL": 2.284
    },
    "bottom5": {
-    "CTVA": -0.791,
-    "TTD": -0.686,
-    "CSGP": -0.589,
-    "FICO": -0.589,
-    "APP": -0.586
+    "CTVA": -0.783,
+    "TTD": -0.689,
+    "FICO": -0.602,
+    "APP": -0.598,
+    "CSGP": -0.593
    }
   }
  ]
