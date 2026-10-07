@@ -355,3 +355,41 @@ def test_analog_next_regime_skips_days_without_a_finished_window():
     spy = pd.DataFrame({"date": pd.bdate_range("2024-01-01", periods=n)})
     out = rm.analog_next_regime(spy, pd.Series(["Neutral"] * n), spy.iloc[90:], horizon=20)
     assert out["analogs"] == 0 and out["value"] is None
+
+
+def test_momentum_scale_sizes_the_5_vs_5_shift_against_history():
+    """2026-10-07: the Momentum Shift card sizes today's shift by these percentiles."""
+    import numpy as np
+    import pandas as pd
+    import regime_measures as rm
+    rng = np.random.default_rng(7)
+    spy = pd.DataFrame({"return_20": rng.normal(0.01, 0.03, 600),
+                        "volatility": np.abs(rng.normal(0.01, 0.002, 600))})
+    out = rm.momentum_scale(spy)
+    assert out["value"] is True and out["sessions"] == 600 - 9
+    r = out["ret"]
+    assert r["p40"] <= r["p50"] <= r["p80"] <= r["p95"]
+    # The shift itself is last-5 mean minus prior-5 mean.
+    m = rm.momentum_shifts(spy)
+    i = 20
+    want = spy["return_20"].iloc[i - 4:i + 1].mean() - spy["return_20"].iloc[i - 9:i - 4].mean()
+    assert abs(m["ret_shift"].loc[i] - want) < 1e-12
+    assert rm.momentum_scale(spy.head(100))["value"] is None
+
+
+def test_analog_matches_are_real_episode_anchors_with_forward_returns():
+    """2026-10-07: replaces the builder's hardcoded "illustrative" analog rows."""
+    import pandas as pd
+    import regime_measures as rm
+    dates = pd.bdate_range("2024-01-01", periods=60)
+    spy = pd.DataFrame({"date": dates, "close": [100 + i for i in range(60)]})
+    labels = pd.Series(["Calm Uptrend"] * 60)
+    analogs = pd.DataFrame({"date": [dates[5], dates[6], dates[30]], "distance": [0.4, 0.2, 0.3]})
+    br = pd.Series([0.6] * 60, index=dates)
+    out = rm.analog_matches(spy, labels, analogs, br, n=5)
+    assert [o["date"] for o in out] == [str(dates[6].date()), str(dates[30].date())]   # one per episode, closest first
+    assert out[0]["spy_ret_20d"] == round(126 / 106 - 1, 4) and out[0]["breadth"] == 0.6
+    assert out[0]["regime"] == "Calm Uptrend"
+    # a day with no finished 20-session window is None, not 0
+    late = pd.DataFrame({"date": [dates[55]], "distance": [0.1]})
+    assert rm.analog_matches(spy, labels, late)[0]["spy_ret_20d"] is None

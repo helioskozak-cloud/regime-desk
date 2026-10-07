@@ -1,5 +1,11 @@
 """The regime rules table, and the explainer that walks it.
 
+2026-10-07 (owner, Q39 = a): the "Neutral" fallback was split into Elevated
+Volatility, Calm Uptrend, Drifting Lower and Range. The old ladder stays below
+as the reference, and the tests now prove the split touched NOTHING else: every
+state the old ladder labelled anything but Neutral keeps that label, and every
+old-Neutral state lands in exactly one of the four new ones.
+
 The classifier was a ladder of if-statements until 2026-09-14, when it became a
 table so the Regime Analysis card could explain its own label. That refactor is
 only safe if it is EXACTLY the old ladder: the regime streak is computed by
@@ -42,7 +48,7 @@ R20 = sorted({x + d for x in (-0.05, -0.01, 0.0, 0.01, 0.05)
               for d in (-EPS, 0.0, EPS)} | {-0.3, 0.3})
 DD = sorted({x + d for x in (-0.15, -0.08, -0.05)
              for d in (-EPS, 0.0, EPS)} | {0.0, -0.4})
-VOL = sorted({x + d for x in (0.02, 0.025)
+VOL = sorted({x + d for x in (0.02, 0.025, 0.22 / 252 ** 0.5)
               for d in (-EPS, 0.0, EPS)} | {0.005, 0.015, 0.05})
 
 
@@ -51,16 +57,44 @@ def _grid():
         yield {"ret_20d": r20, "drawdown_60d": dd, "vol_20d": vol}
 
 
-def test_the_table_labels_every_state_exactly_as_the_old_ladder():
-    mismatches = [s for s in _grid() if sb._classify_regime(s) != _old_regime(s)]
-    assert not mismatches, f"{len(mismatches)} states relabelled, e.g. {mismatches[:3]}"
+NEW_FROM_NEUTRAL = {"Elevated Volatility", "Calm Uptrend", "Drifting Lower", "Range"}
+
+
+def _new_regime(spy):
+    """The old ladder with only its fallback split, written out by hand."""
+    old = _old_regime(spy)
+    if old != "Neutral":
+        return old
+    r20 = spy.get("ret_20d", 0)
+    vol = spy.get("vol_20d", 0.015)
+    if vol > 0.22 / 252 ** 0.5:
+        return "Elevated Volatility"
+    if r20 > 0.01:
+        return "Calm Uptrend"
+    if r20 < -0.01:
+        return "Drifting Lower"
+    return "Range"
+
+
+def test_only_the_old_neutral_states_are_relabelled():
+    for s in _grid():
+        old, new = _old_regime(s), sb._classify_regime(s)
+        if old == "Neutral":
+            assert new in NEW_FROM_NEUTRAL, (s, new)
+        else:
+            assert new == old, (s, old, new)
+
+
+def test_the_table_matches_the_hand_written_split():
+    mismatches = [s for s in _grid() if sb._classify_regime(s) != _new_regime(s)]
+    assert not mismatches, f"{len(mismatches)} states differ, e.g. {mismatches[:3]}"
 
 
 def test_missing_keys_default_exactly_as_before():
     """A history row missing a key must classify the same, or the streak moves."""
     for partial in ({}, {"ret_20d": -0.06}, {"vol_20d": 0.03},
                     {"drawdown_60d": -0.09, "ret_20d": -0.01}):
-        assert sb._classify_regime(partial) == _old_regime(partial), partial
+        assert sb._classify_regime(partial) == _new_regime(partial), partial
 
 
 def test_the_grid_actually_reaches_every_label():
