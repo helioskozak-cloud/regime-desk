@@ -45,6 +45,7 @@ const rerender = async () => { delete win.document.getElementById('v-bubble').da
   ok('the marker board renders', /How close is each marker, and how fast is it moving\?/.test(text()));
   ok('the timeline card renders, first after the header', /Is the timeline running like the dot-com one\?/.test(text()) && text().indexOf('Is the timeline running') < text().indexOf('How close is each marker'));
   ok('five board rows, each with its history inside', win.document.querySelectorAll('#v-bubble details.bb-row').length === 5);
+  ok('all five markers sit on one shared timeline, with the dot-com top marked', /All five on one timeline/.test(text()) && /dot-com top \(Mar 2000\) on this alignment/.test(text()));
   ok('every marker chart carries a "now" line note', (text().match(/Dotted line = now/g) || []).length === 5,
      (text().match(/Dotted line = now/g) || []).length);
   ok('the reading is the trailing 12 months when the scan wrote one',
