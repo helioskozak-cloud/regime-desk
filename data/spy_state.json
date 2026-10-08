@@ -194,14 +194,14 @@
     "persistence": {
       "label": "Calm Uptrend",
       "horizon": 20,
-      "days": 3251,
+      "days": 3250,
       "held": 1527,
-      "base_rate": 0.3837,
+      "base_rate": 0.3836,
       "spells": 595,
       "median_spell": 3.0,
       "streak": 1,
       "history_sessions": 8459,
-      "value": 0.4697
+      "value": 0.4698
     },
     "momentum_scale": {
       "sessions": 8450,
@@ -223,26 +223,26 @@
     "next_regime": {
       "label": "Calm Uptrend",
       "horizon": 20,
-      "days": 3251,
+      "days": 3250,
       "spells": 595,
       "history_sessions": 8459,
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.4697,
+          "share": 0.4698,
           "n": 1527,
-          "base_rate": 0.3837
+          "base_rate": 0.3836
         },
         {
           "label": "Range",
           "share": 0.2335,
           "n": 759,
-          "base_rate": 0.1661
+          "base_rate": 0.1663
         },
         {
           "label": "Drifting Lower",
-          "share": 0.1799,
-          "n": 585,
+          "share": 0.1797,
+          "n": 584,
           "base_rate": 0.1327
         },
         {
