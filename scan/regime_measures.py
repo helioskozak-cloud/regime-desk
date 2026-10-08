@@ -462,6 +462,11 @@ def analog_forward(spy: pd.DataFrame, analogs: pd.DataFrame,
     return out
 
 
+def _d(x) -> str:
+    """A session label as YYYY-MM-DD, whatever the index holds."""
+    return pd.Timestamp(x).strftime("%Y-%m-%d") if not isinstance(x, (int, np.integer)) else str(x)
+
+
 # ── BREADTH ──────────────────────────────────────────────────────────────────
 
 BREADTH_MA = 50
@@ -487,27 +492,57 @@ def breadth_series(prices: pd.DataFrame, exclude=("SPY",)) -> pd.DataFrame:
     return pd.DataFrame({"share": share, "n": n})
 
 
+# A withheld latest session falls back to the newest COMPLETE one, at most this
+# many sessions back (owner, 2026-10-08, Q53 = a). The evening build regularly
+# carries a next-day row with a handful of closes, which left Home reading "not
+# measured" all night. Further back than this is no longer "today's" breadth.
+BREADTH_MAX_LOOKBACK = 3
+
+
+def _breadth_incomplete(row, typical: float) -> str | None:
+    """Why a session cannot be read, or None when it is complete."""
+    if row["n"] < BREADTH_MIN_NAMES or pd.isna(row["share"]):
+        return f"only {int(row['n'])} names measurable"
+    if typical and row["n"] < BREADTH_COMPLETE_SHARE * typical:
+        return (f"it measured {int(row['n'])} names against a typical {int(typical)}"
+                " — it had not finished loading")
+    return None
+
+
 def summarize_breadth(bs: pd.DataFrame) -> dict:
-    """Today's breadth with its 30/90-session range and 3-year percentile."""
+    """Breadth on the newest complete session, with its 30/90-session range and
+    3-year percentile. `asof` is the session read; when it is not the latest,
+    `withheld` says which session was skipped and why."""
     if bs is None or bs.empty:
         return {"value": None, "reason": "no price history"}
     ok = bs[bs["n"] >= BREADTH_MIN_NAMES].dropna(subset=["share"])
-    last = bs.iloc[-1]
     typical = float(bs["n"].tail(30).median()) if len(bs) else 0.0
+    last = bs.iloc[-1]
     out = {
         "ma": BREADTH_MA,
         "n": int(last["n"]),
         "n_typical": int(typical),
         "days": int(len(ok)),
     }
-    if last["n"] < BREADTH_MIN_NAMES or pd.isna(last["share"]):
-        out.update(value=None, reason=f"only {int(last['n'])} names measurable on the latest session")
+    pos, why_latest = None, _breadth_incomplete(last, typical)
+    for back in range(0, min(BREADTH_MAX_LOOKBACK, len(bs) - 1) + 1):
+        if _breadth_incomplete(bs.iloc[-1 - back], typical) is None:
+            pos = len(bs) - 1 - back
+            break
+    if pos is None:
+        if last["n"] < BREADTH_MIN_NAMES or pd.isna(last["share"]):
+            out.update(value=None, reason=f"only {int(last['n'])} names measurable on the latest session")
+        else:
+            out.update(value=None,
+                       reason=(f"the latest session measured {int(last['n'])} names against a "
+                               f"typical {int(typical)} — it had not finished loading"))
         return out
-    if typical and last["n"] < BREADTH_COMPLETE_SHARE * typical:
-        out.update(value=None,
-                   reason=(f"the latest session measured {int(last['n'])} names against a "
-                           f"typical {int(typical)} — it had not finished loading"))
-        return out
+    if pos < len(bs) - 1:
+        out["withheld"] = {"date": _d(bs.index[-1]), "n": int(last["n"]), "reason": why_latest}
+    bs = bs.iloc[:pos + 1]
+    ok = ok.loc[:bs.index[-1]]
+    last = bs.iloc[-1]
+    out.update(asof=_d(bs.index[-1]), n=int(last["n"]), days=int(len(ok)))
 
     today = float(last["share"])
     w30, w90 = ok["share"].tail(30), ok["share"].tail(90)

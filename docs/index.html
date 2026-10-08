@@ -56396,7 +56396,7 @@ function _cardRegimeMetrics(){
     _rdTile('Breadth',has(mB)
       ?`<span style="color:${mB.pct_rank<0.2?'#e5484d':mB.pct_rank>0.8?'#3fae6a':'#c9c9c9'}">${p0(mB.value)}</span>`
       :nm,
-      has(mB)?`<div style="color:#6f6f6f;font-size:10px;margin-top:5px;white-space:nowrap">${nth(Math.round(mB.pct_rank*100))} pctile, 3y</div>`:'',undefined,'why-breadth'),
+      has(mB)?`<div style="color:#6f6f6f;font-size:10px;margin-top:5px;white-space:nowrap">${nth(Math.round(mB.pct_rank*100))} pctile, 3y${mB.withheld&&mB.asof?' · as of '+mB.asof.slice(5):''}</div>`:'',undefined,'why-breadth'),
     _rdTile('Persistence',has(mP)
       ?`<span style="color:#c9c9c9">${p0(mP.value)}</span>`:nm,
       has(mP)?`<div style="color:#6f6f6f;font-size:10px;margin-top:5px;white-space:nowrap">${typeof mP.base_rate==='number'?'any day: '+p0(mP.base_rate):'still '+mP.label+' in '+mP.horizon+'d'}</div>`:'',undefined,'why-persist'),
@@ -56436,6 +56436,7 @@ function _cardRegimeMetrics(){
       <p>How many stocks are taking part. Specifically: the share of the names in the scan universe that closed above their own 50-day average. A market can rise on a handful of giants while most stocks fall; this is the number that tells those apart.</p>
       ${has(mB)?`
       <h4>What it is reading</h4>
+      ${mB.withheld?`<p style="color:#d4a72c">Measured on <b>${mB.asof}</b>, the newest complete session. ${mB.withheld.date} was skipped: ${mB.withheld.reason}.</p>`:''}
       <div class="rax-sum">
         <span class="rax-chip">above their 50-day average: <b>${p0(mB.value)}</b> of <b>${mB.n.toLocaleString()}</b> names</span>
         <span class="rax-chip">last 30 sessions: <b>${p0(mB.range30.lo)}–${p0(mB.range30.hi)}</b></span>

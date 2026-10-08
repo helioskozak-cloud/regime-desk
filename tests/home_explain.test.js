@@ -141,6 +141,18 @@ setTimeout(() => {
   ok(/3,010 names/.test(pB) && /37%–70%/.test(pB), 'Breadth panel shows the name count and 30-day range');
   ok(/Lower than on 86%/.test(pB), 'Breadth panel turns the percentile into a sentence', pB.slice(0, 400));
   ok(/delisted/.test(pB), 'Breadth panel states the survivorship lean');
+  ok(!/as of/.test(tB) && !/skipped/.test(pB), 'a reading on the latest session carries no fallback note');
+
+  // World 2b (Q53, 2026-10-08): the latest row was a stub, so the scan read the
+  // session before. The tile says which, and the panel says why.
+  rerender({ ...REAL, breadth: { ...REAL.breadth, asof: '2026-10-07',
+    withheld: { date: '2026-10-08', n: 25, reason: 'only 25 names measurable' } } });
+  const tB2 = text(home.querySelector('[data-why="why-breadth"]'));
+  ok(/40%/.test(tB2) && /as of 10-07/.test(tB2), 'fallback reading shows its session on the tile', tB2);
+  const pB2 = text(d.getElementById('why-breadth'));
+  ok(/Measured on 2026-10-07/.test(pB2) && /2026-10-08 was skipped: only 25 names/.test(pB2),
+    'fallback panel names the session read and the one skipped', pB2.slice(0, 300));
+  rerender(REAL);
 
   const tP = text(home.querySelector('[data-why="why-persist"]'));
   ok(/86%/.test(tP) && /any day: 80%/.test(tP), 'Persistence tile shows 86% beside its 80% base rate', tP);

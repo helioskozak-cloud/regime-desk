@@ -67,9 +67,38 @@ def test_too_few_names_is_not_measured_rather_than_a_number():
 def test_a_half_loaded_last_session_is_withheld_not_read_as_a_move():
     """The day's closes arrive ticker by ticker. A snapshot taken mid-load would
     measure breadth on whichever names happened to be in, and print it as the
-    market's."""
+    market's. Since Q53 (2026-10-08) the reading falls back to the session
+    before, and says so."""
     px = _prices(n_names=800, up_names=400)
+    full = rm.summarize_breadth(rm.breadth_series(px.iloc[:-1]))
     px.iloc[-1, 400:] = np.nan  # half the universe has no close yet
+    b = rm.summarize_breadth(rm.breadth_series(px))
+    assert b["value"] == full["value"]
+    assert b["asof"] == px.index[-2].strftime("%Y-%m-%d")
+    assert b["withheld"]["date"] == px.index[-1].strftime("%Y-%m-%d")
+    assert "had not finished loading" in b["withheld"]["reason"]
+
+
+def test_a_complete_latest_session_is_read_with_no_fallback():
+    px = _prices(up_names=300)
+    b = rm.summarize_breadth(rm.breadth_series(px))
+    assert b["asof"] == px.index[-1].strftime("%Y-%m-%d") and "withheld" not in b
+
+
+def test_the_evening_stub_row_falls_back_too():
+    """10-07 evening: the newest row carried 25 closes out of ~3,200."""
+    px = _prices(n_names=800, up_names=400)
+    stub = px.iloc[[-1]].copy()
+    stub.index = [px.index[-1] + pd.offsets.BDay(1)]
+    stub.iloc[0, 25:] = np.nan
+    b = rm.summarize_breadth(rm.breadth_series(pd.concat([px, stub])))
+    assert b["value"] is not None and b["asof"] == px.index[-1].strftime("%Y-%m-%d")
+    assert "25 names" in b["withheld"]["reason"]
+
+
+def test_no_complete_session_within_the_lookback_is_not_measured():
+    px = _prices(n_names=800, up_names=400)
+    px.iloc[-(rm.BREADTH_MAX_LOOKBACK + 1):, 400:] = np.nan
     b = rm.summarize_breadth(rm.breadth_series(px))
     assert b["value"] is None
     assert "had not finished loading" in b["reason"]
