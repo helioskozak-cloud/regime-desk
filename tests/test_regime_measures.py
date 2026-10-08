@@ -433,3 +433,22 @@ def test_analog_matches_are_real_episode_anchors_with_forward_returns():
     # a day with no finished 20-session window is None, not 0
     late = pd.DataFrame({"date": [dates[55]], "distance": [0.1]})
     assert rm.analog_matches(spy, labels, late)[0]["spy_ret_20d"] is None
+
+
+def test_label_reversal_counts_sessions_with_todays_label():
+    """2026-10-08: Reversal risk reads the label's own history, not analog days
+    (the analog version lost scan/analog_spy_study.py)."""
+    n = 400
+    close = pd.Series(100.0 + np.arange(n, dtype=float))          # steady rise
+    close.iloc[200:260] = close.iloc[200] - np.arange(60)          # one dip
+    spy = pd.DataFrame({"close": close})
+    spy["return_20"] = spy["close"] / spy["close"].shift(20) - 1
+    labs = pd.Series(["Calm Uptrend"] * 70 + ["Range"] * 60 + ["Calm Uptrend"] * 70
+                     + ["Range"] * 60 + ["Calm Uptrend"] * 70 + ["Range"] * 70)
+    out = rm.label_reversal(spy, labs, horizon=20)
+    assert out["label"] == "Range" and out["spells"] == 3
+    assert out["days"] > 0 and 0 <= out["value"] <= 1
+    assert out["base_days"] > out["days"]
+    # Too few spells of today's label: withheld, not printed.
+    thin = rm.label_reversal(spy, pd.Series(["Calm Uptrend"] * 380 + ["Range"] * 20), horizon=20)
+    assert thin["value"] is None and "spell" in thin["reason"]

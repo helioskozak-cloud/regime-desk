@@ -449,7 +449,7 @@ window.SNAPSHOT = {
     "regime": "Calm Uptrend",
     "breadth": 0.2784,
     "persistence": 0.4698,
-    "reversal_risk": 0.2,
+    "reversal_risk": 0.3458,
     "explain": {
       "regime": {
         "result": "Calm Uptrend",
@@ -652,15 +652,15 @@ window.SNAPSHOT = {
         "value": 0.4698
       },
       "reversal": {
+        "label": "Calm Uptrend",
         "horizon": 20,
-        "analogs": 30,
-        "reversed": 6,
-        "episodes": 10,
-        "base_days": 713,
-        "base_reversed": 256,
-        "base_rate": 0.359,
-        "trailing_20d": 0.02567,
-        "value": 0.2
+        "days": 3248,
+        "reversed": 1123,
+        "spells": 595,
+        "base_days": 8425,
+        "base_rate": 0.4547,
+        "trailing_20d": 0.02378,
+        "value": 0.3458
       },
       "next_regime": {
         "label": "Calm Uptrend",
@@ -56080,7 +56080,7 @@ window.SNAPSHOT = {
   "narrative": {
     "headline": "Calm Uptrend regime \u2014 Communication Services, Industrials leading",
     "constructive": "Analog matching finds calm uptrend conditions historically favor Communication Services, Industrials, Materials with positive conditional edge.",
-    "risk": "No strongly negative sector signals. From days like today, SPY's next 20 sessions reversed 20% of the time, against 36% on any day.",
+    "risk": "No strongly negative sector signals. From days like today, SPY's next 20 sessions reversed 35% of the time, against 45% on any day.",
     "plain_english": "The market is in a calm uptrend phase. Historical analogs suggest Communication Services, Industrials tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   },
   "scanner": {
@@ -56392,7 +56392,6 @@ function _tvVerdict(r,v,scale){
 function _cardNextRegime(){
   const M=spy.measures||{};
   const L=M.next_regime||{value:null,reason:'not in this snapshot'};
-  const A=M.analog_next||{value:null,reason:'not in this snapshot'};
   const p0=v=>(v*100).toFixed(0)+'%';
   const col=lab=>/bull|uptrend|recovery/i.test(lab)?'#3fae6a':/correction|high vol|pullback/i.test(lab)?'#e5484d':/drifting|elevated/i.test(lab)?'#d4a72c':'#5b9dff';
   const lift=(sh,b)=>!b?'':sh>b*1.25?'<span style="color:#3fae6a">▲</span>':sh<b*0.8?'<span style="color:#6f6f6f">▼</span>':'<span style="color:#6f6f6f">·</span>';
@@ -56408,8 +56407,8 @@ function _cardNextRegime(){
       <table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:#6f6f6f;font-size:10px"><td></td><td></td><td style="text-align:right;padding-right:6px">in ${m.horizon||20}d</td><td style="text-align:right;padding-right:6px">any day</td><td></td></tr>${rows}</table>
       ${m.value===null&&m.reason?`<div style="color:#d4a72c;font-size:11px;margin-top:6px">Too thin to call: ${m.reason}.</div>`:''}</div>`;
   };
-  const top=L.value||A.value;
-  const topRow=(L.rows||[]).find(r=>r.label===L.value)||(A.rows||[]).find(r=>r.label===A.value);
+  const top=L.value;
+  const topRow=(L.rows||[]).find(r=>r.label===L.value);
   // "NEUTRAL" above and "NEUTRAL" here read as two signals agreeing (owner,
   // 2026-10-07). When the likeliest label in 20 sessions is today's, this card
   // says how often it STAYS, rather than printing the label a second time.
@@ -56421,12 +56420,10 @@ function _cardNextRegime(){
   const leave=(L.rows||[]).filter(r=>r.label!==L.label);
   const leaveSum=leave.reduce((a,r)=>a+r.share,0);
   const leaveTxt=leave.length?`If it leaves ${L.label} (${p0(leaveSum)} of the time), it has gone to ${leave.slice(0,2).map(r=>`${r.label} ${p0(r.share/leaveSum)}`).join(', ')}.`:'';
-  // ONE COLUMN, NOT TWO TABLES (owner, 2026-10-08: "the where it goes next is
-  // still much taller than the others"). Ten label rows plus six analog rows
-  // stacked in a third of the screen. On the card: the top four labels and the
-  // rest summed; the analog view as one line with its episode count, since 30
-  // analog days are ~10 stretches of the last 3 years against ~600 spells by
-  // label. Both full tables sit behind the hero's explainer, so nothing is lost.
+  // ONE SHORT TABLE (owner, 2026-10-08: "the where it goes next is still much
+  // taller than the others"): the top four labels and the rest summed; every
+  // row behind the hero. The analog-day view was cut the same day: tested from
+  // 2010, adding it to these odds made them worse (scan/analog_spy_study.py).
   const TOP=4;
   const short=m=>{
     if(!m.rows||!m.rows.length) return`<p style="color:#8f8f8f;margin-top:10px">Not measured: ${m.reason||'no data'}.</p>`;
@@ -56440,15 +56437,9 @@ function _cardNextRegime(){
       <td style="text-align:center">${r.other?'':lift(r.share,r.base_rate)}</td></tr>`;
     return`<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px"><tr style="color:#6f6f6f;font-size:10px"><td></td><td></td><td style="text-align:right;padding-right:6px">in ${m.horizon||20}d</td><td style="text-align:right;padding-right:6px">any day</td><td></td></tr>${head.map(tr).join('')}${restRow?tr(restRow):''}</table>`;
   };
-  const aTop=(A.rows||[])[0];
-  const aSample=`${A.analogs||0} sessions most like today${A.episodes?`, ${A.episodes} episodes`:''}, last 3 years`;
-  const aLine=!aTop?`<b>Analog days:</b> not measured${A.reason?` (${A.reason})`:''}.`
-    :`<b>Analog days</b> (${aSample}) ${aTop.label===top?'agree':'point elsewhere'}: ${aTop.label} ${p0(aTop.share)} of the time 20 sessions on, against ${p0(aTop.base_rate)} any day.`;
-  const body=`${short(L)}<div style="color:#8f8f8f;font-size:12px;margin-top:8px;line-height:1.5">${aLine}</div>`
-    +_rdPanel('why-next',`<div style="display:flex;gap:24px;flex-wrap:wrap">
-    ${table(L,'By label',`Every past session labelled ${L.label||'like today'}${L.since?' since '+L.since.slice(0,4):''}: ${L.days||0} sessions in ${L.spells||0} separate spells${L.note?' · '+L.note:''}.`)}
-    ${table(A,'By analog days',`The ${A.analogs||0} past sessions most like today on 5d and 20d return, vol and drawdown (3 years)${A.episodes?`, in ${A.episodes} separate episodes`:''}, the same days the stock signals use. With this few episodes it is a cross-check on the label view, not a second vote.`)}
-  </div><p style="margin-top:10px">▲ more often than on any day, ▼ less. Overlapping days are not independent; the spell and episode counts are the real sample sizes.</p>`);
+  const body=short(L)
+    +_rdPanel('why-next',`${table(L,'By label',`Every past session labelled ${L.label||'like today'}${L.since?' since '+L.since.slice(0,4):''}: ${L.days||0} sessions in ${L.spells||0} separate spells${L.note?' · '+L.note:''}.`)}
+  <p style="margin-top:10px">▲ more often than on any day, ▼ less. Overlapping days are not independent; the spell count is the real sample size.</p>`);
   const foot=`${leaveTxt} A base rate, not a forecast.`;
   return _rdSummaryCard('Where It Goes Next',top?col(top):'#5b9dff',hero,'',foot,body);
 }
@@ -56620,14 +56611,15 @@ function _cardRegimeMetrics(){
       ?`<span style="color:#c9c9c9">${p0(mR.value)}</span>`:nm,
       has(mR)&&typeof mR.base_rate==='number'?`<div style="color:#6f6f6f;font-size:10px;margin-top:5px;white-space:nowrap">any day: ${p0(mR.base_rate)}</div>`:'',undefined,'why-rev')
   ].join('');
-  const foot=`<strong style="color:#8f8f8f">◆ ANALOG CONTEXT · </strong>${S.analog&&S.analog.regime_context||"—"}<span style="float:right;color:#6f6f6f">${S.generated||''}</span>`;
+  // The ANALOG CONTEXT line went with the analog readings (2026-10-08).
+  const foot=`<span style="color:#6f6f6f">Data as of ${S.generated||'—'}</span>`;
 
   // ---- the panels ----
   const noEx=`<p style="color:#8f8f8f">The rule-by-rule breakdown is not in this snapshot. It fills in on the next daily build.</p>`;
   const near=exR?_rdNearest(exR):null;
   const nearTxt=near?`<p style="margin-top:9px"><b>Closest other label: ${near.r.result}.</b> It needs ${near.unmet.map(c=>{const k=RD_KEY[c.key]||[c.key,String];return`${k[0]} to move from <span class="rd-num">${k[1](c.value)}</span> to ${c.op==='>'?'above':'below'} <span class="rd-num">${k[1](c.threshold)}</span>`;}).join(', and ')}.</p>`:'';
   const feeds=key=>exR?_rdFeeds(exR,key):[];
-  const feedsTxt=key=>{const f=feeds(key);return f.length?`<h4>Where it counts</h4><p>It feeds ${f.length===1?'one regime rule':f.length+' regime rules'}: ${f.join('; ')}.</p>`:`<h4>Where it counts</h4><p>No regime rule uses it. It is one of the four numbers the analog matcher compares against history, and it is the fastest read on direction on this card.</p>`;};
+  const feedsTxt=key=>{const f=feeds(key);return f.length?`<h4>Where it counts</h4><p>It feeds ${f.length===1?'one regime rule':f.length+' regime rules'}: ${f.join('; ')}.</p>`:`<h4>Where it counts</h4><p>No regime rule uses it. It is the fastest read on direction on this card.</p>`;};
   const panels=
     _rdPanel('why-regime',`
       <h4>What this is</h4>
@@ -56686,32 +56678,32 @@ function _cardRegimeMetrics(){
       :`<h4>Not measured</h4><p>${mP.reason||'No reading in this snapshot.'}</p>`}`)
    +_rdPanel('why-rev',(()=>{
       if(!has(mR)) return `<h4>What this measures</h4>
-        <p>How often SPY's next 20 sessions have gone the opposite way to its last 20, from days like today.</p>
+        <p>How often SPY's next 20 sessions have gone the opposite way to its last 20, from past sessions with today's label.</p>
         <h4>Not measured</h4><p>${mR.reason||'No reading in this snapshot.'}</p>`;
-      // The honest yardstick for "is this different from any day": one
-      // standard error, on the number of SEPARATE episodes rather than the
-      // number of days, because neighbouring analog days share most of their
-      // forward window and are not independent draws.
-      const n=Math.max(1,mR.episodes||mR.analogs);
+      // The yardstick for "is this different from any day": one standard
+      // error on the number of separate SPELLS, not days, because days inside
+      // one spell share most of their forward window.
+      const n=Math.max(1,mR.spells||mR.days);
       const se=Math.sqrt(Math.max(0.0001,mR.base_rate*(1-mR.base_rate))/n);
       const gap=mR.value-mR.base_rate;
       const verdict=Math.abs(gap)<se
-        ?`<b>no clear difference from any day.</b> ${Math.round(Math.abs(gap)*100)<1?'The two rates are within a point of each other':'The '+Math.round(Math.abs(gap)*100)+'-point gap is smaller than the noise'} — ${n} episodes carry about ±${Math.round(se*100)} points of noise.`
-        :gap>0?`<b>reversals have been more common from states like today</b> — ${Math.round(gap*100)} points above any day, beyond the ±${Math.round(se*100)} points of noise in ${n} episodes.`
-        :`<b>reversals have been less common from states like today</b> — ${Math.round(-gap*100)} points below any day, beyond the ±${Math.round(se*100)} points of noise in ${n} episodes.`;
+        ?`<b>no clear difference from any day.</b> ${Math.round(Math.abs(gap)*100)<1?'The two rates are within a point of each other':'The '+Math.round(Math.abs(gap)*100)+'-point gap is inside the noise'} — ${n} spells carry about ±${Math.round(se*100)} points.`
+        :gap>0?`<b>reversals have been more common from ${mR.label}</b> — ${Math.round(gap*100)} points above any day, beyond the ±${Math.round(se*100)} points of noise in ${n} spells.`
+        :`<b>reversals have been less common from ${mR.label}</b> — ${Math.round(-gap*100)} points below any day, beyond the ±${Math.round(se*100)} points of noise in ${n} spells.`;
       const dirn=mR.trailing_20d<0?'down':'up', opp=mR.trailing_20d<0?'up':'down';
+      const nf=v=>typeof v==='number'?v.toLocaleString():'—';
       return `
       <h4>What this measures</h4>
-      <p>From days like today, how often did the trend flip? SPY is ${dirn} over its last 20 sessions. Of the <b>30 past days most like today</b> — the same analog days the stock signals are built from — this counts how many saw SPY's <b>next</b> 20 sessions go ${opp} instead.</p>
+      <p>How often the trend flipped from a label like today's. SPY is ${dirn} over its last 20 sessions. Of every past session labelled <b>${mR.label||'like today'}</b> since 1993, this counts how many saw SPY's <b>next</b> 20 sessions go ${opp} instead.</p>
       <h4>What it is reading</h4>
       <div class="rax-sum">
-        <span class="rax-chip">days like today that reversed: <b>${mR.reversed}</b> of <b>${mR.analogs}</b> → <b>${p0(mR.value)}</b></span>
-        <span class="rax-chip">separate episodes: <b>${mR.episodes}</b></span>
-        <span class="rax-chip">any day in 3 years: <b>${mR.base_reversed}</b> of <b>${mR.base_days}</b> → <b>${p0(mR.base_rate)}</b></span>
+        <span class="rax-chip">${mR.label} sessions that reversed: <b>${nf(mR.reversed)}</b> of <b>${nf(mR.days)}</b> → <b>${p0(mR.value)}</b></span>
+        <span class="rax-chip">separate spells: <b>${nf(mR.spells)}</b></span>
+        <span class="rax-chip">any day: <b>${p0(mR.base_rate)}</b> of ${nf(mR.base_days)}</span>
       </div>
       <h4>So</h4>
       <p>Compared with any day, ${verdict}</p>
-      <p style="color:#8f8f8f">This replaced a four-step lookup that could only ever read 25, 35, 50 or 70 and was shown as though it were a probability.</p>`;
+      <p style="color:#8f8f8f">Until 2026-10-08 this counted the 30 analog days most like today. Tested from 2010 on, that version did no better than the any-day rate and made this one worse when combined with it, so it was replaced. This one beat the any-day rate in the same test.</p>`;
     })());
   // Momentum is one line inside this card since Q54 (2026-10-08): today's
   // direction, a reading of today like the tiles above it.
@@ -57613,7 +57605,7 @@ function renderAnalysis(){
   // The one Home card with no "what is this" panels explains itself inline;
   // its method is stated here instead.
   const ownText={
-    'Where It Goes Next':`<p>Two base rates for the label the market carries 20 sessions from now. <strong>By label</strong>: every past session since 1993 that carried today's regime label, and what label it carried 20 sessions later; the spell count beside it is the real sample size, because overlapping days are not independent. <strong>By analog days</strong>: the 30 past sessions most like today on SPY's 5-day and 20-day return, 20-day volatility and 60-day drawdown (z-scored, nearest by Euclidean distance, 3-year window, the last 30 days excluded) — the same analog days the stock signals use, below. ▲/▼ mark a label more or less likely than on any day. A base rate, not a forecast.</p>`,
+    'Where It Goes Next':`<p>The base rate for the label the market carries 20 sessions from now. <strong>By label</strong>: every past session since 1993 that carried today's regime label, and what label it carried 20 sessions later; the spell count beside it is the real sample size, because overlapping days are not independent. A second view by analog days (the 30 past sessions most like today) was tested and cut on 2026-10-08: from 2010, adding it made these odds worse. ▲/▼ mark a label more or less likely than on any day. A base rate, not a forecast.</p>`,
   };
   const homeCards=cards.map(c=>`<div class="card"><h2>${esc(c.title)}</h2>
     ${ownText[c.title]||''}
@@ -57625,15 +57617,15 @@ function renderAnalysis(){
   ${homeCards}
   ${_scannerMethod()}
   <div class="card wide"><h2 style="color:#d4a72c">Limitations</h2>
-    <p><strong>Small samples.</strong> The regime base rates count spells, not days; the 30 analog days behind the SPY readings are about ten separate stretches of the last three years.</p>
-    <p><strong>Regime shifts.</strong> A 3-year lookback can miss structural change (rate regime, AI capex, the dollar). When the state has no real historical twin, analog matching breaks.</p>
+    <p><strong>Small samples.</strong> The regime base rates count spells, not days: a long spell contributes hundreds of overlapping sessions but is one observation.</p>
+    <p><strong>Regime shifts.</strong> Base rates since 1993 span very different rate, inflation and market-structure regimes; a label's history is an average over all of them.</p>
     <p><strong>No causation.</strong> Co-occurrence, not mechanism.</p>
     <p><strong>Tendencies, not forecasts.</strong> A 60% hit rate is six in ten in history, not a guarantee.</p>
     <p><strong>Bubble Watch</strong> has its own method and survivorship caveats at the foot of the Bubble tab.</p>
   </div>
   <div class="card wide"><h2>Glossary</h2>
     <p><strong>Scanner rank</strong> — a name's place, best first, on the average of five percentile ranks across the universe: 1, 3 and 6-month return over SPY, distance above the 50-day average, and position in its 20-day range.</p>
-    <p><strong>Analog day</strong> — a past session whose SPY state (5- and 20-day return, 20-day volatility, drawdown from the 60-day high) is closest to today's after z-scoring. Used for the SPY readings on Home only.</p>
+    <p><strong>Analog day</strong> — a past session whose SPY state (5- and 20-day return, 20-day volatility, drawdown from the 60-day high) is closest to today's after z-scoring. No longer shown: the stock edge built on them lost to random picks once beta was removed, and the SPY readings built on them did not improve on the regime label (both tested, 2026-09 and 2026-10-08).</p>
     <p><strong>Spell</strong> — an unbroken run of sessions carrying one regime label; the honest sample size for the label base rates.</p>
   </div>
   <div class="wide">${_stripFoot(renderEcon())}</div>

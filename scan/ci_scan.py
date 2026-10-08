@@ -1028,12 +1028,14 @@ def main():
     # of the rarer ones. One extra download, SPY only, back to its 1993 launch.
     # If it fails, both fall back to the three years above and say so.
     long_labels, long_dates, long_note = labels, spy_hist["date"], "3-year history (long SPY pull failed)"
+    long_frame = spy_hist
     try:
         _ls = _download_batch(["SPY"], "max")
         _lf = compute_features(_ls)
         _lf = _lf[_lf["ticker"] == "SPY"].sort_values("date").reset_index(drop=True)
         if len(_lf) > len(spy_hist):
             long_labels, long_dates = rm.label_history(_lf), _lf["date"]
+            long_frame = _lf
             long_note = None
     except Exception as exc:
         long_note = f"3-year history (long SPY pull failed: {exc})"
@@ -1056,9 +1058,16 @@ def main():
         measures["next_regime"] = {"value": None, "reason": f"failed: {exc}"}
     try:
         analogs = rm.analog_days(spy_hist, SIMILAR_DAY_COUNT, EXCLUDE_RECENT_DAYS)
-        measures["reversal"] = rm.reversal(spy_hist, analogs)
     except Exception as exc:
         analogs = None
+    # REVERSAL BY LABEL, NOT BY ANALOG DAY (owner, 2026-10-08). The analog
+    # version lost the pre-registered test (scan/analog_spy_study.py): it did
+    # not beat the any-day rate, and it made the label's own forecast worse.
+    try:
+        measures["reversal"] = rm.label_reversal(long_frame, long_labels)
+        if long_note:
+            measures["reversal"]["note"] = long_note
+    except Exception as exc:
         measures["reversal"] = {"value": None, "reason": f"failed: {exc}"}
     try:
         measures["analog_next"] = (rm.analog_next_regime(spy_hist, labels, analogs)

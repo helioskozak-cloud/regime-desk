@@ -61,18 +61,18 @@ setTimeout(() => {
   ok(home.querySelectorAll('.card > h2').length === 3, 'and nothing outside them');
 
   // Owner, 2026-10-08: "the where it goes next is still much taller than the
-  // others". Two stacked tables became top four + the rest, and one analog
-  // line; both full tables live behind the hero, not deleted.
+  // others". The label table became top four + the rest, with every row
+  // behind the hero.
   {
     const nx = home.querySelectorAll('.rd-home3 > .rd-col')[1];
     const onCard = [...nx.querySelectorAll('table')].filter((t) => !t.closest('#why-next'));
     ok(onCard.length === 1 && onCard[0].querySelectorAll('tr').length <= 6,
       'Where It Goes Next: one short table on the card', onCard.map((t) => t.querySelectorAll('tr').length).join(','));
-    ok(/Analog days/.test(text(nx).replace(text(d.getElementById('why-next')), '')),
-      'and the analog view as one line');
+    // The analog-day view was cut the same day (scan/analog_spy_study.py).
+    ok(!/analog/i.test(text(nx)), 'and no analog-day view, on the card or behind it');
     const full = d.getElementById('why-next');
-    ok(full && full.querySelectorAll('table').length === 2 && /By label/.test(text(full)) && /By analog days/.test(text(full)),
-      'both full tables behind the hero');
+    ok(full && full.querySelectorAll('table').length === 1 && /By label/.test(text(full)),
+      'the full label table behind the hero');
     const rows = [...full.querySelectorAll('table')[0].querySelectorAll('tr')].length - 1;
     ok(rows === (spy.measures.next_regime.rows || []).length, 'the full label table keeps every row');
   }
@@ -136,9 +136,9 @@ setTimeout(() => {
   rerender({
     breadth: { value: null, reason: 'only 12 names measurable on the latest session' },
     persistence: { value: null, reason: 'only 9 past sessions in 1 spell of Neutral in the history' },
-    reversal: { value: null, reason: 'only 4 analog days have a finished 20-session window' },
+    reversal: { value: null, reason: 'only 7 past sessions in 2 spells of Neutral' },
   });
-  for (const [id, reason] of [['why-breadth', '12 names'], ['why-persist', '1 spell'], ['why-rev', '4 analog days']]) {
+  for (const [id, reason] of [['why-breadth', '12 names'], ['why-persist', '1 spell'], ['why-rev', '2 spells of Neutral']]) {
     const tile = home.querySelector(`[data-why="${id}"]`);
     ok(/not measured/.test(text(tile)) && !/\d%/.test(text(tile)),
       `${id}: an unmeasured value reads "not measured", never a percentage`, text(tile));
@@ -151,8 +151,10 @@ setTimeout(() => {
       range30: { lo: 0.3672, hi: 0.6963 }, range90: { lo: 0.3672, hi: 0.7169 } },
     persistence: { value: 0.8589, label: 'Neutral', horizon: 20, days: 567, held: 487, spells: 34,
       median_spell: 8, streak: 12, base_rate: 0.80, history_sessions: 732 },
-    reversal: { value: 0.3667, horizon: 20, analogs: 30, reversed: 11, episodes: 8,
-      base_days: 712, base_reversed: 259, base_rate: 0.3638, trailing_20d: -0.0186 },
+    // By label since 2026-10-08 (the analog-day version lost
+    // scan/analog_spy_study.py): sessions and spells of today's label.
+    reversal: { value: 0.3667, label: 'Neutral', horizon: 20, days: 600, reversed: 220, spells: 30,
+      base_days: 8400, base_rate: 0.3638, trailing_20d: -0.0186 },
   };
   rerender(REAL);
   const tB = text(home.querySelector('[data-why="why-breadth"]'));
@@ -186,7 +188,8 @@ setTimeout(() => {
   const tR = text(home.querySelector('[data-why="why-rev"]'));
   ok(/37%/.test(tR) && /any day: 36%/.test(tR), 'Reversal tile shows 37% beside 36% any day', tR);
   const pR = text(d.getElementById('why-rev'));
-  ok(/11 of 30/.test(pR) && /259 of 712/.test(pR), 'Reversal panel shows both counts');
+  ok(/220 of 600/.test(pR) && /30/.test(pR) && /of 8,400/.test(pR), 'Reversal panel shows sessions, spells and the any-day count', pR.slice(0, 500));
+  ok(!/analog/i.test(text(home.querySelector('[data-why="why-rev"]'))), 'the tile no longer reads analog days');
   ok(/no clear difference from any day/.test(pR) && /within a point/.test(pR),
     'a 0.3-point gap reads as no difference, without printing "0-point gap"', pR.slice(0, 700));
   ok(/go up instead/.test(pR), 'SPY is down over 20 sessions, so a reversal means going up');
@@ -201,12 +204,12 @@ setTimeout(() => {
   rerender({ ...REAL, reversal: { ...REAL.reversal, value: 0.05, reversed: 2, base_rate: 0.40 } });
   ok(/reversals have been less common/.test(text(d.getElementById('why-rev'))), 'and well below any day says that');
 
-  // Noise is judged on SEPARATE EPISODES, not analog days. 50% vs 36% is a
-  // 14-point gap: inside the ~17 points of noise in 8 episodes, but outside the
-  // ~9 points you would claim by pretending 30 overlapping days were 30 draws.
-  rerender({ ...REAL, reversal: { ...REAL.reversal, value: 0.50, reversed: 15, episodes: 8, base_rate: 0.36 } });
+  // Noise is judged on SEPARATE SPELLS, not sessions. 50% vs 36% is a
+  // 14-point gap: inside the ~17 points of noise in 8 spells, though hundreds
+  // of overlapping sessions would pretend to far less.
+  rerender({ ...REAL, reversal: { ...REAL.reversal, value: 0.50, reversed: 300, spells: 8, base_rate: 0.36 } });
   ok(/no clear difference from any day/.test(text(d.getElementById('why-rev'))),
-    'a 14-point gap on 8 episodes is still called noise — overlapping days are not independent');
+    'a 14-point gap on 8 spells is still called noise — overlapping days are not independent');
 
   // Put the page back as it was published.
   rerender(saved);

@@ -432,6 +432,42 @@ ANALOG_FWD_HORIZON = 20
 ANALOG_FWD_MIN = 20
 
 
+def label_reversal(spy: pd.DataFrame, labels: pd.Series,
+                   horizon: int = REVERSAL_HORIZON) -> dict:
+    """How often SPY's next `horizon` sessions reversed its last 20, from every
+    past session carrying TODAY'S regime label (long history), beside the rate
+    over all sessions.
+
+    Replaced the analog-day version on Home (owner, 2026-10-08). Tested first
+    (scan/analog_spy_study.py, pre-registered fb01b4f): from 2010, the analog
+    rate did not beat the any-day rate, and adding it to this label rate made
+    the forecast worse; this label rate beat the any-day rate, 95% interval
+    above zero. `spy` is aligned row for row with `labels` (date, close,
+    return_20). Spells, not days, are the sample size, as for Persistence.
+    """
+    spy = spy.reset_index(drop=True)
+    labs = list(labels)
+    if len(labs) != len(spy) or len(labs) <= horizon:
+        return {"value": None, "reason": "no regime history"}
+    fwd = spy["close"].shift(-horizon) / spy["close"] - 1
+    flips = [_flip(t, f) for t, f in zip(spy["return_20"], fwd)]
+    today = labs[-1]
+    mine = [x for lab, x in zip(labs, flips) if lab == today and x is not None]
+    every = [x for x in flips if x is not None]
+    spells = sum(1 for lab, _ in _runs(labs) if lab == today)
+    out = {"label": today, "horizon": horizon, "days": len(mine),
+           "reversed": int(sum(mine)), "spells": spells,
+           "base_days": len(every),
+           "base_rate": round(sum(every) / len(every), 4) if every else None,
+           "trailing_20d": (round(float(spy["return_20"].iloc[-1]), 5) if len(spy) else None)}
+    if len(mine) < PERSIST_MIN_DAYS or spells < PERSIST_MIN_SPELLS:
+        out["value"] = None
+        out["reason"] = f"only {len(mine)} past sessions in {spells} spell{'' if spells == 1 else 's'} of {today}"
+    else:
+        out["value"] = round(sum(mine) / len(mine), 4)
+    return out
+
+
 def analog_forward(spy: pd.DataFrame, analogs: pd.DataFrame,
                    horizon: int = ANALOG_FWD_HORIZON) -> dict:
     """SPY's next `horizon` sessions after each analog day, p10..p90.
