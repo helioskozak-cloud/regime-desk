@@ -52,9 +52,13 @@ setTimeout(() => {
 
   // ── the three dashboards, and only those ─────────────────────────────────
   console.log('\n== Home is the three dashboards ==');
-  const cards = [...home.querySelectorAll('.card > h2')].map((h) => h.textContent);
-  ok(JSON.stringify(cards) === JSON.stringify(['Regime Analysis', 'Where It Goes Next', 'Momentum Shift', 'Risk Axes']),
-    'Home carries Regime Analysis, Where It Goes Next, Momentum Shift, Risk Axes', JSON.stringify(cards));
+  // Owner, 2026-10-08: "a one page view with three equal sized sections".
+  // Three columns; today's state (regime + momentum) shares the first.
+  const cols = [...home.querySelectorAll('.rd-home3 > .rd-col')]
+    .map((c) => [...c.querySelectorAll('.card > h2')].map((h) => h.textContent));
+  ok(JSON.stringify(cols) === JSON.stringify([['Regime Analysis', 'Momentum Shift'], ['Where It Goes Next'], ['Risk Axes']]),
+    'Home is three sections: Regime Analysis + Momentum Shift | Where It Goes Next | Risk Axes', JSON.stringify(cols));
+  ok(home.querySelectorAll('.card > h2').length === 4, 'and nothing outside them');
 
   // ── nothing deleted: the rest is one tab away ────────────────────────────
   // Checked BEFORE any click, while Analysis is still unrendered; it is

@@ -391,6 +391,30 @@ td{padding:4px 8px}
 #v-analysis .card p{color:#8f8f8f;font-size:12.5px;max-width:880px;margin:6px 0}
 #nav a#nav-analysis{color:#6f6f6f;font-size:11px;letter-spacing:.4px;padding-right:12px;margin-right:6px;border-right:1px solid #2e2e2e}
 #nav a#nav-analysis.active,#nav a#nav-analysis:hover{color:#c9c9c9}
+
+/* Home: three equal columns, one screen (2026-10-08). The cards keep their own
+   markup; inside a column they lose their chrome and tighten, and the column
+   is the box. Under 1100px the columns stack. */
+.rd-home3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch;margin-top:14px}
+.rd-home3 .rd-col{background:#0e0e0e;border:1px solid #2e2e2e;border-top:3px solid var(--acc);border-radius:4px;padding:12px 13px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.rd-home3 .rd-col>.card{border:none!important;background:none!important;padding:0!important;margin:0!important;box-shadow:none!important}
+.rd-home3 .rd-col>.card+.card{border-top:1px solid #1f1f1f!important;padding-top:12px!important}
+.rd-home3 .rd-col>.card .popout-btn{display:none}
+.rd-home3 .rd-col [data-why]{min-width:0!important}
+.rd-home3 .rd-col div[style*="flex:1;min-width:112px"]{flex:1 1 calc(25% - 10px)!important;padding:7px 8px!important}
+.rd-home3 .rd-col div[style*="flex:1;min-width:112px"]>div:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rd-home3 .rd-col div[style*="flex:1;min-width:112px"]>div:nth-child(2) span{white-space:nowrap}
+/* risk rows inside a third of the screen: name, meter, 30-day range, score.
+   The 90-day range is the faint band on the meter and is in each row's panel. */
+.rd-home3 .rax-name{width:122px;flex:0 0 122px;font-size:12.5px}
+.rd-home3 .rax-rng{width:68px}
+.rd-home3 .rax-rng+.rax-rng{display:none}
+.rd-home3 .rd-col div[style*="flex:1.3;min-width:150px"]{flex:1 1 100%!important;padding:7px 9px!important}
+.rd-home3 .rd-col div[style*="gap:24px;flex-wrap:wrap"]>*{flex:1 1 100%!important;min-width:0!important}
+.rd-home3 table{font-size:11.5px}
+html.light .rd-home3 .rd-col{background:#f6f8fa;border-color:#d0d7de;border-top-color:var(--acc)}
+html.light .rd-home3 .rd-col>.card+.card{border-top-color:#d0d7de!important}
+@media(max-width:1100px){.rd-home3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -52962,10 +52986,18 @@ function renderHome(){
   // the paths of the numbers it compares);
   // the macro strip, the stock-signal strip and the paper-portfolio strip moved
   // to the Analysis tab, so nothing was deleted and nothing is unreachable.
-  return _cardRegimeMetrics()
-    +_cardNextRegime()
-    +_cardVerdict()
-    +_cardRisk()
+  // ONE SCREEN, THREE EQUAL SECTIONS (owner, 2026-10-08: "regime desk has
+  // turned into the kind of bloated thing we were moving away from … a one
+  // page view with three equal sized sections"). Home had grown to four
+  // stacked full-width cards, ~1,600px tall. Now three equal columns: what the
+  // market IS (regime + momentum, both readings of today), where it has GONE
+  // from here, and what could BREAK it. The cards render unchanged inside, so
+  // every tile and explainer panel still works; .rd-home3 only tightens them.
+  return '<div class="rd-home3">'
+    +'<section class="rd-col" style="--acc:#3fb950">'+_cardRegimeMetrics()+_cardVerdict()+'</section>'
+    +'<section class="rd-col" style="--acc:#3fb950">'+_cardNextRegime()+'</section>'
+    +'<section class="rd-col" style="--acc:#d4a72c">'+_cardRisk()+'</section>'
+    +'</div>'
     +'<footer>Tendencies only — not investment advice.</footer>';
 }
 
