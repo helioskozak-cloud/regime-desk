@@ -60,6 +60,23 @@ setTimeout(() => {
     'Home is three sections: Regime Analysis | Where It Goes Next | Risk Axes', JSON.stringify(cols));
   ok(home.querySelectorAll('.card > h2').length === 3, 'and nothing outside them');
 
+  // Owner, 2026-10-08: "the where it goes next is still much taller than the
+  // others". Two stacked tables became top four + the rest, and one analog
+  // line; both full tables live behind the hero, not deleted.
+  {
+    const nx = home.querySelectorAll('.rd-home3 > .rd-col')[1];
+    const onCard = [...nx.querySelectorAll('table')].filter((t) => !t.closest('#why-next'));
+    ok(onCard.length === 1 && onCard[0].querySelectorAll('tr').length <= 6,
+      'Where It Goes Next: one short table on the card', onCard.map((t) => t.querySelectorAll('tr').length).join(','));
+    ok(/Analog days/.test(text(nx).replace(text(d.getElementById('why-next')), '')),
+      'and the analog view as one line');
+    const full = d.getElementById('why-next');
+    ok(full && full.querySelectorAll('table').length === 2 && /By label/.test(text(full)) && /By analog days/.test(text(full)),
+      'both full tables behind the hero');
+    const rows = [...full.querySelectorAll('table')[0].querySelectorAll('tr')].length - 1;
+    ok(rows === (spy.measures.next_regime.rows || []).length, 'the full label table keeps every row');
+  }
+
   // ── nothing deleted: the rest is one tab away ────────────────────────────
   // Checked BEFORE any click, while Analysis is still unrendered; it is
   // rendered on route below.

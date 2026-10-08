@@ -56241,15 +56241,39 @@ function _cardNextRegime(){
   const hero=_rdHero(`In ${L.horizon||20} sessions`,!top?'—':stays&&topRow?`STAYS · ${p0(topRow.share)}`:top.toUpperCase(),
     topRow?(stays?`still ${top} on ${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`
                  :`${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`):(L.reason||''),
-    top?col(top):'#5b9dff',null,null);
+    top?col(top):'#5b9dff',null,'why-next');
   const leave=(L.rows||[]).filter(r=>r.label!==L.label);
   const leaveSum=leave.reduce((a,r)=>a+r.share,0);
   const leaveTxt=leave.length?`If it leaves ${L.label} (${p0(leaveSum)} of the time), it has gone to ${leave.slice(0,2).map(r=>`${r.label} ${p0(r.share/leaveSum)}`).join(', ')}.`:'';
-  const body=`<div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:12px">
+  // ONE COLUMN, NOT TWO TABLES (owner, 2026-10-08: "the where it goes next is
+  // still much taller than the others"). Ten label rows plus six analog rows
+  // stacked in a third of the screen. On the card: the top four labels and the
+  // rest summed; the analog view as one line with its episode count, since 30
+  // analog days are ~10 stretches of the last 3 years against ~600 spells by
+  // label. Both full tables sit behind the hero's explainer, so nothing is lost.
+  const TOP=4;
+  const short=m=>{
+    if(!m.rows||!m.rows.length) return`<p style="color:#8f8f8f;margin-top:10px">Not measured: ${m.reason||'no data'}.</p>`;
+    const head=m.rows.slice(0,TOP),rest=m.rows.slice(TOP);
+    const sum=(k)=>rest.reduce((a,r)=>a+r[k],0);
+    const restRow=rest.length?{label:`${rest.length} other${rest.length===1?'':'s'}`,share:sum('share'),base_rate:sum('base_rate'),other:true}:null;
+    const tr=r=>`<tr><td style="padding:3px 8px 3px 0;color:${r.other?'#6f6f6f':col(r.label)};white-space:nowrap">${r.label}</td>
+      <td style="width:40%;padding:3px 8px 3px 0"><div style="height:6px;background:#141414;border-radius:1px"><div style="height:6px;width:${Math.max(1,r.share*100)}%;background:${r.other?'#3a3a3a':col(r.label)}"></div></div></td>
+      <td style="text-align:right;font-family:var(--mono);padding:3px 6px 3px 0">${p0(r.share)}</td>
+      <td style="text-align:right;font-family:var(--mono);color:#6f6f6f;padding:3px 6px 3px 0">${p0(r.base_rate)}</td>
+      <td style="text-align:center">${r.other?'':lift(r.share,r.base_rate)}</td></tr>`;
+    return`<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px"><tr style="color:#6f6f6f;font-size:10px"><td></td><td></td><td style="text-align:right;padding-right:6px">in ${m.horizon||20}d</td><td style="text-align:right;padding-right:6px">any day</td><td></td></tr>${head.map(tr).join('')}${restRow?tr(restRow):''}</table>`;
+  };
+  const aTop=(A.rows||[])[0];
+  const aSample=`${A.analogs||0} sessions most like today${A.episodes?`, ${A.episodes} episodes`:''}, last 3 years`;
+  const aLine=!aTop?`<b>Analog days:</b> not measured${A.reason?` (${A.reason})`:''}.`
+    :`<b>Analog days</b> (${aSample}) ${aTop.label===top?'agree':'point elsewhere'}: ${aTop.label} ${p0(aTop.share)} of the time 20 sessions on, against ${p0(aTop.base_rate)} any day.`;
+  const body=`${short(L)}<div style="color:#8f8f8f;font-size:12px;margin-top:8px;line-height:1.5">${aLine}</div>`
+    +_rdPanel('why-next',`<div style="display:flex;gap:24px;flex-wrap:wrap">
     ${table(L,'By label',`Every past session labelled ${L.label||'like today'}${L.since?' since '+L.since.slice(0,4):''}: ${L.days||0} sessions in ${L.spells||0} separate spells${L.note?' · '+L.note:''}.`)}
-    ${table(A,'By analog days',`The ${A.analogs||0} past sessions most like today on 5d and 20d return, vol and drawdown (3 years), the same days the stock signals use.`)}
-  </div>`;
-  const foot=`${leaveTxt} ▲ more often than on any day, ▼ less. Overlapping days are not independent; the spell count is the real sample size. A base rate, not a forecast.`;
+    ${table(A,'By analog days',`The ${A.analogs||0} past sessions most like today on 5d and 20d return, vol and drawdown (3 years)${A.episodes?`, in ${A.episodes} separate episodes`:''}, the same days the stock signals use. With this few episodes it is a cross-check on the label view, not a second vote.`)}
+  </div><p style="margin-top:10px">▲ more often than on any day, ▼ less. Overlapping days are not independent; the spell and episode counts are the real sample sizes.</p>`);
+  const foot=`${leaveTxt} A base rate, not a forecast.`;
   return _rdSummaryCard('Where It Goes Next',top?col(top):'#5b9dff',hero,'',foot,body);
 }
 

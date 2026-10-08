@@ -379,6 +379,17 @@ def test_analog_next_regime_reads_the_label_twenty_sessions_on():
     assert out["rows"][0]["share"] == pytest.approx(1.0)
 
 
+def test_analog_next_regime_counts_episodes_not_days():
+    """Thirty adjacent days are one episode; the card shows this as the sample size."""
+    n = 400
+    spy = pd.DataFrame({"date": pd.bdate_range("2024-01-01", periods=n)})
+    labs = pd.Series(["Neutral"] * n)
+    one = rm.analog_next_regime(spy, labs, spy.iloc[100:130], horizon=20)
+    assert one["episodes"] == 1
+    three = rm.analog_next_regime(spy, labs, spy.iloc[[50, 51, 150, 151, 300]], horizon=20)
+    assert three["episodes"] == 3
+
+
 def test_analog_next_regime_skips_days_without_a_finished_window():
     n = 100
     spy = pd.DataFrame({"date": pd.bdate_range("2024-01-01", periods=n)})

@@ -633,7 +633,14 @@ def analog_next_regime(spy: pd.DataFrame, labels: pd.Series, analogs: pd.DataFra
     rows = sorted(({"label": k, "share": round(v, 4), "n": int(round(v * len(after))),
                     "base_rate": round(base.get(k, 0.0), 4)} for k, v in share.items()),
                   key=lambda r: -r["share"])
-    out = {"horizon": horizon, "analogs": len(after), "rows": rows}
+    # Analog days cluster: 30 days are often ten stretches of a few weeks each.
+    # The episode count (the engine's own EPISODE_GAP_CAL grouping, as in
+    # data/analog_days.json) is the real sample size.
+    used = sorted(pd.Timestamp(d) for d in pd.to_datetime(analogs["date"])
+                  if pos.get(pd.Timestamp(d)) is not None and pos[pd.Timestamp(d)] + horizon < len(labs))
+    episodes = sum(1 for k, d in enumerate(used)
+                   if k == 0 or (d - used[k - 1]).days > EPISODE_GAP_CAL)
+    out = {"horizon": horizon, "analogs": len(after), "episodes": episodes, "rows": rows}
     if len(after) < NEXT_MIN_ANALOGS:
         out["value"] = None
         out["reason"] = f"only {len(after)} analog days have a finished {horizon}-session window"
