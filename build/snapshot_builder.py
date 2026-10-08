@@ -99,6 +99,9 @@ INPUT_CRITICALITY = {
     "earnings.json":      EXPECTED,
     "releases.json":      EXPECTED,
     "econ.json":          EXPECTED,
+    # The stock ranking the page shows (owner, 2026-10-08: replaced the analog
+    # edge, which lost to random picks once beta was removed).
+    "scanner.csv":        EXPECTED,
     # The engine's own report card. EXPECTED rather than REQUIRED: a dashboard
     # with no calibration is a dashboard that cannot warn, which is bad, but
     # withholding the whole page over it would be worse.
@@ -662,6 +665,26 @@ def build_snapshot(ledger=None):
         except Exception as exc:
             ledger.failed("filings.json", exc)
 
+    # THE SCANNER, NOT THE ANALOG EDGE (owner, 2026-10-08). The analog stock
+    # feed lost to random picks once beta was removed (scan/validate.py, B5,
+    # 2026-09-17); the scanner composite beat beta-matched random picks at
+    # 20/60/120 days (B7c, 2026-09-21). Every live place that marked or
+    # described a stock now reads this. market_signals.csv is still written
+    # because PAPA's V1-V4 paper books run on it.
+    #
+    # Carried as one CSV string (rank, ticker, composite and three readings),
+    # because ~3,100 rows as pretty-printed JSON objects would triple the page.
+    scn_path = DATA / "scanner.csv"
+    if not scn_path.exists():
+        ledger.missing("scanner.csv")
+    else:
+        try:
+            snap["scanner"] = _load_scanner(scn_path)
+            print(f"[snapshot] Loaded scanner: {snap['scanner']['n']} names ranked")
+        except Exception as exc:
+            ledger.failed("scanner.csv", exc)
+    snap["scanner_test"] = _scanner_test()
+
     # Universe earnings calendar, this week and next (scan/earnings_scan.py).
     # Loaded when at least one day was read: an empty list over read days is
     # "nobody in the universe reports", which the page states as such.
@@ -779,6 +802,65 @@ def build_snapshot(ledger=None):
     # rather than failing on the first and hiding the rest.
     ledger.finish()
     return snap
+
+
+UNIVERSE_CSV = ROOT / "scan" / "universe_ci.csv"
+SCANNER_TOP = 0.10   # "top 10%" on the Filings and Earnings dots
+
+
+def _load_scanner(path) -> dict:
+    """scanner.csv (best first) -> {n, top, csv}. Rank 1 is the best composite.
+    Names and sectors come from the universe file when it is there."""
+    import pandas as pd
+    df = pd.read_csv(path)
+    need = {"ticker", "composite", "rs_3m", "above_200d", "drawdown_1y"}
+    if df.empty or not need.issubset(df.columns):
+        raise ValueError(f"scanner.csv missing columns: {sorted(need - set(df.columns))}")
+    df = df.sort_values("composite", ascending=False).reset_index(drop=True)
+    df["rank"] = df.index + 1
+    names = {}
+    if UNIVERSE_CSV.exists():
+        u = pd.read_csv(UNIVERSE_CSV)
+        names = {str(r.ticker): (str(r.name) if pd.notna(r.name) else "",
+                                 str(r.sector) if pd.notna(r.sector) else "")
+                 for r in u.itertuples()}
+    clean = lambda v: str(v).replace(",", " ").replace("\n", " ")
+    lines = ["rank,ticker,composite,rs_3m,above_200d,drawdown_1y,name,sector"]
+    for r in df.itertuples():
+        nm, sec = names.get(str(r.ticker), ("", ""))
+        lines.append(f"{r.rank},{r.ticker},{r.composite:.4f},{r.rs_3m:.4f},"
+                     f"{r.above_200d:.4f},{r.drawdown_1y:.4f},{clean(nm)},{clean(sec)}")
+    n = len(df)
+    return {"n": n, "top_cut": SCANNER_TOP, "top": max(1, int(round(n * SCANNER_TOP))),
+            "csv": "\n".join(lines)}
+
+
+def _scanner_test() -> list:
+    """The scanner's row from the beta-matched walk-forward (B7c) beside the
+    analog rule's beta-neutral row (B5), per horizon. Read from the result
+    files, never restated by hand; empty when they are not in data/."""
+    out = []
+    for h in (20, 60, 120):
+        p = DATA / f"validation_b7c_{h}d.json"
+        if not p.exists():
+            continue
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        rows = {r.get("rule"): r for r in d.get("results", [])}
+        sc, an = rows.get("scanner"), rows.get("legacy beta-neutral")
+        if not sc or sc.get("vs_matched") is None:
+            continue
+        out.append({"horizon": h, "dates": sc.get("vs_matched_n"),
+                    "first": (d.get("as_of_dates") or [None])[0],
+                    "last": (d.get("as_of_dates") or [None])[-1],
+                    "universe": d.get("universe"),
+                    "scanner_vs_matched": sc["vs_matched"], "t": sc.get("vs_matched_t"),
+                    "beat_rate": sc.get("vs_matched_beat_rate"),
+                    "pick_beta": sc.get("matched_pick_beta"), "ctrl_beta": sc.get("matched_ctrl_beta"),
+                    "analog_vs_random": an.get("vs_random") if an else None})
+    return out
 
 
 def inject_snapshot(html: str, snap: dict) -> str:

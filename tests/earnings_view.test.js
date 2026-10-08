@@ -63,12 +63,20 @@ const view = () => $('#v-filings');
   const first = E.earnings[0];
   const block = $(`#v-filings [data-earn-day="${first.date}"]`);
   ok(`${first.ticker} sits under its own day`, block && block.textContent.includes(first.ticker));
-  const sig = new Set([...(win.SNAPSHOT.all_signals || []), ...(win.SNAPSHOT.stocks || [])].map(s => s && s.ticker));
-  const dotted = E.earnings.find(r => sig.has(r.ticker));
-  if (dotted) {
-    const row = $$(`#v-filings [data-earn-day="${dotted.date}"] tr`).find(tr => tr.textContent.includes(dotted.ticker));
-    ok(`${dotted.ticker} (on the signal list) carries the blue dot`, row && /signal list/.test(row.innerHTML));
-  }
+  // The dot is the scanner's top 10% (owner, 2026-10-08), not the retired
+  // analog signal list. Read the rank straight from the snapshot's CSV.
+  const SC = win.SNAPSHOT.scanner;
+  ok('the snapshot carries the scanner', SC && SC.n > 0 && SC.top > 0);
+  const rank = {};
+  (SC ? SC.csv.split('\n').slice(1) : []).forEach(l => { const f = l.split(','); rank[f[1]] = +f[0]; });
+  const rowOf = r => $$(`#v-filings [data-earn-day="${r.date}"] tr`).find(tr => tr.textContent.includes(r.ticker));
+  const dotted = E.earnings.find(r => rank[r.ticker] && rank[r.ticker] <= SC.top);
+  if (dotted) ok(`${dotted.ticker} (scanner rank ${rank[dotted.ticker]}) carries the blue dot`,
+                 rowOf(dotted) && /scanner rank/.test(rowOf(dotted).innerHTML));
+  const plain = E.earnings.find(r => rank[r.ticker] && rank[r.ticker] > SC.top);
+  if (plain) ok(`${plain.ticker} (rank ${rank[plain.ticker]}) has no dot`,
+                rowOf(plain) && !/scanner rank/.test(rowOf(plain).innerHTML));
+  ok('no row still claims the retired signal list', !/signal list/.test(view().innerHTML));
 
   console.log('\nFilters carry across the toggle:');
   const q = $('#v-filings [data-fil-q]');

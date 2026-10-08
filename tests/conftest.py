@@ -59,6 +59,10 @@ FULL_INPUTS = {
                                     "sector": "Tech", "time": "pre", "eps": 1.1, "n_est": 4,
                                     "eps_ly": 0.9, "mcap": 2e9, "quarter": "Sep/2026"}]},
     "econ.json": {"series": {"CPI": [1, 2, 3]}},
+    "scanner.csv": ("ticker,rs_1m,rs_3m,rs_6m,above_50d,above_200d,range_pos_20d,move_1m_sigma,"
+                    "vol_20d,drawdown_1y,volume_surge,composite\n"
+                    "BBB,0.01,0.02,0.03,0.01,0.05,0.4,0.2,0.02,-0.10,1.0,0.40\n"
+                    "AAA,0.10,0.20,0.30,0.05,0.15,0.9,1.5,0.02,-0.01,1.4,0.95\n"),
     # The engine's own report card (scan/signal_calibration.py). Must carry a
     # non-empty "horizons", because the loader treats an unmeasured scorecard
     # as absent rather than publishing a panel of zeros.
