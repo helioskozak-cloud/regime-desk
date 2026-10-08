@@ -1,0 +1,258 @@
+{
+  "generated": "2026-10-08 09:48",
+  "question": "Q54: does Momentum Shift change where the regime goes in 20 sessions?",
+  "rule": "fold in iff out-of-sample log-loss gain > 0 with 95% year-bootstrap interval above 0",
+  "fit": [
+    "1993-03-12",
+    "2009-12-31"
+  ],
+  "test": [
+    "2010-01-04",
+    "2026-09-10"
+  ],
+  "test_sessions": 4197,
+  "test_years": 17,
+  "logloss_label_only": 1.5642,
+  "logloss_label_and_momentum": 1.602,
+  "gain_per_session": -0.0377,
+  "gain_pct": -2.41,
+  "gain_ci95": [
+    -0.0533,
+    -0.0226
+  ],
+  "cells_used": 34,
+  "cells_thin": 52,
+  "verdict": "one line",
+  "stay_by_state_test": [
+    {
+      "label": "Bull Trend",
+      "momentum": "Improving|easing",
+      "sessions": 199,
+      "spells": 65,
+      "stays": 0.065,
+      "stays_any_state": 0.059
+    },
+    {
+      "label": "Bull Trend",
+      "momentum": "Flat|easing",
+      "sessions": 76,
+      "spells": 39,
+      "stays": 0.066,
+      "stays_any_state": 0.059
+    },
+    {
+      "label": "Bull Trend",
+      "momentum": "Flat|steady",
+      "sessions": 51,
+      "spells": 31,
+      "stays": 0.02,
+      "stays_any_state": 0.059
+    },
+    {
+      "label": "Bull Trend",
+      "momentum": "Improving|steady",
+      "sessions": 49,
+      "spells": 24,
+      "stays": 0.041,
+      "stays_any_state": 0.059
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Flat|steady",
+      "sessions": 598,
+      "spells": 132,
+      "stays": 0.51,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Flat|easing",
+      "sessions": 296,
+      "spells": 103,
+      "stays": 0.568,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Improving|easing",
+      "sessions": 213,
+      "spells": 84,
+      "stays": 0.545,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Improving|steady",
+      "sessions": 187,
+      "spells": 73,
+      "stays": 0.519,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Flat|rising",
+      "sessions": 143,
+      "spells": 62,
+      "stays": 0.49,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Fading|steady",
+      "sessions": 140,
+      "spells": 62,
+      "stays": 0.329,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Fading|easing",
+      "sessions": 133,
+      "spells": 55,
+      "stays": 0.549,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Improving|rising",
+      "sessions": 74,
+      "spells": 36,
+      "stays": 0.446,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Calm Uptrend",
+      "momentum": "Fading|rising",
+      "sessions": 61,
+      "spells": 39,
+      "stays": 0.525,
+      "stays_any_state": 0.509
+    },
+    {
+      "label": "Correction",
+      "momentum": "Fading|rising",
+      "sessions": 86,
+      "spells": 33,
+      "stays": 0.221,
+      "stays_any_state": 0.174
+    },
+    {
+      "label": "Drifting Lower",
+      "momentum": "Fading|rising",
+      "sessions": 198,
+      "spells": 71,
+      "stays": 0.051,
+      "stays_any_state": 0.09
+    },
+    {
+      "label": "Drifting Lower",
+      "momentum": "Flat|rising",
+      "sessions": 103,
+      "spells": 45,
+      "stays": 0.117,
+      "stays_any_state": 0.09
+    },
+    {
+      "label": "Drifting Lower",
+      "momentum": "Fading|steady",
+      "sessions": 84,
+      "spells": 46,
+      "stays": 0.155,
+      "stays_any_state": 0.09
+    },
+    {
+      "label": "Drifting Lower",
+      "momentum": "Flat|steady",
+      "sessions": 59,
+      "spells": 36,
+      "stays": 0.136,
+      "stays_any_state": 0.09
+    },
+    {
+      "label": "Pullback",
+      "momentum": "Fading|rising",
+      "sessions": 40,
+      "spells": 24,
+      "stays": 0.0,
+      "stays_any_state": 0.0
+    },
+    {
+      "label": "Range",
+      "momentum": "Flat|steady",
+      "sessions": 167,
+      "spells": 91,
+      "stays": 0.21,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Range",
+      "momentum": "Fading|rising",
+      "sessions": 107,
+      "spells": 61,
+      "stays": 0.215,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Range",
+      "momentum": "Flat|rising",
+      "sessions": 100,
+      "spells": 60,
+      "stays": 0.3,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Range",
+      "momentum": "Fading|steady",
+      "sessions": 82,
+      "spells": 55,
+      "stays": 0.195,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Range",
+      "momentum": "Flat|easing",
+      "sessions": 63,
+      "spells": 40,
+      "stays": 0.095,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Range",
+      "momentum": "Improving|rising",
+      "sessions": 55,
+      "spells": 29,
+      "stays": 0.127,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Range",
+      "momentum": "Improving|steady",
+      "sessions": 46,
+      "spells": 22,
+      "stays": 0.174,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Range",
+      "momentum": "Fading|easing",
+      "sessions": 45,
+      "spells": 33,
+      "stays": 0.156,
+      "stays_any_state": 0.197
+    },
+    {
+      "label": "Recovery",
+      "momentum": "Improving|easing",
+      "sessions": 51,
+      "spells": 20,
+      "stays": 0.098,
+      "stays_any_state": 0.058
+    }
+  ],
+  "fading_rising_claim_test": {
+    "sessions": 571,
+    "spells": 258,
+    "changed_in_20": 0.825,
+    "changed_in_20_same_labels_any_state": 0.706
+  }
+}

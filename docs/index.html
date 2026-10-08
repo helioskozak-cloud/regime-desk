@@ -412,6 +412,7 @@ td{padding:4px 8px}
 .rd-home3 .rd-col div[style*="flex:1.3;min-width:150px"]{flex:1 1 100%!important;padding:7px 9px!important}
 .rd-home3 .rd-col div[style*="gap:24px;flex-wrap:wrap"]>*{flex:1 1 100%!important;min-width:0!important}
 .rd-home3 table{font-size:11.5px}
+.rd-home3 .card span[style*="float:right"]{float:none!important;margin-left:8px;white-space:nowrap}
 html.light .rd-home3 .rd-col{background:#f6f8fa;border-color:#d0d7de;border-top-color:var(--acc)}
 html.light .rd-home3 .rd-col>.card+.card{border-top-color:#d0d7de!important}
 @media(max-width:1100px){.rd-home3{grid-template-columns:1fr}}
@@ -56143,7 +56144,7 @@ function renderHome(){
   // from here, and what could BREAK it. The cards render unchanged inside, so
   // every tile and explainer panel still works; .rd-home3 only tightens them.
   return '<div class="rd-home3">'
-    +'<section class="rd-col" style="--acc:#3fb950">'+_cardRegimeMetrics()+_cardVerdict()+'</section>'
+    +'<section class="rd-col" style="--acc:#3fb950">'+_cardRegimeMetrics()+'</section>'
     +'<section class="rd-col" style="--acc:#3fb950">'+_cardNextRegime()+'</section>'
     +'<section class="rd-col" style="--acc:#d4a72c">'+_cardRisk()+'</section>'
     +'</div>'
@@ -56186,7 +56187,7 @@ const MS_DESC={
   'Improving|easing':'The trend is firming and the swings are shrinking.',
   'Improving|steady':'The trend is firming; swings about the same.',
   'Improving|rising':'The trend is firming, with bigger swings along the way.',
-  'Fading|rising':'The trend is weakening and the swings are growing — the pairing that has come before regime changes.',
+  'Fading|rising':'The trend is weakening and the swings are growing. Since 2010 the label changed within 20 sessions after 82% of such days, against 71% for the same labels otherwise.',
   'Fading|steady':'The trend is weakening quietly; swings about the same.',
   'Fading|easing':'The trend is weakening while the swings shrink — a drift rather than a break.',
   'Flat|rising':'Little change in trend, but the swings are growing.',
@@ -56286,6 +56287,8 @@ function _cardVerdict(){
     <h4>How big is it?</h4>
     <p>Size is read against SPY's own history${q?` (${q.sessions.toLocaleString()} sessions)`:''}, not a fixed line. Return shift: ${band(rDelta,q&&q.ret,2)}. Vol shift: ${band(vDelta,q&&q.vol,1)}.</p>
     <p>So the label is <b style="color:${vCol}">${verdict}</b>, vol <b>${hit.vol}</b>: ${vDesc}${q?'':' Without the scale, direction is read off a ±0.5pp line and size is left blank.'}</p>
+    <h4>What it does not tell you</h4>
+    <p>Where the regime goes next. Tested on SPY since 1993 (fit to 2009, scored 2010–2026): adding the momentum state to today's label made the 20-session odds in Where It Goes Next <b>worse</b>, not better — splitting each label eighteen ways leaves too few days in each. So it is shown as today's direction only.</p>
     <h4>The last 20 sessions, as paths</h4>
     <div class="rd-charts">
       ${chart(h.map(function(d){return d.ret_5d||0;}),'Rolling 5d return')}
@@ -56293,7 +56296,18 @@ function _cardVerdict(){
       ${chart(h.map(function(d){return (d.vol_20d||0)*Math.sqrt(252);}),'Annualized vol')}
       ${chart(h.map(function(d){return d.drawdown_60d||0;}),'60d drawdown')}
     </div>`);
-  return _rdSummaryCard('Momentum Shift',vCol,hero,tiles,`<span style="color:#c9c9c9">${vDesc}</span>`,panel);
+  // ONE LINE (owner, 2026-10-08, Q54 = a). Tested before it was cut: knowing
+  // the momentum state on top of the label made the 20-session regime odds
+  // WORSE out of sample (scan/momentum_study.py, data/momentum_study.json:
+  // log loss -2.4%, 95% interval below zero). So it is not folded into Where
+  // It Goes Next; it is today's direction in one line inside Regime Analysis,
+  // and the panel keeps the detail. The four tiles are gone; the panel has every number.
+  return `<div${_rdWhyAttrs(WHY)} data-mline="1" style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:2px;padding:9px 11px;background:#050505;border:1px solid #2e2e2e;border-left:3px solid ${vCol};border-radius:4px;cursor:pointer">
+      <div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px">Momentum</div>
+      <b style="color:${vCol};font-family:var(--mono)">${verdict}</b>
+      <span style="color:#8f8f8f;font-size:11.5px">vol ${hit.vol} · return ${pp(rDelta,2)}, vol ${pp(vDelta,1)} · last 5 vs prior 5</span>
+      <span style="color:#c9c9c9;font-size:11.5px;flex-basis:100%">${vDesc}</span>
+    </div>${panel}`;
 }
 // ── REGIME ANALYSIS ──────────────────────────────────────────────────────
 //
@@ -56499,7 +56513,9 @@ function _cardRegimeMetrics(){
       <p>Compared with any day, ${verdict}</p>
       <p style="color:#8f8f8f">This replaced a four-step lookup that could only ever read 25, 35, 50 or 70 and was shown as though it were a probability.</p>`;
     })());
-  return _rdSummaryCard('Regime Analysis',regCol,hero,tiles,foot,panels);
+  // Momentum is one line inside this card since Q54 (2026-10-08): today's
+  // direction, a reading of today like the tiles above it.
+  return _rdSummaryCard('Regime Analysis',regCol,hero,tiles,foot,panels+'<div style="margin-top:10px">'+_cardVerdict()+'</div>');
 }
 // Four series, not two. history carries ret_5d, ret_20d, vol_20d and
 // drawdown_60d for all 20 sessions; this panel plotted half of them and

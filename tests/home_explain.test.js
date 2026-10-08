@@ -56,9 +56,9 @@ setTimeout(() => {
   // Three columns; today's state (regime + momentum) shares the first.
   const cols = [...home.querySelectorAll('.rd-home3 > .rd-col')]
     .map((c) => [...c.querySelectorAll('.card > h2')].map((h) => h.textContent));
-  ok(JSON.stringify(cols) === JSON.stringify([['Regime Analysis', 'Momentum Shift'], ['Where It Goes Next'], ['Risk Axes']]),
-    'Home is three sections: Regime Analysis + Momentum Shift | Where It Goes Next | Risk Axes', JSON.stringify(cols));
-  ok(home.querySelectorAll('.card > h2').length === 4, 'and nothing outside them');
+  ok(JSON.stringify(cols) === JSON.stringify([['Regime Analysis'], ['Where It Goes Next'], ['Risk Axes']]),
+    'Home is three sections: Regime Analysis | Where It Goes Next | Risk Axes', JSON.stringify(cols));
+  ok(home.querySelectorAll('.card > h2').length === 3, 'and nothing outside them');
 
   // ── nothing deleted: the rest is one tab away ────────────────────────────
   // Checked BEFORE any click, while Analysis is still unrendered; it is
@@ -82,10 +82,13 @@ setTimeout(() => {
   click(home.querySelector('[data-why="why-verdict"]'));
   ok(ids.every((id) => d.getElementById(id).hidden), 'clicking the open trigger closes it');
 
-  // Four verdict tiles and the verdict hero share one panel: whichever you
-  // click, the same explanation opens.
+  // Q54 (2026-10-08): Momentum Shift is one line inside Regime Analysis,
+  // because it did not improve the 20-session odds out of sample. One trigger.
   const vt = [...home.querySelectorAll('[data-why="why-verdict"]')];
-  ok(vt.length === 5, 'the verdict hero and its four tiles all open the verdict panel (' + vt.length + ')');
+  ok(vt.length === 1, 'momentum is one line with one trigger (' + vt.length + ')');
+  ok(vt[0] && vt[0].closest('.card') && /Regime Analysis/.test(vt[0].closest('.card').querySelector('h2').textContent),
+    'the momentum line sits inside Regime Analysis');
+  ok(/worse/.test(text(d.getElementById('why-verdict'))), 'its panel says what the test found');
 
   // ── Regime Analysis says true things ─────────────────────────────────────
   console.log('\n== Regime Analysis ==');
@@ -256,7 +259,7 @@ setTimeout(() => {
     // Analysis became the Methods appendix 2026-10-06: the cross-asset table and
     // the analog tile were dropped; Home's own explanations are lifted in.
     ok(!acards.some((t) => /Cross-Asset Signals/.test(t)), 'the cross-asset table is gone from Methods');
-    ok(['Regime Analysis', 'Momentum Shift', 'Risk Axes'].every((t) => acards.includes(t)),
+    ok(['Regime Analysis', 'Where It Goes Next', 'Risk Axes'].every((t) => acards.includes(t)),
       'Methods has a section per Home card', JSON.stringify(acards));
     ok(a.querySelectorAll('details.md-item').length >= 10 && /The rules, top to bottom/.test(text(a)),
       "Methods carries Home's own what-is-this text");
