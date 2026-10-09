@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-08",
+ "as_of": "2026-10-09",
  "start": "2026-10-05",
  "end": "2026-10-16",
  "universe": 3459,
@@ -16,7 +16,7 @@
   "2026-10-16"
  ],
  "days_failed": [],
- "n": 62,
+ "n": 61,
  "earnings": [
   {
    "date": "2026-10-06",
@@ -27,7 +27,7 @@
    "eps": 3.62,
    "n_est": 7,
    "eps_ly": null,
-   "mcap": 20218458100.0,
+   "mcap": 20918009900.0,
    "quarter": "Aug/2026"
   },
   {
@@ -39,7 +39,7 @@
    "eps": 1.95,
    "n_est": 7,
    "eps_ly": null,
-   "mcap": 12540387300.0,
+   "mcap": 12680674300.0,
    "quarter": "Aug/2026"
   },
   {
@@ -51,7 +51,7 @@
    "eps": 0.59,
    "n_est": 5,
    "eps_ly": null,
-   "mcap": 6625861600.0,
+   "mcap": 6814620700.0,
    "quarter": "Aug/2026"
   },
   {
@@ -63,7 +63,7 @@
    "eps": 0.61,
    "n_est": 1,
    "eps_ly": null,
-   "mcap": 3720732420.0,
+   "mcap": 3667439870.0,
    "quarter": "Aug/2026"
   },
   {
@@ -75,7 +75,7 @@
    "eps": 0.04,
    "n_est": 3,
    "eps_ly": null,
-   "mcap": 2547478020.0,
+   "mcap": 2556363780.0,
    "quarter": "Aug/2026"
   },
   {
@@ -87,7 +87,7 @@
    "eps": 0.36,
    "n_est": 6,
    "eps_ly": null,
-   "mcap": 7508434400.0,
+   "mcap": 7305098800.0,
    "quarter": "Aug/2026"
   },
   {
@@ -99,7 +99,7 @@
    "eps": -0.26,
    "n_est": 4,
    "eps_ly": null,
-   "mcap": 7121437200.0,
+   "mcap": 7211933200.0,
    "quarter": "Aug/2026"
   },
   {
@@ -107,11 +107,11 @@
    "ticker": "PEP",
    "name": "PepsiCo, Inc.",
    "sector": "Consumer Staples",
-   "time": "pre",
+   "time": "",
    "eps": 2.29,
    "n_est": 7,
-   "eps_ly": 2.29,
-   "mcap": 168878031000.0,
+   "eps_ly": null,
+   "mcap": 175170175000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -119,11 +119,11 @@
    "ticker": "NG",
    "name": "Novagold Resources Inc.",
    "sector": "Materials",
-   "time": "pre",
+   "time": "",
    "eps": -0.08,
    "n_est": 1,
-   "eps_ly": -0.04,
-   "mcap": 2797139970.0,
+   "eps_ly": null,
+   "mcap": 2735858430.0,
    "quarter": "Aug/2026"
   },
   {
@@ -134,8 +134,8 @@
    "time": "",
    "eps": -0.56,
    "n_est": 5,
-   "eps_ly": -1.03,
-   "mcap": 2358957570.0,
+   "eps_ly": null,
+   "mcap": 2304991230.0,
    "quarter": "Aug/2026"
   },
   {
@@ -143,11 +143,11 @@
    "ticker": "TLRY",
    "name": "Tilray Brands, Inc.",
    "sector": "Healthcare",
-   "time": "pre",
+   "time": "",
    "eps": -0.19,
    "n_est": 3,
    "eps_ly": null,
-   "mcap": 553142660.0,
+   "mcap": 528568832.0,
    "quarter": "Aug/2026"
   },
   {
@@ -156,8 +156,8 @@
    "name": "Delta Air Lines, Inc.",
    "sector": "Industrials",
    "time": "pre",
-   "eps": 1.93,
-   "n_est": 7,
+   "eps": 1.8,
+   "n_est": 6,
    "eps_ly": 1.71,
    "mcap": 54562984000.0,
    "quarter": "Sep/2026"
@@ -204,8 +204,8 @@
    "name": "Johnson & Johnson",
    "sector": "Healthcare",
    "time": "pre",
-   "eps": 2.82,
-   "n_est": 7,
+   "eps": 2.53,
+   "n_est": 5,
    "eps_ly": 2.8,
    "mcap": 622838280000.0,
    "quarter": "Sep/2026"
@@ -327,7 +327,7 @@
    "eps": 12.47,
    "n_est": 3,
    "eps_ly": 6.41,
-   "mcap": 695663460000.0,
+   "mcap": 682108320000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -336,10 +336,10 @@
    "name": "Bank of America Corporation",
    "sector": "Financials",
    "time": "pre",
-   "eps": 1.12,
-   "n_est": 6,
+   "eps": 1.11,
+   "n_est": 7,
    "eps_ly": 1.06,
-   "mcap": 374251880000.0,
+   "mcap": 374881255000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -348,10 +348,10 @@
    "name": "Morgan Stanley",
    "sector": "Financials",
    "time": "pre",
-   "eps": 2.88,
+   "eps": 2.83,
    "n_est": 5,
    "eps_ly": 2.8,
-   "mcap": 297952117000.0,
+   "mcap": 294386958000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -360,10 +360,22 @@
    "name": "BlackRock, Inc.",
    "sector": "Financials",
    "time": "pre",
-   "eps": 14.04,
+   "eps": 14.01,
    "n_est": 6,
    "eps_ly": 11.55,
-   "mcap": 165652808000.0,
+   "mcap": 164989960000.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-10-14",
+   "ticker": "PGR",
+   "name": "The Progressive Corporation",
+   "sector": "Financials",
+   "time": "pre",
+   "eps": 4.37,
+   "n_est": 10,
+   "eps_ly": 4.05,
+   "mcap": 127163449000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -375,7 +387,7 @@
    "eps": 0.34,
    "n_est": 6,
    "eps_ly": 0.29,
-   "mcap": 57179804000.0,
+   "mcap": 57937154000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -385,9 +397,9 @@
    "sector": "Financials",
    "time": "pre",
    "eps": 3.63,
-   "n_est": 6,
+   "n_est": 7,
    "eps_ly": 2.78,
-   "mcap": 47850299000.0,
+   "mcap": 48097534000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -399,7 +411,7 @@
    "eps": 0.63,
    "n_est": 4,
    "eps_ly": 0.61,
-   "mcap": 5637398500.0,
+   "mcap": 5697413600.0,
    "quarter": "Sep/2026"
   },
   {
@@ -444,8 +456,8 @@
    "name": "The Bank of New York Mellon Cor",
    "sector": "Financials",
    "time": "pre",
-   "eps": 2.27,
-   "n_est": 6,
+   "eps": 2.26,
+   "n_est": 7,
    "eps_ly": 1.91,
    "mcap": 96836108000.0,
    "quarter": "Sep/2026"
@@ -456,8 +468,8 @@
    "name": "U.S. Bancorp",
    "sector": "Financials",
    "time": "pre",
-   "eps": 1.33,
-   "n_est": 9,
+   "eps": 1.32,
+   "n_est": 10,
    "eps_ly": 1.22,
    "mcap": 87515750000.0,
    "quarter": "Sep/2026"
@@ -536,18 +548,6 @@
   },
   {
    "date": "2026-10-15",
-   "ticker": "SNA",
-   "name": "Snap-on Incorporated",
-   "sector": "Industrials",
-   "time": "",
-   "eps": 4.91,
-   "n_est": 5,
-   "eps_ly": 4.71,
-   "mcap": 18616074200.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-15",
    "ticker": "WIT",
    "name": "Wipro Limited",
    "sector": "Technology",
@@ -564,7 +564,7 @@
    "name": "Alcoa Corporation",
    "sector": "Materials",
    "time": "post",
-   "eps": 1.58,
+   "eps": 1.65,
    "n_est": 5,
    "eps_ly": -0.02,
    "mcap": 11210872800.0,
@@ -611,7 +611,7 @@
    "ticker": "CNS",
    "name": "Cohen & Steers Inc",
    "sector": "Financials",
-   "time": "",
+   "time": "post",
    "eps": 0.88,
    "n_est": 1,
    "eps_ly": 0.81,
@@ -628,18 +628,6 @@
    "n_est": 5,
    "eps_ly": 0.46,
    "mcap": 3209651200.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-15",
-   "ticker": "LBRT",
-   "name": "Liberty Energy Inc.",
-   "sector": "Energy",
-   "time": "",
-   "eps": 0.11,
-   "n_est": 6,
-   "eps_ly": -0.06,
-   "mcap": 3167545340.0,
    "quarter": "Sep/2026"
   },
   {
@@ -721,7 +709,7 @@
    "sector": "Financials",
    "time": "pre",
    "eps": 1.17,
-   "n_est": 8,
+   "n_est": 9,
    "eps_ly": 1.04,
    "mcap": 55681720000.0,
    "quarter": "Sep/2026"
@@ -732,8 +720,8 @@
    "name": "M&T Bank Corporation",
    "sector": "Financials",
    "time": "pre",
-   "eps": 5.0,
-   "n_est": 6,
+   "eps": 4.98,
+   "n_est": 7,
    "eps_ly": 4.87,
    "mcap": 31284895700.0,
    "quarter": "Sep/2026"
@@ -745,7 +733,7 @@
    "sector": "Financials",
    "time": "pre",
    "eps": 1.38,
-   "n_est": 7,
+   "n_est": 8,
    "eps_ly": 1.05,
    "mcap": 26563620900.0,
    "quarter": "Sep/2026"
