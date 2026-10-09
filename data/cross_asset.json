@@ -17,9 +17,9 @@
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-3.2% (20d)",
+      "value": "-3.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret -3.2% \u2014 sell-off = rising rates"
+      "context": "20d ret -3.3% \u2014 sell-off = rising rates"
     },
     {
       "name": "High-Yield Credit",
@@ -59,9 +59,9 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "+6.1% (20d)",
+      "value": "+6.2% (20d)",
       "signal": "bullish",
-      "context": "20d ret +6.1% \u2014 semis leading; AI demand intact"
+      "context": "20d ret +6.2% \u2014 semis leading; AI demand intact"
     },
     {
       "name": "Russell 2000",
@@ -73,9 +73,9 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "+3.1% (20d)",
+      "value": "+3.0% (20d)",
       "signal": "bullish",
-      "context": "20d ret +3.1% \u2014 copper bid = growth optimism"
+      "context": "20d ret +3.0% \u2014 copper bid = growth optimism"
     },
     {
       "name": "TIPS / Breakevens",
@@ -94,9 +94,9 @@
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "-4.0% (20d)",
+      "value": "-3.9% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.0% \u2014 financials lagging"
+      "context": "20d ret -3.9% \u2014 financials lagging"
     }
   ],
   "risks": [
@@ -152,11 +152,11 @@
       "name": "Rate Re-pricing",
       "level": "elevated",
       "score": 0.76,
-      "description": "TLT 20d -3.2%. Bond sell-off = rates rising; duration assets under pressure.",
+      "description": "TLT 20d -3.3%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
       "explain": {
         "input_label": "TLT 20-day return",
-        "input_value": "-3.2%",
+        "input_value": "-3.3%",
         "moderate_at": "+0.6%",
         "elevated_at": "-1.9%",
         "input_rises": false,
@@ -176,11 +176,11 @@
       "name": "Growth Slowdown",
       "level": "moderate",
       "score": 0.5,
-      "description": "Copper 20d +3.1%, IWM -3.0%. Cyclicals constructive; growth fears not confirmed.",
+      "description": "Copper 20d +3.0%, IWM -3.0%. Cyclicals constructive; growth fears not confirmed.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "+0.1%",
+        "input_value": "-0.1%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,
