@@ -2,7 +2,7 @@
  "as_of": "2026-10-10",
  "window_days": 7,
  "universe": 3462,
- "n": 367,
+ "n": 368,
  "filings": [
   {
    "ticker": "PFSA",
@@ -4040,6 +4040,17 @@
    "rank": 6,
    "what": "5.07 shareholder vote",
    "url": "https://www.sec.gov/Archives/edgar/data/882291/000168316826007613/0001683168-26-007613-index.htm"
+  },
+  {
+   "ticker": "TRXB",
+   "name": "TRex Bio, Inc. Common stock",
+   "sector": "Healthcare",
+   "date": "2026-10-05",
+   "form": "S-1/A",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "S-1/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/2139097/000119312526413060/0001193125-26-413060-index.htm"
   }
  ],
  "insiders": [
@@ -17669,6 +17680,54 @@
    "sell": 0,
    "ticker": "GTE",
    "date": "2026-10-05"
+  },
+  "0001193125-26-418291": {
+   "owner": "Julie Ann Gilmore",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TRXB",
+   "date": "2026-10-08"
+  },
+  "0001193125-26-418292": {
+   "owner": "Carol Giltner Gallagher",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TRXB",
+   "date": "2026-10-08"
+  },
+  "0001193125-26-418293": {
+   "owner": "Peter Hirth",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TRXB",
+   "date": "2026-10-08"
+  },
+  "0001193125-26-418296": {
+   "owner": "Michael Jay Ross",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TRXB",
+   "date": "2026-10-08"
+  },
+  "0001193125-26-418298": {
+   "owner": "Travis Alan Coy",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TRXB",
+   "date": "2026-10-08"
+  },
+  "0001193125-26-418302": {
+   "owner": "Joel S Marcus",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TRXB",
+   "date": "2026-10-08"
   }
  }
 }
