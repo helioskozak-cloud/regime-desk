@@ -1,21 +1,21 @@
-# Universe refresh — 2026-10-03
+# Universe refresh — 2026-10-10
 
-- universe before: **3,456**
-- currently listed: 12,877
+- universe before: **3,459**
+- currently listed: 12,881
 - additions clearing $15,000,000/day: **4**
 - removals (absent from listings AND no recent price): **1**
 
 ## Removed
 
 ```
-CRNX
+BLFS
 ```
 
 ## Added
 
 | ticker | avg $ vol (21d) |
 |---|---:|
-| VYLR | $965,997,161 |
-| ACCV | $156,210,896 |
-| MN | $21,755,344 |
-| NRR | $16,954,176 |
+| SKYD | $312,128,045 |
+| HFIX | $25,192,712 |
+| TRXB | $17,589,684 |
+| GMAC | $15,673,585 |
