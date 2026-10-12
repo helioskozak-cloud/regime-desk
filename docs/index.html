@@ -50393,7 +50393,8 @@ function renderBubble(){
     const annual=ai.filter(r=>!r.partial).map(r=>({d:`${r.year}-12-31`,yr:r.year,k:composite(r),bear:!(r.sp500_ret>0),sp:r.sp500_ret})).filter(p=>p.k);
     const pts=[...annual.filter(p=>!p.bear),...(path.length?path:[{d:(latest.ttm||{}).date||S.generated,k:now}])];
     const nowT=tms(pts[pts.length-1].d);
-    const t1999=now.c<1999?nowT+(1999-now.c)*365.25*864e5:null, t2000=nowT+(2000-now.c)*365.25*864e5;
+    const FE=flipEstimate();
+    const t1999=now.c<1999?nowT+(1999-now.c)*365.25*864e5:null, t2000=FE.t||nowT+(2000-now.c)*365.25*864e5;
     const TW=1600,TH=300,TL=44,TR=90,TT=14,TB=28;
     const D0=tms('2021-01-01'), D1=Math.max(tms('2029-01-01'),t2000+90*864e5), Y0=1996.5, Y1=2000.5;
     const tx=t=>TL+(t-D0)/(D1-D0)*(TW-TL-TR), ty=c=>TT+(Y1-c)/(Y1-Y0)*(TH-TT-TB);
@@ -50410,7 +50411,8 @@ function renderBubble(){
     // dot-com pace from today: one dot-com year per calendar year
     g+=`<line x1="${tx(nowT)}" y1="${ty(now.c)}" x2="${tx(t2000)}" y2="${ty(2000)}" stroke="#d4a72c" stroke-dasharray="5,4"/>`;
     if(t1999)g+=`<circle cx="${tx(t1999)}" cy="${ty(1999)}" r="3.5" fill="#d4a72c"/><text x="${tx(t1999)+6}" y="${ty(1999)+15}" font-size="10" fill="#d4a72c">1999 reading ~${mon(t1999)}</text>`;
-    g+=`<circle cx="${tx(t2000)}" cy="${ty(2000)}" r="3.5" fill="#e5484d"/><text x="${tx(t2000)-6}" y="${ty(2000)-7}" text-anchor="end" font-size="10" fill="#e5484d">2000 (flip) ~${mon(t2000)}</text>`;
+    g+=`<circle cx="${tx(t2000)}" cy="${ty(2000)}" r="3.5" fill="#e5484d"/><text x="${tx(t2000)-6}" y="${ty(2000)-7}" text-anchor="end" font-size="10" fill="#e5484d">the flip ~${mon(t2000)}</text>`;
+    if(FE.lo&&FE.hi)g+=`<line x1="${tx(FE.lo)}" x2="${tx(FE.hi)}" y1="${ty(2000)}" y2="${ty(2000)}" stroke="#e5484d" stroke-width="3" opacity=".35"><title>likely ${mon(FE.lo)} – ${mon(FE.hi)}</title></line>`;
     g+=`<circle cx="${tx(nowT)}" cy="${ty(now.c)}" r="5" fill="#f2f2f2"/><text x="${tx(nowT)+8}" y="${ty(now.c)+14}" font-size="10.5" font-weight="700" fill="#f2f2f2">now</text>`;
     if(peak&&peak.k.c-now.c>0.12)g+=`<circle cx="${tx(tms(peak.d))}" cy="${ty(peak.k.c)}" r="4" fill="none" stroke="#d4a72c" stroke-width="1.5"/><text x="${tx(tms(peak.d))}" y="${ty(peak.k.c)-8}" text-anchor="middle" font-size="10" fill="#d4a72c">high ${peak.d.slice(5).replace('-','/')}</text>`;
     const timeline=`<div style="overflow-x:auto"><svg viewBox="0 0 ${TW} ${TH}" width="100%" style="min-width:880px" role="img">${g}</svg></div>`;
@@ -50420,7 +50422,7 @@ function renderBubble(){
     const first=path[0], pace=first&&path.length>1?(now.c-first.k.c)/((nowT-tms(first.d))/(365.25*864e5)):null;
     const paceTxt=pace==null?'':pace>1.15?`faster than the dot-com run (${pace.toFixed(1)} dot-com years per year)`:pace<0.85?`slower than the dot-com run (${pace.toFixed(1)} dot-com years per year)`:`at about the dot-com run's pace (${pace.toFixed(1)} dot-com years per year)`;
     const verdict=`<p style="color:#c9c9c9;font-size:13px;max-width:900px;line-height:1.55;margin:10px 0 0"><strong style="color:#f2f2f2">Now: ${clockTxt(now)}.</strong> ${(()=>{const ks=MK.slice(0,4).map(m=>({m,k:clock(m,NOW)})).filter(o=>o.k).sort((p,q)=>p.k.c-q.k.c);const lo=ks[0],hi=ks[ks.length-1];return lo.m===hi.m?'':`The furthest along is ${hi.m.short.toLowerCase()} (${clockTxt(hi.k)}); the least is ${lo.m.short.toLowerCase()} (${clockTxt(lo.k)}).`;})()} The flip (marker 5) ${flip?'<span style="color:#e5484d">has printed</span>':'has not printed, so on this clock we are still before 2000'}.${peak&&peak.k.c-now.c>0.12?` This year's high came in the 12 months to ${peak.d.slice(5).replace('-','/')}, at ${clockTxt(peak.k)}; it has cooled since.`:''}</p>
-      <p style="color:#c9c9c9;font-size:13px;max-width:900px;line-height:1.55;margin:8px 0 0"><strong style="color:#f2f2f2">The timeline is not the same shape.</strong> The dot-com run went from 1995 to 1999 readings in four straight years. The AI era ${flat.length?`read ${clockTxt({c:Math.max(...flat.map(p=>p.k.c))})} or lower for ${flat.length} of its full years (${flat.map(p=>p.yr).join(', ')})`:'has few full years to read'}${annual.some(p=>p.bear)?`, and had a bear market in ${annual.filter(p=>p.bear).map(p=>p.yr).join(', ')} that the dot-com run never had before its top`:''}. ${pace!=null?`In ${new Date(nowT).getUTCFullYear()} it has moved ${(now.c-first.k.c).toFixed(1)} dot-com years since January, ${paceTxt}.`:''} ${t1999?`At dot-com pace from here, the 12-month readings reach 1999's level around ${mon(t1999)} and the flip year's around ${mon(t2000)}.`:`The readings are already at 1999's level; at dot-com pace, the flip year's level is around ${mon(t2000)}.`} In the dot-com run, the 12 months to December 1999 ended three months before the March 2000 top.</p>`;
+      <p style="color:#c9c9c9;font-size:13px;max-width:900px;line-height:1.55;margin:8px 0 0"><strong style="color:#f2f2f2">The timeline is not the same shape.</strong> The dot-com run went from 1995 to 1999 readings in four straight years. The AI era ${flat.length?`read ${clockTxt({c:Math.max(...flat.map(p=>p.k.c))})} or lower for ${flat.length} of its full years (${flat.map(p=>p.yr).join(', ')})`:'has few full years to read'}${annual.some(p=>p.bear)?`, and had a bear market in ${annual.filter(p=>p.bear).map(p=>p.yr).join(', ')} that the dot-com run never had before its top`:''}. ${pace!=null?`In ${new Date(nowT).getUTCFullYear()} it has moved ${(now.c-first.k.c).toFixed(1)} dot-com years since January, ${paceTxt}.`:''} ${t1999?`At dot-com pace from here, the 12-month readings reach 1999's level around ${mon(t1999)}.`:`The readings are already at 1999's level.`} ${FE.flipped?'The flip (marker 5) has printed.':FE.none?'':`The flip itself is estimated ${flipTxt(FE)}: one estimate from two reads, ${FE.closing?`the dot-com pace (${mon(FE.tb)}) and marker 5's own 14-week trend (${mon(FE.ta)}), each weighted by how steady it is (the trend carries ${Math.round(FE.wTrend*100)}%)`:`the dot-com pace alone, because marker 5's own gap is not closing`}.`} In the dot-com run, the 12 months to December 1999 ended three months before the March 2000 top.</p>`;
 
     // Moved to the top of the tab (owner, 2026-10-07: "I really like the 'is the
     // timeline running' one, that might go at the top"), with the answer in words.
@@ -50460,7 +50462,47 @@ function renderBubble(){
     if(c==null)c=LEG[vals.indexOf(Math.min(...vals))].year;
     return{c,past:false,v};
   }
-  // Least-squares slope of y over time, per month. Fewer than 4 points is not a pace.
+  // Least-squares slope per month AND its standard error. Fewer than 4 points is not a pace.
+  function fitMonth(pts){
+    if(pts.length<4)return null;
+    const n=pts.length, mt=pts.reduce((a,p)=>a+p.t,0)/n, my=pts.reduce((a,p)=>a+p.y,0)/n;
+    const den=pts.reduce((a,p)=>a+(p.t-mt)**2,0); if(!den)return null;
+    const b=pts.reduce((a,p)=>a+(p.t-mt)*(p.y-my),0)/den;
+    const ssr=pts.reduce((a,p)=>a+(p.y-(my+b*(p.t-mt)))**2,0);
+    const M=30.44*864e5;
+    return{sl:b*M, se:Math.sqrt(ssr/(n-2)/den)*M};
+  }
+  // THE FLIP, ONE ESTIMATE (owner, 2026-10-12: "dont make two ways to do
+  // something when you can use them in tandem to be more accurate"). Two
+  // reads of the same event, combined by how sure each one is:
+  //   template  the dot-com run, from today's composite reading to 2000 at one
+  //             dot-com year per calendar year. One historical run, so it
+  //             carries a wide error: half its own length.
+  //   trend     marker 5 itself: halved - doubled, closing at its 14-week
+  //             least-squares pace. Its error is the fit's own (slope SE,
+  //             carried through gap / slope).
+  // Inverse-variance weighted months to the flip, +/- one combined SD. A trend
+  // that is not closing contributes nothing, and the template stands alone.
+  function flipEstimate(){
+    const m=MK[4], tp=latest.ttm_path||[];
+    const tNow=tms(tp.length?tp[tp.length-1].date:(NOW.date||S.generated));
+    if(m.lit(NOW))return{flipped:true,tNow};
+    const now=composite(NOW);
+    const Tb=now?Math.max(0,(2000-now.c)*12):null, sdB=Tb!=null?Math.max(2,Tb*0.5):null;
+    const g=m.val(NOW), f=fitMonth(tp.slice(-14).map(p=>({t:tms(p.date),y:m.val(p)})));
+    let Ta=null, sdA=null;
+    if(f&&f.sl>=0.02){Ta=-g/f.sl; sdA=Math.max(1,Ta*f.se/f.sl);}
+    let T, sd;
+    if(Ta!=null&&Tb!=null){const wa=1/sdA**2, wb=1/sdB**2; T=(Ta*wa+Tb*wb)/(wa+wb); sd=Math.sqrt(1/(wa+wb));}
+    else if(Tb!=null){T=Tb; sd=sdB;}
+    else if(Ta!=null){T=Ta; sd=sdA;}
+    else return{none:true,tNow,closing:!!(f&&f.sl>=0.02)};
+    const at=mo=>tNow+mo*30.44*864e5;
+    return{tNow,t:at(T),lo:at(Math.max(0.5,T-sd)),hi:at(T+sd),months:T,
+           ta:Ta!=null?at(Ta):null,tb:Tb!=null?at(Tb):null,wTrend:Ta!=null?(1/sdA**2)/((1/sdA**2)+(1/sdB**2)):0,
+           closing:Ta!=null};
+  }
+  const flipTxt=e=>e.flipped?'flipped':e.none?'no estimate':`~${mon(e.t)} (likely ${mon(e.lo)} – ${mon(e.hi)})`;
   function perMonth(pts){
     if(pts.length<4)return null;
     const n=pts.length, mt=pts.reduce((a,p)=>a+p.t,0)/n, my=pts.reduce((a,p)=>a+p.y,0)/n;
@@ -50519,8 +50561,8 @@ function renderBubble(){
       let eta=null, what='', back=false;
       const recent=tp.slice(-14);
       if(m.n===5){
-        const g=m.val(NOW), sl=perMonth(recent.map(p=>({t:tms(p.date),y:m.val(p)})));
-        if(!lit&&sl!=null&&sl>=0.02){eta=tNow+(-g/sl)*30.44*864e5; what='flips';} else if(!lit) back=true;
+        const fe=flipEstimate();
+        if(!lit&&fe.t){eta=fe.t; what='flips';} else if(!lit) back=true;
       }else{
         const k=clock(m,NOW);
         if(k){const sl=perMonth(recent.map(p=>({t:tms(p.date),k:clock(m,p)})).filter(o=>o.k).map(o=>({t:o.t,y:o.k.c})));
@@ -50586,7 +50628,7 @@ function renderBubble(){
         return row(m,svgWrap(s),`halved ${NOW.pct_halved}% · doubled ${NOW.pct_doubled}%`,
           `<b>${flipped?'<span style="color:#e5484d">Flipped</span>: halvers ahead':`Not flipped: doublers ahead by ${(-g).toFixed(1)} pts`}</b><br>
            ${sl==null?'not enough weeks to read a pace':Math.abs(sl)<0.02?'gap barely moving':sl>0?`gap closing ${sl.toFixed(2)} pts a month`:`gap widening ${(-sl).toFixed(2)} pts a month`}<br>
-           <span style="color:#8f8f8f">${flipped?'the 2000 condition':etaWords(-g,sl,'flips')}</span>`);
+           <span style="color:#8f8f8f">${flipped?'the 2000 condition':(()=>{const fe=flipEstimate();return fe.none?'no estimate':`flips ${flipTxt(fe)}, own trend and dot-com pace combined`;})()}</span>`);
       }
       const k=clock(m,NOW);
       const head=`${m.val(NOW).toFixed(1)}${m.unit} · lights ${m.thrTxt.replace(/^≥/,'at ')}`;

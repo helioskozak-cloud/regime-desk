@@ -34,6 +34,7 @@ const rerender = async () => { delete win.document.getElementById('v-bubble').da
   win.location.hash = '#home'; win.dispatchEvent(new win.HashChangeEvent('hashchange')); await tick();
   win.location.hash = '#bubble'; win.dispatchEvent(new win.HashChangeEvent('hashchange')); await tick(); };
 
+const MK5Flipped = () => /Flipped: halvers ahead/.test(text());
 (async () => {
   await tick(10);
   await rerender();
@@ -82,6 +83,21 @@ const rerender = async () => { delete win.document.getElementById('v-bubble').da
   await rerender();
   ok('a narrowing gap reads "backing away"', /backing away/.test(row4()) && /not heading for lights/.test(row4()), row4().slice(0, 300));
   latest.ttm = saved; latest.ttm_path = savedPath;
+
+  console.log('\nThe flip has ONE estimate (owner, 2026-10-12: "use them in tandem"):');
+  await rerender();
+  const dates = [...new Set((text().match(/(?:flips|the flip|estimated) ~(\w+ \d{4})/g) || []).map(s => s.replace(/^.*~/, '')))];
+  ok('every flip date on the page is the same date', dates.length === 1 && !MK5Flipped(), dates.join(' | '));
+  ok('it carries a likely range', /flips ~\w+ \d{4} \(likely \w+ \d{4} – \w+ \d{4}\)/.test(text()));
+  ok('no second "flip year" date', !/flip year/.test(text()) && !/2000 \(flip\)/.test(text()));
+  // a gap that is not closing: the dot-com pace stands alone
+  const keep = latest.ttm_path;
+  latest.ttm_path = Array.from({ length: 14 }, (_, i) => ({ date: wk(i), from: wk(i - 52), n: 500,
+    pct_doubled: 5 + i * 0.1, pct_halved: 2, median_ret: 8, sp500_ret: 10 }));
+  latest.ttm = latest.ttm_path[13];
+  await rerender();
+  ok('a gap that is not closing leaves the dot-com pace alone', /the dot-com pace alone, because marker 5's own gap is not closing/.test(text()));
+  latest.ttm = saved; latest.ttm_path = keep;
 
   ok('no page errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
   console.log(`\n${pass} passed, ${fail} failed`);
