@@ -265,8 +265,8 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-bar input[type=text],#v-news .nd-bar select{background:#050505;border:1px solid #2e2e2e;color:#c9c9c9;border-radius:4px;padding:4px 8px;font-family:var(--mono);font-size:12px;max-width:100%}
 #v-news .nd-bar input[type=text]{width:250px}
 #v-news .nd-bar input[type=text]:focus,#v-news .nd-bar select:focus{border-color:#5b9dff;outline:none}
-#v-news .nd-btn{font-family:var(--mono);font-size:11px;background:#141414;border:1px solid #2e2e2e;color:#8f8f8f;border-radius:4px;padding:4px 10px;cursor:pointer}
-#v-news .nd-btn:hover{border-color:#5b9dff;color:#f2f2f2}
+#v-news .nd-btn,#v-filings .nd-btn{font-family:var(--mono);font-size:11px;background:#141414;border:1px solid #2e2e2e;color:#8f8f8f;border-radius:4px;padding:4px 10px;cursor:pointer}
+#v-news .nd-btn:hover,#v-filings .nd-btn:hover{border-color:#5b9dff;color:#f2f2f2}
 #v-news .nd-count{margin-left:auto;font-family:var(--mono);font-size:11px;color:#6f6f6f;white-space:nowrap}
 #v-news .nd-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
 #v-news .nd-chips:empty{display:none}
@@ -276,14 +276,37 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 /* 2026-10-13: every News section folds (owner: "the ability to collapse sections"); state kept per browser */
 #v-news .card.folded>:not(h2):not(.popout-btn){display:none}
 #v-news .card>h2.nd-fh{cursor:pointer;user-select:none}
-#v-news .card>h2.nd-fh::after{content:"\25BE";margin-left:10px;color:#6f6f6f;font-size:12px}
-#v-news .card.folded>h2.nd-fh::after{content:"\25B8"}
+#v-news .card>h2.nd-fh{display:flex;align-items:center}
+#v-news .card>h2.nd-fh::after{content:"Hide \25B4";margin-left:auto;margin-right:38px;font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:#8f8f8f;border:1px solid #2e2e2e;border-radius:4px;padding:1px 9px}
+#v-news .card>h2.nd-fh:hover::after{color:#f2f2f2;border-color:#5b9dff}
+#v-news .card.folded>h2.nd-fh::after{content:"Show \25BE"}
+#v-news .card.folded>h2.nd-fh{margin-bottom:0;padding-bottom:0;border-bottom:0}
 #v-news .nd-gblk>.nd-grp{cursor:pointer;user-select:none}
 #v-news .nd-gblk>.nd-grp::after{content:" \25BE";color:#4a4a4a}
 #v-news .nd-gblk.folded>.nd-grp::after{content:" \25B8"}
 #v-news .nd-gblk.folded>.nd-row{display:none}
-/* the News tab is news and filings only: no regime banner above it */
-body.view-news #regime-banner{display:none}
+/* Filings tab type (2026-10-13): Geist for words, Geist Mono for dates,
+   tickers and figures only; headings in sentence case, not terminal caps. */
+#v-filings .card h2{font-family:var(--sans);font-size:17px;font-weight:600;text-transform:none;letter-spacing:-.01em;color:#f2f2f2}
+#v-filings .card h2::before{display:none}
+#v-filings table{font-family:var(--sans);font-variant-numeric:tabular-nums}
+#v-filings .fl-row td{padding:10px 10px;vertical-align:top;border-top:1px solid #1d1d1d}
+#v-filings .fl-date{font-family:var(--mono);font-size:12px;color:#8f8f8f;white-space:nowrap}
+#v-filings .fl-tk{font-family:var(--mono);font-weight:700;font-size:13px;color:#f2f2f2;white-space:nowrap}
+#v-filings .fl-co{font-size:13px;color:#c9c9c9;margin-top:2px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#v-filings .fl-sec{font-size:11.5px;color:#6f6f6f;margin-top:1px}
+#v-filings .fl-badge{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:10px;border:1px solid;margin-right:8px;vertical-align:1px;white-space:nowrap}
+#v-filings .fl-what{font-size:14px;line-height:1.45;color:#ececec}
+#v-filings .fl-also{font-size:12.5px;line-height:1.45;color:#8f8f8f;margin-top:3px}
+#v-filings .fl-link{font-size:12px;color:#5b9dff;text-decoration:none;white-space:nowrap}
+#v-filings .fl-link:hover{text-decoration:underline}
+#v-filings .fl-stat .k{font-size:12px;color:#8f8f8f}
+#v-filings .fl-stat .v{font-family:var(--mono);font-size:22px;font-weight:700;color:#f2f2f2}
+#v-filings .fl-h3{font-size:14px;font-weight:600;color:#f2f2f2;margin-bottom:6px}
+#v-filings thead th{font-family:var(--sans);font-size:11.5px;font-weight:500;color:#8f8f8f;text-transform:none;letter-spacing:0}
+/* The regime banner (Calm Uptrend, VIX, next 30 days) belongs to Home only
+   (owner, 2026-10-13: "across all tabs, not just the home/market tab where it belongs") */
+body.view-news #regime-banner,body:not([data-view="home"]) #regime-banner{display:none}
 #v-news .nd-row{display:grid;grid-template-columns:58px 200px minmax(0,1fr) 108px 154px;gap:14px;padding:9px 10px;border-bottom:1px solid #141414;align-items:start;cursor:pointer;transition:background .1s}
 #v-news .nd-row:hover{background:#121212}
 #v-news .nd-row.pos{box-shadow:inset 2px 0 0 #2b7a4b}
@@ -292,15 +315,15 @@ body.view-news #regime-banner{display:none}
 #v-news .nd-time i{display:block;font-style:normal;font-size:10px;color:#6f6f6f}
 #v-news .nd-tks{min-width:0}
 #v-news .nd-tk{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
-#v-news .nd-sym{font-family:var(--mono);font-size:13px;font-weight:700;color:#f2f2f2;letter-spacing:.02em;cursor:pointer}
-#v-news .nd-sym:hover{color:#5b9dff}
+#v-news .nd-sym,#v-filings .nd-sym{font-family:var(--mono);font-size:13px;font-weight:700;color:#f2f2f2;letter-spacing:.02em;cursor:pointer}
+#v-news .nd-sym:hover,#v-filings .nd-sym:hover{color:#5b9dff}
 #v-news .nd-px{font-family:var(--mono);font-size:11px;color:#8f8f8f;font-variant-numeric:tabular-nums}
-#v-news .nd-chg{font-family:var(--mono);font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+#v-news .nd-chg,#v-filings .nd-chg{font-family:var(--mono);font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
 /* 2026-10-13 (Q55 = c): move size, earnings/filing context, releases line, Why it moved */
-#v-news .nd-sg{font-family:var(--mono);font-size:10px;font-weight:600;color:#d4a72c;border:1px solid #5c4a1c;border-radius:3px;padding:0 4px;margin-left:5px;font-variant-numeric:tabular-nums;white-space:nowrap}
-#v-news .nd-ctxs{display:flex;flex-direction:column;gap:3px;margin-top:5px}
-#v-news .nd-ctx{font-family:var(--mono);font-size:10px;line-height:1.3;color:#8f8f8f;border-left:2px solid #2e2e2e;padding-left:6px;text-decoration:none}
-#v-news .nd-ctx.ern{border-left-color:#d4a72c;color:#c9c9c9}
+#v-news .nd-sg,#v-filings .nd-sg{font-family:var(--mono);font-size:10px;font-weight:600;color:#d4a72c;border:1px solid #5c4a1c;border-radius:3px;padding:0 4px;margin-left:5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+#v-news .nd-ctxs,#v-filings .nd-ctxs{display:flex;flex-direction:column;gap:3px;margin-top:5px}
+#v-news .nd-ctx,#v-filings .nd-ctx{font-family:var(--mono);font-size:10px;line-height:1.3;color:#8f8f8f;border-left:2px solid #2e2e2e;padding-left:6px;text-decoration:none}
+#v-news .nd-ctx.ern,#v-filings .nd-ctx.ern{border-left-color:#d4a72c;color:#c9c9c9}
 #v-news a.nd-ctx.fil{border-left-color:#5b9dff;color:#c9c9c9}
 #v-news a.nd-ctx.fil:hover{color:#f2f2f2}
 #v-news .nd-macro{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-family:var(--mono);font-size:11px;color:#8f8f8f}
@@ -309,21 +332,21 @@ body.view-news #regime-banner{display:none}
 #v-news .nd-mac.hi b{color:#d4a72c}
 #v-news .nd-mac+.nd-mac::before{content:"\00b7";margin-right:10px;color:#4a4a4a}
 #v-news .nd-mac-none{color:#6f6f6f}
-#v-news .nd-mv-note{font-family:var(--mono);font-size:11px;color:#6f6f6f;margin:2px 0 8px}
-#v-news .nd-mv{display:grid;grid-template-columns:58px minmax(0,190px) 64px 48px minmax(0,1fr);gap:12px;align-items:start;padding:7px 0;border-bottom:1px solid #141414}
-#v-news .nd-mv .nd-sym{cursor:pointer}
-#v-news .nd-mv .nd-chg,#v-news .nd-mv .nd-sg{justify-self:end;margin-left:0}
-#v-news .nd-mv-name{font-size:12px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#v-news .nd-mv-why{font-size:13px;color:#c9c9c9;min-width:0}
-#v-news .nd-mv-why a{color:#f2f2f2;text-decoration:none}
-#v-news .nd-mv-why a:hover{text-decoration:underline}
-#v-news .nd-mv-why i{font-style:normal;font-family:var(--mono);font-size:10px;color:#6f6f6f;margin-left:4px}
-#v-news .nd-mv-none{color:#6f6f6f;font-style:italic}
-#v-news .nd-mv-foot{font-family:var(--mono);font-size:11px;color:#6f6f6f;margin-top:8px;display:flex;align-items:center;gap:8px}
+#v-news .nd-mv-note,#v-filings .nd-mv-note{font-family:var(--mono);font-size:11px;color:#6f6f6f;margin:2px 0 8px}
+#v-news .nd-mv,#v-filings .nd-mv{display:grid;grid-template-columns:58px minmax(0,190px) 64px 48px minmax(0,1fr);gap:12px;align-items:start;padding:7px 0;border-bottom:1px solid #141414}
+#v-news .nd-mv .nd-sym,#v-filings .nd-mv .nd-sym{cursor:pointer}
+#v-news .nd-mv .nd-chg,#v-news .nd-mv .nd-sg,#v-filings .nd-mv .nd-chg,#v-filings .nd-mv .nd-sg{justify-self:end;margin-left:0}
+#v-news .nd-mv-name,#v-filings .nd-mv-name{font-size:12px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#v-news .nd-mv-why,#v-filings .nd-mv-why{font-size:13px;color:#c9c9c9;min-width:0}
+#v-news .nd-mv-why a,#v-filings .nd-mv-why a{color:#f2f2f2;text-decoration:none}
+#v-news .nd-mv-why a:hover,#v-filings .nd-mv-why a:hover{text-decoration:underline}
+#v-news .nd-mv-why i,#v-filings .nd-mv-why i{font-style:normal;font-family:var(--mono);font-size:10px;color:#6f6f6f;margin-left:4px}
+#v-news .nd-mv-none,#v-filings .nd-mv-none{color:#6f6f6f;font-style:italic}
+#v-news .nd-mv-foot,#v-filings .nd-mv-foot{font-family:var(--mono);font-size:11px;color:#6f6f6f;margin-top:8px;display:flex;align-items:center;gap:8px}
 @media (max-width:760px){
-  #v-news .nd-mv{grid-template-columns:52px 1fr 60px 44px}
-  #v-news .nd-mv-why{grid-column:1/-1}
-  #v-news .nd-mv-name{display:none}
+  #v-news .nd-mv,#v-filings .nd-mv{grid-template-columns:52px 1fr 60px 44px}
+  #v-news .nd-mv-why,#v-filings .nd-mv-why{grid-column:1/-1}
+  #v-news .nd-mv-name,#v-filings .nd-mv-name{display:none}
 }
 #v-news .nd-more{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 #v-news .nd-more span{font-family:var(--mono);font-size:10px;color:#8f8f8f;border:1px solid #2e2e2e;border-radius:4px;padding:0 4px;cursor:pointer;white-space:nowrap}
@@ -406,6 +429,23 @@ body{font-size:13px}
 .card h2::before{content:"";display:inline-block;width:6px;height:6px;background:var(--accent);margin:0 8px 1px 0;vertical-align:middle}
 .stat .key,.tile .sub{letter-spacing:var(--track)}
 html.light .card h2::before{background:#0969da}
+/* News and Filings type (owner, 2026-10-13: "I thought we left the terminal
+   typesets behind"). Geist for words in sentence case; Geist Mono only for
+   times, dates, tickers and figures. Beats the site-wide label style above. */
+#v-filings .card>h2,#v-news .card>h2{font-family:var(--sans)!important;font-size:17px!important;font-weight:600!important;letter-spacing:-.01em!important;text-transform:none!important;color:#f2f2f2!important}
+#v-filings .card>h2::before,#v-news .card>h2::before{display:none!important}
+#v-news .nd-tab{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0;text-transform:none}
+#v-news .nd-lbl,#v-news .nd-live,#v-news .nd-count{font-family:var(--sans);font-size:12px;letter-spacing:0;text-transform:none}
+#v-news .nd-grp{font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:0;text-transform:none;color:#c9c9c9}
+#v-news .nd-macro{font-family:var(--sans);font-size:13px}
+#v-news .nd-src{font-family:var(--sans);font-size:12px}
+#v-news .nd-typ{font-family:var(--sans);font-size:11px;letter-spacing:0;text-transform:capitalize}
+#v-news .nd-mv-note,#v-filings .nd-mv-note{font-family:var(--sans);font-size:12.5px}
+#v-news .nd-mv-foot,#v-filings .nd-mv-foot{font-family:var(--sans);font-size:12.5px}
+#v-news .nd-ctx,#v-filings .nd-ctx{font-family:var(--sans);font-size:11.5px}
+#v-news .nd-mv-why i,#v-filings .nd-mv-why i{font-family:var(--sans);font-size:11.5px}
+#v-news .nd-bar input[type=text]{font-family:var(--sans);font-size:13px}
+#v-news .nd-bar select,#v-news .nd-btn,#v-filings .nd-btn{font-family:var(--sans);font-size:13px}
 html.light #topbar{background:#f6f8fa!important}
 
 /* ── PAPA's layout, carried over (owner, 2026-09-23) ─────────────────────────
@@ -41488,6 +41528,50 @@ const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 // cyber, change in control, acquisition, debt trigger, 13D). Offerings and
 // officer changes are rank 3; results and routine 8-Ks below that.
 let _filShow='material', _filSector='', _filQ='';
+// What each filing means, in plain English (owner, 2026-10-13). The sentence
+// comes from the filing's most material item; the rest are listed after
+// "Also:". Facts about what was filed, never a view on the stock.
+const FIL_ITEM={
+  '4.02':['The company says past financial statements can no longer be relied on and will be restated.','restated financials'],
+  '1.03':['The company has filed for bankruptcy or entered receivership.','bankruptcy'],
+  '3.01':['The exchange says the stock no longer meets a listing rule (or the listing ends after a merger); a company usually gets time to fix it.','listing notice'],
+  '4.01':['The company changed its outside auditor. Usually routine; the filing says whether there were disagreements.','auditor change'],
+  '2.06':['The company is writing down the value of an asset, a sign it expects to earn less from it.','asset write-down'],
+  '1.05':['The company disclosed a material cybersecurity incident.','cyber incident'],
+  '5.01':['Control of the company has changed hands.','change of control'],
+  '2.01':['The company completed buying or selling a significant business or asset.','acquisition or sale completed'],
+  '2.04':['Something has sped up or increased a debt repayment, such as a broken loan condition.','debt repayment triggered'],
+  '5.02':['A director or senior officer is joining or leaving, or has a new pay arrangement.','leadership or pay change'],
+  '2.05':['The company committed to a restructuring, such as layoffs or closing a business, with costs to come.','restructuring'],
+  '2.03':['The company took on significant new debt.','new debt'],
+  '3.02':['The company sold new shares privately, which can dilute existing shareholders.','private share sale'],
+  '1.01':['The company signed a significant contract, such as a deal, a loan or a partnership.','significant contract'],
+  '1.02':['A significant contract has ended.','contract ended'],
+  '2.02':['The company released its quarterly or annual results.','results'],
+  '3.03':["Shareholders' rights changed, for example through a reverse split.",'shareholder rights changed'],
+  '5.03':['The company amended its charter or bylaws.','bylaws amended'],
+  '5.07':['The company reported the results of a shareholder vote.','shareholder vote'],
+  '7.01':['The company shared information with investors, often a presentation or press release.','investor update'],
+  '8.01':['The company reported an event it considers important to shareholders.','other event'],
+};
+function _filMeaning(r){
+  const what=String(r.what||'');
+  if(r.kind==='late'||/^Late /.test(what))
+    return {badge:'Late filing',main:`The company says its ${/10-K|20-F/.test(what)?'annual':'quarterly'} report will be late.`,also:''};
+  if(r.kind==='activist')
+    return /amended/.test(what)
+      ? {badge:'13D',main:'An investor holding 5% or more updated its stake or its plans for the company.',also:''}
+      : {badge:'13D',main:'An investor now owns 5% or more and says it may try to influence the company.',also:''};
+  if(r.kind==='offering')
+    return /S-3|S-1/.test(what)&&!/424B/.test(what)
+      ? {badge:'Offering',main:'The company registered to sell new shares or debt to the public, which can dilute existing shareholders.',also:''}
+      : {badge:'Offering',main:'The company is selling new shares or debt to the public, which can dilute existing shareholders.',also:''};
+  const items=(what.match(/\b\d\.\d\d\b/g)||[]).filter(i=>FIL_ITEM[i]);
+  if(!items.length) return {badge:r.form||'8-K',main:'The company filed a current report (8-K).',also:''};
+  const rest=items.slice(1).map(i=>FIL_ITEM[i][1]);
+  return {badge:r.form||'8-K',main:FIL_ITEM[items[0]][0],also:rest.length?'Also: '+rest.join(', ')+'.':''};
+}
+const _filName=n=>{const t=String(n==null?'':n).trim();return /^(nan|none|null|undefined)$/i.test(t)?'':t;};
 function renderFilingsBody(){
   const F=S.filings||{}, all=F.filings||[];
   if(!all.length)return`<div class="card"><h2>SEC filings</h2><p style="color:#8f8f8f;padding:20px 0">No filings file yet — scan/filings_scan.py writes data/filings.json with the daily run once the EDGAR_IDENTITY secret is set. This is "not read", not "nothing filed".</p></div><footer>Filings are facts, not recommendations — not investment advice.</footer>`;
@@ -41507,25 +41591,25 @@ function renderFilingsBody(){
   const usd=v=>v>=1e6?`$${(v/1e6).toFixed(1)}M`:v>=1e3?`$${Math.round(v/1e3)}k`:`$${Math.round(v)}`;
   const insRows=ins.slice(0,60).map(r=>`<tr style="border-top:1px solid #1d1d1d">
     <td style="padding:5px 8px;font-family:var(--mono);font-weight:700;white-space:nowrap">${esc(r.ticker)}${_scnDot(r.ticker)}</td>
-    <td style="padding:5px 8px;color:#c9c9c9;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.name)} · ${esc(r.sector)}">${esc(r.name)}</td>
+    <td style="padding:5px 8px;color:#c9c9c9;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(_filName(r.name))} · ${esc(r.sector)}">${esc(_filName(r.name))}</td>
     <td style="padding:5px 8px;text-align:right;font-family:var(--mono);color:${r.buyers>=2?'#d4a72c':'#c9c9c9'}">${r.buyers}</td>
     <td style="padding:5px 8px;text-align:right;font-family:var(--mono)">${usd(r.buy)}</td>
     <td style="padding:5px 8px;color:#8f8f8f;white-space:nowrap">${esc(r.roles.join(', '))}</td>
     <td style="padding:5px 8px;color:#8f8f8f;font-family:var(--mono);white-space:nowrap">${esc(r.last_buy.slice(5))}</td></tr>`).join('');
-  const insPanel=`<div style="flex:1 1 440px;min-width:0"><div style="color:#c9c9c9;font-size:11px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px">Open-market insider buying · ${F.window_days||7} days</div>
-    ${(F.insiders||[]).length?`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><thead><tr style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px"><th style="text-align:left;padding:4px 8px">Ticker</th><th style="text-align:left;padding:4px 8px">Company</th><th style="text-align:right;padding:4px 8px" title="Distinct insiders buying in the window; amber = two or more (a cluster)">Buyers</th><th style="text-align:right;padding:4px 8px">Bought</th><th style="text-align:left;padding:4px 8px">Who</th><th style="text-align:left;padding:4px 8px">Last</th></tr></thead><tbody>${insRows||'<tr><td colspan="6" style="color:#8f8f8f;padding:10px">None under these filters.</td></tr>'}</tbody></table></div>
+  const insPanel=`<div style="flex:1 1 440px;min-width:0"><div class="fl-h3">Open-market insider buying, last ${F.window_days||7} days</div>
+    ${(F.insiders||[]).length?`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><thead><tr><th style="text-align:left;padding:4px 8px">Ticker</th><th style="text-align:left;padding:4px 8px">Company</th><th style="text-align:right;padding:4px 8px" title="Distinct insiders buying in the window; amber = two or more (a cluster)">Buyers</th><th style="text-align:right;padding:4px 8px">Bought</th><th style="text-align:left;padding:4px 8px">Who</th><th style="text-align:left;padding:4px 8px">Last</th></tr></thead><tbody>${insRows||'<tr><td colspan="6" style="color:#8f8f8f;padding:10px">None under these filters.</td></tr>'}</tbody></table></div>
     <div style="color:#6f6f6f;font-size:11px;margin-top:6px">Form 4 code P only: purchases in the market with the insider's own money. Grants, exercises and tax withholding are left out. Amber = two or more insiders buying the same name.</div>`
     :'<div style="color:#8f8f8f;font-size:12px;padding:10px 0">No Form 4 read yet: it arrives with the next daily scan.</div>'}</div>`;
   const btn=(k,l)=>`<button type="button" data-fil-show="${k}" style="background:${_filShow===k?'#141414':'none'};border:1px solid ${_filShow===k?'#5b9dff':'#2e2e2e'};color:${_filShow===k?'#f2f2f2':'#8f8f8f'};padding:3px 10px;border-radius:4px;cursor:pointer;font-size:12px">${l} <span style="color:#6f6f6f">${all.filter(SHOW[k][1]).length}</span></button>`;
-  const tr=rows.slice(0,400).map(r=>`<tr style="border-top:1px solid #1d1d1d">
-    <td style="padding:5px 8px;color:#8f8f8f;font-family:var(--mono);white-space:nowrap">${esc(r.date.slice(5))}</td>
-    <td style="padding:5px 8px;font-family:var(--mono);font-weight:700;white-space:nowrap">${esc(r.ticker)}${_scnDot(r.ticker)}</td>
-    <td style="padding:5px 8px;color:#c9c9c9;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.name)}">${esc(r.name)}</td>
-    <td style="padding:5px 8px;color:#6f6f6f;white-space:nowrap">${esc(r.sector)}</td>
-    <td style="padding:5px 8px;color:${rankCol(r)}"><a href="${esc(r.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dotted #4a4a4a">${esc(r.form==='8-K'||r.form==='8-K/A'?r.form+' · '+r.what:r.what)}</a></td></tr>`).join('');
-  return`<div class="card"><h2>SEC filings — the scan universe, last ${F.window_days||7} days</h2>
+  const tr=rows.slice(0,400).map(r=>{const m=_filMeaning(r), nm=_filName(r.name), sec=_filName(r.sector);
+    return `<tr class="fl-row">
+    <td class="fl-date">${esc(r.date.slice(5))}</td>
+    <td style="min-width:150px"><div class="fl-tk" data-ticker="${esc(r.ticker)}">${esc(r.ticker)}${_scnDot(r.ticker)}</div>${nm?`<div class="fl-co" title="${esc(nm)}">${esc(nm)}</div>`:''}${sec?`<div class="fl-sec">${esc(sec)}</div>`:''}</td>
+    <td><div class="fl-what"><span class="fl-badge" style="color:${rankCol(r)};border-color:${rankCol(r)}">${esc(m.badge)}</span>${esc(m.main)}</div>${m.also?`<div class="fl-also">${esc(m.also)}</div>`:''}</td>
+    <td style="text-align:right"><a class="fl-link" href="${esc(r.url)}" target="_blank" rel="noopener" title="${esc(r.what)}">Read the filing ↗</a></td></tr>`;}).join('');
+  return`<div class="card"><h2>SEC filings across the scan universe, last ${F.window_days||7} days</h2>
   <p style="color:#8f8f8f;font-size:13px;max-width:900px">Every 8-K, late filing, 13D and registered offering filed by the ${F.universe||''} names in the scan universe, most material first, newest first within that. Read straight from EDGAR's index as of <span style="font-family:var(--mono)">${esc(F.as_of)}</span>${age>3?` <span style="color:#d4a72c;font-weight:600">● ${age} days old</span>`:''}. ${_scnLegend()} Client holdings keep their own 30-day column in finvisible.</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0">${Object.entries({late:'Late filings',['8-K']:'Material 8-Ks',activist:'13D stakes',cluster:'Insider cluster buys'}).map(([k,l])=>`<div style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:10px 14px;min-width:150px"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${l}</div><div style="font-size:22px;font-weight:700;font-family:var(--mono)">${kinds[k]||0}</div></div>`).join('')}</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0">${Object.entries({late:'Late filings',['8-K']:'Material 8-Ks',activist:'13D stakes',cluster:'Insider cluster buys'}).map(([k,l])=>`<div class="fl-stat" style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:6px;padding:10px 14px;min-width:150px"><div class="k">${l}</div><div class="v">${kinds[k]||0}</div></div>`).join('')}</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px">${btn('material','Thesis-level')}${btn('offer','+ offerings & officers')}${btn('all','Everything')}
     <select data-fil-sector style="background:#0e0e0e;border:1px solid #2e2e2e;color:#c9c9c9;padding:3px 6px;border-radius:4px;font-size:12px;margin-left:8px"><option value="">All sectors</option>${sectors.map(s=>`<option${s===_filSector?' selected':''}>${esc(s)}</option>`).join('')}</select>
     <input data-fil-q value="${esc(_filQ)}" placeholder="ticker or name" style="background:#0e0e0e;border:1px solid #2e2e2e;color:#f2f2f2;padding:3px 8px;border-radius:4px;font-size:12px;width:160px"></div>
@@ -41534,7 +41618,7 @@ function renderFilingsBody(){
   ${rows.length>400?`<div style="color:#6f6f6f;font-size:11px;margin-top:6px">First 400 of ${rows.length}; narrow with the filters.</div>`:''}</div>
   ${insPanel}
   </div>
-  <div style="color:#6f6f6f;font-size:11px;margin-top:8px">Item 3.01 also appears when a merger closes and the target's listing ends. 424B5 includes routine debt takedowns off a shelf.</div>
+  <div style="color:#6f6f6f;font-size:12px;margin-top:8px">Each line says what the filing reports, in plain English, from its most material item; "Read the filing" opens it on EDGAR (hover it for the item codes). A listing notice also appears when a merger closes and the target's listing ends; offerings include routine debt sales off a shelf registration.</div>
   </div><footer>Filings are facts, not recommendations — not investment advice.</footer>`;
 }
 // ── Earnings view (2026-10-07, owner Q35 = b) ──────────────────────────────
@@ -41546,7 +41630,10 @@ function renderFilingsBody(){
 let _filView='filings';
 function renderFilings(){
   const tb=(k,l)=>`<button type="button" data-fil-view="${k}" style="background:${_filView===k?'#141414':'none'};border:1px solid ${_filView===k?'#5b9dff':'#2e2e2e'};color:${_filView===k?'#f2f2f2':'#8f8f8f'};padding:4px 14px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600">${l}</button>`;
-  return`<div style="display:flex;gap:6px;margin:0 0 10px">${tb('filings','Filings')}${tb('earnings','Earnings')}</div>`+(_filView==='earnings'?renderEarnings():renderFilingsBody());
+  const body=_filView==='earnings'?renderEarnings()
+    :_filView==='movers'?`<div class="card"><h2>Why it moved</h2><div id="nd-movers"><div class="nd-mv-note">Loading the unusual moves from news-desk.</div></div></div><footer>Moves and headlines are facts, not recommendations — not investment advice.</footer>`
+    :renderFilingsBody();
+  return`<div style="display:flex;gap:6px;margin:0 0 10px">${tb('filings','Filings')}${tb('earnings','Earnings')}${tb('movers','Why it moved')}</div>`+body;
 }
 function renderEarnings(){
   const E=S.earnings||{}, all=E.earnings||[];
@@ -41597,8 +41684,12 @@ function renderEarnings(){
 // Delegated, like News: no inline handlers that could resolve to undefined.
 window._rd_postrender_filings=function(){
   const v=document.getElementById('v-filings');if(!v||v.dataset.filBound)return;v.dataset.filBound='1';
-  const redraw=()=>{v.innerHTML=renderFilings();};
+  // Why it moved reads news-desk's files through NEWSTAB (one loader, one cache).
+  const redraw=()=>{v.innerHTML=renderFilings();if(_filView==='movers'&&window.NEWSTAB)NEWSTAB.showMovers();};
+  if(_filView==='movers'&&window.NEWSTAB)NEWSTAB.showMovers();
   v.addEventListener('click',e=>{const t=e.target.closest('[data-fil-view]');if(t){_filView=t.dataset.filView;redraw();return;}
+    const ma=e.target.closest('[data-act="moversall"]');if(ma&&window.NEWSTAB){NEWSTAB.toggleMoversAll();return;}
+    const tk=e.target.closest('#nd-movers [data-tk]');if(tk&&!(e.shiftKey||e.metaKey||e.ctrlKey||e.altKey)&&window.NEWSTAB){NEWSTAB.pickExternal(tk.getAttribute('data-tk'));return;}
     const b=e.target.closest('[data-fil-show]');if(!b)return;_filShow=b.dataset.filShow;redraw();});
   v.addEventListener('change',e=>{if(e.target.matches('[data-fil-sector]')){_filSector=e.target.value;redraw();}});
   v.addEventListener('input',e=>{if(!e.target.matches('[data-fil-q]'))return;_filQ=e.target.value;const pos=e.target.selectionStart;redraw();
@@ -41892,9 +41983,6 @@ var NEWSTAB=(function(){
       +'<div class="nd-chips" id="nd-chips"></div>'
       +'<div class="nd-macro" id="nd-macro">'+macroHTML()+'</div>'
     +'</div>'
-    +'<div class="card" data-fold="movers"><h2 class="nd-fh" data-act="fold">Why it moved</h2><div id="nd-movers">'
-      +'<div class="nd-mv-note">Loading the unusual moves from news-desk.</div>'
-    +'</div></div>'
     +'<div class="card" data-fold="feed"><h2 class="nd-fh" data-act="fold">Headlines</h2><div class="nd-feed" id="nd-feed">'
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
@@ -42525,6 +42613,11 @@ var NEWSTAB=(function(){
   }
   /* From any other tab, shift-click on a ticker opens THIS tab filtered to it
    * (it used to open news-desk's page, which now redirects here). */
+  function showMovers(){
+    if(S.loaded||S.failed) renderMovers();
+    else load();          // load() ends in render(), which draws the movers
+  }
+  function toggleMoversAll(){ S.moversAll=!S.moversAll; renderMovers(); }
   function pickExternal(t){
     S.tab='news'; S.ticker=up(t);
     if(location.hash!=='#news') location.hash='#news';
@@ -42554,7 +42647,7 @@ var NEWSTAB=(function(){
     },15000);
   }
 
-  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,
+  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,showMovers:showMovers,toggleMoversAll:toggleMoversAll,
           _parseCSV:parseCSV,_applyRows:applyRows,_fmtTime:fmtTime,_groupKey:groupKey};
 })();
 
@@ -42572,6 +42665,7 @@ function route(){
   const hash=(location.hash||"#home").replace("#","");
   const view=VIEWS.includes(hash)?hash:"home";
   document.body.classList.toggle("view-news",view==="news");
+  document.body.dataset.view=view;
   VIEWS.forEach(v=>{
     document.getElementById("v-"+v).classList.toggle("active",v===view);
     const a=document.getElementById("nav-"+v);
@@ -43087,7 +43181,8 @@ window._rdAsk=function(q){
   function show(ticker,cx,cy){
     _cx=cx;_cy=cy;
     // On the News tab the card is news-desk's (NEWSTAB.cardHTML).
-    if((location.hash||'')==='#news'&&window.NEWSTAB&&NEWSTAB.cardHTML){
+    var inMovers=document.getElementById('nd-movers'), hov=document.querySelector('#nd-movers [data-ticker="'+ticker+'"]:hover');
+    if(((location.hash||'')==='#news'||hov)&&window.NEWSTAB&&NEWSTAB.cardHTML){
       var nh=NEWSTAB.cardHTML(ticker);
       if(nh){ tip.innerHTML=nh; pos(cx,cy); tip.style.display='block'; return; }
     }

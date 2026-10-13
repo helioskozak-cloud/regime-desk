@@ -110,8 +110,36 @@ const row = t => Array.from(doc.querySelectorAll('#v-news .nd-row')).find(r => r
   ok('CPI tomorrow is listed with its time', /tomorrow 08:30 ET CPI/.test(mac), mac);
   ok('a minor release is not', !/Minor survey/.test(mac));
 
-  console.log('\n== why it moved ==');
-  const mv = Array.from(doc.querySelectorAll('#nd-movers .nd-mv'));
+  console.log('\n== the tab is news only: no regime banner, no movers ==');
+  ok('body carries view-news', doc.body.classList.contains('view-news'));
+  ok('the regime banner shows on Home only', /body:not\(\[data-view="home"\]\) #regime-banner\{display:none\}/.test(html)
+    && doc.body.dataset.view === 'news');
+  ok('Why it moved is not on the News tab', !doc.querySelector('#v-news #nd-movers'));
+
+  console.log('\n== both News sections fold, and stay folded ==');
+  const cards = Array.from(doc.querySelectorAll('#v-news .card[data-fold]'));
+  ok('two foldable sections', cards.map(c => c.dataset.fold).join() === 'controls,feed', cards.map(c => c.dataset.fold).join());
+  const feedCard = cards[1];
+  feedCard.querySelector('h2').click(); await tick(5);
+  ok('clicking a heading folds it', feedCard.classList.contains('folded'));
+  ok('the fold is remembered', JSON.parse(win.localStorage.getItem('rd-news-folds')).feed === true);
+  await win.NEWSTAB.load(); await tick(20);
+  ok('a 60s refresh does not unfold it', feedCard.classList.contains('folded'));
+  feedCard.querySelector('h2').click(); await tick(5);
+  ok('clicking again opens it', !feedCard.classList.contains('folded'));
+  ok('the heading shows a visible Hide / Show control', /content:"Hide \\25B4"/.test(html) && /content:"Show \\25BE"/.test(html));
+  const grp = doc.querySelector('#v-news .nd-gblk .nd-grp');
+  grp.click(); await tick(5);
+  ok('a date group folds its headlines', grp.parentElement.classList.contains('folded'));
+  grp.click(); await tick(5);
+
+  console.log('\n== why it moved, now on Filings ==');
+  win.location.hash = '#filings';
+  win.dispatchEvent(new win.HashChangeEvent('hashchange'));
+  await tick(60);
+  doc.querySelector('#v-filings [data-fil-view="movers"]').click();
+  await tick(60);
+  const mv = Array.from(doc.querySelectorAll('#v-filings #nd-movers .nd-mv'));
   ok('both movers listed', mv.length === 2, String(mv.length));
   ok('a mover with a headline shows it', /Acme beats on revenue/.test(mv[0].textContent));
   ok('and its earnings', /Reported today|Reports today/.test(mv[0].textContent));
@@ -120,29 +148,10 @@ const row = t => Array.from(doc.querySelectorAll('#v-news .nd-row')).find(r => r
   ok('size is unsigned sigma, direction is in the percent', /3\.2σ/.test(mv[1].textContent) && /-9\.5%/.test(mv[1].textContent));
   ok('the footer counts movers with a headline', /1 of 2 have a headline/.test(doc.getElementById('nd-movers').textContent));
   mv[1].querySelector('[data-tk]').click();
-  await tick(30);
-  ok('clicking a mover filters the feed to it', win.NEWSTAB.state.ticker === 'ZOOM2');
-
-  console.log('\n== the tab is news only: no regime banner ==');
-  ok('body carries view-news', doc.body.classList.contains('view-news'));
-  ok('a rule hides #regime-banner on the News tab', /body\.view-news #regime-banner\{display:none\}/.test(html));
-
-  console.log('\n== every section folds, and stays folded ==');
+  await tick(60);
+  ok('clicking a mover opens News filtered to it', win.NEWSTAB.state.ticker === 'ZOOM2' && win.location.hash === '#news');
+  win.dispatchEvent(new win.HashChangeEvent('hashchange')); await tick(30);
   win.NEWSTAB.state.ticker = null; win.NEWSTAB.render(); await tick(10);
-  const cards = Array.from(doc.querySelectorAll('#v-news .card[data-fold]'));
-  ok('three foldable sections', cards.map(c => c.dataset.fold).join() === 'controls,movers,feed', cards.map(c => c.dataset.fold).join());
-  const movers = cards[1];
-  movers.querySelector('h2').click(); await tick(5);
-  ok('clicking a heading folds it', movers.classList.contains('folded'));
-  ok('the fold is remembered', JSON.parse(win.localStorage.getItem('rd-news-folds')).movers === true);
-  await win.NEWSTAB.load(); await tick(20);
-  ok('a 60s refresh does not unfold it', movers.classList.contains('folded'));
-  movers.querySelector('h2').click(); await tick(5);
-  ok('clicking again opens it', !movers.classList.contains('folded'));
-  const grp = doc.querySelector('#v-news .nd-gblk .nd-grp');
-  grp.click(); await tick(5);
-  ok('a date group folds its headlines', grp.parentElement.classList.contains('folded'));
-  grp.click(); await tick(5);
 
   console.log('\n== the ticker card is news-desk\'s ==');
   const card = win.NEWSTAB.cardHTML('ACME');
