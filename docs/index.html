@@ -517,6 +517,49 @@ td{padding:4px 8px}
 html.light .rd-home3 .rd-col{background:#f6f8fa;border-color:#d0d7de;border-top-color:var(--acc)}
 html.light .rd-home3 .rd-col>.card+.card{border-top-color:#d0d7de!important}
 @media(max-width:1100px){.rd-home3{grid-template-columns:1fr}}
+
+/* ── Type, 2026-10-13 (owner, twice: "regime desk still looks like a 1980s
+   terminal"). One sans family for everything a reader reads, numbers
+   included: Geist with tabular figures keeps columns aligned without a
+   monospaced face. Real code keeps a monospace (--code). No small caps,
+   no tracked-out labels, headings in sentence case at a readable size.
+   This block is last on purpose: it overrides the older label tokens. ── */
+:root{--mono:'Geist',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --code:'Geist Mono',ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,monospace;
+      --fs-label:13px;--track:0}
+body{font-variant-numeric:tabular-nums}
+code,pre,kbd{font-family:var(--code)}
+#topbar h1{font-family:var(--sans)!important;font-size:16px!important;font-weight:650!important;letter-spacing:-.01em!important;text-transform:none!important}
+#topbar nav a{font-family:var(--sans)!important;font-size:14px!important;font-weight:500;letter-spacing:0!important;text-transform:none!important}
+.card h2{font-family:var(--sans)!important;font-size:17px!important;font-weight:600!important;letter-spacing:-.01em!important;text-transform:none!important;color:var(--text)!important}
+.card h2::before{display:none!important}
+.tile h3{font-family:var(--sans)!important;font-size:14px!important;font-weight:600!important;letter-spacing:0!important;text-transform:none!important}
+.stat .key{font-size:12px!important}
+th{font-weight:500}
+#topbar h1,
+.stat .key,
+.pill,
+.card h2,
+.tile h3,
+th,
+.rd-hint,
+.rd-tag,
+.rax-why h4,
+#v-news .nd-tab,
+#v-news .nd-live,
+#v-news .nd-lbl,
+#v-news .nd-grp,
+#v-news .nd-sym,#v-filings .nd-sym,
+#v-news .nd-typ,
+#v-news .nd-empty h3,
+#v-news .nd-drop .big,
+.stat .key,.tile .sub,
+#nav a#nav-analysis{text-transform:none!important;letter-spacing:normal!important}
+/* inline styles written into the page by its own scripts */
+[style*="text-transform:uppercase"]{text-transform:none!important}
+[style*="letter-spacing:.5px"],[style*="letter-spacing:.6px"],[style*="letter-spacing:.7px"],[style*="letter-spacing:.8px"],
+[style*="letter-spacing:1px"],[style*="letter-spacing:.4px"],[style*="letter-spacing:.3px"],[style*="letter-spacing:.06em"],
+[style*="letter-spacing:.05em"],[style*="letter-spacing:.1em"],[style*="letter-spacing:.12em"],[style*="letter-spacing:.14em"]{letter-spacing:normal!important}
 </style>
 </head>
 <body>
@@ -39518,7 +39561,9 @@ const S = window.SNAPSHOT;
 // Methods (view id "analysis", so old #analysis links still land) is an
 // appendix: last in key order, drawn first in the nav, set apart (2026-10-06).
 const VIEWS = ["home","bubble","news","filings","analysis"];
-const LABELS = ["Home","Bubble","News","Filings","Methods"];
+// "Filings" was renamed "Companies" (owner, 2026-10-13, Q60 = a): it holds
+// Filings, Earnings and Top movers. The view id stays "filings" so old links work.
+const LABELS = ["Home","Bubble","News","Companies","Methods"];
 
 
 // Theme persistence
@@ -39785,7 +39830,7 @@ function _cardNextRegime(){
   // 2026-10-07). When the likeliest label in 20 sessions is today's, this card
   // says how often it STAYS, rather than printing the label a second time.
   const stays=top&&L.label&&top===L.label;
-  const hero=_rdHero(`In ${L.horizon||20} sessions`,!top?'—':stays&&topRow?`STAYS · ${p0(topRow.share)}`:top.toUpperCase(),
+  const hero=_rdHero(`In ${L.horizon||20} sessions`,!top?'—':stays&&topRow?`Stays · ${p0(topRow.share)}`:top,
     topRow?(stays?`still ${top} on ${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`
                  :`${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`):(L.reason||''),
     top?col(top):'#5b9dff',null,'why-next');
@@ -39946,7 +39991,7 @@ function _cardRegimeMetrics(){
   // years is the most unusual reading on this card, and the label never saw it.
   // A tag, not part of the label: breadth has 3 years of history, the label 33.
   const narrow=has(mB)&&mB.pct_rank<0.2;
-  const hero=_rdHero('Regime',reg.toUpperCase()+(narrow?' · NARROW':''),`${spy.regime_streak||"—"} day streak${narrow?' · breadth in the bottom fifth of 3 years':''}`,regCol,null,'why-regime');
+  const hero=_rdHero('Regime',reg+(narrow?' · narrow':''),`${spy.regime_streak||"—"} day streak${narrow?' · breadth in the bottom fifth of 3 years':''}`,regCol,null,'why-regime');
   // Overnight deltas used to be their own full-width row above this card,
   // which meant reading a number here and its change 150px away. A delta
   // belongs against the reading it is a delta OF, so it now sits under the
@@ -40592,7 +40637,7 @@ function _cardRisk(){
   const axCol=v=>v>=0.65?'#e5484d':v>=0.45?'#d4a72c':'#3fae6a';
   const lvlOf=v=>(v||0)>=0.65?'elevated':(v||0)>=0.45?'moderate':'low';
   const nAt=lvl=>risks.filter(r=>lvlOf(r.score)===lvl).length;
-  const hero=_rdHero('Composite',`${cPct}<span style="font-size:11px;color:#8f8f8f"> /100</span>`,cLevel.toUpperCase(),cCol);
+  const hero=_rdHero('Composite',`${cPct}<span style="font-size:11px;color:#8f8f8f"> /100</span>`,cLevel.charAt(0).toUpperCase()+cLevel.slice(1),cCol);
   const tiles=[
     _rdTile('Elevated',`<span style="color:${nAt('elevated')?'#e5484d':'#8f8f8f'}">${nAt('elevated')}</span>`,'',false),
     _rdTile('Moderate',`<span style="color:${nAt('moderate')?'#d4a72c':'#8f8f8f'}">${nAt('moderate')}</span>`,'',false),
@@ -41920,16 +41965,16 @@ var NEWSTAB=(function(){
     return {hh:hh,rel:d.toLocaleDateString('en-US',{month:'numeric',day:'numeric',timeZone:'UTC'})};
   }
   function groupKey(iso){
-    if(!iso) return 'UNDATED';
+    if(!iso) return 'Undated';
     var d=new Date(iso);
-    if(isNaN(d.getTime())) return 'UNDATED';
+    if(isNaN(d.getTime())) return 'Undated';
     var today=new Date(); today.setUTCHours(0,0,0,0);
     var yest=new Date(today.getTime()-86400000);
     var start=new Date(d.getTime()); start.setUTCHours(0,0,0,0);
-    if(start.getTime()===today.getTime()) return 'TODAY';
-    if(start.getTime()===yest.getTime()) return 'YESTERDAY';
+    if(start.getTime()===today.getTime()) return 'Today';
+    if(start.getTime()===yest.getTime()) return 'Yesterday';
     return d.toLocaleDateString('en-US',
-      {weekday:'long',month:'short',day:'numeric',timeZone:'UTC'}).toUpperCase();
+      {weekday:'long',month:'short',day:'numeric',timeZone:'UTC'});
   }
   function fmtUpdated(){
     if(S.failed&&!S.headlines.length) return 'feed unreachable';
@@ -42344,7 +42389,7 @@ var NEWSTAB=(function(){
       return '<option value="'+esc(s)+'"'+(s===S.src?' selected':'')+'>'+esc(s)+'</option>'; }).join('');
     var b=$('nd-typ');
     if(b) b.innerHTML='<option value="">All</option>'+S.types.map(function(s){
-      return '<option value="'+esc(s)+'"'+(s===S.typ?' selected':'')+'>'+esc(s.toUpperCase())+'</option>'; }).join('');
+      return '<option value="'+esc(s)+'"'+(s===S.typ?' selected':'')+'>'+esc(s.charAt(0).toUpperCase()+s.slice(1))+'</option>'; }).join('');
   }
 
   /* ── Holdings ───────────────────────────────────────────────────────────
@@ -42734,7 +42779,8 @@ window.NEWSTAB=NEWSTAB;
 const renderers={home:renderHome,stocks:renderStocks,signals:renderSignals,analysis:renderAnalysis,filings:renderFilings,memory:renderMemory,bubble:renderBubble,econ:renderEcon,news:renderNews};
 
 function route(){
-  const hash=(location.hash||"#home").replace("#","");
+  let hash=(location.hash||"#home").replace("#","");
+  if(hash==="companies")hash="filings";   // the tab's new name works as a link too
   const view=VIEWS.includes(hash)?hash:"home";
   document.body.classList.toggle("view-news",view==="news");
   document.body.dataset.view=view;
