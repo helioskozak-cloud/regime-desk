@@ -286,11 +286,26 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-gblk.folded>.nd-grp::after{content:" \25B8"}
 #v-news .nd-gblk.folded>.nd-row{display:none}
 /* Top movers (2026-10-13): gainers and losers side by side, then the unusual list */
-#v-filings .nd-mvcols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-#v-filings .nd-mvcols .nd-mv{grid-template-columns:56px 62px 46px minmax(0,1fr)}
-#v-filings .nd-mvcols .nd-mv-name{display:none}
+#v-filings .nd-mvcols{display:block}
+#v-filings .nd-mvcol+.nd-mvcol{margin-top:22px}
 #v-filings .nd-mvh{font-family:var(--sans);font-size:14px;font-weight:600;color:#f2f2f2;margin:4px 0 6px}
-@media (max-width:900px){#v-filings .nd-mvcols{grid-template-columns:1fr}}
+/* Earnings, one enriched column (2026-10-13) */
+#v-filings .er-tbl{width:100%;border-collapse:collapse;table-layout:fixed;font-family:var(--sans)}
+#v-filings .er-head td{font-size:11.5px;color:#8f8f8f;padding:0 10px 6px}
+#v-filings .er-row td{padding:10px 10px;vertical-align:top;border-top:1px solid #1d1d1d;font-size:13px;color:#c9c9c9}
+#v-filings .er-when span{display:inline-block;font-size:11.5px;font-weight:600;border:1px solid;border-radius:10px;padding:1px 8px;white-space:nowrap}
+#v-filings .er-tk{font-family:var(--mono);font-weight:700;font-size:13px;color:#f2f2f2}
+#v-filings .er-co{font-size:13px;color:#c9c9c9;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#v-filings .er-sub{font-size:11.5px;color:#6f6f6f;margin-top:2px}
+#v-filings .er-fig{font-family:var(--mono);font-variant-numeric:tabular-nums;color:#f2f2f2}
+#v-filings .er-dim{color:#8f8f8f;font-size:12px}
+#v-filings .er-fig.er-dim{color:#8f8f8f}
+#v-filings .er-sg{font-family:var(--mono);font-size:11px;font-weight:600;color:#d4a72c;border:1px solid #5c4a1c;border-radius:3px;padding:0 4px}
+#v-filings .er-news{font-size:13px;line-height:1.4;color:#ececec}
+#v-filings .er-news a{color:#ececec;text-decoration:none}
+#v-filings .er-news a:hover{text-decoration:underline}
+#v-filings .er-week{font-size:15px;font-weight:600;color:#f2f2f2;margin:6px 0 8px}
+#v-filings .er-day{font-size:13px;font-weight:600}
 /* Filings tab type (2026-10-13): Geist for words, Geist Mono for dates,
    tickers and figures only; headings in sentence case, not terminal caps. */
 #v-filings .card h2{font-family:var(--sans);font-size:17px;font-weight:600;text-transform:none;letter-spacing:-.01em;color:#f2f2f2}
@@ -299,7 +314,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-filings .fl-row td{padding:10px 10px;vertical-align:top;border-top:1px solid #1d1d1d}
 #v-filings .fl-date{font-family:var(--mono);font-size:12px;color:#8f8f8f;white-space:nowrap}
 #v-filings .fl-tk{font-family:var(--mono);font-weight:700;font-size:13px;color:#f2f2f2;white-space:nowrap}
-#v-filings .fl-co{font-size:13px;color:#c9c9c9;margin-top:2px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#v-filings .fl-co{font-size:13px;color:#c9c9c9;margin-top:2px;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #v-filings .fl-sec{font-size:11.5px;color:#6f6f6f;margin-top:1px}
 #v-filings .fl-badge{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:10px;border:1px solid;margin-right:8px;vertical-align:1px;white-space:nowrap}
 #v-filings .fl-what{font-size:14px;line-height:1.45;color:#ececec}
@@ -41602,7 +41617,7 @@ function renderFilingsBody(){
     <td style="padding:5px 8px;text-align:right;font-family:var(--mono)">${usd(r.buy)}</td>
     <td style="padding:5px 8px;color:#8f8f8f;white-space:nowrap">${esc(r.roles.join(', '))}</td>
     <td style="padding:5px 8px;color:#8f8f8f;font-family:var(--mono);white-space:nowrap">${esc(r.last_buy.slice(5))}</td></tr>`).join('');
-  const insPanel=`<div style="flex:1 1 440px;min-width:0"><div class="fl-h3">Open-market insider buying, last ${F.window_days||7} days</div>
+  const insPanel=`<div style="margin-top:28px"><div class="fl-h3">Open-market insider buying, last ${F.window_days||7} days</div>
     ${(F.insiders||[]).length?`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><thead><tr><th style="text-align:left;padding:4px 8px">Ticker</th><th style="text-align:left;padding:4px 8px">Company</th><th style="text-align:right;padding:4px 8px" title="Distinct insiders buying in the window; amber = two or more (a cluster)">Buyers</th><th style="text-align:right;padding:4px 8px">Bought</th><th style="text-align:left;padding:4px 8px">Who</th><th style="text-align:left;padding:4px 8px">Last</th></tr></thead><tbody>${insRows||'<tr><td colspan="6" style="color:#8f8f8f;padding:10px">None under these filters.</td></tr>'}</tbody></table></div>
     <div style="color:#6f6f6f;font-size:11px;margin-top:6px">Form 4 code P only: purchases in the market with the insider's own money. Grants, exercises and tax withholding are left out. Amber = two or more insiders buying the same name.</div>`
     :'<div style="color:#8f8f8f;font-size:12px;padding:10px 0">No Form 4 read yet: it arrives with the next daily scan.</div>'}</div>`;
@@ -41619,8 +41634,8 @@ function renderFilingsBody(){
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px">${btn('material','Thesis-level')}${btn('offer','+ offerings & officers')}${btn('all','Everything')}
     <select data-fil-sector style="background:#0e0e0e;border:1px solid #2e2e2e;color:#c9c9c9;padding:3px 6px;border-radius:4px;font-size:12px;margin-left:8px"><option value="">All sectors</option>${sectors.map(s=>`<option${s===_filSector?' selected':''}>${esc(s)}</option>`).join('')}</select>
     <input data-fil-q value="${esc(_filQ)}" placeholder="ticker or name" style="background:#0e0e0e;border:1px solid #2e2e2e;color:#f2f2f2;padding:3px 8px;border-radius:4px;font-size:12px;width:160px"></div>
-  <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
-  <div style="flex:1.5 1 560px;min-width:0"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px">${tr||'<tr><td style="color:#8f8f8f;padding:12px">Nothing matches these filters.</td></tr>'}</table></div>
+  <div>
+  <div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px">${tr||'<tr><td style="color:#8f8f8f;padding:12px">Nothing matches these filters.</td></tr>'}</table></div>
   ${rows.length>400?`<div style="color:#6f6f6f;font-size:11px;margin-top:6px">First 400 of ${rows.length}; narrow with the filters.</div>`:''}</div>
   ${insPanel}
   </div>
@@ -41659,31 +41674,45 @@ function renderEarnings(){
   const eps=v=>v==null?'—':(v<0?`(${Math.abs(v).toFixed(2)})`:v.toFixed(2));
   const cap=v=>v==null?'':v>=1e12?`$${(v/1e12).toFixed(1)}T`:v>=1e9?`$${(v/1e9).toFixed(1)}B`:`$${Math.round(v/1e6)}M`;
   const MARK={pre:['pre','#d4a72c','Before the open'],post:['post','#a78bfa','After the close']};
-  const line=r=>{const m=MARK[r.time];return`<tr style="border-top:1px solid #1d1d1d">
-    <td style="padding:4px 6px;font-family:var(--mono);font-weight:700;white-space:nowrap">${esc(r.ticker)}${_scnDot(r.ticker)}</td>
-    <td style="padding:4px 6px;color:#c9c9c9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.name)} · ${esc(r.sector)}${r.mcap?' · '+cap(r.mcap):''}">${esc(r.name)}</td>
-    <td style="padding:4px 6px;white-space:nowrap">${m?`<span title="${m[2]}" style="color:${m[1]};border:1px solid ${m[1]}55;border-radius:3px;padding:0 5px;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px">${m[0]}</span>`:'<span title="Time not given" style="color:#4a4a4a">·</span>'}</td>
-    <td style="padding:4px 6px;text-align:right;font-family:var(--mono)" title="${r.n_est!=null?r.n_est+' estimate'+(r.n_est===1?'':'s'):''}">${eps(r.eps)}</td>
-    <td style="padding:4px 6px;text-align:right;font-family:var(--mono);color:#6f6f6f">${r.eps_ly==null?'':eps(r.eps_ly)}</td></tr>`;};
+  const NT=window.NEWSTAB;
+  const growth=r=>r.eps!=null&&r.eps_ly!=null&&r.eps_ly>0&&r.eps>0?(r.eps/r.eps_ly-1):null;
+  const line=r=>{const m=MARK[r.time], g=growth(r), qt=NT&&NT.quote?NT.quote(r.ticker):null, hd=NT&&NT.newest?NT.newest(r.ticker):null;
+    const nm=_filName(r.name), sec=_filName(r.sector);
+    const est=r.eps==null?'<span class="er-dim">No consensus estimate</span>'
+      :`<span class="er-fig">${eps(r.eps)}</span> <span class="er-dim">est.</span>`
+        +(r.eps_ly!=null?` <span class="er-dim">vs</span> <span class="er-fig er-dim">${eps(r.eps_ly)}</span> <span class="er-dim">a year ago</span>`:'')
+        +(g!=null?` <span class="er-fig" style="color:${g>=0?'#3fae6a':'#e5484d'}">${g>=0?'+':''}${(g*100).toFixed(0)}%</span>`:'');
+    const nEst=r.n_est!=null?`<div class="er-sub">${r.n_est} analyst${r.n_est===1?'':'s'}</div>`:'';
+    const today=qt?`<span class="er-fig">$${qt.price.toFixed(2)}</span>`
+        +(qt.chg!=null?` <span class="er-fig" style="color:${qt.chg>=0?'#3fae6a':'#e5484d'}">${qt.chg>=0?'+':''}${(qt.chg*100).toFixed(1)}%</span>`:'')
+        +(qt.sigma!=null&&Math.abs(qt.sigma)>=2?` <span class="er-sg">${Math.abs(qt.sigma).toFixed(1)}σ</span>`:'')
+      :'<span class="er-dim">—</span>';
+    const news=hd?`<div class="er-news">${hd.link?`<a href="${esc(hd.link)}" target="_blank" rel="noopener">${esc(hd.title)}</a>`:esc(hd.title)} <span class="er-dim">${esc(hd.source)} · ${esc(hd.rel)}</span></div>`:'<div class="er-dim">No headline in our feeds</div>';
+    return`<tr class="er-row">
+    <td class="er-when">${m?`<span style="color:${m[1]};border-color:${m[1]}66">${m[2]}</span>`:'<span style="color:#6f6f6f;border-color:#2e2e2e">Time not given</span>'}</td>
+    <td><div class="er-tk" data-ticker="${esc(r.ticker)}">${esc(r.ticker)}${_scnDot(r.ticker)}</div>${nm?`<div class="er-co" title="${esc(nm)}">${esc(nm)}</div>`:''}<div class="er-sub">${esc(sec)}${r.mcap?(sec?' · ':'')+cap(r.mcap):''}</div></td>
+    <td>${est}${nEst}</td>
+    <td class="er-today">${today}</td>
+    <td>${news}</td></tr>`;};
   const dayBlock=d=>{const k=iso(d), rs=rows.filter(r=>r.date===k), past=k<today, isToday=k===today;
-    const lbl=d.toLocaleDateString('en-US',{weekday:'short',month:'2-digit',day:'2-digit'});
+    const lbl=d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
     const note=failed.has(k)?'<span style="color:#d4a72c" title="This day could not be read today; rows are the previous file\'s">● not refreshed</span>':!read.has(k)?'<span style="color:#d4a72c">● not read</span>':'';
-    return`<div data-earn-day="${k}" style="margin-bottom:12px;${past?'opacity:.55':''}"><div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid ${isToday?'#5b9dff':'#2e2e2e'};padding:2px 0 3px;margin-bottom:2px"><span style="font-family:var(--mono);font-size:12px;color:${isToday?'#f2f2f2':'#c9c9c9'};font-weight:600">${lbl}${isToday?' · today':past?' · reported':''}</span><span style="font-size:11px;color:#6f6f6f">${note} ${rs.length} name${rs.length===1?'':'s'}</span></div>
-      ${rs.length?`<table style="width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed;display:table"><colgroup><col style="width:64px"><col><col style="width:58px"><col style="width:62px"><col style="width:54px"></colgroup>${rs.map(line).join('')}</table>`:`<div style="color:#4a4a4a;font-size:12px;padding:3px 8px">${read.has(k)||failed.has(k)?'None in the universe.':''}</div>`}</div>`;};
-  const head=`<div style="display:flex;color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:0 8px 4px"><span style="flex:1">Ticker · company · time</span><span style="text-align:right">EPS est. · last yr</span></div>`;
-  const col=(t,ds)=>`<div style="flex:1 1 420px;min-width:0"><div style="color:#c9c9c9;font-size:11px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px">${t}</div>${head}${ds.map(dayBlock).join('')}</div>`;
+    return`<div data-earn-day="${k}" style="margin-bottom:12px;${past?'opacity:.55':''}"><div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid ${isToday?'#5b9dff':'#2e2e2e'};padding:2px 0 3px;margin-bottom:2px"><span class="er-day" style="color:${isToday?'#f2f2f2':'#c9c9c9'}">${lbl}${isToday?' · today':past?' · reported':''}</span><span style="font-size:11px;color:#6f6f6f">${note} ${rs.length} name${rs.length===1?'':'s'}</span></div>
+      ${rs.length?`<table class="er-tbl"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup>${rs.map(line).join('')}</table>`:`<div style="color:#4a4a4a;font-size:12px;padding:3px 8px">${read.has(k)||failed.has(k)?'None in the universe.':''}</div>`}</div>`;};
+  const head=`<table class="er-tbl er-head"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup><tr><td>When</td><td>Company</td><td>Earnings per share</td><td>Today</td><td>Newest headline</td></tr></table>`;
+  const col=(t,ds)=>`<div style="margin-bottom:18px"><h3 class="er-week">${t}</h3>${head}${ds.map(dayBlock).join('')}</div>`;
   const inWeek=ws=>{const ks=new Set(ws.map(iso));return all.filter(r=>ks.has(r.date));};
   const tw=inWeek(weeks[0]), nw=inWeek(weeks[1]);
   const ahead=all.filter(r=>r.date>=today);
-  const stat=(l,v,t)=>`<div title="${t||''}" style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:10px 14px;min-width:150px"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${l}</div><div style="font-size:22px;font-weight:700;font-family:var(--mono)">${v}</div></div>`;
+  const stat=(l,v,t)=>`<div class="fl-stat" title="${t||''}" style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:6px;padding:10px 14px;min-width:150px"><div class="k">${l}</div><div class="v">${v}</div></div>`;
   const age=Math.round((Date.now()-Date.parse(E.as_of))/86400000);
   return`<div class="card"><h2>Earnings — the scan universe, this week and next</h2>
-  <p style="color:#8f8f8f;font-size:13px;max-width:900px">Every name in the ${E.universe||''}-name scan universe with a confirmed report date from ${esc(E.start)} to ${esc(E.end)}, largest first within each day, from Nasdaq's calendar as of <span style="font-family:var(--mono)">${esc(E.as_of)}</span>${age>3?` <span style="color:#d4a72c;font-weight:600">● ${age} days old</span>`:''}. <span style="color:#d4a72c">PRE</span> = before the open, <span style="color:#a78bfa">POST</span> = after the close. EPS is the consensus estimate, negatives in brackets. ${_scnLegend()} Held names have their own calendar in finvisible.</p>
+  <p style="color:#8f8f8f;font-size:13px;max-width:900px">Every name in the ${E.universe||''}-name scan universe with a confirmed report date from ${esc(E.start)} to ${esc(E.end)}, largest first within each day, from Nasdaq's calendar as of <span style="font-family:var(--mono)">${esc(E.as_of)}</span>${age>3?` <span style="color:#d4a72c;font-weight:600">● ${age} days old</span>`:''}. Each row: when the company reports, its size, the consensus estimate for earnings per share against the same quarter a year ago (negatives in brackets), today's price move, and its newest headline in our feeds. ${_scnLegend()} Held names have their own calendar in finvisible.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0">${stat('This week',tw.length)}${stat('Next week',nw.length)}${stat('Still to report',ahead.length,'From today on, both weeks')}${stat('Scanner top 10%',ahead.filter(r=>_scnTop(r.ticker)).length,'Still to report and in the scanner\'s top 10% today')}</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
     <select data-fil-sector style="background:#0e0e0e;border:1px solid #2e2e2e;color:#c9c9c9;padding:3px 6px;border-radius:4px;font-size:12px"><option value="">All sectors</option>${sectors.map(s=>`<option${s===_filSector?' selected':''}>${esc(s)}</option>`).join('')}</select>
     <input data-fil-q value="${esc(_filQ)}" placeholder="ticker or name" style="background:#0e0e0e;border:1px solid #2e2e2e;color:#f2f2f2;padding:3px 8px;border-radius:4px;font-size:12px;width:160px"></div>
-  <div style="display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start">${col('This week',weeks[0])}${col('Next week',weeks[1])}</div>
+  <div>${col('This week',weeks[0])}${col('Next week',weeks[1])}</div>
   <div style="color:#6f6f6f;font-size:11px;margin-top:4px">Early in a season the list is short: companies confirm dates a few weeks ahead, and the calendar fills in day by day.</div>
   </div>${foot}`;
 }
@@ -41691,8 +41720,16 @@ function renderEarnings(){
 window._rd_postrender_filings=function(){
   const v=document.getElementById('v-filings');if(!v||v.dataset.filBound)return;v.dataset.filBound='1';
   // Why it moved reads news-desk's files through NEWSTAB (one loader, one cache).
-  const redraw=()=>{v.innerHTML=renderFilings();if(_filView==='movers'&&window.NEWSTAB)NEWSTAB.showMovers();};
-  if(_filView==='movers'&&window.NEWSTAB)NEWSTAB.showMovers();
+  let waiting=false;
+  // Earnings rows carry today's quote and newest headline, and Top movers needs
+  // the movers file: fetch news-desk's files once, then redraw.
+  const enrich=()=>{
+    if(_filView==='movers'&&window.NEWSTAB)NEWSTAB.showMovers();
+    if(_filView==='earnings'&&window.NEWSTAB&&!NEWSTAB.state.loaded&&!NEWSTAB.state.failed&&!waiting){
+      waiting=true; NEWSTAB.ready(()=>{waiting=false; if(_filView==='earnings')redraw();});
+    }};
+  const redraw=()=>{v.innerHTML=renderFilings();enrich();};
+  enrich();
   v.addEventListener('click',e=>{const t=e.target.closest('[data-fil-view]');if(t){_filView=t.dataset.filView;redraw();return;}
     const ma=e.target.closest('[data-act="moversall"]');if(ma&&window.NEWSTAB){NEWSTAB.toggleMoversAll();return;}
     const tk=e.target.closest('#nd-movers [data-tk]');if(tk&&!(e.shiftKey||e.metaKey||e.ctrlKey||e.altKey)&&window.NEWSTAB){NEWSTAB.pickExternal(tk.getAttribute('data-tk'));return;}
@@ -42638,6 +42675,21 @@ var NEWSTAB=(function(){
     else load();          // load() ends in render(), which draws the movers
   }
   function toggleMoversAll(){ S.moversAll=!S.moversAll; renderMovers(); }
+  // For other tabs (Earnings): today's quote and the newest headline for a
+  // ticker, from the same files the News tab reads.
+  function quote(t){
+    t=up(t); var q=priceMap()[t]; if(!q) return null;
+    var nd=S.nd[t]||{};
+    return {price:q.price, chg:q.chg, sigma:nd.sigma!=null?nd.sigma:null};
+  }
+  function newest(t){
+    var h=latestHeadline(up(t)); if(!h) return null;
+    return {title:String(h.title||''), link:/^https?:\/\//i.test(String(h.link||''))?String(h.link):'', source:h.source||'', rel:fmtTime(h.published).rel};
+  }
+  function ready(fn){
+    if(S.loaded||S.failed){ fn(); return; }
+    var pr=load(); if(pr&&pr.then) pr.then(fn);
+  }
   function pickExternal(t){
     S.tab='news'; S.ticker=up(t);
     if(location.hash!=='#news') location.hash='#news';
@@ -42667,7 +42719,7 @@ var NEWSTAB=(function(){
     },15000);
   }
 
-  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,showMovers:showMovers,toggleMoversAll:toggleMoversAll,
+  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,showMovers:showMovers,toggleMoversAll:toggleMoversAll,quote:quote,newest:newest,ready:ready,
           _parseCSV:parseCSV,_applyRows:applyRows,_fmtTime:fmtTime,_groupKey:groupKey};
 })();
 
