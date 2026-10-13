@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.00186,
-  "ret_20d": 0.02929,
+  "ret_5d": -0.00184,
+  "ret_20d": 0.02931,
   "vol_20d": 0.00601,
-  "drawdown_60d": -0.00186,
+  "drawdown_60d": -0.00184,
   "history": [
     {
       "ret_5d": -0.01095,
@@ -119,10 +119,10 @@
       "drawdown_60d": -0.00127
     },
     {
-      "ret_5d": -0.00186,
-      "ret_20d": 0.02929,
+      "ret_5d": -0.00184,
+      "ret_20d": 0.02931,
       "vol_20d": 0.00601,
-      "drawdown_60d": -0.00186
+      "drawdown_60d": -0.00184
     }
   ],
   "regime_streak": 6,
@@ -132,35 +132,35 @@
       "regime": "Calm Uptrend",
       "spy_ret_20d": 0.0077,
       "breadth": 0.6715,
-      "distance": 0.1585
+      "distance": 0.1586
     },
     {
       "date": "2025-09-05",
       "regime": "Calm Uptrend",
       "spy_ret_20d": 0.0368,
       "breadth": 0.7199,
-      "distance": 0.1653
+      "distance": 0.1663
     },
     {
       "date": "2024-03-28",
       "regime": "Calm Uptrend",
       "spy_ret_20d": -0.0283,
       "breadth": 0.7949,
-      "distance": 0.2151
+      "distance": 0.2138
     },
     {
       "date": "2024-06-03",
       "regime": "Calm Uptrend",
       "spy_ret_20d": 0.0435,
       "breadth": 0.5949,
-      "distance": 0.2412
+      "distance": 0.2418
     },
     {
       "date": "2024-06-26",
       "regime": "Calm Uptrend",
       "spy_ret_20d": -0.013,
       "breadth": 0.474,
-      "distance": 0.2544
+      "distance": 0.2542
     }
   ],
   "analog_forward": {
@@ -185,20 +185,20 @@
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 2981,
-      "n_typical": 3203,
+      "n": 3210,
+      "n_typical": 3204,
       "days": 703,
       "asof": "2026-10-13",
-      "value": 0.32,
+      "value": 0.3159,
       "range30": {
-        "lo": 0.2531,
+        "lo": 0.253,
         "hi": 0.5397
       },
       "range90": {
-        "lo": 0.2531,
+        "lo": 0.253,
         "hi": 0.6879
       },
-      "pct_rank": 0.0925,
+      "pct_rank": 0.0839,
       "history": [
         0.3175,
         0.3773,
@@ -207,32 +207,32 @@
         0.3901,
         0.329,
         0.3095,
-        0.3279,
-        0.2824,
-        0.2746,
-        0.2531,
-        0.2631,
-        0.2927,
-        0.3173,
-        0.3199,
-        0.2913,
-        0.2939,
-        0.3178,
+        0.3278,
+        0.2823,
+        0.2745,
+        0.253,
+        0.263,
+        0.2926,
+        0.3172,
+        0.3198,
+        0.2912,
+        0.2938,
+        0.3177,
         0.3162,
-        0.32
+        0.3159
       ]
     },
     "persistence": {
       "label": "Calm Uptrend",
       "horizon": 20,
-      "days": 3251,
+      "days": 3250,
       "held": 1527,
-      "base_rate": 0.3841,
+      "base_rate": 0.3839,
       "spells": 595,
       "median_spell": 3.0,
       "streak": 6,
       "history_sessions": 8464,
-      "value": 0.4697
+      "value": 0.4698
     },
     "momentum_scale": {
       "sessions": 8455,
@@ -254,26 +254,26 @@
     "next_regime": {
       "label": "Calm Uptrend",
       "horizon": 20,
-      "days": 3251,
+      "days": 3250,
       "spells": 595,
       "history_sessions": 8464,
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.4697,
+          "share": 0.4698,
           "n": 1527,
-          "base_rate": 0.3841
+          "base_rate": 0.3839
         },
         {
           "label": "Range",
           "share": 0.2335,
           "n": 759,
-          "base_rate": 0.166
+          "base_rate": 0.1662
         },
         {
           "label": "Drifting Lower",
-          "share": 0.1799,
-          "n": 585,
+          "share": 0.1797,
+          "n": 584,
           "base_rate": 0.1326
         },
         {
@@ -325,13 +325,13 @@
     "reversal": {
       "label": "Calm Uptrend",
       "horizon": 20,
-      "days": 3248,
-      "reversed": 1123,
+      "days": 3247,
+      "reversed": 1122,
       "spells": 595,
       "base_days": 8428,
       "base_rate": 0.4549,
-      "trailing_20d": 0.02975,
-      "value": 0.3458
+      "trailing_20d": 0.02915,
+      "value": 0.3455
     },
     "analog_next": {
       "horizon": 20,
