@@ -272,7 +272,18 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-chips:empty{display:none}
 
 #v-news .nd-grp{font-family:var(--mono);font-size:10px;font-weight:600;color:#8f8f8f;text-transform:uppercase;letter-spacing:1px;padding:13px 10px 5px;border-bottom:1px solid #2e2e2e}
-#v-news .nd-feed>.nd-grp:first-child{padding-top:1px}
+#v-news .nd-feed>.nd-grp:first-child,#v-news .nd-feed>.nd-gblk:first-child>.nd-grp{padding-top:1px}
+/* 2026-10-13: every News section folds (owner: "the ability to collapse sections"); state kept per browser */
+#v-news .card.folded>:not(h2):not(.popout-btn){display:none}
+#v-news .card>h2.nd-fh{cursor:pointer;user-select:none}
+#v-news .card>h2.nd-fh::after{content:"\25BE";margin-left:10px;color:#6f6f6f;font-size:12px}
+#v-news .card.folded>h2.nd-fh::after{content:"\25B8"}
+#v-news .nd-gblk>.nd-grp{cursor:pointer;user-select:none}
+#v-news .nd-gblk>.nd-grp::after{content:" \25BE";color:#4a4a4a}
+#v-news .nd-gblk.folded>.nd-grp::after{content:" \25B8"}
+#v-news .nd-gblk.folded>.nd-row{display:none}
+/* the News tab is news and filings only: no regime banner above it */
+body.view-news #regime-banner{display:none}
 #v-news .nd-row{display:grid;grid-template-columns:58px 200px minmax(0,1fr) 108px 154px;gap:14px;padding:9px 10px;border-bottom:1px solid #141414;align-items:start;cursor:pointer;transition:background .1s}
 #v-news .nd-row:hover{background:#121212}
 #v-news .nd-row.pos{box-shadow:inset 2px 0 0 #2b7a4b}
@@ -41616,6 +41627,7 @@ var NEWSTAB=(function(){
     book:[], bookLabel:null, bookSeeded:false, bookMsg:null,
     open:{},   // headline link -> row expanded; survives the 60s re-render
     movers:null, moversAll:false,   // news-desk movers.json ("Why it moved")
+    gfold:{},   // date group -> folded; for this visit only (TODAY moves at midnight)
     loaded:false, failed:false, booted:false, timer:null
   };
 
@@ -41644,7 +41656,8 @@ var NEWSTAB=(function(){
         _px[s.ticker]={
           price:s.price,
           chg:(typeof s.change_pct==='number'&&isFinite(s.change_pct))?s.change_pct:null,
-          name:s.name||'', src:'scan'
+          name:s.name||'', src:'scan',
+          closes:Array.isArray(s.week_closes)&&s.week_closes.length>=2?s.week_closes:null
         };
       });
     });
@@ -41671,7 +41684,8 @@ var NEWSTAB=(function(){
       // sigma: the move in units of the stock's own 20-day daily standard
       // deviation (news-desk fetch_stocks.move_size, 2026-10-13).
       var sg=(typeof x.sigma==='number'&&isFinite(x.sigma)) ? x.sigma : null;
-      out[t]={price:px, chg:chg, sigma:sg, name:x.name||'', src:'news-desk'};
+      out[t]={price:px, chg:chg, sigma:sg, name:x.name||'', src:'news-desk',
+              closes:Array.isArray(x.week_closes)&&x.week_closes.length>=2?x.week_closes:null};
     });
     return out;
   }
@@ -41858,8 +41872,8 @@ var NEWSTAB=(function(){
    * innerHTML would delete it on every poll. */
   function shell(){
     return ''
-    +'<div class="card">'
-      +'<h2>News feed</h2>'
+    +'<div class="card" data-fold="controls">'
+      +'<h2 class="nd-fh" data-act="fold">News feed</h2>'
       +'<div class="nd-top">'
         +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">News <span class="n" id="nd-n-news">—</span></button>'
         +'<button type="button" class="nd-tab" data-act="tab" data-tab="book">My book <span class="n" id="nd-n-book">—</span></button>'
@@ -41878,10 +41892,10 @@ var NEWSTAB=(function(){
       +'<div class="nd-chips" id="nd-chips"></div>'
       +'<div class="nd-macro" id="nd-macro">'+macroHTML()+'</div>'
     +'</div>'
-    +'<div class="card"><h2>Why it moved</h2><div id="nd-movers">'
+    +'<div class="card" data-fold="movers"><h2 class="nd-fh" data-act="fold">Why it moved</h2><div id="nd-movers">'
       +'<div class="nd-mv-note">Loading the unusual moves from news-desk.</div>'
     +'</div></div>'
-    +'<div class="card"><div class="nd-feed" id="nd-feed">'
+    +'<div class="card" data-fold="feed"><h2 class="nd-fh" data-act="fold">Headlines</h2><div class="nd-feed" id="nd-feed">'
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
     +'<footer>Headlines from news-desk, refetched every minute; it republishes every five. '
@@ -41943,9 +41957,15 @@ var NEWSTAB=(function(){
     var out='',grp=null;
     list.forEach(function(h){
       var g=groupKey(h.published);
-      if(g!==grp){ grp=g; out+='<div class="nd-grp">'+esc(g)+'</div>'; }
+      if(g!==grp){
+        if(grp!==null) out+='</div>';
+        grp=g;
+        out+='<div class="nd-gblk'+(S.gfold[g]?' folded':'')+'" data-g="'+esc(g)+'">'
+          +'<div class="nd-grp" data-act="gfold">'+esc(g)+'</div>';
+      }
       out+=row(h);
     });
+    if(grp!==null) out+='</div>';
     return out;
   }
 
@@ -42108,9 +42128,8 @@ var NEWSTAB=(function(){
     if(!S.headlines.length){
       setText('nd-counts','0 headlines');
       feed.innerHTML=empty('Feed unreachable',
-        'Could not load headlines from news-desk. It publishes at '
-        +'<a href="https://helioskozak-cloud.github.io/news-desk/" target="_blank" rel="noopener noreferrer">news-desk</a>'
-        +' — if that page is up, this is a fetch problem here and a reload should fix it.',true);
+        'Could not load the headline file news-desk publishes every five minutes. '
+        +'A reload usually fixes it; if not, the news-desk refresh job has stopped.',true);
       return;
     }
 
@@ -42356,6 +42375,12 @@ var NEWSTAB=(function(){
       if(a==='clr'){ clearFilters(); return; }
       if(a==='unpick'){ S.ticker=null; render(); return; }
       if(a==='moversall'){ S.moversAll=!S.moversAll; renderMovers(); return; }
+      if(a==='fold'){ toggleFold(act.closest('.card')); return; }
+      if(a==='gfold'){
+        var b=act.closest('.nd-gblk'), g=b&&b.getAttribute('data-g');
+        if(g){ S.gfold[g]=!S.gfold[g]; b.classList.toggle('folded',!!S.gfold[g]); }
+        return;
+      }
       if(a==='paste'){ pasteBook(); return; }
       if(a==='bookclear'||a==='bookedit'){
         // "Clear book" is a decision and is remembered; "Replace book" only
@@ -42407,11 +42432,111 @@ var NEWSTAB=(function(){
     if(f) readHoldings(f);
   }
 
+  /* Folded cards are remembered per browser (rd-news-folds). Only the class
+   * changes, never the card's innerHTML, so the pop-out button survives. */
+  var FOLD_KEY='rd-news-folds';
+  function folds(){ try{ return JSON.parse(localStorage.getItem(FOLD_KEY)||'{}')||{}; }catch(e){ return {}; } }
+  function toggleFold(card){
+    if(!card) return;
+    var k=card.getAttribute('data-fold'), f=folds();
+    f[k]=!card.classList.contains('folded');
+    card.classList.toggle('folded',f[k]);
+    try{ localStorage.setItem(FOLD_KEY,JSON.stringify(f)); }catch(e){}
+  }
+  function applyFolds(root){
+    var f=folds();
+    Array.prototype.forEach.call(root.querySelectorAll('.card[data-fold]'),function(c){
+      c.classList.toggle('folded',!!f[c.getAttribute('data-fold')]);
+    });
+  }
+
+  /* The ticker card on this tab is news-desk's (owner, 2026-10-13: "I would
+   * like the news-desk style ticker cards used in regime desk news"): price
+   * and today's move, the week's closes as a sparkline, the 7-day range, how
+   * many headlines name the ticker and of what kind, and the latest three.
+   * The page-wide hover handler asks for it while #news is showing. */
+  function relAgo(iso){
+    var d=new Date(iso), m=(Date.now()-d.getTime())/60000;
+    if(!isFinite(m)) return '';
+    if(m<1) return 'just now';
+    if(m<60) return Math.floor(m)+'m ago';
+    if(m<1440) return Math.floor(m/60)+'h ago';
+    return Math.floor(m/1440)+'d ago';
+  }
+  function spark(closes){
+    if(!closes||closes.length<2) return '';
+    var W=272,H=36,mn=Math.min.apply(null,closes),mx=Math.max.apply(null,closes),r=(mx-mn)||1,n=closes.length;
+    var pts=closes.map(function(v,i){ return ((i/(n-1))*W).toFixed(1)+','+(H-2-((v-mn)/r)*(H-6)).toFixed(1); }).join(' ');
+    var col=closes[n-1]>=closes[0]?'#3fae6a':'#e5484d';
+    return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" style="display:block;margin-top:6px;overflow:visible">'
+      +'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  function cardHTML(t){
+    t=up(t);
+    var hs=S.headlines.filter(function(h){ return h.tickers&&h.tickers.indexOf(t)>=0; });
+    var q=priceMap()[t], nd=S.nd[t]||{};
+    var closes=nd.closes||(q&&q.closes)||null;
+    if(!hs.length&&!q) return null;
+    var name=S.names[t]||(q&&q.name)||'';
+    var price='';
+    if(q){
+      var col=q.chg==null?'#8f8f8f':(q.chg>=0?'#3fae6a':'#e5484d');
+      var range='';
+      if(closes&&closes.length>=2){
+        var lo=Math.min.apply(null,closes),hi=Math.max.apply(null,closes),pos=Math.max(0,Math.min(100,((q.price-lo)/((hi-lo)||1))*100));
+        range='<div style="margin-top:6px"><div style="display:flex;justify-content:space-between;color:#6f6f6f;font-size:9px;margin-bottom:2px;font-family:var(--mono)">'
+          +'<span>$'+lo.toFixed(2)+'</span><span style="color:#4a4a4a">7d range</span><span>$'+hi.toFixed(2)+'</span></div>'
+          +'<div style="position:relative;height:4px;background:#1d1d1d;border-radius:2px"><div style="position:absolute;left:'+pos.toFixed(0)
+          +'%;top:-2px;width:2px;height:8px;background:'+col+';transform:translateX(-1px);border-radius:1px"></div></div></div>';
+      }
+      price='<div style="border-top:1px solid #1d1d1d;border-bottom:1px solid #1d1d1d;margin:8px 0;padding:6px 0">'
+        +'<div style="display:flex;align-items:baseline;gap:8px;font-family:var(--mono)">'
+        +'<span style="color:#f2f2f2;font-size:16px;font-weight:700">$'+q.price.toFixed(2)+'</span>'
+        +(q.chg!=null?'<span style="color:'+col+';font-size:12px;font-weight:700">'+(q.chg>=0?'+':'')+(q.chg*100).toFixed(2)+'%</span>':'')
+        +(nd.sigma!=null&&Math.abs(nd.sigma)>=SIGMA_SHOW?'<span style="color:#d4a72c;font-size:11px;font-weight:600">'+Math.abs(nd.sigma).toFixed(1)+'\u03c3</span>':'')
+        +'<span style="color:#4a4a4a;font-size:10px;letter-spacing:.05em">TODAY</span></div>'
+        +spark(closes)+range+'</div>';
+    }
+    var types={};
+    hs.forEach(function(h){ var k=h.type||'news'; types[k]=(types[k]||0)+1; });
+    var chips=Object.keys(types).sort(function(a,b){ return types[b]-types[a]; }).slice(0,3).map(function(k){
+      return '<span style="font-family:var(--mono);font-size:9px;color:#8f8f8f;background:#181818;padding:1px 5px;border:1px solid #2e2e2e;letter-spacing:.05em;text-transform:uppercase">'+esc(k)+' '+types[k]+'</span>';
+    }).join('');
+    var recent=hs.slice(0,3).map(function(h){
+      var tt=String(h.title||'');
+      return '<div style="border-top:1px solid #1d1d1d;padding-top:6px;margin-top:6px">'
+        +'<div style="color:#8f8f8f;font-size:10px;font-family:var(--mono);margin-bottom:2px">'+esc(h.source||'')+' \u00b7 '+relAgo(h.published)+'</div>'
+        +'<div style="color:#f2f2f2;font-size:12px;line-height:1.4">'+esc(tt.length>90?tt.slice(0,90)+'\u2026':tt)+'</div></div>';
+    }).join('');
+    var c=context(), ctx='';
+    if(c.ern[t]) ctx+='<div style="margin-top:6px;font-family:var(--mono);font-size:10px;color:#d4a72c">'+esc(earnText(c.ern[t]))+'</div>';
+    if(c.fil[t]) ctx+='<div style="margin-top:3px;font-family:var(--mono);font-size:10px;color:#5b9dff">'+esc(filingText(c.fil[t]))+'</div>';
+    return '<div style="max-width:300px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+      +'<img src="https://assets.parqet.com/logos/symbol/'+encodeURIComponent(t)+'?format=jpg" width="26" height="26" style="border-radius:3px;background:#fff;border:1px solid #2e2e2e;object-fit:contain;flex-shrink:0" onerror="this.style.display=\'none\'" loading="lazy">'
+      +'<strong style="color:#f5a524;font-family:var(--mono);font-size:16px;letter-spacing:.04em">'+esc(t)+'</strong></div>'
+      +(name?'<div style="color:#8f8f8f;font-size:11px;margin-bottom:4px">'+esc(name)+'</div>':'')
+      +price
+      +'<div style="color:#f2f2f2;font-size:11px;font-family:var(--mono)"><strong style="color:#f5a524">'+hs.length+'</strong> headline'+(hs.length===1?'':'s')+' in the feed</div>'
+      +(chips?'<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">'+chips+'</div>':'')
+      +ctx+recent
+      +'<div style="margin-top:8px;color:#6f6f6f;font-size:10px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
+      +'<div>click \u2192 filter the feed</div><div>alt-click \u2192 copy the symbol</div></div></div>';
+  }
+  /* From any other tab, shift-click on a ticker opens THIS tab filtered to it
+   * (it used to open news-desk's page, which now redirects here). */
+  function pickExternal(t){
+    S.tab='news'; S.ticker=up(t);
+    if(location.hash!=='#news') location.hash='#news';
+    else if(S.booted) render();
+  }
+
   function boot(){
     if(S.booted) return;
     var root=$('v-news');
     if(!root){ console.error('news tab: #v-news is missing, cannot boot'); return; }
     S.booted=true;
+    applyFolds(root);
     loadBook();
     root.addEventListener('click',onClick);
     root.addEventListener('input',onInput);
@@ -42429,7 +42554,7 @@ var NEWSTAB=(function(){
     },15000);
   }
 
-  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,
+  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,
           _parseCSV:parseCSV,_applyRows:applyRows,_fmtTime:fmtTime,_groupKey:groupKey};
 })();
 
@@ -42446,6 +42571,7 @@ const renderers={home:renderHome,stocks:renderStocks,signals:renderSignals,analy
 function route(){
   const hash=(location.hash||"#home").replace("#","");
   const view=VIEWS.includes(hash)?hash:"home";
+  document.body.classList.toggle("view-news",view==="news");
   VIEWS.forEach(v=>{
     document.getElementById("v-"+v).classList.toggle("active",v===view);
     const a=document.getElementById("nav-"+v);
@@ -42960,6 +43086,11 @@ window._rdAsk=function(q){
 
   function show(ticker,cx,cy){
     _cx=cx;_cy=cy;
+    // On the News tab the card is news-desk's (NEWSTAB.cardHTML).
+    if((location.hash||'')==='#news'&&window.NEWSTAB&&NEWSTAB.cardHTML){
+      var nh=NEWSTAB.cardHTML(ticker);
+      if(nh){ tip.innerHTML=nh; pos(cx,cy); tip.style.display='block'; return; }
+    }
     // The scanner's reading, not the analog edge (owner, 2026-10-08). Price
     // and the week's closes still come from price_data on the old arrays when
     // the name has them; a scanner-only name shows its reading without them.
@@ -43017,7 +43148,7 @@ window._rdAsk=function(q){
       })()
       +'</div>'
       +'<div style="margin-top:8px;padding-top:6px;border-top:1px solid #141414;color:#6f6f6f;font-size:10px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
-      +  '<div style="color:#5b9dff">shift-click → news-desk ↗</div>'
+      +  '<div style="color:#5b9dff">shift-click → its headlines</div>'
       +'</div>';
     pos(cx,cy);
     tip.style.display='block';
@@ -43037,14 +43168,14 @@ window._rdAsk=function(q){
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
     if(el&&!el.contains(e.relatedTarget))hide();
   });
-  /* shift-click on any [data-ticker] element opens news-desk filtered to it */
+  /* shift-click on any [data-ticker] element opens the News tab filtered to
+   * it (news-desk's own page now redirects there; owner Q58 = a) */
   document.addEventListener('click',function(e){
     if(!(e.shiftKey||e.metaKey||e.ctrlKey))return;
     var el=e.target.closest?e.target.closest('[data-ticker]'):null;
     if(!el||!el.dataset.ticker)return;
     e.preventDefault();e.stopPropagation();
-    window.open('https://helioskozak-cloud.github.io/news-desk/?ticker='+encodeURIComponent(el.dataset.ticker),
-                '_blank','noopener,noreferrer');
+    if(window.NEWSTAB&&NEWSTAB.pickExternal) NEWSTAB.pickExternal(el.dataset.ticker);
   },true);
   /* alt-click on any [data-ticker] copies ticker symbol to clipboard with toast */
   document.addEventListener('click',function(e){

@@ -201,12 +201,18 @@ const resetBook = async () => {
   eq('chip clears the ticker filter', rows().length, 3);
   eq('chip row is empty again', $('#nd-chips').textContent.trim(), '');
 
-  console.log('\n== shift-click is left to the page-wide handler ==');
-  const before = rows().length;
-  win.open = () => {};
+  // 2026-10-13 (owner Q58 = a): news-desk's page now redirects to this tab, so
+  // shift-click no longer opens it; it filters this tab to the ticker instead.
+  console.log('\n== shift-click shows the ticker here, never opens news-desk ==');
+  let opened = 0;
+  win.open = () => { opened++; };
+  const sym = rows()[1].querySelector('.nd-sym').getAttribute('data-tk');
   click(rows()[1].querySelector('.nd-sym'), { shiftKey: true });
   await tick(10);
-  eq('shift-click does not hijack into a feed filter', rows().length, before);
+  eq('shift-click opens no window', opened, 0);
+  ok('shift-click filters the feed to that ticker', win.NEWSTAB.state.ticker === sym
+    && rows().every(r => r.querySelector('.nd-tks').textContent.includes(sym)), String(win.NEWSTAB.state.ticker));
+  win.NEWSTAB.state.ticker = null; win.NEWSTAB.render(); await tick(5);
 
   console.log('\n== row expand ==');
   const r0 = rows()[0];

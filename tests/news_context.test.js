@@ -123,6 +123,38 @@ const row = t => Array.from(doc.querySelectorAll('#v-news .nd-row')).find(r => r
   await tick(30);
   ok('clicking a mover filters the feed to it', win.NEWSTAB.state.ticker === 'ZOOM2');
 
+  console.log('\n== the tab is news only: no regime banner ==');
+  ok('body carries view-news', doc.body.classList.contains('view-news'));
+  ok('a rule hides #regime-banner on the News tab', /body\.view-news #regime-banner\{display:none\}/.test(html));
+
+  console.log('\n== every section folds, and stays folded ==');
+  win.NEWSTAB.state.ticker = null; win.NEWSTAB.render(); await tick(10);
+  const cards = Array.from(doc.querySelectorAll('#v-news .card[data-fold]'));
+  ok('three foldable sections', cards.map(c => c.dataset.fold).join() === 'controls,movers,feed', cards.map(c => c.dataset.fold).join());
+  const movers = cards[1];
+  movers.querySelector('h2').click(); await tick(5);
+  ok('clicking a heading folds it', movers.classList.contains('folded'));
+  ok('the fold is remembered', JSON.parse(win.localStorage.getItem('rd-news-folds')).movers === true);
+  await win.NEWSTAB.load(); await tick(20);
+  ok('a 60s refresh does not unfold it', movers.classList.contains('folded'));
+  movers.querySelector('h2').click(); await tick(5);
+  ok('clicking again opens it', !movers.classList.contains('folded'));
+  const grp = doc.querySelector('#v-news .nd-gblk .nd-grp');
+  grp.click(); await tick(5);
+  ok('a date group folds its headlines', grp.parentElement.classList.contains('folded'));
+  grp.click(); await tick(5);
+
+  console.log('\n== the ticker card is news-desk\'s ==');
+  const card = win.NEWSTAB.cardHTML('ACME');
+  ok('price and move size', /\$52\.00/.test(card) && /3\.4σ/.test(card), card.slice(0, 200));
+  win.NEWSTAB.state.nd.ACME.closes = [48, 49, 50, 49.5, 52];
+  ok('the week\'s closes draw a sparkline and a 7-day range', /<polyline/.test(win.NEWSTAB.cardHTML('ACME'))
+    && /7d range/.test(win.NEWSTAB.cardHTML('ACME')));
+  ok('headline count, types and the latest titles', /1<\/strong> headline in the feed/.test(card) && /EARNINGS 1|earnings 1/.test(card) && /Acme beats on revenue/.test(card));
+  ok('and its earnings date', /Reported today|Reports today/.test(card));
+  ok('no link to news-desk anywhere on the tab', !/news-desk\/"/.test(doc.getElementById('v-news').innerHTML));
+  ok('a ticker with nothing to show gets no card', win.NEWSTAB.cardHTML('NOPE') === null);
+
   const real = errors.filter(e => !/Could not parse CSS|Not implemented/i.test(e));
   ok('no page errors', real.length === 0, real.slice(0, 3).join(' | '));
   console.log(`\n${pass} passed, ${fail} failed`);

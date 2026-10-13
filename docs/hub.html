@@ -74,7 +74,7 @@
   <a class="tile" href="index.html"><div class="t">Regime Desk</div><div class="d">Daily regime, sectors, signals, risk axes</div><div class="u">index.html</div></a>
   <a class="tile" href="index.html#bubble"><div class="t">Bubble Watch</div><div class="d">Dot-com vs AI churn clock — five top-markers</div><div class="u">#bubble</div></a>
   <a class="tile" href="index.html#econ"><div class="t">Macro (FRED)</div><div class="d">Curve, credit, CPI, payrolls, unemployment</div><div class="u">#econ</div></a>
-  <a class="tile" href="https://helioskozak-cloud.github.io/news-desk/"><div class="t">News Desk</div><div class="d">Live headline firehose, ticker-tagged</div><div class="u">news-desk</div></a>
+  <a class="tile" href="https://helioskozak-cloud.github.io/regime-desk/#news"><div class="t">News</div><div class="d">Ticker-tagged headlines, filings and the day's unusual moves</div><div class="u">regime-desk news</div></a>
   <a class="tile" href="https://helioskozak-finvisible.streamlit.app"><div class="t">FINvisible</div><div class="d">Client triage, book, risk, screener, charts</div><div class="u">helioskozak-finvisible.streamlit.app</div></a>
 </div>
 
@@ -127,7 +127,7 @@ async function search(){
       ' <span style="color:var(--ink3);font-weight:400;font-size:13px">'+esc(j.sector||"")+"</span>"+px+badges+"</div>"+
       '<div class="hz">'+tiles+"</div>"+
       '<div class="links">Open in: <a href="index.html#stocks">Regime Desk</a>'+
-      '<a href="https://helioskozak-cloud.github.io/news-desk/" target="_blank">News Desk</a>'+
+      '<a href="https://helioskozak-cloud.github.io/regime-desk/#news" target="_blank">News</a>'+
       '<a href="https://finance.yahoo.com/quote/'+encodeURIComponent(j.ticker)+'" target="_blank">Yahoo</a>'+
       '<a href="https://finviz.com/quote.ashx?t='+encodeURIComponent(j.ticker)+'" target="_blank">Finviz</a></div></div>';
   }catch(e){
