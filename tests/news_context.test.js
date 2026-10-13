@@ -47,7 +47,10 @@ const MOVERS = { generated: now, as_of: TODAY, universe: 1752, priced: 1691, thr
   movers: [
     { ticker: 'ACME', name: 'Acme Corp', price: 52, change_pct: 4.0, vol_20d: 1.1, sigma: 3.4 },
     { ticker: 'ZOOM2', name: 'Zoomer Inc', price: 8, change_pct: -9.5, vol_20d: 3.0, sigma: -3.2 },
-  ] };
+  ],
+  gainers: [{ ticker: 'ACME', name: 'Acme Corp', price: 52, change_pct: 4.0, vol_20d: 1.1, sigma: 3.4 },
+            { ticker: 'QUIET', name: 'Quiet Corp', price: 10.1, change_pct: 1.0, vol_20d: null, sigma: null }],
+  losers: [{ ticker: 'ZOOM2', name: 'Zoomer Inc', price: 8, change_pct: -9.5, vol_20d: 3.0, sigma: -3.2 }] };
 
 const vc = new VirtualConsole();
 const errors = [];
@@ -137,9 +140,16 @@ const row = t => Array.from(doc.querySelectorAll('#v-news .nd-row')).find(r => r
   win.location.hash = '#filings';
   win.dispatchEvent(new win.HashChangeEvent('hashchange'));
   await tick(60);
-  doc.querySelector('#v-filings [data-fil-view="movers"]').click();
+  const tbtn = doc.querySelector('#v-filings [data-fil-view="movers"]');
+  ok('the view is called Top movers', tbtn.textContent.trim() === 'Top movers');
+  tbtn.click();
   await tick(60);
-  const mv = Array.from(doc.querySelectorAll('#v-filings #nd-movers .nd-mv'));
+  const cols = Array.from(doc.querySelectorAll('#v-filings .nd-mvcol'));
+  ok('gainers and losers side by side', cols.length === 2 && /Biggest gainers/.test(cols[0].textContent) && /Biggest losers/.test(cols[1].textContent));
+  ok('a gainer shows its article', /Acme beats on revenue/.test(cols[0].textContent));
+  ok('a loser with no fresh article says so', /no headline in our feeds/.test(cols[1].textContent));
+  ok('a mover with no sigma shows no sigma chip', !/0\.0σ|NaN/.test(cols[0].textContent), cols[0].textContent);
+  const mv = Array.from(doc.querySelectorAll('#v-filings #nd-movers > .nd-mv-list .nd-mv'));
   ok('both movers listed', mv.length === 2, String(mv.length));
   ok('a mover with a headline shows it', /Acme beats on revenue/.test(mv[0].textContent));
   ok('and its earnings', /Reported today|Reports today/.test(mv[0].textContent));

@@ -285,6 +285,12 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-gblk>.nd-grp::after{content:" \25BE";color:#4a4a4a}
 #v-news .nd-gblk.folded>.nd-grp::after{content:" \25B8"}
 #v-news .nd-gblk.folded>.nd-row{display:none}
+/* Top movers (2026-10-13): gainers and losers side by side, then the unusual list */
+#v-filings .nd-mvcols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+#v-filings .nd-mvcols .nd-mv{grid-template-columns:56px 62px 46px minmax(0,1fr)}
+#v-filings .nd-mvcols .nd-mv-name{display:none}
+#v-filings .nd-mvh{font-family:var(--sans);font-size:14px;font-weight:600;color:#f2f2f2;margin:4px 0 6px}
+@media (max-width:900px){#v-filings .nd-mvcols{grid-template-columns:1fr}}
 /* Filings tab type (2026-10-13): Geist for words, Geist Mono for dates,
    tickers and figures only; headings in sentence case, not terminal caps. */
 #v-filings .card h2{font-family:var(--sans);font-size:17px;font-weight:600;text-transform:none;letter-spacing:-.01em;color:#f2f2f2}
@@ -41631,9 +41637,9 @@ let _filView='filings';
 function renderFilings(){
   const tb=(k,l)=>`<button type="button" data-fil-view="${k}" style="background:${_filView===k?'#141414':'none'};border:1px solid ${_filView===k?'#5b9dff':'#2e2e2e'};color:${_filView===k?'#f2f2f2':'#8f8f8f'};padding:4px 14px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600">${l}</button>`;
   const body=_filView==='earnings'?renderEarnings()
-    :_filView==='movers'?`<div class="card"><h2>Why it moved</h2><div id="nd-movers"><div class="nd-mv-note">Loading the unusual moves from news-desk.</div></div></div><footer>Moves and headlines are facts, not recommendations — not investment advice.</footer>`
+    :_filView==='movers'?`<div class="card"><h2>Top movers</h2><div id="nd-movers"><div class="nd-mv-note">Loading the unusual moves from news-desk.</div></div></div><footer>Moves and headlines are facts, not recommendations — not investment advice.</footer>`
     :renderFilingsBody();
-  return`<div style="display:flex;gap:6px;margin:0 0 10px">${tb('filings','Filings')}${tb('earnings','Earnings')}${tb('movers','Why it moved')}</div>`+body;
+  return`<div style="display:flex;gap:6px;margin:0 0 10px">${tb('filings','Filings')}${tb('earnings','Earnings')}${tb('movers','Top movers')}</div>`+body;
 }
 function renderEarnings(){
   const E=S.earnings||{}, all=E.earnings||[];
@@ -42120,8 +42126,9 @@ var NEWSTAB=(function(){
       +'<span class="nd-sym" data-ticker="'+esc(t)+'" data-tk="'+esc(t)+'">'+esc(t)+'</span>'
       +'<span class="nd-mv-name">'+esc(m.name||'')+'</span>'
       +chgHTML(chg,1)
-      +'<span class="nd-sg" title="'+Math.abs(m.sigma).toFixed(1)+' times its typical daily move ('
-        +Number(m.vol_20d).toFixed(1)+'% over the last 20 sessions)">'+Math.abs(m.sigma).toFixed(1)+'σ</span>'
+      +(m.sigma==null||!isFinite(m.sigma)?'<span></span>'
+        :'<span class="nd-sg" title="'+Math.abs(m.sigma).toFixed(1)+' times its typical daily move ('
+        +Number(m.vol_20d).toFixed(1)+'% over the last 20 sessions)">'+Math.abs(m.sigma).toFixed(1)+'σ</span>')
       +'<span class="nd-mv-why">'+why+(ctx?'<div class="nd-ctxs">'+ctx+'</div>':'')+'</span>'
     +'</div>';
   }
@@ -42143,16 +42150,29 @@ var NEWSTAB=(function(){
     var head='<div class="nd-mv-note">Moves of '+esc(mv.threshold)+'σ or more against each stock’s own last 20 sessions'
       +(mv.min_abs_pct?', and at least '+esc(mv.min_abs_pct)+'%':'')
       +', across '+esc(mv.priced)+' of '+esc(mv.universe)+' names'+(when?' · as of '+when:'')+'.</div>';
-    if(!list.length){ el.innerHTML=head+'<div class="nd-mv-note">Nothing that unusual so far this session.</div>'; return; }
-    var withNews=list.filter(function(m){ return latestHeadline(up(m.ticker)); }).length;
-    var shown=S.moversAll?list:list.slice(0,MOVERS_SHOWN);
-    el.innerHTML=head
-      +'<div class="nd-mv-list">'+shown.map(moverRow).join('')+'</div>'
-      +'<div class="nd-mv-foot">'+withNews+' of '+list.length+' have a headline in our feeds'
-      +(list.length>MOVERS_SHOWN
-        ? ' · <button type="button" class="nd-btn" data-act="moversall">'+(S.moversAll?'Show fewer':'Show all '+list.length)+'</button>'
-        : '')
-      +'</div>';
+    // Top movers by percent (gainers / losers), each with its newest article.
+    var col=function(title,rows){
+      return '<div class="nd-mvcol"><h3 class="nd-mvh">'+title+'</h3>'
+        +(rows&&rows.length?'<div class="nd-mv-list">'+rows.slice(0,10).map(moverRow).join('')+'</div>'
+          :'<div class="nd-mv-note">'+(rows?'None so far this session.':'Arrives with the next news-desk refresh (every 30 minutes).')+'</div>')
+        +'</div>';
+    };
+    var top='<div class="nd-mv-note">Today\u2019s biggest moves among '+esc(mv.priced)+' names (companies only, $5 and up), each with its newest article in our feeds'
+      +(when?' \u00b7 as of '+when:'')+'.</div>'
+      +'<div class="nd-mvcols">'+col('Biggest gainers',mv.gainers)+col('Biggest losers',mv.losers)+'</div>';
+    var unusual;
+    if(!list.length){ unusual='<div class="nd-mv-note">Nothing that unusual so far this session.</div>'; }
+    else{
+      var withNews=list.filter(function(m){ return latestHeadline(up(m.ticker)); }).length;
+      var shown=S.moversAll?list:list.slice(0,MOVERS_SHOWN);
+      unusual='<div class="nd-mv-list">'+shown.map(moverRow).join('')+'</div>'
+        +'<div class="nd-mv-foot">'+withNews+' of '+list.length+' have a headline in our feeds'
+        +(list.length>MOVERS_SHOWN
+          ? ' \u00b7 <button type="button" class="nd-btn" data-act="moversall">'+(S.moversAll?'Show fewer':'Show all '+list.length)+'</button>'
+          : '')
+        +'</div>';
+    }
+    el.innerHTML=top+'<h3 class="nd-mvh" style="margin-top:22px">Unusual for the stock</h3>'+head+unusual;
   }
 
   /* ── Render ─────────────────────────────────────────────────────────── */
