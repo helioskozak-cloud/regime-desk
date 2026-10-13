@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Advisor Terminal — Finance Suite Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#010409;--surface:#0d1117;--panel:#161b22;--border:#30363d;
         --ink:#e6edf3;--ink2:#8b949e;--ink3:#6e7681;--blue:#58a6ff;
@@ -53,6 +54,16 @@
   h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);
      margin:26px 0 10px;font-weight:600}
   footer{margin-top:34px;color:var(--ink3);font-size:11px}
+
+  /* 2026-10-13: no terminal type; same 'Midnight' look as regime-desk */
+  :root{--bg:#0a0c10;--surface:#11141a;--panel:#161a21;--border:rgba(255,255,255,.09);--ink:#eef1f5;--ink2:#b8bfca;--ink3:#8a93a1;--blue:#6aa8ff}
+  body{font-family:'Geist',system-ui,-apple-system,"Segoe UI",sans-serif!important;font-variant-numeric:tabular-nums;
+       background:radial-gradient(900px 420px at 50% -160px,rgba(106,168,255,.10),transparent 70%),var(--bg)}
+  .mono,.eyebrow,#q,.hzt .v,.tile .u{font-family:inherit!important}
+  .eyebrow,.hzt .k,h2,#q{text-transform:none!important;letter-spacing:normal!important}
+  .eyebrow{font-size:13px} .hzt .k{font-size:12px}
+  h2{font-size:17px;color:var(--ink);font-weight:600}
+  .card,a.tile{border-radius:16px} .hzt{border-radius:12px} #q,#go{border-radius:10px}
 </style>
 </head>
 <body>
