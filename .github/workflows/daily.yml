@@ -19,6 +19,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write     # the commit step re-queues itself when code moved mid-scan
 
 jobs:
   build:
@@ -160,26 +161,52 @@ jobs:
 
       - name: Commit and push
         if: steps.freshness.outputs.fresh != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "regime-desk-bot"
           git config user.email "bot@regime-desk"
+          BASE=$(git rev-parse HEAD)     # the main this scan's code came from
           git add docs/index.html docs/reports/v2_latest.pdf changelog.json history/ data/ || true
           git diff --cached --quiet && echo "No changes to commit" || \
             git commit -m "chore: daily build $(date -u +%Y-%m-%d)"
           BUILD=$(git rev-parse HEAD)
+          git fetch -q origin main
+          # Did CODE land on main while this scan ran? Generated output
+          # (data/, docs/, history/, changelog.json) does not count. On
+          # 2026-10-08 a 16:38 push changed the scan and data/ together; the
+          # 16:15 scan, still running the old code, then put the old analog
+          # reading back over it. When code moved, publish what we have (PAPA
+          # needs the signals) and queue a fresh run on the new code.
+          CODE_MOVED=0
+          git diff --quiet "$BASE" origin/main -- . ':(exclude)data' ':(exclude)docs' \
+            ':(exclude)history' ':(exclude)changelog.json' || CODE_MOVED=1
           # A push can land on main while a scan runs. On 2026-09-24 a
           # docs/index.html change pushed at 09:35 conflicted with this build's
           # page at 09:36, the rebase failed, and the whole scan was thrown
           # away: PAPA found no signals at 10:00 and did not trade. The scan's
-          # DATA is the part that matters and nothing else writes it, so on a
-          # conflict keep that data and rebuild the page on top of main.
+          # DATA is the part that matters, so on a conflict keep that data and
+          # rebuild the page on top of main -- except the data files main itself
+          # changed since the scan began: those are newer than this scan's
+          # copy, so main's version stands.
           if ! git pull --rebase origin main; then
             echo "::warning title=Rebuilt after a conflict::main moved during the scan; rebuilding the page on top of it"
             git rebase --abort
             git reset -q --hard origin/main
             git checkout "$BUILD" -- data/
+            for f in $(git diff --name-only "$BASE" origin/main -- data/); do
+              if git cat-file -e "origin/main:$f" 2>/dev/null; then
+                git checkout -q origin/main -- "$f"
+              else
+                git rm -q --cached --ignore-unmatch "$f"; rm -f "$f"
+              fi
+            done
             python build/build.py
             git add docs/index.html changelog.json history/ data/ || true
             git commit -m "chore: daily build $(date -u +%Y-%m-%d) (rebuilt on main after a conflict)"
           fi
           git push
+          if [ "$CODE_MOVED" = 1 ]; then
+            echo "::warning title=Re-running on new code::code changed on main during the scan; queued a fresh run"
+            gh workflow run daily.yml --ref main
+          fi
