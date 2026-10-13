@@ -560,12 +560,108 @@ th,
 [style*="letter-spacing:.5px"],[style*="letter-spacing:.6px"],[style*="letter-spacing:.7px"],[style*="letter-spacing:.8px"],
 [style*="letter-spacing:1px"],[style*="letter-spacing:.4px"],[style*="letter-spacing:.3px"],[style*="letter-spacing:.06em"],
 [style*="letter-spacing:.05em"],[style*="letter-spacing:.1em"],[style*="letter-spacing:.12em"],[style*="letter-spacing:.14em"]{letter-spacing:normal!important}
+
+/* ══ Look, 2026-10-13 ("surprise me with a new look in the morning") ════════
+   Midnight: a deeper blue-black ground with a faint accent glow, softer
+   rounded surfaces, a frosted sticky header with the tabs in a pill, calmer
+   greys. Same accent and the same meaning colours (gain / loss / warn).
+   Dark theme only (html:not(.light)); the light theme keeps its own rules.
+   One block, last in the sheet: delete it to go back. */
+html:not(.light){
+  --lk-bg:#0a0c10; --lk-surface:#11141a; --lk-surface-2:#161a21; --lk-surface-3:#1b2029;
+  --lk-hair:rgba(255,255,255,.07); --lk-hair-2:rgba(255,255,255,.12);
+  --lk-text:#eef1f5; --lk-text-2:#b8bfca; --lk-text-3:#8a93a1;
+  --lk-accent:#6aa8ff; --lk-accent-tint:rgba(106,168,255,.14);
+}
+html:not(.light) body{
+  background:
+    radial-gradient(1200px 520px at 50% -180px, rgba(106,168,255,.10), transparent 70%),
+    var(--lk-bg);
+  background-attachment:fixed;
+  color:var(--lk-text-2); font-size:14.5px; line-height:1.55;
+}
+html:not(.light) a{color:var(--lk-accent)}
+
+/* header: frosted, taller, tabs in a pill */
+html:not(.light) #topbar{
+  height:60px; gap:22px;
+  background:rgba(10,12,16,.72); backdrop-filter:saturate(140%) blur(14px); -webkit-backdrop-filter:saturate(140%) blur(14px);
+  border-bottom:1px solid var(--lk-hair);
+}
+html:not(.light) #topbar h1{color:var(--lk-text)!important;display:flex;align-items:center;gap:10px;font-size:17px!important}
+html:not(.light) #topbar h1::before{
+  content:"";width:22px;height:22px;border-radius:7px;flex:0 0 22px;
+  background:conic-gradient(from 210deg,#6aa8ff,#7c6cff,#3fae6a,#6aa8ff);
+  box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 4px 14px rgba(106,168,255,.35);
+}
+html:not(.light) #topbar nav{background:var(--lk-surface);border:1px solid var(--lk-hair);border-radius:999px;padding:4px;gap:2px}
+html:not(.light) #topbar nav a{border-radius:999px!important;padding:6px 14px!important;color:var(--lk-text-3);transition:background .15s,color .15s}
+html:not(.light) #topbar nav a:hover{background:var(--lk-surface-3);color:var(--lk-text)}
+html:not(.light) #topbar nav a.active{background:var(--lk-accent-tint);color:#fff;box-shadow:0 0 0 1px rgba(106,168,255,.35) inset}
+html:not(.light) #topbar .ts{color:var(--lk-text-3);font-size:12px}
+html:not(.light) #regime-banner{background:rgba(17,20,26,.6);border-bottom:1px solid var(--lk-hair)}
+
+/* page and cards */
+html:not(.light) #main{padding:26px 32px}
+html:not(.light) .card{
+  background:linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,0) 120px),var(--lk-surface);
+  border:1px solid var(--lk-hair); border-radius:16px; padding:20px 22px; margin-bottom:18px;
+  box-shadow:0 1px 0 rgba(255,255,255,.035) inset,0 10px 30px rgba(0,0,0,.28);
+}
+html:not(.light) .card h2{border-bottom:1px solid var(--lk-hair)!important;padding-bottom:12px!important;margin-bottom:16px!important;font-size:18px!important}
+html:not(.light) .grid3,html:not(.light) .grid2,html:not(.light) .grid-asym{gap:18px}
+html:not(.light) .tile{background:var(--lk-surface-2);border:1px solid var(--lk-hair);border-radius:12px}
+html:not(.light) .tile:hover{border-color:rgba(106,168,255,.55)}
+html:not(.light) .popout-btn,html:not(.light) .chart-fs-btn{background:var(--lk-surface-2);border-color:var(--lk-hair);border-radius:8px}
+html:not(.light) #popout-box{background:var(--lk-surface);border:1px solid var(--lk-hair-2);border-radius:18px}
+html:not(.light) #popout-x,html:not(.light) #chartfs-x{background:var(--lk-surface-2);border-color:var(--lk-hair);border-radius:8px}
+html:not(.light) footer{color:var(--lk-text-3)}
+
+/* Home's three columns: the accent becomes a soft top glow on a rounded card */
+html:not(.light) .rd-home3{gap:18px}
+html:not(.light) .rd-home3 .rd-col{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 9%,transparent),transparent 140px),var(--lk-surface);
+  border:1px solid var(--lk-hair);border-top:1px solid var(--lk-hair);border-radius:16px;padding:20px 20px;
+  box-shadow:inset 0 2px 0 var(--acc),0 10px 30px rgba(0,0,0,.28)}
+html:not(.light) .rd-home3 .rd-col>.card+.card{border-top:1px solid var(--lk-hair)!important}
+/* inner boxes the page's scripts draw with inline colours */
+html:not(.light) [style*="background:#0e0e0e"]{background:var(--lk-surface-2)!important}
+html:not(.light) [style*="background:#141414"]{background:var(--lk-surface-3)!important}
+html:not(.light) [style*="background:#050505"]{background:var(--lk-bg)!important}
+html:not(.light) [style*="solid #2e2e2e"]{border-color:var(--lk-hair-2)!important}
+html:not(.light) [style*="solid #1d1d1d"],html:not(.light) [style*="solid #141414"]{border-color:var(--lk-hair)!important}
+html:not(.light) [style*="border-radius:4px"]{border-radius:10px!important}
+html:not(.light) [style*="color:#f2f2f2"]{color:var(--lk-text)!important}
+html:not(.light) [style*="color:#c9c9c9"]{color:var(--lk-text-2)!important}
+html:not(.light) [style*="color:#8f8f8f"],html:not(.light) [style*="color:#6f6f6f"]{color:var(--lk-text-3)!important}
+
+/* tables */
+html:not(.light) th{color:var(--lk-text-3);font-size:12px;border-bottom:1px solid var(--lk-hair-2)}
+html:not(.light) td{border-bottom:1px solid var(--lk-hair);padding:9px 10px}
+html:not(.light) tr:hover td{background:rgba(255,255,255,.025)}
+
+/* controls */
+html:not(.light) input[type=text],html:not(.light) input:not([type]),html:not(.light) select,html:not(.light) textarea{
+  background:var(--lk-surface-2)!important;border:1px solid var(--lk-hair-2)!important;border-radius:9px!important;color:var(--lk-text)!important}
+html:not(.light) input:focus,html:not(.light) select:focus,html:not(.light) textarea:focus{outline:none;border-color:rgba(106,168,255,.7)!important;box-shadow:0 0 0 3px rgba(106,168,255,.18)}
+html:not(.light) button{border-radius:9px}
+html:not(.light) .pill{border-radius:999px;padding:2px 9px}
+html:not(.light) #v-news .nd-tab,html:not(.light) #v-news .nd-btn{border-radius:999px;background:var(--lk-surface-2);border-color:var(--lk-hair-2)}
+html:not(.light) #v-news .nd-tab.on{background:var(--lk-accent-tint);border-color:rgba(106,168,255,.5);color:#fff}
+html:not(.light) #v-news .nd-row{border-bottom-color:var(--lk-hair)}
+html:not(.light) #v-news .nd-row:hover{background:rgba(255,255,255,.025)}
+html:not(.light) #v-news .card>h2.nd-fh::after{border-radius:999px;border-color:var(--lk-hair-2)}
+html:not(.light) #v-filings .fl-badge,html:not(.light) #v-filings .er-when span{border-radius:999px}
+html:not(.light) #v-filings .fl-row td,html:not(.light) #v-filings .er-row td{border-top-color:var(--lk-hair)}
+html:not(.light) .fl-stat{border-radius:12px!important}
+::selection{background:rgba(106,168,255,.35)}
+/* ══ end Look ══════════════════════════════════════════════════════════════ */
 </style>
 </head>
 <body>
 
 <div id="topbar">
-  <h1>&#9642; Regime Desk</h1>
+  <h1>Regime Desk</h1>
   <nav id="nav"></nav>
   <span class="ts" id="ts"></span>
 </div>
