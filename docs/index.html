@@ -285,6 +285,35 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-sym:hover{color:#5b9dff}
 #v-news .nd-px{font-family:var(--mono);font-size:11px;color:#8f8f8f;font-variant-numeric:tabular-nums}
 #v-news .nd-chg{font-family:var(--mono);font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+/* 2026-10-13 (Q55 = c): move size, earnings/filing context, releases line, Why it moved */
+#v-news .nd-sg{font-family:var(--mono);font-size:10px;font-weight:600;color:#d4a72c;border:1px solid #5c4a1c;border-radius:3px;padding:0 4px;margin-left:5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+#v-news .nd-ctxs{display:flex;flex-direction:column;gap:3px;margin-top:5px}
+#v-news .nd-ctx{font-family:var(--mono);font-size:10px;line-height:1.3;color:#8f8f8f;border-left:2px solid #2e2e2e;padding-left:6px;text-decoration:none}
+#v-news .nd-ctx.ern{border-left-color:#d4a72c;color:#c9c9c9}
+#v-news a.nd-ctx.fil{border-left-color:#5b9dff;color:#c9c9c9}
+#v-news a.nd-ctx.fil:hover{color:#f2f2f2}
+#v-news .nd-macro{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-family:var(--mono);font-size:11px;color:#8f8f8f}
+#v-news .nd-macro:empty{display:none}
+#v-news .nd-mac b{color:#c9c9c9;font-weight:600}
+#v-news .nd-mac.hi b{color:#d4a72c}
+#v-news .nd-mac+.nd-mac::before{content:"\00b7";margin-right:10px;color:#4a4a4a}
+#v-news .nd-mac-none{color:#6f6f6f}
+#v-news .nd-mv-note{font-family:var(--mono);font-size:11px;color:#6f6f6f;margin:2px 0 8px}
+#v-news .nd-mv{display:grid;grid-template-columns:58px minmax(0,190px) 64px 48px minmax(0,1fr);gap:12px;align-items:start;padding:7px 0;border-bottom:1px solid #141414}
+#v-news .nd-mv .nd-sym{cursor:pointer}
+#v-news .nd-mv .nd-chg,#v-news .nd-mv .nd-sg{justify-self:end;margin-left:0}
+#v-news .nd-mv-name{font-size:12px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#v-news .nd-mv-why{font-size:13px;color:#c9c9c9;min-width:0}
+#v-news .nd-mv-why a{color:#f2f2f2;text-decoration:none}
+#v-news .nd-mv-why a:hover{text-decoration:underline}
+#v-news .nd-mv-why i{font-style:normal;font-family:var(--mono);font-size:10px;color:#6f6f6f;margin-left:4px}
+#v-news .nd-mv-none{color:#6f6f6f;font-style:italic}
+#v-news .nd-mv-foot{font-family:var(--mono);font-size:11px;color:#6f6f6f;margin-top:8px;display:flex;align-items:center;gap:8px}
+@media (max-width:760px){
+  #v-news .nd-mv{grid-template-columns:52px 1fr 60px 44px}
+  #v-news .nd-mv-why{grid-column:1/-1}
+  #v-news .nd-mv-name{display:none}
+}
 #v-news .nd-more{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 #v-news .nd-more span{font-family:var(--mono);font-size:10px;color:#8f8f8f;border:1px solid #2e2e2e;border-radius:4px;padding:0 4px;cursor:pointer;white-space:nowrap}
 #v-news .nd-more span:hover{color:#5b9dff;border-color:#5b9dff}
@@ -41586,6 +41615,7 @@ var NEWSTAB=(function(){
     sources:[], types:[],
     book:[], bookLabel:null, bookSeeded:false, bookMsg:null,
     open:{},   // headline link -> row expanded; survives the 60s re-render
+    movers:null, moversAll:false,   // news-desk movers.json ("Why it moved")
     loaded:false, failed:false, booted:false, timer:null
   };
 
@@ -41638,7 +41668,10 @@ var NEWSTAB=(function(){
       var px=x.price, prev=x.prev_close;
       if(!t||typeof px!=='number'||!isFinite(px)||px<=0) return;
       var chg=(typeof prev==='number'&&isFinite(prev)&&prev>0) ? px/prev-1 : null;
-      out[t]={price:px, chg:chg, name:x.name||'', src:'news-desk'};
+      // sigma: the move in units of the stock's own 20-day daily standard
+      // deviation (news-desk fetch_stocks.move_size, 2026-10-13).
+      var sg=(typeof x.sigma==='number'&&isFinite(x.sigma)) ? x.sigma : null;
+      out[t]={price:px, chg:chg, sigma:sg, name:x.name||'', src:'news-desk'};
     });
     return out;
   }
@@ -41646,6 +41679,84 @@ var NEWSTAB=(function(){
     var col=chg>=0?'#3fae6a':'#e5484d';
     return '<span class="nd-chg" style="color:'+col+'">'
       +(chg>=0?'+':'')+(chg*100).toFixed(digits)+'%</span>';
+  }
+  // A move only gets its size when it is out of the ordinary: under 2 sd a
+  // number beside every price is noise.
+  var SIGMA_SHOW=2;
+  function sigmaHTML(sg){
+    if(sg==null||Math.abs(sg)<SIGMA_SHOW) return '';
+    return '<span class="nd-sg" title="This move is '+Math.abs(sg).toFixed(1)
+      +' times the stock’s typical daily move over the last 20 sessions">'
+      +Math.abs(sg).toFixed(1)+'σ</span>';
+  }
+
+  /* ── Context from this page's own scans (2026-10-13, owner Q55 = c) ──────
+   * Earnings dates (scan/earnings_scan.py) and material SEC filings
+   * (scan/filings_scan.py) are already in SNAPSHOT; a headline about a
+   * company that reports this week, or that filed an 8-K yesterday, says so
+   * on its row. Built once per page load. */
+  var DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function etDate(d){ return (d||new Date()).toLocaleDateString('en-CA',{timeZone:'America/New_York'}); }
+  function addDays(iso,n){
+    var d=new Date(iso+'T12:00:00Z'); d.setUTCDate(d.getUTCDate()+n);
+    return d.toISOString().slice(0,10);
+  }
+  function dayWord(iso){
+    var today=etDate();
+    if(iso===today) return 'today';
+    if(iso===addDays(today,1)) return 'tomorrow';
+    if(iso===addDays(today,-1)) return 'yesterday';
+    return DOW[new Date(iso+'T12:00:00Z').getUTCDay()]+' '+Number(iso.slice(5,7))+'/'+Number(iso.slice(8,10));
+  }
+  var _ctx=null;
+  function context(){
+    if(_ctx) return _ctx;
+    var snap=window.SNAPSHOT||{}, today=etDate(), ern={}, fil={};
+    ((snap.earnings||{}).earnings||[]).forEach(function(e){
+      if(!e||!e.ticker||!e.date) return;
+      if(e.date<addDays(today,-1)||e.date>addDays(today,7)) return;
+      var t=up(e.ticker);
+      if(!ern[t]||e.date<ern[t].date) ern[t]={date:e.date,time:e.time||''};
+    });
+    ((snap.filings||{}).filings||[]).forEach(function(f){
+      if(!f||!f.ticker||!f.date||f.date<addDays(today,-3)) return;
+      if(typeof f.rank==='number'&&f.rank>3) return;        // routine filings stay on the Filings tab
+      var t=up(f.ticker);
+      if(!fil[t]||f.date>fil[t].date||(f.date===fil[t].date&&f.rank<fil[t].rank)) fil[t]=f;
+    });
+    _ctx={ern:ern,fil:fil};
+    return _ctx;
+  }
+  function earnText(e){
+    var when=e.time==='pre'?', before the open':(e.time==='post'?', after the close':'');
+    var past=e.date<etDate();
+    return (past?'Reported ':'Reports ')+dayWord(e.date)+when;
+  }
+  function filingText(f){
+    return (f.kind==='8-K'?'8-K':f.form||f.kind||'Filing')+' '+dayWord(f.date)+': '
+      +String(f.what||'').replace(/\b\d\.\d\d\s+/g,'').replace('NON-RELIANCE','non-reliance on past financials');
+  }
+  function contextHTML(t,h){
+    var c=context(), out='';
+    if(c.ern[t]) out+='<span class="nd-ctx ern">'+esc(earnText(c.ern[t]))+'</span>';
+    var f=c.fil[t];
+    // An EDGAR headline IS the filing; don't repeat it under itself.
+    if(f&&h.source!=='SEC EDGAR'&&/^https?:\/\//i.test(f.url||''))
+      out+='<a class="nd-ctx fil" href="'+esc(f.url)+'" target="_blank" rel="noopener noreferrer">'+esc(filingText(f))+'</a>';
+    return out?'<div class="nd-ctxs">'+out+'</div>':'';
+  }
+
+  /* Economic releases due in the next week (scan/release_calendar.py), as one
+   * line above the feed so a CPI morning is visible before the CPI headlines. */
+  function macroHTML(){
+    var rel=((window.SNAPSHOT||{}).releases||{}).releases||[], today=etDate(), end=addDays(today,6);
+    var due=rel.filter(function(r){ return r&&r.date>=today&&r.date<=end&&(r.importance||0)>=2; })
+      .sort(function(a,b){ return (a.date+(a.time||'')).localeCompare(b.date+(b.time||'')); });
+    if(!due.length) return '<span class="nd-lbl">Releases</span><span class="nd-mac-none">no major US releases in the next 7 days</span>';
+    return '<span class="nd-lbl">Releases</span>'+due.map(function(r){
+      return '<span class="nd-mac'+((r.importance||0)>=3?' hi':'')+'">'
+        +esc(dayWord(r.date))+(r.time?' '+esc(r.time)+' ET':'')+' <b>'+esc(r.name)+'</b></span>';
+    }).join('');
   }
 
   /* ── Time ───────────────────────────────────────────────────────────── */
@@ -41765,7 +41876,11 @@ var NEWSTAB=(function(){
         +'<span class="nd-count" id="nd-counts">—</span>'
       +'</div>'
       +'<div class="nd-chips" id="nd-chips"></div>'
+      +'<div class="nd-macro" id="nd-macro">'+macroHTML()+'</div>'
     +'</div>'
+    +'<div class="card"><h2>Why it moved</h2><div id="nd-movers">'
+      +'<div class="nd-mv-note">Loading the unusual moves from news-desk.</div>'
+    +'</div></div>'
     +'<div class="card"><div class="nd-feed" id="nd-feed">'
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
@@ -41783,6 +41898,7 @@ var NEWSTAB=(function(){
         ? 'From news-desk\u2019s quote file, refreshed every few minutes'
         : 'From this page\u2019s latest daily scan: last close over previous close')+'">$'+d.price.toFixed(2)+'</span>';
       if(d.chg!=null) out+=chgHTML(d.chg,2);
+      if(S.nd[first]) out+=sigmaHTML(S.nd[first].sigma);
     }
     out+='</div>';
     var rest=tks.slice(1);
@@ -41812,7 +41928,7 @@ var NEWSTAB=(function(){
     var title=esc(h.title||'(untitled)');
     return '<div class="nd-row'+sent+(S.open[key]?' open':'')+'" data-key="'+esc(key)+'">'
       +'<div class="nd-time">'+esc(t.hh)+'<i>'+esc(t.rel)+'</i></div>'
-      +'<div class="nd-tks">'+tickerCell(h.tickers)+'</div>'
+      +'<div class="nd-tks">'+tickerCell(h.tickers)+contextHTML(h.tickers[0],h)+'</div>'
       +'<div class="nd-hl">'
         +(safe?'<a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">'+title+'</a>':'<span style="color:#f2f2f2;font-size:13px">'+title+'</span>')
         +(h.summary?'<div class="nd-sum">'+esc(h.summary)+'</div>':'')
@@ -41859,6 +41975,78 @@ var NEWSTAB=(function(){
     });
   }
 
+  /* ── Why it moved (2026-10-13, owner Q55 = c) ────────────────────────────
+   * news-desk's movers.json: every stock in the tagging universe whose latest
+   * move is 2.5+ of its own 20-day standard deviations and at least 2%. Each
+   * is paired with what this page knows: the newest headline tagged with it
+   * (last 36 hours), an earnings date, a material filing. A mover with none of
+   * them says "no headline in our feeds" — our feeds, not the world's. */
+  var MOVERS_SHOWN=10;
+  function latestHeadline(t){
+    var cut=Date.now()-36*3600*1000, best=null;
+    S.headlines.forEach(function(h){
+      if(!h.tickers||h.tickers.indexOf(t)<0) return;
+      var ts=new Date(h.published).getTime();
+      if(!isFinite(ts)||ts<cut) return;
+      if(!best||ts>best.ts) best={h:h,ts:ts};
+    });
+    return best&&best.h;
+  }
+  function moverRow(m){
+    var t=up(m.ticker), h=latestHeadline(t), c=context(), why='';
+    if(h){
+      var link=String(h.link||''), tm=fmtTime(h.published);
+      why=(/^https?:\/\//i.test(link)
+        ? '<a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">'+esc(h.title)+'</a>'
+        : esc(h.title))
+        +' <i>'+esc(h.source||'')+' · '+esc(tm.rel)+'</i>';
+    }else{
+      why='<span class="nd-mv-none">no headline in our feeds</span>';
+    }
+    var ctx='';
+    if(c.ern[t]&&c.ern[t].date<=etDate()) ctx+='<span class="nd-ctx ern">'+esc(earnText(c.ern[t]))+'</span>';
+    if(c.fil[t]&&/^https?:\/\//i.test(c.fil[t].url||''))
+      ctx+='<a class="nd-ctx fil" href="'+esc(c.fil[t].url)+'" target="_blank" rel="noopener noreferrer">'+esc(filingText(c.fil[t]))+'</a>';
+    var chg=m.change_pct/100;
+    return '<div class="nd-mv">'
+      +'<span class="nd-sym" data-ticker="'+esc(t)+'" data-tk="'+esc(t)+'">'+esc(t)+'</span>'
+      +'<span class="nd-mv-name">'+esc(m.name||'')+'</span>'
+      +chgHTML(chg,1)
+      +'<span class="nd-sg" title="'+Math.abs(m.sigma).toFixed(1)+' times its typical daily move ('
+        +Number(m.vol_20d).toFixed(1)+'% over the last 20 sessions)">'+Math.abs(m.sigma).toFixed(1)+'σ</span>'
+      +'<span class="nd-mv-why">'+why+(ctx?'<div class="nd-ctxs">'+ctx+'</div>':'')+'</span>'
+    +'</div>';
+  }
+  function renderMovers(){
+    var el=$('nd-movers'); if(!el) return;
+    var mv=S.movers;
+    if(!mv){
+      el.innerHTML='<div class="nd-mv-note">'+(S.loaded
+        ? 'The unusual-moves file is not published yet; news-desk writes it every 30 minutes.'
+        : 'Loading the unusual moves from news-desk.')+'</div>';
+      return;
+    }
+    var list=mv.movers||[];
+    var asof=mv.generated?new Date(mv.generated):null;
+    var when=asof&&!isNaN(asof.getTime())
+      ? asof.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'
+        +(mv.as_of&&mv.as_of!==etDate()?' (session of '+esc(dayWord(mv.as_of))+')':'')
+      : '';
+    var head='<div class="nd-mv-note">Moves of '+esc(mv.threshold)+'σ or more against each stock’s own last 20 sessions'
+      +(mv.min_abs_pct?', and at least '+esc(mv.min_abs_pct)+'%':'')
+      +', across '+esc(mv.priced)+' of '+esc(mv.universe)+' names'+(when?' · as of '+when:'')+'.</div>';
+    if(!list.length){ el.innerHTML=head+'<div class="nd-mv-note">Nothing that unusual so far this session.</div>'; return; }
+    var withNews=list.filter(function(m){ return latestHeadline(up(m.ticker)); }).length;
+    var shown=S.moversAll?list:list.slice(0,MOVERS_SHOWN);
+    el.innerHTML=head
+      +'<div class="nd-mv-list">'+shown.map(moverRow).join('')+'</div>'
+      +'<div class="nd-mv-foot">'+withNews+' of '+list.length+' have a headline in our feeds'
+      +(list.length>MOVERS_SHOWN
+        ? ' · <button type="button" class="nd-btn" data-act="moversall">'+(S.moversAll?'Show fewer':'Show all '+list.length)+'</button>'
+        : '')
+      +'</div>';
+  }
+
   /* ── Render ─────────────────────────────────────────────────────────── */
   function renderChips(){
     var el=$('nd-chips'); if(!el) return;
@@ -41903,6 +42091,7 @@ var NEWSTAB=(function(){
     var dot=$('nd-dot');
     if(dot) dot.className='nd-dot'+(stale()?' stale':'');
     renderChips();
+    renderMovers();
 
     var feed=$('nd-feed'); if(!feed) return;
 
@@ -41945,8 +42134,11 @@ var NEWSTAB=(function(){
       .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
     var stk=fetch('https://helioskozak-cloud.github.io/news-desk/data/stocks.json?_t='+t)
       .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
-    return Promise.all([head,stk]).then(function(res){
+    var mov=fetch('https://helioskozak-cloud.github.io/news-desk/data/movers.json?_t='+t)
+      .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+    return Promise.all([head,stk,mov]).then(function(res){
       var doc=res[0],stocks=res[1];
+      if(res[2]&&Array.isArray(res[2].movers)) S.movers=res[2];
       if(stocks&&stocks.stocks){
         S.nd=ndQuotes(stocks);
         S.ndAsOf=stocks.generated||null;
@@ -42163,6 +42355,7 @@ var NEWSTAB=(function(){
       if(a==='tab'){ setTab(act.getAttribute('data-tab')); return; }
       if(a==='clr'){ clearFilters(); return; }
       if(a==='unpick'){ S.ticker=null; render(); return; }
+      if(a==='moversall'){ S.moversAll=!S.moversAll; renderMovers(); return; }
       if(a==='paste'){ pasteBook(); return; }
       if(a==='bookclear'||a==='bookedit'){
         // "Clear book" is a decision and is remembered; "Replace book" only
