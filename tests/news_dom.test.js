@@ -51,7 +51,9 @@ function buildFixture(win) {
           published: iso(10), tickers: [], type: 'macro', sentiment: 'neutral', summary: '' },
       ],
     },
-    stocks: { stocks: { [up]: { name: 'Covered Up Co', price: 1, change_pct: 1 } } },
+    // A name only, no price: the scan's price stands. A news-desk PRICE wins
+    // since 2026-10-14; news_quotes.test.js pins that.
+    stocks: { stocks: { [up]: { name: 'Covered Up Co' } } },
   };
 }
 

@@ -48,8 +48,9 @@ function fixture(win) {
         // the right answer is +2.31%; reading change_pct would show 99.00% or 9900.00%.
         { ticker: 'NDONLY', price: 107.6, prev_close: 105.17, change: 2.43, change_pct: 99 },
         { ticker: 'NOPREV', price: 10, change_pct: 5 },
-        // The scan covers this one; news-desk's absurd price must NOT win.
-        { ticker: covered.ticker, price: 1, prev_close: 0.5, change_pct: 100 },
+        // The scan covers this one too. Since 2026-10-14 news-desk's live quote
+        // wins (the scan's is this morning's); change still derived, never read.
+        { ticker: covered.ticker, price: 50, prev_close: 40, change_pct: 7 },
         { ticker: 'BADPX', price: 'n/a', prev_close: 3 },
       ],
     },
@@ -87,7 +88,7 @@ const rows = () => Array.from(doc.querySelectorAll('#v-news .nd-row'));
   eq('news-desk price shows inline', nd.querySelector('.nd-px').textContent, '$107.60');
   eq('change is derived from price / prev close, not change_pct',
     nd.querySelector('.nd-chg').textContent, '+2.31%');
-  ok('the price says where it came from', /news-desk/.test(nd.querySelector('.nd-px').title));
+  ok('the price says when it is from', /Quote as of \d{1,2}:\d{2} [AP]M ET/.test(nd.querySelector('.nd-px').title), nd.querySelector('.nd-px').title);
   ok('secondary chip for a news-desk-only ticker shows nothing it cannot derive',
     !/NOPREV\s*[+-]/.test(nd.querySelector('.nd-more').textContent), nd.querySelector('.nd-more').textContent);
   ok('an unpriced secondary ticker stays bare',
@@ -98,13 +99,12 @@ const rows = () => Array.from(doc.querySelectorAll('#v-news .nd-row'));
   eq('price still shows', np.querySelector('.nd-px').textContent, '$10.00');
   ok('no change is invented', !np.querySelector('.nd-chg'));
 
-  console.log('\n== the scan wins where it covers the ticker ==');
+  console.log('\n== the live quote wins over the morning scan (2026-10-14) ==');
   const cv = byTitle('Covered by the scan too').querySelector('.nd-tks');
-  const c = FIX.covered;
-  eq('scan price, not news-desk\'s', cv.querySelector('.nd-px').textContent, '$' + c.price.toFixed(2));
-  eq('scan change, as a fraction x100',
-    cv.querySelector('.nd-chg').textContent, (c.change_pct >= 0 ? '+' : '') + (c.change_pct * 100).toFixed(2) + '%');
-  ok('and it says it is from the scan', /daily scan/.test(cv.querySelector('.nd-px').title));
+  eq('news-desk price, not the scan\'s', cv.querySelector('.nd-px').textContent, '$50.00');
+  eq('change derived from price / prev close', cv.querySelector('.nd-chg').textContent, '+25.00%');
+  ok('and it says when it is from', /Quote as of/.test(cv.querySelector('.nd-px').title), cv.querySelector('.nd-px').title);
+  ok('the tab says when its quotes are from', /quotes \d{1,2}:\d{2} [AP]M ET/.test(win.document.getElementById('nd-qasof').textContent), win.document.getElementById('nd-qasof').textContent);
 
   console.log('\n== garbage in the quote file ==');
   ok('a non-numeric price is ignored, not rendered', !('BADPX' in win.NEWSTAB.state.nd));

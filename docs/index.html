@@ -43687,8 +43687,14 @@ const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 // A ticker SNAPSHOT does not cover now takes news-desk's price, and its session
 // change is DERIVED as price / prev_close - 1 — unit-free by construction — so
 // news-desk's change_pct is never read at all and the 100x question cannot
-// arise. No prev_close: the price shows, the change does not. SNAPSHOT still
-// wins wherever it has the ticker, so every other tab and this one agree.
+// arise. No prev_close: the price shows, the change does not.
+//
+// LIVE QUOTES WIN SINCE 2026-10-14 (owner: "they only seem to change with a
+// page reload"). SNAPSHOT's prices are the morning scan's and never move
+// during the day, so news-desk's quote (republished every ~5 minutes) now
+// wins wherever it has the ticker, and SNAPSHOT is the fallback. Every price
+// carries where and when it is from (hover), and each view that shows quotes
+// says "Quotes as of" the news-desk file's time.
 //
 // Coverage stays honest: a ticker neither source prices renders as a bare
 // symbol. Never a 0.00, never a dash — both read as "flat", which is a
@@ -43835,7 +43841,7 @@ function renderEarnings(){
         +(r.eps_ly!=null?` <span class="er-dim">vs</span> <span class="er-fig er-dim">${eps(r.eps_ly)}</span> <span class="er-dim">a year ago</span>`:'')
         +(g!=null?` <span class="er-fig" style="color:${g>=0?'#3fae6a':'#e5484d'}">${g>=0?'+':''}${(g*100).toFixed(0)}%</span>`:'');
     const nEst=r.n_est!=null?`<div class="er-sub">${r.n_est} analyst${r.n_est===1?'':'s'}</div>`:'';
-    const today=qt?`<span class="er-fig">$${qt.price.toFixed(2)}</span>`
+    const today=qt?`<span class="er-fig" title="${esc(qt.when||'')}">$${qt.price.toFixed(2)}</span>`
         +(qt.chg!=null?` <span class="er-fig" style="color:${qt.chg>=0?'#3fae6a':'#e5484d'}">${qt.chg>=0?'+':''}${(qt.chg*100).toFixed(1)}%</span>`:'')
         +(qt.sigma!=null&&Math.abs(qt.sigma)>=2?` <span class="er-sg">${Math.abs(qt.sigma).toFixed(1)}σ</span>`:'')
       :'<span class="er-dim">—</span>';
@@ -43851,7 +43857,7 @@ function renderEarnings(){
     const note=failed.has(k)?'<span style="color:#d4a72c" title="This day could not be read today; rows are the previous file\'s">● not refreshed</span>':!read.has(k)?'<span style="color:#d4a72c">● not read</span>':'';
     return`<div data-earn-day="${k}" style="margin-bottom:12px;${past?'opacity:.55':''}"><div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid ${isToday?'#5b9dff':'#2e2e2e'};padding:2px 0 3px;margin-bottom:2px"><span class="er-day" style="color:${isToday?'#f2f2f2':'#c9c9c9'}">${lbl}${isToday?' · today':past?' · reported':''}</span><span style="font-size:11px;color:#6f6f6f">${note} ${rs.length} name${rs.length===1?'':'s'}</span></div>
       ${rs.length?`<table class="er-tbl"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup>${rs.map(line).join('')}</table>`:`<div style="color:#4a4a4a;font-size:12px;padding:3px 8px">${read.has(k)||failed.has(k)?'None in the universe.':''}</div>`}</div>`;};
-  const head=`<table class="er-tbl er-head"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup><tr><td>When</td><td>Company</td><td>Earnings per share</td><td>Today</td><td>Newest headline</td></tr></table>`;
+  const head=`<table class="er-tbl er-head"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup><tr><td>When</td><td>Company</td><td>Earnings per share</td><td>Today${NT&&NT.quotesAsOf&&NT.quotesAsOf()?` <span class="er-dim" style="text-transform:none;letter-spacing:0">\u00b7 ${NT.quotesAsOf()}</span>`:''}</td><td>Newest headline</td></tr></table>`;
   const col=(t,ds)=>`<div style="margin-bottom:18px"><h3 class="er-week">${t}</h3>${head}${ds.map(dayBlock).join('')}</div>`;
   const inWeek=ws=>{const ks=new Set(ws.map(iso));return all.filter(r=>ks.has(r.date));};
   const tw=inWeek(weeks[0]), nw=inWeek(weeks[1]);
@@ -43882,6 +43888,19 @@ window._rd_postrender_filings=function(){
     }};
   const redraw=()=>{v.innerHTML=renderFilings();enrich();};
   enrich();
+  // Fresh quotes while Companies is open (2026-10-14): News polls only once it
+  // has been visited, so this view refetches on its own every minute, and
+  // redraws Earnings unless the search box is being typed in.
+  setInterval(()=>{
+    if(document.body.dataset.view!=='filings'||!window.NEWSTAB)return;
+    if(_filView!=='earnings'&&_filView!=='movers')return;
+    const after=()=>{
+      if(_filView==='movers'){NEWSTAB.showMovers();return;}
+      const a=document.activeElement;if(a&&a.matches&&a.matches('[data-fil-q]'))return;
+      redraw();};
+    const pr=NEWSTAB.state.booted?null:NEWSTAB.load();
+    if(pr&&pr.then)pr.then(after);else after();
+  },60000);
   v.addEventListener('click',e=>{const t=e.target.closest('[data-fil-view]');if(t){_filView=t.dataset.filView;redraw();return;}
     const ma=e.target.closest('[data-act="moversall"]');if(ma&&window.NEWSTAB){NEWSTAB.toggleMoversAll();return;}
     const tk=e.target.closest('#nd-movers [data-tk]');if(tk&&!(e.shiftKey||e.metaKey||e.ctrlKey||e.altKey)&&window.NEWSTAB){NEWSTAB.pickExternal(tk.getAttribute('data-tk'));return;}
@@ -43942,16 +43961,34 @@ var NEWSTAB=(function(){
         _px[s.ticker]={
           price:s.price,
           chg:(typeof s.change_pct==='number'&&isFinite(s.change_pct))?s.change_pct:null,
-          name:s.name||'', src:'scan',
+          name:s.name||'', src:'scan', asof:snap.generated||null,
           closes:Array.isArray(s.week_closes)&&s.week_closes.length>=2?s.week_closes:null
         };
       });
     });
-    // Then news-desk, only where SNAPSHOT has nothing.
+    // Then news-desk's live quote, which wins: it is minutes old, the scan's
+    // is this morning's.
     Object.keys(S.nd).forEach(function(t){
-      if(!_px[t]) _px[t]=S.nd[t];
+      var was=_px[t];
+      _px[t]=Object.assign({}, S.nd[t], {asof:S.ndAsOf,
+        name:S.nd[t].name||(was&&was.name)||'',
+        closes:S.nd[t].closes||(was&&was.closes)||null});
     });
     return _px;
+  }
+  // "3:46 PM ET" for the news-desk quote file, or '' before it has loaded.
+  function quotesAsOf(){
+    var d=S.ndAsOf?new Date(S.ndAsOf):null;
+    if(!d||isNaN(d.getTime())) return '';
+    var t=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
+    return etDate(d)===etDate()?t:d.toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})+' '+t;
+  }
+  // Where and when ONE price is from, for its tooltip and the ticker card.
+  function pxWhen(d){
+    if(!d) return '';
+    if(d.src==='news-desk') return quotesAsOf()?'Quote as of '+quotesAsOf():'news-desk quote';
+    var g=d.asof?new Date(d.asof+'T12:00:00'):null;
+    return 'Last close, from the daily scan'+(g&&!isNaN(g.getTime())?' of '+g.toLocaleDateString('en-US',{month:'short',day:'numeric'}):'');
   }
   /* news-desk's stocks.json -> {TICKER: {price, chg, src}}. Accepts the live
    * shape ({stocks:[{ticker,...}]}) and a keyed one ({stocks:{TICKER:{...}}}).
@@ -44163,7 +44200,7 @@ var NEWSTAB=(function(){
       +'<div class="nd-top">'
         +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">News <span class="n" id="nd-n-news">—</span></button>'
         +'<button type="button" class="nd-tab" data-act="tab" data-tab="book">My book <span class="n" id="nd-n-book">—</span></button>'
-        +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span></span>'
+        +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span><span id="nd-qasof" title="When the prices on this tab are from: news-desk\u2019s quote file, republished about every five minutes"></span></span>'
       +'</div>'
       +'<div class="nd-bar">'
         +'<span class="nd-lbl">Search</span>'
@@ -44182,7 +44219,7 @@ var NEWSTAB=(function(){
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
     +'<footer>Headlines from news-desk, refetched every minute; it republishes every five. '
-    +'Price and session change come from this page\u2019s latest daily scan where it covers the ticker, and otherwise from news-desk\u2019s quote file, refreshed every few minutes (hover a price to see which). '
+    +'Prices come from news-desk\u2019s quote file, republished about every five minutes and shown with its time; a ticker it does not price shows this page\u2019s last daily-scan close instead (hover a price to see which). '
     +'A symbol shown on its own is one neither source prices. Not investment advice.</footer>';
   }
 
@@ -44191,9 +44228,7 @@ var NEWSTAB=(function(){
     var p=priceMap(),out='',first=tks[0],d=p[first];
     out+='<div class="nd-tk"><span class="nd-sym" data-ticker="'+esc(first)+'" data-tk="'+esc(first)+'">'+esc(first)+'</span>';
     if(d){
-      out+='<span class="nd-px" title="'+(d.src==='news-desk'
-        ? 'From news-desk\u2019s quote file, refreshed every few minutes'
-        : 'From this page\u2019s latest daily scan: last close over previous close')+'">$'+d.price.toFixed(2)+'</span>';
+      out+='<span class="nd-px" title="'+esc(pxWhen(d))+'">$'+d.price.toFixed(2)+'</span>';
       if(d.chg!=null) out+=chgHTML(d.chg,2);
       if(S.nd[first]) out+=sigmaHTML(S.nd[first].sigma);
     }
@@ -44482,6 +44517,7 @@ var NEWSTAB=(function(){
       S.failed=false; S.loaded=true; S.fetchedAt=Date.now();
       S.headlines=doc.headlines;
       S.generated=doc.generated||null;
+      setText('nd-qasof',quotesAsOf()?' \u00b7 quotes '+quotesAsOf():'');
       if(doc.ticker_names) Object.keys(doc.ticker_names).forEach(function(k){ S.names[k]=doc.ticker_names[k]; });
       syncSelects();
       render();
@@ -44800,7 +44836,7 @@ var NEWSTAB=(function(){
         +'<span style="color:#f2f2f2;font-size:16px;font-weight:700">$'+q.price.toFixed(2)+'</span>'
         +(q.chg!=null?'<span style="color:'+col+';font-size:12px;font-weight:700">'+(q.chg>=0?'+':'')+(q.chg*100).toFixed(2)+'%</span>':'')
         +(nd.sigma!=null&&Math.abs(nd.sigma)>=SIGMA_SHOW?'<span style="color:#d4a72c;font-size:11px;font-weight:600">'+Math.abs(nd.sigma).toFixed(1)+'\u03c3</span>':'')
-        +'<span style="color:#4a4a4a;font-size:10px;letter-spacing:.05em">TODAY</span></div>'
+        +'<span style="color:#6f6f6f;font-size:10px;letter-spacing:.02em" class="nd-card-asof">'+esc(pxWhen(q))+'</span></div>'
         +spark(closes)+range+'</div>';
     }
     var types={};
@@ -44841,7 +44877,7 @@ var NEWSTAB=(function(){
   function quote(t){
     t=up(t); var q=priceMap()[t]; if(!q) return null;
     var nd=S.nd[t]||{};
-    return {price:q.price, chg:q.chg, sigma:nd.sigma!=null?nd.sigma:null};
+    return {price:q.price, chg:q.chg, sigma:nd.sigma!=null?nd.sigma:null, src:q.src, when:pxWhen(q)};
   }
   function newest(t){
     var h=latestHeadline(up(t)); if(!h) return null;
@@ -44876,11 +44912,12 @@ var NEWSTAB=(function(){
     S.timer=setInterval(load,POLL_MS);
     setInterval(function(){
       setText('nd-updated',fmtUpdated());
+      setText('nd-qasof',quotesAsOf()?' \u00b7 quotes '+quotesAsOf():'');
       var dot=$('nd-dot'); if(dot) dot.className='nd-dot'+(stale()?' stale':'');
     },15000);
   }
 
-  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,showMovers:showMovers,toggleMoversAll:toggleMoversAll,quote:quote,newest:newest,ready:ready,
+  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,showMovers:showMovers,toggleMoversAll:toggleMoversAll,quote:quote,quotesAsOf:quotesAsOf,newest:newest,ready:ready,
           _parseCSV:parseCSV,_applyRows:applyRows,_fmtTime:fmtTime,_groupKey:groupKey};
 })();
 
