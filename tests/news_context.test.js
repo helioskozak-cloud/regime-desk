@@ -46,10 +46,13 @@ const STOCKS = { generated: now, stocks: {
 const MOVERS = { generated: now, as_of: TODAY, universe: 1752, priced: 1691, threshold: 2.5, min_abs_pct: 2,
   movers: [
     { ticker: 'ACME', name: 'Acme Corp', price: 52, change_pct: 4.0, vol_20d: 1.1, sigma: 3.4 },
-    { ticker: 'ZOOM2', name: 'Zoomer Inc', price: 8, change_pct: -9.5, vol_20d: 3.0, sigma: -3.2 },
+    { ticker: 'ZOOM2', name: 'Zoomer Inc', price: 8, change_pct: -9.5, vol_20d: 3.0, sigma: -3.2, web: null },
   ],
   gainers: [{ ticker: 'ACME', name: 'Acme Corp', price: 52, change_pct: 4.0, vol_20d: 1.1, sigma: 3.4 },
-            { ticker: 'QUIET', name: 'Quiet Corp', price: 10.1, change_pct: 1.0, vol_20d: null, sigma: null }],
+            { ticker: 'QUIET', name: 'Quiet Corp', price: 10.1, change_pct: 1.0, vol_20d: null, sigma: null },
+            { ticker: 'WEBBY', name: 'Webby Inc', price: 20, change_pct: 0.5, vol_20d: null, sigma: null,
+              web: { title: 'Webby shares edge up on contract', link: 'https://news.google.com/rss/articles/w',
+                     source: 'Reuters', published: now } }],
   losers: [{ ticker: 'ZOOM2', name: 'Zoomer Inc', price: 8, change_pct: -9.5, vol_20d: 3.0, sigma: -3.2 }] };
 
 const vc = new VirtualConsole();
@@ -147,6 +150,8 @@ const row = t => Array.from(doc.querySelectorAll('#v-news .nd-row')).find(r => r
   const cols = Array.from(doc.querySelectorAll('#v-filings .nd-mvcol'));
   ok('gainers and losers side by side', cols.length === 2 && /Biggest gainers/.test(cols[0].textContent) && /Biggest losers/.test(cols[1].textContent));
   ok('a gainer shows its article', /Acme beats on revenue/.test(cols[0].textContent));
+  ok('a gainer our feeds missed shows the web find, marked as one',
+    /Webby shares edge up on contract/.test(cols[0].textContent) && /Reuters · .* · web search/.test(cols[0].textContent), cols[0].textContent);
   ok('a loser with no fresh article says so', /no headline in our feeds/.test(cols[1].textContent));
   ok('a mover with no sigma shows no sigma chip', !/0\.0σ|NaN/.test(cols[0].textContent), cols[0].textContent);
   const mv = Array.from(doc.querySelectorAll('#v-filings #nd-movers > .nd-mv-list .nd-mv'));
@@ -155,6 +160,7 @@ const row = t => Array.from(doc.querySelectorAll('#v-news .nd-row')).find(r => r
   ok('and its earnings', /Reported today|Reports today/.test(mv[0].textContent));
   ok('a mover whose only story is 60h old reads "no headline in our feeds"',
     /no headline in our feeds/.test(mv[1].textContent), mv[1].textContent);
+  ok('a mover the web search also missed says so', /or on the web/.test(mv[1].textContent), mv[1].textContent);
   ok('size is unsigned sigma, direction is in the percent', /3\.2σ/.test(mv[1].textContent) && /-9\.5%/.test(mv[1].textContent));
   ok('the footer counts movers with a headline', /1 of 2 have a headline/.test(doc.getElementById('nd-movers').textContent));
   mv[1].querySelector('[data-tk]').click();
