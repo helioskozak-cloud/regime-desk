@@ -58,6 +58,8 @@ const tick = (ms = 60) => new Promise(r => setTimeout(r, ms));
     && cells[2].querySelector('.mk-c').classList.contains('dn') && cells[2].querySelector('polyline').getAttribute('stroke') === '#e5484d', txt(2));
   ok('bitcoin has no cents and up is green', /81,745(?!\.)/.test(txt(3)) && cells[3].querySelector('.mk-c').classList.contains('up'), txt(3));
   ok('each cell draws its path and the prior close', cells.every(c => c.querySelector('polyline') && c.querySelector('line')));
+  const at = strip.querySelector('.mk-at');
+  ok('the row ends with when its newest quote is from', at && / ET/.test(at.textContent) && /just now|min ago|market closed/.test(at.textContent), at && at.textContent);
   ok('the tooltip names the prior close', /vs prior close 7,805\.45/.test(cells[0].title), cells[0].title);
   for (const v of ['#news', '#filings', '#analysis', '#bubble']) {
     dom.window.location.hash = v; dom.window.dispatchEvent(new dom.window.HashChangeEvent('hashchange')); await tick(20);

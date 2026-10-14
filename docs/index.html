@@ -35,7 +35,13 @@ a{color:#5b9dff;text-decoration:none}
    (indices.json) about every five minutes. */
 #mkt-strip{position:sticky;top:48px;z-index:99;background:#0a0a0a;border-bottom:1px solid #2e2e2e;padding:0 max(20px,calc((100% - 1760px)/2 + 28px));overflow-x:auto;scrollbar-width:none}
 #mkt-strip::-webkit-scrollbar{display:none}
-#mkt-strip .mk-row{display:grid;grid-template-columns:repeat(10,minmax(118px,1fr));min-height:46px}
+#mkt-strip .mk-row{display:grid;grid-template-columns:repeat(10,minmax(118px,1fr)) minmax(92px,auto);min-height:46px}
+#mkt-strip .mk-at{display:flex;flex-direction:column;justify-content:center;align-items:flex-end;padding:5px 0 5px 12px;border-left:1px solid #1c1c1c;white-space:nowrap}
+#mkt-strip .mk-at b{font-family:var(--mono);font-size:12px;font-weight:600;color:#c9c9c9;font-variant-numeric:tabular-nums}
+#mkt-strip .mk-at span{font-size:10px;color:#6f6f6f}
+#mkt-strip .mk-at i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#3fae6a;margin-right:5px;vertical-align:middle}
+#mkt-strip.stale .mk-at i{background:#d4a72c}
+html.light #mkt-strip .mk-at b{color:#1f2328}
 #mkt-strip .mk{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:5px 12px;border-left:1px solid #1c1c1c}
 #mkt-strip .mk:first-child{border-left:0;padding-left:0}
 #mkt-strip .mk-l{font-size:11px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -45621,8 +45627,25 @@ window._rdAsk=function(q){
     var stale=!isNaN(gen)&&marketOpen(now)&&(now-gen)>30*60*1000;
     el.classList.toggle('stale',stale);
     el.title=stale?'Quotes are more than 30 minutes old; news-desk has not refreshed them.':'';
-    el.innerHTML='<div class="mk-row">'+rows.slice(0,10).map(cell).join('')+'</div>';
+    // FRESHNESS (owner, 2026-10-14: "a timestamp to show how fresh the prices
+    // are"). The newest quote time across the row, and how long ago that was,
+    // re-counted every 15 seconds without waiting for the next fetch.
+    var newest=rows.reduce(function(m,r){var t=new Date(r.as_of).getTime();return isFinite(t)&&t>m?t:m;},0);
+    lastQuote=newest||null;
+    el.innerHTML='<div class="mk-row">'+rows.slice(0,10).map(cell).join('')
+      +'<div class="mk-at" title="Quotes from Yahoo, refreshed by news-desk about every 5 minutes; this page re-checks every minute."></div></div>';
+    tickAge();
   }
+  var lastQuote=null;
+  function tickAge(){
+    var box=el.querySelector('.mk-at'); if(!box||!lastQuote) return;
+    var t=new Date(lastQuote), mins=Math.max(0,Math.round((Date.now()-lastQuote)/60000));
+    var at=t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'});
+    var ago=mins<1?'just now':mins<60?mins+' min ago':Math.round(mins/60)+' h ago';
+    if(!marketOpen(new Date())) ago='market closed';
+    box.innerHTML='<b><i></i>'+at+' ET</b><span>'+ago+'</span>';
+  }
+  setInterval(tickAge,15000);
   function load(){
     try{
       fetch(URL+'?_t='+Date.now()).then(function(r){return r&&r.ok?r.json():null;})
@@ -45634,7 +45657,7 @@ window._rdAsk=function(q){
   function pin(){ if(bar) el.style.top=bar.offsetHeight+'px'; }
   pin(); window.addEventListener('resize',pin);
   window.MKTSTRIP={render:render,load:load};
-  load(); setInterval(load,120000);
+  load(); setInterval(load,60000);
 })();
 </script>
 </body>
