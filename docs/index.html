@@ -41781,7 +41781,7 @@ function _releasesStrip(){
 }
 document.getElementById("regime-banner").innerHTML=`
   <span class="regime-label">${spy.regime||"Unknown"}${streak>1?` <span style="color:#8f8f8f;font-size:11px">(${streak}d streak)</span>`:''}</span>
-${(function(){var vs=(S.signals||[]).find(function(s){return s.asset==='VIX';});if(!vs)return '';var vix=parseFloat(vs.value)||0;var col=vix>=25?'#e5484d':vix>=18?'#d4a72c':'#3fae6a';var lbl=vix>=25?'Fear':vix>=18?'Caution':'Calm';var pos=Math.min(100,Math.max(0,(vix/40)*100));return '<div class="stat" title="VIX '+vix.toFixed(1)+' — '+lbl+' regime"><span class="val" style="color:'+col+'">'+vix.toFixed(1)+' <span style="font-size:10px;font-weight:500">'+lbl+'</span></span><div style="width:70px;height:5px;background:linear-gradient(90deg,#1a3a2a 0%,#1a3a2a 45%,#3a2a1a 45%,#3a2a1a 62%,#3a1a1a 62%,#3a1a1a 100%);border-radius:4px;position:relative;margin-top:3px"><div style="position:absolute;left:'+pos.toFixed(0)+'%;top:-2px;width:2px;height:9px;background:#f2f2f2;transform:translateX(-1px)"></div></div><span class="key">VIX</span></div>';})()}${_releasesStrip()}`;
+${(function(){var vs=(S.signals||[]).find(function(s){return s.asset==='VIX';});if(!vs)return '';var vix=parseFloat(vs.value)||0;var col=vix>=25?'#e5484d':vix>=18?'#d4a72c':'#3fae6a';var lbl=vix>=25?'Fear':vix>=18?'Caution':'Calm';var pos=Math.min(100,Math.max(0,(vix/40)*100));return '<div class="stat" id="rb-vix" title="VIX '+vix.toFixed(1)+' at the morning scan — '+lbl+'"><span class="val" id="rb-vix-val" style="color:'+col+'">'+vix.toFixed(1)+' <span style="font-size:10px;font-weight:500">'+lbl+'</span></span><div style="width:70px;height:5px;background:linear-gradient(90deg,#1a3a2a 0%,#1a3a2a 45%,#3a2a1a 45%,#3a2a1a 62%,#3a1a1a 62%,#3a1a1a 100%);border-radius:4px;position:relative;margin-top:3px"><div id="rb-vix-mark" style="position:absolute;left:'+pos.toFixed(0)+'%;top:-2px;width:2px;height:9px;background:#f2f2f2;transform:translateX(-1px)"></div></div><span class="key">VIX</span></div>';})()}${_releasesStrip()}`;
 
 // Distribution — SVG box-and-whisker: whisker p10→p90, box p25→p75, median line, zero ref
 function distBar(p10,p25,p50,p75,p90){
@@ -44948,6 +44948,14 @@ function route(){
 
 window.addEventListener("hashchange",route);
 route();
+// Live quotes everywhere, not only once News has been opened (2026-10-14):
+// the ticker hover card reads NEWSTAB's quote map, so load it on every tab and
+// keep it fresh. The News tab, once booted, polls on its own timer instead.
+setTimeout(function(){
+  if(!window.NEWSTAB) return;
+  if(!NEWSTAB.state.loaded&&!NEWSTAB.state.failed) NEWSTAB.load();
+  setInterval(function(){ if(!NEWSTAB.state.booted) NEWSTAB.load(); },60000);
+},1500);
 
 // ── Pop-out: any card (with its charts/tables) opens enlarged in a modal ──────
 (function(){
@@ -45466,12 +45474,19 @@ window._rdAsk=function(q){
     if(!sc){tip.style.display='none';return;}
     var st={ticker:ticker,name:sc.name||px.name,sector:sc.sector||px.sector,
             price:px.price,change_pct:px.change_pct,week_closes:px.week_closes};
+    // Live quote first (2026-10-14), the same one News and Companies show;
+    // its change is already price / prior close - 1, a fraction like the scan's.
+    var lq=window.NEWSTAB&&NEWSTAB.priceMap?NEWSTAB.priceMap()[ticker]:null, when='at the morning scan';
+    if(lq&&lq.src==='news-desk'){
+      st.price=lq.price; st.change_pct=lq.chg; st.week_closes=lq.closes||st.week_closes;
+      when=NEWSTAB.quotesAsOf&&NEWSTAB.quotesAsOf()?NEWSTAB.quotesAsOf():'live';
+    }
     var sec=st.sector&&st.sector!=='Unknown'?st.sector:'—';
     var nameRow=st.name&&st.name!==st.ticker
       ?'<div style="color:#8f8f8f;font-size:11px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+st.name+'</div>':'';
 
     var priceBlock='';
-    if(st.price!=null&&st.week_closes&&st.week_closes.length>=2){
+    if(st.price!=null&&st.change_pct!=null&&st.week_closes&&st.week_closes.length>=2){
       var pc=st.change_pct>=0?'#3fae6a':'#e5484d';
       var ps=st.change_pct>=0?'+':'';
       var wkLo=Math.min.apply(null,st.week_closes),wkHi=Math.max.apply(null,st.week_closes);
@@ -45485,7 +45500,7 @@ window._rdAsk=function(q){
         +'<div style="display:flex;align-items:baseline;gap:8px">'
         +'<span style="color:#f2f2f2;font-size:15px;font-weight:700">$'+st.price.toFixed(2)+'</span>'
         +'<span style="color:'+pc+';font-size:12px;font-weight:600">'+ps+(st.change_pct*100).toFixed(2)+'%</span>'
-        +'<span style="color:#4a4a4a;font-size:10px">today</span>'
+        +'<span style="color:#6f6f6f;font-size:10px">'+when+'</span>'
         +'</div>'
         +_spark(st.week_closes)
         +rangeBar
@@ -45669,6 +45684,11 @@ window._rdAsk=function(q){
     // re-counted every 15 seconds without waiting for the next fetch.
     var newest=rows.reduce(function(m,r){var t=new Date(r.as_of).getTime();return isFinite(t)&&t>m?t:m;},0);
     lastQuote=newest||null;
+    // The banner's VIX reads the same live quote (owner, 2026-10-14: "make
+    // Home use the live quotes too"). The regime label beside it is the
+    // morning scan's and does not move with it.
+    var vx=rows.filter(function(r){return r.key==='^VIX';})[0];
+    if(vx&&typeof window._rdLiveVix==='function') window._rdLiveVix(vx);
     el.innerHTML='<div class="mk-row">'+rows.slice(0,10).map(cell).join('')
       +'<div class="mk-at" title="Quotes from Yahoo, refreshed by news-desk about every 5 minutes; this page re-checks every minute."></div></div>';
     tickAge();
@@ -45683,6 +45703,16 @@ window._rdAsk=function(q){
     box.innerHTML='<b><i></i>'+at+' ET</b><span>'+ago+'</span>';
   }
   setInterval(tickAge,15000);
+  window._rdLiveVix=function(r){
+    var box=document.getElementById('rb-vix'), val=document.getElementById('rb-vix-val'), mk=document.getElementById('rb-vix-mark');
+    if(!box||!val||!(r.last>0)) return;
+    var v=r.last, col=v>=25?'#e5484d':v>=18?'#d4a72c':'#3fae6a', lbl=v>=25?'Fear':v>=18?'Caution':'Calm';
+    var at=new Date(r.as_of), t=isNaN(at)?'':at.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
+    val.style.color=col;
+    val.innerHTML=v.toFixed(1)+' <span style="font-size:10px;font-weight:500">'+lbl+'</span>';
+    if(mk) mk.style.left=Math.min(100,Math.max(0,v/40*100)).toFixed(0)+'%';
+    box.title='VIX '+v.toFixed(2)+(t?' as of '+t:'')+' — '+lbl+'. The regime label beside it is from the morning scan.';
+  };
   function load(){
     try{
       fetch(URL+'?_t='+Date.now()).then(function(r){return r&&r.ok?r.json():null;})
