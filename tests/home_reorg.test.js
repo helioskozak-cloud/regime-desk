@@ -107,11 +107,9 @@ setTimeout(() => {
   ok(/Composite/.test(home), 'composite score retained');
 
   console.log('\n== criterion 1: no reading twice on one screen ==');
-  const banner = w.document.getElementById('regime-banner').innerHTML;
-  ['SPY 5d', 'SPY 20d', 'Drawdown 60d', 'Breadth', 'Persistence', 'Rev. Risk']
-    .forEach((d) => ok(!banner.includes(d), 'banner no longer repeats "' + d + '"'));
-  ok(banner.includes('VIX'), 'banner keeps VIX (the one reading NOT in the card)');
-  ok(/regime-label/.test(banner), 'banner keeps the regime label');
+  // The banner is gone entirely (owner, 2026-10-14): label in the card, VIX
+  // in the market strip, releases on News.
+  ok(!w.document.getElementById('regime-banner'), 'no regime banner at all');
 
   console.log('\n== the card still owns those readings ==');
   ['5d return', '20d return', 'Breadth', 'Persistence']

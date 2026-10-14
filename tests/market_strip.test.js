@@ -60,9 +60,6 @@ const tick = (ms = 60) => new Promise(r => setTimeout(r, ms));
   ok('each cell draws its path and the prior close', cells.every(c => c.querySelector('polyline') && c.querySelector('line')));
   const at = strip.querySelector('.mk-at');
   ok('the row ends with when its newest quote is from', at && / ET/.test(at.textContent) && /just now|min ago|market closed/.test(at.textContent), at && at.textContent);
-  const vixBox = doc.getElementById('rb-vix');
-  ok('the banner VIX reads the live quote, not the morning scan', vixBox && /^17\.2/.test(doc.getElementById('rb-vix-val').textContent)
-    && /as of .* ET/.test(vixBox.title) && /morning scan/.test(vixBox.title), vixBox && vixBox.title);
   ok('the tooltip names the prior close', /vs prior close 7,805\.45/.test(cells[0].title), cells[0].title);
   for (const v of ['#news', '#filings', '#analysis', '#bubble']) {
     dom.window.location.hash = v; dom.window.dispatchEvent(new dom.window.HashChangeEvent('hashchange')); await tick(20);

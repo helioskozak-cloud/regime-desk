@@ -64,7 +64,7 @@ const tick = (ms = 40) => new Promise(r => setTimeout(r, ms));
 
   console.log('\n== the regime banner belongs to Home ==');
   ok('Filings is not Home', doc.body.dataset.view === 'filings');
-  ok('the banner is hidden off Home', /body:not\(\[data-view="home"\]\) #regime-banner\{display:none\}/.test(html));
+  ok('no regime banner (removed 2026-10-14)', !doc.getElementById('regime-banner'));
   win.location.hash = '#home'; win.dispatchEvent(new win.HashChangeEvent('hashchange')); await tick(40);
   ok('and Home marks itself', doc.body.dataset.view === 'home');
 

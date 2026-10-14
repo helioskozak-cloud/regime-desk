@@ -118,8 +118,7 @@ const row = t => Array.from(doc.querySelectorAll('#v-news .nd-row')).find(r => r
 
   console.log('\n== the tab is news only: no regime banner, no movers ==');
   ok('body carries view-news', doc.body.classList.contains('view-news'));
-  ok('the regime banner shows on Home only', /body:not\(\[data-view="home"\]\) #regime-banner\{display:none\}/.test(html)
-    && doc.body.dataset.view === 'news');
+  ok('no regime banner (removed 2026-10-14)', !doc.getElementById('regime-banner') && doc.body.dataset.view === 'news');
   ok('Why it moved is not on the News tab', !doc.querySelector('#v-news #nd-movers'));
 
   console.log('\n== both News sections fold, and stay folded ==');
