@@ -99,6 +99,16 @@ const MK5Flipped = () => /Flipped: halvers ahead/.test(text());
   ok('a gap that is not closing leaves the dot-com pace alone', /the dot-com pace alone, because marker 5's own gap is not closing/.test(text()));
   latest.ttm = saved; latest.ttm_path = keep;
 
+  console.log('\nOff the menu (owner, 2026-10-14):');
+  const doc = win.document;
+  ok('the top menu has no Bubble tab', !doc.getElementById('nav-bubble')
+    && !/Bubble/.test(doc.getElementById('nav').textContent), doc.getElementById('nav').textContent);
+  ok('#bubble still opens it', doc.getElementById('v-bubble').classList.contains('active') && /Bubble Watch/.test(text()));
+  win.location.hash = '#analysis'; win.dispatchEvent(new win.HashChangeEvent('hashchange')); await tick();
+  ok('Methods links to it', !!doc.querySelector('#md-bubble-link a[href="#bubble"]'));
+  win.document.dispatchEvent(new win.KeyboardEvent('keydown', { key: '2', bubbles: true })); await tick();
+  ok('key 2 is the second menu tab, not Bubble', win.location.hash === '#news', win.location.hash);
+
   ok('no page errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);

@@ -41634,6 +41634,12 @@ const VIEWS = ["home","bubble","news","filings","analysis"];
 // "Filings" was renamed "Companies" (owner, 2026-10-13, Q60 = a): it holds
 // Filings, Earnings and Top movers. The view id stays "filings" so old links work.
 const LABELS = ["Home","Bubble","News","Companies","Methods"];
+// Bubble Watch is off the menu (owner, 2026-10-14: "move bubble to like its own
+// separate thing ... not really something i need to look at daily"). It is
+// still a view, so #bubble opens it; the way in is a link on Methods.
+const OFF_MENU = ["bubble"];
+const MENU = VIEWS.filter(v=>!OFF_MENU.includes(v));
+const menuLabel = v=>LABELS[VIEWS.indexOf(v)];
 
 
 // Theme persistence
@@ -41667,7 +41673,7 @@ function pill(s,label){return`<span class="pill ${pillClass(s)}">${label||s}</sp
 
 // Topbar nav
 const nav=document.getElementById("nav");
-VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textContent=LABELS[i];a.id="nav-"+v;if(v==="analysis")nav.prepend(a);else nav.appendChild(a);});
+MENU.forEach(v=>{const a=document.createElement("a");a.href="#"+v;a.textContent=menuLabel(v);a.id="nav-"+v;if(v==="analysis")nav.prepend(a);else nav.appendChild(a);});
 
 // Dark/light toggle button
 const themeBtn=document.createElement('button');
@@ -41699,7 +41705,7 @@ modal.style.cssText='display:none;position:fixed;inset:0;z-index:200;background:
 modal.innerHTML=`<div style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:24px;min-width:280px">
   <h3 style="margin-bottom:14px;color:#f2f2f2">Keyboard Shortcuts</h3>
   <table style="width:100%">
-  ${VIEWS.map((v,i)=>`<tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">${i===9?0:i+1}</kbd></td><td style="padding:3px 8px;color:#8f8f8f">${LABELS[i]}</td></tr>`).join('')}
+  ${MENU.map((v,i)=>`<tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">${i===9?0:i+1}</kbd></td><td style="padding:3px 8px;color:#8f8f8f">${menuLabel(v)}</td></tr>`).join('')}
   <tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">a</kbd></td><td style="padding:3px 8px;color:#8f8f8f">Jump to Ask view</td></tr>
   <tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">d</kbd></td><td style="padding:3px 8px;color:#8f8f8f">Toggle dark/light mode</td></tr>
   <tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">Esc</kbd></td><td style="padding:3px 8px;color:#8f8f8f">Close this modal</td></tr>
@@ -41716,7 +41722,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){modal.style.display='none';return;}
   if(e.key==='d'){themeBtn.click();return;}
   const i=parseInt(e.key);
-  if(i>=1&&i<=VIEWS.length) location.hash='#'+VIEWS[i-1];
+  if(i>=1&&i<=MENU.length) location.hash='#'+MENU[i-1];
 });
 
 // Banner with sparklines
@@ -43101,6 +43107,10 @@ function renderAnalysis(){
   </div>`).join('');
   return`<div class="card wide"><h2>Methods — how each Home card is built</h2>
   <p style="color:#8f8f8f;font-size:13px;max-width:880px">An appendix, not a step in the workflow. Each Home card below with its own explanations, the same text Home opens under "what is this" — click a line to expand. Then how the stock signals work, and their limits.</p></div>
+  <div class="card wide" id="md-bubble-link"><h2>Bubble Watch</h2>
+    <p style="color:#8f8f8f;font-size:13px;max-width:880px">Kept off the menu: a slow, long-run reading (the share of S&amp;P 500 members doubling or halving each year, dot-com era against today), not a daily one. It still updates with every daily scan.</p>
+    <p><a class="nd-btn" href="#bubble">Open Bubble Watch →</a></p>
+  </div>
   ${homeCards}
   ${_scannerMethod()}
   <div class="card wide"><h2 style="color:#d4a72c">Limitations</h2>
@@ -43108,7 +43118,7 @@ function renderAnalysis(){
     <p><strong>Regime shifts.</strong> Base rates since 1993 span very different rate, inflation and market-structure regimes; a label's history is an average over all of them.</p>
     <p><strong>No causation.</strong> Co-occurrence, not mechanism.</p>
     <p><strong>Tendencies, not forecasts.</strong> A 60% hit rate is six in ten in history, not a guarantee.</p>
-    <p><strong>Bubble Watch</strong> has its own method and survivorship caveats at the foot of the Bubble tab.</p>
+    <p><strong>Bubble Watch</strong> has its own method and survivorship caveats at the foot of <a href="#bubble">its page</a>.</p>
   </div>
   <div class="card wide"><h2>Glossary</h2>
     <p><strong>Scanner rank</strong> — a name's place, best first, on the average of five percentile ranks across the universe: 1, 3 and 6-month return over SPY, distance above the 50-day average, and position in its 20-day range.</p>
