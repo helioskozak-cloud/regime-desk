@@ -29,6 +29,32 @@ a{color:#5b9dff;text-decoration:none}
 #topbar nav a{font-family:var(--mono);padding:4px 10px;border-radius:4px;color:#8f8f8f;font-size:12px;transition:background .15s}
 #topbar nav a:hover,#topbar nav a.active{background:#141414;color:#f2f2f2}
 #topbar .ts{margin-left:auto;color:#6f6f6f;font-size:11px;white-space:nowrap}
+/* Market strip (owner, 2026-10-14, Q65 = a: "a proper display of top indices
+   ... like tipranks.com"). One thin row under the menu on every tab, sticky
+   with it. Words in Geist, figures in Geist Mono. news-desk writes the data
+   (indices.json) about every five minutes. */
+#mkt-strip{position:sticky;top:48px;z-index:99;background:#0a0a0a;border-bottom:1px solid #2e2e2e;padding:0 max(20px,calc((100% - 1760px)/2 + 28px));overflow-x:auto;scrollbar-width:none}
+#mkt-strip::-webkit-scrollbar{display:none}
+#mkt-strip .mk-row{display:grid;grid-template-columns:repeat(10,minmax(118px,1fr)) minmax(92px,auto);min-height:46px}
+#mkt-strip .mk-at{display:flex;flex-direction:column;justify-content:center;align-items:flex-end;padding:5px 0 5px 12px;border-left:1px solid #1c1c1c;white-space:nowrap}
+#mkt-strip .mk-at b{font-family:var(--mono);font-size:12px;font-weight:600;color:#c9c9c9;font-variant-numeric:tabular-nums}
+#mkt-strip .mk-at span{font-size:10px;color:#6f6f6f}
+#mkt-strip .mk-at i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#3fae6a;margin-right:5px;vertical-align:middle}
+#mkt-strip.stale .mk-at i{background:#d4a72c}
+html.light #mkt-strip .mk-at b{color:#1f2328}
+#mkt-strip .mk{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:5px 12px;border-left:1px solid #1c1c1c}
+#mkt-strip .mk:first-child{border-left:0;padding-left:0}
+#mkt-strip .mk-l{font-size:11px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#mkt-strip .mk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:#f2f2f2;font-variant-numeric:tabular-nums;white-space:nowrap}
+#mkt-strip .mk-c{font-family:var(--mono);font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+#mkt-strip .mk-s{grid-row:1 / span 2;grid-column:2}
+#mkt-strip .up{color:#3fae6a}#mkt-strip .dn{color:#e5484d}#mkt-strip .fl{color:#8f8f8f}
+#mkt-strip .mk-note{font-size:11px;color:#6f6f6f;padding:14px 0}
+#mkt-strip.stale .mk-v{color:#8f8f8f}
+html.light #mkt-strip{background:#ffffff;border-color:#d0d7de}
+html.light #mkt-strip .mk{border-color:#eaeef2}
+html.light #mkt-strip .mk-v{color:#1f2328}
+html.light #mkt-strip .mk-l{color:#57606a}
 #regime-banner{background:#0e0e0e;border-bottom:1px solid #2e2e2e;padding:8px max(20px,calc((100% - 1760px)/2 + 28px));display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .regime-label{font-size:13px;font-weight:700;color:#f2f2f2}
 .stat{display:flex;flex-direction:column;align-items:center;gap:2px}
@@ -665,6 +691,7 @@ html:not(.light) .fl-stat{border-radius:12px!important}
   <nav id="nav"></nav>
   <span class="ts" id="ts"></span>
 </div>
+<div id="mkt-strip" role="region" aria-label="Markets"></div>
 <div id="regime-banner" id="banner"></div>
 <div id="main">
   <div class="view" id="v-home"></div>
@@ -27218,7 +27245,7 @@ window.SNAPSHOT = {
       "2026-10-23"
     ],
     "days_failed": [],
-    "n": 279,
+    "n": 280,
     "earnings": [
       {
         "date": "2026-10-12",
@@ -27229,7 +27256,7 @@ window.SNAPSHOT = {
         "eps": -0.56,
         "n_est": 5,
         "eps_ly": null,
-        "mcap": 2296688640.0,
+        "mcap": 2299802110.0,
         "quarter": "Aug/2026"
       },
       {
@@ -27241,7 +27268,7 @@ window.SNAPSHOT = {
         "eps": null,
         "n_est": null,
         "eps_ly": null,
-        "mcap": 8956280.0,
+        "mcap": 9156399.0,
         "quarter": "Aug/2026"
       },
       {
@@ -27385,7 +27412,7 @@ window.SNAPSHOT = {
         "eps": 12.47,
         "n_est": 3,
         "eps_ly": 6.41,
-        "mcap": 662055030000.0,
+        "mcap": 674573390000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27397,7 +27424,7 @@ window.SNAPSHOT = {
         "eps": 1.11,
         "n_est": 7,
         "eps_ly": 1.06,
-        "mcap": 377328697000.0,
+        "mcap": 381664199000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27409,7 +27436,7 @@ window.SNAPSHOT = {
         "eps": 2.83,
         "n_est": 5,
         "eps_ly": 2.8,
-        "mcap": 293130502000.0,
+        "mcap": 298439016000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27421,7 +27448,7 @@ window.SNAPSHOT = {
         "eps": 14.01,
         "n_est": 6,
         "eps_ly": 11.55,
-        "mcap": 165109219000.0,
+        "mcap": 167865893000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27433,7 +27460,7 @@ window.SNAPSHOT = {
         "eps": 4.46,
         "n_est": 9,
         "eps_ly": 4.05,
-        "mcap": 129576141000.0,
+        "mcap": 128064578000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27445,7 +27472,7 @@ window.SNAPSHOT = {
         "eps": 0.34,
         "n_est": 6,
         "eps_ly": 0.29,
-        "mcap": 59015799000.0,
+        "mcap": 59084648000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27457,7 +27484,7 @@ window.SNAPSHOT = {
         "eps": 3.65,
         "n_est": 6,
         "eps_ly": 2.78,
-        "mcap": 47825576000.0,
+        "mcap": 48053580000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27469,7 +27496,7 @@ window.SNAPSHOT = {
         "eps": 0.63,
         "n_est": 4,
         "eps_ly": 0.61,
-        "mcap": 5673407500.0,
+        "mcap": 5701414400.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27805,7 +27832,7 @@ window.SNAPSHOT = {
         "eps": 1.09,
         "n_est": 8,
         "eps_ly": 0.93,
-        "mcap": 45544145000.0,
+        "mcap": 46088282000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27817,7 +27844,7 @@ window.SNAPSHOT = {
         "eps": 5.42,
         "n_est": 3,
         "eps_ly": 2.74,
-        "mcap": 34489037000.0,
+        "mcap": 34275479600.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27829,7 +27856,7 @@ window.SNAPSHOT = {
         "eps": 1.14,
         "n_est": 6,
         "eps_ly": 1.1,
-        "mcap": 27303784400.0,
+        "mcap": 27062487000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27841,19 +27868,7 @@ window.SNAPSHOT = {
         "eps": -0.28,
         "n_est": 3,
         "eps_ly": -0.31,
-        "mcap": 12411754500.0,
-        "quarter": "Sep/2026"
-      },
-      {
-        "date": "2026-10-19",
-        "ticker": "CCK",
-        "name": "Crown Holdings, Inc.",
-        "sector": "Consumer Discretionary",
-        "time": "post",
-        "eps": 2.25,
-        "n_est": 4,
-        "eps_ly": 2.24,
-        "mcap": 11963656200.0,
+        "mcap": 13699313700.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27865,7 +27880,19 @@ window.SNAPSHOT = {
         "eps": 2.68,
         "n_est": 3,
         "eps_ly": 2.86,
-        "mcap": 11839077400.0,
+        "mcap": 12066373600.0,
+        "quarter": "Sep/2026"
+      },
+      {
+        "date": "2026-10-19",
+        "ticker": "CCK",
+        "name": "Crown Holdings, Inc.",
+        "sector": "Consumer Discretionary",
+        "time": "post",
+        "eps": 2.25,
+        "n_est": 4,
+        "eps_ly": 2.24,
+        "mcap": 11801603100.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27877,7 +27904,7 @@ window.SNAPSHOT = {
         "eps": 0.39,
         "n_est": 4,
         "eps_ly": 0.35,
-        "mcap": 10206995500.0,
+        "mcap": 10289979400.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27889,7 +27916,7 @@ window.SNAPSHOT = {
         "eps": 3.29,
         "n_est": 6,
         "eps_ly": 3.06,
-        "mcap": 9633465300.0,
+        "mcap": 9728592900.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27901,7 +27928,7 @@ window.SNAPSHOT = {
         "eps": 1.64,
         "n_est": 10,
         "eps_ly": 1.54,
-        "mcap": 9082677200.0,
+        "mcap": 9148356600.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27913,7 +27940,7 @@ window.SNAPSHOT = {
         "eps": 2.43,
         "n_est": 8,
         "eps_ly": 2.28,
-        "mcap": 8044006900.0,
+        "mcap": 8148743700.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27925,7 +27952,7 @@ window.SNAPSHOT = {
         "eps": 2.54,
         "n_est": 3,
         "eps_ly": 2.22,
-        "mcap": 7577020400.0,
+        "mcap": 7636572200.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27937,7 +27964,7 @@ window.SNAPSHOT = {
         "eps": 0.24,
         "n_est": 5,
         "eps_ly": -0.45,
-        "mcap": 7337144800.0,
+        "mcap": 7354261000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27949,7 +27976,7 @@ window.SNAPSHOT = {
         "eps": 0.43,
         "n_est": 6,
         "eps_ly": 0.41,
-        "mcap": 6018666500.0,
+        "mcap": 6064556500.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27958,10 +27985,10 @@ window.SNAPSHOT = {
         "name": "RLI Corp.",
         "sector": "Financials",
         "time": "post",
-        "eps": 0.58,
+        "eps": 0.54,
         "n_est": 4,
         "eps_ly": 0.83,
-        "mcap": 5240236500.0,
+        "mcap": 5197103100.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27970,10 +27997,10 @@ window.SNAPSHOT = {
         "name": "ServisFirst Bancshares, Inc.",
         "sector": "Financials",
         "time": "post",
-        "eps": 0.83,
-        "n_est": 3,
+        "eps": 0.82,
+        "n_est": 2,
         "eps_ly": 0.65,
-        "mcap": 4217437440.0,
+        "mcap": 4234932740.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27985,7 +28012,7 @@ window.SNAPSHOT = {
         "eps": 0.13,
         "n_est": 2,
         "eps_ly": 0.07,
-        "mcap": 2929955580.0,
+        "mcap": 2927260160.0,
         "quarter": "Sep/2026"
       },
       {
@@ -27997,7 +28024,7 @@ window.SNAPSHOT = {
         "eps": null,
         "n_est": 2,
         "eps_ly": 0.25,
-        "mcap": 2692611070.0,
+        "mcap": 2705019390.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28009,7 +28036,7 @@ window.SNAPSHOT = {
         "eps": null,
         "n_est": 2,
         "eps_ly": -1.27,
-        "mcap": 10908580.0,
+        "mcap": 12085764.0,
         "quarter": "Jul/2026"
       },
       {
@@ -28021,7 +28048,7 @@ window.SNAPSHOT = {
         "eps": 2.01,
         "n_est": 7,
         "eps_ly": 1.66,
-        "mcap": 320233308000.0,
+        "mcap": 319185355000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28033,7 +28060,7 @@ window.SNAPSHOT = {
         "eps": 2.31,
         "n_est": 3,
         "eps_ly": 2.24,
-        "mcap": 314839925000.0,
+        "mcap": 310616064000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28045,7 +28072,7 @@ window.SNAPSHOT = {
         "eps": 0.82,
         "n_est": 12,
         "eps_ly": 0.59,
-        "mcap": 294015795000.0,
+        "mcap": 293391204000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28054,10 +28081,10 @@ window.SNAPSHOT = {
         "name": "RTX Corporation",
         "sector": "Industrials",
         "time": "pre",
-        "eps": 1.75,
+        "eps": 1.76,
         "n_est": 5,
         "eps_ly": 1.7,
-        "mcap": 251572535000.0,
+        "mcap": 246666691000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28069,7 +28096,7 @@ window.SNAPSHOT = {
         "eps": 2.13,
         "n_est": 8,
         "eps_ly": 1.96,
-        "mcap": 151075815000.0,
+        "mcap": 149104525000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28081,7 +28108,7 @@ window.SNAPSHOT = {
         "eps": 6.42,
         "n_est": 10,
         "eps_ly": 7.49,
-        "mcap": 133124096000.0,
+        "mcap": 133548483000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28090,10 +28117,10 @@ window.SNAPSHOT = {
         "name": "Capital One Financial Corporation",
         "sector": "Financials",
         "time": "post",
-        "eps": 5.43,
+        "eps": 5.45,
         "n_est": 8,
         "eps_ly": 5.95,
-        "mcap": 123396342000.0,
+        "mcap": 121512944000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28105,7 +28132,7 @@ window.SNAPSHOT = {
         "eps": 2.41,
         "n_est": 5,
         "eps_ly": 2.19,
-        "mcap": 82974581000.0,
+        "mcap": 83944137000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28117,7 +28144,7 @@ window.SNAPSHOT = {
         "eps": 3.52,
         "n_est": 6,
         "eps_ly": 2.8,
-        "mcap": 72275681000.0,
+        "mcap": 73705931000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28126,10 +28153,10 @@ window.SNAPSHOT = {
         "name": "Northrop Grumman Corporation",
         "sector": "Industrials",
         "time": "pre",
-        "eps": 7.21,
-        "n_est": 5,
+        "eps": 7.22,
+        "n_est": 6,
         "eps_ly": 7.67,
-        "mcap": 68900569000.0,
+        "mcap": 68386300000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28141,7 +28168,7 @@ window.SNAPSHOT = {
         "eps": 0.46,
         "n_est": 3,
         "eps_ly": 0.4,
-        "mcap": 64438747000.0,
+        "mcap": 65251381000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28150,10 +28177,10 @@ window.SNAPSHOT = {
         "name": "MSCI Inc.",
         "sector": "Financials",
         "time": "pre",
-        "eps": 5.0,
+        "eps": 4.99,
         "n_est": 6,
         "eps_ly": 4.47,
-        "mcap": 41294328000.0,
+        "mcap": 40771613000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28162,10 +28189,10 @@ window.SNAPSHOT = {
         "name": "United Airlines Holdings, Inc.",
         "sector": "Industrials",
         "time": "post",
-        "eps": 2.68,
+        "eps": 2.6,
         "n_est": 7,
         "eps_ly": 2.78,
-        "mcap": 33899528200.0,
+        "mcap": 33506783200.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28177,7 +28204,7 @@ window.SNAPSHOT = {
         "eps": 2.48,
         "n_est": 6,
         "eps_ly": 2.86,
-        "mcap": 27390877700.0,
+        "mcap": 27379714000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28189,19 +28216,7 @@ window.SNAPSHOT = {
         "eps": 0.58,
         "n_est": 9,
         "eps_ly": 0.58,
-        "mcap": 27160049700.0,
-        "quarter": "Sep/2026"
-      },
-      {
-        "date": "2026-10-20",
-        "ticker": "KEY",
-        "name": "KeyCorp",
-        "sector": "Financials",
-        "time": "pre",
-        "eps": 0.46,
-        "n_est": 7,
-        "eps_ly": 0.41,
-        "mcap": 21438613500.0,
+        "mcap": 27318345700.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28213,7 +28228,19 @@ window.SNAPSHOT = {
         "eps": 2.68,
         "n_est": 3,
         "eps_ly": 2.24,
-        "mcap": 21143842800.0,
+        "mcap": 21533415400.0,
+        "quarter": "Sep/2026"
+      },
+      {
+        "date": "2026-10-20",
+        "ticker": "KEY",
+        "name": "KeyCorp",
+        "sector": "Financials",
+        "time": "pre",
+        "eps": 0.46,
+        "n_est": 7,
+        "eps_ly": 0.41,
+        "mcap": 21246529500.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28222,10 +28249,10 @@ window.SNAPSHOT = {
         "name": "Genuine Parts Company",
         "sector": "Consumer Discretionary",
         "time": "pre",
-        "eps": 2.1,
+        "eps": 2.09,
         "n_est": 5,
         "eps_ly": 1.98,
-        "mcap": 17869381600.0,
+        "mcap": 18019649500.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28234,10 +28261,10 @@ window.SNAPSHOT = {
         "name": "Equifax Inc.",
         "sector": "Industrials",
         "time": "pre",
-        "eps": 2.21,
+        "eps": 2.2,
         "n_est": 9,
         "eps_ly": 2.04,
-        "mcap": 17309048800.0,
+        "mcap": 17514647600.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28249,7 +28276,7 @@ window.SNAPSHOT = {
         "eps": 2.69,
         "n_est": 9,
         "eps_ly": 2.62,
-        "mcap": 17203208200.0,
+        "mcap": 17133332500.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28261,7 +28288,7 @@ window.SNAPSHOT = {
         "eps": 0.78,
         "n_est": 4,
         "eps_ly": 0.73,
-        "mcap": 13785437200.0,
+        "mcap": 13687454700.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28273,7 +28300,7 @@ window.SNAPSHOT = {
         "eps": null,
         "n_est": 1,
         "eps_ly": 0.94,
-        "mcap": 13463311400.0,
+        "mcap": 13604867100.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28285,7 +28312,7 @@ window.SNAPSHOT = {
         "eps": 1.88,
         "n_est": 5,
         "eps_ly": 1.68,
-        "mcap": 13361142800.0,
+        "mcap": 13531805700.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28297,7 +28324,19 @@ window.SNAPSHOT = {
         "eps": 1.38,
         "n_est": 2,
         "eps_ly": 0.63,
-        "mcap": 11960086500.0,
+        "mcap": 12321562600.0,
+        "quarter": "Sep/2026"
+      },
+      {
+        "date": "2026-10-20",
+        "ticker": "ELS",
+        "name": "Equity LifeStyle Properties, Inc.",
+        "sector": "Real Estate",
+        "time": "post",
+        "eps": 0.79,
+        "n_est": 3,
+        "eps_ly": 0.75,
+        "mcap": 11438169100.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28306,10 +28345,10 @@ window.SNAPSHOT = {
         "name": "Ally Financial Inc.",
         "sector": "Financials",
         "time": "pre",
-        "eps": 1.34,
+        "eps": 1.32,
         "n_est": 6,
         "eps_ly": 1.15,
-        "mcap": 11532210200.0,
+        "mcap": 11437908000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28321,7 +28360,7 @@ window.SNAPSHOT = {
         "eps": 5.71,
         "n_est": 6,
         "eps_ly": 4.98,
-        "mcap": 9016912900.0,
+        "mcap": 9111120900.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28333,7 +28372,7 @@ window.SNAPSHOT = {
         "eps": 1.07,
         "n_est": 6,
         "eps_ly": 1.24,
-        "mcap": 8353854000.0,
+        "mcap": 8456022000.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28345,7 +28384,7 @@ window.SNAPSHOT = {
         "eps": 1.11,
         "n_est": 4,
         "eps_ly": 1.1,
-        "mcap": 8230178800.0,
+        "mcap": 8135650800.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28357,7 +28396,7 @@ window.SNAPSHOT = {
         "eps": 1.07,
         "n_est": 8,
         "eps_ly": 1.06,
-        "mcap": 7827094000.0,
+        "mcap": 7786932700.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28366,10 +28405,10 @@ window.SNAPSHOT = {
         "name": "Galaxy Digital",
         "sector": "Financials",
         "time": "",
-        "eps": -0.13,
+        "eps": -0.12,
         "n_est": 6,
         "eps_ly": 1.12,
-        "mcap": 7766966300.0,
+        "mcap": 7704423900.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28381,7 +28420,7 @@ window.SNAPSHOT = {
         "eps": 1.64,
         "n_est": 9,
         "eps_ly": 1.36,
-        "mcap": 6820095000.0,
+        "mcap": 6915385300.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28393,7 +28432,7 @@ window.SNAPSHOT = {
         "eps": 1.65,
         "n_est": 6,
         "eps_ly": 1.49,
-        "mcap": 5827402800.0,
+        "mcap": 5784884700.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28405,7 +28444,7 @@ window.SNAPSHOT = {
         "eps": 0.3,
         "n_est": 4,
         "eps_ly": 0.12,
-        "mcap": 5739376600.0,
+        "mcap": 5652241900.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28417,7 +28456,7 @@ window.SNAPSHOT = {
         "eps": 1.21,
         "n_est": 4,
         "eps_ly": 1.12,
-        "mcap": 5489269200.0,
+        "mcap": 5521449500.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28429,7 +28468,7 @@ window.SNAPSHOT = {
         "eps": 0.96,
         "n_est": 6,
         "eps_ly": 0.84,
-        "mcap": 5404115500.0,
+        "mcap": 5355558400.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28441,7 +28480,7 @@ window.SNAPSHOT = {
         "eps": 1.45,
         "n_est": 7,
         "eps_ly": 1.59,
-        "mcap": 5127329300.0,
+        "mcap": 5100176900.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28453,7 +28492,7 @@ window.SNAPSHOT = {
         "eps": 0.99,
         "n_est": 4,
         "eps_ly": 0.89,
-        "mcap": 4788332000.0,
+        "mcap": 4799759900.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28465,7 +28504,7 @@ window.SNAPSHOT = {
         "eps": 0.35,
         "n_est": 8,
         "eps_ly": 1.05,
-        "mcap": 4247614720.0,
+        "mcap": 4219714050.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28477,7 +28516,7 @@ window.SNAPSHOT = {
         "eps": 0.77,
         "n_est": 5,
         "eps_ly": 0.75,
-        "mcap": 4048925440.0,
+        "mcap": 4023604480.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28489,7 +28528,7 @@ window.SNAPSHOT = {
         "eps": 0.12,
         "n_est": 6,
         "eps_ly": 0.11,
-        "mcap": 3979759620.0,
+        "mcap": 4003089150.0,
         "quarter": "Sep/2026"
       },
       {
@@ -28501,7 +28540,7 @@ window.SNAPSHOT = {
         "eps": 1.3,
         "n_est": 3,
         "eps_ly": 1.52,
-        "mcap": 3508897790.0,
+        "mcap": 3449467140.0,
         "quarter": "Sep/2026"
       },
       {
@@ -41622,6 +41661,12 @@ const VIEWS = ["home","bubble","news","filings","analysis"];
 // "Filings" was renamed "Companies" (owner, 2026-10-13, Q60 = a): it holds
 // Filings, Earnings and Top movers. The view id stays "filings" so old links work.
 const LABELS = ["Home","Bubble","News","Companies","Methods"];
+// Bubble Watch is off the menu (owner, 2026-10-14: "move bubble to like its own
+// separate thing ... not really something i need to look at daily"). It is
+// still a view, so #bubble opens it; the way in is a link on Methods.
+const OFF_MENU = ["bubble"];
+const MENU = VIEWS.filter(v=>!OFF_MENU.includes(v));
+const menuLabel = v=>LABELS[VIEWS.indexOf(v)];
 
 
 // Theme persistence
@@ -41655,7 +41700,7 @@ function pill(s,label){return`<span class="pill ${pillClass(s)}">${label||s}</sp
 
 // Topbar nav
 const nav=document.getElementById("nav");
-VIEWS.forEach((v,i)=>{const a=document.createElement("a");a.href="#"+v;a.textContent=LABELS[i];a.id="nav-"+v;if(v==="analysis")nav.prepend(a);else nav.appendChild(a);});
+MENU.forEach(v=>{const a=document.createElement("a");a.href="#"+v;a.textContent=menuLabel(v);a.id="nav-"+v;if(v==="analysis")nav.prepend(a);else nav.appendChild(a);});
 
 // Dark/light toggle button
 const themeBtn=document.createElement('button');
@@ -41687,7 +41732,7 @@ modal.style.cssText='display:none;position:fixed;inset:0;z-index:200;background:
 modal.innerHTML=`<div style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:24px;min-width:280px">
   <h3 style="margin-bottom:14px;color:#f2f2f2">Keyboard Shortcuts</h3>
   <table style="width:100%">
-  ${VIEWS.map((v,i)=>`<tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">${i===9?0:i+1}</kbd></td><td style="padding:3px 8px;color:#8f8f8f">${LABELS[i]}</td></tr>`).join('')}
+  ${MENU.map((v,i)=>`<tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">${i===9?0:i+1}</kbd></td><td style="padding:3px 8px;color:#8f8f8f">${menuLabel(v)}</td></tr>`).join('')}
   <tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">a</kbd></td><td style="padding:3px 8px;color:#8f8f8f">Jump to Ask view</td></tr>
   <tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">d</kbd></td><td style="padding:3px 8px;color:#8f8f8f">Toggle dark/light mode</td></tr>
   <tr><td style="padding:3px 8px"><kbd style="background:#141414;border:1px solid #2e2e2e;border-radius:3px;padding:1px 6px;font-size:12px">Esc</kbd></td><td style="padding:3px 8px;color:#8f8f8f">Close this modal</td></tr>
@@ -41704,7 +41749,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){modal.style.display='none';return;}
   if(e.key==='d'){themeBtn.click();return;}
   const i=parseInt(e.key);
-  if(i>=1&&i<=VIEWS.length) location.hash='#'+VIEWS[i-1];
+  if(i>=1&&i<=MENU.length) location.hash='#'+MENU[i-1];
 });
 
 // Banner with sparklines
@@ -41736,7 +41781,7 @@ function _releasesStrip(){
 }
 document.getElementById("regime-banner").innerHTML=`
   <span class="regime-label">${spy.regime||"Unknown"}${streak>1?` <span style="color:#8f8f8f;font-size:11px">(${streak}d streak)</span>`:''}</span>
-${(function(){var vs=(S.signals||[]).find(function(s){return s.asset==='VIX';});if(!vs)return '';var vix=parseFloat(vs.value)||0;var col=vix>=25?'#e5484d':vix>=18?'#d4a72c':'#3fae6a';var lbl=vix>=25?'Fear':vix>=18?'Caution':'Calm';var pos=Math.min(100,Math.max(0,(vix/40)*100));return '<div class="stat" title="VIX '+vix.toFixed(1)+' — '+lbl+' regime"><span class="val" style="color:'+col+'">'+vix.toFixed(1)+' <span style="font-size:10px;font-weight:500">'+lbl+'</span></span><div style="width:70px;height:5px;background:linear-gradient(90deg,#1a3a2a 0%,#1a3a2a 45%,#3a2a1a 45%,#3a2a1a 62%,#3a1a1a 62%,#3a1a1a 100%);border-radius:4px;position:relative;margin-top:3px"><div style="position:absolute;left:'+pos.toFixed(0)+'%;top:-2px;width:2px;height:9px;background:#f2f2f2;transform:translateX(-1px)"></div></div><span class="key">VIX</span></div>';})()}${_releasesStrip()}`;
+${(function(){var vs=(S.signals||[]).find(function(s){return s.asset==='VIX';});if(!vs)return '';var vix=parseFloat(vs.value)||0;var col=vix>=25?'#e5484d':vix>=18?'#d4a72c':'#3fae6a';var lbl=vix>=25?'Fear':vix>=18?'Caution':'Calm';var pos=Math.min(100,Math.max(0,(vix/40)*100));return '<div class="stat" id="rb-vix" title="VIX '+vix.toFixed(1)+' at the morning scan — '+lbl+'"><span class="val" id="rb-vix-val" style="color:'+col+'">'+vix.toFixed(1)+' <span style="font-size:10px;font-weight:500">'+lbl+'</span></span><div style="width:70px;height:5px;background:linear-gradient(90deg,#1a3a2a 0%,#1a3a2a 45%,#3a2a1a 45%,#3a2a1a 62%,#3a1a1a 62%,#3a1a1a 100%);border-radius:4px;position:relative;margin-top:3px"><div id="rb-vix-mark" style="position:absolute;left:'+pos.toFixed(0)+'%;top:-2px;width:2px;height:9px;background:#f2f2f2;transform:translateX(-1px)"></div></div><span class="key">VIX</span></div>';})()}${_releasesStrip()}`;
 
 // Distribution — SVG box-and-whisker: whisker p10→p90, box p25→p75, median line, zero ref
 function distBar(p10,p25,p50,p75,p90){
@@ -43089,6 +43134,10 @@ function renderAnalysis(){
   </div>`).join('');
   return`<div class="card wide"><h2>Methods — how each Home card is built</h2>
   <p style="color:#8f8f8f;font-size:13px;max-width:880px">An appendix, not a step in the workflow. Each Home card below with its own explanations, the same text Home opens under "what is this" — click a line to expand. Then how the stock signals work, and their limits.</p></div>
+  <div class="card wide" id="md-bubble-link"><h2>Bubble Watch</h2>
+    <p style="color:#8f8f8f;font-size:13px;max-width:880px">Kept off the menu: a slow, long-run reading (the share of S&amp;P 500 members doubling or halving each year, dot-com era against today), not a daily one. It still updates with every daily scan.</p>
+    <p><a class="nd-btn" href="#bubble">Open Bubble Watch →</a></p>
+  </div>
   ${homeCards}
   ${_scannerMethod()}
   <div class="card wide"><h2 style="color:#d4a72c">Limitations</h2>
@@ -43096,7 +43145,7 @@ function renderAnalysis(){
     <p><strong>Regime shifts.</strong> Base rates since 1993 span very different rate, inflation and market-structure regimes; a label's history is an average over all of them.</p>
     <p><strong>No causation.</strong> Co-occurrence, not mechanism.</p>
     <p><strong>Tendencies, not forecasts.</strong> A 60% hit rate is six in ten in history, not a guarantee.</p>
-    <p><strong>Bubble Watch</strong> has its own method and survivorship caveats at the foot of the Bubble tab.</p>
+    <p><strong>Bubble Watch</strong> has its own method and survivorship caveats at the foot of <a href="#bubble">its page</a>.</p>
   </div>
   <div class="card wide"><h2>Glossary</h2>
     <p><strong>Scanner rank</strong> — a name's place, best first, on the average of five percentile ranks across the universe: 1, 3 and 6-month return over SPY, distance above the 50-day average, and position in its 20-day range.</p>
@@ -43638,8 +43687,14 @@ const _stripFoot=s=>s.replace(/<footer>[\s\S]*?<\/footer>/g,'');
 // A ticker SNAPSHOT does not cover now takes news-desk's price, and its session
 // change is DERIVED as price / prev_close - 1 — unit-free by construction — so
 // news-desk's change_pct is never read at all and the 100x question cannot
-// arise. No prev_close: the price shows, the change does not. SNAPSHOT still
-// wins wherever it has the ticker, so every other tab and this one agree.
+// arise. No prev_close: the price shows, the change does not.
+//
+// LIVE QUOTES WIN SINCE 2026-10-14 (owner: "they only seem to change with a
+// page reload"). SNAPSHOT's prices are the morning scan's and never move
+// during the day, so news-desk's quote (republished every ~5 minutes) now
+// wins wherever it has the ticker, and SNAPSHOT is the fallback. Every price
+// carries where and when it is from (hover), and each view that shows quotes
+// says "Quotes as of" the news-desk file's time.
 //
 // Coverage stays honest: a ticker neither source prices renders as a bare
 // symbol. Never a 0.00, never a dash — both read as "flat", which is a
@@ -43786,7 +43841,7 @@ function renderEarnings(){
         +(r.eps_ly!=null?` <span class="er-dim">vs</span> <span class="er-fig er-dim">${eps(r.eps_ly)}</span> <span class="er-dim">a year ago</span>`:'')
         +(g!=null?` <span class="er-fig" style="color:${g>=0?'#3fae6a':'#e5484d'}">${g>=0?'+':''}${(g*100).toFixed(0)}%</span>`:'');
     const nEst=r.n_est!=null?`<div class="er-sub">${r.n_est} analyst${r.n_est===1?'':'s'}</div>`:'';
-    const today=qt?`<span class="er-fig">$${qt.price.toFixed(2)}</span>`
+    const today=qt?`<span class="er-fig" title="${esc(qt.when||'')}">$${qt.price.toFixed(2)}</span>`
         +(qt.chg!=null?` <span class="er-fig" style="color:${qt.chg>=0?'#3fae6a':'#e5484d'}">${qt.chg>=0?'+':''}${(qt.chg*100).toFixed(1)}%</span>`:'')
         +(qt.sigma!=null&&Math.abs(qt.sigma)>=2?` <span class="er-sg">${Math.abs(qt.sigma).toFixed(1)}σ</span>`:'')
       :'<span class="er-dim">—</span>';
@@ -43802,7 +43857,7 @@ function renderEarnings(){
     const note=failed.has(k)?'<span style="color:#d4a72c" title="This day could not be read today; rows are the previous file\'s">● not refreshed</span>':!read.has(k)?'<span style="color:#d4a72c">● not read</span>':'';
     return`<div data-earn-day="${k}" style="margin-bottom:12px;${past?'opacity:.55':''}"><div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid ${isToday?'#5b9dff':'#2e2e2e'};padding:2px 0 3px;margin-bottom:2px"><span class="er-day" style="color:${isToday?'#f2f2f2':'#c9c9c9'}">${lbl}${isToday?' · today':past?' · reported':''}</span><span style="font-size:11px;color:#6f6f6f">${note} ${rs.length} name${rs.length===1?'':'s'}</span></div>
       ${rs.length?`<table class="er-tbl"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup>${rs.map(line).join('')}</table>`:`<div style="color:#4a4a4a;font-size:12px;padding:3px 8px">${read.has(k)||failed.has(k)?'None in the universe.':''}</div>`}</div>`;};
-  const head=`<table class="er-tbl er-head"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup><tr><td>When</td><td>Company</td><td>Earnings per share</td><td>Today</td><td>Newest headline</td></tr></table>`;
+  const head=`<table class="er-tbl er-head"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup><tr><td>When</td><td>Company</td><td>Earnings per share</td><td>Today${NT&&NT.quotesAsOf&&NT.quotesAsOf()?` <span class="er-dim" style="text-transform:none;letter-spacing:0">\u00b7 ${NT.quotesAsOf()}</span>`:''}</td><td>Newest headline</td></tr></table>`;
   const col=(t,ds)=>`<div style="margin-bottom:18px"><h3 class="er-week">${t}</h3>${head}${ds.map(dayBlock).join('')}</div>`;
   const inWeek=ws=>{const ks=new Set(ws.map(iso));return all.filter(r=>ks.has(r.date));};
   const tw=inWeek(weeks[0]), nw=inWeek(weeks[1]);
@@ -43833,6 +43888,19 @@ window._rd_postrender_filings=function(){
     }};
   const redraw=()=>{v.innerHTML=renderFilings();enrich();};
   enrich();
+  // Fresh quotes while Companies is open (2026-10-14): News polls only once it
+  // has been visited, so this view refetches on its own every minute, and
+  // redraws Earnings unless the search box is being typed in.
+  setInterval(()=>{
+    if(document.body.dataset.view!=='filings'||!window.NEWSTAB)return;
+    if(_filView!=='earnings'&&_filView!=='movers')return;
+    const after=()=>{
+      if(_filView==='movers'){NEWSTAB.showMovers();return;}
+      const a=document.activeElement;if(a&&a.matches&&a.matches('[data-fil-q]'))return;
+      redraw();};
+    const pr=NEWSTAB.state.booted?null:NEWSTAB.load();
+    if(pr&&pr.then)pr.then(after);else after();
+  },60000);
   v.addEventListener('click',e=>{const t=e.target.closest('[data-fil-view]');if(t){_filView=t.dataset.filView;redraw();return;}
     const ma=e.target.closest('[data-act="moversall"]');if(ma&&window.NEWSTAB){NEWSTAB.toggleMoversAll();return;}
     const tk=e.target.closest('#nd-movers [data-tk]');if(tk&&!(e.shiftKey||e.metaKey||e.ctrlKey||e.altKey)&&window.NEWSTAB){NEWSTAB.pickExternal(tk.getAttribute('data-tk'));return;}
@@ -43893,16 +43961,34 @@ var NEWSTAB=(function(){
         _px[s.ticker]={
           price:s.price,
           chg:(typeof s.change_pct==='number'&&isFinite(s.change_pct))?s.change_pct:null,
-          name:s.name||'', src:'scan',
+          name:s.name||'', src:'scan', asof:snap.generated||null,
           closes:Array.isArray(s.week_closes)&&s.week_closes.length>=2?s.week_closes:null
         };
       });
     });
-    // Then news-desk, only where SNAPSHOT has nothing.
+    // Then news-desk's live quote, which wins: it is minutes old, the scan's
+    // is this morning's.
     Object.keys(S.nd).forEach(function(t){
-      if(!_px[t]) _px[t]=S.nd[t];
+      var was=_px[t];
+      _px[t]=Object.assign({}, S.nd[t], {asof:S.ndAsOf,
+        name:S.nd[t].name||(was&&was.name)||'',
+        closes:S.nd[t].closes||(was&&was.closes)||null});
     });
     return _px;
+  }
+  // "3:46 PM ET" for the news-desk quote file, or '' before it has loaded.
+  function quotesAsOf(){
+    var d=S.ndAsOf?new Date(S.ndAsOf):null;
+    if(!d||isNaN(d.getTime())) return '';
+    var t=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
+    return etDate(d)===etDate()?t:d.toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})+' '+t;
+  }
+  // Where and when ONE price is from, for its tooltip and the ticker card.
+  function pxWhen(d){
+    if(!d) return '';
+    if(d.src==='news-desk') return quotesAsOf()?'Quote as of '+quotesAsOf():'news-desk quote';
+    var g=d.asof?new Date(d.asof+'T12:00:00'):null;
+    return 'Last close, from the daily scan'+(g&&!isNaN(g.getTime())?' of '+g.toLocaleDateString('en-US',{month:'short',day:'numeric'}):'');
   }
   /* news-desk's stocks.json -> {TICKER: {price, chg, src}}. Accepts the live
    * shape ({stocks:[{ticker,...}]}) and a keyed one ({stocks:{TICKER:{...}}}).
@@ -44114,7 +44200,7 @@ var NEWSTAB=(function(){
       +'<div class="nd-top">'
         +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">News <span class="n" id="nd-n-news">—</span></button>'
         +'<button type="button" class="nd-tab" data-act="tab" data-tab="book">My book <span class="n" id="nd-n-book">—</span></button>'
-        +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span></span>'
+        +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span><span id="nd-qasof" title="When the prices on this tab are from: news-desk\u2019s quote file, republished about every five minutes"></span></span>'
       +'</div>'
       +'<div class="nd-bar">'
         +'<span class="nd-lbl">Search</span>'
@@ -44133,7 +44219,7 @@ var NEWSTAB=(function(){
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
     +'<footer>Headlines from news-desk, refetched every minute; it republishes every five. '
-    +'Price and session change come from this page\u2019s latest daily scan where it covers the ticker, and otherwise from news-desk\u2019s quote file, refreshed every few minutes (hover a price to see which). '
+    +'Prices come from news-desk\u2019s quote file, republished about every five minutes and shown with its time; a ticker it does not price shows this page\u2019s last daily-scan close instead (hover a price to see which). '
     +'A symbol shown on its own is one neither source prices. Not investment advice.</footer>';
   }
 
@@ -44142,9 +44228,7 @@ var NEWSTAB=(function(){
     var p=priceMap(),out='',first=tks[0],d=p[first];
     out+='<div class="nd-tk"><span class="nd-sym" data-ticker="'+esc(first)+'" data-tk="'+esc(first)+'">'+esc(first)+'</span>';
     if(d){
-      out+='<span class="nd-px" title="'+(d.src==='news-desk'
-        ? 'From news-desk\u2019s quote file, refreshed every few minutes'
-        : 'From this page\u2019s latest daily scan: last close over previous close')+'">$'+d.price.toFixed(2)+'</span>';
+      out+='<span class="nd-px" title="'+esc(pxWhen(d))+'">$'+d.price.toFixed(2)+'</span>';
       if(d.chg!=null) out+=chgHTML(d.chg,2);
       if(S.nd[first]) out+=sigmaHTML(S.nd[first].sigma);
     }
@@ -44234,7 +44318,10 @@ var NEWSTAB=(function(){
    * move is 2.5+ of its own 20-day standard deviations and at least 2%. Each
    * is paired with what this page knows: the newest headline tagged with it
    * (last 36 hours), an earnings date, a material filing. A mover with none of
-   * them says "no headline in our feeds" — our feeds, not the world's. */
+   * them says "no headline in our feeds" — our feeds, not the world's.
+   * 2026-10-14: news-desk now searches the web (Google News) for a shown mover
+   * our feeds missed and sends it as m.web; that is shown, marked as a web
+   * find, and m.web === null means the search found nothing either. */
   var MOVERS_SHOWN=10;
   function latestHeadline(t){
     var cut=Date.now()-36*3600*1000, best=null;
@@ -44254,8 +44341,12 @@ var NEWSTAB=(function(){
         ? '<a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">'+esc(h.title)+'</a>'
         : esc(h.title))
         +' <i>'+esc(h.source||'')+' · '+esc(tm.rel)+'</i>';
+    }else if(m.web&&/^https:\/\//i.test(String(m.web.link||''))){
+      var wt=fmtTime(m.web.published);
+      why='<a href="'+esc(m.web.link)+'" target="_blank" rel="noopener noreferrer">'+esc(m.web.title)+'</a>'
+        +' <i>'+esc(m.web.source||'')+' · '+esc(wt.rel)+' · web search</i>';
     }else{
-      why='<span class="nd-mv-none">no headline in our feeds</span>';
+      why='<span class="nd-mv-none">no headline in our feeds'+(m.web===null?' or on the web':'')+'</span>';
     }
     var ctx='';
     if(c.ern[t]&&c.ern[t].date<=etDate()) ctx+='<span class="nd-ctx ern">'+esc(earnText(c.ern[t]))+'</span>';
@@ -44297,16 +44388,18 @@ var NEWSTAB=(function(){
           :'<div class="nd-mv-note">'+(rows?'None so far this session.':'Arrives with the next news-desk refresh (every 30 minutes).')+'</div>')
         +'</div>';
     };
-    var top='<div class="nd-mv-note">Today\u2019s biggest moves among '+esc(mv.priced)+' names (companies only, $5 and up), each with its newest article in our feeds'
+    var top='<div class="nd-mv-note">Today\u2019s biggest moves among '+esc(mv.priced)+' names (companies only, $5 and up), each with its newest article in our feeds, or from a web search when our feeds have none'
       +(when?' \u00b7 as of '+when:'')+'.</div>'
       +'<div class="nd-mvcols">'+col('Biggest gainers',mv.gainers)+col('Biggest losers',mv.losers)+'</div>';
     var unusual;
     if(!list.length){ unusual='<div class="nd-mv-note">Nothing that unusual so far this session.</div>'; }
     else{
       var withNews=list.filter(function(m){ return latestHeadline(up(m.ticker)); }).length;
+      var withWeb=list.filter(function(m){ return !latestHeadline(up(m.ticker))&&m.web; }).length;
       var shown=S.moversAll?list:list.slice(0,MOVERS_SHOWN);
       unusual='<div class="nd-mv-list">'+shown.map(moverRow).join('')+'</div>'
         +'<div class="nd-mv-foot">'+withNews+' of '+list.length+' have a headline in our feeds'
+        +(withWeb?', '+withWeb+' more from a web search':'')
         +(list.length>MOVERS_SHOWN
           ? ' \u00b7 <button type="button" class="nd-btn" data-act="moversall">'+(S.moversAll?'Show fewer':'Show all '+list.length)+'</button>'
           : '')
@@ -44424,6 +44517,7 @@ var NEWSTAB=(function(){
       S.failed=false; S.loaded=true; S.fetchedAt=Date.now();
       S.headlines=doc.headlines;
       S.generated=doc.generated||null;
+      setText('nd-qasof',quotesAsOf()?' \u00b7 quotes '+quotesAsOf():'');
       if(doc.ticker_names) Object.keys(doc.ticker_names).forEach(function(k){ S.names[k]=doc.ticker_names[k]; });
       syncSelects();
       render();
@@ -44742,7 +44836,7 @@ var NEWSTAB=(function(){
         +'<span style="color:#f2f2f2;font-size:16px;font-weight:700">$'+q.price.toFixed(2)+'</span>'
         +(q.chg!=null?'<span style="color:'+col+';font-size:12px;font-weight:700">'+(q.chg>=0?'+':'')+(q.chg*100).toFixed(2)+'%</span>':'')
         +(nd.sigma!=null&&Math.abs(nd.sigma)>=SIGMA_SHOW?'<span style="color:#d4a72c;font-size:11px;font-weight:600">'+Math.abs(nd.sigma).toFixed(1)+'\u03c3</span>':'')
-        +'<span style="color:#4a4a4a;font-size:10px;letter-spacing:.05em">TODAY</span></div>'
+        +'<span style="color:#6f6f6f;font-size:10px;letter-spacing:.02em" class="nd-card-asof">'+esc(pxWhen(q))+'</span></div>'
         +spark(closes)+range+'</div>';
     }
     var types={};
@@ -44783,7 +44877,7 @@ var NEWSTAB=(function(){
   function quote(t){
     t=up(t); var q=priceMap()[t]; if(!q) return null;
     var nd=S.nd[t]||{};
-    return {price:q.price, chg:q.chg, sigma:nd.sigma!=null?nd.sigma:null};
+    return {price:q.price, chg:q.chg, sigma:nd.sigma!=null?nd.sigma:null, src:q.src, when:pxWhen(q)};
   }
   function newest(t){
     var h=latestHeadline(up(t)); if(!h) return null;
@@ -44818,11 +44912,12 @@ var NEWSTAB=(function(){
     S.timer=setInterval(load,POLL_MS);
     setInterval(function(){
       setText('nd-updated',fmtUpdated());
+      setText('nd-qasof',quotesAsOf()?' \u00b7 quotes '+quotesAsOf():'');
       var dot=$('nd-dot'); if(dot) dot.className='nd-dot'+(stale()?' stale':'');
     },15000);
   }
 
-  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,showMovers:showMovers,toggleMoversAll:toggleMoversAll,quote:quote,newest:newest,ready:ready,
+  return {shell:shell,boot:boot,render:render,load:load,state:S,priceMap:priceMap,cardHTML:cardHTML,pickExternal:pickExternal,showMovers:showMovers,toggleMoversAll:toggleMoversAll,quote:quote,quotesAsOf:quotesAsOf,newest:newest,ready:ready,
           _parseCSV:parseCSV,_applyRows:applyRows,_fmtTime:fmtTime,_groupKey:groupKey};
 })();
 
@@ -44853,6 +44948,14 @@ function route(){
 
 window.addEventListener("hashchange",route);
 route();
+// Live quotes everywhere, not only once News has been opened (2026-10-14):
+// the ticker hover card reads NEWSTAB's quote map, so load it on every tab and
+// keep it fresh. The News tab, once booted, polls on its own timer instead.
+setTimeout(function(){
+  if(!window.NEWSTAB) return;
+  if(!NEWSTAB.state.loaded&&!NEWSTAB.state.failed) NEWSTAB.load();
+  setInterval(function(){ if(!NEWSTAB.state.booted) NEWSTAB.load(); },60000);
+},1500);
 
 // ── Pop-out: any card (with its charts/tables) opens enlarged in a modal ──────
 (function(){
@@ -45371,12 +45474,19 @@ window._rdAsk=function(q){
     if(!sc){tip.style.display='none';return;}
     var st={ticker:ticker,name:sc.name||px.name,sector:sc.sector||px.sector,
             price:px.price,change_pct:px.change_pct,week_closes:px.week_closes};
+    // Live quote first (2026-10-14), the same one News and Companies show;
+    // its change is already price / prior close - 1, a fraction like the scan's.
+    var lq=window.NEWSTAB&&NEWSTAB.priceMap?NEWSTAB.priceMap()[ticker]:null, when='at the morning scan';
+    if(lq&&lq.src==='news-desk'){
+      st.price=lq.price; st.change_pct=lq.chg; st.week_closes=lq.closes||st.week_closes;
+      when=NEWSTAB.quotesAsOf&&NEWSTAB.quotesAsOf()?NEWSTAB.quotesAsOf():'live';
+    }
     var sec=st.sector&&st.sector!=='Unknown'?st.sector:'—';
     var nameRow=st.name&&st.name!==st.ticker
       ?'<div style="color:#8f8f8f;font-size:11px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+st.name+'</div>':'';
 
     var priceBlock='';
-    if(st.price!=null&&st.week_closes&&st.week_closes.length>=2){
+    if(st.price!=null&&st.change_pct!=null&&st.week_closes&&st.week_closes.length>=2){
       var pc=st.change_pct>=0?'#3fae6a':'#e5484d';
       var ps=st.change_pct>=0?'+':'';
       var wkLo=Math.min.apply(null,st.week_closes),wkHi=Math.max.apply(null,st.week_closes);
@@ -45390,7 +45500,7 @@ window._rdAsk=function(q){
         +'<div style="display:flex;align-items:baseline;gap:8px">'
         +'<span style="color:#f2f2f2;font-size:15px;font-weight:700">$'+st.price.toFixed(2)+'</span>'
         +'<span style="color:'+pc+';font-size:12px;font-weight:600">'+ps+(st.change_pct*100).toFixed(2)+'%</span>'
-        +'<span style="color:#4a4a4a;font-size:10px">today</span>'
+        +'<span style="color:#6f6f6f;font-size:10px">'+when+'</span>'
         +'</div>'
         +_spark(st.week_closes)
         +rangeBar
@@ -45513,6 +45623,110 @@ window._rdAsk=function(q){
 })();
 </script>
 <div id="rd-tip"></div>
+<script>
+/* Market strip (Q65 = a, 2026-10-14): news-desk's indices.json, drawn under
+   the menu on every tab. Each cell: level, today's change against the prior
+   close (the 10-year in basis points), and today's path with the prior close
+   dashed. Older than 30 minutes while the market is open reads as stale. */
+(function(){
+  var URL='https://helioskozak-cloud.github.io/news-desk/data/indices.json';
+  var el=document.getElementById('mkt-strip'); if(!el) return;
+  var esc=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');};
+  function num(v,d){return Number(v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+  function digits(r){return r.key==='BTC-USD'?0:(r.last>=1000?2:2);}
+  function spark(r){
+    var p=r.path||[]; if(p.length<2) return '<svg class="mk-s" width="56" height="22"></svg>';
+    var ys=p.map(function(x){return x[1];}).concat([r.prev]);
+    var mn=Math.min.apply(null,ys), mx=Math.max.apply(null,ys), rg=(mx-mn)||1;
+    var W=56,H=22,t0=p[0][0],t1=p[p.length-1][0],tr=(t1-t0)||1;
+    var y=function(v){return (H-1-(v-mn)/rg*(H-2)).toFixed(1);};
+    var pts=p.map(function(x){return ((x[0]-t0)/tr*W).toFixed(1)+','+y(x[1]);}).join(' ');
+    var up=r.last>r.prev, dn=r.last<r.prev;
+    if(FEAR[r.key]){ var t=up; up=dn; dn=t; }
+    var col=up?'#3fae6a':dn?'#e5484d':'#8f8f8f';
+    return '<svg class="mk-s" width="'+W+'" height="'+H+'" aria-hidden="true">'
+      +'<line x1="0" x2="'+W+'" y1="'+y(r.prev)+'" y2="'+y(r.prev)+'" stroke="#4a4a4a" stroke-dasharray="2 2" stroke-width="1"/>'
+      +'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+  }
+  // A rising VIX is bad news: it reads red going up, green coming down
+  // (owner, 2026-10-14). The sign on the number stays the real direction.
+  var FEAR={'^VIX':1};
+  function cell(r){
+    var v, c, dir;
+    if(r.kind==='yield'){
+      v=num(r.last,2)+'%'; dir=r.change_bp>0?'up':r.change_bp<0?'dn':'fl';
+      c=(r.change_bp>0?'+':r.change_bp<0?'−':'')+num(Math.abs(r.change_bp),1)+' bp';
+    }else{
+      v=num(r.last,digits(r)); var cp=r.change_pct; dir=cp>0?'up':cp<0?'dn':'fl';
+      if(FEAR[r.key]&&dir!=='fl') dir=dir==='up'?'dn':'up';
+      c=cp==null?'':(cp>0?'+':cp<0?'−':'')+num(Math.abs(cp),2)+'%';
+    }
+    var at=new Date(r.as_of), when=isNaN(at)?'':at.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
+    var tip=r.label+': '+v+(c?' ('+c+' vs prior close '+num(r.prev,r.kind==='yield'?2:digits(r))+(r.kind==='yield'?'%':'')+')':'')+(when?' · as of '+when:'');
+    return '<div class="mk" title="'+esc(tip)+'"><span class="mk-l">'+esc(r.label)+'</span>'+spark(r)
+      +'<span><span class="mk-v">'+esc(v)+'</span> <span class="mk-c '+dir+'">'+esc(c)+'</span></span></div>';
+  }
+  function marketOpen(d){
+    var et=new Date(d.toLocaleString('en-US',{timeZone:'America/New_York'}));
+    var m=et.getHours()*60+et.getMinutes(), wd=et.getDay();
+    return wd>0&&wd<6&&m>=570&&m<960;
+  }
+  function render(doc){
+    var rows=doc&&Array.isArray(doc.indices)?doc.indices:[];
+    if(!rows.length){ if(!el.dataset.ok) el.innerHTML='<div class="mk-note">Market quotes unavailable right now.</div>'; return; }
+    el.dataset.ok='1';
+    var gen=new Date(doc.generated), now=new Date();
+    var stale=!isNaN(gen)&&marketOpen(now)&&(now-gen)>30*60*1000;
+    el.classList.toggle('stale',stale);
+    el.title=stale?'Quotes are more than 30 minutes old; news-desk has not refreshed them.':'';
+    // FRESHNESS (owner, 2026-10-14: "a timestamp to show how fresh the prices
+    // are"). The newest quote time across the row, and how long ago that was,
+    // re-counted every 15 seconds without waiting for the next fetch.
+    var newest=rows.reduce(function(m,r){var t=new Date(r.as_of).getTime();return isFinite(t)&&t>m?t:m;},0);
+    lastQuote=newest||null;
+    // The banner's VIX reads the same live quote (owner, 2026-10-14: "make
+    // Home use the live quotes too"). The regime label beside it is the
+    // morning scan's and does not move with it.
+    var vx=rows.filter(function(r){return r.key==='^VIX';})[0];
+    if(vx&&typeof window._rdLiveVix==='function') window._rdLiveVix(vx);
+    el.innerHTML='<div class="mk-row">'+rows.slice(0,10).map(cell).join('')
+      +'<div class="mk-at" title="Quotes from Yahoo, refreshed by news-desk about every 5 minutes; this page re-checks every minute."></div></div>';
+    tickAge();
+  }
+  var lastQuote=null;
+  function tickAge(){
+    var box=el.querySelector('.mk-at'); if(!box||!lastQuote) return;
+    var t=new Date(lastQuote), mins=Math.max(0,Math.round((Date.now()-lastQuote)/60000));
+    var at=t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'});
+    var ago=mins<1?'just now':mins<60?mins+' min ago':Math.round(mins/60)+' h ago';
+    if(!marketOpen(new Date())) ago='market closed';
+    box.innerHTML='<b><i></i>'+at+' ET</b><span>'+ago+'</span>';
+  }
+  setInterval(tickAge,15000);
+  window._rdLiveVix=function(r){
+    var box=document.getElementById('rb-vix'), val=document.getElementById('rb-vix-val'), mk=document.getElementById('rb-vix-mark');
+    if(!box||!val||!(r.last>0)) return;
+    var v=r.last, col=v>=25?'#e5484d':v>=18?'#d4a72c':'#3fae6a', lbl=v>=25?'Fear':v>=18?'Caution':'Calm';
+    var at=new Date(r.as_of), t=isNaN(at)?'':at.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
+    val.style.color=col;
+    val.innerHTML=v.toFixed(1)+' <span style="font-size:10px;font-weight:500">'+lbl+'</span>';
+    if(mk) mk.style.left=Math.min(100,Math.max(0,v/40*100)).toFixed(0)+'%';
+    box.title='VIX '+v.toFixed(2)+(t?' as of '+t:'')+' — '+lbl+'. The regime label beside it is from the morning scan.';
+  };
+  function load(){
+    try{
+      fetch(URL+'?_t='+Date.now()).then(function(r){return r&&r.ok?r.json():null;})
+        .then(render).catch(function(){render(null);});
+    }catch(e){ render(null); }
+  }
+  // Sticks just under the menu bar, whatever height the bar's theme gives it.
+  var bar=document.getElementById('topbar');
+  function pin(){ if(bar) el.style.top=bar.offsetHeight+'px'; }
+  pin(); window.addEventListener('resize',pin);
+  window.MKTSTRIP={render:render,load:load};
+  load(); setInterval(load,60000);
+})();
+</script>
 </body>
 <!-- evolved: 2026-05-07 | add aggregate risk score composite display in #risks view -->
 <!-- evolved: 2026-05-07 | add annualized edge label next to raw edge in stocks table -->
