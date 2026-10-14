@@ -45583,11 +45583,16 @@ window._rdAsk=function(q){
     var W=56,H=22,t0=p[0][0],t1=p[p.length-1][0],tr=(t1-t0)||1;
     var y=function(v){return (H-1-(v-mn)/rg*(H-2)).toFixed(1);};
     var pts=p.map(function(x){return ((x[0]-t0)/tr*W).toFixed(1)+','+y(x[1]);}).join(' ');
-    var col=r.last>r.prev?'#3fae6a':r.last<r.prev?'#e5484d':'#8f8f8f';
+    var up=r.last>r.prev, dn=r.last<r.prev;
+    if(FEAR[r.key]){ var t=up; up=dn; dn=t; }
+    var col=up?'#3fae6a':dn?'#e5484d':'#8f8f8f';
     return '<svg class="mk-s" width="'+W+'" height="'+H+'" aria-hidden="true">'
       +'<line x1="0" x2="'+W+'" y1="'+y(r.prev)+'" y2="'+y(r.prev)+'" stroke="#4a4a4a" stroke-dasharray="2 2" stroke-width="1"/>'
       +'<polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   }
+  // A rising VIX is bad news: it reads red going up, green coming down
+  // (owner, 2026-10-14). The sign on the number stays the real direction.
+  var FEAR={'^VIX':1};
   function cell(r){
     var v, c, dir;
     if(r.kind==='yield'){
@@ -45595,6 +45600,7 @@ window._rdAsk=function(q){
       c=(r.change_bp>0?'+':r.change_bp<0?'−':'')+num(Math.abs(r.change_bp),1)+' bp';
     }else{
       v=num(r.last,digits(r)); var cp=r.change_pct; dir=cp>0?'up':cp<0?'dn':'fl';
+      if(FEAR[r.key]&&dir!=='fl') dir=dir==='up'?'dn':'up';
       c=cp==null?'':(cp>0?'+':cp<0?'−':'')+num(Math.abs(cp),2)+'%';
     }
     var at=new Date(r.as_of), when=isNaN(at)?'':at.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
