@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-14",
+ "as_of": "2026-10-15",
  "meta": {
   "built": "2026-07-13",
   "method": "pct of point-in-time S&P 500 members whose adjusted close doubled (>=+100%) or halved (<=-50%) over the calendar year",
@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-10-14",
-    "from": "2025-10-14",
+    "date": "2026-10-15",
+    "from": "2025-10-15",
     "n": 498,
-    "pct_doubled": 4.62,
+    "pct_doubled": 4.02,
     "pct_halved": 2.41,
-    "median_ret": 8.2,
-    "sp500_ret": 16.17
+    "median_ret": 9.56,
+    "sp500_ret": 15.22
    },
    "ttm_path": [
     {
@@ -779,13 +779,13 @@
      "sp500_ret": 15.98
     },
     {
-     "date": "2026-10-14",
-     "from": "2025-10-14",
+     "date": "2026-10-15",
+     "from": "2025-10-15",
      "n": 498,
-     "pct_doubled": 4.62,
+     "pct_doubled": 4.02,
      "pct_halved": 2.41,
-     "median_ret": 8.2,
-     "sp500_ret": 16.17
+     "median_ret": 9.56,
+     "sp500_ret": 15.22
     }
    ],
    "spx": [
@@ -1576,6 +1576,10 @@
     [
      "2026-10-14",
      7718.94
+    ],
+    [
+     "2026-10-15",
+     7686.55
     ]
    ],
    "path": [
@@ -1867,11 +1871,11 @@
      "sp500_ret": 14.11
     },
     {
-     "date": "2026-10-14",
-     "pct_doubled": 3.61,
-     "pct_halved": 1.8,
-     "median_ret": 6.28,
-     "sp500_ret": 12.76
+     "date": "2026-10-15",
+     "pct_doubled": 3.21,
+     "pct_halved": 1.4,
+     "median_ret": 7.74,
+     "sp500_ret": 12.29
     }
    ],
    "year": 2026,
@@ -1879,28 +1883,28 @@
    "n_members": 503,
    "n_with_data": 499,
    "coverage_pct": 99.2,
-   "pct_doubled": 3.61,
-   "pct_halved": 1.8,
-   "n_doubled": 18,
-   "n_halved": 9,
-   "pct_up50": 9.42,
-   "pct_down30": 7.01,
-   "median_ret": 6.28,
-   "sp500_ret": 12.76,
-   "nasdaq_ret": 14.85,
+   "pct_doubled": 3.21,
+   "pct_halved": 1.4,
+   "n_doubled": 16,
+   "n_halved": 7,
+   "pct_up50": 8.42,
+   "pct_down30": 6.41,
+   "median_ret": 7.74,
+   "sp500_ret": 12.29,
+   "nasdaq_ret": 13.59,
    "top5": {
-    "MRNA": 6.674,
-    "SNDK": 4.912,
-    "DELL": 3.072,
-    "MU": 2.205,
-    "MPC": 2.016
+    "MRNA": 6.538,
+    "SNDK": 4.398,
+    "DELL": 2.711,
+    "MU": 2.019,
+    "MPC": 1.97
    },
    "bottom5": {
-    "TTD": -0.679,
-    "APP": -0.611,
-    "FICO": -0.574,
-    "CSGP": -0.552,
-    "BSX": -0.549
+    "TTD": -0.671,
+    "APP": -0.602,
+    "FICO": -0.562,
+    "BSX": -0.542,
+    "CSGP": -0.538
    }
   }
  ]

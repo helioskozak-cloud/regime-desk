@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-14",
+ "as_of": "2026-10-15",
  "start": "2026-10-12",
  "end": "2026-10-23",
  "universe": 3462,
@@ -16,7 +16,7 @@
   "2026-10-23"
  ],
  "days_failed": [],
- "n": 280,
+ "n": 278,
  "earnings": [
   {
    "date": "2026-10-12",
@@ -27,19 +27,7 @@
    "eps": -0.56,
    "n_est": 5,
    "eps_ly": null,
-   "mcap": 2296688640.0,
-   "quarter": "Aug/2026"
-  },
-  {
-   "date": "2026-10-12",
-   "ticker": "RMCF",
-   "name": "Rocky Mountain Chocolate Factor",
-   "sector": "Consumer Staples",
-   "time": "",
-   "eps": null,
-   "n_est": null,
-   "eps_ly": null,
-   "mcap": 8956280.0,
+   "mcap": 2585943040.0,
    "quarter": "Aug/2026"
   },
   {
@@ -179,11 +167,11 @@
    "ticker": "ASML",
    "name": "ASML Holding N.V.",
    "sector": "Semiconductors",
-   "time": "pre",
+   "time": "",
    "eps": 12.47,
    "n_est": 3,
-   "eps_ly": 6.41,
-   "mcap": 674573390000.0,
+   "eps_ly": null,
+   "mcap": 662055030000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -191,11 +179,11 @@
    "ticker": "BAC",
    "name": "Bank of America Corporation",
    "sector": "Financials",
-   "time": "pre",
+   "time": "",
    "eps": 1.11,
    "n_est": 7,
-   "eps_ly": 1.06,
-   "mcap": 381664199000.0,
+   "eps_ly": null,
+   "mcap": 377328697000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -203,11 +191,11 @@
    "ticker": "MS",
    "name": "Morgan Stanley",
    "sector": "Financials",
-   "time": "pre",
+   "time": "",
    "eps": 2.83,
    "n_est": 5,
-   "eps_ly": 2.8,
-   "mcap": 298439016000.0,
+   "eps_ly": null,
+   "mcap": 293130502000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -215,11 +203,11 @@
    "ticker": "BLK",
    "name": "BlackRock, Inc.",
    "sector": "Financials",
-   "time": "pre",
+   "time": "",
    "eps": 14.01,
    "n_est": 6,
-   "eps_ly": 11.55,
-   "mcap": 167865893000.0,
+   "eps_ly": null,
+   "mcap": 165109219000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -227,11 +215,11 @@
    "ticker": "PGR",
    "name": "The Progressive Corporation",
    "sector": "Financials",
-   "time": "pre",
+   "time": "",
    "eps": 4.46,
    "n_est": 9,
-   "eps_ly": 4.05,
-   "mcap": 128064578000.0,
+   "eps_ly": null,
+   "mcap": 129576141000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -239,11 +227,11 @@
    "ticker": "FAST",
    "name": "Fastenal Company",
    "sector": "Industrials",
-   "time": "pre",
+   "time": "",
    "eps": 0.34,
    "n_est": 6,
-   "eps_ly": 0.29,
-   "mcap": 59084648000.0,
+   "eps_ly": null,
+   "mcap": 59015799000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -251,11 +239,11 @@
    "ticker": "STT",
    "name": "State Street Corporation",
    "sector": "Financials",
-   "time": "pre",
+   "time": "",
    "eps": 3.65,
    "n_est": 6,
-   "eps_ly": 2.78,
-   "mcap": 48053580000.0,
+   "eps_ly": null,
+   "mcap": 47825576000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -263,11 +251,23 @@
    "ticker": "HOMB",
    "name": "Home BancShares, Inc.",
    "sector": "Financials",
-   "time": "post",
-   "eps": 0.63,
+   "time": "",
+   "eps": 0.64,
    "n_est": 4,
-   "eps_ly": 0.61,
-   "mcap": 5701414400.0,
+   "eps_ly": null,
+   "mcap": 5673407500.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-10-14",
+   "ticker": "WINA",
+   "name": "Winmark Corporation",
+   "sector": "Consumer Discretionary",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 1014356670.0,
    "quarter": "Sep/2026"
   },
   {
@@ -660,7 +660,7 @@
    "name": "Grupo Aeroportuario Del Pacific",
    "sector": "Industrials",
    "time": "",
-   "eps": 2.68,
+   "eps": 2.72,
    "n_est": 3,
    "eps_ly": 2.86,
    "mcap": 11839077400.0,
@@ -685,7 +685,7 @@
    "sector": "Financials",
    "time": "post",
    "eps": 3.29,
-   "n_est": 6,
+   "n_est": 7,
    "eps_ly": 3.06,
    "mcap": 9633465300.0,
    "quarter": "Sep/2026"
@@ -811,6 +811,18 @@
    "quarter": "Jul/2026"
   },
   {
+   "date": "2026-10-19",
+   "ticker": "RMCF",
+   "name": "Rocky Mountain Chocolate Factor",
+   "sector": "Consumer Staples",
+   "time": "",
+   "eps": null,
+   "n_est": 2,
+   "eps_ly": -0.09,
+   "mcap": 8956280.0,
+   "quarter": "Aug/2026"
+  },
+  {
    "date": "2026-10-20",
    "ticker": "GE",
    "name": "GE Aerospace",
@@ -820,18 +832,6 @@
    "n_est": 7,
    "eps_ly": 1.66,
    "mcap": 319185355000.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-20",
-   "ticker": "PM",
-   "name": "Philip Morris International Inc.",
-   "sector": "Consumer Staples",
-   "time": "pre",
-   "eps": 2.31,
-   "n_est": 3,
-   "eps_ly": 2.24,
-   "mcap": 310616064000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -948,7 +948,7 @@
    "name": "MSCI Inc.",
    "sector": "Financials",
    "time": "pre",
-   "eps": 4.99,
+   "eps": 4.98,
    "n_est": 6,
    "eps_ly": 4.47,
    "mcap": 40771613000.0,
@@ -1080,7 +1080,7 @@
    "name": "Hasbro, Inc.",
    "sector": "Consumer Discretionary",
    "time": "pre",
-   "eps": 1.88,
+   "eps": 1.86,
    "n_est": 5,
    "eps_ly": 1.68,
    "mcap": 13531805700.0,
@@ -1136,18 +1136,6 @@
   },
   {
    "date": "2026-10-20",
-   "ticker": "PNR",
-   "name": "Pentair plc",
-   "sector": "Industrials",
-   "time": "",
-   "eps": 1.07,
-   "n_est": 6,
-   "eps_ly": 1.24,
-   "mcap": 8456022000.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-20",
    "ticker": "ADC",
    "name": "Agree Realty Corporation",
    "sector": "Real Estate",
@@ -1168,30 +1156,6 @@
    "n_est": 8,
    "eps_ly": 1.06,
    "mcap": 7786932700.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-20",
-   "ticker": "GLXY",
-   "name": "Galaxy Digital",
-   "sector": "Financials",
-   "time": "",
-   "eps": -0.12,
-   "n_est": 6,
-   "eps_ly": 1.12,
-   "mcap": 7704423900.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-20",
-   "ticker": "MTDR",
-   "name": "Matador Resources Company",
-   "sector": "Energy",
-   "time": "",
-   "eps": 1.64,
-   "n_est": 9,
-   "eps_ly": 1.36,
-   "mcap": 6915385300.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1320,8 +1284,8 @@
    "name": "Meta Platforms, Inc.",
    "sector": "Communication Services",
    "time": "post",
-   "eps": 6.39,
-   "n_est": 12,
+   "eps": 6.35,
+   "n_est": 11,
    "eps_ly": 7.25,
    "mcap": 1942473540000.0,
    "quarter": "Sep/2026"
@@ -1352,11 +1316,23 @@
   },
   {
    "date": "2026-10-21",
+   "ticker": "PM",
+   "name": "Philip Morris International Inc.",
+   "sector": "Consumer Staples",
+   "time": "pre",
+   "eps": 2.31,
+   "n_est": 3,
+   "eps_ly": 2.24,
+   "mcap": 310616064000.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-10-21",
    "ticker": "SAP",
    "name": "SAP SE",
    "sector": "Technology",
    "time": "post",
-   "eps": 2.04,
+   "eps": 2.03,
    "n_est": 6,
    "eps_ly": 1.86,
    "mcap": 269963805000.0,
@@ -1452,7 +1428,7 @@
    "name": "CME Group Inc.",
    "sector": "Financials",
    "time": "pre",
-   "eps": 2.96,
+   "eps": 2.98,
    "n_est": 8,
    "eps_ly": 2.68,
    "mcap": 99973825000.0,
@@ -1492,6 +1468,18 @@
    "n_est": 8,
    "eps_ly": 3.92,
    "mcap": 80387318000.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-10-21",
+   "ticker": "KMI",
+   "name": "Kinder Morgan, Inc.",
+   "sector": "Energy",
+   "time": "post",
+   "eps": 0.33,
+   "n_est": 9,
+   "eps_ly": 0.29,
+   "mcap": 74441990000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1560,7 +1548,7 @@
    "name": "Packaging Corporation of America",
    "sector": "Consumer Discretionary",
    "time": "post",
-   "eps": 2.94,
+   "eps": 2.95,
    "n_est": 4,
    "eps_ly": 2.73,
    "mcap": 20639621100.0,
@@ -1764,7 +1752,7 @@
    "name": "Hexcel Corporation",
    "sector": "Industrials",
    "time": "post",
-   "eps": 0.48,
+   "eps": 0.49,
    "n_est": 5,
    "eps_ly": 0.37,
    "mcap": 6513447900.0,
@@ -1824,7 +1812,7 @@
    "name": "Sonoco Products Company",
    "sector": "Consumer Discretionary",
    "time": "post",
-   "eps": 1.93,
+   "eps": 1.87,
    "n_est": 3,
    "eps_ly": 1.92,
    "mcap": 4819167700.0,
@@ -1932,7 +1920,7 @@
    "name": "Liberty Energy Inc.",
    "sector": "Energy",
    "time": "post",
-   "eps": 0.11,
+   "eps": 0.1,
    "n_est": 6,
    "eps_ly": -0.06,
    "mcap": 3118587900.0,
@@ -2120,18 +2108,6 @@
   },
   {
    "date": "2026-10-21",
-   "ticker": "WINA",
-   "name": "Winmark Corporation",
-   "sector": "Consumer Discretionary",
-   "time": "",
-   "eps": null,
-   "n_est": 7,
-   "eps_ly": 3.02,
-   "mcap": 1014356670.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-21",
    "ticker": "WGO",
    "name": "Winnebago Industries, Inc.",
    "sector": "Consumer Discretionary",
@@ -2196,7 +2172,7 @@
    "name": "Newmont Corporation",
    "sector": "Materials",
    "time": "post",
-   "eps": 1.92,
+   "eps": 1.96,
    "n_est": 6,
    "eps_ly": 1.71,
    "mcap": 121796289000.0,
@@ -2244,7 +2220,7 @@
    "name": "Barclays PLC",
    "sector": "Financials",
    "time": "pre",
-   "eps": 0.69,
+   "eps": 0.67,
    "n_est": 2,
    "eps_ly": 0.56,
    "mcap": 77698171000.0,
@@ -2328,8 +2304,8 @@
    "name": "Nasdaq, Inc.",
    "sector": "Financials",
    "time": "pre",
-   "eps": 1.03,
-   "n_est": 8,
+   "eps": 1.02,
+   "n_est": 9,
    "eps_ly": 0.88,
    "mcap": 52253204000.0,
    "quarter": "Sep/2026"
@@ -2388,7 +2364,7 @@
    "name": "PG&E Corporation",
    "sector": "Utilities",
    "time": "pre",
-   "eps": 0.4,
+   "eps": 0.41,
    "n_est": 4,
    "eps_ly": 0.5,
    "mcap": 35725873000.0,
@@ -2528,6 +2504,18 @@
   },
   {
    "date": "2026-10-22",
+   "ticker": "TTMI",
+   "name": "TTM Technologies, Inc.",
+   "sector": "Technology",
+   "time": "pre",
+   "eps": 1.11,
+   "n_est": 2,
+   "eps_ly": 0.58,
+   "mcap": 12231003100.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-10-22",
    "ticker": "DECK",
    "name": "Deckers Outdoor Corporation",
    "sector": "Consumer Discretionary",
@@ -2652,7 +2640,7 @@
    "name": "MSC Industrial Direct Co., Inc.",
    "sector": "Industrials",
    "time": "pre",
-   "eps": 1.38,
+   "eps": 1.39,
    "n_est": 3,
    "eps_ly": 1.09,
    "mcap": 7381205000.0,
@@ -2800,18 +2788,6 @@
    "n_est": 5,
    "eps_ly": 0.35,
    "mcap": 4951528400.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-22",
-   "ticker": "GTX",
-   "name": "Garrett Motion Inc.",
-   "sector": "Consumer Discretionary",
-   "time": "",
-   "eps": 0.47,
-   "n_est": 4,
-   "eps_ly": 0.38,
-   "mcap": 4807800300.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3036,7 +3012,7 @@
    "name": "Ardagh Metal Packaging S.A.",
    "sector": "Consumer Discretionary",
    "time": "pre",
-   "eps": 0.09,
+   "eps": 0.08,
    "n_est": 3,
    "eps_ly": 0.08,
    "mcap": 2594016260.0,
@@ -3047,7 +3023,7 @@
    "ticker": "CUBI",
    "name": "Customers Bancorp, Inc",
    "sector": "Financials",
-   "time": "",
+   "time": "post",
    "eps": 2.14,
    "n_est": 8,
    "eps_ly": 2.2,
@@ -3144,8 +3120,8 @@
    "name": "Lindsay Corporation",
    "sector": "Industrials",
    "time": "pre",
-   "eps": 0.97,
-   "n_est": 2,
+   "eps": 0.98,
+   "n_est": 3,
    "eps_ly": 0.99,
    "mcap": 1174099460.0,
    "quarter": "Aug/2026"
@@ -3168,7 +3144,7 @@
    "name": "World Acceptance Corporation",
    "sector": "Financials",
    "time": "",
-   "eps": 0.79,
+   "eps": 0.78,
    "n_est": 1,
    "eps_ly": -0.38,
    "mcap": 826502020.0,
@@ -3183,7 +3159,7 @@
    "eps": 4.47,
    "n_est": 9,
    "eps_ly": 4.14,
-   "mcap": 209238000000.0,
+   "mcap": 207286354000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3192,10 +3168,10 @@
    "name": "ENI S.p.A.",
    "sector": "Energy",
    "time": "pre",
-   "eps": 1.99,
+   "eps": 1.92,
    "n_est": 2,
    "eps_ly": 0.9,
-   "mcap": 90390831000.0,
+   "mcap": 90799907000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3207,7 +3183,7 @@
    "eps": 2.99,
    "n_est": 6,
    "eps_ly": 2.81,
-   "mcap": 75847934000.0,
+   "mcap": 76745056000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3219,7 +3195,7 @@
    "eps": 0.62,
    "n_est": 10,
    "eps_ly": 0.69,
-   "mcap": 72381669000.0,
+   "mcap": 71995785000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3231,7 +3207,7 @@
    "eps": 0.21,
    "n_est": 3,
    "eps_ly": 0.2,
-   "mcap": 46242505000.0,
+   "mcap": 46567014000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3243,7 +3219,7 @@
    "eps": 46.61,
    "n_est": 5,
    "eps_ly": 44.62,
-   "mcap": 23434580000.0,
+   "mcap": 23211200500.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3255,7 +3231,7 @@
    "eps": 0.86,
    "n_est": 5,
    "eps_ly": 0.99,
-   "mcap": 16974219300.0,
+   "mcap": 17083392000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3267,7 +3243,7 @@
    "eps": 0.16,
    "n_est": 1,
    "eps_ly": 0.19,
-   "mcap": 10658569200.0,
+   "mcap": 10641876000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3279,7 +3255,7 @@
    "eps": 1.44,
    "n_est": 6,
    "eps_ly": 1.49,
-   "mcap": 8697806800.0,
+   "mcap": 8644881400.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3291,7 +3267,7 @@
    "eps": 2.21,
    "n_est": 3,
    "eps_ly": 2.32,
-   "mcap": 8333662700.0,
+   "mcap": 8324142100.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3303,19 +3279,7 @@
    "eps": 1.53,
    "n_est": 2,
    "eps_ly": 1.35,
-   "mcap": 5410337800.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-10-23",
-   "ticker": "CORZ",
-   "name": "Core Scientific, Inc.",
-   "sector": "Technology",
-   "time": "",
-   "eps": 0.0,
-   "n_est": 2,
-   "eps_ly": -0.46,
-   "mcap": 4958282800.0,
+   "mcap": 5433927700.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3327,7 +3291,7 @@
    "eps": 0.5,
    "n_est": 3,
    "eps_ly": 0.54,
-   "mcap": 4746459600.0,
+   "mcap": 4662698500.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3339,7 +3303,7 @@
    "eps": 0.06,
    "n_est": 10,
    "eps_ly": -0.07,
-   "mcap": 4653190700.0,
+   "mcap": 4611681300.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3351,7 +3315,19 @@
    "eps": 0.51,
    "n_est": 3,
    "eps_ly": 0.46,
-   "mcap": 4396961300.0,
+   "mcap": 4377999900.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-10-23",
+   "ticker": "CORZ",
+   "name": "Core Scientific, Inc.",
+   "sector": "Technology",
+   "time": "",
+   "eps": 0.0,
+   "n_est": 2,
+   "eps_ly": -0.46,
+   "mcap": 4341309400.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3363,7 +3339,7 @@
    "eps": 0.6,
    "n_est": 6,
    "eps_ly": 0.59,
-   "mcap": 2977542660.0,
+   "mcap": 2964157700.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3375,7 +3351,7 @@
    "eps": 0.67,
    "n_est": 1,
    "eps_ly": 0.52,
-   "mcap": 1950660610.0,
+   "mcap": 1926363140.0,
    "quarter": "Sep/2026"
   }
  ]
