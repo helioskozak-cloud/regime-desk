@@ -56,13 +56,16 @@ const view = () => $('#v-filings');
   ok('…and the filings table is gone', !/SEC filings/.test(view().textContent));
 
   console.log('\nCalendar:');
-  ok('ten weekday blocks, this week and next', $$('#v-filings [data-earn-day]').length === 10,
-     $$('#v-filings [data-earn-day]').length);
+  // From today on (owner, 2026-10-15): no day before today is drawn.
+  const n = new Date(), today = `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
   const days = $$('#v-filings [data-earn-day]').map(d => d.dataset.earnDay);
-  ok('blocks start on the file\'s Monday and end on its Friday', days[0] === E.start && days[9] === E.end, days.join(','));
-  const first = E.earnings[0];
+  ok('no reported day is shown', days.every(d => d >= today), days.join(','));
+  ok('the calendar runs to the file\'s last Friday', today > E.end || days[days.length - 1] === E.end, days.join(','));
+  ok('nothing says "reported"', !/· reported/.test(view().textContent));
+  const upcoming = E.earnings.filter(r => r.date >= today);
+  const first = upcoming[0] || { date: E.end, ticker: '' };
   const block = $(`#v-filings [data-earn-day="${first.date}"]`);
-  ok(`${first.ticker} sits under its own day`, block && block.textContent.includes(first.ticker));
+  if (first.ticker) ok(`${first.ticker} sits under its own day`, block && block.textContent.includes(first.ticker));
   // The dot is the scanner's top 10% (owner, 2026-10-08), not the retired
   // analog signal list. Read the rank straight from the snapshot's CSV.
   const SC = win.SNAPSHOT.scanner;
@@ -70,10 +73,10 @@ const view = () => $('#v-filings');
   const rank = {};
   (SC ? SC.csv.split('\n').slice(1) : []).forEach(l => { const f = l.split(','); rank[f[1]] = +f[0]; });
   const rowOf = r => $$(`#v-filings [data-earn-day="${r.date}"] tr`).find(tr => tr.textContent.includes(r.ticker));
-  const dotted = E.earnings.find(r => rank[r.ticker] && rank[r.ticker] <= SC.top);
+  const dotted = upcoming.find(r => rank[r.ticker] && rank[r.ticker] <= SC.top);
   if (dotted) ok(`${dotted.ticker} (scanner rank ${rank[dotted.ticker]}) carries the blue dot`,
                  rowOf(dotted) && /scanner rank/.test(rowOf(dotted).innerHTML));
-  const plain = E.earnings.find(r => rank[r.ticker] && rank[r.ticker] > SC.top);
+  const plain = upcoming.find(r => rank[r.ticker] && rank[r.ticker] > SC.top);
   if (plain) ok(`${plain.ticker} (rank ${rank[plain.ticker]}) has no dot`,
                 rowOf(plain) && !/scanner rank/.test(rowOf(plain).innerHTML));
   ok('no row still claims the retired signal list', !/signal list/.test(view().innerHTML));

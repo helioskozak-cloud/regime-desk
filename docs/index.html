@@ -45848,7 +45848,8 @@ function renderEarnings(){
   const today=iso(new Date());
   const start=new Date(E.start+'T12:00:00');
   const day=i=>{const d=new Date(start);d.setDate(d.getDate()+i);return d;};
-  const weeks=[[0,1,2,3,4],[7,8,9,10,11]].map(w=>w.map(day));
+  // From today on (owner, 2026-10-15): reported days are not shown at all.
+  const weeks=[[0,1,2,3,4],[7,8,9,10,11]].map(w=>w.map(day).filter(d=>iso(d)>=today));
   const read=new Set(E.days_read||[]), failed=new Set(E.days_failed||[]);
   const eps=v=>v==null?'—':(v<0?`(${Math.abs(v).toFixed(2)})`:v.toFixed(2));
   const cap=v=>v==null?'':v>=1e12?`$${(v/1e12).toFixed(1)}T`:v>=1e9?`$${(v/1e9).toFixed(1)}B`:`$${Math.round(v/1e6)}M`;
@@ -45873,25 +45874,25 @@ function renderEarnings(){
     <td>${est}${nEst}</td>
     <td class="er-today">${today}</td>
     <td>${news}</td></tr>`;};
-  const dayBlock=d=>{const k=iso(d), rs=rows.filter(r=>r.date===k), past=k<today, isToday=k===today;
+  const dayBlock=d=>{const k=iso(d), rs=rows.filter(r=>r.date===k), past=false, isToday=k===today;
     const lbl=d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
     const note=failed.has(k)?'<span style="color:#d4a72c" title="This day could not be read today; rows are the previous file\'s">● not refreshed</span>':!read.has(k)?'<span style="color:#d4a72c">● not read</span>':'';
     return`<div data-earn-day="${k}" style="margin-bottom:12px;${past?'opacity:.55':''}"><div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid ${isToday?'#5b9dff':'#2e2e2e'};padding:2px 0 3px;margin-bottom:2px"><span class="er-day" style="color:${isToday?'#f2f2f2':'#c9c9c9'}">${lbl}${isToday?' · today':past?' · reported':''}</span><span style="font-size:11px;color:#6f6f6f">${note} ${rs.length} name${rs.length===1?'':'s'}</span></div>
       ${rs.length?`<table class="er-tbl"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup>${rs.map(line).join('')}</table>`:`<div style="color:#4a4a4a;font-size:12px;padding:3px 8px">${read.has(k)||failed.has(k)?'None in the universe.':''}</div>`}</div>`;};
   const head=`<table class="er-tbl er-head"><colgroup><col style="width:128px"><col style="width:260px"><col style="width:270px"><col style="width:170px"><col></colgroup><tr><td>When</td><td>Company</td><td>Earnings per share</td><td>Today${NT&&NT.quotesAsOf&&NT.quotesAsOf()?` <span class="er-dim" style="text-transform:none;letter-spacing:0">\u00b7 ${NT.quotesAsOf()}</span>`:''}</td><td>Newest headline</td></tr></table>`;
-  const col=(t,ds)=>`<div style="margin-bottom:18px"><h3 class="er-week">${t}</h3>${head}${ds.map(dayBlock).join('')}</div>`;
+  const col=(t,ds)=>!ds.length?'':`<div style="margin-bottom:18px"><h3 class="er-week">${t}</h3>${head}${ds.map(dayBlock).join('')}</div>`;
   const inWeek=ws=>{const ks=new Set(ws.map(iso));return all.filter(r=>ks.has(r.date));};
   const tw=inWeek(weeks[0]), nw=inWeek(weeks[1]);
   const ahead=all.filter(r=>r.date>=today);
   const stat=(l,v,t)=>`<div class="fl-stat" title="${t||''}" style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:6px;padding:10px 14px;min-width:150px"><div class="k">${l}</div><div class="v">${v}</div></div>`;
   const age=Math.round((Date.now()-Date.parse(E.as_of))/86400000);
-  return`<div class="card"><h2>Earnings — the scan universe, this week and next</h2>
-  <p style="color:#8f8f8f;font-size:13px;max-width:900px">Every name in the ${E.universe||''}-name scan universe with a confirmed report date from ${esc(E.start)} to ${esc(E.end)}, largest first within each day, from Nasdaq's calendar as of <span style="font-family:var(--mono)">${esc(E.as_of)}</span>${age>3?` <span style="color:#d4a72c;font-weight:600">● ${age} days old</span>`:''}. Each row: when the company reports, its size, the consensus estimate for earnings per share against the same quarter a year ago (negatives in brackets), today's price move, and its newest headline in our feeds. ${_scnLegend()} Held names have their own calendar in finvisible.</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0">${stat('This week',tw.length)}${stat('Next week',nw.length)}${stat('Still to report',ahead.length,'From today on, both weeks')}${stat('Scanner top 10%',ahead.filter(r=>_scnTop(r.ticker)).length,'Still to report and in the scanner\'s top 10% today')}</div>
+  return`<div class="card"><h2>Earnings — the scan universe, today on</h2>
+  <p style="color:#8f8f8f;font-size:13px;max-width:900px">Every name in the ${E.universe||''}-name scan universe with a confirmed report date from today to ${esc(E.end)}, largest first within each day, from Nasdaq's calendar as of <span style="font-family:var(--mono)">${esc(E.as_of)}</span>${age>3?` <span style="color:#d4a72c;font-weight:600">● ${age} days old</span>`:''}. Each row: when the company reports, its size, the consensus estimate for earnings per share against the same quarter a year ago (negatives in brackets), today's price move, and its newest headline in our feeds. ${_scnLegend()} Held names have their own calendar in finvisible.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0">${stat('Rest of this week',tw.length)}${stat('Next week',nw.length)}${stat('Today',all.filter(r=>r.date===today).length)}${stat('Scanner top 10%',ahead.filter(r=>_scnTop(r.ticker)).length,'Still to report and in the scanner\'s top 10% today')}</div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
     <select data-fil-sector style="background:#0e0e0e;border:1px solid #2e2e2e;color:#c9c9c9;padding:3px 6px;border-radius:4px;font-size:12px"><option value="">All sectors</option>${sectors.map(s=>`<option${s===_filSector?' selected':''}>${esc(s)}</option>`).join('')}</select>
     <input data-fil-q value="${esc(_filQ)}" placeholder="ticker or name" style="background:#0e0e0e;border:1px solid #2e2e2e;color:#f2f2f2;padding:3px 8px;border-radius:4px;font-size:12px;width:160px"></div>
-  <div>${col('This week',weeks[0])}${col('Next week',weeks[1])}</div>
+  <div>${col('This week',weeks[0])}${col('Next week',weeks[1])}${weeks[0].length+weeks[1].length?'':'<div style="color:#8f8f8f;padding:20px 0">Every day in this file has passed; the next daily run reads the coming weeks.</div>'}</div>
   <div style="color:#6f6f6f;font-size:11px;margin-top:4px">Early in a season the list is short: companies confirm dates a few weeks ahead, and the calendar fills in day by day.</div>
   </div>${foot}`;
 }
