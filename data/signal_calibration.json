@@ -8,41 +8,41 @@
       "horizon": "120d",
       "n": 903,
       "predicted_mean": 0.5433296888150607,
-      "realized_mean": 0.20073597674418583,
-      "ratio": 0.3694551961295688,
+      "realized_mean": 0.20092997342192678,
+      "ratio": 0.36981224762470066,
       "beat_rate": 0.19712070874861573,
-      "correlation": 0.03366644239465823,
+      "correlation": 0.033444315712152554,
       "realized_p10": -0.27070819999999995
     },
     "20d": {
       "horizon": "20d",
       "n": 5702,
       "predicted_mean": 0.09350230340231495,
-      "realized_mean": 0.011216730445457644,
-      "ratio": 0.11996207619822057,
+      "realized_mean": 0.011230205366537958,
+      "ratio": 0.12010618945094263,
       "beat_rate": 0.2695545422658716,
-      "correlation": 0.0054885117408738525,
+      "correlation": 0.005736073976123241,
       "realized_p10": -0.1578871
     },
     "5d": {
       "horizon": "5d",
       "n": 597,
       "predicted_mean": 0.06922799162479068,
-      "realized_mean": -0.006199467336683421,
-      "ratio": -0.08955145442155771,
+      "realized_mean": -0.006158561139028479,
+      "ratio": -0.08896056341497398,
       "beat_rate": 0.18927973199329984,
-      "correlation": -0.030714412084761798,
+      "correlation": -0.028729847869886336,
       "realized_p10": -0.112096
     },
     "60d": {
       "horizon": "60d",
       "n": 3980,
       "predicted_mean": 0.18627720829145764,
-      "realized_mean": 0.03332480904522615,
-      "ratio": 0.17889901481175663,
+      "realized_mean": 0.033436474120603035,
+      "ratio": 0.17949847126915727,
       "beat_rate": 0.2590452261306533,
-      "correlation": 0.10302623010015431,
-      "realized_p10": -0.24970369999999997
+      "correlation": 0.10289399297398989,
+      "realized_p10": -0.24916449999999998
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
