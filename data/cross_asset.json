@@ -3,7 +3,7 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "-0.2%",
+      "value": "-0.3%",
       "signal": "neutral",
       "context": "Short-term price momentum"
     },
@@ -24,16 +24,16 @@
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "-1.5% (20d)",
+      "value": "-1.6% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.5% \u2014 spread widening = credit stress"
+      "context": "20d ret -1.6% \u2014 spread widening = credit stress"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-4.0% (20d)",
+      "value": "-3.9% (20d)",
       "signal": "bullish",
-      "context": "20d ret -4.0% \u2014 no safe-haven premium"
+      "context": "20d ret -3.9% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
@@ -45,9 +45,9 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+1.4% (20d)",
+      "value": "+1.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret +1.4% \u2014 stable oil"
+      "context": "20d ret +1.3% \u2014 stable oil"
     },
     {
       "name": "VIX Level",
@@ -59,9 +59,9 @@
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-0.2% (20d)",
+      "value": "-0.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.2% \u2014 semis in line"
+      "context": "20d ret -0.3% \u2014 semis in line"
     },
     {
       "name": "Russell 2000",
@@ -87,16 +87,16 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "+1.8% (20d)",
+      "value": "+1.7% (20d)",
       "signal": "neutral",
-      "context": "20d ret +1.8% \u2014 growth neutral"
+      "context": "20d ret +1.7% \u2014 growth neutral"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "-0.8% (20d)",
+      "value": "-0.7% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.8% \u2014 financials lagging"
+      "context": "20d ret -0.7% \u2014 financials lagging"
     }
   ],
   "risks": [
@@ -127,12 +127,12 @@
     {
       "name": "Credit Stress",
       "level": "elevated",
-      "score": 0.65,
-      "description": "HYG 20d -1.5%. Spread widening signals funding stress.",
+      "score": 0.66,
+      "description": "HYG 20d -1.6%. Spread widening signals funding stress.",
       "invalidation": "HYG recovers to 20d positive return",
       "explain": {
         "input_label": "HYG 20-day return",
-        "input_value": "-1.5%",
+        "input_value": "-1.6%",
         "moderate_at": "+0.5%",
         "elevated_at": "-1.5%",
         "input_rises": false,
@@ -150,8 +150,8 @@
     },
     {
       "name": "Rate Re-pricing",
-      "level": "moderate",
-      "score": 0.64,
+      "level": "elevated",
+      "score": 0.65,
       "description": "TLT 20d -1.8%. Bond sell-off = rates rising; duration assets under pressure.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
       "explain": {
@@ -180,7 +180,7 @@
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "-4.1%",
+        "input_value": "-4.2%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,
@@ -223,7 +223,7 @@
     {
       "name": "Dollar Headwind",
       "level": "moderate",
-      "score": 0.58,
+      "score": 0.57,
       "description": "UUP 20d +2.2%. Strong dollar compresses EM earnings and commodity prices.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative",
       "explain": {
@@ -248,7 +248,7 @@
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.24,
-      "description": "SPY +1.5% / 20d with vol 0.61%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY +1.5% / 20d with vol 0.60%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
