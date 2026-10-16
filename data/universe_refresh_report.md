@@ -1,21 +1,68 @@
-# Universe refresh — 2026-10-10
+# Universe refresh — 2026-10-16
 
-- universe before: **3,459**
-- currently listed: 12,881
-- additions clearing $15,000,000/day: **4**
-- removals (absent from listings AND no recent price): **1**
+- universe before: **3,462**
+- currently listed: 12,894
+- additions clearing $15,000,000/day: **186**
+- removals (absent from listings AND no recent price): **6**
 
 ## Removed
 
 ```
-BLFS
+ATAI, CCO, FBRX, LEG, TWO, WBS
 ```
 
 ## Added
 
 | ticker | avg $ vol (21d) |
 |---|---:|
-| SKYD | $312,128,045 |
-| HFIX | $25,192,712 |
-| TRXB | $17,589,684 |
-| GMAC | $15,673,585 |
+| GRML | $274,618,081 |
+| GLND | $173,403,161 |
+| SDEV | $145,328,327 |
+| WFF | $124,865,803 |
+| FTXR | $80,811,213 |
+| FTXN | $80,423,008 |
+| IDEF | $77,092,305 |
+| JAGX | $77,074,644 |
+| APUS | $65,509,866 |
+| BMBL | $62,521,711 |
+| MI | $62,216,828 |
+| IAM | $54,009,719 |
+| TCRT | $51,721,894 |
+| XRPN | $48,378,163 |
+| BENF | $47,428,695 |
+| IWC | $46,473,497 |
+| PACB | $44,753,313 |
+| DNA | $44,006,332 |
+| AMOD | $41,511,093 |
+| CGHM | $40,561,709 |
+| DFNM | $39,639,292 |
+| AVBP | $39,057,945 |
+| DUSB | $37,607,360 |
+| BKYI | $37,425,834 |
+| SRZN | $35,162,813 |
+| OLB | $33,873,385 |
+| REM | $33,679,646 |
+| SHM | $33,383,376 |
+| MSGY | $33,320,524 |
+| PFIX | $33,311,990 |
+| XERS | $33,143,987 |
+| MBBA | $31,857,442 |
+| FMB | $31,643,383 |
+| CTY | $31,490,883 |
+| AOM | $31,241,293 |
+| QTEX | $31,106,959 |
+| WHLR | $30,931,201 |
+| MMIT | $29,640,805 |
+| MNDR | $28,654,265 |
+| EWZS | $28,527,682 |
+| DFCA | $28,140,555 |
+| MAZE | $26,391,209 |
+| IPDN | $26,180,200 |
+| INRO | $25,868,062 |
+| VEEE | $25,776,713 |
+| CLOI | $25,291,667 |
+| INMU | $24,604,560 |
+| FTCB | $24,098,446 |
+| NAD | $23,650,312 |
+| ALMR | $23,608,979 |
+| … | 136 more |
