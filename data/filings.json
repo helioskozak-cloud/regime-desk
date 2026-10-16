@@ -1,8 +1,8 @@
 {
- "as_of": "2026-10-15",
+ "as_of": "2026-10-16",
  "window_days": 7,
  "universe": 3462,
- "n": 338,
+ "n": 379,
  "filings": [
   {
    "ticker": "RMCF",
@@ -14,6 +14,17 @@
    "rank": 0,
    "what": "Late 10-Q filing",
    "url": "https://www.sec.gov/Archives/edgar/data/1616262/000121390026109441/0001213900-26-109441-index.htm"
+  },
+  {
+   "ticker": "FBIN",
+   "name": "Fortune Brands Innovations, Inc.",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 1,
+   "what": "2.06 impairment; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1519751/000119312526422895/0001193125-26-422895-index.htm"
   },
   {
    "ticker": "CCO",
@@ -69,6 +80,61 @@
    "rank": 1,
    "what": "4.01 auditor change",
    "url": "https://www.sec.gov/Archives/edgar/data/1859807/000121390026108552/0001213900-26-108552-index.htm"
+  },
+  {
+   "ticker": "BAC",
+   "name": "Bank of America Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "SCHEDULE 13D/A",
+   "kind": "activist",
+   "rank": 2,
+   "what": "13D activist stake (amended)",
+   "url": "https://www.sec.gov/Archives/edgar/data/70858/000007085826000484/0000070858-26-000484-index.htm"
+  },
+  {
+   "ticker": "BORR",
+   "name": "Borr Drilling Limited",
+   "sector": "Energy",
+   "date": "2026-10-15",
+   "form": "SCHEDULE 13D/A",
+   "kind": "activist",
+   "rank": 2,
+   "what": "13D activist stake (amended)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1715497/000119312526423089/0001193125-26-423089-index.htm"
+  },
+  {
+   "ticker": "KNTK",
+   "name": "Kinetik Holdings Inc.",
+   "sector": "Energy",
+   "date": "2026-10-15",
+   "form": "SCHEDULE 13D/A",
+   "kind": "activist",
+   "rank": 2,
+   "what": "13D activist stake (amended)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1692787/000090514826004481/0000905148-26-004481-index.htm"
+  },
+  {
+   "ticker": "PAG",
+   "name": "Penske Automotive Group, Inc.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "SCHEDULE 13D/A",
+   "kind": "activist",
+   "rank": 2,
+   "what": "13D activist stake (amended)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1019849/000119312526422269/0001193125-26-422269-index.htm"
+  },
+  {
+   "ticker": "PAG",
+   "name": "Penske Automotive Group, Inc.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "SCHEDULE 13D/A",
+   "kind": "activist",
+   "rank": 2,
+   "what": "13D activist stake (amended)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1019849/000119312526422280/0001193125-26-422280-index.htm"
   },
   {
    "ticker": "ETON",
@@ -225,70 +291,477 @@
    "url": "https://www.sec.gov/Archives/edgar/data/1636282/000110465926115087/0001104659-26-115087-index.htm"
   },
   {
-   "ticker": "ESE",
-   "name": "ESCO Technologies Inc.",
+   "ticker": "ARW",
+   "name": "Arrow Electronics, Inc.",
    "sector": "Technology",
-   "date": "2026-10-08",
-   "form": "SCHEDULE 13D",
-   "kind": "activist",
-   "rank": 2,
-   "what": "13D activist stake",
-   "url": "https://www.sec.gov/Archives/edgar/data/866706/000119312526418042/0001193125-26-418042-index.htm"
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/7536/000110465926116236/0001104659-26-116236-index.htm"
   },
   {
-   "ticker": "GAP",
-   "name": "The Gap, Inc.",
+   "ticker": "AVT",
+   "name": "Avnet, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/8858/000000885826000116/0000008858-26-000116-index.htm"
+  },
+  {
+   "ticker": "ABBV",
+   "name": "AbbVie Inc.",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1551152/000110465926116227/0001104659-26-116227-index.htm"
+  },
+  {
+   "ticker": "ACI",
+   "name": "nan",
+   "sector": "Consumer Staples",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1646972/000164697226000062/0001646972-26-000062-index.htm"
+  },
+  {
+   "ticker": "AMPL",
+   "name": "Amplitude, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1866692/000119312526422944/0001193125-26-422944-index.htm"
+  },
+  {
+   "ticker": "ANDG",
+   "name": "Andersen Group Inc.",
    "sector": "Consumer Discretionary",
-   "date": "2026-10-08",
-   "form": "SCHEDULE 13D/A",
-   "kind": "activist",
-   "rank": 2,
-   "what": "13D activist stake (amended)",
-   "url": "https://www.sec.gov/Archives/edgar/data/39911/000110465926114753/0001104659-26-114753-index.htm"
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "3.02 unregistered sale",
+   "url": "https://www.sec.gov/Archives/edgar/data/2065708/000206570826000005/0002065708-26-000005-index.htm"
   },
   {
-   "ticker": "HESM",
-   "name": "Hess Midstream LP",
+   "ticker": "BJ",
+   "name": "BJ's Wholesale Club Holdings, Inc.",
+   "sector": "Consumer Staples",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1531152/000110465926116256/0001104659-26-116256-index.htm"
+  },
+  {
+   "ticker": "OWL",
+   "name": "Blue Owl Capital Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/1823945/000119312526422905/0001193125-26-422905-index.htm"
+  },
+  {
+   "ticker": "BX",
+   "name": "Blackstone Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1393818/000119312526422888/0001193125-26-422888-index.htm"
+  },
+  {
+   "ticker": "CRS",
+   "name": "Carpenter Technology Corporation",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/17843/000001784326000040/0000017843-26-000040-index.htm"
+  },
+  {
+   "ticker": "CAT",
+   "name": "Caterpillar Inc.",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/18230/000110465926116198/0001104659-26-116198-index.htm"
+  },
+  {
+   "ticker": "CLRO",
+   "name": "ClearOne, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/840715/000175392626001940/0001753926-26-001940-index.htm"
+  },
+  {
+   "ticker": "CRGY",
+   "name": "Crescent Energy Company",
    "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "SCHEDULE 13D/A",
-   "kind": "activist",
-   "rank": 2,
-   "what": "13D activist stake (amended)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1789832/000119312526418098/0001193125-26-418098-index.htm"
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement; 2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1866175/000186617526000138/0001866175-26-000138-index.htm"
   },
   {
-   "ticker": "INSW",
-   "name": "International Seaways, Inc.",
+   "ticker": "DVLT",
+   "name": "Datavault AI Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1682149/000110465926116261/0001104659-26-116261-index.htm"
+  },
+  {
+   "ticker": "TRAX",
+   "name": "First Tracks Biotherapeutics, I",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "3.02 unregistered sale; 1.01 material agreement; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/2091349/000119312526422929/0001193125-26-422929-index.htm"
+  },
+  {
+   "ticker": "HAL",
+   "name": "Halliburton Company",
    "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "SCHEDULE 13D/A",
-   "kind": "activist",
-   "rank": 2,
-   "what": "13D activist stake (amended)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1679049/000091957426006769/0000919574-26-006769-index.htm"
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/45012/000004501226000069/0000045012-26-000069-index.htm"
   },
   {
-   "ticker": "SDRL",
-   "name": "Seadrill Limited",
-   "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "SCHEDULE 13D/A",
-   "kind": "activist",
-   "rank": 2,
-   "what": "13D activist stake (amended)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1737706/000091957426006770/0000919574-26-006770-index.htm"
+   "ticker": "HLNE",
+   "name": "Hamilton Lane Incorporated",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1433642/000143364226000048/0001433642-26-000048-index.htm"
   },
   {
-   "ticker": "SKYD",
-   "name": "Paramount Skydance Corporation",
+   "ticker": "LMAT",
+   "name": "LeMaitre Vascular, Inc.",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1158895/000119312526422885/0001193125-26-422885-index.htm"
+  },
+  {
+   "ticker": "MAN",
+   "name": "ManpowerGroup",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/871763/000119312526422283/0001193125-26-422283-index.htm"
+  },
+  {
+   "ticker": "MDLN",
+   "name": "Medline Inc.",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/2046386/000110465926116255/0001104659-26-116255-index.htm"
+  },
+  {
+   "ticker": "MDB",
+   "name": "MongoDB, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1441816/000162828026065934/0001628280-26-065934-index.htm"
+  },
+  {
+   "ticker": "NCLH",
+   "name": "Norwegian Cruise Line Holdings Ltd.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement; 1.02 agreement ended; 8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/1513761/000110465926116254/0001104659-26-116254-index.htm"
+  },
+  {
+   "ticker": "PAG",
+   "name": "Penske Automotive Group, Inc.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 5.02 officer/director change; 1.01 material agreement; 8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/1019849/000114036126039664/0001140361-26-039664-index.htm"
+  },
+  {
+   "ticker": "PINS",
+   "name": "Pinterest, Inc.",
    "sector": "Communication Services",
-   "date": "2026-10-08",
-   "form": "SCHEDULE 13D/A",
-   "kind": "activist",
-   "rank": 2,
-   "what": "13D activist stake (amended)",
-   "url": "https://www.sec.gov/Archives/edgar/data/2041610/000119312526418066/0001193125-26-418066-index.htm"
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/1506293/000150629326000143/0001506293-26-000143-index.htm"
+  },
+  {
+   "ticker": "PFSA",
+   "name": "Profusa, Inc.",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 3.02 unregistered sale; 1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/1859807/000121390026109558/0001213900-26-109558-index.htm"
+  },
+  {
+   "ticker": "SHOE",
+   "name": "Shoe Station Group, Inc.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/895447/000119312526422982/0001193125-26-422982-index.htm"
+  },
+  {
+   "ticker": "SUNE",
+   "name": "SUNation Energy, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/22701/000121390026109850/0001213900-26-109850-index.htm"
+  },
+  {
+   "ticker": "SYNA",
+   "name": "Synaptics Incorporated",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/817720/000081772026000081/0000817720-26-000081-index.htm"
+  },
+  {
+   "ticker": "SMCI",
+   "name": "Super Micro Computer, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000024/0001375365-26-000024-index.htm"
+  },
+  {
+   "ticker": "REAL",
+   "name": "The RealReal, Inc.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1573221/000119312526422329/0001193125-26-422329-index.htm"
+  },
+  {
+   "ticker": "RIG",
+   "name": "Transocean Ltd.",
+   "sector": "Energy",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "2.03 new debt; 1.01 material agreement; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1451505/000145150526000075/0001451505-26-000075-index.htm"
+  },
+  {
+   "ticker": "VRNS",
+   "name": "Varonis Systems, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 1.01 material agreement; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1361113/000121390026109901/0001213900-26-109901-index.htm"
+  },
+  {
+   "ticker": "VRRM",
+   "name": "Verra Mobility Corporation",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1682745/000119312526422342/0001193125-26-422342-index.htm"
+  },
+  {
+   "ticker": "VIVK",
+   "name": "Vivakor, Inc.",
+   "sector": "Energy",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "3.02 unregistered sale",
+   "url": "https://www.sec.gov/Archives/edgar/data/1450704/000182912626011193/0001829126-26-011193-index.htm"
+  },
+  {
+   "ticker": "LMND",
+   "name": "Lemonade, Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K/A",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1691421/000169142126000061/0001691421-26-000061-index.htm"
+  },
+  {
+   "ticker": "MCO",
+   "name": "Moody's Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K/A",
+   "kind": "8-K",
+   "rank": 3,
+   "what": "5.02 officer/director change",
+   "url": "https://www.sec.gov/Archives/edgar/data/1059556/000105955626000041/0001059556-26-000041-index.htm"
+  },
+  {
+   "ticker": "LEN",
+   "name": "Lennar Corporation",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "424B5",
+   "kind": "offering",
+   "rank": 3,
+   "what": "Registered offering (424B5)",
+   "url": "https://www.sec.gov/Archives/edgar/data/920760/000119312526421862/0001193125-26-421862-index.htm"
+  },
+  {
+   "ticker": "RXRX",
+   "name": "Recursion Pharmaceuticals, Inc.",
+   "sector": "Biotech",
+   "date": "2026-10-15",
+   "form": "424B5",
+   "kind": "offering",
+   "rank": 3,
+   "what": "Registered offering (424B5)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1601830/000160183026000126/0001601830-26-000126-index.htm"
+  },
+  {
+   "ticker": "RXRX",
+   "name": "Recursion Pharmaceuticals, Inc.",
+   "sector": "Biotech",
+   "date": "2026-10-15",
+   "form": "424B5",
+   "kind": "offering",
+   "rank": 3,
+   "what": "Registered offering (424B5)",
+   "url": "https://www.sec.gov/Archives/edgar/data/1601830/000160183026000134/0001601830-26-000134-index.htm"
+  },
+  {
+   "ticker": "STT",
+   "name": "State Street Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "424B5",
+   "kind": "offering",
+   "rank": 3,
+   "what": "Registered offering (424B5)",
+   "url": "https://www.sec.gov/Archives/edgar/data/93751/000119312526422400/0001193125-26-422400-index.htm"
+  },
+  {
+   "ticker": "PG",
+   "name": "The Procter & Gamble Company",
+   "sector": "Consumer Staples",
+   "date": "2026-10-15",
+   "form": "S-3ASR",
+   "kind": "offering",
+   "rank": 3,
+   "what": "Registered offering (S-3ASR)",
+   "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000239/0000080424-26-000239-index.htm"
+  },
+  {
+   "ticker": "PG",
+   "name": "The Procter & Gamble Company",
+   "sector": "Consumer Staples",
+   "date": "2026-10-15",
+   "form": "S-3ASR",
+   "kind": "offering",
+   "rank": 3,
+   "what": "Registered offering (S-3ASR)",
+   "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000241/0000080424-26-000241-index.htm"
+  },
+  {
+   "ticker": "PG",
+   "name": "The Procter & Gamble Company",
+   "sector": "Consumer Staples",
+   "date": "2026-10-15",
+   "form": "S-3ASR",
+   "kind": "offering",
+   "rank": 3,
+   "what": "Registered offering (S-3ASR)",
+   "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000243/0000080424-26-000243-index.htm"
   },
   {
    "ticker": "ANDG",
@@ -1380,235 +1853,103 @@
    "url": "https://www.sec.gov/Archives/edgar/data/1899287/000110465926115105/0001104659-26-115105-index.htm"
   },
   {
-   "ticker": "RNA",
-   "name": "Avidity Biosciences, Inc.",
+   "ticker": "BHVN",
+   "name": "Biohaven Ltd.",
    "sector": "Healthcare",
-   "date": "2026-10-08",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 3,
-   "what": "3.02 unregistered sale; 1.01 material agreement; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/2093101/000119312526417402/0001193125-26-417402-index.htm"
+   "rank": 4,
+   "what": "1.01 material agreement; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1935979/000193597926000080/0001935979-26-000080-index.htm"
   },
   {
-   "ticker": "DPZ",
-   "name": "Domino's Pizza, Inc.",
-   "sector": "Consumer Discretionary",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/1286681/000119312526417912/0001193125-26-417912-index.htm"
-  },
-  {
-   "ticker": "IT",
-   "name": "Gartner, Inc.",
+   "ticker": "CCC",
+   "name": "CCC Intelligent Solutions Holdings Inc.",
    "sector": "Technology",
-   "date": "2026-10-08",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/749251/000119312526417937/0001193125-26-417937-index.htm"
+   "rank": 4,
+   "what": "1.01 material agreement; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1818201/000119312526422320/0001193125-26-422320-index.htm"
   },
   {
-   "ticker": "GD",
-   "name": "General Dynamics Corporation",
-   "sector": "Industrials",
-   "date": "2026-10-08",
+   "ticker": "DVLT",
+   "name": "Datavault AI Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/40533/000119312526417188/0001193125-26-417188-index.htm"
+   "rank": 4,
+   "what": "1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/1682149/000110465926116228/0001104659-26-116228-index.htm"
   },
   {
-   "ticker": "GEO",
-   "name": "Geo Group Inc (The) REIT",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "2.03 new debt; 1.01 material agreement; 7.01 Reg FD; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/923796/000119312526417979/0001193125-26-417979-index.htm"
-  },
-  {
-   "ticker": "HSIC",
-   "name": "Henry Schein, Inc.",
+   "ticker": "ESTA",
+   "name": "Establishment Labs Holdings Inc",
    "sector": "Healthcare",
-   "date": "2026-10-08",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change; 7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1000228/000119312526417409/0001193125-26-417409-index.htm"
+   "rank": 4,
+   "what": "1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/1688757/000110465926115928/0001104659-26-115928-index.htm"
   },
   {
-   "ticker": "HTGC",
-   "name": "Hercules Capital, Inc.",
-   "sector": "Financials",
-   "date": "2026-10-08",
+   "ticker": "XLAB",
+   "name": "Exascale Labs Holdings Inc. Class A Common Stock",
+   "sector": "nan",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 3,
-   "what": "2.03 new debt; 1.01 material agreement; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1280784/000162828026065459/0001628280-26-065459-index.htm"
+   "rank": 4,
+   "what": "1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/2109869/000182912626011139/0001829126-26-011139-index.htm"
   },
   {
-   "ticker": "HESM",
-   "name": "Hess Midstream LP",
+   "ticker": "ROCK",
+   "name": "Gibraltar Industries, Inc.",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 4,
+   "what": "1.01 material agreement; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/912562/000091256226000164/0000912562-26-000164-index.htm"
+  },
+  {
+   "ticker": "RXRX",
+   "name": "Recursion Pharmaceuticals, Inc.",
+   "sector": "Biotech",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 4,
+   "what": "1.01 material agreement; 2.02 results; 7.01 Reg FD; 8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/1601830/000160183026000128/0001601830-26-000128-index.htm"
+  },
+  {
+   "ticker": "UNG",
+   "name": "United States Natural Gas Fund LP",
    "sector": "Energy",
-   "date": "2026-10-08",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change; 1.01 material agreement; 7.01 Reg FD; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1789832/000119312526418053/0001193125-26-418053-index.htm"
+   "rank": 4,
+   "what": "1.01 material agreement",
+   "url": "https://www.sec.gov/Archives/edgar/data/1376227/000207187626000249/0002071876-26-000249-index.htm"
   },
   {
-   "ticker": "KEX",
-   "name": "Kirby Corporation",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/56047/000119312526417702/0001193125-26-417702-index.htm"
-  },
-  {
-   "ticker": "NUAI",
-   "name": "New Era Energy & Digital, Inc.",
-   "sector": "Technology",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "2.03 new debt; 3.02 unregistered sale; 1.01 material agreement; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/2028336/000121390026107704/0001213900-26-107704-index.htm"
-  },
-  {
-   "ticker": "OGE",
-   "name": "OGE Energy Corp.",
-   "sector": "Utilities",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/1021635/000102163526000031/0001021635-26-000031-index.htm"
-  },
-  {
-   "ticker": "PAYO",
-   "name": "Payoneer Global Inc.",
-   "sector": "Technology",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/1845815/000095010326015392/0000950103-26-015392-index.htm"
-  },
-  {
-   "ticker": "RBA",
-   "name": "RB Global, Inc.",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change; 7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1046102/000110465926114556/0001104659-26-114556-index.htm"
-  },
-  {
-   "ticker": "SMCI",
-   "name": "Super Micro Computer, Inc.",
-   "sector": "Technology",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000023/0001375365-26-000023-index.htm"
-  },
-  {
-   "ticker": "VNT",
-   "name": "Vontier Corporation",
-   "sector": "Technology",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/1786842/000162828026065383/0001628280-26-065383-index.htm"
-  },
-  {
-   "ticker": "WERN",
-   "name": "Werner Enterprises, Inc.",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "2.03 new debt; 1.01 material agreement; 1.02 agreement ended",
-   "url": "https://www.sec.gov/Archives/edgar/data/793074/000079307426000159/0000793074-26-000159-index.htm"
-  },
-  {
-   "ticker": "TBBK",
-   "name": "The Bancorp, Inc.",
-   "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "8-K/A",
-   "kind": "8-K",
-   "rank": 3,
-   "what": "5.02 officer/director change",
-   "url": "https://www.sec.gov/Archives/edgar/data/1295401/000203985226000125/0002039852-26-000125-index.htm"
-  },
-  {
-   "ticker": "JEF",
-   "name": "Jefferies Financial Group Inc.",
-   "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "424B5",
-   "kind": "offering",
-   "rank": 3,
-   "what": "Registered offering (424B5)",
-   "url": "https://www.sec.gov/Archives/edgar/data/96223/000191870426031026/0001918704-26-031026-index.htm"
-  },
-  {
-   "ticker": "PCVX",
-   "name": "Vaxcyte, Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "424B5",
-   "kind": "offering",
-   "rank": 3,
-   "what": "Registered offering (424B5)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1649094/000119312526417977/0001193125-26-417977-index.htm"
-  },
-  {
-   "ticker": "PCVX",
-   "name": "Vaxcyte, Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "424B5",
-   "kind": "offering",
-   "rank": 3,
-   "what": "Registered offering (424B5)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1649094/000119312526417984/0001193125-26-417984-index.htm"
-  },
-  {
-   "ticker": "CRGY",
-   "name": "Crescent Energy Company",
+   "ticker": "VG",
+   "name": "Venture Global, Inc.",
    "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "S-3ASR",
-   "kind": "offering",
-   "rank": 3,
-   "what": "Registered offering (S-3ASR)",
-   "url": "https://www.sec.gov/Archives/edgar/data/1866175/000162828026065388/0001628280-26-065388-index.htm"
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 4,
+   "what": "1.01 material agreement; 8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/2007855/000200785526000081/0002007855-26-000081-index.htm"
   },
   {
    "ticker": "IIPR",
@@ -1776,37 +2117,246 @@
    "url": "https://www.sec.gov/Archives/edgar/data/1938046/000149315226046510/0001493152-26-046510-index.htm"
   },
   {
-   "ticker": "CRGY",
-   "name": "Crescent Energy Company",
-   "sector": "Energy",
-   "date": "2026-10-08",
+   "ticker": "AA",
+   "name": "Alcoa Corporation",
+   "sector": "Materials",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 4,
-   "what": "1.01 material agreement; 2.02 results; 7.01 Reg FD; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1866175/000162828026065385/0001628280-26-065385-index.htm"
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/1675149/000119312526422891/0001193125-26-422891-index.htm"
   },
   {
-   "ticker": "PCRX",
-   "name": "Pacira BioSciences, Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
+   "ticker": "BNY",
+   "name": "The Bank of New York Mellon Cor",
+   "sector": "Financials",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 4,
-   "what": "1.01 material agreement; 7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1396814/000110465926114571/0001104659-26-114571-index.htm"
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1390777/000139077726000104/0001390777-26-000104-index.htm"
   },
   {
-   "ticker": "VTRS",
-   "name": "Viatris Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
+   "ticker": "CSWC",
+   "name": "Capital Southwest Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 4,
-   "what": "1.01 material agreement; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1792044/000114036126039024/0001140361-26-039024-index.htm"
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/17313/000001731326000161/0000017313-26-000161-index.htm"
+  },
+  {
+   "ticker": "CNS",
+   "name": "Cohen & Steers Inc",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/1284812/000128481226000195/0001284812-26-000195-index.htm"
+  },
+  {
+   "ticker": "CMC",
+   "name": "Commercial Metals Company",
+   "sector": "Materials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/22444/000002244426000053/0000022444-26-000053-index.htm"
+  },
+  {
+   "ticker": "FHN",
+   "name": "First Horizon Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/36966/000003696626000178/0000036966-26-000178-index.htm"
+  },
+  {
+   "ticker": "FMC",
+   "name": "FMC Corporation",
+   "sector": "Materials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/37785/000003778526000149/0000037785-26-000149-index.htm"
+  },
+  {
+   "ticker": "JBHT",
+   "name": "J.B. Hunt Transport Services, Inc.",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/728535/000143774926032715/0001437749-26-032715-index.htm"
+  },
+  {
+   "ticker": "INDB",
+   "name": "Independent Bank Corp.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/776901/000077690126000152/0000776901-26-000152-index.htm"
+  },
+  {
+   "ticker": "IBKR",
+   "name": "Interactive Brokers Group, Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/1381197/000138119726000154/0001381197-26-000154-index.htm"
+  },
+  {
+   "ticker": "KMB",
+   "name": "Kimberly-Clark Corporation",
+   "sector": "Consumer Staples",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/55785/000110465926115960/0001104659-26-115960-index.htm"
+  },
+  {
+   "ticker": "MRSH",
+   "name": "Marsh & McLennan Companies, Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/62709/000006270926000256/0000062709-26-000256-index.htm"
+  },
+  {
+   "ticker": "MAIN",
+   "name": "Main Street Capital Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/1396440/000139644026000106/0001396440-26-000106-index.htm"
+  },
+  {
+   "ticker": "MAN",
+   "name": "ManpowerGroup",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/871763/000119312526422291/0001193125-26-422291-index.htm"
+  },
+  {
+   "ticker": "PLUG",
+   "name": "Plug Power Inc.",
+   "sector": "Industrials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/1093691/000110465926115964/0001104659-26-115964-index.htm"
+  },
+  {
+   "ticker": "PNC",
+   "name": "The PNC Financial Services Group, Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/713676/000162828026065936/0001628280-26-065936-index.htm"
+  },
+  {
+   "ticker": "PRU",
+   "name": "Prudential Financial, Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1137774/000113777426000210/0001137774-26-000210-index.htm"
+  },
+  {
+   "ticker": "PLD",
+   "name": "Prologis, Inc.",
+   "sector": "Real Estate",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1045609/000119312526422375/0001193125-26-422375-index.htm"
+  },
+  {
+   "ticker": "SCHW",
+   "name": "The Charles Schwab Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/316709/000031670926000035/0000316709-26-000035-index.htm"
+  },
+  {
+   "ticker": "SFNC",
+   "name": "Simmons First National Corporat",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/90498/000119312526422936/0001193125-26-422936-index.htm"
+  },
+  {
+   "ticker": "USB",
+   "name": "U.S. Bancorp",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results; 7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/36104/000003610426000054/0000036104-26-000054-index.htm"
+  },
+  {
+   "ticker": "VELO",
+   "name": "Velo3D, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 5,
+   "what": "2.02 results",
+   "url": "https://www.sec.gov/Archives/edgar/data/1825079/000182507926000012/0001825079-26-000012-index.htm"
   },
   {
    "ticker": "BAC",
@@ -2150,92 +2700,279 @@
    "url": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000035/0000027904-26-000035-index.htm"
   },
   {
-   "ticker": "BKD",
-   "name": "Brookdale Senior Living Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results; 7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1332349/000133234926000068/0001332349-26-000068-index.htm"
-  },
-  {
-   "ticker": "FANG",
-   "name": "Diamondback Energy, Inc.",
-   "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results",
-   "url": "https://www.sec.gov/Archives/edgar/data/1539838/000153983826000177/0001539838-26-000177-index.htm"
-  },
-  {
-   "ticker": "EOG",
-   "name": "EOG Resources, Inc.",
-   "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results",
-   "url": "https://www.sec.gov/Archives/edgar/data/821189/000082118926000202/0000821189-26-000202-index.htm"
-  },
-  {
-   "ticker": "MAIN",
-   "name": "Main Street Capital Corporation",
+   "ticker": "ALL",
+   "name": "The Allstate Corporation",
    "sector": "Financials",
-   "date": "2026-10-08",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results",
-   "url": "https://www.sec.gov/Archives/edgar/data/1396440/000139644026000104/0001396440-26-000104-index.htm"
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/899051/000089905126000150/0000899051-26-000150-index.htm"
   },
   {
-   "ticker": "NG",
-   "name": "Novagold Resources Inc.",
+   "ticker": "AXP",
+   "name": "American Express Company",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/4962/000000496226000383/0000004962-26-000383-index.htm"
+  },
+  {
+   "ticker": "BZH",
+   "name": "Beazer Homes USA, Inc.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "5.07 shareholder vote; 8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/915840/000110465926116005/0001104659-26-116005-index.htm"
+  },
+  {
+   "ticker": "BILL",
+   "name": "BILL Holdings, Inc.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1786352/000162828026066002/0001628280-26-066002-index.htm"
+  },
+  {
+   "ticker": "CWT",
+   "name": "California Water Service Group",
+   "sector": "Utilities",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/1035201/000110465926116113/0001104659-26-116113-index.htm"
+  },
+  {
+   "ticker": "DJCO",
+   "name": "Daily Journal Corporation",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/783412/000143774926032716/0001437749-26-032716-index.htm"
+  },
+  {
+   "ticker": "DIOD",
+   "name": "Diodes Incorporated",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/29002/000119312526423028/0001193125-26-423028-index.htm"
+  },
+  {
+   "ticker": "ESTC",
+   "name": "Elastic N.V.",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "5.07 shareholder vote",
+   "url": "https://www.sec.gov/Archives/edgar/data/1707753/000170775326000061/0001707753-26-000061-index.htm"
+  },
+  {
+   "ticker": "FRME",
+   "name": "First Merchants Corporation",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/712534/000071253426000070/0000712534-26-000070-index.htm"
+  },
+  {
+   "ticker": "GNL",
+   "name": "Global Net Lease, Inc.",
+   "sector": "Real Estate",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1526113/000110465926115947/0001104659-26-115947-index.htm"
+  },
+  {
+   "ticker": "INDV",
+   "name": "Indivior PLC",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "5.07 shareholder vote",
+   "url": "https://www.sec.gov/Archives/edgar/data/1625297/000110465926116253/0001104659-26-116253-index.htm"
+  },
+  {
+   "ticker": "KRYS",
+   "name": "Krystal Biotech, Inc.",
+   "sector": "Biotech",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127926000064/0001711279-26-000064-index.htm"
+  },
+  {
+   "ticker": "LEN",
+   "name": "Lennar Corporation",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/920760/000119312526422909/0001193125-26-422909-index.htm"
+  },
+  {
+   "ticker": "NWSA",
+   "name": "News Corporation",
+   "sector": "Communication Services",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/1564708/000156470826000222/0001564708-26-000222-index.htm"
+  },
+  {
+   "ticker": "IRD",
+   "name": "Opus Genetics, Inc.",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1228627/000114036126039781/0001140361-26-039781-index.htm"
+  },
+  {
+   "ticker": "PAG",
+   "name": "Penske Automotive Group, Inc.",
+   "sector": "Consumer Discretionary",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/1019849/000114036126039661/0001140361-26-039661-index.htm"
+  },
+  {
+   "ticker": "PNC",
+   "name": "The PNC Financial Services Group, Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/713676/000162828026065997/0001628280-26-065997-index.htm"
+  },
+  {
+   "ticker": "ROKU",
+   "name": "Roku, Inc.",
+   "sector": "Communication Services",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "5.07 shareholder vote",
+   "url": "https://www.sec.gov/Archives/edgar/data/1428439/000114036126039632/0001140361-26-039632-index.htm"
+  },
+  {
+   "ticker": "SMTC",
+   "name": "Semtech Corporation",
+   "sector": "Technology",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/88941/000008894126000041/0000088941-26-000041-index.htm"
+  },
+  {
+   "ticker": "SUPN",
+   "name": "Supernus Pharmaceuticals, Inc.",
+   "sector": "Healthcare",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "5.07 shareholder vote",
+   "url": "https://www.sec.gov/Archives/edgar/data/1356576/000135657626000040/0001356576-26-000040-index.htm"
+  },
+  {
+   "ticker": "VOYA",
+   "name": "Voya Financial, Inc.",
+   "sector": "Financials",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1535929/000153592926000179/0001535929-26-000179-index.htm"
+  },
+  {
+   "ticker": "BIAF",
+   "name": "nan",
+   "sector": "nan",
+   "date": "2026-10-15",
+   "form": "8-K",
+   "kind": "8-K",
+   "rank": 6,
+   "what": "8.01 other event",
+   "url": "https://www.sec.gov/Archives/edgar/data/1712762/000149315226047168/0001493152-26-047168-index.htm"
+  },
+  {
+   "ticker": "IAUX",
+   "name": "i-80 Gold Corp.",
    "sector": "Materials",
-   "date": "2026-10-08",
+   "date": "2026-10-15",
    "form": "8-K",
    "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results",
-   "url": "https://www.sec.gov/Archives/edgar/data/1173420/000117184326006528/0001171843-26-006528-index.htm"
+   "rank": 6,
+   "what": "7.01 Reg FD",
+   "url": "https://www.sec.gov/Archives/edgar/data/1853962/000119312526422255/0001193125-26-422255-index.htm"
   },
   {
-   "ticker": "PEP",
-   "name": "PepsiCo, Inc.",
+   "ticker": "BJ",
+   "name": "BJ's Wholesale Club Holdings, Inc.",
    "sector": "Consumer Staples",
-   "date": "2026-10-08",
-   "form": "8-K",
+   "date": "2026-10-15",
+   "form": "8-K/A",
    "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results",
-   "url": "https://www.sec.gov/Archives/edgar/data/77476/000007747626000050/0000077476-26-000050-index.htm"
+   "rank": 6,
+   "what": "5.07 shareholder vote",
+   "url": "https://www.sec.gov/Archives/edgar/data/1531152/000110465926116247/0001104659-26-116247-index.htm"
   },
   {
-   "ticker": "SEZL",
-   "name": "Sezzle Inc.",
+   "ticker": "ESQ",
+   "name": "Esquire Financial Holdings, Inc",
    "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "8-K",
+   "date": "2026-10-15",
+   "form": "8-K/A",
    "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results",
-   "url": "https://www.sec.gov/Archives/edgar/data/1662991/000166299126000165/0001662991-26-000165-index.htm"
-  },
-  {
-   "ticker": "TLRY",
-   "name": "Tilray Brands, Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 5,
-   "what": "2.02 results",
-   "url": "https://www.sec.gov/Archives/edgar/data/1731348/000117184326006527/0001171843-26-006527-index.htm"
+   "rank": 6,
+   "what": "8-K/A",
+   "url": "https://www.sec.gov/Archives/edgar/data/1531031/000110465926115958/0001104659-26-115958-index.htm"
   },
   {
    "ticker": "ACN",
@@ -3435,310 +4172,9 @@
    "rank": 6,
    "what": "S-1/A",
    "url": "https://www.sec.gov/Archives/edgar/data/1602409/000149315226046470/0001493152-26-046470-index.htm"
-  },
-  {
-   "ticker": "AXP",
-   "name": "American Express Company",
-   "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/4962/000000496226000376/0000004962-26-000376-index.htm"
-  },
-  {
-   "ticker": "AZZ",
-   "name": "AZZ Inc.",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/8947/000000894726000181/0000008947-26-000181-index.htm"
-  },
-  {
-   "ticker": "ALHC",
-   "name": "Alignment Healthcare, Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1832466/000162828026065470/0001628280-26-065470-index.htm"
-  },
-  {
-   "ticker": "ATKR",
-   "name": "Atkore Inc.",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1666138/000166613826000039/0001666138-26-000039-index.htm"
-  },
-  {
-   "ticker": "BCO",
-   "name": "Brinks Company (The)",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/78890/000007889026000063/0000078890-26-000063-index.htm"
-  },
-  {
-   "ticker": "CALX",
-   "name": "Calix, Inc",
-   "sector": "Technology",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1406666/000140666626000038/0001406666-26-000038-index.htm"
-  },
-  {
-   "ticker": "CRS",
-   "name": "Carpenter Technology Corporation",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "5.07 shareholder vote",
-   "url": "https://www.sec.gov/Archives/edgar/data/17843/000119312526417980/0001193125-26-417980-index.htm"
-  },
-  {
-   "ticker": "CNC",
-   "name": "Centene Corporation",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1071739/000107173926000186/0001071739-26-000186-index.htm"
-  },
-  {
-   "ticker": "CFG",
-   "name": "Citizens Financial Group, Inc.",
-   "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "5.03 charter/bylaws",
-   "url": "https://www.sec.gov/Archives/edgar/data/759944/000075994426000192/0000759944-26-000192-index.htm"
-  },
-  {
-   "ticker": "DVN",
-   "name": "Devon Energy Corporation",
-   "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526417944/0001193125-26-417944-index.htm"
-  },
-  {
-   "ticker": "DRH",
-   "name": "Diamondrock Hospitality Company",
-   "sector": "Real Estate",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD; 8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1298946/000129894626000043/0001298946-26-000043-index.htm"
-  },
-  {
-   "ticker": "FEIM",
-   "name": "Frequency Electronics, Inc.",
-   "sector": "Technology",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "5.07 shareholder vote",
-   "url": "https://www.sec.gov/Archives/edgar/data/39020/000118518526004648/0001185185-26-004648-index.htm"
-  },
-  {
-   "ticker": "FSK",
-   "name": "FS KKR Capital Corp.",
-   "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1422183/000110465926114718/0001104659-26-114718-index.htm"
-  },
-  {
-   "ticker": "HAE",
-   "name": "Haemonetics Corporation",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/313143/000031314326000138/0000313143-26-000138-index.htm"
-  },
-  {
-   "ticker": "IP",
-   "name": "International Paper Company",
-   "sector": "Consumer Discretionary",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8-K",
-   "url": "https://www.sec.gov/Archives/edgar/data/51434/000005143426000140/0000051434-26-000140-index.htm"
-  },
-  {
-   "ticker": "LEDRU",
-   "name": "nan",
-   "sector": "nan",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/2109823/000121390026107649/0001213900-26-107649-index.htm"
-  },
-  {
-   "ticker": "NWSA",
-   "name": "News Corporation",
-   "sector": "Communication Services",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1564708/000156470826000218/0001564708-26-000218-index.htm"
-  },
-  {
-   "ticker": "PRU",
-   "name": "Prudential Financial, Inc.",
-   "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1137774/000119312526417354/0001193125-26-417354-index.htm"
-  },
-  {
-   "ticker": "SR",
-   "name": "Spire Inc.",
-   "sector": "Utilities",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1126956/000119312526417983/0001193125-26-417983-index.htm"
-  },
-  {
-   "ticker": "TENX",
-   "name": "Tenax Therapeutics, Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/34956/000119312526417939/0001193125-26-417939-index.htm"
-  },
-  {
-   "ticker": "TRIN",
-   "name": "Trinity Capital Inc.",
-   "sector": "Financials",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1786108/000119312526418097/0001193125-26-418097-index.htm"
-  },
-  {
-   "ticker": "VG",
-   "name": "Venture Global, Inc.",
-   "sector": "Energy",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/2007855/000200785526000072/0002007855-26-000072-index.htm"
-  },
-  {
-   "ticker": "VIR",
-   "name": "Vir Biotechnology, Inc.",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1706431/000162828026065408/0001628280-26-065408-index.htm"
-  },
-  {
-   "ticker": "ZTS",
-   "name": "nan",
-   "sector": "Healthcare",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "7.01 Reg FD",
-   "url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000042/0001555280-26-000042-index.htm"
-  },
-  {
-   "ticker": "BIAF",
-   "name": "nan",
-   "sector": "nan",
-   "date": "2026-10-08",
-   "form": "8-K",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "8.01 other event",
-   "url": "https://www.sec.gov/Archives/edgar/data/1712762/000149315226046266/0001493152-26-046266-index.htm"
-  },
-  {
-   "ticker": "RDW",
-   "name": "Redwire Corporation",
-   "sector": "Industrials",
-   "date": "2026-10-08",
-   "form": "8-K/A",
-   "kind": "8-K",
-   "rank": 6,
-   "what": "5.07 shareholder vote",
-   "url": "https://www.sec.gov/Archives/edgar/data/1819810/000181981026000133/0001819810-26-000133-index.htm"
   }
  ],
  "insiders": [
-  {
-   "ticker": "TSM",
-   "name": "Taiwan Semiconductor Manufacturing Company Limited",
-   "sector": "Semiconductors",
-   "buy": 121467,
-   "buyers": 30,
-   "roles": [
-    "CEO",
-    "CFO",
-    "officer"
-   ],
-   "last_buy": "2026-10-08",
-   "sell": 0,
-   "n_sell": 0
-  },
   {
    "ticker": "HEI",
    "name": "HEICO Corporation",
@@ -3754,28 +4190,42 @@
    "n_sell": 0
   },
   {
-   "ticker": "CRBG",
-   "name": "Corebridge Financial, Inc.",
+   "ticker": "BBD",
+   "name": "Banco Bradesco Sa",
    "sector": "Financials",
-   "buy": 50350282,
-   "buyers": 1,
+   "buy": 33190705,
+   "buyers": 2,
    "roles": [
-    "10% owner"
+    "director",
+    "officer"
    ],
-   "last_buy": "2026-10-14",
+   "last_buy": "2026-10-15",
    "sell": 0,
    "n_sell": 0
   },
   {
-   "ticker": "BBD",
-   "name": "Banco Bradesco Sa",
+   "ticker": "TRXB",
+   "name": "TRex Bio, Inc. Common stock",
+   "sector": "Healthcare",
+   "buy": 3799992,
+   "buyers": 2,
+   "roles": [
+    "10% owner"
+   ],
+   "last_buy": "2026-10-15",
+   "sell": 0,
+   "n_sell": 0
+  },
+  {
+   "ticker": "CRBG",
+   "name": "Corebridge Financial, Inc.",
    "sector": "Financials",
-   "buy": 32042484,
+   "buy": 55053121,
    "buyers": 1,
    "roles": [
-    "director"
+    "10% owner"
    ],
-   "last_buy": "2026-10-09",
+   "last_buy": "2026-10-15",
    "sell": 0,
    "n_sell": 0
   },
@@ -3783,12 +4233,12 @@
    "ticker": "BORR",
    "name": "Borr Drilling Limited",
    "sector": "Energy",
-   "buy": 24635350,
+   "buy": 22787650,
    "buyers": 1,
    "roles": [
     "director"
    ],
-   "last_buy": "2026-10-14",
+   "last_buy": "2026-10-15",
    "sell": 0,
    "n_sell": 0
   },
@@ -3806,28 +4256,15 @@
    "n_sell": 1
   },
   {
-   "ticker": "TRXB",
-   "name": "TRex Bio, Inc. Common stock",
-   "sector": "Healthcare",
-   "buy": 1299998,
-   "buyers": 1,
-   "roles": [
-    "10% owner"
-   ],
-   "last_buy": "2026-10-13",
-   "sell": 0,
-   "n_sell": 0
-  },
-  {
    "ticker": "GOLD",
    "name": "Gold.com, Inc.",
    "sector": "Financials",
-   "buy": 1280535,
+   "buy": 3983019,
    "buyers": 1,
    "roles": [
     "10% owner"
    ],
-   "last_buy": "2026-10-13",
+   "last_buy": "2026-10-15",
    "sell": 0,
    "n_sell": 0
   },
@@ -3858,6 +4295,19 @@
    "n_sell": 0
   },
   {
+   "ticker": "CXM",
+   "name": "Sprinklr, Inc.",
+   "sector": "Technology",
+   "buy": 850500,
+   "buyers": 1,
+   "roles": [
+    "director"
+   ],
+   "last_buy": "2026-10-15",
+   "sell": 0,
+   "n_sell": 0
+  },
+  {
    "ticker": "INBX",
    "name": "Inhibrx Biosciences, Inc.",
    "sector": "Healthcare",
@@ -3880,32 +4330,6 @@
     "10% owner"
    ],
    "last_buy": "2026-10-09",
-   "sell": 0,
-   "n_sell": 0
-  },
-  {
-   "ticker": "FUL",
-   "name": "H. B. Fuller Company",
-   "sector": "Materials",
-   "buy": 500000,
-   "buyers": 1,
-   "roles": [
-    "director"
-   ],
-   "last_buy": "2026-10-08",
-   "sell": 0,
-   "n_sell": 0
-  },
-  {
-   "ticker": "PDI",
-   "name": "nan",
-   "sector": "Financials",
-   "buy": 249508,
-   "buyers": 1,
-   "roles": [
-    "director"
-   ],
-   "last_buy": "2026-10-08",
    "sell": 0,
    "n_sell": 0
   },
@@ -9139,1477 +9563,1487 @@
    "ticker": "XYL",
    "date": "2026-10-09"
   },
-  "0001104659-26-114788": {
+  "0001683168-26-007878": {
+   "owner": "Edward G Broenniman",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "AEMD",
+   "date": "2026-10-15"
+  },
+  "0001683168-26-007879": {
+   "owner": "Nicolas Gikakis",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "AEMD",
+   "date": "2026-10-15"
+  },
+  "0001683168-26-007881": {
+   "owner": "Chetan Shah",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "AEMD",
+   "date": "2026-10-15"
+  },
+  "0001683168-26-007901": {
+   "owner": "Steven P Larosa",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "AEMD",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-116015": {
    "owner": "Japan Post Holdings Co., Ltd.",
    "role": "10% owner",
    "buy": 0,
-   "sell": 1481027,
+   "sell": 4887764,
    "ticker": "AFL",
-   "date": "2026-10-08"
+   "date": "2026-10-15"
   },
-  "0001193125-26-418085": {
-   "owner": "Prado Carla Smith De Vasconcellos Crippa",
+  "0001684564-26-000003": {
+   "owner": "Megan Faust",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 46920,
+   "ticker": "AMKR",
+   "date": "2026-10-15"
+  },
+  "0001628280-26-065972": {
+   "owner": "Whitney M Laughlin",
    "role": "officer",
    "buy": 0,
-   "sell": 187739,
-   "ticker": "ABEV",
-   "date": "2026-10-08"
+   "sell": 0,
+   "ticker": "AMN",
+   "date": "2026-10-15"
   },
-  "0000900729-26-000019": {
-   "owner": "Ray Stata",
+  "0001628280-26-065973": {
+   "owner": "Mark Christopher Hagan",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "AMN",
+   "date": "2026-10-15"
+  },
+  "0000007789-26-000244": {
+   "owner": "Angela M Kelley",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "ASB",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423187": {
+   "owner": "Kavitark Ram Shriram",
    "role": "director",
    "buy": 0,
-   "sell": 1171631,
-   "ticker": "ADI",
-   "date": "2026-10-08"
+   "sell": 0,
+   "ticker": "GOOGL",
+   "date": "2026-10-15"
   },
-  "0001309192-26-000013": {
-   "owner": "Matthew W Calkins",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 1687460,
-   "ticker": "APPN",
-   "date": "2026-10-08"
-  },
-  "0002122411-26-000002": {
-   "owner": "Mani Sharma",
-   "role": "officer",
+  "0001610717-26-000441": {
+   "owner": "Vijaye Ganesh Raji",
+   "role": "director",
    "buy": 0,
    "sell": 0,
-   "ticker": "AZN",
-   "date": "2026-10-08"
+   "ticker": "AMPL",
+   "date": "2026-10-15"
   },
-  "0001780664-26-000037": {
-   "owner": "Julie Rubinstein",
-   "role": "officer",
-   "buy": 0,
-   "sell": 948223,
-   "ticker": "ADPT",
-   "date": "2026-10-08"
-  },
-  "0001820885-26-000025": {
-   "owner": "Susan Bobulsky",
-   "role": "officer",
-   "buy": 0,
-   "sell": 193320,
-   "ticker": "ADPT",
-   "date": "2026-10-08"
-  },
-  "0001694672-26-000004": {
-   "owner": "Jean-Marc Galvez",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "AMCR",
-   "date": "2026-10-08"
-  },
-  "0001140361-26-039158": {
+  "0001140361-26-039785": {
    "owner": "Jennifer Newstead",
    "role": "officer",
    "buy": 0,
-   "sell": 796492,
+   "sell": 827655,
    "ticker": "AAPL",
-   "date": "2026-10-08"
+   "date": "2026-10-15"
   },
-  "0001596532-26-000239": {
-   "owner": "Chantelle Yvette Breithaupt",
+  "0001166816-26-000007": {
+   "owner": "Richard N Nottenburg",
+   "role": "director",
+   "buy": 0,
+   "sell": 682500,
+   "ticker": "APLD",
+   "date": "2026-10-15"
+  },
+  "0000070858-26-000485": null,
+  "0001193125-26-423158": {
+   "owner": "Bryan Robert Schumaker",
    "role": "CFO",
    "buy": 0,
-   "sell": 263160,
-   "ticker": "ANET",
-   "date": "2026-10-08"
+   "sell": 0,
+   "ticker": "BHE",
+   "date": "2026-10-15"
   },
-  "0001596532-26-000240": {
-   "owner": "Jayshree Ullal",
-   "role": "CEO",
+  "0001951059-26-000018": {
+   "owner": "Lubi Kutua",
+   "role": "CFO",
    "buy": 0,
-   "sell": 97642614,
-   "ticker": "ANET",
-   "date": "2026-10-08"
+   "sell": 0,
+   "ticker": "BYND",
+   "date": "2026-10-15"
   },
-  "0002153898-26-000002": {
-   "owner": "Tram Le Heather",
+  "0002019295-26-000012": {
+   "owner": "Paul Andrew Lufkin",
    "role": "officer",
    "buy": 0,
    "sell": 0,
-   "ticker": "ASAN",
-   "date": "2026-10-08"
+   "ticker": "BYND",
+   "date": "2026-10-15"
   },
-  "0001104659-26-114777": {
-   "owner": "Thomas S. Lam",
+  "0001531152-26-000073": {
+   "owner": "Robert W. Eddy",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 19669823,
+   "ticker": "BJ",
+   "date": "2026-10-15"
+  },
+  "0001662982-26-000006": {
+   "owner": "Xiaodong Wang",
    "role": "director",
    "buy": 0,
-   "sell": 0,
-   "ticker": "ASTH",
-   "date": "2026-10-08"
+   "sell": 10890074,
+   "ticker": "ONC",
+   "date": "2026-10-15"
   },
-  "0001104659-26-114785": {
-   "owner": "Brandon Sim",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "ASTH",
-   "date": "2026-10-08"
-  },
-  "0001437749-26-032381": {
-   "owner": "Brian Michael Brown",
-   "role": "officer",
-   "buy": 0,
-   "sell": 437744,
-   "ticker": "AVPT",
-   "date": "2026-10-08"
-  },
-  "0001292814-26-004870": {
-   "owner": "Ricardo Olivare De Magalhaes",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "BSBR",
-   "date": "2026-10-08"
-  },
-  "0001628280-26-065416": {
+  "0001628280-26-065947": {
    "owner": "Tor Olav Troim",
    "role": "director",
-   "buy": 5390250,
+   "buy": 3542550,
    "sell": 0,
    "ticker": "BORR",
-   "date": "2026-10-08"
+   "date": "2026-10-15"
   },
-  "0002064832-26-000329": {
-   "owner": "Joseph Devivo",
-   "role": "CEO",
+  "0002064832-26-000333": {
+   "owner": "Michael Noonen",
+   "role": "director",
    "buy": 0,
-   "sell": 358616,
+   "sell": 0,
    "ticker": "BFLY",
-   "date": "2026-10-08"
+   "date": "2026-10-15"
   },
-  "0001164644-26-000004": {
-   "owner": "Stephen M Ward JR",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001218733-26-000008": {
-   "owner": "Steven E Karol",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001261013-26-000002": {
-   "owner": "Kathleen Ligocki",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001333565-26-000008": {
-   "owner": "Julie A Beck",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001688603-26-000007": {
-   "owner": "Ken Giacobbe",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001743079-26-000004": {
-   "owner": "Ramin Younessi",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001768369-26-000002": {
-   "owner": "Viola L Acoff",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001768623-26-000008": {
-   "owner": "Anastasios John Hart",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001828400-26-000010": {
-   "owner": "Charles Douglas Mclane JR",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRS",
-   "date": "2026-10-08"
-  },
-  "0001839931-26-000006": {
-   "owner": "Bruce Hoffmeister",
+  "0001071739-26-000188": {
+   "owner": "Michael A Carson",
    "role": "officer",
    "buy": 0,
    "sell": 0,
-   "ticker": "CBRL",
-   "date": "2026-10-08"
+   "ticker": "CNC",
+   "date": "2026-10-15"
   },
-  "0001193125-26-418101": {
+  "0001667330-26-000006": {
+   "owner": "Paul James Lawrence",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CMC",
+   "date": "2026-10-15"
+  },
+  "0001772376-26-000013": {
+   "owner": "Michael Doucet",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CMC",
+   "date": "2026-10-15"
+  },
+  "0001814443-26-000010": {
+   "owner": "Peter R Matt",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CMC",
+   "date": "2026-10-15"
+  },
+  "0001815401-26-000006": {
+   "owner": "Jody K Absher",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CMC",
+   "date": "2026-10-15"
+  },
+  "0001853514-26-000008": {
+   "owner": "Lindsay L Sloan",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CMC",
+   "date": "2026-10-15"
+  },
+  "0001929414-26-000004": {
+   "owner": "Kekin Ghelani",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CMC",
+   "date": "2026-10-15"
+  },
+  "0002065999-26-000007": {
+   "owner": "Brian N. Halloran",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CMC",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423056": {
+   "owner": "Samarth Kulkarni",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 201867,
+   "ticker": "CRSP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423057": {
    "owner": "James R. Kasinger",
    "role": "officer",
    "buy": 0,
-   "sell": 119481,
+   "sell": 51230,
    "ticker": "CRSP",
-   "date": "2026-10-08"
+   "date": "2026-10-15"
   },
-  "0001769628-26-000446": {
-   "owner": "Nitin Agrawal",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 266,
-   "ticker": "CRWV",
-   "date": "2026-10-08"
-  },
-  "0001769628-26-000447": {
-   "owner": "Karen Boone",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CRWV",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417973": {
-   "owner": "NIPPON LIFE INSURANCE CO",
-   "role": "10% owner",
-   "buy": 4099102,
-   "sell": 0,
-   "ticker": "CRBG",
-   "date": "2026-10-08"
-  },
-  "0001778564-26-000179": {
-   "owner": "George Kurtz",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 5494349,
-   "ticker": "CRWD",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008327": {
-   "owner": "Melvin John Martin",
-   "role": "officer",
-   "buy": 0,
-   "sell": 447565,
-   "ticker": "DRI",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418191": {
-   "owner": "Darin Harper",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PLAY",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418193": {
-   "owner": "Tony Wehner",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PLAY",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418196": {
-   "owner": "Aldo Rosales",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PLAY",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418198": {
-   "owner": "Les Lehner",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PLAY",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418200": {
-   "owner": "Cory Hatton",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PLAY",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418203": {
-   "owner": "Antonio Pineiro",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PLAY",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417967": {
-   "owner": "Silver Lake Technology Investors IV, L.P. / Silver Lake Technology Associates IV, L.P. / SLTA IV (GP), L.L.C. / Silver Lake Group, L.L.C. / Egon Durban",
-   "role": "10% owner",
-   "buy": 0,
-   "sell": 595572,
-   "ticker": "DELL",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417968": {
-   "owner": "Silver Lake Partners V DE (AIV), L.P. / Silver Lake Technology Associates V, L.P. / SLTA V (GP), L.L.C. / Silver Lake Group, L.L.C. / Egon Durban",
-   "role": "10% owner",
-   "buy": 0,
-   "sell": 15271411,
-   "ticker": "DELL",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417972": {
-   "owner": "SL SPV-2, L.P. / SLTA SPV-2, L.P. / SLTA SPV-2 (GP), L.L.C. / Silver Lake Group, L.L.C. / Egon Durban",
-   "role": "10% owner",
-   "buy": 0,
-   "sell": 26655778,
-   "ticker": "DELL",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417975": {
-   "owner": "Silver Lake Technology Investors V, L.P. / Silver Lake Technology Associates V, L.P. / SLTA V (GP), L.L.C. / Silver Lake Group, L.L.C. / Egon Durban",
-   "role": "10% owner",
-   "buy": 0,
-   "sell": 268729,
-   "ticker": "DELL",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417976": {
-   "owner": "Silver Lake Partners IV, L.P. / Silver Lake Technology Associates IV, L.P. / SLTA IV (GP), L.L.C. / Silver Lake Group, L.L.C. / Egon Durban",
-   "role": "10% owner",
-   "buy": 0,
-   "sell": 31198621,
-   "ticker": "DELL",
-   "date": "2026-10-08"
-  },
-  "0001491154-26-000008": {
-   "owner": "Idalene Fay Kesner",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "DUK",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008338": {
-   "owner": "Daniel J. Lippis",
-   "role": "officer",
-   "buy": 0,
-   "sell": 53017,
-   "ticker": "EW",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418040": {
-   "owner": "Jon Ayotte",
-   "role": "officer",
-   "buy": 0,
-   "sell": 8591,
-   "ticker": "EVER",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418041": {
-   "owner": "David Brainard",
-   "role": "officer",
-   "buy": 0,
-   "sell": 97724,
-   "ticker": "EVER",
-   "date": "2026-10-08"
-  },
-  "0001474432-26-000099": {
-   "owner": "Mallun Yen",
-   "role": "director",
-   "buy": 0,
-   "sell": 1755068,
-   "ticker": "P",
-   "date": "2026-10-08"
-  },
-  "0001810845-26-000004": {
-   "owner": "Michael M. Mettee",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "FBK",
-   "date": "2026-10-08"
-  },
-  "0001988473-26-000005": {
-   "owner": "Mark Hickman",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "FBK",
-   "date": "2026-10-08"
-  },
-  "0002018516-26-000005": {
-   "owner": "Scott J. Tansil",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "FBK",
-   "date": "2026-10-08"
-  },
-  "0001177609-26-000065": {
-   "owner": "Daniel Sullivan",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "FIVE",
-   "date": "2026-10-08"
-  },
-  "0001177609-26-000066": {
-   "owner": "Michelle Lee Israel",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "FIVE",
-   "date": "2026-10-08"
-  },
-  "0000897069-26-001824": {
-   "owner": "Shankar Achanta",
-   "role": "officer",
-   "buy": 0,
-   "sell": 46250,
-   "ticker": "FCEL",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008325": {
-   "owner": "Jeffrey R Bailly",
-   "role": "director",
-   "buy": 500000,
-   "sell": 0,
-   "ticker": "FUL",
-   "date": "2026-10-08"
-  },
-  "0000849399-26-000075": {
-   "owner": "Roche L Talbott Hoskins",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "GEN",
-   "date": "2026-10-08"
-  },
-  "0001159036-26-000140": {
-   "owner": "Helen Torley",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 6610501,
-   "ticker": "HALO",
-   "date": "2026-10-08"
-  },
-  "0001614838-26-000024": {
-   "owner": "Stephen Neeleman",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "HQY",
-   "date": "2026-10-08"
-  },
-  "0001638683-26-000020": {
-   "owner": "James M Lucania",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "HQY",
-   "date": "2026-10-08"
-  },
-  "0001683056-26-000024": {
-   "owner": "Delano Ladd",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "HQY",
-   "date": "2026-10-08"
-  },
-  "0001715537-26-000018": {
-   "owner": "Scott Cutler",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "HQY",
-   "date": "2026-10-08"
-  },
-  "0002016116-26-000024": {
-   "owner": "Michael Henry Fiore",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "HQY",
-   "date": "2026-10-08"
-  },
-  "0002076763-26-000011": {
-   "owner": "Michael Gathright",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "HQY",
-   "date": "2026-10-08"
-  },
-  "0001062993-26-005244": {
-   "owner": "Dave Perrill",
-   "role": "director",
-   "buy": 0,
-   "sell": 34375,
-   "ticker": "HIVE",
-   "date": "2026-10-08"
-  },
-  "0001610717-26-000434": {
-   "owner": "Yujiro S Hata",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 985397,
-   "ticker": "IDYA",
-   "date": "2026-10-08"
-  },
-  "0001020569-26-000077": {
-   "owner": "Theodore R. Samuels II",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "IRM",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418184": {
-   "owner": "Vyacheslav Kim",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "KSPI",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418151": {
-   "owner": "Amy Banse",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418153": {
-   "owner": "Teri P Mcclure",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418158": {
-   "owner": "Theron I Gilliam",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418161": {
-   "owner": "Serena Wolfe",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418166": {
-   "owner": "Dacona Smith",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418168": {
-   "owner": "Sherrill W Hudson",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418176": {
-   "owner": "Jeffrey Sonnenfeld",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418179": {
-   "owner": "Armando J Olivera",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "LEN",
-   "date": "2026-10-08"
-  },
-  "0001581760-26-000169": {
-   "owner": "Alex Haro",
-   "role": "director",
-   "buy": 0,
-   "sell": 2071822,
-   "ticker": "LIF",
-   "date": "2026-10-08"
-  },
-  "0000789570-26-000094": {
-   "owner": "Ayesha Khanna Molino",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "MGM",
-   "date": "2026-10-08"
-  },
-  "0000789570-26-000095": {
-   "owner": "Todd Meinert",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "MGM",
-   "date": "2026-10-08"
-  },
-  "0000789570-26-000096": {
-   "owner": "John Mcmanus",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "MGM",
-   "date": "2026-10-08"
-  },
-  "0000789570-26-000097": {
-   "owner": "William Hornbuckle",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "MGM",
-   "date": "2026-10-08"
-  },
-  "0000789570-26-000098": {
-   "owner": "Jonathan S Halkyard",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "MGM",
-   "date": "2026-10-08"
-  },
-  "0000789570-26-000099": {
-   "owner": "Gary M Fritz",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "MGM",
-   "date": "2026-10-08"
-  },
-  "0002143073-26-000007": {
-   "owner": "Michael Bernard Mahan",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "MOD",
-   "date": "2026-10-08"
-  },
-  "0001628280-26-065469": {
-   "owner": "Charles M Hazard Jr",
-   "role": "director",
-   "buy": 0,
-   "sell": 216491,
-   "ticker": "MDB",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418024": {
-   "owner": "Rajiv Ramaswami",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 29460437,
-   "ticker": "NTNX",
-   "date": "2026-10-08"
-  },
-  "0002146790-26-000017": {
-   "owner": "Vivek Narayanadas",
-   "role": "officer",
-   "buy": 0,
-   "sell": 10740,
-   "ticker": "OKLO",
-   "date": "2026-10-08"
-  },
-  "0001201917-26-000004": {
-   "owner": "David C Flattum",
-   "role": "director",
-   "buy": 249508,
-   "sell": 0,
-   "ticker": "PDI",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417595": {
-   "owner": "Ned S Holmes",
-   "role": "director",
-   "buy": 0,
-   "sell": 72363,
-   "ticker": "PB",
-   "date": "2026-10-08"
-  },
-  "0001439598-26-000006": {
-   "owner": "Stephen Cumming",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PENG",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418114": {
-   "owner": "Sanjeev Narula",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "PHAT",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417841": {
-   "owner": "Eric Guerin",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RBA",
-   "date": "2026-10-08"
-  },
-  "0001628280-26-065462": {
-   "owner": "Brian Robb Douglass",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RGEN",
-   "date": "2026-10-08"
-  },
-  "0000943819-26-000085": {
-   "owner": "Michael J. Farrell",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 1129637,
-   "ticker": "RMD",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-417919": {
-   "owner": "Abraham Ceesay",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 143273,
-   "ticker": "RAPP",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418094": {
-   "owner": "Thomas Catinazzo",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 329322,
-   "ticker": "RLAY",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418096": {
-   "owner": "Sanjiv Patel",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 872402,
-   "ticker": "RLAY",
-   "date": "2026-10-08"
-  },
-  "0001880864-26-000028": {
-   "owner": "Joshua Hug",
-   "role": "director",
-   "buy": 0,
-   "sell": 254375,
-   "ticker": "RELY",
-   "date": "2026-10-08"
-  },
-  "0001805284-26-000114": {
-   "owner": "Brian Nicholas Brown",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RKT",
-   "date": "2026-10-08"
-  },
-  "0001805284-26-000115": {
-   "owner": "Noah A. Edwards",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RKT",
-   "date": "2026-10-08"
-  },
-  "0001805284-26-000116": {
-   "owner": "Heather M. Lovier",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RKT",
-   "date": "2026-10-08"
-  },
-  "0001805284-26-000117": {
-   "owner": "William D. Banfield",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RKT",
-   "date": "2026-10-08"
-  },
-  "0001805284-26-000118": {
-   "owner": "Shawn Malhotra",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RKT",
-   "date": "2026-10-08"
-  },
-  "0001805284-26-000119": {
-   "owner": "Jonathan Mildenhall",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "RKT",
-   "date": "2026-10-08"
-  },
-  "0001279714-26-000031": {
-   "owner": "Brian Carolan",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 1622171,
-   "ticker": "SAIL",
-   "date": "2026-10-08"
-  },
-  "0001722498-26-000034": {
-   "owner": "Mark D. Mcclain",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 4388710,
-   "ticker": "SAIL",
-   "date": "2026-10-08"
-  },
-  "0001786883-26-000033": {
-   "owner": "Matt Mills",
-   "role": "officer",
-   "buy": 0,
-   "sell": 1614672,
-   "ticker": "SAIL",
-   "date": "2026-10-08"
-  },
-  "0001820482-26-000033": {
-   "owner": "Christopher Schmitt",
-   "role": "officer",
-   "buy": 0,
-   "sell": 888955,
-   "ticker": "SAIL",
-   "date": "2026-10-08"
-  },
-  "0001917246-26-000012": {
-   "owner": "Mitra Rezvan",
-   "role": "officer",
-   "buy": 0,
-   "sell": 141371,
-   "ticker": "SAIL",
-   "date": "2026-10-08"
-  },
-  "0002052444-26-000034": {
-   "owner": "Abby Payne",
-   "role": "officer",
-   "buy": 0,
-   "sell": 799939,
-   "ticker": "SAIL",
-   "date": "2026-10-08"
-  },
-  "0002058357-26-000033": {
-   "owner": "Chandrasekar Gnanasambandam",
-   "role": "officer",
-   "buy": 0,
-   "sell": 711885,
-   "ticker": "SAIL",
-   "date": "2026-10-08"
-  },
-  "0000895345-26-000454": {
-   "owner": "Gerald J. Cardinale",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "SKYD",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418171": {
-   "owner": "Laurene Powell Jobs",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "SKYD",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008332": {
-   "owner": "David Ferris Ellison",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "SKYD",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008333": {
-   "owner": "Andrew Mark Brandon-Gordon",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "SKYD",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008334": {
-   "owner": "Dennis Cinelli",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "SKYD",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008335": {
-   "owner": "Makan Delrahim",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "SKYD",
-   "date": "2026-10-08"
-  },
-  "0001225208-26-008340": {
-   "owner": "KOTICK ROBERT A",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "SKYD",
-   "date": "2026-10-08"
-  },
-  "0001821737-26-000016": {
-   "owner": "Benoit Dageville",
-   "role": "director",
-   "buy": 0,
-   "sell": 16671000,
-   "ticker": "SNOW",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000672": {
-   "owner": "Chih-Ho Chen",
-   "role": "officer",
-   "buy": 2461,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000673": {
-   "owner": "Pei-Hung Chen",
-   "role": "officer",
-   "buy": 3414,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000674": {
-   "owner": "Juiping Chuang",
-   "role": "officer",
-   "buy": 3652,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000675": {
-   "owner": "Shu-Hua Fang",
-   "role": "officer",
-   "buy": 4208,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000676": {
-   "owner": "Tzonz-Sheng Chang",
-   "role": "officer",
-   "buy": 4049,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000677": {
-   "owner": "Yung-Pei Chin",
-   "role": "officer",
-   "buy": 5319,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000678": {
-   "owner": "Min Cao",
-   "role": "officer",
-   "buy": 4049,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000679": {
-   "owner": "Tzu-Sou Chuang",
-   "role": "officer",
-   "buy": 3652,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000684": {
-   "owner": "Jun He",
-   "role": "officer",
-   "buy": 3414,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000685": {
-   "owner": "Kuo-Chin Hsu",
-   "role": "officer",
-   "buy": 4128,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000686": {
-   "owner": "Yung-Chin Hou",
-   "role": "officer",
-   "buy": 4763,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000690": {
-   "owner": "Syun-Ming Jang",
-   "role": "officer",
-   "buy": 3652,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000691": {
-   "owner": "Jen-Chau Huang",
-   "role": "CFO",
-   "buy": 2223,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000692": {
-   "owner": "Yuan-Ko Hwang",
-   "role": "officer",
-   "buy": 3096,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000696": {
-   "owner": "Yao-Ching Ku",
-   "role": "officer",
-   "buy": 3652,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000697": {
-   "owner": "Chun-Hsien Lee",
-   "role": "officer",
-   "buy": 4049,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000698": {
-   "owner": "Chris Horng-Dar Lin",
-   "role": "officer",
-   "buy": 3493,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000702": {
-   "owner": "Shyue-Shyh Lin",
-   "role": "officer",
-   "buy": 3493,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000703": {
-   "owner": "Lee-Chung Lu",
-   "role": "officer",
-   "buy": 3890,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000704": {
-   "owner": "Chin-Sheng Lu",
-   "role": "officer",
-   "buy": 2858,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000708": {
-   "owner": "Bor-Zen Tien",
-   "role": "officer",
-   "buy": 3731,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000709": {
-   "owner": "Yuh-Jier Mii",
-   "role": "officer",
-   "buy": 5399,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000710": {
-   "owner": "Ying-Lang Wang",
-   "role": "officer",
-   "buy": 4128,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000714": {
-   "owner": "Yi-Huang Wu",
-   "role": "officer",
-   "buy": 3096,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000715": {
-   "owner": "Che-Chia Wei",
-   "role": "CEO",
-   "buy": 11432,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000716": {
-   "owner": "Shien-Yang Wu",
-   "role": "officer",
-   "buy": 4208,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000721": {
-   "owner": "Chue-San Yoo",
-   "role": "officer",
-   "buy": 3970,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000722": {
-   "owner": "Kevin Xiaoqiang Zhang",
-   "role": "officer",
-   "buy": 4684,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000723": {
-   "owner": "Choh Fei Yeap",
-   "role": "officer",
-   "buy": 4128,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001046179-26-000724": {
-   "owner": "Lipen Yuan",
-   "role": "officer",
-   "buy": 3176,
-   "sell": 0,
-   "ticker": "TSM",
-   "date": "2026-10-08"
-  },
-  "0001140361-26-039154": {
-   "owner": "Control Empresarial de Capitales S.A. de C.V.",
-   "role": "10% owner",
-   "buy": 0,
-   "sell": 8140608,
-   "ticker": "TALO",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418291": {
-   "owner": "Julie Ann Gilmore",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "TRXB",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418292": {
-   "owner": "Carol Giltner Gallagher",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "TRXB",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418293": {
-   "owner": "Peter Hirth",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "TRXB",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418296": {
-   "owner": "Michael Jay Ross",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "TRXB",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418298": {
-   "owner": "Travis Alan Coy",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "TRXB",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418302": {
-   "owner": "Joel S Marcus",
-   "role": "director",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "TRXB",
-   "date": "2026-10-08"
-  },
-  "0001628280-26-065454": {
-   "owner": "David S Regnery",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 23083680,
-   "ticker": "TT",
-   "date": "2026-10-08"
-  },
-  "0001106578-26-000159": {
-   "owner": "Martine A Rothblatt",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 5215015,
-   "ticker": "UTHR",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418032": {
-   "owner": "Richard A Hayne / Margaret Hayne",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "URBN",
-   "date": "2026-10-08"
-  },
-  "0001193125-26-418034": {
-   "owner": "Margaret Hayne / Richard A Hayne",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "URBN",
-   "date": "2026-10-08"
-  },
-  "0001773371-26-000004": {
-   "owner": "Glen J. Weiss",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "VNO",
-   "date": "2026-10-08"
-  },
-  "0001940494-26-000008": {
-   "owner": "Kristopher E. Moldovan",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 3300000,
-   "ticker": "VST",
-   "date": "2026-10-08"
-  },
-  "0001886367-26-000027": {
-   "owner": "Latriece Watkins",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WMT",
-   "date": "2026-10-08"
-  },
-  "0002058309-26-000019": {
-   "owner": "Seth Dallaire",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WMT",
-   "date": "2026-10-08"
-  },
-  "0002110304-26-000023": {
-   "owner": "David W Guggina",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WMT",
-   "date": "2026-10-08"
-  },
-  "0002110643-26-000020": {
-   "owner": "Dwayne M Milum",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WMT",
-   "date": "2026-10-08"
-  },
-  "0001437107-26-000082": {
-   "owner": "David Zaslav",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0001437107-26-000083": {
-   "owner": "Bruce Campbell",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0001437107-26-000084": {
-   "owner": "Jean-Briac Perrette",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0001437107-26-000086": {
-   "owner": "Gerhard Zeiler",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0001646563-26-000009": {
-   "owner": "Lori C. Locke",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0001694392-26-000012": {
-   "owner": "Gunnar Wiedenfels",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0001933736-26-000008": {
-   "owner": "Priya Aiyar",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0002060469-26-000006": {
-   "owner": "Amy Girdwood",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WBD",
-   "date": "2026-10-08"
-  },
-  "0001213900-26-107970": {
-   "owner": "Xiantao Wang",
-   "role": "10% owner",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "WYHG",
-   "date": "2026-10-08"
-  },
-  "0001644888-26-000009": {
-   "owner": "Tao Fu",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "ATTO",
-   "date": "2026-10-08"
-  },
-  "0001654907-26-000009": {
-   "owner": "Steven Chan",
-   "role": "CFO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "ATTO",
-   "date": "2026-10-08"
-  },
-  "0001887616-26-000024": {
-   "owner": "Patrick Arthur Kelly",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CIFR",
-   "date": "2026-10-08"
-  },
-  "0001887623-26-000021": {
-   "owner": "Tyler Page",
-   "role": "CEO",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CIFR",
-   "date": "2026-10-08"
-  },
-  "0001887627-26-000012": {
-   "owner": "William Iwaschuk",
-   "role": "officer",
-   "buy": 0,
-   "sell": 0,
-   "ticker": "CIFR",
-   "date": "2026-10-08"
-  },
-  "0002090886-26-000010": {
+  "0002090886-26-000012": {
    "owner": "Gregory J.D. Mumford",
    "role": "CFO",
    "buy": 0,
    "sell": 0,
    "ticker": "CIFR",
-   "date": "2026-10-08"
+   "date": "2026-10-15"
   },
-  "0001159036-26-000139": {
-   "owner": "Bernadette Connaughton",
+  "0000921895-26-002800": {
+   "owner": "Raymond T. White / Legion Partners Asset Management, LLC / Legion Partners Holdings, LLC / Christopher S Kiper",
    "role": "director",
    "buy": 0,
    "sell": 0,
-   "ticker": "HALO",
-   "date": "2026-10-08"
+   "ticker": "CCO",
+   "date": "2026-10-15"
   },
-  "0001645317-26-000003": {
-   "owner": "Tyler Newton",
+  "0001193125-26-422805": {
+   "owner": "Scott Wells",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422813": {
+   "owner": "Lynn Feldman",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422816": {
+   "owner": "Robert Mccuin",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422817": {
+   "owner": "David Sailer",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422821": {
+   "owner": "Jason Dilger",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422828": {
+   "owner": "John D. Dionne",
    "role": "director",
    "buy": 0,
    "sell": 0,
-   "ticker": "WEAV",
-   "date": "2026-10-08"
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422831": {
+   "owner": "Benjamin W Moreland",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422838": {
+   "owner": "Andrew W Hobson",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422840": {
+   "owner": "Thomas C. King",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422841": {
+   "owner": "Jinhy Yoon",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422842": {
+   "owner": "Lisa Hammitt",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422844": {
+   "owner": "Joe Marchese",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422853": {
+   "owner": "Timothy Peter Jones",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "CCO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422935": {
+   "owner": "NIPPON LIFE INSURANCE CO",
+   "role": "10% owner",
+   "buy": 8801941,
+   "sell": 0,
+   "ticker": "CRBG",
+   "date": "2026-10-15"
+  },
+  "0001778564-26-000185": {
+   "owner": "George Kurtz",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 5153490,
+   "ticker": "CRWD",
+   "date": "2026-10-15"
+  },
+  "0001734563-26-000023": {
+   "owner": "Andrew Houston",
+   "role": "officer",
+   "buy": 0,
+   "sell": 1035235,
+   "ticker": "DBX",
+   "date": "2026-10-15"
+  },
+  "0001628280-26-066016": {
+   "owner": "Joshua Kinsell",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "APPS",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422959": {
+   "owner": "Eric Cribbs",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422964": {
+   "owner": "Sam Guzman",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422967": {
+   "owner": "Michael Haack",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422973": {
+   "owner": "Alex Haddock",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422975": {
+   "owner": "Dale Craig Kesler",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422981": {
+   "owner": "Matt Newby",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422985": {
+   "owner": "Michael R Nicolais",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422989": {
+   "owner": "Tony Thompson",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "EXP",
+   "date": "2026-10-15"
+  },
+  "0001525358-26-000034": {
+   "owner": "Josh Silverman",
+   "role": "director",
+   "buy": 0,
+   "sell": 91630,
+   "ticker": "ETSY",
+   "date": "2026-10-15"
+  },
+  "0001897944-26-000014": {
+   "owner": "Ajay Singh",
+   "role": "officer",
+   "buy": 0,
+   "sell": 2835769,
+   "ticker": "P",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422866": {
+   "owner": "Thomas R Donahue",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "FHI",
+   "date": "2026-10-15"
+  },
+  "0000038777-26-000261": {
+   "owner": "Lindsey Harumi Oshita",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "BEN",
+   "date": "2026-10-15"
+  },
+  "0000038777-26-000262": {
+   "owner": "Daniel Gamba",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "BEN",
+   "date": "2026-10-15"
+  },
+  "0000038777-26-000263": {
+   "owner": "Gregory E Johnson",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "BEN",
+   "date": "2026-10-15"
+  },
+  "0000038777-26-000264": {
+   "owner": "Jennifer M Johnson",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "BEN",
+   "date": "2026-10-15"
+  },
+  "0000038777-26-000265": {
+   "owner": "Matthew Nicholls",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "BEN",
+   "date": "2026-10-15"
+  },
+  "0000038777-26-000266": {
+   "owner": "Terrence Murphy",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "BEN",
+   "date": "2026-10-15"
+  },
+  "0000038777-26-000267": {
+   "owner": "Thomas C Merchant",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "BEN",
+   "date": "2026-10-15"
+  },
+  "0000905148-26-004482": {
+   "owner": "NEUGEBAUER TOBY R / Melissa A. Neugebauer 2020 Trust",
+   "role": "10% owner",
+   "buy": 0,
+   "sell": 14355868,
+   "ticker": "FRMI",
+   "date": "2026-10-15"
+  },
+  "0001628280-26-065995": {
+   "owner": "David R. King",
+   "role": "officer",
+   "buy": 0,
+   "sell": 675838,
+   "ticker": "FLYW",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115978": {
+   "owner": "Gary J Wojtaszek",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115979": {
+   "owner": "Chee Ming Liu",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115984": {
+   "owner": "David Zhang",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115985": {
+   "owner": "Bruno Lopez",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115990": {
+   "owner": "Qiang Chang Sun",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115991": {
+   "owner": "Jonathan Allen King",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115992": {
+   "owner": "Bin Yu",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115995": {
+   "owner": "Tat Hiang Sio",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-115998": {
+   "owner": "Judy Qing Ye",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-116001": {
+   "owner": "Zulkifli Bin Baharudin",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "GDS",
+   "date": "2026-10-15"
+  },
+  "0001140361-26-039677": {
+   "owner": "Georgios Giannopoulos",
+   "role": "officer",
+   "buy": 0,
+   "sell": 346730,
+   "ticker": "GSL",
+   "date": "2026-10-15"
+  },
+  "0001104659-26-116094": {
+   "owner": "Tether Global Investments Fund, S.I.C.A.F., S.A. / TPM, S.A. de C.V. / Giancarlo Devasini",
+   "role": "10% owner",
+   "buy": 2702484,
+   "sell": 0,
+   "ticker": "GOLD",
+   "date": "2026-10-15"
+  },
+  "0001402256-26-000010": {
+   "owner": "Alex M Azar II",
+   "role": "director",
+   "buy": 0,
+   "sell": 11032,
+   "ticker": "GH",
+   "date": "2026-10-15"
+  },
+  "0002153282-26-000004": {
+   "owner": "Ash Bhumbla",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HRL",
+   "date": "2026-10-15"
+  },
+  "0002127242-26-000008": {
+   "owner": "Charles Christopher Herndon",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "HAWK",
+   "date": "2026-10-15"
+  },
+  "0001773751-26-000227": {
+   "owner": "Soleil Boughton",
+   "role": "officer",
+   "buy": 0,
+   "sell": 100577,
+   "ticker": "HIMS",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423224": {
+   "owner": "Lawrence E Leibowitz",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PURR",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423227": {
+   "owner": "Eric S Rosengren",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PURR",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423228": {
+   "owner": "Thomas C. King",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PURR",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423229": {
+   "owner": "Nailesh Bhatt",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "PURR",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423000": {
+   "owner": "Mitch Silberman",
+   "role": "officer",
+   "buy": 0,
+   "sell": 254679,
+   "ticker": "IDT",
+   "date": "2026-10-15"
+  },
+  "0001225208-26-008428": {
+   "owner": "Stephen B Burke",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "JPM",
+   "date": "2026-10-15"
+  },
+  "0000885639-26-000178": {
+   "owner": "Jennifer J. Kent",
+   "role": "officer",
+   "buy": 0,
+   "sell": 504680,
+   "ticker": "KSS",
+   "date": "2026-10-15"
+  },
+  "0001887782-26-000007": {
+   "owner": "Robert Nestor Chylak",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "KLIC",
+   "date": "2026-10-15"
+  },
+  "0000905148-26-004480": {
+   "owner": "ISQ Global Fund II GP LLC / I Squared Capital, LLC / ISQ Holdings, LLC / Sadek Wahba / Gautam Bhandari",
+   "role": "10% owner",
+   "buy": 0,
+   "sell": 109540000,
+   "ticker": "KNTK",
+   "date": "2026-10-15"
+  },
+  "0001581760-26-000171": {
+   "owner": "Charles J. Prober",
+   "role": "director",
+   "buy": 0,
+   "sell": 343290,
+   "ticker": "LIF",
+   "date": "2026-10-15"
+  },
+  "0001201490-26-000004": {
+   "owner": "Michael D Cordano",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001218363-26-000005": {
+   "owner": "Robert Holmes Swan",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001224095-26-000003": {
+   "owner": "Steven J Gomo",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001242654-26-000016": {
+   "owner": "Sanjay Mehrotra",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001354116-26-000001": {
+   "owner": "Maryann Wright",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001453368-26-000002": {
+   "owner": "Lynn A Dugle",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001498287-26-000001": {
+   "owner": "Mark J. Murphy",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001568238-26-000001": {
+   "owner": "Scott J Deboer",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001593199-26-000004": {
+   "owner": "Michael Charles Ray",
+   "role": "officer",
+   "buy": 0,
+   "sell": 5845568,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001593199-26-000005": {
+   "owner": "Michael Charles Ray",
+   "role": "officer",
+   "buy": 0,
+   "sell": 37892,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001632063-26-000005": {
+   "owner": "April S Arnzen",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001652149-26-000006": {
+   "owner": "Scott R. Allen",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001689498-26-000002": {
+   "owner": "Manish H Bhatia",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001790292-26-000003": {
+   "owner": "Linnie M Haynesworth",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0001798757-26-000009": {
+   "owner": "Alexis Bjorlin",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0002058769-26-000006": {
+   "owner": "Teyin M Liu",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0002058781-26-000003": {
+   "owner": "Anna C Simons",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MU",
+   "date": "2026-10-15"
+  },
+  "0000789019-26-000228": {
+   "owner": "Amy Coleman",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "MSFT",
+   "date": "2026-10-15"
+  },
+  "0001628280-26-065999": {
+   "owner": "Archana Agrawal",
+   "role": "director",
+   "buy": 0,
+   "sell": 400000,
+   "ticker": "MDB",
+   "date": "2026-10-15"
+  },
+  "0001817160-26-000021": {
+   "owner": "Gwenn Hansen",
+   "role": "officer",
+   "buy": 0,
+   "sell": 36300,
+   "ticker": "NRIX",
+   "date": "2026-10-15"
+  },
+  "0002146828-26-000010": {
+   "owner": "John Hanson",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "OKLO",
+   "date": "2026-10-15"
+  },
+  "0002147680-26-000014": {
+   "owner": "Alexandra Renner",
+   "role": "officer",
+   "buy": 0,
+   "sell": 21156,
+   "ticker": "OKLO",
+   "date": "2026-10-15"
+  },
+  "0000907654-26-000108": {
+   "owner": "Joana Goncalves",
+   "role": "officer",
+   "buy": 0,
+   "sell": 523648,
+   "ticker": "ORKA",
+   "date": "2026-10-15"
+  },
+  "0001558242-26-000026": {
+   "owner": "Sumedh S Thakar",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 609148,
+   "ticker": "QLYS",
+   "date": "2026-10-15"
+  },
+  "0001796226-26-000002": {
+   "owner": "Andrew J Murphy",
+   "role": "officer",
+   "buy": 0,
+   "sell": 3204376,
+   "ticker": "REGN",
+   "date": "2026-10-15"
+  },
+  "0001827011-26-000043": {
+   "owner": "Steve Ladd Huffman",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 2744446,
+   "ticker": "RDDT",
+   "date": "2026-10-15"
+  },
+  "0001783879-26-000153": null,
+  "0001193125-26-422691": {
+   "owner": "Rachna Bhasin",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422694": {
+   "owner": "Alvin L Bowles JR",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422699": {
+   "owner": "Eric H Bolton JR",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422708": {
+   "owner": "Patrick S Chaffin",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422729": {
+   "owner": "Mark Fioravanti",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422731": {
+   "owner": "William Haslam",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422736": {
+   "owner": "Erin Claire Helgren",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422743": {
+   "owner": "Jennifer L Hutcheson",
+   "role": "CFO",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422747": {
+   "owner": "Scott J Lynn",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422757": {
+   "owner": "Christine Pantoya",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422764": {
+   "owner": "Robert S Prather JR",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422769": {
+   "owner": "Colin V Reed",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422783": {
+   "owner": "Michael Isor Roth",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "RHP",
+   "date": "2026-10-15"
+  },
+  "0001895106-26-000021": {
+   "owner": "John Bicket",
+   "role": "officer",
+   "buy": 0,
+   "sell": 10999458,
+   "ticker": "IOT",
+   "date": "2026-10-15"
+  },
+  "0001895111-26-000020": {
+   "owner": "Sanjit Biswas",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 10999922,
+   "ticker": "IOT",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422215": {
+   "owner": "Yanjun Wang",
+   "role": "officer",
+   "buy": 0,
+   "sell": 191797,
+   "ticker": "SE",
+   "date": "2026-10-15"
+  },
+  "0001164644-26-000008": {
+   "owner": "Stephen M Ward JR",
+   "role": "director",
+   "buy": 850500,
+   "sell": 0,
+   "ticker": "CXM",
+   "date": "2026-10-15"
+  },
+  "0001569789-26-000017": {
+   "owner": "Philip Andrew Smith",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 2677486,
+   "ticker": "SNEX",
+   "date": "2026-10-15"
+  },
+  "0001140361-26-039793": {
+   "owner": "Control Empresarial de Capitales S.A. de C.V.",
+   "role": "10% owner",
+   "buy": 0,
+   "sell": 51869937,
+   "ticker": "TALO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-422870": {
+   "owner": "Barbara J Faulkenberry",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "TALO",
+   "date": "2026-10-15"
+  },
+  "0001177394-26-000117": {
+   "owner": "Dennis Polk",
+   "role": "officer",
+   "buy": 0,
+   "sell": 629393,
+   "ticker": "SNX",
+   "date": "2026-10-15"
+  },
+  "0001255017-26-000006": {
+   "owner": "Peter Busch Orthwein",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001257210-26-000005": {
+   "owner": "Christopher J Klein",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001286185-26-000004": {
+   "owner": "Colleen A Zuhl",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001309515-26-000002": {
+   "owner": "Andrew E Graves",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001311511-26-000004": {
+   "owner": "Jeffrey D Lorenger",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001433026-26-000006": {
+   "owner": "Todd W. Woelfer",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001488301-26-000004": {
+   "owner": "William J. Kelley JR",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001541547-26-000004": {
+   "owner": "Robert W Martin",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001754904-26-000004": {
+   "owner": "Amelia Huntington",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001768695-26-000008": {
+   "owner": "Laurel Hurd",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001785961-26-000004": {
+   "owner": "Michele Mcdermott",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001800751-26-000003": {
+   "owner": "Christina Hennington",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001898481-26-000005": {
+   "owner": "Trevor Q. Gasper",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0002111902-26-000007": {
+   "owner": "Ryan Aaron Biren",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "THO",
+   "date": "2026-10-15"
+  },
+  "0001193125-26-423159": {
+   "owner": "Nick Khan",
+   "role": "director",
+   "buy": 0,
+   "sell": 1679849,
+   "ticker": "TKO",
+   "date": "2026-10-15"
+  },
+  "0001722024-26-000004": {
+   "owner": "Alexandria Venture Investments, LLC",
+   "role": "10% owner",
+   "buy": 2499994,
+   "sell": 0,
+   "ticker": "TRXB",
+   "date": "2026-10-15"
+  },
+  "0001106578-26-000164": {
+   "owner": "Martine A Rothblatt",
+   "role": "CEO",
+   "buy": 0,
+   "sell": 5129873,
+   "ticker": "UTHR",
+   "date": "2026-10-15"
+  },
+  "0001222287-26-000028": {
+   "owner": "Roelof Botha",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "U",
+   "date": "2026-10-15"
+  },
+  "0001203367-26-000030": {
+   "owner": "Matthew J Lustig",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0001209170-26-000016": {
+   "owner": "Michael J Embler",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0001356681-26-000012": {
+   "owner": "Marguerite M Nader",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0001529329-26-000024": {
+   "owner": "Sumit Roy",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0001619369-26-000010": {
+   "owner": "Melody C Barnes",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0001676558-26-000020": {
+   "owner": "Roxanne M Martino",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0001841752-26-000028": {
+   "owner": "Maurice S Smith",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0002014328-26-000010": {
+   "owner": "Joe Vasquez Rodriguez Jr.",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "VTR",
+   "date": "2026-10-15"
+  },
+  "0002050857-26-000018": {
+   "owner": "Keith D Larson",
+   "role": "officer",
+   "buy": 0,
+   "sell": 10124464,
+   "ticker": "VG",
+   "date": "2026-10-15"
+  },
+  "0001972323-26-000008": {
+   "owner": "Chun Liu",
+   "role": "director",
+   "buy": 0,
+   "sell": 11557,
+   "ticker": "VIPS",
+   "date": "2026-10-15"
+  },
+  "0002111248-26-000004": {
+   "owner": "Tianmin Li",
+   "role": "officer",
+   "buy": 0,
+   "sell": 153356,
+   "ticker": "VIPS",
+   "date": "2026-10-15"
+  },
+  "0001126222-26-000002": {
+   "owner": "MURABITO JOHN M",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001169106-26-000004": {
+   "owner": "David W Miles",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001237669-26-000002": {
+   "owner": "Christopher J Braun",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001360597-26-000002": {
+   "owner": "Sara E Armbruster",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001418241-26-000002": {
+   "owner": "William C. Fisher",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001514003-26-000004": {
+   "owner": "Kevin E. Bryant",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001808096-26-000008": {
+   "owner": "Michael E Pack",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001995337-26-000004": {
+   "owner": "Staci L Kroon",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0002127871-26-000006": {
+   "owner": "Emily Rosalie Silver",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "WGO",
+   "date": "2026-10-15"
+  },
+  "0001683168-26-007880": {
+   "owner": "Angela Rossetti",
+   "role": "director",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "AEMD",
+   "date": "2026-10-15"
+  },
+  "0001292814-26-004938": {
+   "owner": "Andre Luis Duarte De Oliveira",
+   "role": "officer",
+   "buy": 1148221,
+   "sell": 0,
+   "ticker": "BBD",
+   "date": "2026-10-15"
+  },
+  "0001809099-26-000018": {
+   "owner": "Thomas K Creal IV",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "NWBI",
+   "date": "2026-10-15"
+  },
+  "0001809099-26-000019": {
+   "owner": "Thomas K Creal IV",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "NWBI",
+   "date": "2026-10-15"
+  },
+  "0001968908-26-000012": {
+   "owner": "Gregory J. Betchkal",
+   "role": "officer",
+   "buy": 0,
+   "sell": 0,
+   "ticker": "NWBI",
+   "date": "2026-10-15"
   }
  }
 }
