@@ -3,14 +3,14 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "-2.1%",
+      "value": "-2.0%",
       "signal": "bearish",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "+0.1%",
+      "value": "+0.2%",
       "signal": "neutral",
       "context": "Medium-term trend strength"
     },
@@ -38,9 +38,9 @@
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "+2.0% (20d)",
+      "value": "+1.9% (20d)",
       "signal": "neutral",
-      "context": "20d ret +2.0% \u2014 dollar strength headwind for EM/commodities"
+      "context": "20d ret +1.9% \u2014 dollar strength headwind for EM/commodities"
     },
     {
       "name": "Crude Oil",
@@ -52,30 +52,30 @@
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "21.3",
+      "value": "20.0",
       "signal": "moderate",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-5.2% (20d)",
+      "value": "-5.8% (20d)",
       "signal": "bearish",
-      "context": "20d ret -5.2% \u2014 semi weakness; growth concerns"
+      "context": "20d ret -5.8% \u2014 semi weakness; growth concerns"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "-4.7% (20d)",
+      "value": "-4.8% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.7% \u2014 small caps lagging; risk-off rotation"
+      "context": "20d ret -4.8% \u2014 small caps lagging; risk-off rotation"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-1.9% (20d)",
+      "value": "-1.8% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.9% \u2014 copper flat"
+      "context": "20d ret -1.8% \u2014 copper flat"
     },
     {
       "name": "TIPS / Breakevens",
@@ -87,28 +87,28 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-1.4% (20d)",
+      "value": "-1.5% (20d)",
       "signal": "neutral",
-      "context": "20d ret -1.4% \u2014 growth neutral"
+      "context": "20d ret -1.5% \u2014 growth neutral"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "-0.6% (20d)",
+      "value": "-0.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.6% \u2014 financials lagging"
+      "context": "20d ret -0.3% \u2014 financials lagging"
     }
   ],
   "risks": [
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.33,
-      "description": "VIX at 21.3. Calm regime; vol suppression in force.",
+      "score": 0.29,
+      "description": "VIX at 20.0. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
       "explain": {
         "input_label": "VIX",
-        "input_value": "21.3",
+        "input_value": "20.0",
         "moderate_at": "24.6",
         "elevated_at": "30.2",
         "input_rises": true,
@@ -116,11 +116,11 @@
       },
       "range30": {
         "lo": 0.079,
-        "hi": 0.331
+        "hi": 0.285
       },
       "range90": {
         "lo": 0.079,
-        "hi": 0.331
+        "hi": 0.309
       },
       "n90": 90
     },
@@ -176,7 +176,7 @@
       "name": "Growth Slowdown",
       "level": "elevated",
       "score": 0.7,
-      "description": "Copper 20d -1.9%, IWM -4.7%. Cyclical indicators softening.",
+      "description": "Copper 20d -1.8%, IWM -4.8%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
@@ -212,7 +212,7 @@
       },
       "range30": {
         "lo": 0.061,
-        "hi": 0.322
+        "hi": 0.321
       },
       "range90": {
         "lo": 0.061,
@@ -223,12 +223,12 @@
     {
       "name": "Dollar Headwind",
       "level": "moderate",
-      "score": 0.56,
-      "description": "UUP 20d +2.0%. Strong dollar compresses EM earnings and commodity prices.",
+      "score": 0.55,
+      "description": "UUP 20d +1.9%. Strong dollar compresses EM earnings and commodity prices.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative",
       "explain": {
         "input_label": "UUP 20-day return",
-        "input_value": "+2.0%",
+        "input_value": "+1.9%",
         "moderate_at": "+0.6%",
         "elevated_at": "+3.1%",
         "input_rises": true,
@@ -247,14 +247,14 @@
     {
       "name": "Complacency Risk",
       "level": "low",
-      "score": 0.17,
-      "description": "SPY +0.1% / 20d with vol 0.67%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "score": 0.18,
+      "description": "SPY +0.2% / 20d with vol 0.66%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
-        "input_value": "+0.1%",
-        "moderate_at": "+7.1%",
-        "elevated_at": "+12.1%",
+        "input_value": "+0.2%",
+        "moderate_at": "+7.0%",
+        "elevated_at": "+12.0%",
         "input_rises": true,
         "note": "Held at today's realised volatility; the vol half of this axis adds up to 30 points on its own when SPY is moving less than 1.5% a day."
       },
