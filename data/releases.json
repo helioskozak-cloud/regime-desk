@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-16",
+ "as_of": "2026-10-17",
  "ahead_days": 45,
  "missing": [],
  "releases": [
@@ -79,6 +79,13 @@
    "name": "PCE inflation & spending",
    "agency": "BEA",
    "importance": 3
+  },
+  {
+   "date": "2026-12-01",
+   "time": "10:00",
+   "name": "JOLTS",
+   "agency": "BLS",
+   "importance": 2
   }
  ]
 }
