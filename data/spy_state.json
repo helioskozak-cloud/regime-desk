@@ -132,7 +132,7 @@
       "regime": "Range",
       "spy_ret_20d": 0.0598,
       "breadth": 0.4966,
-      "distance": 0.1937
+      "distance": 0.1938
     },
     {
       "date": "2024-04-04",
@@ -225,14 +225,14 @@
     "persistence": {
       "label": "Range",
       "horizon": 20,
-      "days": 1398,
+      "days": 1397,
       "held": 289,
-      "base_rate": 0.1662,
+      "base_rate": 0.1661,
       "spells": 558,
       "median_spell": 2.0,
       "streak": 1,
       "history_sessions": 8467,
-      "value": 0.2067
+      "value": 0.2069
     },
     "momentum_scale": {
       "sessions": 8458,
@@ -254,26 +254,26 @@
     "next_regime": {
       "label": "Range",
       "horizon": 20,
-      "days": 1398,
+      "days": 1397,
       "spells": 558,
       "history_sessions": 8467,
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.4685,
+          "share": 0.4689,
           "n": 655,
-          "base_rate": 0.384
+          "base_rate": 0.3842
         },
         {
           "label": "Range",
-          "share": 0.2067,
+          "share": 0.2069,
           "n": 289,
-          "base_rate": 0.1662
+          "base_rate": 0.1661
         },
         {
           "label": "Drifting Lower",
-          "share": 0.1602,
-          "n": 224,
+          "share": 0.1596,
+          "n": 223,
           "base_rate": 0.1326
         },
         {
@@ -319,13 +319,13 @@
     "reversal": {
       "label": "Range",
       "horizon": 20,
-      "days": 1388,
-      "reversed": 658,
+      "days": 1387,
+      "reversed": 657,
       "spells": 558,
       "base_days": 8431,
       "base_rate": 0.455,
       "trailing_20d": 0.00205,
-      "value": 0.4741
+      "value": 0.4737
     },
     "analog_next": {
       "horizon": 20,
