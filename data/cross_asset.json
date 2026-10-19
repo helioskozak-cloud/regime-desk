@@ -45,37 +45,37 @@
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "+8.8% (20d)",
+      "value": "+8.5% (20d)",
       "signal": "bullish",
-      "context": "20d ret +8.8% \u2014 energy bid; watch inflation pass-through"
+      "context": "20d ret +8.5% \u2014 energy bid; watch inflation pass-through"
     },
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "17.9",
-      "signal": "bullish",
+      "value": "18.2",
+      "signal": "moderate",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-7.1% (20d)",
+      "value": "-7.4% (20d)",
       "signal": "bearish",
-      "context": "20d ret -7.1% \u2014 semi weakness; growth concerns"
+      "context": "20d ret -7.4% \u2014 semi weakness; growth concerns"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "-4.9% (20d)",
+      "value": "-5.0% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.9% \u2014 small caps lagging; risk-off rotation"
+      "context": "20d ret -5.0% \u2014 small caps lagging; risk-off rotation"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-2.8% (20d)",
+      "value": "-2.6% (20d)",
       "signal": "bearish",
-      "context": "20d ret -2.8% \u2014 copper weak = growth concerns"
+      "context": "20d ret -2.6% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
@@ -87,9 +87,9 @@
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-2.7% (20d)",
+      "value": "-2.8% (20d)",
       "signal": "bearish",
-      "context": "20d ret -2.7% \u2014 growth selling; value rotation"
+      "context": "20d ret -2.8% \u2014 growth selling; value rotation"
     },
     {
       "name": "Financials",
@@ -103,12 +103,12 @@
     {
       "name": "Volatility Regime",
       "level": "low",
-      "score": 0.21,
-      "description": "VIX at 17.9. Calm regime; vol suppression in force.",
+      "score": 0.22,
+      "description": "VIX at 18.2. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
       "explain": {
         "input_label": "VIX",
-        "input_value": "17.9",
+        "input_value": "18.2",
         "moderate_at": "24.6",
         "elevated_at": "30.2",
         "input_rises": true,
@@ -176,11 +176,11 @@
       "name": "Growth Slowdown",
       "level": "elevated",
       "score": 0.73,
-      "description": "Copper 20d -2.8%, IWM -4.9%. Cyclical indicators softening.",
+      "description": "Copper 20d -2.6%, IWM -5.0%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "-7.7%",
+        "input_value": "-7.5%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,

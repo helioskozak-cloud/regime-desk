@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.01267,
-  "ret_20d": -0.0068,
-  "vol_20d": 0.00574,
-  "drawdown_60d": -0.01393,
+  "ret_5d": -0.01281,
+  "ret_20d": -0.00694,
+  "vol_20d": 0.00573,
+  "drawdown_60d": -0.01407,
   "history": [
     {
       "ret_5d": 0.02365,
@@ -119,10 +119,10 @@
       "drawdown_60d": -0.02033
     },
     {
-      "ret_5d": -0.01267,
-      "ret_20d": -0.0068,
-      "vol_20d": 0.00574,
-      "drawdown_60d": -0.01393
+      "ret_5d": -0.01281,
+      "ret_20d": -0.00694,
+      "vol_20d": 0.00573,
+      "drawdown_60d": -0.01407
     }
   ],
   "regime_streak": 2,
@@ -132,35 +132,35 @@
       "regime": "Range",
       "spy_ret_20d": -0.0071,
       "breadth": 0.6438,
-      "distance": 0.1992
+      "distance": 0.2
     },
     {
       "date": "2024-04-10",
       "regime": "Range",
       "spy_ret_20d": 0.006,
       "breadth": 0.5393,
-      "distance": 0.2346
+      "distance": 0.2388
     },
     {
       "date": "2026-01-02",
       "regime": "Range",
       "spy_ret_20d": 0.0179,
       "breadth": 0.6356,
-      "distance": 0.2991
+      "distance": 0.3072
     },
     {
       "date": "2025-08-21",
       "regime": "Range",
       "spy_ret_20d": 0.0472,
       "breadth": 0.6605,
-      "distance": 0.3402
+      "distance": 0.3419
     },
     {
       "date": "2026-07-28",
       "regime": "Range",
       "spy_ret_20d": 0.0338,
       "breadth": 0.5856,
-      "distance": 0.3908
+      "distance": 0.3917
     }
   ],
   "analog_forward": {
@@ -189,7 +189,7 @@
       "n_typical": 3390,
       "days": 703,
       "asof": "2026-10-19",
-      "value": 0.3042,
+      "value": 0.3053,
       "range30": {
         "lo": 0.2563,
         "hi": 0.4939
@@ -198,7 +198,7 @@
         "lo": 0.2563,
         "hi": 0.6821
       },
-      "pct_rank": 0.0782,
+      "pct_rank": 0.0797,
       "history": [
         0.3892,
         0.329,
@@ -219,7 +219,7 @@
         0.2804,
         0.3436,
         0.3018,
-        0.3042
+        0.3053
       ]
     },
     "persistence": {
@@ -324,7 +324,7 @@
       "spells": 558,
       "base_days": 8432,
       "base_rate": 0.4551,
-      "trailing_20d": -0.0072,
+      "trailing_20d": -0.0069,
       "value": 0.4737
     },
     "analog_next": {
