@@ -59540,22 +59540,59 @@ var NEWSTAB=(function(){
    * Untagged headlines are dropped, same as the previous tab: this view is a
    * ticker feed, and anything news-desk could not confidently tag has no row
    * to sit in. */
-  /* MARKET NEWS (owner, 2026-10-20): the feed used to show only headlines
-   * that name a company. With the toggle on it also shows headlines that name
-   * no company but are about the market as a whole: indices, rates and the
-   * Fed, inflation and jobs, oil, gold, the dollar, crypto, funds and flows.
-   * Company press releases that our tagger could not match (Stock Titan's
-   * "| XYZ Stock News" lines) are not market news and stay out. */
-  var MKT_RE=/\b(stocks|wall street|s&p|s&amp;p|dow|nasdaq|russell|indexes|indices|index|etfs?|futures|treasur(y|ies)|yields?|bonds?|the fed|federal reserve|fed's|powell|rate cuts?|interest rates?|inflation|cpi|ppi|pce|payrolls|jobs report|jobless|unemployment|gdp|recession|economy|economic|oil|crude|opec|gold|silver|bitcoin|crypto|dollar|currenc(y|ies)|yen|euro|tariffs?|trade war|markets?|sell-?off|rally|volatility|vix|outflows?|inflows?|sector)\b/i;
-  function isMarket(h){
-    if(h.tickers&&h.tickers.length) return false;
-    if(h._x==='top') return true;
-    if(h.source==='Stock Titan'||/\|\s*[A-Z.]{1,6}\s+Stock News\s*$/.test(h.title||'')) return false;
-    var typ=String(h.type||'');
-    if(/^(earnings|dividend|offering|fda|legal|analyst|ma|guidance)$/.test(typ)) return false;
-    // One company's stock in the news is not market news.
-    if(/\b(stock|shares) (rating|price target|climbing|falling|surges?|jumps?|plunges?|sinks?)\b|\bmarket debut\b|^why is .+ stock\b/i.test(h.title||'')) return false;
-    return MKT_RE.test(h.title||'');
+  /* MARKET NEWS relevance (owner, 2026-10-20: the toggle shows headlines that
+   * name no company but matter to US portfolios; then "we don't need
+   * international market news like about denmark and turkey stocks ... broaden
+   * and enhance your relevance engine"). Scored, not a keyword match: tuned on
+   * the 10-20 feed, where it keeps the US wraps, data, Fed/Treasury, oil, gold,
+   * the dollar and the AI trade, and drops foreign exchanges' closes and
+   * foreign domestic news. Untagged company press releases stay out. */
+  // A headline that names no company is market news when its score reaches
+  // MKT_MIN: US market and macro terms count up, cross-asset and policy terms
+  // count some, generic words a little; a story about a foreign local market
+  // (a country's own exchange, index or politics with no US hook) counts down.
+  var MKT_MIN = 3;
+  var MKT_TERMS = [
+    // 3: the US market itself and the data that moves it
+    [3, /\b(wall street|s&p 500|s&p|s&amp;p|dow jones|the dow|dow (?:jumps|falls|rises|drops|slides|gains|climbs|sinks|tumbles|futures)|nasdaq(?: composite| 100)?|russell 2000|small[- ]caps|u\.?s\.? stocks|us stocks|american stocks|stock market|stock futures|equit(?:y|ies) futures|treasur(?:y|ies)|10-year|two-year|yield curve|the fed|federal reserve|fed's|fed (?:chair|officials?|governor|minutes|cut|hike|decision)|powell|fomc|rate cuts?|rate hikes?|interest rates?|cpi|ppi|pce|consumer prices|inflation|payrolls|jobs report|jobless claims|unemployment rate|labor market|gdp|recession|retail sales|consumer (?:confidence|sentiment|spending)|housing (?:starts|market|data)|home sales|mortgage rates|earnings season|ipo market|vix|volatility index|magnificent seven|mag 7)\b/i],
+    // 2: cross-asset and policy that US portfolios feel
+    [2, /\b(yields?|investor sentiment|china|chinese|oil prices?|crude|opec|brent|wti|natural gas|gold|silver|copper|bitcoin|crypto(?:currency|currencies)?|ether(?:eum)?|dollar|greenback|yen|tariffs?|trade (?:war|deal|talks)|sanctions|white house|trump|congress|treasury secretary|bessent|government shutdown|debt ceiling|deficit|bond market|bond yields?|credit markets?|private credit|high[- ]yield|junk bonds|ai (?:trade|bubble|stocks|spending|capex)|chip stocks|semiconductor stocks|bank stocks|tech stocks|data center)\b/i],
+    // 1: generic market words
+    [1, /\b(stocks|markets?|investors|traders|rally|sell-?off|slide|selloff|rout|volatility|sentiment|bullish|bearish|strategists?|sector|etfs?|outflows?|inflows?|futures|index|indexes|indices|bull market|bear market|correction|economy|economic|portfolio)\b/i]
+  ];
+  // A foreign local market or foreign domestic story. The big global drivers
+  // (China, Europe as a bloc, Japan) are not here: they move US markets.
+  var FOREIGN = /\b(afghan\w*|albania\w*|algeria\w*|argentin\w*|armenia\w*|australia\w*|austria\w*|azerbaijan\w*|bahrain\w*|bangladesh\w*|belarus\w*|belgi\w*|bolivia\w*|bosnia\w*|brazil\w*|bulgaria\w*|cambodia\w*|cameroon\w*|canad\w*|chile\w*|colombia\w*|costa rica\w*|croatia\w*|cyprus|cypriot|czech\w*|denmark|danish|ecuador\w*|egypt\w*|estonia\w*|ethiopia\w*|finland|finnish|france|french|georgian|german\w*|ghana\w*|greece|greek|hungar\w*|iceland\w*|india|indian|indonesia\w*|ireland|irish|israel\w*|ital\w*|jamaica\w*|jordan\w*|kazakh\w*|kenya\w*|korea\w*|kuwait\w*|latvia\w*|lebanon|lebanese|lithuania\w*|luxembourg\w*|malaysia\w*|malta|maltese|mauritius|mexic\w*|morocc\w*|namibia\w*|nepal\w*|netherlands|dutch|new zealand\w*|nigeria\w*|norw\w*|oman\w*|pakistan\w*|panama\w*|peru\w*|philippine\w*|poland|polish|portug\w*|qatar\w*|romania\w*|russia\w*|rwanda\w*|saudi\w*|serbia\w*|singapore\w*|slovak\w*|sloven\w*|south africa\w*|spain|spanish|sri lanka\w*|swed\w*|swiss|switzerland|taiwan\w*|tanzania\w*|thai\w*|tunisia\w*|turk\w*|uganda\w*|ukrain\w*|uae|emirat\w*|dubai|abu dhabi|britain|british|uk|u\.k\.|england|scotland|wales|venezuela\w*|vietnam\w*|zambia\w*|zimbabwe\w*|paris|london|berlin|madrid|rome|milan|athens|istanbul|warsaw|oslo|stockholm|copenhagen|helsinki|vienna|zurich|mumbai|seoul|jakarta|manila|bangkok|sydney|toronto|johannesburg|lagos|cairo|riyadh|tehran)\b/i;
+  // A foreign exchange or index by name, or the Investing.com country close report.
+  var FOREIGN_MKT = /\b(at close of trade|ftse|dax|cac 40|ibex|aex|smi|omx|obx|wig ?20|wig ?30|bist|ta[- ]35|ta[- ]125|moex|nifty|sensex|kospi|kosdaq|taiex|hang seng|asx|nzx|tsx|ipc|bovespa|merval|jse|tadawul|egx|psei|klci|set index|straits times|athens general|moroccan all shares|all shares)\b/i;
+  // "US" in capitals only: "us" the pronoun is not a US hook.
+  var US_HOOK = /\b(american|wall street|s&p|dow|nasdaq|fed|treasur\w*|dollar|trump|white house|washington)\b/i;
+  var US_CAPS = /(?:^|[^A-Za-z])(U\.S\.|US|USA)(?![A-Za-z])/;
+
+  function mktScore(h) {
+    var t = String(h.title || ''), sc = 0, cross = false;
+    MKT_TERMS.forEach(function (w) {
+      var re = new RegExp(w[1].source, 'gi'), hit = t.match(re);
+      if (hit) { sc += w[0] * Math.min(hit.length, 2); if (w[0] >= 2) cross = true; }
+    });
+    // A foreign exchange's own close is never ours. A foreign story with no US
+    // hook counts down, less when it carries a global driver (oil, gold, rates,
+    // the AI trade) that reaches US portfolios.
+    if (FOREIGN_MKT.test(t)) sc -= 8;
+    else if (FOREIGN.test(t) && !US_HOOK.test(t) && !US_CAPS.test(t)) sc -= cross ? 2 : 4;
+    if (h._x === 'top') sc += 1;                         // on Google's front page
+    return sc;
+  }
+  function isMarket(h) {
+    if (h.tickers && h.tickers.length) return false;
+    if (h.source === 'Stock Titan' || /\|\s*[A-Z.]{1,6}\s+Stock News\s*$/.test(h.title || '')) return false;
+    var typ = String(h.type || '');
+    // A company-type story is out unless it is plainly about the whole market
+    // ("Dow jumps 500 points as solid earnings..." is typed earnings): score 4+.
+    if (h._x !== 'top' && /^(earnings|dividend|offering|fda|legal|analyst|ma|guidance|press)$/.test(typ) && mktScore(h) < 4) return false;
+    // Single-stock stories and stock-pick lists are not market news.
+    if (/\b(stock|shares) (rating|price target|climbing|falling|surges?|jumps?|plunges?|sinks?)\b|\bmarket debut\b|^why is .+ stock\b|\b\d+ .{0,40}stocks? to (buy|avoid|own|sell)\b/i.test(h.title || '')) return false;
+    return mktScore(h) >= MKT_MIN;
   }
   function tagged(){
     return S.headlines.filter(function(h){ return (h.tickers&&h.tickers.length)||(S.mkt&&isMarket(h)); });
