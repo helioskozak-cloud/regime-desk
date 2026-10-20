@@ -44,6 +44,10 @@ a{color:#5b9dff;text-decoration:none}
 html.light #mkt-strip .mk-at b{color:#1f2328}
 #mkt-strip .mk{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:5px 12px;border-left:1px solid #1c1c1c}
 #mkt-strip .mk:first-child{border-left:0;padding-left:0}
+#mkt-strip a.mk{text-decoration:none;color:inherit;cursor:pointer;transition:background .15s}
+#mkt-strip a.mk:hover{background:#141414}
+#mkt-strip a.mk:hover .mk-l{color:#5b9dff}
+html.light #mkt-strip a.mk:hover{background:#f6f8fa}
 #mkt-strip .mk-l{font-size:11px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #mkt-strip .mk-v{font-family:var(--mono);font-size:13px;font-weight:600;color:#f2f2f2;font-variant-numeric:tabular-nums;white-space:nowrap}
 #mkt-strip .mk-c{font-family:var(--mono);font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -60839,6 +60843,15 @@ window._rdAsk=function(q){
   // A rising VIX is bad news: it reads red going up, green coming down
   // (owner, 2026-10-14). The sign on the number stays the real direction.
   var FEAR={'^VIX':1};
+  // CLICK -> A CHART (owner's friend, 2026-10-20: "preferably the charts on
+  // tipranks.com"). TipRanks has its own page for only four of the ten (it has
+  // no Dow, Nasdaq, Russell, VIX, 10-year or dollar index page, only ETFs that
+  // track them); the rest open Yahoo Finance's page for the index itself.
+  var TIPRANKS={'^GSPC':'index/spx','CL=F':'commodities/cm:cl','GC=F':'commodities/cm:xauusd','BTC-USD':'cryptocurrency/btc-usd'};
+  function chartUrl(key){
+    if(TIPRANKS[key]) return {url:'https://www.tipranks.com/'+TIPRANKS[key],site:'TipRanks'};
+    return {url:'https://finance.yahoo.com/quote/'+encodeURIComponent(key)+'/',site:'Yahoo Finance'};
+  }
   function cell(r){
     var v, c, dir;
     if(r.kind==='yield'){
@@ -60851,8 +60864,9 @@ window._rdAsk=function(q){
     }
     var at=new Date(r.as_of), when=isNaN(at)?'':at.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
     var tip=r.label+': '+v+(c?' ('+c+' vs prior close '+num(r.prev,r.kind==='yield'?2:digits(r))+(r.kind==='yield'?'%':'')+')':'')+(when?' · as of '+when:'');
-    return '<div class="mk" title="'+esc(tip)+'"><span class="mk-l">'+esc(r.label)+'</span>'+spark(r)
-      +'<span><span class="mk-v">'+esc(v)+'</span> <span class="mk-c '+dir+'">'+esc(c)+'</span></span></div>';
+    var go=chartUrl(r.key);
+    return '<a class="mk" href="'+esc(go.url)+'" target="_blank" rel="noopener noreferrer" title="'+esc(tip+' · click for the '+go.site+' chart')+'"><span class="mk-l">'+esc(r.label)+'</span>'+spark(r)
+      +'<span><span class="mk-v">'+esc(v)+'</span> <span class="mk-c '+dir+'">'+esc(c)+'</span></span></a>';
   }
   function marketOpen(d){
     var et=new Date(d.toLocaleString('en-US',{timeZone:'America/New_York'}));
