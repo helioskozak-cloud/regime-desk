@@ -388,6 +388,15 @@ body.view-news #regime-banner,body:not([data-view="home"]) #regime-banner{displa
 #v-news .nd-mv .nd-sym,#v-filings .nd-mv .nd-sym{cursor:pointer}
 #v-news .nd-mv .nd-chg,#v-news .nd-mv .nd-sg,#v-filings .nd-mv .nd-chg,#v-filings .nd-mv .nd-sg{justify-self:end;margin-left:0}
 #v-news .nd-mv-name,#v-filings .nd-mv-name{font-size:12px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Markets card on the News tab: indices and ETFs (owner, 2026-10-20) */
+#v-news .nd-mk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 28px}
+#v-news .nd-mk h3{font-family:var(--sans);font-size:13px;font-weight:600;color:#f2f2f2;margin:0 0 4px}
+#v-news .nd-mkr{display:grid;grid-template-columns:56px minmax(0,1fr) 64px 40px;gap:10px;align-items:center;padding:4px 0;border-bottom:1px solid #141414;font-size:12px}
+#v-news .nd-mkr a.nd-sym{text-decoration:none}
+#v-news .nd-mkr a.nd-sym:hover{color:#5b9dff;text-decoration:underline}
+#v-news .nd-mkr .nd-chg{justify-self:end}
+#v-news .nd-mkr .nd-sg{justify-self:end;margin-left:0}
+@media (max-width:900px){#v-news .nd-mk{grid-template-columns:1fr}}
 #v-news .nd-mv-why,#v-filings .nd-mv-why{font-size:13px;color:#c9c9c9;min-width:0}
 #v-news .nd-mv-why a,#v-filings .nd-mv-why a{color:#f2f2f2;text-decoration:none}
 #v-news .nd-mv-why a:hover,#v-filings .nd-mv-why a:hover{text-decoration:underline}
@@ -59407,6 +59416,7 @@ var NEWSTAB=(function(){
       +'<div class="nd-chips" id="nd-chips"></div>'
       +'<div class="nd-macro" id="nd-macro">'+macroHTML()+'</div>'
     +'</div>'
+    +'<div class="card" data-fold="markets"><h2 class="nd-fh" data-act="fold">Markets: indices and ETFs</h2><div id="nd-funds"><div class="nd-mv-note">Loading quotes from news-desk.</div></div></div>'
     +'<div class="card" data-fold="feed"><h2 class="nd-fh" data-act="fold">Headlines</h2><div class="nd-feed" id="nd-feed">'
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
@@ -59555,6 +59565,50 @@ var NEWSTAB=(function(){
       +'<span class="nd-mv-why">'+why+(ctx?'<div class="nd-ctxs">'+ctx+'</div>':'')+'</span>'
     +'</div>';
   }
+  /* MARKETS (owner, 2026-10-20: "include some etfs and broad indices"):
+   * news-desk prices a fixed list every five minutes (fetch_stocks.FUNDS), in
+   * three groups. Sectors sort from best to worst day. A symbol opens its chart
+   * (TipRanks where it has a page, Yahoo for the indices it does not cover);
+   * hovering shows the usual card. */
+  var TR_IDX={'^GSPC':'index/spx'};
+  function isFund(t){ return !!(S.funds&&S.funds.some(function(f){ return up(f.ticker)===t; })); }
+  function fundUrl(t){
+    if(TR_IDX[t]) return 'https://www.tipranks.com/'+TR_IDX[t];
+    if(t.charAt(0)==='^') return 'https://finance.yahoo.com/quote/'+encodeURIComponent(t)+'/';
+    return 'https://www.tipranks.com/etf/'+encodeURIComponent(t.toLowerCase());
+  }
+  var FUND_LABEL={'^GSPC':'SPX','^DJI':'DJI','^IXIC':'COMP','^NDX':'NDX','^RUT':'RUT','^VIX':'VIX'};
+  function renderFunds(){
+    var el=$('nd-funds'); if(!el) return;
+    var F=S.funds;
+    if(!F||!F.length){
+      el.innerHTML='<div class="nd-mv-note">'+(S.loaded?'news-desk has not published index and ETF quotes yet; they arrive with its next five-minute refresh.':'Loading quotes from news-desk.')+'</div>';
+      return;
+    }
+    var row=function(f){
+      var t=up(f.ticker), q=S.nd[t]; if(!q) return '';
+      return '<div class="nd-mkr">'
+        +'<a class="nd-sym" data-ticker="'+esc(t)+'" href="'+esc(fundUrl(t))+'" target="_blank" rel="noopener noreferrer">'+esc(FUND_LABEL[t]||t)+'</a>'
+        +'<span class="nd-mv-name" title="'+esc(f.name)+' · '+esc(Number(q.price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}))+'">'+esc(f.name)+'</span>'
+        // A rising VIX is bad news: red going up, as on the market strip.
+        +(q.chg==null?'<span></span>':t==='^VIX'
+          ?chgHTML(q.chg,2).replace(/#3fae6a|#e5484d/,function(c){ return c==='#3fae6a'?'#e5484d':'#3fae6a'; })
+          :chgHTML(q.chg,2))
+        +(sigmaHTML(q.sigma)||'<span></span>')
+      +'</div>';
+    };
+    var grp=function(g){ return F.filter(function(f){ return f.group===g; }); };
+    var sec=grp('sector').slice().sort(function(a,b){
+      var qa=S.nd[up(a.ticker)]||{}, qb=S.nd[up(b.ticker)]||{};
+      return (qb.chg==null?-9:qb.chg)-(qa.chg==null?-9:qa.chg); });
+    var col=function(title,list){ return '<div><h3>'+title+'</h3>'+list.map(row).join('')+'</div>'; };
+    el.innerHTML='<div class="nd-mk">'
+      +col('Broad market',grp('broad'))
+      +col('Sectors, best to worst today',sec)
+      +col('Rates, credit, commodities, abroad',grp('cross'))
+      +'</div><div class="nd-mv-note" style="margin-top:8px">Change vs the prior close; a σ tag marks a day of 2 or more of the fund’s own 20-day standard deviations. '
+      +'Quotes from news-desk'+(quotesAsOf()?' as of '+esc(quotesAsOf()):'')+'. Click a symbol for its chart.</div>';
+  }
   function renderMovers(){
     var el=$('nd-movers'); if(!el) return;
     var mv=S.movers;
@@ -59645,6 +59699,7 @@ var NEWSTAB=(function(){
     if(dot) dot.className='nd-dot'+(stale()?' stale':'');
     renderChips();
     renderMovers();
+    renderFunds();
 
     var feed=$('nd-feed'); if(!feed) return;
 
@@ -59694,6 +59749,7 @@ var NEWSTAB=(function(){
       if(stocks&&stocks.stocks){
         S.nd=ndQuotes(stocks);
         S.ndAsOf=stocks.generated||null;
+        S.funds=Array.isArray(stocks.funds)?stocks.funds:null;
         _px=null;   // rebuilt with the new fallback quotes
         Object.keys(S.nd).forEach(function(k){
           var n=S.nd[k].name;
@@ -60015,17 +60071,17 @@ var NEWSTAB=(function(){
     var price='';
     if(q){
       var col=q.chg==null?'#8f8f8f':(q.chg>=0?'#3fae6a':'#e5484d');
-      var range='';
+      var range='', cur=t.charAt(0)==='^'?'':'$';   // an index level is not dollars
       if(closes&&closes.length>=2){
         var lo=Math.min.apply(null,closes),hi=Math.max.apply(null,closes),pos=Math.max(0,Math.min(100,((q.price-lo)/((hi-lo)||1))*100));
         range='<div style="margin-top:6px"><div style="display:flex;justify-content:space-between;color:#6f6f6f;font-size:9px;margin-bottom:2px;font-family:var(--mono)">'
-          +'<span>$'+lo.toFixed(2)+'</span><span style="color:#4a4a4a">7d range</span><span>$'+hi.toFixed(2)+'</span></div>'
+          +'<span>'+cur+lo.toFixed(2)+'</span><span style="color:#4a4a4a">7d range</span><span>'+cur+hi.toFixed(2)+'</span></div>'
           +'<div style="position:relative;height:4px;background:#1d1d1d;border-radius:2px"><div style="position:absolute;left:'+pos.toFixed(0)
           +'%;top:-2px;width:2px;height:8px;background:'+col+';transform:translateX(-1px);border-radius:1px"></div></div></div>';
       }
       price='<div style="border-top:1px solid #1d1d1d;border-bottom:1px solid #1d1d1d;margin:8px 0;padding:6px 0">'
         +'<div style="display:flex;align-items:baseline;gap:8px;font-family:var(--mono)">'
-        +'<span style="color:#f2f2f2;font-size:16px;font-weight:700">$'+q.price.toFixed(2)+'</span>'
+        +'<span style="color:#f2f2f2;font-size:16px;font-weight:700">'+cur+q.price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span>'
         +(q.chg!=null?'<span style="color:'+col+';font-size:12px;font-weight:700">'+(q.chg>=0?'+':'')+(q.chg*100).toFixed(2)+'%</span>':'')
         +(nd.sigma!=null&&Math.abs(nd.sigma)>=SIGMA_SHOW?'<span style="color:#d4a72c;font-size:11px;font-weight:600">'+Math.abs(nd.sigma).toFixed(1)+'\u03c3</span>':'')
         +'<span style="color:#6f6f6f;font-size:10px;letter-spacing:.02em" class="nd-card-asof">'+esc(pxWhen(q))+'</span></div>'
@@ -60055,7 +60111,7 @@ var NEWSTAB=(function(){
       +(chips?'<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">'+chips+'</div>':'')
       +ctx+recent
       +'<div style="margin-top:8px;color:#6f6f6f;font-size:10px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
-      +'<div>click \u2192 filter the feed</div><div>alt-click \u2192 copy the symbol</div></div></div>';
+      +'<div>'+(isFund(t)?'click \u2192 its chart':'click \u2192 filter the feed')+'</div><div>alt-click \u2192 copy the symbol</div></div></div>';
   }
   /* From any other tab, shift-click on a ticker opens THIS tab filtered to it
    * (it used to open news-desk's page, which now redirects here). */
