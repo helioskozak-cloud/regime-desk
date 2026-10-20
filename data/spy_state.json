@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.01134,
-  "ret_20d": -0.00542,
+  "ret_5d": -0.01121,
+  "ret_20d": -0.00529,
   "vol_20d": 0.00569,
-  "drawdown_60d": -0.01271,
+  "drawdown_60d": -0.01259,
   "history": [
     {
       "ret_5d": 0.02078,
@@ -119,48 +119,48 @@
       "drawdown_60d": -0.01619
     },
     {
-      "ret_5d": -0.01134,
-      "ret_20d": -0.00542,
+      "ret_5d": -0.01121,
+      "ret_20d": -0.00529,
       "vol_20d": 0.00569,
-      "drawdown_60d": -0.01271
+      "drawdown_60d": -0.01259
     }
   ],
   "regime_streak": 3,
   "analog_matches": [
     {
-      "date": "2024-04-10",
-      "regime": "Range",
-      "spy_ret_20d": 0.006,
-      "breadth": 0.5392,
-      "distance": 0.2211
-    },
-    {
       "date": "2026-01-02",
       "regime": "Range",
       "spy_ret_20d": 0.0179,
       "breadth": 0.6355,
-      "distance": 0.2261
+      "distance": 0.2202
+    },
+    {
+      "date": "2024-04-10",
+      "regime": "Range",
+      "spy_ret_20d": 0.006,
+      "breadth": 0.5392,
+      "distance": 0.2212
     },
     {
       "date": "2026-02-04",
       "regime": "Range",
       "spy_ret_20d": -0.0071,
       "breadth": 0.644,
-      "distance": 0.24
+      "distance": 0.2435
     },
     {
       "date": "2025-08-21",
       "regime": "Range",
       "spy_ret_20d": 0.0472,
       "breadth": 0.6607,
-      "distance": 0.3555
+      "distance": 0.3568
     },
     {
       "date": "2026-02-19",
       "regime": "Range",
       "spy_ret_20d": -0.0361,
       "breadth": 0.6309,
-      "distance": 0.3925
+      "distance": 0.3917
     }
   ],
   "analog_forward": {
@@ -185,11 +185,11 @@
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3394,
+      "n": 3395,
       "n_typical": 3392,
       "days": 703,
       "asof": "2026-10-20",
-      "value": 0.3568,
+      "value": 0.3661,
       "range30": {
         "lo": 0.2562,
         "hi": 0.4381
@@ -198,7 +198,7 @@
         "lo": 0.2562,
         "hi": 0.6817
       },
-      "pct_rank": 0.1366,
+      "pct_rank": 0.1451,
       "history": [
         0.3291,
         0.311,
@@ -219,20 +219,20 @@
         0.3434,
         0.3016,
         0.2983,
-        0.3568
+        0.3661
       ]
     },
     "persistence": {
       "label": "Range",
       "horizon": 20,
-      "days": 1397,
+      "days": 1398,
       "held": 289,
-      "base_rate": 0.1663,
+      "base_rate": 0.1664,
       "spells": 558,
       "median_spell": 2.0,
       "streak": 3,
       "history_sessions": 8469,
-      "value": 0.2069
+      "value": 0.2067
     },
     "momentum_scale": {
       "sessions": 8460,
@@ -254,26 +254,26 @@
     "next_regime": {
       "label": "Range",
       "horizon": 20,
-      "days": 1397,
+      "days": 1398,
       "spells": 558,
       "history_sessions": 8469,
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.4689,
+          "share": 0.4685,
           "n": 655,
-          "base_rate": 0.3841
+          "base_rate": 0.384
         },
         {
           "label": "Range",
-          "share": 0.2069,
+          "share": 0.2067,
           "n": 289,
-          "base_rate": 0.1663
+          "base_rate": 0.1664
         },
         {
           "label": "Drifting Lower",
-          "share": 0.1596,
-          "n": 223,
+          "share": 0.1602,
+          "n": 224,
           "base_rate": 0.1326
         },
         {
@@ -319,13 +319,13 @@
     "reversal": {
       "label": "Range",
       "horizon": 20,
-      "days": 1387,
-      "reversed": 657,
+      "days": 1388,
+      "reversed": 658,
       "spells": 558,
       "base_days": 8433,
       "base_rate": 0.4551,
-      "trailing_20d": -0.00473,
-      "value": 0.4737
+      "trailing_20d": -0.00482,
+      "value": 0.4741
     },
     "analog_next": {
       "horizon": 20,
