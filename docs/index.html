@@ -300,6 +300,16 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-tab.on{background:#141414;color:#f2f2f2;border-color:#5b9dff}
 #v-news .nd-tab .n{color:#6f6f6f;margin-left:6px;font-weight:400}
 #v-news .nd-tab.on .n{color:#5b9dff}
+#v-news .nd-topchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+#v-news .nd-topchip{display:inline-flex;align-items:center;gap:7px;background:#0d0d0d;border:1px solid #2e2e2e;border-radius:4px;padding:4px 9px;cursor:pointer;color:#c9c9c9;font-size:12px}
+#v-news .nd-topchip:hover{border-color:#5b9dff}
+#v-news .nd-topn{font-family:var(--mono);font-size:10px;color:#8f8f8f}
+#v-news .nd-toprow{display:grid;grid-template-columns:28px minmax(0,1fr) 72px minmax(0,160px) 44px;gap:12px;align-items:start;padding:8px 0;border-bottom:1px solid #141414}
+#v-news .nd-toprk{font-family:var(--mono);font-size:13px;font-weight:700;color:#6f6f6f;text-align:right}
+#v-news .nd-topol{font-family:var(--mono);font-size:11px;color:#8f8f8f;white-space:nowrap}
+#v-news .nd-toptk{display:flex;flex-wrap:wrap;gap:6px}
+@media (max-width:700px){#v-news .nd-toprow{grid-template-columns:24px 1fr}#v-news .nd-topol,#v-news .nd-toptk,#v-news .nd-toprow .nd-time{display:none}}
+html.light #v-news .nd-topchip{background:#fff;border-color:#d0d7de;color:#1f2328}
 #v-news .nd-mktag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:#a48cf5;border:1px solid #3d3363;border-radius:3px;padding:1px 5px}
 #v-news .nd-live{display:inline-flex;align-items:center;gap:6px;margin-left:auto;font-family:var(--mono);font-size:10px;color:#6f6f6f;text-transform:uppercase;letter-spacing:.5px}
 #v-news .nd-dot{width:7px;height:7px;border-radius:50%;background:#3fae6a;display:inline-block;animation:rdpulse 1.6s ease-in-out infinite}
@@ -59408,6 +59418,7 @@ var NEWSTAB=(function(){
       +'<div class="nd-top">'
         +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">News <span class="n" id="nd-n-news">—</span></button>'
         +'<button type="button" class="nd-tab" data-act="tab" data-tab="book">My book <span class="n" id="nd-n-book">—</span></button>'
+        +'<button type="button" class="nd-tab" data-act="tab" data-tab="top" title="Google News\u2019 business front page and the companies most talked about today">Top stories</button>'
         +'<button type="button" class="nd-tab nd-mkt'+(S.mkt?' on':'')+'" data-act="mkt" aria-pressed="'+(S.mkt?'true':'false')+'" title="Also show headlines about the market as a whole (indices, rates, the Fed, oil, the dollar) that name no single company">Market news <span class="n" id="nd-n-mkt">'+(S.mkt?'on':'off')+'</span></button>'
         +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span><span id="nd-qasof" title="When the prices on this tab are from: news-desk\u2019s quote file, republished about every five minutes"></span></span>'
       +'</div>'
@@ -59515,6 +59526,7 @@ var NEWSTAB=(function(){
   var MKT_RE=/\b(stocks|wall street|s&p|s&amp;p|dow|nasdaq|russell|indexes|indices|index|etfs?|futures|treasur(y|ies)|yields?|bonds?|the fed|federal reserve|fed's|powell|rate cuts?|interest rates?|inflation|cpi|ppi|pce|payrolls|jobs report|jobless|unemployment|gdp|recession|economy|economic|oil|crude|opec|gold|silver|bitcoin|crypto|dollar|currenc(y|ies)|yen|euro|tariffs?|trade war|markets?|sell-?off|rally|volatility|vix|outflows?|inflows?|sector)\b/i;
   function isMarket(h){
     if(h.tickers&&h.tickers.length) return false;
+    if(h._x==='top') return true;
     if(h.source==='Stock Titan'||/\|\s*[A-Z.]{1,6}\s+Stock News\s*$/.test(h.title||'')) return false;
     var typ=String(h.type||'');
     if(/^(earnings|dividend|offering|fda|legal|analyst|ma|guidance)$/.test(typ)) return false;
@@ -59554,7 +59566,7 @@ var NEWSTAB=(function(){
   function latestHeadline(t){
     var cut=Date.now()-36*3600*1000, best=null;
     S.headlines.forEach(function(h){
-      if(!h.tickers||h.tickers.indexOf(t)<0) return;
+      if(h._x||!h.tickers||h.tickers.indexOf(t)<0) return;
       var ts=new Date(h.published).getTime();
       if(!isFinite(ts)||ts<cut) return;
       if(!best||ts>best.ts) best={h:h,ts:ts};
@@ -59702,6 +59714,11 @@ var NEWSTAB=(function(){
       return;
     }
 
+    if(S.tab==='top'){
+      setText('nd-counts',((S.top||{}).stories||[]).length+' top stories');
+      feed.innerHTML=topView();
+      return;
+    }
     var list=filtered();
     setText('nd-counts',list.length+' / '+all.length+' shown');
     var head=(S.tab==='book'?bookHeader():'');
@@ -59710,7 +59727,83 @@ var NEWSTAB=(function(){
       : empty('Nothing matches',
           S.tab==='book'
             ? 'No headlines mention a name in your book right now. The feed refreshes every five minutes.'
-            : 'No headlines match these filters. Clear them to see the whole feed.'));
+            : (S.ticker&&!S.q&&!S.src&&!S.typ
+              ? 'No headline names '+esc(S.ticker)+' in our feeds, and news-desk\u2019s web search found none either. The feed refreshes every five minutes.'
+              : 'No headlines match these filters. Clear them to see the whole feed.')));
+  }
+
+  /* EXTRA HEADLINES (owner, 2026-10-20: "companies in the top movers should
+   * have headlines in the feed by default"). A mover whose only headline came
+   * from news-desk's web search (m.web) gets that headline in the feed,
+   * tagged with its ticker, so clicking the mover lands on it; and each of
+   * Google News' business top stories joins the feed as type "top" (tagged
+   * when its headlines name a company, else shown with Market news on).
+   * Marked _x so the movers panel still says "web search" for them. */
+  function extraHeadlines(feed){
+    var have={}, out=[];
+    feed.forEach(function(h){ if(h.link) have[h.link]=1; have[String(h.title||'').toLowerCase()]=1; });
+    var add=function(h){
+      var k=String(h.title||'').toLowerCase();
+      if(!h.title||have[k]||(h.link&&have[h.link])) return;
+      have[k]=1; if(h.link) have[h.link]=1; out.push(h);
+    };
+    var mv=S.movers||{};
+    ['gainers','losers','movers'].forEach(function(g){
+      (mv[g]||[]).forEach(function(m){
+        if(!m.web||!/^https:\/\//i.test(String(m.web.link||''))) return;
+        add({title:m.web.title, link:m.web.link, source:(m.web.source||'Web')+' \u00b7 web search',
+             published:m.web.published||m.web.found||null, tickers:[up(m.ticker)], type:'web', _x:'web'});
+      });
+    });
+    ((S.top||{}).stories||[]).forEach(function(st){
+      add({title:st.title, link:st.link, source:'Top stories \u00b7 '+(st.link_outlet||st.publisher||'Google News'),
+           published:st.published, tickers:(st.tickers||[]).map(up), type:'top', _x:'top',
+           summary:st.outlets>1?st.outlets+' outlets on this story ('+(st.names||[]).join(', ')+')':''});
+    });
+    return out;
+  }
+
+  /* TOP STORIES tab (owner, 2026-10-20: "get a feel for what the top stories
+   * are from other top stories feeds and how many mentions a ticker gets in a
+   * broad index based article"). news-desk's top_stories.json: Google News'
+   * Business front page in its own order, and per company how many of those
+   * stories name it and how often the day's market-wide articles do. */
+  function topView(){
+    var T=S.top;
+    if(!T) return empty('Loading','Top stories arrive from news-desk every 15 minutes.');
+    var ago=function(iso){ var t=fmtTime(iso); return t.rel||''; };
+    var M=T.mentions||{}, keys=Object.keys(M).slice(0,16);
+    var chips=keys.map(function(t){
+      var m=M[t], q=priceMap()[t];
+      var tip=t+(S.names[t]?' ('+S.names[t]+')':'')+': in '+m.top+' top stor'+(m.top===1?'y':'ies')
+        +', named '+m.wraps+' time'+(m.wraps===1?'':'s')+' in '+m.wrap_n+' market article'+(m.wrap_n===1?'':'s')+' today';
+      return '<button type="button" class="nd-topchip" data-act="toppick" data-t="'+esc(t)+'" title="'+esc(tip)+'">'
+        +'<span class="nd-sym" data-ticker="'+esc(t)+'">'+esc(t)+'</span>'
+        +(q&&q.chg!=null?chgHTML(q.chg,1):'')
+        +'<span class="nd-topn">'+(m.top?m.top+' top':'')+(m.top&&m.wraps?' \u00b7 ':'')+(m.wraps?m.wraps+'\u00d7 in wraps':'')+'</span></button>';
+    }).join('');
+    var rows=(T.stories||[]).map(function(st){
+      var safe=/^https?:\/\//i.test(String(st.link||''));
+      var tks=(st.tickers||[]).map(function(t){ t=up(t); return '<span class="nd-sym" data-ticker="'+esc(t)+'" data-tk="'+esc(t)+'">'+esc(t)+'</span>'; }).join(' ');
+      return '<div class="nd-toprow">'
+        +'<div class="nd-toprk">'+st.rank+'</div>'
+        +'<div class="nd-hl">'+(safe?'<a href="'+esc(st.link)+'" target="_blank" rel="noopener noreferrer">'+esc(st.title)+'</a>':esc(st.title))
+          +'<div class="nd-sum">'+esc((st.names||[]).join(' \u00b7 '))+(st.walled?' \u00b7 every outlet on it needs a login':'')+'</div></div>'
+        +'<div class="nd-topol" title="Outlets Google groups under this story (it lists up to five)">'+st.outlets+' outlet'+(st.outlets===1?'':'s')+'</div>'
+        +'<div class="nd-toptk">'+tks+'</div>'
+        +'<div class="nd-time">'+esc(ago(st.published))+'</div>'
+      +'</div>';
+    }).join('');
+    var when=T.generated?fmtTime(T.generated).rel:'';
+    return '<div class="nd-topwrap">'
+      +'<h3 class="nd-mvh">Most talked about today</h3>'
+      +'<div class="nd-mv-note">Companies ranked by how many of the top stories below name them and how often the day\u2019s market-wide articles do ('
+        +esc(T.articles_read||0)+' read in full, '+esc(T.articles_summary_only||0)+' from headline and summary only). Click one to see its headlines.</div>'
+      +'<div class="nd-topchips">'+(chips||'<span class="nd-mv-note">No company named yet today.</span>')+'</div>'
+      +'<h3 class="nd-mvh" style="margin-top:18px">Top stories</h3>'
+      +'<div class="nd-mv-note">Google News\u2019 Business front page, in its order'+(when?' \u00b7 read '+esc(when)+' ago':'')
+        +'. The link goes to the first outlet on the story that does not need a login.</div>'
+      +rows+'</div>';
   }
 
   /* ── Loading ────────────────────────────────────────────────────────────
@@ -59724,8 +59817,11 @@ var NEWSTAB=(function(){
       .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
     var mov=fetch('https://helioskozak-cloud.github.io/news-desk/data/movers.json?_t='+t)
       .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
-    return Promise.all([head,stk,mov]).then(function(res){
+    var top=fetch('https://helioskozak-cloud.github.io/news-desk/data/top_stories.json?_t='+t)
+      .then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+    return Promise.all([head,stk,mov,top]).then(function(res){
       var doc=res[0],stocks=res[1];
+      if(res[3]&&Array.isArray(res[3].stories)) S.top=res[3];
       if(res[2]&&Array.isArray(res[2].movers)) S.movers=res[2];
       if(stocks&&stocks.stocks){
         S.nd=ndQuotes(stocks);
@@ -59744,7 +59840,7 @@ var NEWSTAB=(function(){
         return;
       }
       S.failed=false; S.loaded=true; S.fetchedAt=Date.now();
-      S.headlines=doc.headlines;
+      S.headlines=doc.headlines.concat(extraHeadlines(doc.headlines));
       S.generated=doc.generated||null;
       setText('nd-qasof',quotesAsOf()?' \u00b7 quotes '+quotesAsOf():'');
       if(doc.ticker_names) Object.keys(doc.ticker_names).forEach(function(k){ S.names[k]=doc.ticker_names[k]; });
@@ -59946,6 +60042,7 @@ var NEWSTAB=(function(){
       if(a==='clr'){ clearFilters(); return; }
       if(a==='unpick'){ S.ticker=null; render(); return; }
       if(a==='moversall'){ S.moversAll=!S.moversAll; renderMovers(); return; }
+      if(a==='toppick'){ setTab('news'); S.ticker=up(act.getAttribute('data-t')); render(); return; }
       if(a==='mkt'){
         S.mkt=!S.mkt;
         try{ localStorage.setItem('rd_nd_mkt',S.mkt?'1':'0'); }catch(err){}
