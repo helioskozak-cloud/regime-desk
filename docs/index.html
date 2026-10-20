@@ -59504,7 +59504,8 @@ var NEWSTAB=(function(){
     return '<div class="nd-row'+sent+(S.open[key]?' open':'')+'" data-key="'+esc(key)+'">'
       +'<div class="nd-time">'+esc(t.hh)+'<i>'+esc(t.rel)+'</i></div>'
       +'<div class="nd-tks">'+(h.tickers&&h.tickers.length
-        ? tickerCell(h.tickers)+contextHTML(h.tickers[0],h)
+        ? (fundOnly(h)?'<div class="nd-tk"><span class="nd-mktag" title="Market news: an index, sector or market ETF">MARKET</span></div>':'')
+          +tickerCell(h.tickers)+contextHTML(h.tickers[0],h)
         : '<div class="nd-tk"><span class="nd-mktag" title="General market news: names no single company">MARKET</span></div>')+'</div>'
       +'<div class="nd-hl">'
         +(safe?'<a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">'+title+'</a>':'<span style="color:#f2f2f2;font-size:13px">'+title+'</span>')
@@ -59583,8 +59584,21 @@ var NEWSTAB=(function(){
     if (h._x === 'top') sc += 1;                         // on Google's front page
     return sc;
   }
+  // INDEX AND MARKET ETFs (owner, 2026-10-20: "index etf articles should be
+  // categorized as 'market news'"). A headline whose only tickers are these
+  // is about the market, not a company: news-desk's FUNDS list (broad, sector
+  // and cross-asset) plus the common share-class twins.
+  var MKT_FUNDS = {};
+  ('SPY VOO IVV SPLG RSP QQQ QQQM DIA IWM VTI VT ITOT SCHB MDY IJH IJR VEA VEU VWO EFA EEM ACWI '
+   + 'XLK XLC XLY XLP XLF XLV XLI XLE XLB XLU XLRE SMH SOXX KRE KBE XBI IBB ITB XHB XOP XME '
+   + 'TLT IEF SHY GOVT AGG BND HYG JNK LQD TIP GLD IAU SLV USO UNG DBC UUP IBIT FBTC GBTC').split(' ')
+    .forEach(function (t) { MKT_FUNDS[t] = 1; });
+  function fundOnly(h) {
+    var t = h.tickers || [];
+    return t.length > 0 && t.every(function (x) { return MKT_FUNDS[up(x)]; });
+  }
   function isMarket(h) {
-    if (h.tickers && h.tickers.length) return false;
+    if (h.tickers && h.tickers.length) return fundOnly(h) && h.source !== 'Stock Titan';
     if (h.source === 'Stock Titan' || /\|\s*[A-Z.]{1,6}\s+Stock News\s*$/.test(h.title || '')) return false;
     var typ = String(h.type || '');
     // A company-type story is out unless it is plainly about the whole market
@@ -59595,7 +59609,12 @@ var NEWSTAB=(function(){
     return mktScore(h) >= MKT_MIN;
   }
   function tagged(){
-    return S.headlines.filter(function(h){ return (h.tickers&&h.tickers.length)||(S.mkt&&isMarket(h)); });
+    // An ETF-only headline is market news: it follows the Market news switch,
+    // and still shows when that ETF is picked or held in the loaded portfolio.
+    return S.headlines.filter(function(h){
+      if(fundOnly(h)) return S.mkt||!!S.ticker||S.tab==='book';
+      return (h.tickers&&h.tickers.length)||(S.mkt&&isMarket(h));
+    });
   }
   function filtered(){
     var q=S.q.trim().toLowerCase();
@@ -59779,7 +59798,7 @@ var NEWSTAB=(function(){
     }
 
     if(S.tab==='top'){
-      setText('nd-counts',((S.top||{}).stories||[]).length+' top stories');
+      setText('nd-counts',topStories().length+' top stories, last 24h');
       feed.innerHTML=topView();
       return;
     }
@@ -59803,6 +59822,12 @@ var NEWSTAB=(function(){
    * Google News' business top stories joins the feed as type "top" (tagged
    * when its headlines name a company, else shown with Market news on).
    * Marked _x so the movers panel still says "web search" for them. */
+  function topStories(){
+    var cut=Date.now()-24*3600*1000;
+    return ((S.top||{}).stories||[]).filter(function(st){
+      var t=Date.parse(st.published||''); return isFinite(t)&&t>=cut;
+    });
+  }
   function extraHeadlines(feed){
     var have={}, out=[];
     feed.forEach(function(h){ if(h.link) have[h.link]=1; have[String(h.title||'').toLowerCase()]=1; });
@@ -59819,7 +59844,7 @@ var NEWSTAB=(function(){
              published:m.web.published||m.web.found||null, tickers:[up(m.ticker)], type:'web', _x:'web'});
       });
     });
-    ((S.top||{}).stories||[]).forEach(function(st){
+    topStories().forEach(function(st){
       add({title:st.title, link:st.link, source:'Top stories \u00b7 '+(st.link_outlet||st.publisher||'Google News'),
            published:st.published, tickers:(st.tickers||[]).map(up), type:'top', _x:'top',
            summary:st.outlets>1?st.outlets+' outlets on this story ('+(st.names||[]).join(', ')+')':''});
@@ -59846,7 +59871,7 @@ var NEWSTAB=(function(){
         +(q&&q.chg!=null?chgHTML(q.chg,1):'')
         +'<span class="nd-topn">'+(m.top?m.top+' top':'')+(m.top&&m.wraps?' \u00b7 ':'')+(m.wraps?m.wraps+'\u00d7 in wraps':'')+'</span></button>';
     }).join('');
-    var rows=(T.stories||[]).map(function(st){
+    var rows=topStories().map(function(st){
       var safe=/^https?:\/\//i.test(String(st.link||''));
       var tks=(st.tickers||[]).map(function(t){ t=up(t); return '<span class="nd-sym" data-ticker="'+esc(t)+'" data-tk="'+esc(t)+'">'+esc(t)+'</span>'; }).join(' ');
       return '<div class="nd-toprow">'
@@ -59865,7 +59890,7 @@ var NEWSTAB=(function(){
         +esc(T.articles_read||0)+' read in full, '+esc(T.articles_summary_only||0)+' from headline and summary only). Click one to see its headlines.</div>'
       +'<div class="nd-topchips">'+(chips||'<span class="nd-mv-note">No company named yet today.</span>')+'</div>'
       +'<h3 class="nd-mvh" style="margin-top:18px">Top stories</h3>'
-      +'<div class="nd-mv-note">Google News\u2019 Business front page, in its order'+(when?' \u00b7 read '+esc(when)+' ago':'')
+      +'<div class="nd-mv-note">Google News\u2019 Business front page, in its order, published in the last 24 hours'+(when?' \u00b7 read '+esc(when)+' ago':'')
         +'. The link goes to the first outlet on the story that does not need a login.</div>'
       +rows+'</div>';
   }
