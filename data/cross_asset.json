@@ -3,14 +3,14 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "-1.1%",
+      "value": "-1.2%",
       "signal": "bearish",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "-0.5%",
+      "value": "-0.6%",
       "signal": "neutral",
       "context": "Medium-term trend strength"
     },
@@ -52,7 +52,7 @@
     {
       "name": "VIX Level",
       "asset": "VIX",
-      "value": "17.5",
+      "value": "17.3",
       "signal": "bullish",
       "context": "Below 18 = calm; 18\u201325 = caution; above 25 = fear"
     },
@@ -73,9 +73,9 @@
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-4.0% (20d)",
+      "value": "-4.1% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.0% \u2014 copper weak = growth concerns"
+      "context": "20d ret -4.1% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
@@ -104,11 +104,11 @@
       "name": "Volatility Regime",
       "level": "low",
       "score": 0.19,
-      "description": "VIX at 17.5. Calm regime; vol suppression in force.",
+      "description": "VIX at 17.3. Calm regime; vol suppression in force.",
       "invalidation": "VIX mean-reverts below 18 and holds for 5 sessions",
       "explain": {
         "input_label": "VIX",
-        "input_value": "17.5",
+        "input_value": "17.3",
         "moderate_at": "24.6",
         "elevated_at": "30.2",
         "input_rises": true,
@@ -176,7 +176,7 @@
       "name": "Growth Slowdown",
       "level": "elevated",
       "score": 0.74,
-      "description": "Copper 20d -4.0%, IWM -4.0%. Cyclical indicators softening.",
+      "description": "Copper 20d -4.1%, IWM -4.0%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
@@ -247,12 +247,12 @@
     {
       "name": "Complacency Risk",
       "level": "low",
-      "score": 0.17,
-      "description": "SPY -0.5% / 20d with vol 0.57%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "score": 0.16,
+      "description": "SPY -0.6% / 20d with vol 0.57%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
-        "input_value": "-0.5%",
+        "input_value": "-0.6%",
         "moderate_at": "+6.6%",
         "elevated_at": "+11.6%",
         "input_rises": true,
