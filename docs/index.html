@@ -300,6 +300,31 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-tab.on{background:#141414;color:#f2f2f2;border-color:#5b9dff}
 #v-news .nd-tab .n{color:#6f6f6f;margin-left:6px;font-weight:400}
 #v-news .nd-tab.on .n{color:#5b9dff}
+/* compact one-card layout (2026-10-20) */
+#v-news .nd-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid #1d1d1d}
+#v-news .nd-head .nd-ttl{margin:0 6px 0 0;padding:0;border:0;font-size:18px}
+#v-news .nd-views{display:inline-flex;gap:4px}
+#v-news .nd-head .nd-tab{padding:4px 10px}
+#v-news .nd-head input[type=text],#v-news .nd-head select{background:#050505;border:1px solid #2e2e2e;color:#c9c9c9;border-radius:4px;padding:4px 8px;font-size:13px;max-width:100%}
+#v-news .nd-head input[type=text]{width:230px}
+#v-news .nd-head select{width:auto;max-width:160px;flex:0 0 auto}
+#v-news .nd-head input[type=text]:focus,#v-news .nd-head select:focus{border-color:#5b9dff;outline:none}
+#v-news .nd-head .nd-live{margin-left:auto;gap:8px}
+#v-news .nd-head .nd-live>span{white-space:nowrap}
+#v-news .nd-head .nd-live{flex-wrap:wrap}
+#v-news .nd-head .nd-count{margin-left:6px}
+#v-news .nd-tog{display:inline-flex;align-items:center;gap:7px;background:none;border:1px solid #2e2e2e;border-radius:4px;color:#8f8f8f;padding:4px 10px;cursor:pointer;font-size:13px}
+#v-news .nd-tog .nd-sw{position:relative;width:24px;height:13px;border-radius:7px;background:#2e2e2e;transition:background .15s}
+#v-news .nd-tog .nd-sw::after{content:'';position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:#8f8f8f;transition:left .15s,background .15s}
+#v-news .nd-tog.on{color:#f2f2f2;border-color:rgba(106,168,255,.5)}
+#v-news .nd-tog.on .nd-sw{background:#24456f}
+#v-news .nd-tog.on .nd-sw::after{left:13px;background:#5b9dff}
+#v-news .nd-sub{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:6px 0 2px}
+#v-news .nd-sub .nd-chips,#v-news .nd-sub .nd-macro{margin-top:0}
+#v-news .nd-sub:has(.nd-chips:empty):has(.nd-macro:empty){display:none}
+html.light #v-news .nd-head input[type=text],html.light #v-news .nd-head select{background:#fff;border-color:#d0d7de;color:#1f2328}
+html.light #v-news .nd-tog.on{color:#1f2328}
+@media (max-width:900px){#v-news .nd-head input[type=text]{flex:1 1 160px;width:auto}#v-news .nd-head .nd-live{margin-left:0;flex-basis:100%}}
 #v-news .nd-topchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 #v-news .nd-topchip{display:inline-flex;align-items:center;gap:7px;background:#0d0d0d;border:1px solid #2e2e2e;border-radius:4px;padding:4px 9px;cursor:pointer;color:#c9c9c9;font-size:12px}
 #v-news .nd-topchip:hover{border-color:#5b9dff}
@@ -59412,32 +59437,30 @@ var NEWSTAB=(function(){
    * observer appends a .popout-btn to every card and replacing the card's
    * innerHTML would delete it on every poll. */
   function shell(){
+    // ONE CARD (owner, 2026-10-20): the views, Market news, search, filters,
+    // the portfolio button and the live dot share one toolbar at the top of
+    // Headlines; releases and the active filter chip sit on one line under it.
     return ''
-    +'<div class="card" data-fold="controls">'
-      +'<h2 class="nd-fh" data-act="fold">News feed</h2>'
-      +'<div class="nd-top">'
-        +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">News <span class="n" id="nd-n-news">—</span></button>'
-        +'<button type="button" class="nd-tab" data-act="tab" data-tab="book">My book <span class="n" id="nd-n-book">—</span></button>'
-        +'<button type="button" class="nd-tab" data-act="tab" data-tab="top" title="Google News\u2019 business front page and the companies most talked about today">Top stories</button>'
-        +'<button type="button" class="nd-tab nd-mkt'+(S.mkt?' on':'')+'" data-act="mkt" aria-pressed="'+(S.mkt?'true':'false')+'" title="Also show headlines about the market as a whole (indices, rates, the Fed, oil, the dollar) that name no single company">Market news <span class="n" id="nd-n-mkt">'+(S.mkt?'on':'off')+'</span></button>'
-        +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span><span id="nd-qasof" title="When the prices on this tab are from: news-desk\u2019s quote file, republished about every five minutes"></span></span>'
-      +'</div>'
-      +'<div class="nd-bar">'
-        +'<span class="nd-lbl">Search</span>'
-        +'<input type="text" id="nd-q" placeholder="headline / ticker / source" autocomplete="off">'
-        +'<span class="nd-lbl">Source</span>'
-        +'<select id="nd-src"><option value="">All</option></select>'
-        +'<span class="nd-lbl">Type</span>'
-        +'<select id="nd-typ"><option value="">All</option></select>'
+    +'<div class="card nd-card">'
+      +'<div class="nd-head">'
+        +'<h2 class="nd-ttl">Headlines</h2>'
+        +'<div class="nd-views">'
+          +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">All <span class="n" id="nd-n-news">\u2014</span></button>'
+          +'<button type="button" class="nd-tab" data-act="tab" data-tab="top" title="Google News\u2019 business front page and the companies most talked about today">Top stories</button>'
+          +'<button type="button" class="nd-tab nd-pf" data-act="tab" data-tab="book" id="nd-pf" title="Load a holdings file or paste tickers to see only headlines on names you hold">Load portfolio</button>'
+        +'</div>'
+        +'<button type="button" class="nd-tog'+(S.mkt?' on':'')+'" data-act="mkt" aria-pressed="'+(S.mkt?'true':'false')+'" title="Also show headlines about the market as a whole (indices, rates, the Fed, oil, the dollar) that name no single company"><span class="nd-sw"></span>Market news</button>'
+        +'<input type="text" id="nd-q" placeholder="Search headlines, tickers, sources" autocomplete="off">'
+        +'<select id="nd-src" title="Source"><option value="">All sources</option></select>'
+        +'<select id="nd-typ" title="Type"><option value="">All types</option></select>'
         +'<button type="button" class="nd-btn" data-act="clr">Clear</button>'
-        +'<span class="nd-count" id="nd-counts">—</span>'
+        +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting\u2026</span><span id="nd-qasof" title="When the prices on this tab are from: news-desk\u2019s quote file, republished about every five minutes"></span><span class="nd-count" id="nd-counts">\u2014</span></span>'
       +'</div>'
-      +'<div class="nd-chips" id="nd-chips"></div>'
-      +'<div class="nd-macro" id="nd-macro">'+macroHTML()+'</div>'
+      +'<div class="nd-sub"><div class="nd-chips" id="nd-chips"></div><div class="nd-macro" id="nd-macro">'+macroHTML()+'</div></div>'
+      +'<div class="nd-feed" id="nd-feed">'
+        +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
+      +'</div>'
     +'</div>'
-    +'<div class="card" data-fold="feed"><h2 class="nd-fh" data-act="fold">Headlines</h2><div class="nd-feed" id="nd-feed">'
-      +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
-    +'</div></div>'
     +'<footer>Headlines from news-desk, refetched every minute; it republishes every five. '
     +'Prices come from news-desk\u2019s quote file, republished about every five minutes and shown with its time; a ticker it does not price shows this page\u2019s last daily-scan close instead (hover a price to see which). '
     +'A symbol shown on its own is one neither source prices. Not investment advice.</footer>';
@@ -59660,14 +59683,14 @@ var NEWSTAB=(function(){
     return '<div class="nd-bookhead">'
       +'<span><b>'+S.book.length+'</b> ticker'+(S.book.length===1?'':'s')
       +(S.bookLabel?' · '+esc(S.bookLabel):'')+(S.bookSeeded?' (seeded — upload or paste to replace)':'')+'</span>'
-      +'<button type="button" class="nd-btn" data-act="bookedit">Replace book</button>'
-      +'<button type="button" class="nd-btn" data-act="bookclear">Clear book</button>'
+      +'<button type="button" class="nd-btn" data-act="bookedit">Replace portfolio</button>'
+      +'<button type="button" class="nd-btn" data-act="bookclear">Clear portfolio</button>'
     +'</div>';
   }
 
   function bookPanel(){
     return '<div class="nd-book">'
-      +'<p>MY BOOK filters the feed to names you hold. Drop a holdings spreadsheet — an LPL '
+      +'<p>Load a portfolio to see only the headlines on names it holds. Drop a holdings spreadsheet — an LPL '
       +'<code>Account-Investments-*.xlsx</code> or any file with a Symbol column — or paste tickers below. '
       +'The file is parsed in your browser; nothing leaves your machine.</p>'
       +'<label class="nd-drop" id="nd-drop">'
@@ -59685,9 +59708,13 @@ var NEWSTAB=(function(){
   function render(){
     var all=tagged();
     setText('nd-n-news',String(all.length));
-    setText('nd-n-book',String(S.book.length
-      ? all.filter(function(h){ return (h.tickers||[]).some(inBook); }).length
-      : 0));
+    var pf=$('nd-pf');
+    if(pf){
+      var own=S.book.length&&!S.bookSeeded;
+      pf.innerHTML=own
+        ? 'Portfolio <span class="n">'+all.filter(function(h){ return (h.tickers||[]).some(inBook); }).length+'</span>'
+        : 'Load portfolio';
+    }
     setText('nd-updated',fmtUpdated());
     var dot=$('nd-dot');
     if(dot) dot.className='nd-dot'+(stale()?' stale':'');
@@ -59696,7 +59723,7 @@ var NEWSTAB=(function(){
 
     var feed=$('nd-feed'); if(!feed) return;
 
-    if(S.tab==='book'&&!S.book.length){
+    if(S.tab==='book'&&(!S.book.length||S.bookSeeded)&&!S.bookShow){
       setText('nd-counts','no book loaded');
       feed.innerHTML=bookPanel();
       return;
@@ -59862,10 +59889,10 @@ var NEWSTAB=(function(){
     if(S.src&&S.sources.indexOf(S.src)<0) S.src='';
     if(S.typ&&S.types.indexOf(S.typ)<0) S.typ='';
     var a=$('nd-src');
-    if(a) a.innerHTML='<option value="">All</option>'+S.sources.map(function(s){
+    if(a) a.innerHTML='<option value="">All sources</option>'+S.sources.map(function(s){
       return '<option value="'+esc(s)+'"'+(s===S.src?' selected':'')+'>'+esc(s)+'</option>'; }).join('');
     var b=$('nd-typ');
-    if(b) b.innerHTML='<option value="">All</option>'+S.types.map(function(s){
+    if(b) b.innerHTML='<option value="">All types</option>'+S.types.map(function(s){
       return '<option value="'+esc(s)+'"'+(s===S.typ?' selected':'')+'>'+esc(s.charAt(0).toUpperCase()+s.slice(1))+'</option>'; }).join('');
   }
 
@@ -60047,7 +60074,6 @@ var NEWSTAB=(function(){
         S.mkt=!S.mkt;
         try{ localStorage.setItem('rd_nd_mkt',S.mkt?'1':'0'); }catch(err){}
         act.classList.toggle('on',S.mkt); act.setAttribute('aria-pressed',S.mkt?'true':'false');
-        setText('nd-n-mkt',S.mkt?'on':'off');
         render(); return;
       }
       if(a==='fold'){ toggleFold(act.closest('.card')); return; }
