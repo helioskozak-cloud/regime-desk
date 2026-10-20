@@ -300,6 +300,7 @@ html.light footer{color:#57606a;border-color:#d0d7de}
 #v-news .nd-tab.on{background:#141414;color:#f2f2f2;border-color:#5b9dff}
 #v-news .nd-tab .n{color:#6f6f6f;margin-left:6px;font-weight:400}
 #v-news .nd-tab.on .n{color:#5b9dff}
+#v-news .nd-mktag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:#a48cf5;border:1px solid #3d3363;border-radius:3px;padding:1px 5px}
 #v-news .nd-live{display:inline-flex;align-items:center;gap:6px;margin-left:auto;font-family:var(--mono);font-size:10px;color:#6f6f6f;text-transform:uppercase;letter-spacing:.5px}
 #v-news .nd-dot{width:7px;height:7px;border-radius:50%;background:#3fae6a;display:inline-block;animation:rdpulse 1.6s ease-in-out infinite}
 #v-news .nd-dot.stale{background:#e5484d;animation:none}
@@ -401,15 +402,7 @@ body.view-news #regime-banner,body:not([data-view="home"]) #regime-banner{displa
 #v-news .nd-mv .nd-sym,#v-filings .nd-mv .nd-sym{cursor:pointer}
 #v-news .nd-mv .nd-chg,#v-news .nd-mv .nd-sg,#v-filings .nd-mv .nd-chg,#v-filings .nd-mv .nd-sg{justify-self:end;margin-left:0}
 #v-news .nd-mv-name,#v-filings .nd-mv-name{font-size:12px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* Markets card on the News tab: indices and ETFs (owner, 2026-10-20) */
-#v-news .nd-mk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 28px}
-#v-news .nd-mk h3{font-family:var(--sans);font-size:13px;font-weight:600;color:#f2f2f2;margin:0 0 4px}
-#v-news .nd-mkr{display:grid;grid-template-columns:56px minmax(0,1fr) 64px 40px;gap:10px;align-items:center;padding:4px 0;border-bottom:1px solid #141414;font-size:12px}
-#v-news .nd-mkr a.nd-sym{text-decoration:none}
-#v-news .nd-mkr a.nd-sym:hover{color:#5b9dff;text-decoration:underline}
-#v-news .nd-mkr .nd-chg{justify-self:end}
-#v-news .nd-mkr .nd-sg{justify-self:end;margin-left:0}
-@media (max-width:900px){#v-news .nd-mk{grid-template-columns:1fr}}
+
 #v-news .nd-mv-why,#v-filings .nd-mv-why{font-size:13px;color:#c9c9c9;min-width:0}
 #v-news .nd-mv-why a,#v-filings .nd-mv-why a{color:#f2f2f2;text-decoration:none}
 #v-news .nd-mv-why a:hover,#v-filings .nd-mv-why a:hover{text-decoration:underline}
@@ -59142,6 +59135,7 @@ var NEWSTAB=(function(){
     headlines:[], generated:null, names:{}, fetchedAt:null,
     nd:{}, ndAsOf:null,   // news-desk quotes, the fallback price source
     tab:'news', q:'', src:'', typ:'', ticker:null,
+    mkt:(function(){ try{ return localStorage.getItem('rd_nd_mkt')!=='0'; }catch(e){ return true; } })(),
     sources:[], types:[],
     book:[], bookLabel:null, bookSeeded:false, bookMsg:null,
     open:{},   // headline link -> row expanded; survives the 60s re-render
@@ -59414,6 +59408,7 @@ var NEWSTAB=(function(){
       +'<div class="nd-top">'
         +'<button type="button" class="nd-tab on" data-act="tab" data-tab="news">News <span class="n" id="nd-n-news">—</span></button>'
         +'<button type="button" class="nd-tab" data-act="tab" data-tab="book">My book <span class="n" id="nd-n-book">—</span></button>'
+        +'<button type="button" class="nd-tab nd-mkt'+(S.mkt?' on':'')+'" data-act="mkt" aria-pressed="'+(S.mkt?'true':'false')+'" title="Also show headlines about the market as a whole (indices, rates, the Fed, oil, the dollar) that name no single company">Market news <span class="n" id="nd-n-mkt">'+(S.mkt?'on':'off')+'</span></button>'
         +'<span class="nd-live"><span class="nd-dot" id="nd-dot"></span><span id="nd-updated">connecting…</span><span id="nd-qasof" title="When the prices on this tab are from: news-desk\u2019s quote file, republished about every five minutes"></span></span>'
       +'</div>'
       +'<div class="nd-bar">'
@@ -59429,7 +59424,6 @@ var NEWSTAB=(function(){
       +'<div class="nd-chips" id="nd-chips"></div>'
       +'<div class="nd-macro" id="nd-macro">'+macroHTML()+'</div>'
     +'</div>'
-    +'<div class="card" data-fold="markets"><h2 class="nd-fh" data-act="fold">Markets: indices and ETFs</h2><div id="nd-funds"><div class="nd-mv-note">Loading quotes from news-desk.</div></div></div>'
     +'<div class="card" data-fold="feed"><h2 class="nd-fh" data-act="fold">Headlines</h2><div class="nd-feed" id="nd-feed">'
       +'<div class="nd-empty"><h3>Loading</h3><div>Fetching headlines from news-desk.</div></div>'
     +'</div></div>'
@@ -59475,7 +59469,9 @@ var NEWSTAB=(function(){
     var title=esc(h.title||'(untitled)');
     return '<div class="nd-row'+sent+(S.open[key]?' open':'')+'" data-key="'+esc(key)+'">'
       +'<div class="nd-time">'+esc(t.hh)+'<i>'+esc(t.rel)+'</i></div>'
-      +'<div class="nd-tks">'+tickerCell(h.tickers)+contextHTML(h.tickers[0],h)+'</div>'
+      +'<div class="nd-tks">'+(h.tickers&&h.tickers.length
+        ? tickerCell(h.tickers)+contextHTML(h.tickers[0],h)
+        : '<div class="nd-tk"><span class="nd-mktag" title="General market news: names no single company">MARKET</span></div>')+'</div>'
       +'<div class="nd-hl">'
         +(safe?'<a href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">'+title+'</a>':'<span style="color:#f2f2f2;font-size:13px">'+title+'</span>')
         +(h.summary?'<div class="nd-sum">'+esc(h.summary)+'</div>':'')
@@ -59510,18 +59506,35 @@ var NEWSTAB=(function(){
    * Untagged headlines are dropped, same as the previous tab: this view is a
    * ticker feed, and anything news-desk could not confidently tag has no row
    * to sit in. */
+  /* MARKET NEWS (owner, 2026-10-20): the feed used to show only headlines
+   * that name a company. With the toggle on it also shows headlines that name
+   * no company but are about the market as a whole: indices, rates and the
+   * Fed, inflation and jobs, oil, gold, the dollar, crypto, funds and flows.
+   * Company press releases that our tagger could not match (Stock Titan's
+   * "| XYZ Stock News" lines) are not market news and stay out. */
+  var MKT_RE=/\b(stocks|wall street|s&p|s&amp;p|dow|nasdaq|russell|indexes|indices|index|etfs?|futures|treasur(y|ies)|yields?|bonds?|the fed|federal reserve|fed's|powell|rate cuts?|interest rates?|inflation|cpi|ppi|pce|payrolls|jobs report|jobless|unemployment|gdp|recession|economy|economic|oil|crude|opec|gold|silver|bitcoin|crypto|dollar|currenc(y|ies)|yen|euro|tariffs?|trade war|markets?|sell-?off|rally|volatility|vix|outflows?|inflows?|sector)\b/i;
+  function isMarket(h){
+    if(h.tickers&&h.tickers.length) return false;
+    if(h.source==='Stock Titan'||/\|\s*[A-Z.]{1,6}\s+Stock News\s*$/.test(h.title||'')) return false;
+    var typ=String(h.type||'');
+    if(/^(earnings|dividend|offering|fda|legal|analyst|ma|guidance)$/.test(typ)) return false;
+    // One company's stock in the news is not market news.
+    if(/\b(stock|shares) (rating|price target|climbing|falling|surges?|jumps?|plunges?|sinks?)\b|\bmarket debut\b|^why is .+ stock\b/i.test(h.title||'')) return false;
+    return MKT_RE.test(h.title||'');
+  }
   function tagged(){
-    return S.headlines.filter(function(h){ return h.tickers&&h.tickers.length; });
+    return S.headlines.filter(function(h){ return (h.tickers&&h.tickers.length)||(S.mkt&&isMarket(h)); });
   }
   function filtered(){
     var q=S.q.trim().toLowerCase();
     return tagged().filter(function(h){
       if(S.src&&h.source!==S.src) return false;
       if(S.typ&&h.type!==S.typ) return false;
-      if(S.ticker&&h.tickers.indexOf(S.ticker)<0) return false;
-      if(S.tab==='book'&&!h.tickers.some(inBook)) return false;
+      var tks=h.tickers||[];
+      if(S.ticker&&tks.indexOf(S.ticker)<0) return false;
+      if(S.tab==='book'&&!tks.some(inBook)) return false;
       if(q){
-        var hay=((h.title||'')+' '+(h.summary||'')+' '+h.tickers.join(' ')+' '+(h.source||'')).toLowerCase();
+        var hay=((h.title||'')+' '+(h.summary||'')+' '+tks.join(' ')+' '+(h.source||'')).toLowerCase();
         if(hay.indexOf(q)<0) return false;
       }
       return true;
@@ -59577,46 +59590,6 @@ var NEWSTAB=(function(){
         +Number(m.vol_20d).toFixed(1)+'% over the last 20 sessions)">'+Math.abs(m.sigma).toFixed(1)+'σ</span>')
       +'<span class="nd-mv-why">'+why+(ctx?'<div class="nd-ctxs">'+ctx+'</div>':'')+'</span>'
     +'</div>';
-  }
-  /* MARKETS (owner, 2026-10-20: "include some etfs and broad indices"):
-   * news-desk prices a fixed list every five minutes (fetch_stocks.FUNDS), in
-   * three groups. Sectors sort from best to worst day. A symbol opens its
-   * Yahoo Finance advanced chart;
-   * hovering shows the usual card. */
-  // Same chart as the market strip: Yahoo Finance's advanced chart.
-  function fundUrl(t){ return 'https://finance.yahoo.com/chart/'+encodeURIComponent(t); }
-  function isFund(t){ return !!(S.funds&&S.funds.some(function(f){ return up(f.ticker)===t; })); }
-  var FUND_LABEL={'^GSPC':'SPX','^DJI':'DJI','^IXIC':'COMP','^NDX':'NDX','^RUT':'RUT','^VIX':'VIX'};
-  function renderFunds(){
-    var el=$('nd-funds'); if(!el) return;
-    var F=S.funds;
-    if(!F||!F.length){
-      el.innerHTML='<div class="nd-mv-note">'+(S.loaded?'news-desk has not published index and ETF quotes yet; they arrive with its next five-minute refresh.':'Loading quotes from news-desk.')+'</div>';
-      return;
-    }
-    var row=function(f){
-      var t=up(f.ticker), q=S.nd[t]; if(!q) return '';
-      return '<div class="nd-mkr">'
-        +'<a class="nd-sym" data-ticker="'+esc(t)+'" data-label="'+esc(f.name)+'" href="'+esc(fundUrl(t))+'" target="_blank" rel="noopener noreferrer">'+esc(FUND_LABEL[t]||t)+'</a>'
-        +'<span class="nd-mv-name" title="'+esc(f.name)+' · '+esc(Number(q.price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}))+'">'+esc(f.name)+'</span>'
-        // A rising VIX is bad news: red going up, as on the market strip.
-        +(q.chg==null?'<span></span>':t==='^VIX'
-          ?chgHTML(q.chg,2).replace(/#3fae6a|#e5484d/,function(c){ return c==='#3fae6a'?'#e5484d':'#3fae6a'; })
-          :chgHTML(q.chg,2))
-        +(sigmaHTML(q.sigma)||'<span></span>')
-      +'</div>';
-    };
-    var grp=function(g){ return F.filter(function(f){ return f.group===g; }); };
-    var sec=grp('sector').slice().sort(function(a,b){
-      var qa=S.nd[up(a.ticker)]||{}, qb=S.nd[up(b.ticker)]||{};
-      return (qb.chg==null?-9:qb.chg)-(qa.chg==null?-9:qa.chg); });
-    var col=function(title,list){ return '<div><h3>'+title+'</h3>'+list.map(row).join('')+'</div>'; };
-    el.innerHTML='<div class="nd-mk">'
-      +col('Broad market',grp('broad'))
-      +col('Sectors, best to worst today',sec)
-      +col('Rates, credit, commodities, abroad',grp('cross'))
-      +'</div><div class="nd-mv-note" style="margin-top:8px">Change vs the prior close; a σ tag marks a day of 2 or more of the fund’s own 20-day standard deviations. '
-      +'Quotes from news-desk'+(quotesAsOf()?' as of '+esc(quotesAsOf()):'')+'. Click a symbol for its chart; ctrl-click opens Yahoo Finance.</div>';
   }
   function renderMovers(){
     var el=$('nd-movers'); if(!el) return;
@@ -59701,14 +59674,13 @@ var NEWSTAB=(function(){
     var all=tagged();
     setText('nd-n-news',String(all.length));
     setText('nd-n-book',String(S.book.length
-      ? all.filter(function(h){ return h.tickers.some(inBook); }).length
+      ? all.filter(function(h){ return (h.tickers||[]).some(inBook); }).length
       : 0));
     setText('nd-updated',fmtUpdated());
     var dot=$('nd-dot');
     if(dot) dot.className='nd-dot'+(stale()?' stale':'');
     renderChips();
     renderMovers();
-    renderFunds();
 
     var feed=$('nd-feed'); if(!feed) return;
 
@@ -59947,7 +59919,7 @@ var NEWSTAB=(function(){
   function setTab(t){
     S.tab=t; S.ticker=null; S.bookMsg=null;
     var root=$('v-news'); if(!root) return;
-    Array.prototype.forEach.call(root.querySelectorAll('.nd-tab'),function(b){
+    Array.prototype.forEach.call(root.querySelectorAll('.nd-tab[data-tab]'),function(b){
       b.classList.toggle('on',b.getAttribute('data-tab')===t);
     });
     render();
@@ -59974,6 +59946,13 @@ var NEWSTAB=(function(){
       if(a==='clr'){ clearFilters(); return; }
       if(a==='unpick'){ S.ticker=null; render(); return; }
       if(a==='moversall'){ S.moversAll=!S.moversAll; renderMovers(); return; }
+      if(a==='mkt'){
+        S.mkt=!S.mkt;
+        try{ localStorage.setItem('rd_nd_mkt',S.mkt?'1':'0'); }catch(err){}
+        act.classList.toggle('on',S.mkt); act.setAttribute('aria-pressed',S.mkt?'true':'false');
+        setText('nd-n-mkt',S.mkt?'on':'off');
+        render(); return;
+      }
       if(a==='fold'){ toggleFold(act.closest('.card')); return; }
       if(a==='gfold'){
         var b=act.closest('.nd-gblk'), g=b&&b.getAttribute('data-g');
@@ -60120,7 +60099,7 @@ var NEWSTAB=(function(){
       +(chips?'<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">'+chips+'</div>':'')
       +ctx+recent
       +'<div style="margin-top:8px;color:#6f6f6f;font-size:10px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
-      +'<div>'+(isFund(t)?'click \u2192 its chart':'click \u2192 filter the feed')+'</div><div>alt-click \u2192 copy the symbol</div></div></div>';
+      +'<div>click \u2192 filter the feed</div><div>alt-click \u2192 copy the symbol</div></div></div>';
   }
   /* From any other tab, shift-click on a ticker opens THIS tab filtered to it
    * (it used to open news-desk's page, which now redirects here). */
@@ -60692,7 +60671,7 @@ window._rdAsk=function(q){
 // free embeddable chart. Several indices are licensed off that widget; for those
 // it charts the closest symbol that tracks the index and says so in the header.
 // Every chart keeps a link to Yahoo's advanced chart. Ctrl/middle-click on a
-// ribbon cell or a Markets symbol still opens Yahoo in a new tab.
+// ribbon cell still opens Yahoo in a new tab.
 (function(){
   var TV={
     '^GSPC':['FOREXCOM:SPXUSD','S&P 500 CFD (tracks the index)'],
@@ -60749,10 +60728,10 @@ window._rdAsk=function(q){
         +'<a href="'+esc(yurl)+'" target="_blank" rel="noopener noreferrer" style="color:#5b9dff">Open it on Yahoo Finance \u2197</a></div>';
     });
   };
-  // Ribbon cells and the News tab's Markets symbols open in place.
+  // Ribbon cells open in place.
   document.addEventListener('click',function(e){
     if(e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
-    var a=e.target.closest&&e.target.closest('#mkt-strip a.mk[data-key], #nd-funds a.nd-sym[data-ticker]');
+    var a=e.target.closest&&e.target.closest('#mkt-strip a.mk[data-key]');
     if(!a) return;
     e.preventDefault(); e.stopPropagation();
     var tip=document.getElementById('rd-tip'); if(tip) tip.style.display='none';
