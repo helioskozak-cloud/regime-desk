@@ -45,6 +45,19 @@ html.light #mkt-strip .mk-at b{color:#1f2328}
 #mkt-strip .mk{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;padding:5px 12px;border-left:1px solid #1c1c1c}
 #mkt-strip .mk:first-child{border-left:0;padding-left:0}
 #mkt-strip a.mk{text-decoration:none;color:inherit;cursor:pointer;transition:background .15s}
+/* In-page chart (owner, 2026-10-20: "open the chart element within the program") */
+#rd-chart-ov{position:fixed;inset:0;z-index:10050;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:24px}
+#rd-chart-ov.on{display:flex}
+#rd-chart-box{background:#0a0a0a;border:1px solid #2e2e2e;border-radius:6px;width:min(1400px,96vw);height:min(820px,88vh);display:flex;flex-direction:column;overflow:hidden}
+#rd-chart-hd{display:flex;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid #1d1d1d;font-size:13px;color:#8f8f8f}
+#rd-chart-hd b{color:#f2f2f2;font-size:15px}
+#rd-chart-hd a{color:#5b9dff;text-decoration:none;margin-left:auto;white-space:nowrap}
+#rd-chart-hd a:hover{text-decoration:underline}
+#rd-chart-hd button{background:none;border:1px solid #2e2e2e;color:#c9c9c9;border-radius:4px;padding:3px 10px;cursor:pointer;font-size:12px}
+#rd-chart-c{flex:1;min-height:0}
+html.light #rd-chart-box{background:#fff;border-color:#d0d7de}
+html.light #rd-chart-hd b{color:#1f2328}
+@media (max-width:700px){#rd-chart-ov{padding:6px}#rd-chart-box{width:100vw;height:92vh}#rd-chart-hd .why{display:none}}
 #mkt-strip a.mk:hover{background:#141414}
 #mkt-strip a.mk:hover .mk-l{color:#5b9dff}
 html.light #mkt-strip a.mk:hover{background:#f6f8fa}
@@ -59567,16 +59580,12 @@ var NEWSTAB=(function(){
   }
   /* MARKETS (owner, 2026-10-20: "include some etfs and broad indices"):
    * news-desk prices a fixed list every five minutes (fetch_stocks.FUNDS), in
-   * three groups. Sectors sort from best to worst day. A symbol opens its chart
-   * (TipRanks where it has a page, Yahoo for the indices it does not cover);
+   * three groups. Sectors sort from best to worst day. A symbol opens its
+   * Yahoo Finance advanced chart;
    * hovering shows the usual card. */
-  var TR_IDX={'^GSPC':'index/spx'};
+  // Same chart as the market strip: Yahoo Finance's advanced chart.
+  function fundUrl(t){ return 'https://finance.yahoo.com/chart/'+encodeURIComponent(t); }
   function isFund(t){ return !!(S.funds&&S.funds.some(function(f){ return up(f.ticker)===t; })); }
-  function fundUrl(t){
-    if(TR_IDX[t]) return 'https://www.tipranks.com/'+TR_IDX[t];
-    if(t.charAt(0)==='^') return 'https://finance.yahoo.com/quote/'+encodeURIComponent(t)+'/';
-    return 'https://www.tipranks.com/etf/'+encodeURIComponent(t.toLowerCase());
-  }
   var FUND_LABEL={'^GSPC':'SPX','^DJI':'DJI','^IXIC':'COMP','^NDX':'NDX','^RUT':'RUT','^VIX':'VIX'};
   function renderFunds(){
     var el=$('nd-funds'); if(!el) return;
@@ -59588,7 +59597,7 @@ var NEWSTAB=(function(){
     var row=function(f){
       var t=up(f.ticker), q=S.nd[t]; if(!q) return '';
       return '<div class="nd-mkr">'
-        +'<a class="nd-sym" data-ticker="'+esc(t)+'" href="'+esc(fundUrl(t))+'" target="_blank" rel="noopener noreferrer">'+esc(FUND_LABEL[t]||t)+'</a>'
+        +'<a class="nd-sym" data-ticker="'+esc(t)+'" data-label="'+esc(f.name)+'" href="'+esc(fundUrl(t))+'" target="_blank" rel="noopener noreferrer">'+esc(FUND_LABEL[t]||t)+'</a>'
         +'<span class="nd-mv-name" title="'+esc(f.name)+' · '+esc(Number(q.price).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}))+'">'+esc(f.name)+'</span>'
         // A rising VIX is bad news: red going up, as on the market strip.
         +(q.chg==null?'<span></span>':t==='^VIX'
@@ -59607,7 +59616,7 @@ var NEWSTAB=(function(){
       +col('Sectors, best to worst today',sec)
       +col('Rates, credit, commodities, abroad',grp('cross'))
       +'</div><div class="nd-mv-note" style="margin-top:8px">Change vs the prior close; a σ tag marks a day of 2 or more of the fund’s own 20-day standard deviations. '
-      +'Quotes from news-desk'+(quotesAsOf()?' as of '+esc(quotesAsOf()):'')+'. Click a symbol for its chart.</div>';
+      +'Quotes from news-desk'+(quotesAsOf()?' as of '+esc(quotesAsOf()):'')+'. Click a symbol for its chart; ctrl-click opens Yahoo Finance.</div>';
   }
   function renderMovers(){
     var el=$('nd-movers'); if(!el) return;
@@ -60677,6 +60686,80 @@ window._rdAsk=function(q){
 };
 
 
+// ── In-page chart (owner, 2026-10-20: "if you could open the chart element
+// within the program that would be even cooler") ───────────────────────────────
+// Yahoo Finance will not load inside another site, so the chart is TradingView's
+// free embeddable chart. Several indices are licensed off that widget; for those
+// it charts the closest symbol that tracks the index and says so in the header.
+// Every chart keeps a link to Yahoo's advanced chart. Ctrl/middle-click on a
+// ribbon cell or a Markets symbol still opens Yahoo in a new tab.
+(function(){
+  var TV={
+    '^GSPC':['FOREXCOM:SPXUSD','S&P 500 CFD (tracks the index)'],
+    '^DJI':['FOREXCOM:DJI','Dow CFD (tracks the index)'],
+    '^IXIC':['FOREXCOM:NSXUSD','Nasdaq-100 CFD: the Composite itself is not licensed to the chart'],
+    '^NDX':['FOREXCOM:NSXUSD','Nasdaq-100 CFD (tracks the index)'],
+    '^RUT':['FOREXCOM:US2000','Russell 2000 CFD (tracks the index)'],
+    '^VIX':['CAPITALCOM:VIX','VIX CFD (tracks the index)'],
+    '^TNX':['FRED:DGS10','10-year Treasury yield, daily (FRED)'],
+    'CL=F':['TVC:USOIL','WTI crude, spot'],
+    'GC=F':['TVC:GOLD','Gold, spot'],
+    'BTC-USD':['BITSTAMP:BTCUSD','Bitcoin, Bitstamp'],
+    'DX-Y.NYB':['CAPITALCOM:DXY','Dollar index CFD (tracks the index)']
+  };
+  var ov=null, tvReady=null;
+  function loadTV(){
+    if(tvReady) return tvReady;
+    tvReady=new Promise(function(ok,bad){
+      var sc=document.createElement('script'); sc.src='https://s3.tradingview.com/tv.js';
+      sc.onload=ok; sc.onerror=function(){ tvReady=null; bad(); }; document.head.appendChild(sc);
+    });
+    return tvReady;
+  }
+  function close(){ if(!ov) return; ov.classList.remove('on'); document.getElementById('rd-chart-c').innerHTML=''; }
+  function build(){
+    ov=document.createElement('div'); ov.id='rd-chart-ov';
+    ov.innerHTML='<div id="rd-chart-box" role="dialog" aria-modal="true"><div id="rd-chart-hd"></div><div id="rd-chart-c"></div></div>';
+    document.body.appendChild(ov);
+    ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  }
+  var esc=function(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
+  window._rdChart=function(key,label){
+    if(!ov) build();
+    var m=TV[key], sym=m?m[0]:key, why=m?m[1]:'';
+    var yurl='https://finance.yahoo.com/chart/'+encodeURIComponent(key);
+    document.getElementById('rd-chart-hd').innerHTML='<b>'+esc(label||key)+'</b>'
+      +'<span class="why">'+(why?esc(why):esc(key))+'</span>'
+      +'<a href="'+esc(yurl)+'" target="_blank" rel="noopener noreferrer">Yahoo Finance advanced chart \u2197</a>'
+      +'<button type="button" aria-label="Close">\u2715 Esc</button>';
+    document.querySelector('#rd-chart-hd button').onclick=close;
+    var c=document.getElementById('rd-chart-c');
+    c.innerHTML='<div id="rd-chart-tv" style="height:100%"><div style="padding:20px;color:#6f6f6f;font-size:13px">Loading the chart\u2026</div></div>';
+    ov.classList.add('on');
+    loadTV().then(function(){
+      if(!ov.classList.contains('on')) return;
+      document.getElementById('rd-chart-tv').innerHTML='';
+      new TradingView.widget({container_id:'rd-chart-tv',symbol:sym,interval:'D',range:'6M',
+        theme:document.documentElement.classList.contains('light')?'light':'dark',style:'1',
+        timezone:'America/New_York',locale:'en',autosize:true,allow_symbol_change:true,
+        hide_side_toolbar:false,withdateranges:true,save_image:false});
+    }).catch(function(){
+      c.innerHTML='<div style="padding:20px;color:#8f8f8f;font-size:13px">The chart could not load here. '
+        +'<a href="'+esc(yurl)+'" target="_blank" rel="noopener noreferrer" style="color:#5b9dff">Open it on Yahoo Finance \u2197</a></div>';
+    });
+  };
+  // Ribbon cells and the News tab's Markets symbols open in place.
+  document.addEventListener('click',function(e){
+    if(e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
+    var a=e.target.closest&&e.target.closest('#mkt-strip a.mk[data-key], #nd-funds a.nd-sym[data-ticker]');
+    if(!a) return;
+    e.preventDefault(); e.stopPropagation();
+    var tip=document.getElementById('rd-tip'); if(tip) tip.style.display='none';
+    window._rdChart(a.getAttribute('data-key')||a.getAttribute('data-ticker'), a.getAttribute('data-label')||'');
+  },true);
+})();
+
 // ── Ticker hover tooltip ──────────────────────────────────────────────────────
 (function(){
   var tip=document.getElementById('rd-tip');
@@ -60899,14 +60982,11 @@ window._rdAsk=function(q){
   // A rising VIX is bad news: it reads red going up, green coming down
   // (owner, 2026-10-14). The sign on the number stays the real direction.
   var FEAR={'^VIX':1};
-  // CLICK -> A CHART (owner's friend, 2026-10-20: "preferably the charts on
-  // tipranks.com"). TipRanks has its own page for only four of the ten (it has
-  // no Dow, Nasdaq, Russell, VIX, 10-year or dollar index page, only ETFs that
-  // track them); the rest open Yahoo Finance's page for the index itself.
-  var TIPRANKS={'^GSPC':'index/spx','CL=F':'commodities/cm:cl','GC=F':'commodities/cm:xauusd','BTC-USD':'cryptocurrency/btc-usd'};
+  // CLICK -> A CHART. Yahoo Finance's advanced (interactive) chart for every
+  // cell (owner, 2026-10-20, replacing the TipRanks/Yahoo-quote mix of the
+  // same morning: "please use the advanced chart ... on yahoo finance").
   function chartUrl(key){
-    if(TIPRANKS[key]) return {url:'https://www.tipranks.com/'+TIPRANKS[key],site:'TipRanks'};
-    return {url:'https://finance.yahoo.com/quote/'+encodeURIComponent(key)+'/',site:'Yahoo Finance'};
+    return {url:'https://finance.yahoo.com/chart/'+encodeURIComponent(key),site:'Yahoo Finance'};
   }
   function cell(r){
     var v, c, dir;
@@ -60921,7 +61001,7 @@ window._rdAsk=function(q){
     var at=new Date(r.as_of), when=isNaN(at)?'':at.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET';
     var tip=r.label+': '+v+(c?' ('+c+' vs prior close '+num(r.prev,r.kind==='yield'?2:digits(r))+(r.kind==='yield'?'%':'')+')':'')+(when?' · as of '+when:'');
     var go=chartUrl(r.key);
-    return '<a class="mk" href="'+esc(go.url)+'" target="_blank" rel="noopener noreferrer" title="'+esc(tip+' · click for the '+go.site+' chart')+'"><span class="mk-l">'+esc(r.label)+'</span>'+spark(r)
+    return '<a class="mk" data-key="'+esc(r.key)+'" data-label="'+esc(r.label)+'" href="'+esc(go.url)+'" target="_blank" rel="noopener noreferrer" title="'+esc(tip+' · click for its chart; ctrl-click for '+go.site)+'"><span class="mk-l">'+esc(r.label)+'</span>'+spark(r)
       +'<span><span class="mk-v">'+esc(v)+'</span> <span class="mk-c '+dir+'">'+esc(c)+'</span></span></a>';
   }
   function marketOpen(d){
