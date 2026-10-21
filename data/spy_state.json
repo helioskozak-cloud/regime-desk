@@ -185,11 +185,11 @@
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3394,
+      "n": 3393,
       "n_typical": 3392,
       "days": 703,
       "asof": "2026-10-21",
-      "value": 0.3939,
+      "value": 0.394,
       "range30": {
         "lo": 0.2562,
         "hi": 0.4104
@@ -219,20 +219,20 @@
         0.3016,
         0.2983,
         0.3666,
-        0.3939
+        0.394
       ]
     },
     "persistence": {
       "label": "Range",
       "horizon": 20,
-      "days": 1398,
+      "days": 1399,
       "held": 290,
-      "base_rate": 0.1664,
+      "base_rate": 0.1665,
       "spells": 558,
       "median_spell": 2.0,
       "streak": 4,
       "history_sessions": 8470,
-      "value": 0.2074
+      "value": 0.2073
     },
     "momentum_scale": {
       "sessions": 8461,
@@ -254,43 +254,43 @@
     "next_regime": {
       "label": "Range",
       "horizon": 20,
-      "days": 1398,
+      "days": 1399,
       "spells": 558,
       "history_sessions": 8470,
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.4685,
+          "share": 0.4682,
           "n": 655,
-          "base_rate": 0.384
+          "base_rate": 0.3839
         },
         {
           "label": "Range",
-          "share": 0.2074,
+          "share": 0.2073,
           "n": 290,
-          "base_rate": 0.1664
+          "base_rate": 0.1665
         },
         {
           "label": "Drifting Lower",
-          "share": 0.1595,
-          "n": 223,
+          "share": 0.1601,
+          "n": 224,
           "base_rate": 0.1325
         },
         {
           "label": "Bull Trend",
-          "share": 0.078,
+          "share": 0.0779,
           "n": 109,
           "base_rate": 0.1047
         },
         {
           "label": "Correction",
-          "share": 0.0351,
+          "share": 0.035,
           "n": 49,
           "base_rate": 0.066
         },
         {
           "label": "Pullback",
-          "share": 0.0258,
+          "share": 0.0257,
           "n": 36,
           "base_rate": 0.0201
         },
@@ -319,13 +319,13 @@
     "reversal": {
       "label": "Range",
       "horizon": 20,
-      "days": 1388,
-      "reversed": 657,
+      "days": 1389,
+      "reversed": 658,
       "spells": 558,
       "base_days": 8434,
       "base_rate": 0.4551,
       "trailing_20d": 0.00688,
-      "value": 0.4733
+      "value": 0.4737
     },
     "analog_next": {
       "horizon": 20,
