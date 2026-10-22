@@ -8,41 +8,41 @@
       "horizon": "120d",
       "n": 1001,
       "predicted_mean": 0.5331959560439556,
-      "realized_mean": 0.191088643356643,
-      "ratio": 0.35838351958710285,
+      "realized_mean": 0.1911785634365631,
+      "ratio": 0.3585521631765765,
       "beat_rate": 0.2037962037962038,
-      "correlation": 0.03426653564625319,
+      "correlation": 0.034215915073495244,
       "realized_p10": -0.271375
     },
     "20d": {
       "horizon": "20d",
       "n": 6317,
       "predicted_mean": 0.09303755136932079,
-      "realized_mean": 0.005486242203577583,
-      "ratio": 0.05896804164373866,
+      "realized_mean": 0.005519409213234064,
+      "ratio": 0.05932453221306611,
       "beat_rate": 0.26056672471109704,
-      "correlation": 0.001516218425673819,
+      "correlation": 0.0016144257044332455,
       "realized_p10": -0.1649398
     },
     "5d": {
       "horizon": "5d",
       "n": 631,
       "predicted_mean": 0.06932037400950877,
-      "realized_mean": -0.006169958795562604,
-      "ratio": -0.08900642680774143,
+      "realized_mean": -0.006051049128367676,
+      "ratio": -0.0872910629065222,
       "beat_rate": 0.18858954041204437,
-      "correlation": -0.020004955141644028,
+      "correlation": -0.019336771998781116,
       "realized_p10": -0.111714
     },
     "60d": {
       "horizon": "60d",
       "n": 4355,
       "predicted_mean": 0.18000156371986245,
-      "realized_mean": 0.03045581561423649,
-      "ratio": 0.16919750575964476,
+      "realized_mean": 0.030527986681974744,
+      "ratio": 0.1695984526528094,
       "beat_rate": 0.2574052812858783,
-      "correlation": 0.10396260783394044,
-      "realized_p10": -0.2502622
+      "correlation": 0.10392927690137062,
+      "realized_p10": -0.2491848
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
