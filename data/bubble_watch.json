@@ -406,7 +406,7 @@
     "pct_doubled": 3.61,
     "pct_halved": 1.81,
     "median_ret": 10.13,
-    "sp500_ret": 13.31
+    "sp500_ret": 13.17
    },
    "ttm_path": [
     {
@@ -794,7 +794,7 @@
      "pct_doubled": 3.61,
      "pct_halved": 1.81,
      "median_ret": 10.13,
-     "sp500_ret": 13.31
+     "sp500_ret": 13.17
     }
    ],
    "spx": [
@@ -1612,7 +1612,7 @@
     ],
     [
      "2026-10-23",
-     7635.15
+     7626.1
     ]
    ],
    "path": [
@@ -1912,10 +1912,10 @@
     },
     {
      "date": "2026-10-23",
-     "pct_doubled": 4.01,
+     "pct_doubled": 3.81,
      "pct_halved": 1.0,
-     "median_ret": 9.13,
-     "sp500_ret": 11.54
+     "median_ret": 9.62,
+     "sp500_ret": 11.4
     }
    ],
    "year": 2026,
@@ -1923,28 +1923,28 @@
    "n_members": 503,
    "n_with_data": 499,
    "coverage_pct": 99.2,
-   "pct_doubled": 4.01,
+   "pct_doubled": 3.81,
    "pct_halved": 1.0,
-   "n_doubled": 20,
+   "n_doubled": 19,
    "n_halved": 5,
    "pct_up50": 8.42,
    "pct_down30": 5.41,
-   "median_ret": 9.13,
-   "sp500_ret": 11.54,
-   "nasdaq_ret": 11.92,
+   "median_ret": 9.62,
+   "sp500_ret": 11.4,
+   "nasdaq_ret": 11.7,
    "top5": {
-    "MRNA": 5.825,
-    "SNDK": 4.33,
-    "DELL": 2.704,
-    "MU": 2.1,
-    "MPC": 1.864
+    "MRNA": 5.743,
+    "SNDK": 4.194,
+    "DELL": 2.664,
+    "MU": 2.071,
+    "MPC": 1.838
    },
    "bottom5": {
     "TTD": -0.657,
-    "APP": -0.609,
-    "BSX": -0.524,
-    "LULU": -0.521,
-    "FICO": -0.518
+    "APP": -0.614,
+    "LULU": -0.524,
+    "BSX": -0.52,
+    "FICO": -0.52
    }
   }
  ]
