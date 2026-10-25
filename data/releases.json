@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-24",
+ "as_of": "2026-10-25",
  "ahead_days": 45,
  "missing": [],
  "releases": [
@@ -100,6 +100,13 @@
    "name": "Trade balance",
    "agency": "BEA",
    "importance": 1
+  },
+  {
+   "date": "2026-12-09",
+   "time": "14:00",
+   "name": "FOMC decision + projections",
+   "agency": "Fed",
+   "importance": 3
   }
  ]
 }
