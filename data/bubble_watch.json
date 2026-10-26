@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-25",
+ "as_of": "2026-10-26",
  "meta": {
   "built": "2026-07-13",
   "method": "pct of point-in-time S&P 500 members whose adjusted close doubled (>=+100%) or halved (<=-50%) over the calendar year",
@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-10-23",
-    "from": "2025-10-23",
+    "date": "2026-10-26",
+    "from": "2025-10-24",
     "n": 498,
-    "pct_doubled": 3.61,
-    "pct_halved": 1.81,
-    "median_ret": 9.98,
-    "sp500_ret": 13.14
+    "pct_doubled": 3.82,
+    "pct_halved": 2.41,
+    "median_ret": 10.12,
+    "sp500_ret": 12.64
    },
    "ttm_path": [
     {
@@ -795,6 +795,15 @@
      "pct_halved": 1.81,
      "median_ret": 9.98,
      "sp500_ret": 13.14
+    },
+    {
+     "date": "2026-10-26",
+     "from": "2025-10-24",
+     "n": 498,
+     "pct_doubled": 3.82,
+     "pct_halved": 2.41,
+     "median_ret": 10.12,
+     "sp500_ret": 12.64
     }
    ],
    "spx": [
@@ -1613,6 +1622,10 @@
     [
      "2026-10-23",
      7623.68
+    ],
+    [
+     "2026-10-26",
+     7650.22
     ]
    ],
    "path": [
@@ -1916,6 +1929,13 @@
      "pct_halved": 1.0,
      "median_ret": 9.42,
      "sp500_ret": 11.37
+    },
+    {
+     "date": "2026-10-26",
+     "pct_doubled": 3.81,
+     "pct_halved": 1.0,
+     "median_ret": 9.46,
+     "sp500_ret": 11.76
     }
    ],
    "year": 2026,
@@ -1923,28 +1943,28 @@
    "n_members": 503,
    "n_with_data": 499,
    "coverage_pct": 99.2,
-   "pct_doubled": 3.61,
+   "pct_doubled": 3.81,
    "pct_halved": 1.0,
-   "n_doubled": 18,
+   "n_doubled": 19,
    "n_halved": 5,
-   "pct_up50": 8.42,
-   "pct_down30": 5.41,
-   "median_ret": 9.42,
-   "sp500_ret": 11.37,
-   "nasdaq_ret": 11.67,
+   "pct_up50": 8.62,
+   "pct_down30": 5.61,
+   "median_ret": 9.46,
+   "sp500_ret": 11.76,
+   "nasdaq_ret": 11.97,
    "top5": {
-    "MRNA": 5.785,
-    "SNDK": 4.215,
-    "DELL": 2.664,
-    "MU": 2.077,
-    "MPC": 1.844
+    "MRNA": 5.353,
+    "SNDK": 4.325,
+    "DELL": 2.734,
+    "MU": 2.169,
+    "MPC": 1.89
    },
    "bottom5": {
-    "TTD": -0.658,
-    "APP": -0.614,
-    "LULU": -0.524,
-    "BSX": -0.521,
-    "FICO": -0.518
+    "TTD": -0.662,
+    "APP": -0.619,
+    "FICO": -0.546,
+    "BSX": -0.522,
+    "LULU": -0.509
    }
   }
  ]

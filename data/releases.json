@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-25",
+ "as_of": "2026-10-26",
  "ahead_days": 45,
  "missing": [],
  "releases": [
@@ -106,6 +106,13 @@
    "time": "14:00",
    "name": "FOMC decision + projections",
    "agency": "Fed",
+   "importance": 3
+  },
+  {
+   "date": "2026-12-10",
+   "time": "08:30",
+   "name": "CPI",
+   "agency": "BLS",
    "importance": 3
   }
  ]
