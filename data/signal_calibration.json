@@ -2,47 +2,47 @@
   "resolved": 12800,
   "first_run": "2026-02-23",
   "last_run": "2026-10-19",
-  "beat_rate": 0.25265625,
+  "beat_rate": 0.252734375,
   "horizons": {
     "120d": {
       "horizon": "120d",
       "n": 1041,
       "predicted_mean": 0.5285125072046105,
-      "realized_mean": 0.18272789721421673,
-      "ratio": 0.345739967783723,
+      "realized_mean": 0.18266736215177676,
+      "ratio": 0.3456254292219771,
       "beat_rate": 0.2026897214217099,
-      "correlation": 0.043522699101549926,
+      "correlation": 0.043612222658478236,
       "realized_p10": -0.275534
     },
     "20d": {
       "horizon": "20d",
       "n": 6595,
       "predicted_mean": 0.09269539878695973,
-      "realized_mean": 0.005892892949203879,
-      "ratio": 0.06357265868986027,
-      "beat_rate": 0.26444275966641395,
-      "correlation": 0.004913005995306853,
+      "realized_mean": 0.005832097801364604,
+      "ratio": 0.06291679929840331,
+      "beat_rate": 0.26459438968915844,
+      "correlation": 0.005007159406372469,
       "realized_p10": -0.16551680000000002
     },
     "5d": {
       "horizon": "5d",
       "n": 658,
       "predicted_mean": 0.06890082066869305,
-      "realized_mean": -0.005291150455927059,
-      "ratio": -0.07679372182472764,
+      "realized_mean": -0.0053779057750759935,
+      "ratio": -0.07805285514573836,
       "beat_rate": 0.1899696048632219,
-      "correlation": -0.018951574664588043,
+      "correlation": -0.01862801194522012,
       "realized_p10": -0.1071453
     },
     "60d": {
       "horizon": "60d",
       "n": 4506,
       "predicted_mean": 0.17927620239680445,
-      "realized_mean": 0.029593674434087888,
-      "ratio": 0.1650730773992309,
+      "realized_mean": 0.029578679538393285,
+      "ratio": 0.16498943609327882,
       "beat_rate": 0.2561029738126942,
-      "correlation": 0.10250431816605772,
-      "realized_p10": -0.247472
+      "correlation": 0.10253310686127813,
+      "realized_p10": -0.2475435
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
