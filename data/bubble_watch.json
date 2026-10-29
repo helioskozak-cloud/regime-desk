@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-10-28",
-    "from": "2025-10-28",
+    "date": "2026-10-29",
+    "from": "2025-10-29",
     "n": 499,
-    "pct_doubled": 3.81,
-    "pct_halved": 2.4,
-    "median_ret": 9.96,
-    "sp500_ret": 12.38
+    "pct_doubled": 3.41,
+    "pct_halved": 1.6,
+    "median_ret": 12.95,
+    "sp500_ret": 11.76
    },
    "ttm_path": [
     {
@@ -797,13 +797,13 @@
      "sp500_ret": 13.14
     },
     {
-     "date": "2026-10-28",
-     "from": "2025-10-28",
+     "date": "2026-10-29",
+     "from": "2025-10-29",
      "n": 499,
-     "pct_doubled": 3.81,
-     "pct_halved": 2.4,
-     "median_ret": 9.96,
-     "sp500_ret": 12.38
+     "pct_doubled": 3.41,
+     "pct_halved": 1.6,
+     "median_ret": 12.95,
+     "sp500_ret": 11.76
     }
    ],
    "spx": [
@@ -1634,6 +1634,10 @@
     [
      "2026-10-28",
      7743.98
+    ],
+    [
+     "2026-10-29",
+     7700.95
     ]
    ],
    "path": [
@@ -1939,11 +1943,11 @@
      "sp500_ret": 11.37
     },
     {
-     "date": "2026-10-28",
-     "pct_doubled": 4.01,
-     "pct_halved": 1.0,
-     "median_ret": 9.65,
-     "sp500_ret": 13.13
+     "date": "2026-10-29",
+     "pct_doubled": 3.61,
+     "pct_halved": 1.2,
+     "median_ret": 10.65,
+     "sp500_ret": 12.5
     }
    ],
    "year": 2026,
@@ -1951,28 +1955,28 @@
    "n_members": 503,
    "n_with_data": 499,
    "coverage_pct": 99.2,
-   "pct_doubled": 4.01,
-   "pct_halved": 1.0,
-   "n_doubled": 20,
-   "n_halved": 5,
-   "pct_up50": 9.42,
-   "pct_down30": 5.21,
-   "median_ret": 9.65,
-   "sp500_ret": 13.13,
-   "nasdaq_ret": 14.23,
+   "pct_doubled": 3.61,
+   "pct_halved": 1.2,
+   "n_doubled": 18,
+   "n_halved": 6,
+   "pct_up50": 10.22,
+   "pct_down30": 5.81,
+   "median_ret": 10.65,
+   "sp500_ret": 12.5,
+   "nasdaq_ret": 12.19,
    "top5": {
-    "MRNA": 6.052,
-    "SNDK": 4.497,
-    "DELL": 3.03,
-    "MU": 2.257,
-    "MRVL": 1.871
+    "MRNA": 6.45,
+    "SNDK": 4.694,
+    "DELL": 2.899,
+    "MU": 2.34,
+    "MPC": 1.744
    },
    "bottom5": {
-    "TTD": -0.665,
-    "APP": -0.61,
-    "FICO": -0.591,
-    "BSX": -0.527,
-    "CSGP": -0.524
+    "TTD": -0.668,
+    "APP": -0.624,
+    "CSGP": -0.595,
+    "FICO": -0.588,
+    "BSX": -0.552
    }
   }
  ]
