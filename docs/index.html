@@ -59148,7 +59148,7 @@ window.SNAPSHOT = {
   "narrative": {
     "headline": "Range regime \u2014 Healthcare, Technology leading",
     "constructive": "Analog matching finds range conditions historically favor Healthcare, Technology, Utilities with positive conditional edge.",
-    "risk": "No strongly negative sector signals. From days like today, SPY's next 20 sessions reversed 47% of the time, against 46% on any day.",
+    "risk": "No strongly negative sector signals. From the 1,392 past Range days since 1993, SPY's next 20 sessions reversed 47% of the time, against 46% on any day.",
     "plain_english": "The market is in a range phase. Historical analogs suggest Healthcare, Technology tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   },
   "scanner": {
@@ -59490,8 +59490,10 @@ function _cardNextRegime(){
   // says how often it STAYS, rather than printing the label a second time.
   const stays=top&&L.label&&top===L.label;
   const hero=_rdHero(`In ${L.horizon||20} sessions`,!top?'—':stays&&topRow?`Stays · ${p0(topRow.share)}`:top,
-    topRow?(stays?`still ${top} on ${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`
-                 :`${p0(topRow.share)} of past days like today · any day ${p0(topRow.base_rate)}`):(L.reason||''),
+    // Named by the label and the count (owner 10-29: "days like today" read as the
+    // analog-day model, retired 10-08). This is every past day with today's label.
+    topRow?(stays?`still ${top} on ${p0(topRow.share)} of the ${(L.days||0).toLocaleString()} past ${L.label} days · any day ${p0(topRow.base_rate)}`
+                 :`${p0(topRow.share)} of the ${(L.days||0).toLocaleString()} past ${L.label} days · any day ${p0(topRow.base_rate)}`):(L.reason||''),
     top?col(top):'#5b9dff',null,'why-next');
   const leave=(L.rows||[]).filter(r=>r.label!==L.label);
   const leaveSum=leave.reduce((a,r)=>a+r.share,0);

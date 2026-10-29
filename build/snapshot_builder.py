@@ -338,7 +338,12 @@ def _reversal_sentence(spy):
     r = (spy.get("measures") or {}).get("reversal") or {}
     if not isinstance(r.get("value"), (int, float)) or not isinstance(r.get("base_rate"), (int, float)):
         return ""
-    return (f"From days like today, SPY's next {r.get('horizon', 20)} sessions reversed "
+    # Named by the label and the count, not "days like today": that read as the
+    # analog-day model, retired 2026-10-08 (owner, 10-29).
+    lab, n = r.get("label"), r.get("days")
+    who = (f"From the {n:,} past {lab} days since 1993" if lab and isinstance(n, int)
+           else f"From past {lab} days" if lab else "From past days in today's regime")
+    return (f"{who}, SPY's next {r.get('horizon', 20)} sessions reversed "
             f"{r['value']*100:.0f}% of the time, against {r['base_rate']*100:.0f}% on any day.")
 
 
