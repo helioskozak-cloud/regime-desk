@@ -93,6 +93,10 @@ def _report_frozen(exc: Exception) -> None:
     print(f"::error title=Dashboard frozen::docs/index.html was NOT updated - "
           f"every path rolled back, so the page keeps serving its previous "
           f"build until this is fixed. Cause: {detail}")
+    # 2026-10-29: the annotation alone went unseen for nine days (a cross-origin
+    # tv.js froze every build from 10-20). The marker lets the workflow's LAST
+    # step fail the run, after the data is committed.
+    (ROOT / ".build_frozen").write_text(detail, encoding="utf-8")
 
 
 def _report_stale_snapshot(exc: Exception) -> None:

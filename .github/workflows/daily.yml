@@ -210,3 +210,13 @@ jobs:
             echo "::warning title=Re-running on new code::code changed on main during the scan; queued a fresh run"
             gh workflow run daily.yml --ref main
           fi
+
+      # A frozen dashboard fails the run (red, emailed) once the data is safely
+      # committed: an ::error:: annotation on a green run went unseen 10-20..10-29.
+      - name: Fail if the dashboard froze
+        if: always()
+        run: |
+          if [ -f .build_frozen ]; then
+            echo "::error title=Dashboard frozen::$(cat .build_frozen)"
+            exit 1
+          fi
