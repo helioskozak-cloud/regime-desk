@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-29",
+  "as_of": "2026-10-28",
   "features": [
     "return_5",
     "return_20",
@@ -8,255 +8,231 @@
   ],
   "episode_gap_days": 14,
   "n_days": 30,
-  "n_episodes": 12,
+  "n_episodes": 9,
   "days": [
     {
       "date": "2024-01-16",
-      "distance": 0.4732,
+      "distance": 0.2173,
       "episode": 0
     },
     {
       "date": "2024-01-17",
-      "distance": 0.5506,
+      "distance": 0.2191,
       "episode": 0
     },
     {
+      "date": "2024-01-18",
+      "distance": 0.3295,
+      "episode": 0
+    },
+    {
+      "date": "2024-03-15",
+      "distance": 0.2865,
+      "episode": 1
+    },
+    {
       "date": "2024-04-02",
-      "distance": 0.5463,
-      "episode": 1
-    },
-    {
-      "date": "2024-04-09",
-      "distance": 0.5021,
-      "episode": 1
-    },
-    {
-      "date": "2024-04-11",
-      "distance": 0.1631,
-      "episode": 1
-    },
-    {
-      "date": "2024-10-30",
-      "distance": 0.4639,
+      "distance": 0.1074,
       "episode": 2
     },
     {
-      "date": "2024-12-09",
-      "distance": 0.5189,
+      "date": "2024-04-08",
+      "distance": 0.3125,
+      "episode": 2
+    },
+    {
+      "date": "2024-04-09",
+      "distance": 0.2115,
+      "episode": 2
+    },
+    {
+      "date": "2024-10-23",
+      "distance": 0.348,
       "episode": 3
     },
     {
-      "date": "2025-02-20",
-      "distance": 0.3901,
+      "date": "2024-10-24",
+      "distance": 0.2312,
+      "episode": 3
+    },
+    {
+      "date": "2024-10-28",
+      "distance": 0.2225,
+      "episode": 3
+    },
+    {
+      "date": "2024-10-30",
+      "distance": 0.3365,
+      "episode": 3
+    },
+    {
+      "date": "2024-12-10",
+      "distance": 0.3454,
       "episode": 4
     },
     {
+      "date": "2024-12-12",
+      "distance": 0.2864,
+      "episode": 4
+    },
+    {
+      "date": "2025-08-06",
+      "distance": 0.1197,
+      "episode": 5
+    },
+    {
       "date": "2025-08-07",
-      "distance": 0.4051,
+      "distance": 0.1063,
       "episode": 5
     },
     {
-      "date": "2025-08-11",
-      "distance": 0.4982,
+      "date": "2025-08-19",
+      "distance": 0.2612,
       "episode": 5
     },
     {
-      "date": "2025-10-22",
-      "distance": 0.511,
+      "date": "2025-08-25",
+      "distance": 0.348,
+      "episode": 5
+    },
+    {
+      "date": "2025-09-02",
+      "distance": 0.222,
+      "episode": 5
+    },
+    {
+      "date": "2025-09-03",
+      "distance": 0.3619,
+      "episode": 5
+    },
+    {
+      "date": "2025-12-15",
+      "distance": 0.3504,
       "episode": 6
     },
     {
-      "date": "2025-12-09",
-      "distance": 0.5061,
+      "date": "2025-12-30",
+      "distance": 0.3269,
       "episode": 7
     },
     {
-      "date": "2025-12-29",
-      "distance": 0.4289,
-      "episode": 8
-    },
-    {
-      "date": "2025-12-30",
-      "distance": 0.4407,
-      "episode": 8
-    },
-    {
-      "date": "2026-01-06",
-      "distance": 0.4994,
-      "episode": 8
+      "date": "2026-01-05",
+      "distance": 0.288,
+      "episode": 7
     },
     {
       "date": "2026-01-07",
-      "distance": 0.4181,
-      "episode": 8
-    },
-    {
-      "date": "2026-01-08",
-      "distance": 0.4395,
-      "episode": 8
-    },
-    {
-      "date": "2026-01-12",
-      "distance": 0.5298,
-      "episode": 8
+      "distance": 0.3293,
+      "episode": 7
     },
     {
       "date": "2026-01-14",
-      "distance": 0.5064,
-      "episode": 8
+      "distance": 0.2544,
+      "episode": 7
     },
     {
       "date": "2026-01-22",
-      "distance": 0.4918,
-      "episode": 8
+      "distance": 0.2131,
+      "episode": 7
+    },
+    {
+      "date": "2026-01-23",
+      "distance": 0.3586,
+      "episode": 7
     },
     {
       "date": "2026-01-26",
-      "distance": 0.4562,
-      "episode": 8
-    },
-    {
-      "date": "2026-01-29",
-      "distance": 0.4041,
-      "episode": 8
+      "distance": 0.3613,
+      "episode": 7
     },
     {
       "date": "2026-01-30",
-      "distance": 0.3873,
-      "episode": 8
-    },
-    {
-      "date": "2026-02-20",
-      "distance": 0.4133,
-      "episode": 9
-    },
-    {
-      "date": "2026-02-24",
-      "distance": 0.5328,
-      "episode": 9
-    },
-    {
-      "date": "2026-07-31",
-      "distance": 0.4224,
-      "episode": 10
+      "distance": 0.2983,
+      "episode": 7
     },
     {
       "date": "2026-08-31",
-      "distance": 0.222,
-      "episode": 11
+      "distance": 0.3602,
+      "episode": 8
     },
     {
       "date": "2026-09-03",
-      "distance": 0.4099,
-      "episode": 11
-    },
-    {
-      "date": "2026-09-04",
-      "distance": 0.5208,
-      "episode": 11
-    },
-    {
-      "date": "2026-09-17",
-      "distance": 0.5162,
-      "episode": 11
+      "distance": 0.3649,
+      "episode": 8
     }
   ],
   "episodes": [
     {
       "episode": 0,
       "first": "2024-01-16",
-      "last": "2024-01-17",
-      "n_days": 2,
+      "last": "2024-01-18",
+      "n_days": 3,
       "anchor": "2024-01-16",
-      "anchor_distance": 0.4732
+      "anchor_distance": 0.2173
     },
     {
       "episode": 1,
-      "first": "2024-04-02",
-      "last": "2024-04-11",
-      "n_days": 3,
-      "anchor": "2024-04-11",
-      "anchor_distance": 0.1631
+      "first": "2024-03-15",
+      "last": "2024-03-15",
+      "n_days": 1,
+      "anchor": "2024-03-15",
+      "anchor_distance": 0.2865
     },
     {
       "episode": 2,
-      "first": "2024-10-30",
-      "last": "2024-10-30",
-      "n_days": 1,
-      "anchor": "2024-10-30",
-      "anchor_distance": 0.4639
+      "first": "2024-04-02",
+      "last": "2024-04-09",
+      "n_days": 3,
+      "anchor": "2024-04-02",
+      "anchor_distance": 0.1074
     },
     {
       "episode": 3,
-      "first": "2024-12-09",
-      "last": "2024-12-09",
-      "n_days": 1,
-      "anchor": "2024-12-09",
-      "anchor_distance": 0.5189
+      "first": "2024-10-23",
+      "last": "2024-10-30",
+      "n_days": 4,
+      "anchor": "2024-10-28",
+      "anchor_distance": 0.2225
     },
     {
       "episode": 4,
-      "first": "2025-02-20",
-      "last": "2025-02-20",
-      "n_days": 1,
-      "anchor": "2025-02-20",
-      "anchor_distance": 0.3901
+      "first": "2024-12-10",
+      "last": "2024-12-12",
+      "n_days": 2,
+      "anchor": "2024-12-12",
+      "anchor_distance": 0.2864
     },
     {
       "episode": 5,
-      "first": "2025-08-07",
-      "last": "2025-08-11",
-      "n_days": 2,
+      "first": "2025-08-06",
+      "last": "2025-09-03",
+      "n_days": 6,
       "anchor": "2025-08-07",
-      "anchor_distance": 0.4051
+      "anchor_distance": 0.1063
     },
     {
       "episode": 6,
-      "first": "2025-10-22",
-      "last": "2025-10-22",
+      "first": "2025-12-15",
+      "last": "2025-12-15",
       "n_days": 1,
-      "anchor": "2025-10-22",
-      "anchor_distance": 0.511
+      "anchor": "2025-12-15",
+      "anchor_distance": 0.3504
     },
     {
       "episode": 7,
-      "first": "2025-12-09",
-      "last": "2025-12-09",
-      "n_days": 1,
-      "anchor": "2025-12-09",
-      "anchor_distance": 0.5061
+      "first": "2025-12-30",
+      "last": "2026-01-30",
+      "n_days": 8,
+      "anchor": "2026-01-22",
+      "anchor_distance": 0.2131
     },
     {
       "episode": 8,
-      "first": "2025-12-29",
-      "last": "2026-01-30",
-      "n_days": 11,
-      "anchor": "2026-01-30",
-      "anchor_distance": 0.3873
-    },
-    {
-      "episode": 9,
-      "first": "2026-02-20",
-      "last": "2026-02-24",
-      "n_days": 2,
-      "anchor": "2026-02-20",
-      "anchor_distance": 0.4133
-    },
-    {
-      "episode": 10,
-      "first": "2026-07-31",
-      "last": "2026-07-31",
-      "n_days": 1,
-      "anchor": "2026-07-31",
-      "anchor_distance": 0.4224
-    },
-    {
-      "episode": 11,
       "first": "2026-08-31",
-      "last": "2026-09-17",
-      "n_days": 4,
+      "last": "2026-09-03",
+      "n_days": 2,
       "anchor": "2026-08-31",
-      "anchor_distance": 0.222
+      "anchor_distance": 0.3602
     }
   ],
   "note": "The past SPY sessions closest to today on 5- and 20-day return, 20-day volatility and drawdown from the 60-day high \u2014 the same days market_signals.csv is conditioned on. Episodes collapse adjacent days; each episode's anchor is its closest day."
