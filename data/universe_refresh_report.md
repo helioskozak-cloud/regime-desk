@@ -1,15 +1,18 @@
-# Universe refresh — 2026-10-23
+# Universe refresh — 2026-10-31
 
-- universe before: **3,642**
-- currently listed: 12,884
-- additions clearing $15,000,000/day: **4**
+- universe before: **3,646**
+- currently listed: 12,871
+- additions clearing $15,000,000/day: **7**
 - removals (absent from listings AND no recent price): **0**
 
 ## Added
 
 | ticker | avg $ vol (21d) |
 |---|---:|
-| LYCA | $68,417,520 |
-| SATS | $55,060,730 |
-| FIFT | $29,652,623 |
-| TSIE | $22,955,272 |
+| METAM | $1,732,837,728 |
+| MSGK | $146,061,629 |
+| SAIQ | $61,306,901 |
+| BBTX | $32,978,734 |
+| MSGR | $27,528,667 |
+| BHAIU | $24,779,321 |
+| ASPE | $19,670,629 |
