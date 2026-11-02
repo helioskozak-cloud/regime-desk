@@ -22,7 +22,7 @@ analog_matches format (optional field in spy_state.json, written by ci_scan.py):
 import json
 import math
 import os
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -359,6 +359,8 @@ def build_snapshot(ledger=None):
     ledger = ledger if ledger is not None else _InputLedger()
     snap = json.loads(json.dumps(DEFAULTS))
     snap["generated"] = str(date.today())
+    # The build's moment, so the page can say WHEN it refreshed, not just the day (owner 2026-11-02).
+    snap["generated_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     signals_path = DATA / "market_signals.csv"
     theme_path = DATA / "theme_summary.csv"

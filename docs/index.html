@@ -62692,9 +62692,17 @@ themeBtn.onclick=()=>{const isLight=document.documentElement.classList.toggle('l
 nav.after(themeBtn);
 
 // Stale warning in topbar
-const genDate=new Date(S.generated);
+// Owner 2026-11-02: the time of the refresh, in ET, how long ago, and the last
+// market session its prices cover. Snapshots before generated_at show the day.
+const genAt=S.generated_at?new Date(S.generated_at):null;
+const genDate=genAt||new Date(S.generated);
 const stale=(Date.now()-genDate)/86400000>2;
-document.getElementById("ts").innerHTML=`Generated: ${S.generated}${stale?' <span style="color:#d4a72c;font-weight:600">● stale</span>':''}`;
+const _ago=ms=>{const m=Math.round(ms/60000);return m<60?`${m} min ago`:m<2880?`${Math.round(m/60)} h ago`:`${Math.round(m/1440)} days ago`;};
+const _thru=((S.spy||{}).measures||{}).breadth?.asof;
+const _tsTxt=genAt?genAt.toLocaleString('en-US',{timeZone:'America/New_York',weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' ET':S.generated;
+document.getElementById("ts").innerHTML=`Refreshed ${_tsTxt}${genAt?` (${_ago(Date.now()-genAt)})`:''}`
+  +(_thru?` · prices through ${new Date(_thru+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} close`:'')
+  +(stale?' <span style="color:#d4a72c;font-weight:600">● stale</span>':'');
 
 // Sparkline helper
 function sparkline(history,key,w=40,h=14){
