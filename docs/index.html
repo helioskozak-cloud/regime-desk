@@ -66129,6 +66129,21 @@ window._rdAsk=function(q){
     var tip=document.getElementById('rd-tip'); if(tip) tip.style.display='none';
     window._rdChart(a.getAttribute('data-key')||a.getAttribute('data-ticker'), a.getAttribute('data-label')||'');
   },true);
+  // Any company ticker opens its own chart too (owner, 2026-11-02: "the charts
+  // are working at the top of regime desk but not for the individual tickers").
+  // Inside Headlines a click still filters to the ticker; shift-click still
+  // opens its headlines and alt-click still copies it (the handlers below).
+  document.addEventListener('click',function(e){
+    if(e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
+    var el=e.target.closest&&e.target.closest('[data-ticker],[data-tk]');
+    if(!el||el.closest('#mkt-strip')||el.closest('.nd-card')) return;
+    if(e.target.closest('a[href],button,input,select,textarea')&&!el.contains(e.target.closest('a[href],button,input,select,textarea'))) return;
+    var tk=(el.getAttribute('data-ticker')||el.getAttribute('data-tk')||'').trim().toUpperCase();
+    if(!/^[A-Z][A-Z0-9.\-]{0,9}$/.test(tk)) return;
+    e.preventDefault(); e.stopPropagation();
+    var tip=document.getElementById('rd-tip'); if(tip) tip.style.display='none';
+    window._rdChart(tk, tk);
+  },true);
 })();
 
 // ── Ticker hover tooltip ──────────────────────────────────────────────────────
@@ -66231,7 +66246,7 @@ window._rdAsk=function(q){
       })()
       +'</div>'
       +'<div style="margin-top:8px;padding-top:6px;border-top:1px solid #141414;color:#6f6f6f;font-size:10px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;line-height:1.55">'
-      +  '<div style="color:#5b9dff">shift-click → its headlines</div>'
+      +  '<div style="color:#5b9dff">click → chart · shift-click → its headlines</div>'
       +'</div>';
     pos(cx,cy);
     tip.style.display='block';
