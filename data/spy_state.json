@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.00683,
-  "ret_20d": -0.01896,
-  "vol_20d": 0.00726,
-  "drawdown_60d": -0.02432,
+  "ret_5d": -0.00912,
+  "ret_20d": -0.02122,
+  "vol_20d": 0.00716,
+  "drawdown_60d": -0.02657,
   "history": [
     {
       "ret_5d": 0.01948,
@@ -119,48 +119,48 @@
       "drawdown_60d": -0.03
     },
     {
-      "ret_5d": -0.00683,
-      "ret_20d": -0.01896,
-      "vol_20d": 0.00726,
-      "drawdown_60d": -0.02432
+      "ret_5d": -0.00912,
+      "ret_20d": -0.02122,
+      "vol_20d": 0.00716,
+      "drawdown_60d": -0.02657
     }
   ],
   "regime_streak": 2,
   "analog_matches": [
     {
-      "date": "2026-03-10",
+      "date": "2026-03-09",
       "regime": "Drifting Lower",
-      "spy_ret_20d": 0.001,
-      "breadth": 0.387,
-      "distance": 0.2009
+      "spy_ret_20d": -0.0254,
+      "breadth": 0.3991,
+      "distance": 0.1862
     },
     {
       "date": "2025-02-28",
       "regime": "Drifting Lower",
       "spy_ret_20d": -0.062,
       "breadth": 0.4755,
-      "distance": 0.3305
+      "distance": 0.2705
+    },
+    {
+      "date": "2026-09-15",
+      "regime": "Drifting Lower",
+      "spy_ret_20d": 0.0298,
+      "breadth": 0.3428,
+      "distance": 0.3602
     },
     {
       "date": "2026-07-20",
       "regime": "Range",
       "spy_ret_20d": 0.0412,
       "breadth": 0.5538,
-      "distance": 0.4122
-    },
-    {
-      "date": "2026-09-10",
-      "regime": "Drifting Lower",
-      "spy_ret_20d": 0.0238,
-      "breadth": 0.3669,
-      "distance": 0.4277
+      "distance": 0.4845
     },
     {
       "date": "2024-12-30",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0286,
       "breadth": 0.2861,
-      "distance": 0.4668
+      "distance": 0.4985
     }
   ],
   "analog_forward": {
@@ -178,18 +178,18 @@
       "p10": -0.043,
       "p25": -0.0324,
       "p50": 0.007,
-      "p75": 0.0248,
+      "p75": 0.0264,
       "p90": 0.0409
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3383,
+      "n": 3392,
       "n_typical": 3397,
       "days": 703,
       "asof": "2026-11-02",
-      "value": 0.5096,
+      "value": 0.5124,
       "range30": {
         "lo": 0.2559,
         "hi": 0.5204
@@ -198,7 +198,7 @@
         "lo": 0.2559,
         "hi": 0.6817
       },
-      "pct_rank": 0.2632,
+      "pct_rank": 0.2674,
       "history": [
         0.3214,
         0.2926,
@@ -219,7 +219,7 @@
         0.4652,
         0.5204,
         0.4593,
-        0.5096
+        0.5124
       ]
     },
     "persistence": {
@@ -330,7 +330,7 @@
       "spells": 304,
       "base_days": 8442,
       "base_rate": 0.4551,
-      "trailing_20d": -0.01875,
+      "trailing_20d": -0.02101,
       "value": 0.6946
     },
     "analog_next": {
