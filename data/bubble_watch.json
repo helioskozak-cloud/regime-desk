@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-01",
+ "as_of": "2026-11-02",
  "meta": {
   "built": "2026-07-13",
   "method": "pct of point-in-time S&P 500 members whose adjusted close doubled (>=+100%) or halved (<=-50%) over the calendar year",
@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-10-30",
-    "from": "2025-10-30",
+    "date": "2026-11-02",
+    "from": "2025-10-31",
     "n": 499,
-    "pct_doubled": 3.01,
-    "pct_halved": 1.8,
-    "median_ret": 13.88,
-    "sp500_ret": 11.11
+    "pct_doubled": 2.61,
+    "pct_halved": 2.0,
+    "median_ret": 14.72,
+    "sp500_ret": 11.34
    },
    "ttm_path": [
     {
@@ -804,6 +804,15 @@
      "pct_halved": 1.8,
      "median_ret": 13.88,
      "sp500_ret": 11.11
+    },
+    {
+     "date": "2026-11-02",
+     "from": "2025-10-31",
+     "n": 499,
+     "pct_doubled": 2.61,
+     "pct_halved": 2.0,
+     "median_ret": 14.72,
+     "sp500_ret": 11.34
     }
    ],
    "spx": [
@@ -1642,6 +1651,10 @@
     [
      "2026-10-30",
      7580.07
+    ],
+    [
+     "2026-11-02",
+     7615.81
     ]
    ],
    "path": [
@@ -1952,6 +1965,13 @@
      "pct_halved": 1.2,
      "median_ret": 10.51,
      "sp500_ret": 10.73
+    },
+    {
+     "date": "2026-11-02",
+     "pct_doubled": 3.01,
+     "pct_halved": 1.2,
+     "median_ret": 11.68,
+     "sp500_ret": 11.25
     }
    ],
    "year": 2026,
@@ -1964,23 +1984,23 @@
    "n_doubled": 15,
    "n_halved": 6,
    "pct_up50": 8.62,
-   "pct_down30": 5.81,
-   "median_ret": 10.51,
-   "sp500_ret": 10.73,
-   "nasdaq_ret": 9.44,
+   "pct_down30": 5.41,
+   "median_ret": 11.68,
+   "sp500_ret": 11.25,
+   "nasdaq_ret": 10.25,
    "top5": {
-    "MRNA": 6.518,
-    "SNDK": 3.848,
-    "DELL": 2.406,
-    "MU": 2.102,
-    "MPC": 1.766
+    "MRNA": 6.562,
+    "SNDK": 3.778,
+    "DELL": 2.312,
+    "MU": 2.094,
+    "MPC": 1.693
    },
    "bottom5": {
-    "TTD": -0.676,
-    "APP": -0.661,
-    "RDDT": -0.601,
-    "FICO": -0.579,
-    "BSX": -0.56
+    "TTD": -0.669,
+    "APP": -0.654,
+    "RDDT": -0.594,
+    "FICO": -0.58,
+    "BSX": -0.556
    }
   }
  ]
