@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.00773,
-  "ret_20d": -0.01985,
-  "vol_20d": 0.00721,
-  "drawdown_60d": -0.02521,
+  "ret_5d": -0.00683,
+  "ret_20d": -0.01896,
+  "vol_20d": 0.00726,
+  "drawdown_60d": -0.02432,
   "history": [
     {
       "ret_5d": 0.01948,
@@ -119,10 +119,10 @@
       "drawdown_60d": -0.03
     },
     {
-      "ret_5d": -0.00773,
-      "ret_20d": -0.01985,
-      "vol_20d": 0.00721,
-      "drawdown_60d": -0.02521
+      "ret_5d": -0.00683,
+      "ret_20d": -0.01896,
+      "vol_20d": 0.00726,
+      "drawdown_60d": -0.02432
     }
   ],
   "regime_streak": 2,
@@ -132,35 +132,35 @@
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.001,
       "breadth": 0.387,
-      "distance": 0.2058
+      "distance": 0.2009
     },
     {
       "date": "2025-02-28",
       "regime": "Drifting Lower",
       "spy_ret_20d": -0.062,
       "breadth": 0.4755,
-      "distance": 0.2988
-    },
-    {
-      "date": "2026-09-15",
-      "regime": "Drifting Lower",
-      "spy_ret_20d": 0.0298,
-      "breadth": 0.3428,
-      "distance": 0.3974
+      "distance": 0.3305
     },
     {
       "date": "2026-07-20",
       "regime": "Range",
       "spy_ret_20d": 0.0412,
       "breadth": 0.5538,
-      "distance": 0.4353
+      "distance": 0.4122
+    },
+    {
+      "date": "2026-09-10",
+      "regime": "Drifting Lower",
+      "spy_ret_20d": 0.0238,
+      "breadth": 0.3669,
+      "distance": 0.4277
     },
     {
       "date": "2024-12-30",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0286,
       "breadth": 0.2861,
-      "distance": 0.474
+      "distance": 0.4668
     }
   ],
   "analog_forward": {
@@ -178,18 +178,18 @@
       "p10": -0.043,
       "p25": -0.0324,
       "p50": 0.007,
-      "p75": 0.0264,
+      "p75": 0.0248,
       "p90": 0.0409
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3214,
+      "n": 3383,
       "n_typical": 3397,
       "days": 703,
       "asof": "2026-11-02",
-      "value": 0.4975,
+      "value": 0.5096,
       "range30": {
         "lo": 0.2559,
         "hi": 0.5204
@@ -198,7 +198,7 @@
         "lo": 0.2559,
         "hi": 0.6817
       },
-      "pct_rank": 0.2518,
+      "pct_rank": 0.2632,
       "history": [
         0.3214,
         0.2926,
@@ -219,7 +219,7 @@
         0.4652,
         0.5204,
         0.4593,
-        0.4975
+        0.5096
       ]
     },
     "persistence": {
@@ -246,7 +246,7 @@
       "vol": {
         "p40": 0.00844,
         "p50": 0.01126,
-        "p80": 0.02522,
+        "p80": 0.02521,
         "p95": 0.05246
       },
       "value": true
@@ -330,7 +330,7 @@
       "spells": 304,
       "base_days": 8442,
       "base_rate": 0.4551,
-      "trailing_20d": -0.0199,
+      "trailing_20d": -0.01875,
       "value": 0.6946
     },
     "analog_next": {
