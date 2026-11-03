@@ -8,41 +8,41 @@
       "horizon": "120d",
       "n": 1124,
       "predicted_mean": 0.5239470258007113,
-      "realized_mean": 0.1731698843416367,
-      "ratio": 0.33051029171697915,
+      "realized_mean": 0.1731555765124552,
+      "ratio": 0.3304829839387555,
       "beat_rate": 0.20373665480427047,
-      "correlation": 0.045497706974401475,
+      "correlation": 0.045491573461099326,
       "realized_p10": -0.27986599999999995
     },
     "20d": {
       "horizon": "20d",
       "n": 7428,
       "predicted_mean": 0.09198060729671517,
-      "realized_mean": 0.0029948630856219275,
-      "ratio": 0.03255972289855582,
+      "realized_mean": 0.0029229278406030764,
+      "ratio": 0.03177765320872654,
       "beat_rate": 0.265751211631664,
-      "correlation": 0.0035390118072399575,
-      "realized_p10": -0.1717956
+      "correlation": 0.0035421271467555183,
+      "realized_p10": -0.172087
     },
     "5d": {
       "horizon": "5d",
       "n": 681,
       "predicted_mean": 0.06900252129221736,
-      "realized_mean": -0.005244989720998538,
-      "ratio": -0.07601156628446429,
+      "realized_mean": -0.005260327459618214,
+      "ratio": -0.07623384422927622,
       "beat_rate": 0.18795888399412627,
-      "correlation": -0.016293280437371476,
+      "correlation": -0.016632377112860513,
       "realized_p10": -0.106455
     },
     "60d": {
       "horizon": "60d",
       "n": 4915,
       "predicted_mean": 0.17421707751780274,
-      "realized_mean": 0.025704704984740576,
-      "ratio": 0.14754411766615638,
+      "realized_mean": 0.02563431230925734,
+      "ratio": 0.1471400661432737,
       "beat_rate": 0.25839267548321465,
-      "correlation": 0.10296055321855968,
-      "realized_p10": -0.2535608
+      "correlation": 0.10306439346662911,
+      "realized_p10": -0.2543514
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
