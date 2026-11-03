@@ -185,11 +185,16 @@
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3393,
+      "n": 3404,
       "n_typical": 3398,
-      "days": 702,
-      "asof": "2026-11-02",
-      "value": 0.4913,
+      "days": 701,
+      "withheld": {
+        "date": "2026-11-02",
+        "n": 1254,
+        "reason": "it measured 1254 names against a typical 3398 \u2014 it had not finished loading"
+      },
+      "asof": "2026-10-30",
+      "value": 0.4592,
       "range30": {
         "lo": 0.2561,
         "hi": 0.5203
@@ -198,8 +203,9 @@
         "lo": 0.2561,
         "hi": 0.6818
       },
-      "pct_rank": 0.2464,
+      "pct_rank": 0.2111,
       "history": [
+        0.3189,
         0.3216,
         0.2928,
         0.2953,
@@ -218,8 +224,7 @@
         0.4637,
         0.465,
         0.5203,
-        0.4592,
-        0.4913
+        0.4592
       ]
     },
     "persistence": {
@@ -246,7 +251,7 @@
       "vol": {
         "p40": 0.00844,
         "p50": 0.01126,
-        "p80": 0.02521,
+        "p80": 0.02522,
         "p95": 0.05246
       },
       "value": true
@@ -262,7 +267,7 @@
           "label": "Calm Uptrend",
           "share": 0.442,
           "n": 495,
-          "base_rate": 0.3837
+          "base_rate": 0.3838
         },
         {
           "label": "Bull Trend",
@@ -274,7 +279,7 @@
           "label": "Range",
           "share": 0.125,
           "n": 140,
-          "base_rate": 0.1668
+          "base_rate": 0.1667
         },
         {
           "label": "Drifting Lower",
