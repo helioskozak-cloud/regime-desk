@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-11-03",
-    "from": "2025-11-03",
+    "date": "2026-11-04",
+    "from": "2025-11-04",
     "n": 498,
     "pct_doubled": 2.41,
-    "pct_halved": 1.81,
-    "median_ret": 15.22,
-    "sp500_ret": 10.46
+    "pct_halved": 1.41,
+    "median_ret": 17.09,
+    "sp500_ret": 13.23
    },
    "ttm_path": [
     {
@@ -806,13 +806,13 @@
      "sp500_ret": 11.11
     },
     {
-     "date": "2026-11-03",
-     "from": "2025-11-03",
+     "date": "2026-11-04",
+     "from": "2025-11-04",
      "n": 498,
      "pct_doubled": 2.41,
-     "pct_halved": 1.81,
-     "median_ret": 15.22,
-     "sp500_ret": 10.46
+     "pct_halved": 1.41,
+     "median_ret": 17.09,
+     "sp500_ret": 13.23
     }
    ],
    "spx": [
@@ -1659,6 +1659,10 @@
     [
      "2026-11-03",
      7568.92
+    ],
+    [
+     "2026-11-04",
+     7667.17
     ]
    ],
    "path": [
@@ -1971,11 +1975,11 @@
      "sp500_ret": 10.73
     },
     {
-     "date": "2026-11-03",
-     "pct_doubled": 2.81,
-     "pct_halved": 1.2,
-     "median_ret": 11.03,
-     "sp500_ret": 10.57
+     "date": "2026-11-04",
+     "pct_doubled": 2.21,
+     "pct_halved": 1.41,
+     "median_ret": 13.23,
+     "sp500_ret": 12.0
     }
    ],
    "year": 2026,
@@ -1983,28 +1987,28 @@
    "n_members": 503,
    "n_with_data": 498,
    "coverage_pct": 99.0,
-   "pct_doubled": 2.81,
-   "pct_halved": 1.2,
-   "n_doubled": 14,
-   "n_halved": 6,
-   "pct_up50": 8.23,
-   "pct_down30": 4.82,
-   "median_ret": 11.03,
-   "sp500_ret": 10.57,
-   "nasdaq_ret": 9.16,
+   "pct_doubled": 2.21,
+   "pct_halved": 1.41,
+   "n_doubled": 11,
+   "n_halved": 7,
+   "pct_up50": 8.03,
+   "pct_down30": 4.62,
+   "median_ret": 13.23,
+   "sp500_ret": 12.0,
+   "nasdaq_ret": 10.53,
    "top5": {
-    "MRNA": 6.746,
-    "SNDK": 3.746,
-    "DELL": 2.279,
-    "MU": 1.998,
-    "MPC": 1.658
+    "MRNA": 7.048,
+    "SNDK": 3.481,
+    "DELL": 2.081,
+    "MU": 1.881,
+    "MPC": 1.538
    },
    "bottom5": {
-    "TTD": -0.661,
-    "APP": -0.636,
-    "RDDT": -0.582,
-    "FICO": -0.572,
-    "BSX": -0.544
+    "TTD": -0.647,
+    "APP": -0.623,
+    "RDDT": -0.564,
+    "FICO": -0.556,
+    "BSX": -0.517
    }
   }
  ]
