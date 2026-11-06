@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-11-05",
-    "from": "2025-11-05",
+    "date": "2026-11-06",
+    "from": "2025-11-06",
     "n": 498,
-    "pct_doubled": 2.41,
-    "pct_halved": 1.61,
-    "median_ret": 18.2,
-    "sp500_ret": 8.2
+    "pct_doubled": 1.2,
+    "pct_halved": 2.01,
+    "median_ret": 14.35,
+    "sp500_ret": 10.02
    },
    "ttm_path": [
     {
@@ -806,13 +806,13 @@
      "sp500_ret": 11.11
     },
     {
-     "date": "2026-11-05",
-     "from": "2025-11-05",
+     "date": "2026-11-06",
+     "from": "2025-11-06",
      "n": 498,
-     "pct_doubled": 2.41,
-     "pct_halved": 1.61,
-     "median_ret": 18.2,
-     "sp500_ret": 8.2
+     "pct_doubled": 1.2,
+     "pct_halved": 2.01,
+     "median_ret": 14.35,
+     "sp500_ret": 10.02
     }
    ],
    "spx": [
@@ -1667,6 +1667,10 @@
     [
      "2026-11-05",
      7353.73
+    ],
+    [
+     "2026-11-06",
+     7393.74
     ]
    ],
    "path": [
@@ -1979,11 +1983,11 @@
      "sp500_ret": 10.73
     },
     {
-     "date": "2026-11-05",
-     "pct_doubled": 2.21,
-     "pct_halved": 1.41,
-     "median_ret": 14.36,
-     "sp500_ret": 7.42
+     "date": "2026-11-06",
+     "pct_doubled": 1.41,
+     "pct_halved": 1.2,
+     "median_ret": 9.99,
+     "sp500_ret": 8.01
     }
    ],
    "year": 2026,
@@ -1991,28 +1995,28 @@
    "n_members": 503,
    "n_with_data": 498,
    "coverage_pct": 99.0,
-   "pct_doubled": 2.21,
-   "pct_halved": 1.41,
-   "n_doubled": 11,
-   "n_halved": 7,
-   "pct_up50": 7.23,
-   "pct_down30": 4.62,
-   "median_ret": 14.36,
-   "sp500_ret": 7.42,
-   "nasdaq_ret": 4.62,
+   "pct_doubled": 1.41,
+   "pct_halved": 1.2,
+   "n_doubled": 7,
+   "n_halved": 6,
+   "pct_up50": 6.02,
+   "pct_down30": 6.02,
+   "median_ret": 9.99,
+   "sp500_ret": 8.01,
+   "nasdaq_ret": 6.08,
    "top5": {
-    "MRNA": 7.762,
-    "SNDK": 3.37,
-    "DELL": 1.989,
-    "MU": 1.788,
-    "MPC": 1.443
+    "MRNA": 7.215,
+    "SNDK": 2.672,
+    "DELL": 1.745,
+    "MU": 1.455,
+    "MPC": 1.336
    },
    "bottom5": {
-    "TTD": -0.651,
-    "APP": -0.597,
-    "FICO": -0.585,
-    "RDDT": -0.557,
-    "FIS": -0.538
+    "TTD": -0.66,
+    "FICO": -0.6,
+    "RDDT": -0.583,
+    "FIS": -0.551,
+    "BSX": -0.548
    }
   }
  ]
