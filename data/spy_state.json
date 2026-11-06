@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.02694,
-  "ret_20d": -0.0555,
+  "ret_5d": -0.02703,
+  "ret_20d": -0.05559,
   "vol_20d": 0.01256,
-  "drawdown_60d": -0.05613,
+  "drawdown_60d": -0.05622,
   "history": [
     {
       "ret_5d": 0.00422,
@@ -119,10 +119,10 @@
       "drawdown_60d": -0.05916
     },
     {
-      "ret_5d": -0.02694,
-      "ret_20d": -0.0555,
+      "ret_5d": -0.02703,
+      "ret_20d": -0.05559,
       "vol_20d": 0.01256,
-      "drawdown_60d": -0.05613
+      "drawdown_60d": -0.05622
     }
   ],
   "regime_streak": 2,
@@ -132,35 +132,35 @@
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0183,
       "breadth": 0.4663,
-      "distance": 0.4112
+      "distance": 0.4142
     },
     {
       "date": "2025-03-07",
       "regime": "Pullback",
       "spy_ret_20d": -0.12,
       "breadth": 0.3887,
-      "distance": 0.6179
+      "distance": 0.6157
     },
     {
       "date": "2026-03-24",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0888,
       "breadth": 0.2396,
-      "distance": 0.9467
+      "distance": 0.9475
     },
     {
       "date": "2025-01-13",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0411,
       "breadth": 0.2437,
-      "distance": 1.0049
+      "distance": 1.0099
     },
     {
       "date": "2026-06-26",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0139,
       "breadth": 0.6287,
-      "distance": 1.0569
+      "distance": 1.0612
     }
   ],
   "analog_forward": {
@@ -268,7 +268,7 @@
           "label": "Calm Uptrend",
           "share": 0.1824,
           "n": 31,
-          "base_rate": 0.3835
+          "base_rate": 0.3836
         },
         {
           "label": "Correction",
@@ -298,7 +298,7 @@
           "label": "Range",
           "share": 0.0471,
           "n": 8,
-          "base_rate": 0.1667
+          "base_rate": 0.1666
         },
         {
           "label": "Drifting Lower",
@@ -324,7 +324,7 @@
       "spells": 91,
       "base_days": 8446,
       "base_rate": 0.4554,
-      "trailing_20d": -0.0555,
+      "trailing_20d": -0.05559,
       "value": 0.6529
     },
     "analog_next": {
