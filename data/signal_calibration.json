@@ -2,47 +2,47 @@
   "resolved": 14781,
   "first_run": "2026-02-23",
   "last_run": "2026-10-30",
-  "beat_rate": 0.2494418510249645,
+  "beat_rate": 0.24950950544618092,
   "horizons": {
     "120d": {
       "horizon": "120d",
       "n": 1160,
       "predicted_mean": 0.520902783620689,
-      "realized_mean": 0.17140913879310316,
-      "ratio": 0.32906166790216246,
+      "realized_mean": 0.17138603620689621,
+      "ratio": 0.32901731685061625,
       "beat_rate": 0.20517241379310344,
-      "correlation": 0.045001293742965215,
-      "realized_p10": -0.2817547
+      "correlation": 0.04502611322203306,
+      "realized_p10": -0.28194640000000004
     },
     "20d": {
       "horizon": "20d",
       "n": 7802,
       "predicted_mean": 0.09177859933350427,
-      "realized_mean": -0.0016660240963855713,
-      "ratio": -0.018152642429544903,
-      "beat_rate": 0.25993335042296845,
-      "correlation": 0.008110209318836145,
+      "realized_mean": -0.0016032968469623478,
+      "ratio": -0.017469179728231653,
+      "beat_rate": 0.26006152268649063,
+      "correlation": 0.008108763213109391,
       "realized_p10": -0.1802602
     },
     "5d": {
       "horizon": "5d",
       "n": 690,
       "predicted_mean": 0.0689665666666667,
-      "realized_mean": -0.006537327536231891,
-      "ratio": -0.09478980689046752,
+      "realized_mean": -0.0064511057971014555,
+      "ratio": -0.09353961069689495,
       "beat_rate": 0.1855072463768116,
-      "correlation": -0.016746941134345314,
-      "realized_p10": -0.10833989999999998
+      "correlation": -0.01725238134688986,
+      "realized_p10": -0.10808899999999999
     },
     "60d": {
       "horizon": "60d",
       "n": 5129,
       "predicted_mean": 0.17145903022031606,
-      "realized_mean": 0.02101398537726652,
-      "ratio": 0.12255980539645317,
+      "realized_mean": 0.021027015987521925,
+      "ratio": 0.12263580378649808,
       "beat_rate": 0.2520959251316046,
-      "correlation": 0.10762433590063009,
-      "realized_p10": -0.2548182
+      "correlation": 0.10762938930740418,
+      "realized_p10": -0.25472639999999996
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
