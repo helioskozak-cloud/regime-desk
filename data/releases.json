@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-07",
+ "as_of": "2026-11-08",
  "ahead_days": 45,
  "missing": [],
  "releases": [
@@ -72,6 +72,20 @@
    "name": "PPI",
    "agency": "BLS",
    "importance": 2
+  },
+  {
+   "date": "2026-12-23",
+   "time": "08:30",
+   "name": "GDP",
+   "agency": "BEA",
+   "importance": 3
+  },
+  {
+   "date": "2026-12-23",
+   "time": "08:30",
+   "name": "PCE inflation & spending",
+   "agency": "BEA",
+   "importance": 3
   }
  ]
 }
