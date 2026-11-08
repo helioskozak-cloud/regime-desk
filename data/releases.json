@@ -1,7 +1,9 @@
 {
  "as_of": "2026-11-08",
  "ahead_days": 45,
- "missing": [],
+ "missing": [
+  "BEA"
+ ],
  "releases": [
   {
    "date": "2026-11-10",
@@ -18,20 +20,6 @@
    "importance": 2
   },
   {
-   "date": "2026-11-25",
-   "time": "08:30",
-   "name": "GDP",
-   "agency": "BEA",
-   "importance": 3
-  },
-  {
-   "date": "2026-11-25",
-   "time": "08:30",
-   "name": "PCE inflation & spending",
-   "agency": "BEA",
-   "importance": 3
-  },
-  {
    "date": "2026-12-01",
    "time": "10:00",
    "name": "JOLTS",
@@ -44,13 +32,6 @@
    "name": "Jobs report",
    "agency": "BLS",
    "importance": 3
-  },
-  {
-   "date": "2026-12-08",
-   "time": "08:30",
-   "name": "Trade balance",
-   "agency": "BEA",
-   "importance": 1
   },
   {
    "date": "2026-12-09",
@@ -72,20 +53,6 @@
    "name": "PPI",
    "agency": "BLS",
    "importance": 2
-  },
-  {
-   "date": "2026-12-23",
-   "time": "08:30",
-   "name": "GDP",
-   "agency": "BEA",
-   "importance": 3
-  },
-  {
-   "date": "2026-12-23",
-   "time": "08:30",
-   "name": "PCE inflation & spending",
-   "agency": "BEA",
-   "importance": 3
   }
  ]
 }
