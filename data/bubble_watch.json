@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-08",
+ "as_of": "2026-11-09",
  "meta": {
   "built": "2026-07-13",
   "method": "pct of point-in-time S&P 500 members whose adjusted close doubled (>=+100%) or halved (<=-50%) over the calendar year",
@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-11-06",
-    "from": "2025-11-06",
+    "date": "2026-11-09",
+    "from": "2025-11-07",
     "n": 498,
-    "pct_doubled": 1.41,
-    "pct_halved": 1.81,
-    "median_ret": 14.09,
-    "sp500_ret": 9.77
+    "pct_doubled": 1.81,
+    "pct_halved": 2.01,
+    "median_ret": 14.2,
+    "sp500_ret": 10.81
    },
    "ttm_path": [
     {
@@ -813,6 +813,15 @@
      "pct_halved": 1.81,
      "median_ret": 14.09,
      "sp500_ret": 9.77
+    },
+    {
+     "date": "2026-11-09",
+     "from": "2025-11-07",
+     "n": 498,
+     "pct_doubled": 1.81,
+     "pct_halved": 2.01,
+     "median_ret": 14.2,
+     "sp500_ret": 10.81
     }
    ],
    "spx": [
@@ -1671,6 +1680,10 @@
     [
      "2026-11-06",
      7376.86
+    ],
+    [
+     "2026-11-09",
+     7456.5
     ]
    ],
    "path": [
@@ -1988,6 +2001,13 @@
      "pct_halved": 1.2,
      "median_ret": 9.96,
      "sp500_ret": 7.76
+    },
+    {
+     "date": "2026-11-09",
+     "pct_doubled": 1.41,
+     "pct_halved": 1.2,
+     "median_ret": 10.95,
+     "sp500_ret": 8.93
     }
    ],
    "year": 2026,
@@ -1999,24 +2019,24 @@
    "pct_halved": 1.2,
    "n_doubled": 7,
    "n_halved": 6,
-   "pct_up50": 6.02,
-   "pct_down30": 5.42,
-   "median_ret": 9.96,
-   "sp500_ret": 7.76,
-   "nasdaq_ret": 5.75,
+   "pct_up50": 6.83,
+   "pct_down30": 5.22,
+   "median_ret": 10.95,
+   "sp500_ret": 8.93,
+   "nasdaq_ret": 7.09,
    "top5": {
-    "MRNA": 7.62,
-    "SNDK": 2.518,
-    "DELL": 1.637,
-    "MU": 1.419,
-    "MPC": 1.319
+    "MRNA": 7.708,
+    "SNDK": 2.559,
+    "DELL": 1.653,
+    "MU": 1.445,
+    "MPC": 1.335
    },
    "bottom5": {
-    "TTD": -0.659,
-    "RDDT": -0.586,
-    "FICO": -0.583,
-    "FIS": -0.554,
-    "BSX": -0.552
+    "TTD": -0.631,
+    "RDDT": -0.59,
+    "FICO": -0.587,
+    "FIS": -0.557,
+    "CSGP": -0.547
    }
   }
  ]
