@@ -68902,7 +68902,7 @@ function renderBubble(){
     // ── the answer, in words, from the same numbers ──
     const flat=annual.filter(p=>!p.bear);
     const first=path[0], pace=first&&path.length>1?(now.c-first.k.c)/((nowT-tms(first.d))/(365.25*864e5)):null;
-    const paceTxt=pace==null?'':pace>1.15?`faster than the dot-com run (${pace.toFixed(1)} dot-com years per year)`:pace<0.85?`slower than the dot-com run (${pace.toFixed(1)} dot-com years per year)`:`at about the dot-com run's pace (${pace.toFixed(1)} dot-com years per year)`;
+    const paceTxt=pace==null?'':pace<0?`backwards on the clock, while the dot-com run moved forward one dot-com year per year`:pace>1.15?`faster than the dot-com run (${pace.toFixed(1)} dot-com years per year)`:pace<0.85?`slower than the dot-com run (${pace.toFixed(1)} dot-com years per year)`:`at about the dot-com run's pace (${pace.toFixed(1)} dot-com years per year)`;
     const verdict=`<p style="color:#c9c9c9;font-size:13px;max-width:900px;line-height:1.55;margin:10px 0 0"><strong style="color:#f2f2f2">Now: ${clockTxt(now)}.</strong> ${(()=>{const ks=MK.slice(0,4).map(m=>({m,k:clock(m,NOW)})).filter(o=>o.k).sort((p,q)=>p.k.c-q.k.c);const lo=ks[0],hi=ks[ks.length-1];return lo.m===hi.m?'':`The furthest along is ${hi.m.short.toLowerCase()} (${clockTxt(hi.k)}); the least is ${lo.m.short.toLowerCase()} (${clockTxt(lo.k)}).`;})()} The flip (marker 5) ${flip?'<span style="color:#e5484d">has printed</span>':'has not printed, so on this clock we are still before 2000'}.${peak&&peak.k.c-now.c>0.12?` This year's high came in the 12 months to ${peak.d.slice(5).replace('-','/')}, at ${clockTxt(peak.k)}; it has cooled since.`:''}</p>
       <p style="color:#c9c9c9;font-size:13px;max-width:900px;line-height:1.55;margin:8px 0 0"><strong style="color:#f2f2f2">The timeline is not the same shape.</strong> The dot-com run went from 1995 to 1999 readings in four straight years. The AI era ${flat.length?`read ${clockTxt({c:Math.max(...flat.map(p=>p.k.c))})} or lower for ${flat.length} of its full years (${flat.map(p=>p.yr).join(', ')})`:'has few full years to read'}${annual.some(p=>p.bear)?`, and had a bear market in ${annual.filter(p=>p.bear).map(p=>p.yr).join(', ')} that the dot-com run never had before its top`:''}. ${pace!=null?`In ${new Date(nowT).getUTCFullYear()} it has moved ${(now.c-first.k.c).toFixed(1)} dot-com years since January, ${paceTxt}.`:''} ${t1999?`At dot-com pace from here, the 12-month readings reach 1999's level around ${mon(t1999)}.`:`The readings are already at 1999's level.`} ${FE.flipped?'The flip (marker 5) has printed.':FE.none?'':`The flip itself is estimated ${flipTxt(FE)}: one estimate from two reads, ${FE.closing?`the dot-com pace (${mon(FE.tb)}) and marker 5's own 14-week trend (${mon(FE.ta)}), each weighted by how steady it is (the trend carries ${Math.round(FE.wTrend*100)}%)`:`the dot-com pace alone, because marker 5's own gap is not closing`}.`} In the dot-com run, the 12 months to December 1999 ended three months before the March 2000 top.</p>`;
 
@@ -69135,6 +69135,8 @@ function renderBubble(){
     const nLit=MK.filter(m=>m.lit(NOW)).length, cnow=composite(NOW);
     const vb=nLit>=4?['#e5484d','This is the configuration that marked the top last time.']
       :nLit>=2?['#d4a72c','Froth broadening and dissolution begun. Last cycle, this stretch ran 12–18 months before the flip.']
+      :nLit===0?['#3fae6a','No marker is lit.']
+      :MK[4].lit(NOW)?['#d4a72c',`Only the flip is lit, and at low churn: ${NOW.pct_halved}% halved vs ${NOW.pct_doubled}% doubled. ${(()=>{const y0=years.find(y=>y.year===2000);return y0?`In 2000 it printed at ${y0.pct_halved}% vs ${y0.pct_doubled}%, with the index ${y0.sp500_ret.toFixed(0)}%.`:'';})()}`]
       :['#3fae6a','Melt-up conditions without the destruction phase. Last cycle, that was 12–18 months before the top.'];
     return`<div class="card"><h3 style="color:#f2f2f2;margin-bottom:6px">How close is each marker, and how fast is it moving?</h3>
       <style>.bb-row>summary{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;cursor:pointer;list-style:none;padding:9px 0;border-top:1px solid #1d1d1d}.bb-row>summary::-webkit-details-marker{display:none}.bb-row>summary:hover{background:#0b0b0b}</style>
@@ -69215,8 +69217,8 @@ function renderBubble(){
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0">
     ${tile(`${latest.year}${latest.partial?' YTD':''} doubled`,`${latest.n_doubled}`,`${latest.pct_doubled}% of members`,'#5b9dff')}
     ${tile(`${latest.year}${latest.partial?' YTD':''} halved`,`${latest.n_halved}`,`${latest.pct_halved}% of members`,'#e5484d')}
-    ${tile('The flip (halved &gt; doubled)',flipLit?'LIT':'Not lit',flipLit?'the 2000 top-marker condition is active':'printed only in 2000–02 and 2022',flipLit?'#e5484d':'#3fae6a')}
-    ${tile('Two-sided churn vs 1999',`${churnRatio}%`,'doubled+halved share relative to 1999 peak',churnRatio>=80?'#e5484d':churnRatio>=50?'#d4a72c':'#3fae6a')}
+    ${tile('The flip (halved &gt; doubled)',flipLit?'LIT':'Not lit',`${latest.ttm?`12 mo to ${latest.ttm.date.slice(5).replace('-','/')}`:'this year'}: ${(latest.ttm||latest).pct_halved}% halved vs ${(latest.ttm||latest).pct_doubled}% doubled${flipLit?'':' · printed in 2000–02 and 2022'}`,flipLit?'#e5484d':'#3fae6a')}
+    ${tile('Two-sided churn vs 1999',`${churnRatio}%`,`doubled+halved share, ${latest.ttm?'12 months':'this year'}, vs the 1999 peak`,churnRatio>=80?'#e5484d':churnRatio>=50?'#d4a72c':'#3fae6a')}
   </div>
   </div>
   ${clockCards()}
