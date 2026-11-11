@@ -60084,7 +60084,7 @@ window.SNAPSHOT = {
     "risk": "No strongly negative sector signals. From the 378 past Elevated Volatility days since 1993, SPY's next 20 sessions reversed 50% of the time, against 46% on any day.",
     "plain_english": "The market is in a elevated volatility phase. Historical analogs suggest Consumer Staples, Communication Services tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   },
-  "generated_at": "2026-11-11T00:50:10+00:00",
+  "generated_at": "2026-11-11T01:01:14+00:00",
   "scanner": {
     "n": 3280,
     "top_cut": 0.1,
@@ -61665,7 +61665,12 @@ function renderBubble(){
   const churnNow=(latest.ttm||latest).pct_doubled+(latest.ttm||latest).pct_halved;
   const churn99=peak99?(peak99.pct_doubled+peak99.pct_halved):9.37;
   const churnRatio=Math.round(100*churnNow/churn99);
-  const flipLit=(latest.ttm||latest).pct_halved>(latest.ttm||latest).pct_doubled;
+  // Q196 = a (owner, 2026-11-10): the flip counts only with real churn behind it,
+  // the same bar as marker 2 (60% of 1999). Halvers edging doublers at 2% vs 1.8%
+  // is noise; 2000 printed at 5.1% vs 3.8%.
+  const flipGate=r=>r.pct_halved>r.pct_doubled&&(r.pct_doubled+r.pct_halved)>=0.6*churn99;
+  const flipLit=flipGate(latest.ttm||latest);
+  const flipEdge=!flipLit&&(latest.ttm||latest).pct_halved>(latest.ttm||latest).pct_doubled;
   const maxUp=Math.max(...years.map(y=>y.pct_doubled))*1.15+0.5;
   const maxDn=Math.max(...years.map(y=>y.pct_halved))*1.1+0.5;
   function tile(k,v,d,vc){return`<div style="background:#0e0e0e;border:1px solid #2e2e2e;border-radius:4px;padding:12px 14px;flex:1;min-width:170px"><div style="color:#6f6f6f;font-size:10px;text-transform:uppercase;letter-spacing:.6px">${k}</div><div style="font-size:22px;font-weight:700;margin:3px 0 1px;color:${vc||'#f2f2f2'};font-family:var(--mono)">${v}</div><div style="color:#8f8f8f;font-size:11px">${d}</div></div>`;}
@@ -61681,8 +61686,8 @@ function renderBubble(){
      val:r=>r.pct_halved,lit:r=>r.pct_halved>=3&&r.sp500_ret>0,dim:r=>!(r.sp500_ret>0)},
     {n:4,short:'Extreme narrowness',unit:' pts',thr:15,thrTxt:'index − median ≥15 pts',
      val:r=>r.sp500_ret-r.median_ret,lit:r=>(r.sp500_ret-r.median_ret)>=15},
-    {n:5,short:'The flip',unit:' pts',thr:0,thrTxt:'halved > doubled',
-     val:r=>r.pct_halved-r.pct_doubled,lit:r=>r.pct_halved>r.pct_doubled},
+    {n:5,short:'The flip',unit:' pts',thr:0,thrTxt:'halved > doubled, churn ≥60% of 1999',
+     val:r=>r.pct_halved-r.pct_doubled,lit:flipGate},
   ];
   // THE DOT-COM CLOCK (owner, 2026-10-07): "what point in the dot-com bubble
   // does this signal look like … and is the overall timeline similar". Each
@@ -61828,6 +61833,7 @@ function renderBubble(){
     const m=MK[4], tp=latest.ttm_path||[];
     const tNow=tms(tp.length?tp[tp.length-1].date:(NOW.date||S.generated));
     if(m.lit(NOW))return{flipped:true,tNow};
+    if(m.val(NOW)>=0)return{none:true,tNow,closing:false,gated:true};   // halvers ahead, churn too low: no gap to close
     const now=composite(NOW);
     const Tb=now?Math.max(0,(2000-now.c)*12):null, sdB=Tb!=null?Math.max(2,Tb*0.5):null;
     const g=m.val(NOW), f=fitMonth(tp.slice(-14).map(p=>({t:tms(p.date),y:m.val(p)})));
@@ -61967,7 +61973,7 @@ function renderBubble(){
         s+=`<g><title>halved − doubled over the ${nowLbl}: ${g>=0?'+':''}${g.toFixed(1)} pts</title><circle cx="${gx(g)}" cy="${MID}" r="8" fill="#0e0e0e" stroke="${m.lit(NOW)?'#e5484d':'#5b9dff'}" stroke-width="1.6"/><text x="${gx(g)}" y="${MID+3.5}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${m.lit(NOW)?'#e5484d':'#5b9dff'}">5</text></g>`;
         const flipped=m.lit(NOW);
         return row(m,svgWrap(s),`halved ${NOW.pct_halved}% · doubled ${NOW.pct_doubled}%`,
-          `<b>${flipped?'<span style="color:#e5484d">Flipped</span>: halvers ahead':`Not flipped: doublers ahead by ${(-g).toFixed(1)} pts`}</b><br>
+          `<b>${flipped?'<span style="color:#e5484d">Flipped</span>: halvers ahead, with churn':g>=0?`Not flipped: halvers ahead by ${g.toFixed(1)} pts, but churn is ${churnRatio}% of 1999 (needs 60%)`:`Not flipped: doublers ahead by ${(-g).toFixed(1)} pts`}</b><br>
            ${sl==null?'not enough weeks to read a pace':Math.abs(sl)<0.02?'gap barely moving':sl>0?`gap closing ${sl.toFixed(2)} pts a month`:`gap widening ${(-sl).toFixed(2)} pts a month`}<br>
            <span style="color:#8f8f8f">${flipped?'the 2000 condition':(()=>{const fe=flipEstimate();return fe.none?'no estimate':`flips ${flipTxt(fe)}, own trend and dot-com pace combined`;})()}</span>`);
       }
@@ -61994,7 +62000,7 @@ function renderBubble(){
     const nLit=MK.filter(m=>m.lit(NOW)).length, cnow=composite(NOW);
     const vb=nLit>=4?['#e5484d','This is the configuration that marked the top last time.']
       :nLit>=2?['#d4a72c','Froth broadening and dissolution begun. Last cycle, this stretch ran 12–18 months before the flip.']
-      :nLit===0?['#3fae6a','No marker is lit.']
+      :nLit===0?['#3fae6a',flipEdge?`No marker is lit. Halvers edge doublers (${NOW.pct_halved}% vs ${NOW.pct_doubled}%), but churn is ${churnRatio}% of 1999's, under the 60% the flip needs.`:'No marker is lit.']
       :MK[4].lit(NOW)?['#d4a72c',`Only the flip is lit, and at low churn: ${NOW.pct_halved}% halved vs ${NOW.pct_doubled}% doubled. ${(()=>{const y0=years.find(y=>y.year===2000);return y0?`In 2000 it printed at ${y0.pct_halved}% vs ${y0.pct_doubled}%, with the index ${y0.sp500_ret.toFixed(0)}%.`:'';})()}`]
       :['#3fae6a','Melt-up conditions without the destruction phase. Last cycle, that was 12–18 months before the top.'];
     return`<div class="card"><h3 style="color:#f2f2f2;margin-bottom:6px">How close is each marker, and how fast is it moving?</h3>
@@ -62076,7 +62082,7 @@ function renderBubble(){
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0">
     ${tile(`${latest.year}${latest.partial?' YTD':''} doubled`,`${latest.n_doubled}`,`${latest.pct_doubled}% of members`,'#5b9dff')}
     ${tile(`${latest.year}${latest.partial?' YTD':''} halved`,`${latest.n_halved}`,`${latest.pct_halved}% of members`,'#e5484d')}
-    ${tile('The flip (halved &gt; doubled)',flipLit?'LIT':'Not lit',`${latest.ttm?`12 mo to ${latest.ttm.date.slice(5).replace('-','/')}`:'this year'}: ${(latest.ttm||latest).pct_halved}% halved vs ${(latest.ttm||latest).pct_doubled}% doubled${flipLit?'':' · printed in 2000–02 and 2022'}`,flipLit?'#e5484d':'#3fae6a')}
+    ${tile('The flip (halved &gt; doubled, with churn)',flipLit?'LIT':'Not lit',`${latest.ttm?`12 mo to ${latest.ttm.date.slice(5).replace('-','/')}`:'this year'}: ${(latest.ttm||latest).pct_halved}% halved vs ${(latest.ttm||latest).pct_doubled}% doubled${flipEdge?` · churn ${churnRatio}% of 1999, needs 60%`:''}`,flipLit?'#e5484d':'#3fae6a')}
     ${tile('Two-sided churn vs 1999',`${churnRatio}%`,`doubled+halved share, ${latest.ttm?'12 months':'this year'}, vs the 1999 peak`,churnRatio>=80?'#e5484d':churnRatio>=50?'#d4a72c':'#3fae6a')}
   </div>
   </div>

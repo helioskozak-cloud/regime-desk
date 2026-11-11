@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-11-10",
-    "from": "2025-11-10",
+    "date": "2026-11-11",
+    "from": "2025-11-11",
     "n": 498,
-    "pct_doubled": 2.21,
-    "pct_halved": 2.01,
-    "median_ret": 15.56,
-    "sp500_ret": 10.08
+    "pct_doubled": 1.81,
+    "pct_halved": 1.81,
+    "median_ret": 15.04,
+    "sp500_ret": 10.76
    },
    "ttm_path": [
     {
@@ -815,13 +815,13 @@
      "sp500_ret": 9.77
     },
     {
-     "date": "2026-11-10",
-     "from": "2025-11-10",
+     "date": "2026-11-11",
+     "from": "2025-11-11",
      "n": 498,
-     "pct_doubled": 2.21,
-     "pct_halved": 2.01,
-     "median_ret": 15.56,
-     "sp500_ret": 10.08
+     "pct_doubled": 1.81,
+     "pct_halved": 1.81,
+     "median_ret": 15.04,
+     "sp500_ret": 10.76
     }
    ],
    "spx": [
@@ -1688,6 +1688,10 @@
     [
      "2026-11-10",
      7520.93
+    ],
+    [
+     "2026-11-11",
+     7583.55
     ]
    ],
    "path": [
@@ -2007,11 +2011,11 @@
      "sp500_ret": 7.76
     },
     {
-     "date": "2026-11-10",
-     "pct_doubled": 1.61,
+     "date": "2026-11-11",
+     "pct_doubled": 1.81,
      "pct_halved": 1.2,
-     "median_ret": 12.97,
-     "sp500_ret": 9.87
+     "median_ret": 12.46,
+     "sp500_ret": 10.78
     }
    ],
    "year": 2026,
@@ -2019,28 +2023,28 @@
    "n_members": 503,
    "n_with_data": 498,
    "coverage_pct": 99.0,
-   "pct_doubled": 1.61,
+   "pct_doubled": 1.81,
    "pct_halved": 1.2,
-   "n_doubled": 8,
+   "n_doubled": 9,
    "n_halved": 6,
-   "pct_up50": 8.03,
+   "pct_up50": 8.43,
    "pct_down30": 5.62,
-   "median_ret": 12.97,
-   "sp500_ret": 9.87,
-   "nasdaq_ret": 7.85,
+   "median_ret": 12.46,
+   "sp500_ret": 10.78,
+   "nasdaq_ret": 9.39,
    "top5": {
-    "MRNA": 7.506,
-    "SNDK": 2.623,
-    "DELL": 1.684,
-    "MU": 1.542,
-    "MPC": 1.423
+    "MRNA": 7.567,
+    "SNDK": 2.91,
+    "DELL": 1.901,
+    "MU": 1.686,
+    "AMD": 1.461
    },
    "bottom5": {
-    "TTD": -0.594,
-    "RDDT": -0.571,
-    "FICO": -0.568,
-    "FIS": -0.56,
-    "CSGP": -0.549
+    "TTD": -0.578,
+    "FICO": -0.569,
+    "RDDT": -0.565,
+    "FIS": -0.563,
+    "CSGP": -0.55
    }
   }
  ]

@@ -16,7 +16,7 @@
   "2026-11-20"
  ],
  "days_failed": [],
- "n": 454,
+ "n": 455,
  "earnings": [
   {
    "date": "2026-11-09",
@@ -1319,10 +1319,10 @@
    "ticker": "PBR",
    "name": "Petr?leo Brasileiro S.A. - Petrobras",
    "sector": "Energy",
-   "time": "post",
+   "time": "",
    "eps": 1.38,
    "n_est": 2,
-   "eps_ly": 0.82,
+   "eps_ly": null,
    "mcap": 118254125000.0,
    "quarter": "Sep/2026"
   },
@@ -1331,10 +1331,10 @@
    "ticker": "PBR-A",
    "name": "Petroleo Brasileiro S.A. Petrob",
    "sector": "Energy",
-   "time": "post",
+   "time": "",
    "eps": null,
-   "n_est": 1,
-   "eps_ly": 0.82,
+   "n_est": null,
+   "eps_ly": null,
    "mcap": 118254125000.0,
    "quarter": "Sep/2026"
   },
@@ -1343,10 +1343,10 @@
    "ticker": "TDG",
    "name": "TransDigm Group Incorporated",
    "sector": "Industrials",
-   "time": "pre",
+   "time": "",
    "eps": 11.43,
    "n_est": 5,
-   "eps_ly": 10.47,
+   "eps_ly": null,
    "mcap": 67373793000.0,
    "quarter": "Sep/2026"
   },
@@ -1355,11 +1355,23 @@
    "ticker": "SE",
    "name": "Sea Limited",
    "sector": "Consumer Discretionary",
-   "time": "pre",
+   "time": "",
    "eps": 0.79,
    "n_est": 2,
-   "eps_ly": 0.59,
+   "eps_ly": null,
    "mcap": 47749292000.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "HMC",
+   "name": "Honda Motor Company, Ltd.",
+   "sector": "Consumer Discretionary",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 46503363000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1367,10 +1379,10 @@
    "ticker": "ALC",
    "name": "Alcon Inc.",
    "sector": "Healthcare",
-   "time": "post",
+   "time": "",
    "eps": 0.89,
    "n_est": 3,
-   "eps_ly": 0.79,
+   "eps_ly": null,
    "mcap": 37547459000.0,
    "quarter": "Sep/2026"
   },
@@ -1392,9 +1404,9 @@
    "name": "Ecopetrol S.A.",
    "sector": "Energy",
    "time": "post",
-   "eps": 0.62,
+   "eps": 0.63,
    "n_est": 1,
-   "eps_ly": 0.31,
+   "eps_ly": null,
    "mcap": 32091580400.0,
    "quarter": "Sep/2026"
   },
@@ -1403,10 +1415,10 @@
    "ticker": "VG",
    "name": "Venture Global, Inc.",
    "sector": "Energy",
-   "time": "pre",
+   "time": "",
    "eps": 0.5,
    "n_est": 7,
-   "eps_ly": 0.16,
+   "eps_ly": null,
    "mcap": 29501095900.0,
    "quarter": "Sep/2026"
   },
@@ -1415,10 +1427,10 @@
    "ticker": "CRWV",
    "name": "CoreWeave, Inc.",
    "sector": "Technology",
-   "time": "post",
+   "time": "",
    "eps": -1.45,
    "n_est": 10,
-   "eps_ly": -0.31,
+   "eps_ly": null,
    "mcap": 27014262800.0,
    "quarter": "Sep/2026"
   },
@@ -1427,10 +1439,10 @@
    "ticker": "ONON",
    "name": "On Holding AG",
    "sector": "Consumer Discretionary",
-   "time": "pre",
+   "time": "",
    "eps": 0.42,
    "n_est": 6,
-   "eps_ly": 0.42,
+   "eps_ly": null,
    "mcap": 22646767600.0,
    "quarter": "Sep/2026"
   },
@@ -1439,12 +1451,36 @@
    "ticker": "VIV",
    "name": "Telefonica Brasil S.A.",
    "sector": "Communication Services",
-   "time": "post",
+   "time": "",
    "eps": 0.24,
    "n_est": 2,
-   "eps_ly": 0.22,
+   "eps_ly": null,
    "mcap": 18550495200.0,
    "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "EMBJ",
+   "name": "Embraer S.A.",
+   "sector": "Industrials",
+   "time": "",
+   "eps": 0.87,
+   "n_est": 3,
+   "eps_ly": null,
+   "mcap": 13925896200.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "BMNR",
+   "name": "Bitmine Immersion Technologies, Inc.",
+   "sector": "Financials",
+   "time": "",
+   "eps": 0.01,
+   "n_est": 1,
+   "eps_ly": null,
+   "mcap": 11226043400.0,
+   "quarter": "Aug/2026"
   },
   {
    "date": "2026-11-10",
@@ -1454,7 +1490,7 @@
    "time": "",
    "eps": 0.25,
    "n_est": 2,
-   "eps_ly": -0.22,
+   "eps_ly": null,
    "mcap": 7400747500.0,
    "quarter": "Sep/2026"
   },
@@ -1463,10 +1499,10 @@
    "ticker": "SRRK",
    "name": "Scholar Rock Holding Corporatio",
    "sector": "Healthcare",
-   "time": "pre",
+   "time": "",
    "eps": -0.87,
    "n_est": 8,
-   "eps_ly": -0.9,
+   "eps_ly": null,
    "mcap": 6278031400.0,
    "quarter": "Sep/2026"
   },
@@ -1487,10 +1523,10 @@
    "ticker": "ATAT",
    "name": "Atour Lifestyle Holdings Limite",
    "sector": "Consumer Discretionary",
-   "time": "pre",
+   "time": "",
    "eps": 0.56,
    "n_est": 2,
-   "eps_ly": 0.48,
+   "eps_ly": null,
    "mcap": 4860823600.0,
    "quarter": "Sep/2026"
   },
@@ -1499,10 +1535,10 @@
    "ticker": "MRCY",
    "name": "Mercury Systems, Inc.",
    "sector": "Industrials",
-   "time": "post",
-   "eps": 0.1,
+   "time": "",
+   "eps": 0.11,
    "n_est": 6,
-   "eps_ly": 0.05,
+   "eps_ly": null,
    "mcap": 4845958700.0,
    "quarter": "Sep/2026"
   },
@@ -1511,10 +1547,10 @@
    "ticker": "ALH",
    "name": "Alliance Laundry Holdings Inc.",
    "sector": "Consumer Discretionary",
-   "time": "pre",
+   "time": "",
    "eps": 0.32,
    "n_est": 3,
-   "eps_ly": 0.28,
+   "eps_ly": null,
    "mcap": 4778889700.0,
    "quarter": "Sep/2026"
   },
@@ -1523,10 +1559,10 @@
    "ticker": "LEGN",
    "name": "Legend Biotech Corporation",
    "sector": "Healthcare",
-   "time": "pre",
+   "time": "",
    "eps": 0.01,
    "n_est": 6,
-   "eps_ly": -0.11,
+   "eps_ly": null,
    "mcap": 4724123600.0,
    "quarter": "Sep/2026"
   },
@@ -1535,10 +1571,10 @@
    "ticker": "QBTS",
    "name": "D-Wave Quantum Inc.",
    "sector": "Technology",
-   "time": "pre",
+   "time": "",
    "eps": -0.14,
    "n_est": 2,
-   "eps_ly": -0.41,
+   "eps_ly": null,
    "mcap": 4354317300.0,
    "quarter": "Sep/2026"
   },
@@ -1547,10 +1583,10 @@
    "ticker": "RGTI",
    "name": "Rigetti Computing, Inc.",
    "sector": "Technology",
-   "time": "post",
+   "time": "",
    "eps": -0.08,
    "n_est": 3,
-   "eps_ly": -0.03,
+   "eps_ly": null,
    "mcap": 4332318200.0,
    "quarter": "Sep/2026"
   },
@@ -1559,10 +1595,10 @@
    "ticker": "LQDA",
    "name": "Liquidia Corporation",
    "sector": "Healthcare",
-   "time": "pre",
+   "time": "",
    "eps": 0.77,
    "n_est": 2,
-   "eps_ly": -0.04,
+   "eps_ly": null,
    "mcap": 4284790530.0,
    "quarter": "Sep/2026"
   },
@@ -1571,10 +1607,10 @@
    "ticker": "FLY",
    "name": "Firefly Aerospace Inc.",
    "sector": "Defense",
-   "time": "post",
+   "time": "",
    "eps": -0.6,
    "n_est": 2,
-   "eps_ly": -0.33,
+   "eps_ly": null,
    "mcap": 4069606910.0,
    "quarter": "Sep/2026"
   },
@@ -1583,10 +1619,10 @@
    "ticker": "REZI",
    "name": "Resideo Technologies, Inc.",
    "sector": "Industrials",
-   "time": "post",
+   "time": "",
    "eps": 0.4,
    "n_est": 2,
-   "eps_ly": 0.82,
+   "eps_ly": null,
    "mcap": 3044539900.0,
    "quarter": "Sep/2026"
   },
@@ -1595,10 +1631,10 @@
    "ticker": "WIX",
    "name": "Wix.com Ltd.",
    "sector": "Technology",
-   "time": "pre",
+   "time": "",
    "eps": 0.19,
    "n_est": 8,
-   "eps_ly": -0.01,
+   "eps_ly": null,
    "mcap": 2919003390.0,
    "quarter": "Sep/2026"
   },
@@ -1607,10 +1643,10 @@
    "ticker": "ATRO",
    "name": "Astronics Corporation",
    "sector": "Defense",
-   "time": "post",
+   "time": "",
    "eps": 0.7,
    "n_est": 2,
-   "eps_ly": 0.41,
+   "eps_ly": null,
    "mcap": 2537104640.0,
    "quarter": "Sep/2026"
   },
@@ -1619,10 +1655,10 @@
    "ticker": "HSAI",
    "name": "Hesai Group",
    "sector": "Consumer Discretionary",
-   "time": "pre",
-   "eps": 0.08,
-   "n_est": 1,
-   "eps_ly": 0.25,
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
    "mcap": 2248705020.0,
    "quarter": "Sep/2026"
   },
@@ -1631,23 +1667,11 @@
    "ticker": "STUB",
    "name": "StubHub Holdings, Inc.",
    "sector": "Communication Services",
-   "time": "post",
+   "time": "",
    "eps": 0.11,
    "n_est": 4,
-   "eps_ly": -0.6,
+   "eps_ly": null,
    "mcap": 2235226370.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-10",
-   "ticker": "DRVN",
-   "name": "Driven Brands Holdings Inc.",
-   "sector": "Consumer Discretionary",
-   "time": "",
-   "eps": 0.27,
-   "n_est": 3,
-   "eps_ly": 0.32,
-   "mcap": 2022652540.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1655,11 +1679,23 @@
    "ticker": "SONO",
    "name": "Sonos, Inc.",
    "sector": "Technology",
-   "time": "post",
+   "time": "",
    "eps": -0.16,
    "n_est": 1,
-   "eps_ly": -0.2,
+   "eps_ly": null,
    "mcap": 2012180610.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "COAG",
+   "name": "Hemab Therapeutics Holdings, In",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": -0.51,
+   "n_est": 3,
+   "eps_ly": null,
+   "mcap": 1999745790.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1667,10 +1703,10 @@
    "ticker": "ETOR",
    "name": "eToro Group Ltd.",
    "sector": "Financials",
-   "time": "pre",
+   "time": "",
    "eps": 0.27,
    "n_est": 2,
-   "eps_ly": 0.6,
+   "eps_ly": null,
    "mcap": 1878340480.0,
    "quarter": "Sep/2026"
   },
@@ -1679,10 +1715,10 @@
    "ticker": "BRSL",
    "name": "Brightstar Lottery PLC Trading ",
    "sector": "Consumer Discretionary",
-   "time": "pre",
+   "time": "",
    "eps": 0.02,
    "n_est": 2,
-   "eps_ly": 0.36,
+   "eps_ly": null,
    "mcap": 1846845060.0,
    "quarter": "Sep/2026"
   },
@@ -1691,10 +1727,10 @@
    "ticker": "SBH",
    "name": "Sally Beauty Holdings, Inc. (Na",
    "sector": "Consumer Discretionary",
-   "time": "pre",
+   "time": "",
    "eps": 0.6,
    "n_est": 3,
-   "eps_ly": 0.55,
+   "eps_ly": null,
    "mcap": 1824698500.0,
    "quarter": "Sep/2026"
   },
@@ -1703,10 +1739,10 @@
    "ticker": "BTDR",
    "name": "Bitdeer Technologies Group",
    "sector": "Technology",
-   "time": "pre",
+   "time": "",
    "eps": -0.33,
    "n_est": 3,
-   "eps_ly": -1.28,
+   "eps_ly": null,
    "mcap": 1796480640.0,
    "quarter": "Sep/2026"
   },
@@ -1715,11 +1751,23 @@
    "ticker": "AZTA",
    "name": "Azenta, Inc.",
    "sector": "Healthcare",
-   "time": "post",
+   "time": "",
    "eps": null,
-   "n_est": 1,
-   "eps_ly": 0.21,
+   "n_est": null,
+   "eps_ly": null,
    "mcap": 1793953660.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "BRVE",
+   "name": "Braveheart Bio, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": -0.91,
+   "n_est": 1,
+   "eps_ly": null,
+   "mcap": 1752158340.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1727,11 +1775,23 @@
    "ticker": "ATEX",
    "name": "Anterix Inc.",
    "sector": "Communication Services",
-   "time": "post",
+   "time": "",
    "eps": -0.45,
    "n_est": 1,
-   "eps_ly": -0.14,
+   "eps_ly": null,
    "mcap": 1584078460.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "TYRA",
+   "name": "Tyra Biosciences, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": -0.66,
+   "n_est": 8,
+   "eps_ly": null,
+   "mcap": 1533257470.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1739,23 +1799,11 @@
    "ticker": "NN",
    "name": "NextNav Inc.",
    "sector": "Technology",
-   "time": "post",
+   "time": "",
    "eps": -0.12,
    "n_est": 2,
-   "eps_ly": -0.12,
+   "eps_ly": null,
    "mcap": 1505784450.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-10",
-   "ticker": "ANAB",
-   "name": "AnaptysBio, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": 0.41,
-   "n_est": 3,
-   "eps_ly": 0.52,
-   "mcap": 1420318850.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1763,10 +1811,10 @@
    "ticker": "AMPX",
    "name": "Amprius Technologies, Inc.",
    "sector": "Industrials",
-   "time": "post",
+   "time": "",
    "eps": -0.01,
    "n_est": 6,
-   "eps_ly": -0.03,
+   "eps_ly": null,
    "mcap": 1390687490.0,
    "quarter": "Sep/2026"
   },
@@ -1775,10 +1823,10 @@
    "ticker": "GO",
    "name": "Grocery Outlet Holding Corp.",
    "sector": "Consumer Staples",
-   "time": "post",
+   "time": "",
    "eps": 0.11,
    "n_est": 7,
-   "eps_ly": 0.21,
+   "eps_ly": null,
    "mcap": 1374301950.0,
    "quarter": "Sep/2026"
   },
@@ -1787,10 +1835,10 @@
    "ticker": "FRNM",
    "name": "Freenome, Inc.",
    "sector": "Healthcare",
-   "time": "post",
+   "time": "",
    "eps": null,
-   "n_est": 1,
-   "eps_ly": 0.01,
+   "n_est": null,
+   "eps_ly": null,
    "mcap": 1135712770.0,
    "quarter": "Sep/2026"
   },
@@ -1799,10 +1847,10 @@
    "ticker": "AMBQ",
    "name": "Ambiq Micro, Inc.",
    "sector": "Technology",
-   "time": "pre",
+   "time": "",
    "eps": -0.32,
    "n_est": 3,
-   "eps_ly": -0.39,
+   "eps_ly": null,
    "mcap": 1106926210.0,
    "quarter": "Sep/2026"
   },
@@ -1811,11 +1859,23 @@
    "ticker": "BV",
    "name": "BrightView Holdings, Inc.",
    "sector": "Industrials",
-   "time": "post",
+   "time": "",
    "eps": 0.22,
    "n_est": 5,
-   "eps_ly": 0.24,
+   "eps_ly": null,
    "mcap": 1097309950.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "ANRO",
+   "name": "Alto Neuroscience, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": -0.6,
+   "n_est": 6,
+   "eps_ly": null,
+   "mcap": 1090930430.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1823,7 +1883,7 @@
    "ticker": "OIG",
    "name": "Orion180 Insurance Group Inc.",
    "sector": "nan",
-   "time": "post",
+   "time": "",
    "eps": 0.09,
    "n_est": 1,
    "eps_ly": null,
@@ -1838,8 +1898,20 @@
    "time": "post",
    "eps": -0.05,
    "n_est": 1,
-   "eps_ly": -0.04,
+   "eps_ly": null,
    "mcap": 756961220.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "CGEM",
+   "name": "Cullinan Therapeutics, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": -0.79,
+   "n_est": 6,
+   "eps_ly": null,
+   "mcap": 754880580.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1847,10 +1919,10 @@
    "ticker": "KURA",
    "name": "Kura Oncology, Inc.",
    "sector": "Healthcare",
-   "time": "post",
+   "time": "",
    "eps": -0.83,
    "n_est": 6,
-   "eps_ly": -0.85,
+   "eps_ly": null,
    "mcap": 673431870.0,
    "quarter": "Sep/2026"
   },
@@ -1859,10 +1931,10 @@
    "ticker": "NRGV",
    "name": "Energy Vault Holdings, Inc.",
    "sector": "Utilities",
-   "time": "post",
+   "time": "",
    "eps": -0.21,
    "n_est": 1,
-   "eps_ly": -0.16,
+   "eps_ly": null,
    "mcap": 658259260.0,
    "quarter": "Sep/2026"
   },
@@ -1871,10 +1943,10 @@
    "ticker": "KOPN",
    "name": "Kopin Corporation",
    "sector": "Technology",
-   "time": "post",
-   "eps": 0.0,
+   "time": "",
+   "eps": -0.01,
    "n_est": 2,
-   "eps_ly": 0.02,
+   "eps_ly": null,
    "mcap": 628249410.0,
    "quarter": "Sep/2026"
   },
@@ -1883,10 +1955,10 @@
    "ticker": "SATL",
    "name": "Satellogic Inc.",
    "sector": "Industrials",
-   "time": "post",
+   "time": "",
    "eps": -0.01,
    "n_est": 2,
-   "eps_ly": -0.02,
+   "eps_ly": null,
    "mcap": 609578750.0,
    "quarter": "Sep/2026"
   },
@@ -1895,11 +1967,23 @@
    "ticker": "CAPR",
    "name": "Capricor Therapeutics, Inc.",
    "sector": "Healthcare",
-   "time": "post",
+   "time": "",
    "eps": -0.61,
    "n_est": 5,
-   "eps_ly": -0.54,
+   "eps_ly": null,
    "mcap": 572669060.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "ABUS",
+   "name": "Arbutus Biopharma Corporation",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 570186370.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1907,10 +1991,10 @@
    "ticker": "LPTH",
    "name": "LightPath Technologies, Inc.",
    "sector": "Technology",
-   "time": "post",
+   "time": "",
    "eps": -0.02,
    "n_est": 1,
-   "eps_ly": -0.05,
+   "eps_ly": null,
    "mcap": 561410690.0,
    "quarter": "Sep/2026"
   },
@@ -1919,11 +2003,23 @@
    "ticker": "WYFI",
    "name": "WhiteFiber, Inc.",
    "sector": "Technology",
-   "time": "pre",
+   "time": "",
    "eps": -0.36,
    "n_est": 3,
-   "eps_ly": -0.47,
+   "eps_ly": null,
    "mcap": 433343328.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "IRD",
+   "name": "Opus Genetics, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": -0.14,
+   "n_est": 7,
+   "eps_ly": null,
+   "mcap": 349422464.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1931,11 +2027,23 @@
    "ticker": "VELO",
    "name": "Velo3D, Inc.",
    "sector": "Technology",
-   "time": "post",
+   "time": "",
    "eps": null,
    "n_est": null,
-   "eps_ly": -0.69,
+   "eps_ly": null,
    "mcap": 200289008.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "SION",
+   "name": "Sionna Therapeutics, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": -0.62,
+   "n_est": 3,
+   "eps_ly": null,
+   "mcap": 161408256.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1952,26 +2060,38 @@
   },
   {
    "date": "2026-11-10",
-   "ticker": "HOWL",
-   "name": "Werewolf Therapeutics, Inc.",
-   "sector": "Healthcare",
+   "ticker": "CLRO",
+   "name": "ClearOne, Inc.",
+   "sector": "Technology",
    "time": "",
    "eps": null,
    "n_est": null,
-   "eps_ly": -0.36,
-   "mcap": 49085056.0,
+   "eps_ly": null,
+   "mcap": 12306895.0,
    "quarter": "Sep/2026"
   },
   {
    "date": "2026-11-10",
-   "ticker": "ROLR",
-   "name": "High Roller Technologies, Inc.",
-   "sector": "Consumer Discretionary",
+   "ticker": "INBS",
+   "name": "Intelligent Bio Solutions Inc.",
+   "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
-   "eps_ly": 0.07,
-   "mcap": 36507024.0,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 7595479.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "AMIX",
+   "name": "Autonomix Medical, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 3331895.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1983,7 +2103,7 @@
    "eps": 1.77,
    "n_est": 3,
    "eps_ly": 1.43,
-   "mcap": 49221353000.0,
+   "mcap": 50867020000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1993,9 +2113,9 @@
    "sector": "Financials",
    "time": "post",
    "eps": -0.44,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
-   "mcap": 46804627000.0,
+   "mcap": 48399483000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2007,7 +2127,7 @@
    "eps": 1.64,
    "n_est": 3,
    "eps_ly": 1.55,
-   "mcap": 19341555700.0,
+   "mcap": 19166296100.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2019,7 +2139,7 @@
    "eps": 0.4,
    "n_est": 2,
    "eps_ly": 0.36,
-   "mcap": 11413231600.0,
+   "mcap": 11440917500.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2031,7 +2151,7 @@
    "eps": 0.47,
    "n_est": 2,
    "eps_ly": 0.45,
-   "mcap": 10316030000.0,
+   "mcap": 10520865800.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2043,7 +2163,7 @@
    "eps": 0.19,
    "n_est": 4,
    "eps_ly": 0.17,
-   "mcap": 8634453000.0,
+   "mcap": 8857897000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2055,7 +2175,7 @@
    "eps": 0.09,
    "n_est": 4,
    "eps_ly": -0.23,
-   "mcap": 7939632600.0,
+   "mcap": 8079743500.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2067,7 +2187,7 @@
    "eps": 0.27,
    "n_est": 3,
    "eps_ly": 0.22,
-   "mcap": 6799315500.0,
+   "mcap": 7081930200.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2076,10 +2196,10 @@
    "name": "Ultrapar Participacoes S.A. (Ne",
    "sector": "Energy",
    "time": "",
-   "eps": 0.28,
+   "eps": 0.23,
    "n_est": 1,
    "eps_ly": 0.12,
-   "mcap": 6031431200.0,
+   "mcap": 6109327900.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2091,7 +2211,7 @@
    "eps": 3.19,
    "n_est": 3,
    "eps_ly": 2.56,
-   "mcap": 5302309400.0,
+   "mcap": 5468570100.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2103,7 +2223,7 @@
    "eps": -0.14,
    "n_est": 6,
    "eps_ly": -0.11,
-   "mcap": 5040071200.0,
+   "mcap": 5459785200.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2113,9 +2233,9 @@
    "sector": "Materials",
    "time": "pre",
    "eps": 0.33,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
-   "mcap": 3650902780.0,
+   "mcap": 3855110400.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2127,19 +2247,7 @@
    "eps": 3.69,
    "n_est": 1,
    "eps_ly": 0.77,
-   "mcap": 3250857980.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "TNK",
-   "name": "Teekay Tankers Ltd.",
-   "sector": "Energy",
-   "time": "post",
-   "eps": 3.45,
-   "n_est": 1,
-   "eps_ly": 1.54,
-   "mcap": 2969325060.0,
+   "mcap": 3209861120.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2151,19 +2259,19 @@
    "eps": -0.05,
    "n_est": 1,
    "eps_ly": -0.23,
-   "mcap": 2846559230.0,
+   "mcap": 3013220100.0,
    "quarter": "Sep/2026"
   },
   {
    "date": "2026-11-11",
-   "ticker": "RUM",
-   "name": "RUM Group Inc.",
-   "sector": "Communication Services",
-   "time": "pre",
-   "eps": -0.15,
+   "ticker": "TNK",
+   "name": "Teekay Tankers Ltd.",
+   "sector": "Energy",
+   "time": "post",
+   "eps": 3.45,
    "n_est": 1,
-   "eps_ly": -0.08,
-   "mcap": 2436907010.0,
+   "eps_ly": 1.54,
+   "mcap": 2948885250.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2175,7 +2283,19 @@
    "eps": 0.67,
    "n_est": 3,
    "eps_ly": 0.47,
-   "mcap": 2398700800.0,
+   "mcap": 2547457540.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "RUM",
+   "name": "RUM Group Inc.",
+   "sector": "Communication Services",
+   "time": "pre",
+   "eps": -0.15,
+   "n_est": 1,
+   "eps_ly": -0.08,
+   "mcap": 2518715900.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2187,7 +2307,19 @@
    "eps": -0.82,
    "n_est": 5,
    "eps_ly": -0.7,
-   "mcap": 2395829250.0,
+   "mcap": 2401402620.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "AADX",
+   "name": "Applied Aerospace & Defense, In",
+   "sector": "Industrials",
+   "time": "pre",
+   "eps": 0.09,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 1879089410.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2199,7 +2331,7 @@
    "eps": 0.4,
    "n_est": 1,
    "eps_ly": 0.34,
-   "mcap": 1754208380.0,
+   "mcap": 1817495040.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2209,33 +2341,9 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -0.06,
-   "mcap": 1700382850.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "AADX",
-   "name": "Applied Aerospace & Defense, In",
-   "sector": "Industrials",
-   "time": "pre",
-   "eps": 0.09,
-   "n_est": 1,
-   "eps_ly": null,
-   "mcap": 1667045380.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "TYRA",
-   "name": "Tyra Biosciences, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": -0.66,
-   "n_est": 8,
-   "eps_ly": -0.5,
-   "mcap": 1454188160.0,
+   "mcap": 1732694140.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2245,21 +2353,9 @@
    "sector": "Industrials",
    "time": "post",
    "eps": 0.09,
-   "n_est": 1,
-   "eps_ly": null,
-   "mcap": 1293043580.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "RSKD",
-   "name": "Riskified Ltd.",
-   "sector": "nan",
-   "time": "pre",
-   "eps": -0.04,
    "n_est": 2,
-   "eps_ly": -0.04,
-   "mcap": 1161151360.0,
+   "eps_ly": null,
+   "mcap": 1465449340.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2271,7 +2367,19 @@
    "eps": 0.14,
    "n_est": 2,
    "eps_ly": 0.28,
-   "mcap": 1143331840.0,
+   "mcap": 1229450110.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "RSKD",
+   "name": "Riskified Ltd.",
+   "sector": "nan",
+   "time": "pre",
+   "eps": -0.04,
+   "n_est": 2,
+   "eps_ly": -0.04,
+   "mcap": 1152993410.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2283,31 +2391,7 @@
    "eps": -0.11,
    "n_est": 1,
    "eps_ly": 0.1,
-   "mcap": 996951490.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "ANRO",
-   "name": "Alto Neuroscience, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": -0.6,
-   "n_est": 6,
-   "eps_ly": -0.52,
-   "mcap": 987331330.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "BMBL",
-   "name": "Bumble Inc.",
-   "sector": "nan",
-   "time": "",
-   "eps": 0.23,
-   "n_est": 4,
-   "eps_ly": 0.35,
-   "mcap": 924502340.0,
+   "mcap": 990797440.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2317,21 +2401,9 @@
    "sector": "Technology",
    "time": "post",
    "eps": -0.09,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
-   "mcap": 812278140.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "IRD",
-   "name": "Opus Genetics, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": -0.14,
-   "n_est": 7,
-   "eps_ly": -0.12,
-   "mcap": 347758528.0,
+   "mcap": 876165180.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2341,105 +2413,9 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -0.08,
-   "mcap": 310361408.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "SION",
-   "name": "Sionna Therapeutics, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": -0.62,
-   "n_est": 3,
-   "eps_ly": -0.46,
-   "mcap": 148296672.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "CPHI",
-   "name": "China Pharma Holdings, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": -0.17,
-   "mcap": 24518240.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "AEMD",
-   "name": "Aethlon Medical, Inc.",
-   "sector": "nan",
-   "time": "",
-   "eps": -2.91,
-   "n_est": 2,
-   "eps_ly": -18.7,
-   "mcap": 8774400.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "INBS",
-   "name": "Intelligent Bio Solutions Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": null,
-   "n_est": null,
-   "eps_ly": -3.5,
-   "mcap": 6534102.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "APUS",
-   "name": "Apimeds Pharmaceuticals US, Inc.",
-   "sector": "nan",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": -1.4,
-   "mcap": 4172798.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "HYFM",
-   "name": "Hydrofarm Holdings Group, Inc.",
-   "sector": "Industrials",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": -3.51,
-   "mcap": 3934495.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "AMIX",
-   "name": "Autonomix Medical, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": null,
-   "n_est": null,
-   "eps_ly": -28.99,
-   "mcap": 2979106.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "WORX",
-   "name": "SCWorx Corp.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": 27.0,
-   "mcap": 1789358.0,
+   "mcap": 254323936.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2451,7 +2427,67 @@
    "eps": -9.01,
    "n_est": 1,
    "eps_ly": -19.82,
-   "mcap": 1780812.0,
+   "mcap": 52683512.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "CPHI",
+   "name": "China Pharma Holdings, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": null,
+   "n_est": 2,
+   "eps_ly": -0.17,
+   "mcap": 24307432.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "AEMD",
+   "name": "Aethlon Medical, Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": -2.91,
+   "n_est": 2,
+   "eps_ly": -18.7,
+   "mcap": 8806482.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "APUS",
+   "name": "Apimeds Pharmaceuticals US, Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": null,
+   "n_est": 2,
+   "eps_ly": -1.4,
+   "mcap": 4165085.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "HYFM",
+   "name": "Hydrofarm Holdings Group, Inc.",
+   "sector": "Industrials",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": -3.51,
+   "mcap": 3710879.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-11",
+   "ticker": "WORX",
+   "name": "SCWorx Corp.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": null,
+   "n_est": 1,
+   "eps_ly": 27.0,
+   "mcap": 1928068.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2521,7 +2557,7 @@
    "sector": "Technology",
    "time": "post",
    "eps": -0.13,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 22972442600.0,
    "quarter": "Sep/2026"
@@ -2568,8 +2604,8 @@
    "name": "Twist Bioscience Corporation",
    "sector": "Healthcare",
    "time": "pre",
-   "eps": -0.44,
-   "n_est": 1,
+   "eps": -0.43,
+   "n_est": 2,
    "eps_ly": -0.45,
    "mcap": 8973200400.0,
    "quarter": "Sep/2026"
@@ -2593,7 +2629,7 @@
    "sector": "Consumer Discretionary",
    "time": "post",
    "eps": 0.9,
-   "n_est": 1,
+   "n_est": 3,
    "eps_ly": null,
    "mcap": 7498060800.0,
    "quarter": "Sep/2026"
@@ -2617,7 +2653,7 @@
    "sector": "Industrials",
    "time": "pre",
    "eps": 0.18,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 6880092700.0,
    "quarter": "Sep/2026"
@@ -2665,7 +2701,7 @@
    "sector": "Technology",
    "time": "pre",
    "eps": 0.38,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 5855151600.0,
    "quarter": "Sep/2026"
@@ -2677,7 +2713,7 @@
    "sector": "Technology",
    "time": "pre",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 5653299700.0,
    "quarter": "Sep/2026"
@@ -2689,7 +2725,7 @@
    "sector": "Utilities",
    "time": "pre",
    "eps": 0.59,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 5545396200.0,
    "quarter": "Sep/2026"
@@ -2724,8 +2760,8 @@
    "name": "DPC Holdings PLC",
    "sector": "Industrials",
    "time": "pre",
-   "eps": 0.26,
-   "n_est": 1,
+   "eps": 0.15,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 4889633300.0,
    "quarter": "Sep/2026"
@@ -2737,7 +2773,7 @@
    "sector": "Industrials",
    "time": "pre",
    "eps": -0.21,
-   "n_est": 1,
+   "n_est": 6,
    "eps_ly": null,
    "mcap": 4535045600.0,
    "quarter": "Sep/2026"
@@ -2785,7 +2821,7 @@
    "sector": "nan",
    "time": "",
    "eps": -0.4,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 3703683070.0,
    "quarter": "Sep/2026"
@@ -2809,7 +2845,7 @@
    "sector": "Industrials",
    "time": "pre",
    "eps": 0.5,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 3475707390.0,
    "quarter": "Sep/2026"
@@ -2845,7 +2881,7 @@
    "sector": "Communication Services",
    "time": "post",
    "eps": 0.17,
-   "n_est": 1,
+   "n_est": 6,
    "eps_ly": null,
    "mcap": 3168192770.0,
    "quarter": "Sep/2026"
@@ -2869,7 +2905,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": 0.09,
-   "n_est": 1,
+   "n_est": 3,
    "eps_ly": null,
    "mcap": 2854816770.0,
    "quarter": "Sep/2026"
@@ -2929,7 +2965,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": -0.5,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 1820037500.0,
    "quarter": "Sep/2026"
@@ -2941,7 +2977,7 @@
    "sector": "Industrials",
    "time": "pre",
    "eps": -0.01,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 1810050690.0,
    "quarter": "Sep/2026"
@@ -3000,7 +3036,7 @@
    "name": "Arcos Dorados Holdings Inc.",
    "sector": "nan",
    "time": "pre",
-   "eps": 0.16,
+   "eps": 0.13,
    "n_est": 1,
    "eps_ly": 0.12,
    "mcap": 1487281150.0,
@@ -3013,7 +3049,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": -0.03,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 1475361150.0,
    "quarter": "Sep/2026"
@@ -3025,7 +3061,7 @@
    "sector": "Technology",
    "time": "pre",
    "eps": 0.46,
-   "n_est": 1,
+   "n_est": 3,
    "eps_ly": null,
    "mcap": 1469873150.0,
    "quarter": "Sep/2026"
@@ -3145,7 +3181,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": -0.23,
-   "n_est": 1,
+   "n_est": 6,
    "eps_ly": null,
    "mcap": 976612540.0,
    "quarter": "Sep/2026"
@@ -3176,24 +3212,12 @@
   },
   {
    "date": "2026-11-12",
-   "ticker": "CGEM",
-   "name": "Cullinan Therapeutics, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": -0.79,
-   "n_est": 6,
-   "eps_ly": -0.77,
-   "mcap": 754880580.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-12",
    "ticker": "CDNL",
    "name": "Cardinal Infrastructure Group I",
    "sector": "Industrials",
    "time": "pre",
    "eps": 0.49,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 738348160.0,
    "quarter": "Sep/2026"
@@ -3272,24 +3296,12 @@
   },
   {
    "date": "2026-11-12",
-   "ticker": "ABUS",
-   "name": "Arbutus Biopharma Corporation",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": -0.04,
-   "mcap": 570186370.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-12",
    "ticker": "BRUN",
    "name": "Boost Run Inc.",
    "sector": "Technology",
    "time": "pre",
    "eps": -0.17,
-   "n_est": 1,
+   "n_est": 3,
    "eps_ly": null,
    "mcap": 532565856.0,
    "quarter": "Sep/2026"
@@ -3325,7 +3337,7 @@
    "sector": "Materials",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -0.21,
    "mcap": 477216704.0,
    "quarter": "Sep/2026"
@@ -3421,7 +3433,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": -1.14,
-   "n_est": 1,
+   "n_est": 6,
    "eps_ly": null,
    "mcap": 143345280.0,
    "quarter": "Sep/2026"
@@ -3445,7 +3457,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 101454048.0,
    "quarter": "Sep/2026"
@@ -3457,7 +3469,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -2.5,
    "mcap": 57070376.0,
    "quarter": "Sep/2026"
@@ -3493,7 +3505,7 @@
    "sector": "Communication Services",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 6,
    "eps_ly": -27.61,
    "mcap": 14252446.0,
    "quarter": "Sep/2026"
@@ -3505,7 +3517,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 0.45,
    "mcap": 11079307.0,
    "quarter": "Sep/2026"
@@ -3517,21 +3529,9 @@
    "sector": "nan",
    "time": "post",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -13.99,
    "mcap": 4705286.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-12",
-   "ticker": "VEEE",
-   "name": "Twin Vee PowerCats Co.",
-   "sector": "nan",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": -45.56,
-   "mcap": 4590036.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3541,7 +3541,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 1.2,
    "mcap": 2612245.0,
    "quarter": "Sep/2026"
@@ -3553,7 +3553,7 @@
    "sector": "Healthcare",
    "time": "pre",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 176.24,
    "mcap": 2001945.0,
    "quarter": "Sep/2026"
@@ -3565,7 +3565,7 @@
    "sector": "Consumer Staples",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 749.63,
    "mcap": 1058633.0,
    "quarter": "Sep/2026"
@@ -3577,21 +3577,9 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -16.22,
    "mcap": 1032155.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-12",
-   "ticker": "WHLR",
-   "name": "Wheeler Real Estate Investment Trust, Inc.",
-   "sector": "nan",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": null,
-   "mcap": 763791.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3628,18 +3616,6 @@
    "n_est": 1,
    "eps_ly": 0.2,
    "mcap": 122251567000.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-13",
-   "ticker": "HMC",
-   "name": "Honda Motor Company, Ltd.",
-   "sector": "Consumer Discretionary",
-   "time": "",
-   "eps": null,
-   "n_est": null,
-   "eps_ly": 0.6,
-   "mcap": 46503363000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3685,7 +3661,7 @@
    "sector": "Consumer Staples",
    "time": "pre",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.16,
    "mcap": 3132413180.0,
    "quarter": "Sep/2026"
@@ -3769,7 +3745,7 @@
    "sector": "nan",
    "time": "",
    "eps": -0.05,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.05,
    "mcap": 327569280.0,
    "quarter": "Sep/2026"
@@ -3781,7 +3757,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -0.16,
    "mcap": 301975552.0,
    "quarter": "Sep/2026"
@@ -3793,7 +3769,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 165297744.0,
    "quarter": "Sep/2026"
@@ -3836,6 +3812,18 @@
   },
   {
    "date": "2026-11-13",
+   "ticker": "ROLR",
+   "name": "High Roller Technologies, Inc.",
+   "sector": "Consumer Discretionary",
+   "time": "post",
+   "eps": null,
+   "n_est": 2,
+   "eps_ly": 0.07,
+   "mcap": 36507024.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-13",
    "ticker": "FTFT",
    "name": "Future FinTech Group Inc.",
    "sector": "nan",
@@ -3853,7 +3841,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -0.88,
    "mcap": 24652780.0,
    "quarter": "Sep/2026"
@@ -3877,7 +3865,7 @@
    "sector": "Energy",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -1.36,
    "mcap": 14973629.0,
    "quarter": "Sep/2026"
@@ -3901,7 +3889,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 0.6,
    "mcap": 14402578.0,
    "quarter": "Sep/2026"
@@ -3913,7 +3901,7 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.12,
    "mcap": 13221609.0,
    "quarter": "Sep/2026"
@@ -3928,18 +3916,6 @@
    "n_est": 2,
    "eps_ly": -2.32,
    "mcap": 12892587.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-13",
-   "ticker": "CLRO",
-   "name": "ClearOne, Inc.",
-   "sector": "Technology",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": -0.5,
-   "mcap": 12306895.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3961,7 +3937,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.55,
    "mcap": 6894527.0,
    "quarter": "Sep/2026"
@@ -3973,7 +3949,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -99.99,
    "mcap": 5820184.0,
    "quarter": "Sep/2026"
@@ -4033,7 +4009,7 @@
    "sector": "Consumer Staples",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 3.0,
    "mcap": 3662670.0,
    "quarter": "Sep/2026"
@@ -4045,7 +4021,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -5.26,
    "mcap": 2900746.0,
    "quarter": "Sep/2026"
@@ -4093,7 +4069,7 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -67.69,
    "mcap": 1638439.0,
    "quarter": "Sep/2026"
@@ -4105,7 +4081,7 @@
    "sector": "Communication Services",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 77.0,
    "mcap": 1103603.0,
    "quarter": "Sep/2026"
@@ -4117,7 +4093,7 @@
    "sector": "Communication Services",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 8.0,
    "mcap": 930220.0,
    "quarter": "Sep/2026"
@@ -4140,7 +4116,7 @@
    "name": "Trip.com Group Limited",
    "sector": "Consumer Discretionary",
    "time": "",
-   "eps": 1.02,
+   "eps": 1.07,
    "n_est": 2,
    "eps_ly": 3.76,
    "mcap": 27732217900.0,
@@ -4357,7 +4333,7 @@
    "sector": "Technology",
    "time": "post",
    "eps": -1.47,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 856777860.0,
    "quarter": "Sep/2026"
@@ -4428,7 +4404,7 @@
    "name": "The Home Depot, Inc.",
    "sector": "Consumer Discretionary",
    "time": "pre",
-   "eps": 3.86,
+   "eps": 3.87,
    "n_est": 11,
    "eps_ly": 3.74,
    "mcap": 352603472000.0,
@@ -4441,7 +4417,7 @@
    "sector": "Materials",
    "time": "",
    "eps": null,
-   "n_est": 4,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 209786012000.0,
    "quarter": "Sep/2026"
@@ -4523,7 +4499,7 @@
    "ticker": "SQM",
    "name": "Sociedad Qu?mica y Minera de Chile S.A.",
    "sector": "Materials",
-   "time": "",
+   "time": "post",
    "eps": 1.94,
    "n_est": 3,
    "eps_ly": 0.62,
@@ -4621,9 +4597,21 @@
    "sector": "Industrials",
    "time": "pre",
    "eps": 0.5,
-   "n_est": 4,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 2085576320.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-17",
+   "ticker": "DRVN",
+   "name": "Driven Brands Holdings Inc.",
+   "sector": "Consumer Discretionary",
+   "time": "",
+   "eps": 0.27,
+   "n_est": 3,
+   "eps_ly": 0.32,
+   "mcap": 2022652540.0,
    "quarter": "Sep/2026"
   },
   {
@@ -4636,6 +4624,18 @@
    "n_est": 3,
    "eps_ly": 1.05,
    "mcap": 1716199940.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-17",
+   "ticker": "ANAB",
+   "name": "AnaptysBio, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": 0.41,
+   "n_est": 3,
+   "eps_ly": 0.52,
+   "mcap": 1420318850.0,
    "quarter": "Sep/2026"
   },
   {
@@ -4687,6 +4687,18 @@
    "quarter": "Sep/2026"
   },
   {
+   "date": "2026-11-17",
+   "ticker": "HOWL",
+   "name": "Werewolf Therapeutics, Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": -0.36,
+   "mcap": 49085056.0,
+   "quarter": "Sep/2026"
+  },
+  {
    "date": "2026-11-18",
    "ticker": "PANW",
    "name": "Palo Alto Networks, Inc.",
@@ -4716,7 +4728,7 @@
    "name": "Lowe's Companies, Inc.",
    "sector": "Consumer Discretionary",
    "time": "pre",
-   "eps": 2.85,
+   "eps": 2.86,
    "n_est": 11,
    "eps_ly": 3.06,
    "mcap": 130220638000.0,
@@ -4801,7 +4813,7 @@
    "sector": "Industrials",
    "time": "",
    "eps": 4.33,
-   "n_est": 4,
+   "n_est": 5,
    "eps_ly": 3.63,
    "mcap": 6633299500.0,
    "quarter": "Oct/2026"
@@ -4895,7 +4907,7 @@
    "ticker": "KLIC",
    "name": "Kulicke and Soffa Industries, I",
    "sector": "Technology",
-   "time": "",
+   "time": "post",
    "eps": 1.31,
    "n_est": 2,
    "eps_ly": 0.16,
@@ -5091,7 +5103,7 @@
    "eps": 0.64,
    "n_est": 12,
    "eps_ly": 0.62,
-   "mcap": 996954540000.0,
+   "mcap": 996081860000.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5100,10 +5112,10 @@
    "name": "Alibaba Group Holding Limited",
    "sector": "Consumer Discretionary",
    "time": "pre",
-   "eps": 1.31,
-   "n_est": 3,
+   "eps": 1.56,
+   "n_est": 2,
    "eps_ly": 0.44,
-   "mcap": 255281578000.0,
+   "mcap": 248837767000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5115,7 +5127,7 @@
    "eps": 2.47,
    "n_est": 9,
    "eps_ly": 1.88,
-   "mcap": 90387235000.0,
+   "mcap": 90977821000.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5127,7 +5139,7 @@
    "eps": 2.4,
    "n_est": 2,
    "eps_ly": 1.88,
-   "mcap": 82733310000.0,
+   "mcap": 81699545000.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5139,19 +5151,7 @@
    "eps": 1.82,
    "n_est": 7,
    "eps_ly": 1.58,
-   "mcap": 75710390000.0,
-   "quarter": "Oct/2026"
-  },
-  {
-   "date": "2026-11-19",
-   "ticker": "VEEV",
-   "name": "Veeva Systems Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": 1.68,
-   "n_est": 7,
-   "eps_ly": 1.42,
-   "mcap": 49608872000.0,
+   "mcap": 76333318000.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5163,7 +5163,19 @@
    "eps": 3.09,
    "n_est": 2,
    "eps_ly": 1.65,
-   "mcap": 49195622000.0,
+   "mcap": 49619534000.0,
+   "quarter": "Oct/2026"
+  },
+  {
+   "date": "2026-11-19",
+   "ticker": "VEEV",
+   "name": "Veeva Systems Inc.",
+   "sector": "Healthcare",
+   "time": "",
+   "eps": 1.68,
+   "n_est": 7,
+   "eps_ly": 1.42,
+   "mcap": 49471250000.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5175,7 +5187,7 @@
    "eps": 0.41,
    "n_est": 4,
    "eps_ly": 0.41,
-   "mcap": 30060965900.0,
+   "mcap": 29922009100.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5187,7 +5199,7 @@
    "eps": 0.38,
    "n_est": 3,
    "eps_ly": 0.21,
-   "mcap": 16629659600.0,
+   "mcap": 16655814700.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5199,7 +5211,7 @@
    "eps": null,
    "n_est": null,
    "eps_ly": 2.93,
-   "mcap": 14152725500.0,
+   "mcap": 13383204900.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5211,7 +5223,7 @@
    "eps": 0.14,
    "n_est": 7,
    "eps_ly": -0.06,
-   "mcap": 9565770800.0,
+   "mcap": 9246770200.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5223,7 +5235,7 @@
    "eps": 0.19,
    "n_est": 1,
    "eps_ly": 0.12,
-   "mcap": 9306772500.0,
+   "mcap": 9171892200.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5235,7 +5247,7 @@
    "eps": 0.73,
    "n_est": 7,
    "eps_ly": 0.62,
-   "mcap": 7808735200.0,
+   "mcap": 7717404700.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5247,7 +5259,7 @@
    "eps": 2.59,
    "n_est": 3,
    "eps_ly": 2.32,
-   "mcap": 7460420600.0,
+   "mcap": 7391583700.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5259,7 +5271,7 @@
    "eps": 0.31,
    "n_est": 2,
    "eps_ly": 0.33,
-   "mcap": 6574903800.0,
+   "mcap": 6498060300.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5267,11 +5279,11 @@
    "ticker": "ROAD",
    "name": "Construction Partners, Inc.",
    "sector": "Industrials",
-   "time": "",
-   "eps": 1.25,
-   "n_est": 3,
+   "time": "pre",
+   "eps": 1.19,
+   "n_est": 4,
    "eps_ly": 1.07,
-   "mcap": 4894049800.0,
+   "mcap": 4684058600.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5283,7 +5295,7 @@
    "eps": 0.42,
    "n_est": 4,
    "eps_ly": 0.45,
-   "mcap": 4599490600.0,
+   "mcap": 4558662700.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5295,7 +5307,7 @@
    "eps": 0.11,
    "n_est": 9,
    "eps_ly": 0.35,
-   "mcap": 4387802100.0,
+   "mcap": 4365621200.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5307,7 +5319,7 @@
    "eps": 1.66,
    "n_est": 2,
    "eps_ly": 2.09,
-   "mcap": 3615447300.0,
+   "mcap": 3596985340.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5319,7 +5331,7 @@
    "eps": 1.88,
    "n_est": 3,
    "eps_ly": 1.62,
-   "mcap": 3436763650.0,
+   "mcap": 3461895170.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5331,7 +5343,7 @@
    "eps": 0.05,
    "n_est": 2,
    "eps_ly": 0.06,
-   "mcap": 2660103940.0,
+   "mcap": 2633070340.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5343,7 +5355,7 @@
    "eps": 1.13,
    "n_est": 6,
    "eps_ly": 1.22,
-   "mcap": 2047142780.0,
+   "mcap": 2107594110.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5353,9 +5365,9 @@
    "sector": "Energy",
    "time": "pre",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 1.05,
-   "mcap": 1348812800.0,
+   "mcap": 1360562560.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5367,7 +5379,7 @@
    "eps": 0.28,
    "n_est": 2,
    "eps_ly": 0.5,
-   "mcap": 614275260.0,
+   "mcap": 613338880.0,
    "quarter": "Sep/2026"
   },
   {
@@ -5379,7 +5391,7 @@
    "eps": 0.25,
    "n_est": 1,
    "eps_ly": 0.53,
-   "mcap": 419718112.0,
+   "mcap": 396068192.0,
    "quarter": "Oct/2026"
   },
   {
@@ -5425,7 +5437,7 @@
    "sector": "Energy",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 0.19,
    "mcap": 9859968000.0,
    "quarter": "Sep/2026"
@@ -5437,7 +5449,7 @@
    "sector": "Industrials",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 1.88,
    "mcap": 7080397800.0,
    "quarter": "Sep/2026"
@@ -5449,7 +5461,7 @@
    "sector": "Consumer Discretionary",
    "time": "pre",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 0.96,
    "mcap": 2259850500.0,
    "quarter": "Oct/2026"
