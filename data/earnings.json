@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-12",
+ "as_of": "2026-11-13",
  "start": "2026-11-09",
  "end": "2026-11-20",
  "universe": 3654,
@@ -16,7 +16,7 @@
   "2026-11-20"
  ],
  "days_failed": [],
- "n": 439,
+ "n": 438,
  "earnings": [
   {
    "date": "2026-11-09",
@@ -1405,7 +1405,7 @@
    "sector": "Energy",
    "time": "post",
    "eps": 0.63,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 31454271500.0,
    "quarter": "Sep/2026"
@@ -2017,7 +2017,7 @@
    "sector": "Technology",
    "time": "post",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 160967088.0,
    "quarter": "Sep/2026"
@@ -2104,18 +2104,6 @@
    "n_est": 3,
    "eps_ly": null,
    "mcap": 18814382100.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-11",
-   "ticker": "KSPI",
-   "name": "Joint Stock Company Kaspi.kz - ",
-   "sector": "Technology",
-   "time": "",
-   "eps": 3.12,
-   "n_est": 1,
-   "eps_ly": null,
-   "mcap": 16933985300.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2497,7 +2485,7 @@
    "sector": "Technology",
    "time": "post",
    "eps": -0.13,
-   "n_est": null,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 24012974100.0,
    "quarter": "Sep/2026"
@@ -2569,7 +2557,7 @@
    "sector": "Consumer Discretionary",
    "time": "post",
    "eps": 0.9,
-   "n_est": null,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 7502618600.0,
    "quarter": "Sep/2026"
@@ -2713,7 +2701,7 @@
    "sector": "Communication Services",
    "time": "post",
    "eps": 0.17,
-   "n_est": null,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 3141099780.0,
    "quarter": "Sep/2026"
@@ -2749,7 +2737,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": 0.09,
-   "n_est": null,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 2815806980.0,
    "quarter": "Sep/2026"
@@ -2833,7 +2821,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": -0.03,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 1494954370.0,
    "quarter": "Sep/2026"
@@ -2977,7 +2965,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": -0.23,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 994469060.0,
    "quarter": "Sep/2026"
@@ -3109,7 +3097,7 @@
    "sector": "Materials",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.21,
    "mcap": 463283360.0,
    "quarter": "Sep/2026"
@@ -3205,7 +3193,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": -1.14,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 136160912.0,
    "quarter": "Sep/2026"
@@ -3229,7 +3217,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 93582616.0,
    "quarter": "Sep/2026"
@@ -3241,7 +3229,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -2.5,
    "mcap": 53922608.0,
    "quarter": "Sep/2026"
@@ -3277,7 +3265,7 @@
    "sector": "Communication Services",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -27.61,
    "mcap": 13894507.0,
    "quarter": "Sep/2026"
@@ -3289,7 +3277,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 2,
    "eps_ly": 0.45,
    "mcap": 10697447.0,
    "quarter": "Sep/2026"
@@ -3301,7 +3289,7 @@
    "sector": "nan",
    "time": "post",
    "eps": null,
-   "n_est": null,
+   "n_est": 2,
    "eps_ly": -13.99,
    "mcap": 4691843.0,
    "quarter": "Sep/2026"
@@ -3313,7 +3301,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 2,
    "eps_ly": 1.2,
    "mcap": 2593109.0,
    "quarter": "Sep/2026"
@@ -3325,7 +3313,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -16.22,
    "mcap": 1060393.0,
    "quarter": "Sep/2026"
@@ -3337,7 +3325,7 @@
    "sector": "Consumer Staples",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 749.63,
    "mcap": 1006992.0,
    "quarter": "Sep/2026"
@@ -3397,7 +3385,7 @@
    "sector": "Financials",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": 0.63,
    "mcap": 10443316200.0,
    "quarter": "Sep/2026"
@@ -3421,7 +3409,7 @@
    "sector": "Consumer Staples",
    "time": "pre",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.16,
    "mcap": 2958077950.0,
    "quarter": "Sep/2026"
@@ -3505,7 +3493,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.16,
    "mcap": 308895840.0,
    "quarter": "Sep/2026"
@@ -3517,7 +3505,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": null,
    "mcap": 178619440.0,
    "quarter": "Sep/2026"
@@ -3529,7 +3517,7 @@
    "sector": "Industrials",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.24,
    "mcap": 111347856.0,
    "quarter": "Sep/2026"
@@ -3553,7 +3541,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 4.0,
    "mcap": 60641888.0,
    "quarter": "Sep/2026"
@@ -3565,7 +3553,7 @@
    "sector": "Consumer Discretionary",
    "time": "post",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 0.07,
    "mcap": 35293800.0,
    "quarter": "Sep/2026"
@@ -3577,7 +3565,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -21.12,
    "mcap": 30535050.0,
    "quarter": "Sep/2026"
@@ -3589,7 +3577,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.88,
    "mcap": 24370460.0,
    "quarter": "Sep/2026"
@@ -3613,7 +3601,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 0.6,
    "mcap": 18718472.0,
    "quarter": "Sep/2026"
@@ -3637,7 +3625,7 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.12,
    "mcap": 13091347.0,
    "quarter": "Sep/2026"
@@ -3661,7 +3649,7 @@
    "sector": "Energy",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -1.36,
    "mcap": 10393460.0,
    "quarter": "Sep/2026"
@@ -3685,7 +3673,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.55,
    "mcap": 6646819.0,
    "quarter": "Sep/2026"
@@ -3697,7 +3685,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -99.99,
    "mcap": 6438104.0,
    "quarter": "Sep/2026"
@@ -3709,7 +3697,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -0.13,
    "mcap": 5746904.0,
    "quarter": "Sep/2026"
@@ -3721,7 +3709,7 @@
    "sector": "Industrials",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -0.47,
    "mcap": 5331575.0,
    "quarter": "Sep/2026"
@@ -3745,7 +3733,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -0.69,
    "mcap": 4429327.0,
    "quarter": "Sep/2026"
@@ -3757,7 +3745,7 @@
    "sector": "Consumer Staples",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 3.0,
    "mcap": 3612837.0,
    "quarter": "Sep/2026"
@@ -3769,7 +3757,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -5.26,
    "mcap": 2821635.0,
    "quarter": "Sep/2026"
@@ -3805,7 +3793,7 @@
    "sector": "Real Estate",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -5.2,
    "mcap": 1763900.0,
    "quarter": "Sep/2026"
@@ -3817,7 +3805,7 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": -67.69,
    "mcap": 1553983.0,
    "quarter": "Sep/2026"
@@ -3829,7 +3817,7 @@
    "sector": "Communication Services",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": 2,
    "eps_ly": 77.0,
    "mcap": 1178720.0,
    "quarter": "Sep/2026"
@@ -3841,7 +3829,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": -24.92,
    "mcap": 642441.0,
    "quarter": "Sep/2026"
@@ -5269,7 +5257,7 @@
    "sector": "Consumer Discretionary",
    "time": "pre",
    "eps": null,
-   "n_est": 2,
+   "n_est": null,
    "eps_ly": 0.96,
    "mcap": 2270668030.0,
    "quarter": "Oct/2026"
