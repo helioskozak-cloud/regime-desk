@@ -762,12 +762,12 @@ html:not(.light) .fl-stat{border-radius:12px!important}
 window.SNAPSHOT = {
   "generated": "2026-11-14",
   "spy": {
-    "ret_5d": 0.02595,
-    "ret_20d": -0.01163,
-    "vol_20d": 0.0139,
-    "drawdown_60d": -0.03173,
+    "ret_5d": 0.03291,
+    "ret_20d": -0.01901,
+    "vol_20d": 0.01409,
+    "drawdown_60d": -0.0282,
     "regime": "Elevated Volatility",
-    "breadth": 0.4808,
+    "breadth": 0.4851,
     "persistence": 0.1478,
     "reversal_risk": 0.5,
     "explain": {
@@ -781,7 +781,7 @@ window.SNAPSHOT = {
                 "key": "vol_20d",
                 "op": ">",
                 "threshold": 0.025,
-                "value": 0.0139,
+                "value": 0.01409,
                 "met": false
               }
             ],
@@ -795,7 +795,7 @@ window.SNAPSHOT = {
                 "key": "drawdown_60d",
                 "op": "<",
                 "threshold": -0.15,
-                "value": -0.03173,
+                "value": -0.0282,
                 "met": false
               }
             ],
@@ -809,14 +809,14 @@ window.SNAPSHOT = {
                 "key": "drawdown_60d",
                 "op": "<",
                 "threshold": -0.08,
-                "value": -0.03173,
+                "value": -0.0282,
                 "met": false
               },
               {
                 "key": "ret_20d",
                 "op": "<",
                 "threshold": 0.0,
-                "value": -0.01163,
+                "value": -0.01901,
                 "met": true
               }
             ],
@@ -830,14 +830,14 @@ window.SNAPSHOT = {
                 "key": "drawdown_60d",
                 "op": "<",
                 "threshold": -0.05,
-                "value": -0.03173,
+                "value": -0.0282,
                 "met": false
               },
               {
                 "key": "ret_20d",
                 "op": ">",
                 "threshold": 0.0,
-                "value": -0.01163,
+                "value": -0.01901,
                 "met": false
               }
             ],
@@ -851,7 +851,7 @@ window.SNAPSHOT = {
                 "key": "ret_20d",
                 "op": ">",
                 "threshold": 0.05,
-                "value": -0.01163,
+                "value": -0.01901,
                 "met": false
               }
             ],
@@ -865,7 +865,7 @@ window.SNAPSHOT = {
                 "key": "ret_20d",
                 "op": "<",
                 "threshold": -0.05,
-                "value": -0.01163,
+                "value": -0.01901,
                 "met": false
               }
             ],
@@ -879,7 +879,7 @@ window.SNAPSHOT = {
                 "key": "vol_20d",
                 "op": ">",
                 "threshold": 0.013858697343671664,
-                "value": 0.0139,
+                "value": 0.01409,
                 "met": true
               }
             ],
@@ -893,7 +893,7 @@ window.SNAPSHOT = {
                 "key": "ret_20d",
                 "op": ">",
                 "threshold": 0.01,
-                "value": -0.01163,
+                "value": -0.01901,
                 "met": false
               }
             ],
@@ -907,7 +907,7 @@ window.SNAPSHOT = {
                 "key": "ret_20d",
                 "op": "<",
                 "threshold": -0.01,
-                "value": -0.01163,
+                "value": -0.01901,
                 "met": true
               }
             ],
@@ -922,11 +922,16 @@ window.SNAPSHOT = {
     "measures": {
       "breadth": {
         "ma": 50,
-        "n": 3390,
+        "n": 3399,
         "n_typical": 3396,
-        "days": 704,
-        "asof": "2026-11-13",
-        "value": 0.4808,
+        "days": 703,
+        "withheld": {
+          "date": "2026-11-13",
+          "n": 49,
+          "reason": "only 49 names measurable"
+        },
+        "asof": "2026-11-12",
+        "value": 0.4851,
         "range30": {
           "lo": 0.2798,
           "hi": 0.557
@@ -935,8 +940,9 @@ window.SNAPSHOT = {
           "lo": 0.2557,
           "hi": 0.6815
         },
-        "pct_rank": 0.2386,
+        "pct_rank": 0.2475,
         "history": [
+          0.3004,
           0.297,
           0.3651,
           0.3933,
@@ -955,8 +961,7 @@ window.SNAPSHOT = {
           0.5427,
           0.5181,
           0.5421,
-          0.4851,
-          0.4808
+          0.4851
         ]
       },
       "persistence": {
@@ -964,11 +969,11 @@ window.SNAPSHOT = {
         "horizon": 20,
         "days": 379,
         "held": 56,
-        "base_rate": 0.0454,
+        "base_rate": 0.0452,
         "spells": 118,
         "median_spell": 2.0,
-        "streak": 5,
-        "history_sessions": 8487,
+        "streak": 4,
+        "history_sessions": 8486,
         "value": 0.1478
       },
       "reversal": {
@@ -977,9 +982,9 @@ window.SNAPSHOT = {
         "days": 378,
         "reversed": 189,
         "spells": 118,
-        "base_days": 8451,
-        "base_rate": 0.4557,
-        "trailing_20d": -0.01163,
+        "base_days": 8450,
+        "base_rate": 0.4556,
+        "trailing_20d": -0.01901,
         "value": 0.5
       },
       "next_regime": {
@@ -987,7 +992,7 @@ window.SNAPSHOT = {
         "horizon": 20,
         "days": 379,
         "spells": 118,
-        "history_sessions": 8487,
+        "history_sessions": 8486,
         "rows": [
           {
             "label": "Calm Uptrend",
@@ -1011,7 +1016,7 @@ window.SNAPSHOT = {
             "label": "Elevated Volatility",
             "share": 0.1478,
             "n": 56,
-            "base_rate": 0.0454
+            "base_rate": 0.0452
           },
           {
             "label": "Drifting Lower",
@@ -1060,27 +1065,27 @@ window.SNAPSHOT = {
         "rows": [
           {
             "label": "Calm Uptrend",
-            "share": 0.5,
-            "n": 15,
-            "base_rate": 0.4895
-          },
-          {
-            "label": "Range",
-            "share": 0.2333,
-            "n": 7,
-            "base_rate": 0.1837
+            "share": 0.5333,
+            "n": 16,
+            "base_rate": 0.4902
           },
           {
             "label": "Bull Trend",
             "share": 0.2,
             "n": 6,
-            "base_rate": 0.1066
+            "base_rate": 0.1067
+          },
+          {
+            "label": "Range",
+            "share": 0.2,
+            "n": 6,
+            "base_rate": 0.184
           },
           {
             "label": "Drifting Lower",
             "share": 0.0333,
             "n": 1,
-            "base_rate": 0.1346
+            "base_rate": 0.1348
           },
           {
             "label": "High Volatility",
@@ -1092,24 +1097,30 @@ window.SNAPSHOT = {
         "value": "Calm Uptrend"
       },
       "momentum_scale": {
-        "sessions": 8478,
+        "sessions": 8477,
         "window": 5,
         "ret": {
           "p40": 0.01057,
           "p50": 0.01399,
           "p80": 0.03055,
-          "p95": 0.05537
+          "p95": 0.05538
         },
         "vol": {
           "p40": 0.00846,
           "p50": 0.01127,
           "p80": 0.02527,
-          "p95": 0.05296
+          "p95": 0.05286
         },
         "value": true
       }
     },
     "history": [
+      {
+        "ret_5d": -0.01968,
+        "ret_20d": 0.00205,
+        "vol_20d": 0.00659,
+        "drawdown_60d": -0.02033
+      },
       {
         "ret_5d": -0.01493,
         "ret_20d": -0.00908,
@@ -1223,15 +1234,9 @@ window.SNAPSHOT = {
         "ret_20d": -0.01901,
         "vol_20d": 0.01409,
         "drawdown_60d": -0.0282
-      },
-      {
-        "ret_5d": 0.02595,
-        "ret_20d": -0.01163,
-        "vol_20d": 0.0139,
-        "drawdown_60d": -0.03173
       }
     ],
-    "regime_streak": 5
+    "regime_streak": 4
   },
   "sectors": [
     {
@@ -15881,51 +15886,51 @@ window.SNAPSHOT = {
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "+2.6%",
+      "value": "+3.3%",
       "signal": "bullish",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "-1.2%",
+      "value": "-1.9%",
       "signal": "neutral",
       "context": "Medium-term trend strength"
     },
     {
       "name": "10Y+ Treasuries",
       "asset": "TLT",
-      "value": "-0.4% (20d)",
+      "value": "+0.1% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.4% \u2014 range-bound rates"
+      "context": "20d ret +0.1% \u2014 range-bound rates"
     },
     {
       "name": "High-Yield Credit",
       "asset": "HYG",
-      "value": "+0.6% (20d)",
+      "value": "+0.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret +0.6% \u2014 stable credit"
+      "context": "20d ret +0.3% \u2014 stable credit"
     },
     {
       "name": "Gold",
       "asset": "GLD",
-      "value": "-7.0% (20d)",
+      "value": "-7.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret -7.0% \u2014 no safe-haven premium"
+      "context": "20d ret -7.3% \u2014 no safe-haven premium"
     },
     {
       "name": "USD Index",
       "asset": "UUP",
-      "value": "+2.0% (20d)",
-      "signal": "bullish",
-      "context": "20d ret +2.0% \u2014 dollar strength headwind for EM/commodities"
+      "value": "+1.4% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.4% \u2014 dollar strength headwind for EM/commodities"
     },
     {
       "name": "Crude Oil",
       "asset": "USO",
-      "value": "-10.0% (20d)",
+      "value": "-7.1% (20d)",
       "signal": "bearish",
-      "context": "20d ret -10.0% \u2014 demand concerns"
+      "context": "20d ret -7.1% \u2014 demand concerns"
     },
     {
       "name": "VIX Level",
@@ -15937,44 +15942,44 @@ window.SNAPSHOT = {
     {
       "name": "Semiconductors",
       "asset": "SMH",
-      "value": "-9.8% (20d)",
+      "value": "-10.2% (20d)",
       "signal": "bearish",
-      "context": "20d ret -9.8% \u2014 semi weakness; growth concerns"
+      "context": "20d ret -10.2% \u2014 semi weakness; growth concerns"
     },
     {
       "name": "Russell 2000",
       "asset": "IWM",
-      "value": "+2.6% (20d)",
-      "signal": "bullish",
-      "context": "20d ret +2.6% \u2014 small-cap breadth expanding"
+      "value": "+1.2% (20d)",
+      "signal": "neutral",
+      "context": "20d ret +1.2% \u2014 mixed breadth"
     },
     {
       "name": "Copper",
       "asset": "CPER",
-      "value": "-7.5% (20d)",
+      "value": "-5.6% (20d)",
       "signal": "bearish",
-      "context": "20d ret -7.5% \u2014 copper weak = growth concerns"
+      "context": "20d ret -5.6% \u2014 copper weak = growth concerns"
     },
     {
       "name": "TIPS / Breakevens",
       "asset": "TIP",
-      "value": "-0.7% (20d)",
+      "value": "-0.3% (20d)",
       "signal": "neutral",
-      "context": "20d ret -0.7% \u2014 inflation expectations contained"
+      "context": "20d ret -0.3% \u2014 inflation expectations contained"
     },
     {
       "name": "Nasdaq 100",
       "asset": "QQQ",
-      "value": "-4.2% (20d)",
+      "value": "-5.5% (20d)",
       "signal": "bearish",
-      "context": "20d ret -4.2% \u2014 growth selling; value rotation"
+      "context": "20d ret -5.5% \u2014 growth selling; value rotation"
     },
     {
       "name": "Financials",
       "asset": "XLF",
-      "value": "+5.7% (20d)",
+      "value": "+5.3% (20d)",
       "signal": "bullish",
-      "context": "20d ret +5.7% \u2014 financials leading; curve steepening favourable"
+      "context": "20d ret +5.3% \u2014 financials leading; curve steepening favourable"
     }
   ],
   "risks": [
@@ -16004,13 +16009,13 @@ window.SNAPSHOT = {
     },
     {
       "name": "Credit Stress",
-      "level": "low",
-      "score": 0.44,
-      "description": "HYG 20d +0.6%. Credit broadly constructive; no systemic signal.",
+      "level": "moderate",
+      "score": 0.47,
+      "description": "HYG 20d +0.3%. Credit broadly constructive; no systemic signal.",
       "invalidation": "HYG recovers to 20d positive return",
       "explain": {
         "input_label": "HYG 20-day return",
-        "input_value": "+0.6%",
+        "input_value": "+0.3%",
         "moderate_at": "+0.5%",
         "elevated_at": "-1.5%",
         "input_rises": false,
@@ -16018,7 +16023,7 @@ window.SNAPSHOT = {
       },
       "range30": {
         "lo": 0.377,
-        "hi": 0.732
+        "hi": 0.747
       },
       "range90": {
         "lo": 0.368,
@@ -16029,12 +16034,12 @@ window.SNAPSHOT = {
     {
       "name": "Rate Re-pricing",
       "level": "moderate",
-      "score": 0.53,
-      "description": "TLT 20d -0.4%. Bond sell-off = rates rising; duration assets under pressure.",
+      "score": 0.49,
+      "description": "TLT 20d +0.1%. Rates stable to falling; supportive for equities.",
       "invalidation": "TLT stabilises or rallies; 10Y yield falls below recent range",
       "explain": {
         "input_label": "TLT 20-day return",
-        "input_value": "-0.4%",
+        "input_value": "+0.1%",
         "moderate_at": "+0.6%",
         "elevated_at": "-1.9%",
         "input_rises": false,
@@ -16052,13 +16057,13 @@ window.SNAPSHOT = {
     },
     {
       "name": "Growth Slowdown",
-      "level": "elevated",
-      "score": 0.65,
-      "description": "Copper 20d -7.5%, IWM +2.6%. Cyclical indicators softening.",
+      "level": "moderate",
+      "score": 0.63,
+      "description": "Copper 20d -5.6%, IWM +1.2%. Cyclical indicators softening.",
       "invalidation": "Copper and IWM both sustain positive 20d momentum",
       "explain": {
         "input_label": "Copper + Russell 2000, 20-day returns added",
-        "input_value": "-4.9%",
+        "input_value": "-4.4%",
         "moderate_at": "+1.7%",
         "elevated_at": "-5.0%",
         "input_rises": false,
@@ -16077,12 +16082,12 @@ window.SNAPSHOT = {
     {
       "name": "Inflation Re-pricing",
       "level": "low",
-      "score": 0.24,
-      "description": "TIPS 20d -0.7%. Inflation expectations contained; Fed credibility intact.",
+      "score": 0.27,
+      "description": "TIPS 20d -0.3%. Inflation expectations contained; Fed credibility intact.",
       "invalidation": "TIPS underperform nominal treasuries; breakevens fall",
       "explain": {
         "input_label": "TIP 20-day return",
-        "input_value": "-0.7%",
+        "input_value": "-0.3%",
         "moderate_at": "+1.9%",
         "elevated_at": "+4.4%",
         "input_rises": true,
@@ -16101,12 +16106,12 @@ window.SNAPSHOT = {
     {
       "name": "Dollar Headwind",
       "level": "moderate",
-      "score": 0.56,
-      "description": "UUP 20d +2.0%. Strong dollar compresses EM earnings and commodity prices.",
+      "score": 0.52,
+      "description": "UUP 20d +1.4%. Strong dollar compresses EM earnings and commodity prices.",
       "invalidation": "DXY loses 20d momentum; UUP 20d return goes negative",
       "explain": {
         "input_label": "UUP 20-day return",
-        "input_value": "+2.0%",
+        "input_value": "+1.4%",
         "moderate_at": "+0.6%",
         "elevated_at": "+3.1%",
         "input_rises": true,
@@ -16126,13 +16131,13 @@ window.SNAPSHOT = {
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.0,
-      "description": "SPY -1.2% / 20d with vol 1.39%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY -1.9% / 20d with vol 1.41%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
-        "input_value": "-1.2%",
-        "moderate_at": "+10.7%",
-        "elevated_at": "+15.7%",
+        "input_value": "-1.9%",
+        "moderate_at": "+10.8%",
+        "elevated_at": "+15.8%",
         "input_rises": true,
         "note": "Held at today's realised volatility; the vol half of this axis adds up to 30 points on its own when SPY is moving less than 1.5% a day."
       },
@@ -16150,26 +16155,26 @@ window.SNAPSHOT = {
   "analog": {
     "n_days": 30,
     "exclude_recent": 30,
-    "spy_p10": -0.0055,
-    "spy_p25": 0.0064,
-    "spy_p50": 0.0207,
+    "spy_p10": 0.0022,
+    "spy_p25": 0.0092,
+    "spy_p50": 0.0231,
     "spy_p75": 0.0375,
     "spy_p90": 0.086,
     "spy_fwd": {
       "horizon": 20,
       "analogs": 30,
-      "base_days": 713,
+      "base_days": 712,
       "base": {
         "p10": -0.029,
         "p25": -0.0042,
-        "p50": 0.0183,
+        "p50": 0.0184,
         "p75": 0.0345,
         "p90": 0.0521
       },
       "value": {
-        "p10": -0.0055,
-        "p25": 0.0064,
-        "p50": 0.0207,
+        "p10": 0.0022,
+        "p25": 0.0092,
+        "p50": 0.0231,
         "p75": 0.0375,
         "p90": 0.086
       }
@@ -16184,6 +16189,13 @@ window.SNAPSHOT = {
         "synthetic": false
       },
       {
+        "date": "2024-08-15",
+        "regime": "Elevated Volatility",
+        "spy_ret_20d": 0.0162,
+        "breadth": 0.65,
+        "synthetic": false
+      },
+      {
         "date": "2025-01-17",
         "regime": "Range",
         "spy_ret_20d": 0.0233,
@@ -16191,17 +16203,10 @@ window.SNAPSHOT = {
         "synthetic": false
       },
       {
-        "date": "2026-07-01",
-        "regime": "Drifting Lower",
-        "spy_ret_20d": -0.0055,
-        "breadth": 0.64,
-        "synthetic": false
-      },
-      {
-        "date": "2024-08-15",
-        "regime": "Elevated Volatility",
-        "spy_ret_20d": 0.0162,
-        "breadth": 0.65,
+        "date": "2026-07-06",
+        "regime": "Range",
+        "spy_ret_20d": 0.0085,
+        "breadth": 0.68,
         "synthetic": false
       },
       {
@@ -16212,7 +16217,7 @@ window.SNAPSHOT = {
         "synthetic": false
       }
     ],
-    "regime_context": "Current SPY state (ret5=+2.6%, ret20=-1.2%, vol=1.4%, dd=-3.2%) matched to 30 analog days. Regime classified as: Elevated Volatility."
+    "regime_context": "Current SPY state (ret5=+3.3%, ret20=-1.9%, vol=1.4%, dd=-2.8%) matched to 30 analog days. Regime classified as: Elevated Volatility."
   },
   "stock_memory": [
     {
@@ -53100,7 +53105,7 @@ window.SNAPSHOT = {
     "risk": "No strongly negative sector signals. From the 378 past Elevated Volatility days since 1993, SPY's next 20 sessions reversed 50% of the time, against 46% on any day.",
     "plain_english": "The market is in a elevated volatility phase. Historical analogs suggest Biotech, Communication Services tend to do better over the next 20 days in similar conditions. This is based on pattern-matching \u2014 not a guarantee."
   },
-  "generated_at": "2026-11-14T01:01:43+00:00",
+  "generated_at": "2026-11-14T01:12:29+00:00",
   "scanner": {
     "n": 3281,
     "top_cut": 0.1,
