@@ -16,7 +16,7 @@
   "2026-11-20"
  ],
  "days_failed": [],
- "n": 472,
+ "n": 467,
  "earnings": [
   {
    "date": "2026-11-09",
@@ -2101,7 +2101,7 @@
    "sector": "Technology",
    "time": "post",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 149018320.0,
    "quarter": "Sep/2026"
@@ -3779,7 +3779,7 @@
    "ticker": "SMFG",
    "name": "Sumitomo Mitsui Financial Group",
    "sector": "Financials",
-   "time": "",
+   "time": "pre",
    "eps": 0.24,
    "n_est": 1,
    "eps_ly": null,
@@ -3791,7 +3791,7 @@
    "ticker": "MFG",
    "name": "Mizuho Financial Group, Inc. Sp",
    "sector": "Financials",
-   "time": "",
+   "time": "pre",
    "eps": 0.21,
    "n_est": 1,
    "eps_ly": null,
@@ -3836,18 +3836,6 @@
   },
   {
    "date": "2026-11-13",
-   "ticker": "XXI",
-   "name": "Twenty One Capital, Inc.",
-   "sector": "Consumer Staples",
-   "time": "",
-   "eps": null,
-   "n_est": null,
-   "eps_ly": null,
-   "mcap": 2811860990.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-13",
    "ticker": "PPTA",
    "name": "Perpetua Resources Corp.",
    "sector": "Materials",
@@ -3872,22 +3860,10 @@
   },
   {
    "date": "2026-11-13",
-   "ticker": "JBIO",
-   "name": "Jade Biosciences, Inc.",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": -0.73,
-   "n_est": 5,
-   "eps_ly": null,
-   "mcap": 1009290560.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-13",
    "ticker": "USAS",
    "name": "Americas Gold and Silver Corpor",
    "sector": "Materials",
-   "time": "",
+   "time": "pre",
    "eps": 0.03,
    "n_est": 2,
    "eps_ly": null,
@@ -3899,23 +3875,11 @@
    "ticker": "SGML",
    "name": "Sigma Lithium Corporation",
    "sector": "Materials",
-   "time": "",
+   "time": "pre",
    "eps": 0.02,
    "n_est": 2,
    "eps_ly": null,
    "mcap": 558759420.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-13",
-   "ticker": "LWLG",
-   "name": "Lightwave Logic, Inc.",
-   "sector": "Materials",
-   "time": "",
-   "eps": -0.05,
-   "n_est": 1,
-   "eps_ly": null,
-   "mcap": 522627008.0,
    "quarter": "Sep/2026"
   },
   {
@@ -3928,18 +3892,6 @@
    "n_est": 1,
    "eps_ly": null,
    "mcap": 282431040.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-13",
-   "ticker": "PDSB",
-   "name": "PDS Biotechnology Corporation",
-   "sector": "Healthcare",
-   "time": "",
-   "eps": -0.09,
-   "n_est": 2,
-   "eps_ly": null,
-   "mcap": 102905320.0,
    "quarter": "Sep/2026"
   },
   {
@@ -4120,18 +4072,6 @@
    "n_est": 1,
    "eps_ly": null,
    "mcap": 5133740.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-13",
-   "ticker": "MEDS",
-   "name": "DataMeds AI, Inc.",
-   "sector": "nan",
-   "time": "",
-   "eps": null,
-   "n_est": null,
-   "eps_ly": null,
-   "mcap": 4192998.0,
    "quarter": "Sep/2026"
   },
   {
