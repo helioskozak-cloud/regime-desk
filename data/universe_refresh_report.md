@@ -1,21 +1,68 @@
-# Universe refresh — 2026-11-07
+# Universe refresh — 2026-11-14
 
-- universe before: **3,653**
-- currently listed: 12,861
-- additions clearing $15,000,000/day: **4**
-- removals (absent from listings AND no recent price): **3**
+- universe before: **3,654**
+- currently listed: 12,869
+- additions clearing $15,000,000/day: **111**
+- removals (absent from listings AND no recent price): **2**
 
 ## Removed
 
 ```
-LXP, QRVO, WBD
+BWMN, GBTG
 ```
 
 ## Added
 
 | ticker | avg $ vol (21d) |
 |---|---:|
-| AIOK | $102,661,797 |
-| SIX | $65,603,757 |
-| AGLT | $44,710,690 |
-| WORX | $33,408,578 |
+| VVVV | $62,384,702 |
+| TXCP | $48,466,681 |
+| IAT | $39,059,989 |
+| INO | $38,140,606 |
+| WWB | $36,376,060 |
+| PEPG | $32,783,151 |
+| CHSN | $31,314,165 |
+| IYC | $30,992,048 |
+| SHFS | $30,780,677 |
+| RSPS | $29,679,232 |
+| IBTA | $27,751,671 |
+| BURU | $26,444,101 |
+| FIGB | $25,395,937 |
+| ENGS | $25,389,572 |
+| IHAK | $24,191,096 |
+| FOXF | $23,758,955 |
+| STGW | $23,459,046 |
+| GDYN | $23,226,962 |
+| FXN | $22,863,976 |
+| BTAL | $22,778,342 |
+| CYRX | $22,693,502 |
+| NHP | $22,432,134 |
+| DDM | $22,311,014 |
+| BRAI | $21,952,772 |
+| OSPN | $21,920,237 |
+| EPAC | $21,672,037 |
+| LABT | $21,602,683 |
+| SIBN | $21,570,556 |
+| PARA | $21,161,258 |
+| DFIN | $20,908,829 |
+| CGCV | $20,845,295 |
+| BLCO | $20,449,625 |
+| NMZ | $19,690,685 |
+| RYZ | $19,595,158 |
+| IXP | $19,435,746 |
+| IEZ | $19,318,926 |
+| AFIF | $19,257,601 |
+| TRNS | $18,832,471 |
+| MRNY | $18,641,293 |
+| FQAL | $18,633,865 |
+| ACWV | $18,623,177 |
+| DBO | $18,560,370 |
+| BBAX | $18,367,309 |
+| RSPA | $18,335,069 |
+| CHOW | $18,297,136 |
+| DFEV | $18,253,655 |
+| RES | $18,124,151 |
+| MYGN | $18,120,931 |
+| LLYVA | $17,808,880 |
+| DNUT | $17,803,425 |
+| … | 61 more |
