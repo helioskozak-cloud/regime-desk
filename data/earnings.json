@@ -2,7 +2,7 @@
  "as_of": "2026-11-14",
  "start": "2026-11-09",
  "end": "2026-11-20",
- "universe": 3654,
+ "universe": 3763,
  "days_read": [
   "2026-11-09",
   "2026-11-10",
@@ -16,7 +16,7 @@
   "2026-11-20"
  ],
  "days_failed": [],
- "n": 457,
+ "n": 467,
  "earnings": [
   {
    "date": "2026-11-09",
@@ -280,6 +280,18 @@
    "n_est": 4,
    "eps_ly": null,
    "mcap": 9520956400.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-09",
+   "ticker": "TIMB",
+   "name": "TIM S.A.",
+   "sector": "nan",
+   "time": "",
+   "eps": 0.43,
+   "n_est": 3,
+   "eps_ly": null,
+   "mcap": 9090078700.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1088,6 +1100,18 @@
   },
   {
    "date": "2026-11-09",
+   "ticker": "ANNX",
+   "name": "Annexon, Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": -0.28,
+   "n_est": 4,
+   "eps_ly": null,
+   "mcap": 757332990.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-09",
    "ticker": "CEVA",
    "name": "CEVA, Inc.",
    "sector": "Technology",
@@ -1220,6 +1244,18 @@
   },
   {
    "date": "2026-11-09",
+   "ticker": "PAYS",
+   "name": "Paysign, Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": 0.1,
+   "n_est": 1,
+   "eps_ly": null,
+   "mcap": 539547650.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-09",
    "ticker": "BTGO",
    "name": "BitGo Holdings, Inc.",
    "sector": "Financials",
@@ -1268,6 +1304,18 @@
   },
   {
    "date": "2026-11-09",
+   "ticker": "BETR",
+   "name": "Better Home & Finance Holding Company",
+   "sector": "nan",
+   "time": "",
+   "eps": -1.44,
+   "n_est": 2,
+   "eps_ly": null,
+   "mcap": 298625408.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-09",
    "ticker": "SOC",
    "name": "Sable Offshore Corp.",
    "sector": "Energy",
@@ -1276,6 +1324,18 @@
    "n_est": 3,
    "eps_ly": null,
    "mcap": 128989376.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-09",
+   "ticker": "SHFS",
+   "name": "SHF Holdings, Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 2975592.0,
    "quarter": "Sep/2026"
   },
   {
@@ -2000,6 +2060,30 @@
   },
   {
    "date": "2026-11-10",
+   "ticker": "PEPG",
+   "name": "PepGen Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": -0.27,
+   "n_est": 5,
+   "eps_ly": null,
+   "mcap": 349076864.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
+   "ticker": "INO",
+   "name": "Inovio Pharmaceuticals, Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": -0.2,
+   "n_est": 2,
+   "eps_ly": null,
+   "mcap": 273468064.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-10",
    "ticker": "SION",
    "name": "Sionna Therapeutics, Inc.",
    "sector": "Healthcare",
@@ -2017,7 +2101,7 @@
    "sector": "Technology",
    "time": "post",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 149018320.0,
    "quarter": "Sep/2026"
@@ -2317,7 +2401,7 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 24088020.0,
    "quarter": "Sep/2026"
@@ -2341,7 +2425,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 3501756.0,
    "quarter": "Sep/2026"
@@ -2797,7 +2881,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": 0.09,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 2886734080.0,
    "quarter": "Sep/2026"
@@ -3457,7 +3541,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 88334992.0,
    "quarter": "Sep/2026"
@@ -3541,7 +3625,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 9750866.0,
    "quarter": "Sep/2026"
@@ -3613,7 +3697,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": null,
    "mcap": 2440120.0,
    "quarter": "Sep/2026"
@@ -3667,6 +3751,18 @@
    "quarter": "Sep/2026"
   },
   {
+   "date": "2026-11-12",
+   "ticker": "LABT",
+   "name": "Lakewood-Amedex Biotherapeutics Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": -0.52,
+   "n_est": 1,
+   "eps_ly": null,
+   "mcap": 851192.0,
+   "quarter": "Sep/2026"
+  },
+  {
    "date": "2026-11-13",
    "ticker": "MUFG",
    "name": "Mitsubishi UFJ Financial Group, Inc.",
@@ -3674,7 +3770,7 @@
    "time": "",
    "eps": 0.45,
    "n_est": 1,
-   "eps_ly": 0.44,
+   "eps_ly": null,
    "mcap": 258122711000.0,
    "quarter": "Sep/2026"
   },
@@ -3686,7 +3782,7 @@
    "time": "pre",
    "eps": 0.24,
    "n_est": 1,
-   "eps_ly": 0.59,
+   "eps_ly": null,
    "mcap": 155527037000.0,
    "quarter": "Sep/2026"
   },
@@ -3698,7 +3794,7 @@
    "time": "pre",
    "eps": 0.21,
    "n_est": 1,
-   "eps_ly": 0.2,
+   "eps_ly": null,
    "mcap": 125986341000.0,
    "quarter": "Sep/2026"
   },
@@ -3710,7 +3806,7 @@
    "time": "",
    "eps": 3.94,
    "n_est": 1,
-   "eps_ly": 3.21,
+   "eps_ly": null,
    "mcap": 40218042000.0,
    "quarter": "Sep/2026"
   },
@@ -3721,8 +3817,8 @@
    "sector": "Financials",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": 0.63,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 10079088600.0,
    "quarter": "Sep/2026"
   },
@@ -3734,7 +3830,7 @@
    "time": "",
    "eps": null,
    "n_est": null,
-   "eps_ly": 0.59,
+   "eps_ly": null,
    "mcap": 9065174000.0,
    "quarter": "Sep/2026"
   },
@@ -3746,7 +3842,7 @@
    "time": "",
    "eps": -0.49,
    "n_est": 1,
-   "eps_ly": -0.24,
+   "eps_ly": null,
    "mcap": 2231145470.0,
    "quarter": "Sep/2026"
   },
@@ -3758,7 +3854,7 @@
    "time": "",
    "eps": -2.5,
    "n_est": 2,
-   "eps_ly": -2.28,
+   "eps_ly": null,
    "mcap": 1291401090.0,
    "quarter": "Sep/2026"
   },
@@ -3770,7 +3866,7 @@
    "time": "pre",
    "eps": 0.03,
    "n_est": 2,
-   "eps_ly": -0.02,
+   "eps_ly": null,
    "mcap": 943577730.0,
    "quarter": "Sep/2026"
   },
@@ -3782,7 +3878,7 @@
    "time": "pre",
    "eps": 0.02,
    "n_est": 2,
-   "eps_ly": -0.1,
+   "eps_ly": null,
    "mcap": 558759420.0,
    "quarter": "Sep/2026"
   },
@@ -3793,8 +3889,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.16,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 282431040.0,
    "quarter": "Sep/2026"
   },
@@ -3805,8 +3901,8 @@
    "sector": "Industrials",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.24,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 96751168.0,
    "quarter": "Sep/2026"
   },
@@ -3817,8 +3913,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": 4.0,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 59129352.0,
    "quarter": "Sep/2026"
   },
@@ -3830,7 +3926,7 @@
    "time": "",
    "eps": -0.03,
    "n_est": 1,
-   "eps_ly": -0.33,
+   "eps_ly": null,
    "mcap": 58063232.0,
    "quarter": "Sep/2026"
   },
@@ -3841,8 +3937,8 @@
    "sector": "Consumer Discretionary",
    "time": "post",
    "eps": null,
-   "n_est": null,
-   "eps_ly": 0.07,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 35955560.0,
    "quarter": "Sep/2026"
   },
@@ -3853,8 +3949,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -21.12,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 35045908.0,
    "quarter": "Sep/2026"
   },
@@ -3865,8 +3961,8 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.88,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 22222224.0,
    "quarter": "Sep/2026"
   },
@@ -3878,7 +3974,7 @@
    "time": "",
    "eps": -1.5,
    "n_est": 1,
-   "eps_ly": -9.5,
+   "eps_ly": null,
    "mcap": 19299806.0,
    "quarter": "Sep/2026"
   },
@@ -3889,8 +3985,8 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.12,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 12700561.0,
    "quarter": "Sep/2026"
   },
@@ -3902,7 +3998,7 @@
    "time": "",
    "eps": -0.09,
    "n_est": 2,
-   "eps_ly": -2.32,
+   "eps_ly": null,
    "mcap": 12397010.0,
    "quarter": "Sep/2026"
   },
@@ -3913,8 +4009,8 @@
    "sector": "Energy",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -1.36,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 11010021.0,
    "quarter": "Sep/2026"
   },
@@ -3925,8 +4021,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.55,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 6688104.0,
    "quarter": "Sep/2026"
   },
@@ -3937,8 +4033,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.13,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 5612747.0,
    "quarter": "Sep/2026"
   },
@@ -3949,8 +4045,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -99.99,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 5337060.0,
    "quarter": "Sep/2026"
   },
@@ -3962,7 +4058,7 @@
    "time": "",
    "eps": -0.35,
    "n_est": 1,
-   "eps_ly": -1.5,
+   "eps_ly": null,
    "mcap": 5250684.0,
    "quarter": "Sep/2026"
   },
@@ -3973,8 +4069,8 @@
    "sector": "Industrials",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.47,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 5133740.0,
    "quarter": "Sep/2026"
   },
@@ -3985,8 +4081,8 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.69,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 4111518.0,
    "quarter": "Sep/2026"
   },
@@ -3997,8 +4093,8 @@
    "sector": "Consumer Staples",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": 3.0,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 3488257.0,
    "quarter": "Sep/2026"
   },
@@ -4009,9 +4105,21 @@
    "sector": "Healthcare",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -5.26,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 2452449.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-13",
+   "ticker": "BURU",
+   "name": "Nuburu, Inc.",
+   "sector": "nan",
+   "time": "",
+   "eps": null,
+   "n_est": 1,
+   "eps_ly": null,
+   "mcap": 2130339.0,
    "quarter": "Sep/2026"
   },
   {
@@ -4021,8 +4129,8 @@
    "sector": "Real Estate",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -5.2,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 1671437.0,
    "quarter": "Sep/2026"
   },
@@ -4033,8 +4141,8 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -67.69,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 1613102.0,
    "quarter": "Sep/2026"
   },
@@ -4045,8 +4153,8 @@
    "sector": "Communication Services",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": 77.0,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 1217370.0,
    "quarter": "Sep/2026"
   },
@@ -4057,8 +4165,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -24.92,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 538907.0,
    "quarter": "Sep/2026"
   },
@@ -4372,6 +4480,18 @@
    "n_est": 1,
    "eps_ly": 1.0,
    "mcap": 2066561.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-16",
+   "ticker": "PARA",
+   "name": "Parabolic Technologies, Inc.",
+   "sector": "nan",
+   "time": "post",
+   "eps": -12.2,
+   "n_est": 1,
+   "eps_ly": -99.99,
+   "mcap": 210223.0,
    "quarter": "Sep/2026"
   },
   {
