@@ -138,7 +138,7 @@
       "date": "2025-01-17",
       "regime": "Range",
       "spy_ret_20d": 0.0233,
-      "breadth": 0.4497,
+      "breadth": 0.45,
       "distance": 0.8933
     },
     {
@@ -152,14 +152,14 @@
       "date": "2024-08-15",
       "regime": "Elevated Volatility",
       "spy_ret_20d": 0.0162,
-      "breadth": 0.653,
+      "breadth": 0.6527,
       "distance": 0.9878
     },
     {
       "date": "2025-11-25",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0258,
-      "breadth": 0.5612,
+      "breadth": 0.5615,
       "distance": 1.0863
     }
   ],
@@ -196,7 +196,7 @@
       },
       "range90": {
         "lo": 0.257,
-        "hi": 0.6845
+        "hi": 0.6842
       },
       "pct_rank": 0.2486,
       "history": [
@@ -241,7 +241,7 @@
         "p40": 0.01057,
         "p50": 0.01399,
         "p80": 0.03055,
-        "p95": 0.05538
+        "p95": 0.05537
       },
       "vol": {
         "p40": 0.00846,
@@ -262,7 +262,7 @@
           "label": "Calm Uptrend",
           "share": 0.2586,
           "n": 98,
-          "base_rate": 0.3834
+          "base_rate": 0.3833
         },
         {
           "label": "Bull Trend",
@@ -292,7 +292,7 @@
           "label": "Range",
           "share": 0.0633,
           "n": 24,
-          "base_rate": 0.1665
+          "base_rate": 0.1666
         },
         {
           "label": "Recovery",
