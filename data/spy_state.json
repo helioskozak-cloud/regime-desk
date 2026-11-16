@@ -1,15 +1,9 @@
 {
-  "ret_5d": 0.02595,
-  "ret_20d": -0.01163,
-  "vol_20d": 0.0139,
-  "drawdown_60d": -0.03173,
+  "ret_5d": -0.00574,
+  "ret_20d": -0.02363,
+  "vol_20d": 0.01395,
+  "drawdown_60d": -0.03943,
   "history": [
-    {
-      "ret_5d": -0.01493,
-      "ret_20d": -0.00908,
-      "vol_20d": 0.00562,
-      "drawdown_60d": -0.01619
-    },
     {
       "ret_5d": -0.01152,
       "ret_20d": -0.0056,
@@ -123,84 +117,89 @@
       "ret_20d": -0.01163,
       "vol_20d": 0.0139,
       "drawdown_60d": -0.03173
+    },
+    {
+      "ret_5d": -0.00574,
+      "ret_20d": -0.02363,
+      "vol_20d": 0.01395,
+      "drawdown_60d": -0.03943
     }
   ],
-  "regime_streak": 5,
+  "regime_streak": 6,
   "analog_matches": [
     {
-      "date": "2026-04-08",
-      "regime": "Range",
-      "spy_ret_20d": 0.0855,
-      "breadth": 0.5577,
-      "distance": 0.8425
-    },
-    {
-      "date": "2025-01-17",
-      "regime": "Range",
-      "spy_ret_20d": 0.0233,
-      "breadth": 0.45,
-      "distance": 0.8933
-    },
-    {
-      "date": "2026-07-01",
+      "date": "2026-06-25",
       "regime": "Drifting Lower",
-      "spy_ret_20d": -0.0055,
-      "breadth": 0.643,
-      "distance": 0.9117
+      "spy_ret_20d": 0.0063,
+      "breadth": 0.6169,
+      "distance": 0.7737
     },
     {
-      "date": "2024-08-15",
-      "regime": "Elevated Volatility",
-      "spy_ret_20d": 0.0162,
-      "breadth": 0.6527,
-      "distance": 0.9878
-    },
-    {
-      "date": "2025-11-25",
+      "date": "2025-01-10",
       "regime": "Drifting Lower",
-      "spy_ret_20d": 0.0258,
-      "breadth": 0.5615,
-      "distance": 1.0863
+      "spy_ret_20d": 0.042,
+      "breadth": 0.2502,
+      "distance": 0.8055
+    },
+    {
+      "date": "2026-04-01",
+      "regime": "Drifting Lower",
+      "spy_ret_20d": 0.0968,
+      "breadth": 0.28,
+      "distance": 0.9068
+    },
+    {
+      "date": "2024-08-09",
+      "regime": "Drifting Lower",
+      "spy_ret_20d": 0.0252,
+      "breadth": 0.4789,
+      "distance": 0.9954
+    },
+    {
+      "date": "2024-04-30",
+      "regime": "Drifting Lower",
+      "spy_ret_20d": 0.048,
+      "breadth": 0.342,
+      "distance": 1.1524
     }
   ],
   "analog_forward": {
     "horizon": 20,
     "analogs": 30,
-    "base_days": 713,
+    "base_days": 712,
     "base": {
       "p10": -0.029,
       "p25": -0.0042,
-      "p50": 0.0183,
+      "p50": 0.0184,
       "p75": 0.0345,
       "p90": 0.0521
     },
     "value": {
-      "p10": -0.0055,
-      "p25": 0.0064,
-      "p50": 0.0207,
-      "p75": 0.0375,
-      "p90": 0.086
+      "p10": 0.0057,
+      "p25": 0.0172,
+      "p50": 0.0286,
+      "p75": 0.0418,
+      "p90": 0.049
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3506,
+      "n": 3214,
       "n_typical": 3503,
-      "days": 704,
-      "asof": "2026-11-13",
-      "value": 0.4863,
+      "days": 703,
+      "asof": "2026-11-16",
+      "value": 0.4841,
       "range30": {
-        "lo": 0.2832,
+        "lo": 0.2828,
         "hi": 0.5614
       },
       "range90": {
-        "lo": 0.257,
+        "lo": 0.2566,
         "hi": 0.6842
       },
-      "pct_rank": 0.2486,
+      "pct_rank": 0.2447,
       "history": [
-        0.3016,
         0.3702,
         0.3982,
         0.4428,
@@ -217,9 +216,10 @@
         0.4559,
         0.5471,
         0.5221,
-        0.5459,
+        0.5457,
         0.4884,
-        0.4863
+        0.486,
+        0.4841
       ]
     },
     "persistence": {
@@ -227,26 +227,26 @@
       "horizon": 20,
       "days": 379,
       "held": 56,
-      "base_rate": 0.0454,
+      "base_rate": 0.0455,
       "spells": 118,
       "median_spell": 2.0,
-      "streak": 5,
-      "history_sessions": 8487,
+      "streak": 6,
+      "history_sessions": 8488,
       "value": 0.1478
     },
     "momentum_scale": {
-      "sessions": 8478,
+      "sessions": 8479,
       "window": 5,
       "ret": {
         "p40": 0.01057,
         "p50": 0.01399,
-        "p80": 0.03055,
+        "p80": 0.03054,
         "p95": 0.05537
       },
       "vol": {
         "p40": 0.00846,
         "p50": 0.01127,
-        "p80": 0.02527,
+        "p80": 0.02528,
         "p95": 0.05296
       },
       "value": true
@@ -256,7 +256,7 @@
       "horizon": 20,
       "days": 379,
       "spells": 118,
-      "history_sessions": 8487,
+      "history_sessions": 8488,
       "rows": [
         {
           "label": "Calm Uptrend",
@@ -280,7 +280,7 @@
           "label": "Elevated Volatility",
           "share": 0.1478,
           "n": 56,
-          "base_rate": 0.0454
+          "base_rate": 0.0455
         },
         {
           "label": "Drifting Lower",
@@ -292,7 +292,7 @@
           "label": "Range",
           "share": 0.0633,
           "n": 24,
-          "base_rate": 0.1666
+          "base_rate": 0.1665
         },
         {
           "label": "Recovery",
@@ -328,9 +328,9 @@
       "days": 378,
       "reversed": 189,
       "spells": 118,
-      "base_days": 8451,
-      "base_rate": 0.4557,
-      "trailing_20d": -0.01163,
+      "base_days": 8452,
+      "base_rate": 0.4556,
+      "trailing_20d": -0.02282,
       "value": 0.5
     },
     "analog_next": {
@@ -340,33 +340,33 @@
       "rows": [
         {
           "label": "Calm Uptrend",
-          "share": 0.5,
-          "n": 15,
-          "base_rate": 0.4895
+          "share": 0.7333,
+          "n": 22,
+          "base_rate": 0.4874
         },
         {
           "label": "Range",
-          "share": 0.2333,
-          "n": 7,
-          "base_rate": 0.1837
+          "share": 0.1,
+          "n": 3,
+          "base_rate": 0.184
         },
         {
           "label": "Bull Trend",
-          "share": 0.2,
-          "n": 6,
-          "base_rate": 0.1066
+          "share": 0.1,
+          "n": 3,
+          "base_rate": 0.1067
         },
         {
           "label": "Drifting Lower",
           "share": 0.0333,
           "n": 1,
-          "base_rate": 0.1346
+          "base_rate": 0.1348
         },
         {
-          "label": "High Volatility",
+          "label": "Correction",
           "share": 0.0333,
           "n": 1,
-          "base_rate": 0.0281
+          "base_rate": 0.0197
         }
       ],
       "value": "Calm Uptrend"
