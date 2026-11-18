@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-17",
+ "as_of": "2026-11-18",
  "meta": {
   "built": "2026-07-13",
   "method": "pct of point-in-time S&P 500 members whose adjusted close doubled (>=+100%) or halved (<=-50%) over the calendar year",
@@ -403,9 +403,9 @@
     "date": "2026-11-17",
     "from": "2025-11-17",
     "n": 498,
-    "pct_doubled": 2.01,
-    "pct_halved": 1.61,
-    "median_ret": 15.24,
+    "pct_doubled": 2.41,
+    "pct_halved": 1.81,
+    "median_ret": 16.46,
     "sp500_ret": 10.01
    },
    "ttm_path": [
@@ -827,9 +827,9 @@
      "date": "2026-11-17",
      "from": "2025-11-17",
      "n": 498,
-     "pct_doubled": 2.01,
-     "pct_halved": 1.61,
-     "median_ret": 15.24,
+     "pct_doubled": 2.41,
+     "pct_halved": 1.81,
+     "median_ret": 16.46,
      "sp500_ret": 10.01
     }
    ],
@@ -2045,8 +2045,8 @@
     {
      "date": "2026-11-17",
      "pct_doubled": 1.61,
-     "pct_halved": 1.61,
-     "median_ret": 10.56,
+     "pct_halved": 1.41,
+     "median_ret": 11.95,
      "sp500_ret": 7.23
     }
    ],
@@ -2056,27 +2056,27 @@
    "n_with_data": 498,
    "coverage_pct": 99.0,
    "pct_doubled": 1.61,
-   "pct_halved": 1.61,
+   "pct_halved": 1.41,
    "n_doubled": 8,
-   "n_halved": 8,
-   "pct_up50": 7.43,
-   "pct_down30": 6.43,
-   "median_ret": 10.56,
+   "n_halved": 7,
+   "pct_up50": 8.03,
+   "pct_down30": 6.02,
+   "median_ret": 11.95,
    "sp500_ret": 7.23,
    "nasdaq_ret": 4.67,
    "top5": {
-    "MRNA": 6.013,
-    "SNDK": 2.358,
-    "DELL": 1.591,
-    "MU": 1.498,
-    "MPC": 1.461
+    "MRNA": 6.3,
+    "SNDK": 2.409,
+    "DELL": 1.573,
+    "MU": 1.521,
+    "MPC": 1.502
    },
    "bottom5": {
-    "TTD": -0.607,
-    "FICO": -0.6,
-    "RDDT": -0.589,
-    "FIS": -0.573,
-    "BSX": -0.549
+    "TTD": -0.609,
+    "RDDT": -0.596,
+    "FICO": -0.576,
+    "FIS": -0.561,
+    "BSX": -0.542
    }
   }
  ]
