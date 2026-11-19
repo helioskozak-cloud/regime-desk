@@ -16,7 +16,7 @@
   "2026-11-27"
  ],
  "days_failed": [],
- "n": 190,
+ "n": 189,
  "earnings": [
   {
    "date": "2026-11-16",
@@ -709,7 +709,7 @@
    "sector": "Materials",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 178991989000.0,
    "quarter": "Sep/2026"
@@ -1520,18 +1520,6 @@
   },
   {
    "date": "2026-11-19",
-   "ticker": "TEN",
-   "name": "Tsakos Energy Navigation Ltd",
-   "sector": "Energy",
-   "time": "pre",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": 1.05,
-   "mcap": 1327723520.0,
-   "quarter": "Sep/2026"
-  },
-  {
-   "date": "2026-11-19",
    "ticker": "MATW",
    "name": "Matthews International Corporat",
    "sector": "Industrials",
@@ -1633,7 +1621,7 @@
    "sector": "Consumer Discretionary",
    "time": "pre",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": 0.96,
    "mcap": 2201641470.0,
    "quarter": "Oct/2026"
@@ -1681,7 +1669,7 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": -0.12,
    "mcap": 12635430.0,
    "quarter": "Sep/2026"
@@ -1717,7 +1705,7 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": -39.92,
    "mcap": 2315586.0,
    "quarter": "Sep/2026"
@@ -1825,7 +1813,7 @@
    "sector": "Industrials",
    "time": "post",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": 6.75,
    "mcap": 2663350530.0,
    "quarter": "Sep/2026"
@@ -1861,7 +1849,7 @@
    "sector": "Financials",
    "time": "",
    "eps": null,
-   "n_est": null,
+   "n_est": 1,
    "eps_ly": 1.0,
    "mcap": 1653249.0,
    "quarter": "Sep/2026"
