@@ -8,41 +8,41 @@
       "horizon": "120d",
       "n": 1713,
       "predicted_mean": 0.4110211482778748,
-      "realized_mean": 0.1225088003502625,
-      "ratio": 0.2980596031701981,
-      "beat_rate": 0.24168126094570927,
-      "correlation": 0.1318875463483608,
+      "realized_mean": 0.1218520221833039,
+      "ratio": 0.29646168498591385,
+      "beat_rate": 0.24109748978400466,
+      "correlation": 0.13328677081368287,
       "realized_p10": -0.3297446
     },
     "20d": {
       "horizon": "20d",
       "n": 9066,
       "predicted_mean": 0.09058128237370414,
-      "realized_mean": -0.009639378667549109,
-      "ratio": -0.1064168933685513,
+      "realized_mean": -0.009733508162364905,
+      "ratio": -0.1074560649539949,
       "beat_rate": 0.24961394220163247,
-      "correlation": 0.004490357927704583,
-      "realized_p10": -0.1918855
+      "correlation": 0.004785157632135525,
+      "realized_p10": -0.19215500000000002
     },
     "5d": {
       "horizon": "5d",
       "n": 1000,
       "predicted_mean": 0.06912013100000003,
-      "realized_mean": -0.02198380600000001,
-      "ratio": -0.3180521460527903,
+      "realized_mean": -0.022697663000000014,
+      "ratio": -0.3283799187244018,
       "beat_rate": 0.153,
-      "correlation": -0.005655328248155847,
-      "realized_p10": -0.1347448
+      "correlation": -0.005225664561181655,
+      "realized_p10": -0.1368867
     },
     "60d": {
       "horizon": "60d",
       "n": 6310,
       "predicted_mean": 0.16281445958795582,
-      "realized_mean": 0.005523125990491236,
-      "ratio": 0.03392282236153311,
-      "beat_rate": 0.23565768621236133,
-      "correlation": 0.1097262968316909,
-      "realized_p10": -0.2642767
+      "realized_mean": 0.0052758532488113696,
+      "ratio": 0.03240408291845383,
+      "beat_rate": 0.2358161648177496,
+      "correlation": 0.10978092641620277,
+      "realized_p10": -0.2648951
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
