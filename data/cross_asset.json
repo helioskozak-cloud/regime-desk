@@ -3,14 +3,14 @@
     {
       "name": "SPY 5-Day Return",
       "asset": "SPY",
-      "value": "-8.4%",
+      "value": "-8.6%",
       "signal": "bearish",
       "context": "Short-term price momentum"
     },
     {
       "name": "SPY 20-Day Return",
       "asset": "SPY",
-      "value": "-9.1%",
+      "value": "-9.2%",
       "signal": "bearish",
       "context": "Medium-term trend strength"
     },
@@ -248,11 +248,11 @@
       "name": "Complacency Risk",
       "level": "low",
       "score": 0.0,
-      "description": "SPY -9.1% / 20d with vol 1.64%/day. Risk/return balance reasonable; no excess complacency signal.",
+      "description": "SPY -9.2% / 20d with vol 1.65%/day. Risk/return balance reasonable; no excess complacency signal.",
       "invalidation": "Vol expands above 1.2%/day or SPY 20d return pulls back below +3%",
       "explain": {
         "input_label": "SPY 20-day return",
-        "input_value": "-9.1%",
+        "input_value": "-9.2%",
         "moderate_at": "+11.2%",
         "elevated_at": "+16.2%",
         "input_rises": true,
