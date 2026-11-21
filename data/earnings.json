@@ -16,7 +16,7 @@
   "2026-11-27"
  ],
  "days_failed": [],
- "n": 187,
+ "n": 190,
  "earnings": [
   {
    "date": "2026-11-16",
@@ -1219,18 +1219,6 @@
    "quarter": "Sep/2026"
   },
   {
-   "date": "2026-11-18",
-   "ticker": "VIVK",
-   "name": "Vivakor, Inc.",
-   "sector": "Energy",
-   "time": "",
-   "eps": null,
-   "n_est": 1,
-   "eps_ly": null,
-   "mcap": 2340829.0,
-   "quarter": "Sep/2026"
-  },
-  {
    "date": "2026-11-19",
    "ticker": "WMT",
    "name": "Walmart Inc.",
@@ -1523,7 +1511,7 @@
    "ticker": "BJ",
    "name": "BJ's Wholesale Club Holdings, Inc.",
    "sector": "Consumer Staples",
-   "time": "pre",
+   "time": "",
    "eps": 1.24,
    "n_est": 11,
    "eps_ly": null,
@@ -1535,11 +1523,23 @@
    "ticker": "MOG-A",
    "name": "Moog Inc.",
    "sector": "Industrials",
-   "time": "pre",
+   "time": "",
    "eps": 2.7,
    "n_est": 4,
    "eps_ly": null,
    "mcap": 10390360100.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-20",
+   "ticker": "FRO",
+   "name": "Frontline plc",
+   "sector": "Energy",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 9962374100.0,
    "quarter": "Sep/2026"
   },
   {
@@ -1556,10 +1556,34 @@
   },
   {
    "date": "2026-11-20",
+   "ticker": "IESC",
+   "name": "IES Holdings, Inc.",
+   "sector": "Industrials",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 6794609200.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-20",
+   "ticker": "BKE",
+   "name": "Buckle, Inc. (The)",
+   "sector": "Consumer Discretionary",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 2152189440.0,
+   "quarter": "Oct/2026"
+  },
+  {
+   "date": "2026-11-20",
    "ticker": "WRD",
    "name": "WeRide Inc.",
    "sector": "nan",
-   "time": "pre",
+   "time": "",
    "eps": null,
    "n_est": null,
    "eps_ly": null,
@@ -1597,7 +1621,7 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 12374905.0,
    "quarter": "Sep/2026"
@@ -1628,12 +1652,24 @@
   },
   {
    "date": "2026-11-20",
+   "ticker": "VIVK",
+   "name": "Vivakor, Inc.",
+   "sector": "Energy",
+   "time": "",
+   "eps": null,
+   "n_est": null,
+   "eps_ly": null,
+   "mcap": 2340829.0,
+   "quarter": "Sep/2026"
+  },
+  {
+   "date": "2026-11-20",
    "ticker": "BURU",
    "name": "Nuburu, Inc.",
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": 1,
+   "n_est": null,
    "eps_ly": null,
    "mcap": 2157200.0,
    "quarter": "Sep/2026"
@@ -1993,7 +2029,7 @@
    "sector": "Energy",
    "time": "pre",
    "eps": null,
-   "n_est": null,
+   "n_est": 3,
    "eps_ly": 0.07,
    "mcap": 4726865400.0,
    "quarter": "Sep/2026"
