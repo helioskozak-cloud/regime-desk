@@ -1526,7 +1526,7 @@
    "time": "pre",
    "eps": 1.24,
    "n_est": 11,
-   "eps_ly": 1.16,
+   "eps_ly": null,
    "mcap": 13989352400.0,
    "quarter": "Oct/2026"
   },
@@ -1538,7 +1538,7 @@
    "time": "pre",
    "eps": 2.7,
    "n_est": 4,
-   "eps_ly": 2.56,
+   "eps_ly": null,
    "mcap": 10390360100.0,
    "quarter": "Sep/2026"
   },
@@ -1550,7 +1550,7 @@
    "time": "",
    "eps": null,
    "n_est": null,
-   "eps_ly": 0.59,
+   "eps_ly": null,
    "mcap": 8139369500.0,
    "quarter": "Sep/2026"
   },
@@ -1562,7 +1562,7 @@
    "time": "pre",
    "eps": null,
    "n_est": null,
-   "eps_ly": -0.15,
+   "eps_ly": null,
    "mcap": 1094612350.0,
    "quarter": "Sep/2026"
   },
@@ -1574,7 +1574,7 @@
    "time": "",
    "eps": null,
    "n_est": 1,
-   "eps_ly": -0.24,
+   "eps_ly": null,
    "mcap": 80939768.0,
    "quarter": "Sep/2026"
   },
@@ -1586,7 +1586,7 @@
    "time": "",
    "eps": null,
    "n_est": 1,
-   "eps_ly": -0.88,
+   "eps_ly": null,
    "mcap": 15183673.0,
    "quarter": "Sep/2026"
   },
@@ -1597,8 +1597,8 @@
    "sector": "Technology",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -0.12,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 12374905.0,
    "quarter": "Sep/2026"
   },
@@ -1610,7 +1610,7 @@
    "time": "",
    "eps": 0.82,
    "n_est": 1,
-   "eps_ly": -0.55,
+   "eps_ly": null,
    "mcap": 6691291.0,
    "quarter": "Sep/2026"
   },
@@ -1622,7 +1622,7 @@
    "time": "",
    "eps": null,
    "n_est": 1,
-   "eps_ly": -0.13,
+   "eps_ly": null,
    "mcap": 3750151.0,
    "quarter": "Sep/2026"
   },
@@ -1633,8 +1633,8 @@
    "sector": "nan",
    "time": "",
    "eps": null,
-   "n_est": null,
-   "eps_ly": -39.92,
+   "n_est": 1,
+   "eps_ly": null,
    "mcap": 2157200.0,
    "quarter": "Sep/2026"
   },
