@@ -131,35 +131,35 @@
       "date": "2024-08-08",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0183,
-      "breadth": 0.4689,
+      "breadth": 0.469,
       "distance": 1.5067
     },
     {
       "date": "2025-03-31",
       "regime": "Correction",
       "spy_ret_20d": -0.0091,
-      "breadth": 0.3026,
-      "distance": 1.6423
+      "breadth": 0.3025,
+      "distance": 1.6424
     },
     {
       "date": "2026-03-31",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0942,
-      "breadth": 0.2497,
+      "breadth": 0.2499,
       "distance": 2.0736
     },
     {
       "date": "2025-01-13",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0411,
-      "breadth": 0.2426,
+      "breadth": 0.2425,
       "distance": 2.4529
     },
     {
       "date": "2026-06-26",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0139,
-      "breadth": 0.6308,
+      "breadth": 0.6309,
       "distance": 2.4583
     }
   ],
@@ -185,41 +185,41 @@
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3496,
-      "n_typical": 3501,
+      "n": 3497,
+      "n_typical": 3502,
       "days": 703,
       "asof": "2026-11-23",
-      "value": 0.3624,
+      "value": 0.3626,
       "range30": {
-        "lo": 0.2816,
-        "hi": 0.561
+        "lo": 0.2818,
+        "hi": 0.5611
       },
       "range90": {
-        "lo": 0.2562,
-        "hi": 0.6851
+        "lo": 0.2561,
+        "hi": 0.6849
       },
       "pct_rank": 0.1437,
       "history": [
-        0.4671,
-        0.4693,
-        0.5233,
-        0.4639,
-        0.4976,
-        0.4924,
-        0.561,
-        0.4562,
-        0.4555,
-        0.5467,
-        0.5217,
-        0.5456,
-        0.488,
-        0.4859,
-        0.4464,
-        0.3966,
-        0.3959,
-        0.341,
-        0.297,
-        0.3624
+        0.4673,
+        0.4694,
+        0.5234,
+        0.464,
+        0.4977,
+        0.4926,
+        0.5611,
+        0.4563,
+        0.4556,
+        0.5468,
+        0.5218,
+        0.5457,
+        0.4882,
+        0.486,
+        0.4466,
+        0.3967,
+        0.3961,
+        0.3412,
+        0.2972,
+        0.3626
       ]
     },
     "persistence": {
@@ -268,7 +268,7 @@
           "label": "Calm Uptrend",
           "share": 0.1824,
           "n": 31,
-          "base_rate": 0.3831
+          "base_rate": 0.383
         },
         {
           "label": "Correction",
@@ -298,7 +298,7 @@
           "label": "Range",
           "share": 0.0471,
           "n": 8,
-          "base_rate": 0.1664
+          "base_rate": 0.1665
         },
         {
           "label": "Drifting Lower",
