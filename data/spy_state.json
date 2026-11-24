@@ -1,8 +1,8 @@
 {
-  "ret_5d": -0.01789,
-  "ret_20d": -0.06538,
+  "ret_5d": -0.01865,
+  "ret_20d": -0.06611,
   "vol_20d": 0.01999,
-  "drawdown_60d": -0.07669,
+  "drawdown_60d": -0.07741,
   "history": [
     {
       "ret_5d": -0.00101,
@@ -119,10 +119,10 @@
       "drawdown_60d": -0.07291
     },
     {
-      "ret_5d": -0.01789,
-      "ret_20d": -0.06538,
+      "ret_5d": -0.01865,
+      "ret_20d": -0.06611,
       "vol_20d": 0.01999,
-      "drawdown_60d": -0.07669
+      "drawdown_60d": -0.07741
     }
   ],
   "regime_streak": 2,
@@ -131,39 +131,32 @@
       "date": "2025-03-28",
       "regime": "Correction",
       "spy_ret_20d": -0.0087,
-      "breadth": 0.2987,
-      "distance": 1.5232
+      "breadth": 0.2986,
+      "distance": 1.5202
     },
     {
       "date": "2024-08-08",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0183,
-      "breadth": 0.469,
-      "distance": 1.6131
+      "breadth": 0.4692,
+      "distance": 1.624
     },
     {
       "date": "2026-03-31",
       "regime": "Drifting Lower",
       "spy_ret_20d": 0.0942,
-      "breadth": 0.2501,
-      "distance": 2.0288
-    },
-    {
-      "date": "2025-01-13",
-      "regime": "Drifting Lower",
-      "spy_ret_20d": 0.0411,
-      "breadth": 0.2424,
-      "distance": 2.5404
+      "breadth": 0.2497,
+      "distance": 2.0547
     }
   ],
   "analog_forward": {
     "horizon": 20,
     "analogs": 30,
-    "base_days": 713,
+    "base_days": 712,
     "base": {
-      "p10": -0.0323,
+      "p10": -0.0324,
       "p25": -0.0058,
-      "p50": 0.0183,
+      "p50": 0.0182,
       "p75": 0.0345,
       "p90": 0.0521
     },
@@ -171,48 +164,48 @@
       "p10": -0.0897,
       "p25": -0.048,
       "p50": -0.0111,
-      "p75": 0.0571,
+      "p75": 0.0573,
       "p90": 0.0978
     }
   },
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3489,
-      "n_typical": 3500,
-      "days": 704,
+      "n": 3491,
+      "n_typical": 3502,
+      "days": 703,
       "asof": "2026-11-24",
-      "value": 0.3904,
+      "value": 0.3864,
       "range30": {
-        "lo": 0.2817,
-        "hi": 0.5606
+        "lo": 0.2815,
+        "hi": 0.5608
       },
       "range90": {
-        "lo": 0.256,
-        "hi": 0.685
+        "lo": 0.2558,
+        "hi": 0.6848
       },
-      "pct_rank": 0.1733,
+      "pct_rank": 0.1679,
       "history": [
-        0.4691,
+        0.4692,
         0.5231,
-        0.464,
+        0.4637,
         0.4974,
-        0.492,
-        0.5606,
+        0.4923,
+        0.5608,
         0.456,
-        0.455,
-        0.5464,
-        0.5214,
-        0.5453,
-        0.488,
-        0.4859,
-        0.4464,
-        0.3966,
-        0.3959,
-        0.341,
-        0.297,
-        0.3627,
-        0.3904
+        0.4553,
+        0.5465,
+        0.5216,
+        0.5454,
+        0.4879,
+        0.4857,
+        0.4463,
+        0.3965,
+        0.3958,
+        0.3409,
+        0.2969,
+        0.3626,
+        0.3864
       ]
     },
     "persistence": {
@@ -261,7 +254,7 @@
           "label": "Calm Uptrend",
           "share": 0.1824,
           "n": 31,
-          "base_rate": 0.3831
+          "base_rate": 0.3829
         },
         {
           "label": "Correction",
@@ -291,7 +284,7 @@
           "label": "Range",
           "share": 0.0471,
           "n": 8,
-          "base_rate": 0.1664
+          "base_rate": 0.1665
         },
         {
           "label": "Drifting Lower",
@@ -317,31 +310,25 @@
       "spells": 93,
       "base_days": 8458,
       "base_rate": 0.4555,
-      "trailing_20d": -0.06609,
+      "trailing_20d": -0.06611,
       "value": 0.6529
     },
     "analog_next": {
       "horizon": 20,
       "analogs": 30,
-      "episodes": 4,
+      "episodes": 3,
       "rows": [
         {
           "label": "High Volatility",
-          "share": 0.4667,
-          "n": 14,
+          "share": 0.5,
+          "n": 15,
           "base_rate": 0.0281
         },
         {
           "label": "Bull Trend",
           "share": 0.3,
           "n": 9,
-          "base_rate": 0.1066
-        },
-        {
-          "label": "Calm Uptrend",
-          "share": 0.1,
-          "n": 3,
-          "base_rate": 0.4825
+          "base_rate": 0.1067
         },
         {
           "label": "Deep Correction",
@@ -350,10 +337,16 @@
           "base_rate": 0.0042
         },
         {
+          "label": "Calm Uptrend",
+          "share": 0.0667,
+          "n": 2,
+          "base_rate": 0.4817
+        },
+        {
           "label": "Correction",
           "share": 0.0333,
           "n": 1,
-          "base_rate": 0.0224
+          "base_rate": 0.0225
         }
       ],
       "value": "High Volatility"
