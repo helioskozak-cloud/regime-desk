@@ -400,13 +400,13 @@
   },
   {
    "ttm": {
-    "date": "2026-11-24",
-    "from": "2025-11-24",
+    "date": "2026-11-25",
+    "from": "2025-11-25",
     "n": 498,
     "pct_doubled": 1.0,
-    "pct_halved": 1.81,
-    "median_ret": 14.11,
-    "sp500_ret": 7.4
+    "pct_halved": 2.01,
+    "median_ret": 11.03,
+    "sp500_ret": 3.6
    },
    "ttm_path": [
     {
@@ -833,13 +833,13 @@
      "sp500_ret": 5.68
     },
     {
-     "date": "2026-11-24",
-     "from": "2025-11-24",
+     "date": "2026-11-25",
+     "from": "2025-11-25",
      "n": 498,
      "pct_doubled": 1.0,
-     "pct_halved": 1.81,
-     "median_ret": 14.11,
-     "sp500_ret": 7.4
+     "pct_halved": 2.01,
+     "median_ret": 11.03,
+     "sp500_ret": 3.6
     }
    ],
    "spx": [
@@ -1746,6 +1746,10 @@
     [
      "2026-11-24",
      7201.09
+    ],
+    [
+     "2026-11-25",
+     7009.52
     ]
    ],
    "path": [
@@ -2079,11 +2083,11 @@
      "sp500_ret": 0.95
     },
     {
-     "date": "2026-11-24",
-     "pct_doubled": 1.2,
+     "date": "2026-11-25",
+     "pct_doubled": 0.8,
      "pct_halved": 2.01,
-     "median_ret": 10.29,
-     "sp500_ret": 5.19
+     "median_ret": 9.34,
+     "sp500_ret": 2.4
     }
    ],
    "year": 2026,
@@ -2091,28 +2095,28 @@
    "n_members": 503,
    "n_with_data": 498,
    "coverage_pct": 99.0,
-   "pct_doubled": 1.2,
+   "pct_doubled": 0.8,
    "pct_halved": 2.01,
-   "n_doubled": 6,
+   "n_doubled": 4,
    "n_halved": 10,
-   "pct_up50": 6.43,
-   "pct_down30": 6.22,
-   "median_ret": 10.29,
-   "sp500_ret": 5.19,
-   "nasdaq_ret": 2.11,
+   "pct_up50": 5.02,
+   "pct_down30": 6.43,
+   "median_ret": 9.34,
+   "sp500_ret": 2.4,
+   "nasdaq_ret": -1.83,
    "top5": {
-    "MRNA": 6.71,
-    "SNDK": 2.181,
-    "DELL": 1.37,
-    "MPC": 1.215,
-    "MU": 1.208
+    "MRNA": 6.324,
+    "SNDK": 1.362,
+    "DELL": 1.211,
+    "MPC": 1.14,
+    "MU": 0.978
    },
    "bottom5": {
-    "TTD": -0.629,
-    "RDDT": -0.607,
-    "FICO": -0.584,
-    "FIS": -0.579,
-    "INTU": -0.572
+    "TTD": -0.641,
+    "RDDT": -0.623,
+    "FICO": -0.586,
+    "INTU": -0.582,
+    "FIS": -0.579
    }
   }
  ]
