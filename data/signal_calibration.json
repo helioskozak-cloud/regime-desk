@@ -1,28 +1,28 @@
 {
-  "resolved": 19214,
+  "resolved": 19195,
   "first_run": "2026-02-23",
   "last_run": "2026-11-18",
-  "beat_rate": 0.23269490996148642,
+  "beat_rate": 0.23256056264652253,
   "horizons": {
     "120d": {
       "horizon": "120d",
       "n": 1927,
       "predicted_mean": 0.3844021738453555,
-      "realized_mean": 0.10970007887908646,
-      "ratio": 0.28537840403373643,
+      "realized_mean": 0.10970007732226238,
+      "ratio": 0.2853783999837487,
       "beat_rate": 0.2511676180591593,
-      "correlation": 0.14369291756445607,
+      "correlation": 0.14369291656079713,
       "realized_p10": -0.33689179999999996
     },
     "20d": {
       "horizon": "20d",
-      "n": 9519,
-      "predicted_mean": 0.09024877749763643,
-      "realized_mean": -0.01576658483033933,
-      "ratio": -0.17470136734818648,
-      "beat_rate": 0.24151696606786427,
-      "correlation": 0.00774461474043382,
-      "realized_p10": -0.2018992
+      "n": 9507,
+      "predicted_mean": 0.09025444051751357,
+      "realized_mean": -0.015906905543283903,
+      "ratio": -0.17624512934848033,
+      "beat_rate": 0.24129588724098033,
+      "correlation": 0.007466255148097989,
+      "realized_p10": -0.20203680000000002
     },
     "5d": {
       "horizon": "5d",
@@ -36,13 +36,13 @@
     },
     "60d": {
       "horizon": "60d",
-      "n": 6712,
-      "predicted_mean": 0.16315247467222918,
-      "realized_mean": -0.003275216477949979,
-      "ratio": -0.0200745743178572,
-      "beat_rate": 0.22854588796185935,
-      "correlation": 0.09752445385155561,
-      "realized_p10": -0.277396
+      "n": 6705,
+      "predicted_mean": 0.16320660178970944,
+      "realized_mean": -0.003367449813571986,
+      "ratio": -0.02063304901054751,
+      "beat_rate": 0.2284862043251305,
+      "correlation": 0.09769171815705037,
+      "realized_p10": -0.2774104
     }
   },
   "note": "Posted edge is the mean forward return of ~10 independent historical episodes, selected as the best of roughly 7,800 candidates. It is a research statistic, not a forecast: ratio is what edges like it have actually delivered. Use for reviewing holdings, not for picking."
