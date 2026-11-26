@@ -171,11 +171,11 @@
   "measures": {
     "breadth": {
       "ma": 50,
-      "n": 3490,
+      "n": 3497,
       "n_typical": 3501,
       "days": 704,
       "asof": "2026-11-25",
-      "value": 0.4166,
+      "value": 0.4175,
       "range30": {
         "lo": 0.2969,
         "hi": 0.5607
@@ -205,7 +205,7 @@
         0.2969,
         0.3625,
         0.3868,
-        0.4166
+        0.4175
       ]
     },
     "persistence": {
@@ -278,7 +278,7 @@
           "label": "Calm Uptrend",
           "share": 0.0573,
           "n": 32,
-          "base_rate": 0.383
+          "base_rate": 0.3829
         },
         {
           "label": "Elevated Volatility",
@@ -290,7 +290,7 @@
           "label": "Range",
           "share": 0.0072,
           "n": 4,
-          "base_rate": 0.1664
+          "base_rate": 0.1665
         }
       ],
       "since": "1993-03-01",
