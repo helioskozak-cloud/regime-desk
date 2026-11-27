@@ -48278,9 +48278,15 @@ const genDate=genAt||new Date(S.generated);
 const stale=(Date.now()-genDate)/86400000>2;
 const _ago=ms=>{const m=Math.round(ms/60000);return m<60?`${m} min ago`:m<2880?`${Math.round(m/60)} h ago`:`${Math.round(m/1440)} days ago`;};
 const _thru=((S.spy||{}).measures||{}).breadth?.asof;
+// Owner 2026-11-27 ("regime desk is stale"): a refresh during the session read
+// today's partial bar but the bar said "close". Intraday = refreshed on the
+// prices' own ET date before 4 PM ET (half days included: 1 PM still < 4 PM).
+const _etDate=genAt?genAt.toLocaleDateString('en-CA',{timeZone:'America/New_York'}):null;
+const _etHour=genAt?+genAt.toLocaleString('en-US',{timeZone:'America/New_York',hour:'numeric',hour12:false}):null;
+const _intraday=!!(_thru&&_etDate===_thru&&_etHour<16);
 const _tsTxt=genAt?genAt.toLocaleString('en-US',{timeZone:'America/New_York',weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' ET':S.generated;
 document.getElementById("ts").innerHTML=`Refreshed ${_tsTxt}${genAt?` (${_ago(Date.now()-genAt)})`:''}`
-  +(_thru?` · prices through ${new Date(_thru+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} close`:'')
+  +(_thru?` · prices through ${new Date(_thru+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} ${_intraday?'(intraday, as of the refresh)':'close'}`:'')
   +(stale?' <span style="color:#d4a72c;font-weight:600">● stale</span>':'');
 
 // Sparkline helper
